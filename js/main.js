@@ -57,7 +57,10 @@ const newDesignFunctions = [
   "vkm_stickers_animation_setting",
   "vkm_gifs_autoplay",
   "vkm_fastchat_in_spa",
-  "vkm_chat_list_collapse"
+  "vkm_chat_list_collapse",
+  "vkm_show_inviter",
+  "vkm_video_chat",
+  "vkm_up_drafted_convos_in_list"
 ];
 const adsSelector = [
   ".page_block.feed_blog_reminder_large",
@@ -348,6 +351,13 @@ window.addEventListener("message", async (event) => {
         () => {
           let orig_ajax = ajax.post;
           ajax.post = function (...e) {
+		    if("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act)
+			{
+				if (e[1].nickname){
+					e[1].nick_name = e[1].nickname;
+					delete e[1].nickname
+				}
+			}
             if ((newDesign(), "al_im.php" === e[0] && "im" === e[1]?.__query)) {
               const t = e[2].onDone;
               e[2].onDone = function (...e) {
@@ -373,7 +383,23 @@ window.addEventListener("message", async (event) => {
     case "vkNewDesignOff": {
       localStorage.setItem("isNewDesign", false);
 	  localStorage.setItem("isVKMReforgedDesign", false);
-      //console.info("[VK ENH] Messenger injection disabled.");
+      deferredCallback(
+        () => {
+          let orig_ajax = ajax.post;
+          ajax.post = function (...e) {
+		    if("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act)
+			{
+				if (e[1].nickname){
+					e[1].nick_name = e[1].nickname;
+					delete e[1].nickname
+				}
+			}
+			const t = orig_ajax.apply(this, e);
+            return t;
+          };
+        },
+        { variable: "ajax" }
+      );
       break;
     }
     case "muteCalls": {
@@ -513,6 +539,194 @@ document.arrive(".ComposerInput__input", { existing: true }, function (e) {
     }
 });
 });
+///ВСЕГО СООБЩЕНИЙ КОЛВО КОЛИЧЕСТВО///
+function getCounterLang(lang) {
+        switch (lang) {
+          case 0:
+            return "Всего сообщений";
+            break;
+          case 1:
+            return "Всього повідомлень";
+            break;
+          case 454:
+            return "Всього повідомлень";
+            break;
+          case 114:
+            return "Усяго паведамленняў";
+            break;
+          case 2:
+            return "Усяго паведамленняў";
+            break;
+          case 777:
+            return "Всего телеграмм";
+            break;
+          case 97:
+            return "Жалпы хабарлар";
+            break;
+          case 100:
+            return "Всѣго писем";
+            break;
+          default:
+            return "Total messages";
+            break;
+        }
+      }
+function getTextTTNum(lang) {
+        switch (lang) {
+          case 0:
+            return ["Количество сообщений в пределах нормы. Можете пользоваться мессенджером","Количество сообщений приближается к ограничителю в 15.000.000. Будьте внимательны","Количество сообщений приближается к ограничителю в 15.000.000. Рекомендуем скачать архив с сообщениями"];
+            break;
+          case 1:
+            return ["Кількість повідомлень у межах норми. Можете користуватися месенджером","Кількість повідомлень наближається до ліміту до 15.000.000. Будьте уважні","Кількість повідомлень наближається до ліміту до 15.000.000. Рекомендуємо завантажити архів із повідомленнями"];
+            break;
+          case 454:
+            return ["Кількість повідомлень у межах норми. Можете користуватися месенджером","Кількість повідомлень наближається до ліміту до 15.000.000. Будьте уважні","Кількість повідомлень наближається до ліміту до 15.000.000. Рекомендуємо завантажити архів із повідомленнями"];
+            break;
+          case 114:
+            return ["Колькасць паведамленняў у межах нормы. Можаце карыстацца мэсанджарам","Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Будзьце ўважлівыя","Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Рэкамендуем спампаваць архіў з паведамленнямі"];
+            break;
+          case 2:
+            return ["Колькасць паведамленняў у межах нормы. Можаце карыстацца мэсанджарам","Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Будзьце ўважлівыя","Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Рэкамендуем спампаваць архіў з паведамленнямі"];
+            break;
+          case 777:
+            return ["Количество телеграмм в пределах нормы. Можете пользоваться телеграфом","Количество телеграмм приближается к ограничителю в 15.000.000. Будьте внимательны","Количество телеграмм приближается к ограничителю в 15.000.000. Рекомендуем скачать досье с телеграммами"];
+            break;
+          case 97:
+            return ["Хабарламалар саны қалыпты шектерде. Сіз мессенджерді пайдалана аласыз","Хабарламалар саны 15.000.000 шегіне жақындап қалды. Сақ болыңыз","Хабарламалар саны 15.000.000 шегіне жақындап қалды. Хабарламалары бар мұрағатты жүктеп алуды ұсынамыз"];
+            break;
+          case 100:
+            return ["Количество сообщений в пределах нормы. Можете пользоваться мессенджером","Количество сообщений приближается к ограничителю в 15.000.000. Будьте внимательны","Количество сообщений приближается к ограничителю в 15.000.000. Рекомендуем скачать архив с сообщениями"];
+            break;
+          default:
+            return ["The number of messages is within normal limits. You can use messenger","The number of messages is approaching the limit of 15.000.000. Be careful","The number of messages is approaching the limit of 15.000.000. We recommend downloading the archive with messages"];
+            break;
+        }
+      }
+document.arrive(".ConvoList__scrollbar-content", { existing: true }, async function (e) {
+  let countermsg = document.createElement('div');
+  countermsg.classList.add('ConvoList__topFiltersWrap');
+  countermsg.classList.add('vkEnhancerCounterOfMessages');
+  let lastMessage = await vkApi.api('messages.search',{q:"#",count:1});
+  let idMess = lastMessage.items[0].id;
+  countermsg.innerHTML = `<div role="button" tabindex="0" class="ConvoListFilter">
+  <div class="ConvoListFilter__icons">
+  <i role="img" class="vkEnIconWatn ConvoListFilter__icon">
+  <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--work_outline_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;">
+  <use xlink:href="#null" style="fill: currentcolor;">
+  </use>
+  </svg>
+  </i>
+  </div>
+  <span class="ConvoListFilter__text">
+  ${getCounterLang(vk.lang)}
+  </span>
+  <div role="img" class="vkEnIconWatnCount ConvoListFilter__counter UnreadCounter UnreadCounter--size-18">
+  ${idMess}
+  </div>
+  </div>`;
+
+  let iconn = countermsg.querySelector('.vkEnIconWatn');
+  let counterColor = countermsg.querySelector('.vkEnIconWatnCount');
+  counterColor.style.backgroundColor = "var(--vkui--color_icon_secondary)";
+  const tooltipText = create(
+      "span",
+      {
+        display: "none",
+        position: "absolute",
+        backgroundColor: "var(--black_alpha72)",
+        borderRadius: "3px",
+        padding: "5px",
+        top: "-28.4219px",
+        left: "50%",
+        transform: "translate(-50%, 0)",
+        whiteSpace: "nowrap",
+        color: "#fff",
+        fontSize: "12.5px",
+        fontWeight: "400",
+        boxShadow: "0 1px 3px var(--transparent_black)",
+        zIndex: "11",
+        cursor: "default",
+        transition: "0.3s display",
+        fontFamily:
+          'var(--palette-vk-font,-apple-system,BlinkMacSystemFont,"Roboto","Helvetica Neue",Geneva,"Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai",arial,Tahoma,verdana,sans-serif)',
+      },
+      { innerText: "Обновить хотбар" }
+    );
+  if(idMess < 10000000) {
+	  iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.2803 8.78033C13.5732 8.48744 13.5732 8.01256 13.2803 7.71967C12.9874 7.42678 12.5126 7.42678 12.2197 7.71967L9 10.9393L7.78033 9.71967C7.48744 9.42678 7.01256 9.42678 6.71967 9.71967C6.42678 10.0126 6.42678 10.4874 6.71967 10.7803L8.46967 12.5303C8.76256 12.8232 9.23744 12.8232 9.53033 12.5303L13.2803 8.78033Z" fill="#219653"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M18.5 10C18.5 14.6944 14.6944 18.5 10 18.5C5.30558 18.5 1.5 14.6944 1.5 10C1.5 5.30558 5.30558 1.5 10 1.5C14.6944 1.5 18.5 5.30558 18.5 10ZM17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" fill="#219653"/>
+</svg>
+`;
+countermsg.querySelector('.ConvoListFilter').setAttribute(`onclick`,`showFastBox(getLang("me_convo_profile_info"), "${getTextTTNum(vk.lang)[0]}", getLang("global_close"));`);
+  }
+  else if(idMess < 14000000) {
+	  iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14Z" fill="#F2994A"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12.3757 3.36327C12.2181 3.09234 11.4897 2.00101 9.99924 2.00101C8.50879 2.00101 7.79028 3.07794 7.62431 3.36327L1.52311 13.8521C1.11213 14.5586 1.03548 15.4106 1.31378 16.179C1.70981 17.2725 2.74912 18.001 3.91316 18.001H16.0868C17.2509 18.001 18.2902 17.2725 18.6862 16.179C18.9645 15.4106 18.8879 14.5586 18.4769 13.8521L12.3757 3.36327ZM16.0868 16.5025C16.6192 16.5025 17.0946 16.1693 17.2757 15.6692C17.403 15.3178 17.3679 14.9281 17.18 14.6049L11.0788 4.11615C11.0788 4.11615 10.7499 3.49487 9.99921 3.49487C9.24848 3.49487 8.92124 4.11615 8.92124 4.11615L2.82003 14.6049C2.63207 14.9281 2.59701 15.3178 2.72429 15.6692C2.90543 16.1693 3.38077 16.5025 3.91316 16.5025H16.0868Z" fill="#F2994A"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.99994 6.00003C10.4142 6.00003 10.7499 6.33582 10.7499 6.75003V11.25C10.7499 11.6642 10.4142 12 9.99994 12C9.58573 12 9.24994 11.6642 9.24994 11.25V6.75003C9.24994 6.33582 9.58573 6.00003 9.99994 6.00003Z" fill="#F2994A"/>
+</svg>
+`;  
+  countermsg.querySelector('.ConvoListFilter').setAttribute(`onclick`,`showFastBox(getLang("global_warning"), "${getTextTTNum(vk.lang)[1]}", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`);  }
+  else if(idMess < 15000000) {
+	  iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14Z" fill="#EB5757"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12.3757 3.36327C12.2181 3.09234 11.4897 2.00101 9.99924 2.00101C8.50879 2.00101 7.79028 3.07794 7.62431 3.36327L1.52311 13.8521C1.11213 14.5586 1.03548 15.4106 1.31378 16.179C1.70981 17.2725 2.74912 18.001 3.91316 18.001H16.0868C17.2509 18.001 18.2902 17.2725 18.6862 16.179C18.9645 15.4106 18.8879 14.5586 18.4769 13.8521L12.3757 3.36327ZM16.0868 16.5025C16.6192 16.5025 17.0946 16.1693 17.2757 15.6692C17.403 15.3178 17.3679 14.9281 17.18 14.6049L11.0788 4.11615C11.0788 4.11615 10.7499 3.49487 9.99921 3.49487C9.24848 3.49487 8.92124 4.11615 8.92124 4.11615L2.82003 14.6049C2.63207 14.9281 2.59701 15.3178 2.72429 15.6692C2.90543 16.1693 3.38077 16.5025 3.91316 16.5025H16.0868Z" fill="#EB5757"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.99994 6.00003C10.4142 6.00003 10.7499 6.33582 10.7499 6.75003V11.25C10.7499 11.6642 10.4142 12 9.99994 12C9.58573 12 9.24994 11.6642 9.24994 11.25V6.75003C9.24994 6.33582 9.58573 6.00003 9.99994 6.00003Z" fill="#EB5757"/>
+</svg>
+`;  
+countermsg.querySelector('.ConvoListFilter').setAttribute(`onclick`,`showFastBox(getLang("global_warning"), "${getTextTTNum(vk.lang)[2]}", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`);
+  }
+  e.prepend(countermsg);
+});
+///КОНЕЦ ВСЕГО СООБЩЕНИЙ///
+///ОТЧЕСТВО///
+function getMiddleLang(lang) {
+        switch (lang) {
+          case 0:
+            return "Отчество:";
+            break;
+          case 1:
+            return "По-батькові:";
+            break;
+          case 454:
+            return "По-батькові:";
+            break;
+          case 114:
+            return "Імя па бацьку:";
+            break;
+          case 2:
+            return "Імя па бацьку:";
+            break;
+          case 777:
+            return "Отчество:";
+            break;
+          case 97:
+            return "Әкенің аты:";
+            break;
+          case 100:
+            return "Отчество:";
+            break;
+          default:
+            return "Middle name:";
+            break;
+        }
+      }
+document.arrive("#pedit_general", { existing: true }, function (e) {
+  let pedit_middle = document.createElement('div');
+  pedit_middle.classList.add('pedit_row');
+  pedit_middle.classList.add('clear_fix');
+  pedit_middle.style.paddingTop = "20px";
+  pedit_middle.innerHTML = `
+        <div class="pedit_label">${getMiddleLang(vk.lang)}</div>
+        <div class="pedit_labeled"><input type="text" class="dark" id="pedit_middle_name"></div>
+`;
+  let sep = document.createElement('div');
+  sep.classList.add('pedit_separator');
+  e.prepend(sep);
+  e.prepend(pedit_middle);
+});
+///ОТЧЕСТВО КОНЕЦ///
 ///ДАТА РЕГИ В НОВОМ ПРОФИЛЕ///
 async function getIdAntiAsync1() {
         const url = window.location.href;
@@ -1006,7 +1220,7 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (e)
 	ActionEnhancerMenu.style.display = "none";
   });
   let cmid;
-  console.log(memoizedPeer);
+  //console.log(memoizedPeer);
   try {
 	let reoo = await vkApi.api('messages.getHistory',{count:1,peer_id:memoizedPeer,rev:1});
 	cmid = reoo.items[0].conversation_message_id;
@@ -1015,7 +1229,12 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (e)
 	cmid = 1;  
   }
   ActionEnhancerMenu.querySelector('.vkEnUp').addEventListener('click',function() {
-	nav.go(`${window.location.href}?cmid=${cmid}`); 
+  let urlS1 = window.location.href;
+	if (urlS1.includes("?")) {
+  nav.go(`${urlS1}&cmid=${cmid}`);
+} else {
+  nav.go(`${urlS1}?cmid=${cmid}`);
+}
 	ActionEnhancerMenu.style.display = "none";
   });
   try{
@@ -1074,7 +1293,7 @@ async function VKEnhancerOnineBox(onlineArr) {
   </div>
 </div>`;
       let peerList = boxG.querySelector('.vkenPeerList');
-	  console.log(onlineArr);
+	  //console.log(onlineArr);
 	  for (const user of onlineArr) {
 		let peer = document.createElement(`a`);
 		peer.title = user[0];
@@ -2510,11 +2729,11 @@ deferredCallback(
             aHrefSectionFrens.textContent = getLang("profile_friendsonln").toLowerCase();
           }
           else {
-            aHrefSectionFrens.href = `/feed?section=updates`;
+            aHrefSectionFrens.href = `/friends?act=find`;
             aHrefSectionFrens.style.marginLeft = "auto";
             aHrefSectionFrens.style.marginRight = "23px";
             aHrefSectionFrens.style.color = "var(--vkui--color_text_secondary)";
-            aHrefSectionFrens.textContent = getLang("news_title_updates").toLowerCase();
+            aHrefSectionFrens.textContent = getLang("global_search").toLowerCase();
           }
           friendsSection.innerHTML = `
         <a href="/friends?id=${userdata[0].id}&section=all" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">

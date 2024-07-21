@@ -159,7 +159,8 @@ function createReloadButton() {
   reloadButton.addEventListener("click", (event) => {
     reloadButton.classList.add("vkEnhancerRebootLoading");
     chrome.storage.local.get(
-      [ "fixMenuState",
+      [ "messageCounterState",
+	    "fixMenuState",
 	    "oldBadgeState",
 	    "defaultThemeState",
 	    "tabletMenuState",
@@ -228,7 +229,8 @@ function createReloadButton() {
         tabletMenuState,
 		defaultThemeState,
 		oldBadgeState,
-		fixMenuState
+		fixMenuState,
+		messageCounterState
       }) =>
         applyStyles(
           checkboxState,
@@ -264,7 +266,8 @@ function createReloadButton() {
           tabletMenuState,
 		  defaultThemeState,
 		  oldBadgeState,
-		  fixMenuState
+		  fixMenuState,
+		  messageCounterState
         )
     );
     setTimeout(() => reloadButton.classList.remove("vkEnhancerRebootLoading"), 250);
@@ -892,6 +895,23 @@ function unFixLeftMenu() {
     customStyle.remove();
   }
 }
+//Выключить каунтер сообщений//
+function disableCounter() {
+  let styleElement = fromId("removeMsgCount");
+  if (!styleElement) {
+    styleElement = create("style", {}, { id: "removeMsgCount" });
+    document.head.appendChild(styleElement);
+  }
+  styleElement.innerHTML =
+    `.vkEnhancerCounterOfMessages{display:none;}`;
+}
+
+function enableCounter() {
+  const customStyle = fromId("removeMsgCount");
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
 // Функция для добавления стилей
 function applyStyles(
   isOldAccentChecked,
@@ -927,7 +947,8 @@ function applyStyles(
   tabletMenuChecked,
   defaultThemeChecked,
   oldBadgeChecked,
-  fixMenuChecked
+  fixMenuChecked,
+  messageCounterСhecked
 ) {
   if (isOldAccentChecked) {
     hideNFT_Avatars();
@@ -1191,11 +1212,18 @@ function applyStyles(
   else {
 	 unFixLeftMenu();  
   }
+  if(messageCounterСhecked) {
+	 disableCounter();  
+  }
+  else {
+	 enableCounter();  
+  }
 }
 // Функция для получения состояния чекбоксов из локального хранилища и применения стилей
 function applySavedStyles() {
   chrome.storage.local.get(
     [
+	  "messageCounterState",
 	  "fixMenuState",
 	  "oldBadgeState",
 	  "defaultThemeState",
@@ -1266,6 +1294,7 @@ function applySavedStyles() {
 	  const defaultThemeChecked = items.defaultThemeState;
 	  const oldBadgeChecked = items.oldBadgeState;
 	  const fixMenuChecked = items.fixMenuState;
+	  const messageCounterСhecked = items.messageCounterState;
       applyStyles(
         isOldAccentChecked,
         isMsgReactionsChecked,
@@ -1300,7 +1329,8 @@ function applySavedStyles() {
         tabletMenuChecked,
 		defaultThemeChecked,
 		oldBadgeChecked,
-		fixMenuChecked
+		fixMenuChecked,
+		messageCounterСhecked
       );
     }
   );
@@ -1343,7 +1373,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     message.type === "toggleTabletMenu" ||
     message.type === "toggleDefaultTheme" ||
     message.type === "toggleOldBadge" || 
-	message.type === "toggleFixMenu"
+	message.type === "toggleFixMenu" || 
+	message.type === "toggleMessageCounter"
   ) {
     applySavedStyles();
   }
