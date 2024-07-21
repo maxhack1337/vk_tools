@@ -6370,6 +6370,7 @@ function _o(e) {
               onlineBadgeMob.textContent = "Onlineᅠ​";
             } catch (error) { }
           }
+		  if (!response.hidden) {
           if (response.online_info.status && response.online_info.status == "recently") {
             try {
               let lastSeenRecently = getLang("global_online_was_recently", "raw");
@@ -6384,6 +6385,8 @@ function _o(e) {
             }
             catch (error) { }
           }
+		  }
+		  if (!response.hidden) {
           if (response.online_info.status && response.online_info.status == "last_week") {
             try {
               let lastSeenRecently = getLang("global_online_was_week", "raw");
@@ -6398,6 +6401,8 @@ function _o(e) {
             }
             catch (error) { }
           }
+		  }
+		  if (!response.hidden) {
           if (response.online_info.status && response.online_info.status == "last_month") {
             try {
               let lastSeenRecently = getLang("global_online_this_month", "raw");
@@ -6412,6 +6417,8 @@ function _o(e) {
             }
             catch (error) { }
           }
+		  }
+		  if (!response.hidden) {
           if (response.online_info.status && response.online_info.status == "long_ago") {
             try {
               let lastSeenRecently = getLang("global_online_long_ago", "raw");
@@ -6426,6 +6433,7 @@ function _o(e) {
             }
             catch (error) { }
           }
+		  }
           /*let styleElement = fromId("vken_box_online_classic");
           if (!styleElement) {
             styleElement = document.createElement("style");
