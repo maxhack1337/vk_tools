@@ -35,6 +35,7 @@ function fillStrings() {
     document.querySelector('#CallsM > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.doNotDisturb);
 	document.querySelector('#TabletMenu > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.tabletMenu);
 	document.querySelector('#OldBadge > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.oldMessagesBadge);
+	document.querySelector('#MessageCounter > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.disableMessageCounter);
     document.querySelector('#NewProfiles > div > div > .vkenhancerChoosePickerText1').innerHTML = '<span class="newSpan"><img class="newFire" src="assets/new.png"></span>' + getLocalizedString(strings.classicProfileInterface);
     document.querySelector('#NewMessenger > div > div > .vkenhancerChoosePickerText1').innerHTML = '<span class="newSpan"><img class="newFire" src="assets/new.png"></span>' + getLocalizedString(strings.newMessengerDesign);
     document.querySelector('#MessagesDefaultTheme > div > div > .vkenhancerChoosePickerText1').innerHTML = getLocalizedString(strings.messagesDefaultTheme);
@@ -55,6 +56,8 @@ function fillStrings() {
     document.querySelector('div.footerInfo > a:nth-child(6) > span').textContent = getLocalizedString(strings.extensionCreator);
 
     document.querySelector('div.footerInfo > a:nth-child(7) > span').textContent = getLocalizedString(strings.developer);
+	
+	document.querySelector('div.footerInfo > a:nth-child(8) > span').textContent = getLocalizedString(strings.tester);
 
     document.querySelector('#CustomAccentChoose > h5').textContent = getLocalizedString(strings.customAccent);
     document.querySelector('#CustomTextChoose > h5').textContent = getLocalizedString(strings.highlightColor);
