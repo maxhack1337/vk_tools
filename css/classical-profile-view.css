@@ -1,3 +1,12 @@
+body:has(#profile_redesigned) {
+	div#page_layout {
+left: 50px;
+}
+header#page_header {
+width: 970px;
+}
+}
+
 .vkEnhancerLoadPhotoModule {
 	background: var(--vkui--color_background_content);
 	border-radius: var(--vkui--size_border_radius_paper--regular);
