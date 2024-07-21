@@ -353,8 +353,11 @@ window.addEventListener("message", async (event) => {
           ajax.post = function (...e) {
 		    if("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act)
 			{
+				if(e[1].nickname) {
 					e[1].nick_name = e[1].nickname;
 					delete e[1].nickname
+				}
+				else if(!e[1].nick_name){e[1].nick_name = ""}
 			}
             if ((newDesign(), "al_im.php" === e[0] && "im" === e[1]?.__query)) {
               const t = e[2].onDone;
@@ -387,8 +390,11 @@ window.addEventListener("message", async (event) => {
           ajax.post = function (...e) {
 		    if("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act)
 			{
+				if(e[1].nickname) {
 					e[1].nick_name = e[1].nickname;
 					delete e[1].nickname
+				}
+				else if(!e[1].nick_name){e[1].nick_name = ""}
 			}
 			const t = orig_ajax.apply(this, e);
             return t;
@@ -719,13 +725,18 @@ document.arrive("#pedit_general", { existing: true }, async function (e) {
         <div class="pedit_label">${getMiddleLang(vk.lang)}</div>
         <div class="pedit_labeled"><input type="text" class="dark" id="pedit_middle_name"></div>
 `;
-let midcur = await vkApi.api('users.get',{fields:'nickname',id:vk.id});
-pedit_middle.querySelector('#pedit_middle_name').value = midcur[0].nickname;
   let sep = document.createElement('div');
   sep.classList.add('pedit_separator');
+  deferredCallback(
+  async (_vk) => {
+      let curmid = await vkApi.api('users.get',{fields:'nickname',id:vk.id});
+		pedit_middle.querySelector('#pedit_middle_name').value = curmid[0].nickname;
+  },
+  { variable: "vkApi" }
+);
   if(!nav.objLoc.act) {
-  e.prepend(sep);
-  e.prepend(pedit_middle);
+	e.prepend(sep);
+	e.prepend(pedit_middle);
   }
 });
 ///ОТЧЕСТВО КОНЕЦ///
