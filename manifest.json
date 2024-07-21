@@ -18,6 +18,7 @@
   "description": "Расширение, делающее времяпрепровождение в VK удобнее и приятнее!",
   "host_permissions": [
     "*://vk.com/*",
+    "*://vk.ru/*",
     "*://oauth.vk.com/*"
   ],
   "permissions": [
@@ -35,7 +36,7 @@
   "content_scripts": [
     {
       "matches": [
-        "*://vk.com/*","*://oauth.vk.com/*"
+        "*://vk.com/*","*://vk.ru/*","*://oauth.vk.com/*"
       ],
       "js": [
         "js/modules-start.js",
@@ -76,7 +77,7 @@
         "css/classical-profile-view.css"
       ],
       "matches": [
-        "*://vk.com/*","*://oauth.vk.com/*"
+        "*://vk.com/*","*://vk.ru/*","*://oauth.vk.com/*"
       ]
     }
   ]
