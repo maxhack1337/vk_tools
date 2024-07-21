@@ -239,17 +239,17 @@ function XHRListener() {
 
   XMLHttpRequest.prototype.send = function (data) {
     //console.log(data)
-    if (/type=typing/.test(data) && JSON.parse(localStorage.getItem("nepisalkaValue"))) {
+    if (/type=typing/.test(data) && getLocalValue("nepisalkaValue")) {
       return this.abort();
     }
-    if (/type=audiomessage/.test(data) && JSON.parse(localStorage.getItem("nepisalkaValue"))) {
+    if (/type=audiomessage/.test(data) && getLocalValue("nepisalkaValue")) {
       return this.abort();
     }
 
-    if (/act=a_mark_read/.test(data) && JSON.parse(localStorage.getItem("nechitalkaValue"))) {
+    if (/act=a_mark_read/.test(data) && getLocalValue("nechitalkaValue")) {
       return this.abort();
     }
-    if (/act=a_mard_listened/.test(data) && JSON.parse(localStorage.getItem("nechitalkaValue"))) {
+    if (/act=a_mard_listened/.test(data) && getLocalValue("nechitalkaValue")) {
       return this.abort();
     }
     return send.apply(this, Array.prototype.slice.call(arguments));
@@ -311,11 +311,11 @@ deferredCallback(
           e === "execute" &&
           n.code &&
           n.code.includes("messages.markAsRead") &&
-          JSON.parse(localStorage.getItem("nechitalkaValue"))
-        ) {
+		getLocalValue("nechitalkaValue"))
+         {
           return new Promise(() => { });
         }
-        if (e === "messages.setActivity" && JSON.parse(localStorage.getItem("nepisalkaValue"))) {
+        if (e === "messages.setActivity" && getLocalValue("nepisalkaValue")) {
           return new Promise(() => { });
         }
         return j.apply(this, Array.prototype.slice.call(arguments));
@@ -353,10 +353,8 @@ window.addEventListener("message", async (event) => {
           ajax.post = function (...e) {
 		    if("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act)
 			{
-				if (e[1].nickname){
 					e[1].nick_name = e[1].nickname;
 					delete e[1].nickname
-				}
 			}
             if ((newDesign(), "al_im.php" === e[0] && "im" === e[1]?.__query)) {
               const t = e[2].onDone;
@@ -389,10 +387,8 @@ window.addEventListener("message", async (event) => {
           ajax.post = function (...e) {
 		    if("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act)
 			{
-				if (e[1].nickname){
 					e[1].nick_name = e[1].nickname;
 					delete e[1].nickname
-				}
 			}
 			const t = orig_ajax.apply(this, e);
             return t;
@@ -607,7 +603,9 @@ document.arrive(".ConvoList__scrollbar-content", { existing: true }, async funct
   countermsg.classList.add('ConvoList__topFiltersWrap');
   countermsg.classList.add('vkEnhancerCounterOfMessages');
   let lastMessage = await vkApi.api('messages.search',{q:"#",count:1});
-  let idMess = lastMessage.items[0].id;
+  let idMess;
+  try {idMess = lastMessage.items[0].id;}
+  catch (error){idMess = 0;}
   countermsg.innerHTML = `<div role="button" tabindex="0" class="ConvoListFilter">
   <div class="ConvoListFilter__icons">
   <i role="img" class="vkEnIconWatn ConvoListFilter__icon">
@@ -712,7 +710,7 @@ function getMiddleLang(lang) {
             break;
         }
       }
-document.arrive("#pedit_general", { existing: true }, function (e) {
+document.arrive("#pedit_general", { existing: true }, async function (e) {
   let pedit_middle = document.createElement('div');
   pedit_middle.classList.add('pedit_row');
   pedit_middle.classList.add('clear_fix');
@@ -721,10 +719,14 @@ document.arrive("#pedit_general", { existing: true }, function (e) {
         <div class="pedit_label">${getMiddleLang(vk.lang)}</div>
         <div class="pedit_labeled"><input type="text" class="dark" id="pedit_middle_name"></div>
 `;
+let midcur = await vkApi.api('users.get',{fields:'nickname',id:vk.id});
+pedit_middle.querySelector('#pedit_middle_name').value = midcur[0].nickname;
   let sep = document.createElement('div');
   sep.classList.add('pedit_separator');
+  if(!nav.objLoc.act) {
   e.prepend(sep);
   e.prepend(pedit_middle);
+  }
 });
 ///ОТЧЕСТВО КОНЕЦ///
 ///ДАТА РЕГИ В НОВОМ ПРОФИЛЕ///
@@ -873,12 +875,12 @@ function formatBirthday(bdate) {
           let match = profileBDayYearLetter.match(regex);
           let formattedYearLetter = match ? match[1].replace(/\s/g, "") : "";
           var yearLink = year
-            ? `<a href="https://vk.com/search?c[section]=people&c[byear]=${year}">${year} ${formattedYearLetter}</a>`
+            ? `<a href="https://vk.com/search/people?birth_year=${year}">${year} ${formattedYearLetter}</a>`
             : "";
           if (year) {
             formattedDate += ` ${yearLink}`;
           }
-          return `<a href="https://vk.com/search?c[section]=people&c[bday]=${day}&c[bmonth]=${parts[1]}">${formattedDate}</a>`;
+          return `<a href="https://vk.com/search/people?birth_day=${day}&birth_month=${parts[1]}">${formattedDate}</a>`;
         }
 		
 function getLangYearsOld(e, t, n) {
@@ -1016,8 +1018,18 @@ function getLangYearsOld(e, t, n) {
         }
       }
 document.arrive(`.ProfileModalMiniInfoCell:has(.vkuiIcon--gift_outline_20)`, { existing: true }, async function (e) {
-	      let respsp = await vkApi.api('users.get',{user_ids: await getIdAntiAsync1(),fields: 'bdate'});
-		  let birthday = respsp[0].bdate;
+	let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
+function _o(e) {
+          const t = {};
+          if (!e) return t;
+          for (const n of Object.keys(e))
+            n.startsWith("__reactFiber") && (t.fiber = e[n]),
+              n.startsWith("__reactProps") && (t.props = e[n]),
+              n.startsWith("__reactContainer") && (t.container = e[n]);
+          return t;
+        }
+	      let respsp = pizda.store.getState().owner;
+		  let birthday = respsp.bdate;
 	      var formattedBirthday = formatBirthday(birthday);
           var ageAndZodiac = '';
 
@@ -2438,10 +2450,10 @@ if (getLocalValue("isMiddleName")) {
     styleElement.id = "vken_expand_username";
     let objectId = await getId();
     let userDataMiddle = await getUserMiddleName(objectId);
-    if (userDataMiddle[0].nickname && userDataMiddle[0].nickname !== "") {
+    if (userDataMiddle && userDataMiddle !== "") {
       let ownerNameElement = document.querySelector(".OwnerPageName");
       let ownerName = ownerNameElement.firstChild.textContent.trim();
-      let nickname = userDataMiddle[0].nickname.trim();
+      let nickname = userDataMiddle.trim();
 
       if (ownerName.includes(" ")) {
         let lastNameIndex = ownerName.lastIndexOf(" ");
@@ -2472,10 +2484,17 @@ if (getLocalValue("isMiddleName")) {
 
   async function getUserMiddleName(objectId) {
     try {
-      var response = await vkApi.api("users.get", {
-        user_ids: objectId,
-        fields: "nickname",
-      });
+	let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
+function _o(e) {
+          const t = {};
+          if (!e) return t;
+          for (const n of Object.keys(e))
+            n.startsWith("__reactFiber") && (t.fiber = e[n]),
+              n.startsWith("__reactProps") && (t.props = e[n]),
+              n.startsWith("__reactContainer") && (t.container = e[n]);
+          return t;
+        }
+      var response = pizda.store.getState().owner.nickname;
       return response;
     } catch (error) {
       console.error(error);
@@ -2543,13 +2562,13 @@ deferredCallback(
               `"}`;
             var objectId1 = await getId();
             var userData = await getUserData(objectId1);
-            if (!userData[0].hidden) {
-              var photoUrl = userData[0].photo_200;
+            if (!userData.hidden) {
+              var photoUrl = userData.photo_200;
             }
-            var activityText = userData[0].activity;
+            var activityText = userData.activity;
             appendActivityText(activityText);
             await appearStarts(userData);
-            if (!userData[0].blacklisted == 1 && !userData[0].deactivated && !userData[0].is_service && !userData[0].hidden) {
+            if (!userData.blacklisted == 1 && !userData.deactivated && !userData.is_service && !userData.hidden) {
               const customStyle = fromId("classicalProfilesDELETED");
               if (customStyle) {
                 customStyle.remove();
@@ -2570,9 +2589,9 @@ deferredCallback(
               if (customStyle4) {
                 customStyle4.remove();
               }
-              addCounters(userData[0], userData[0].counters);
+              addCounters(userData, userData.counters);
               appearVariable();
-              if (vk.id != userData[0].id) {
+              if (vk.id != userData.id) {
                 buttonrun();
               }
               expandMore(userData);
@@ -2613,7 +2632,7 @@ deferredCallback(
               if (pModuleText != '') {
                 pInfoShort.appendChild(pModuleDiv);
               }
-              if (userData[0].blacklisted == 1 && !userData[0].deactivated) {
+              if (userData.blacklisted == 1 && !userData.deactivated) {
                 let styleElement = fromId("classicalProfilesBlackListed");
                 if (!styleElement) {
                   styleElement = create("style", {}, { id: "classicalProfilesBlackListed" });
@@ -2621,7 +2640,7 @@ deferredCallback(
                 }
                 styleElement.innerHTML = ".ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}";
               }
-              if (userData[0].deactivated) {
+              if (userData.deactivated) {
                 let styleElement = fromId("classicalProfilesDeactivated");
                 if (!styleElement) {
                   styleElement = create("style", {}, { id: "classicalProfilesDeactivated" });
@@ -2629,8 +2648,8 @@ deferredCallback(
                 }
                 styleElement.innerHTML = ".ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){display:none!important}";
               }
-              if (userData[0].is_service) {
-                addCounters(userData[0], userData[0].counters);
+              if (userData.is_service) {
+                addCounters(userData, userData.counters);
                 let styleElement = fromId("classicalProfilesService");
                 if (!styleElement) {
                   styleElement = create("style", {}, { id: "classicalProfilesService" });
@@ -2638,7 +2657,7 @@ deferredCallback(
                 }
                 styleElement.innerHTML = ".page_current_info.current_text{border-bottom:none!important;}.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}";
               }
-              if (userData[0].hidden) {
+              if (userData.hidden) {
                 let styleElement = fromId("classicalProfilesHidden");
                 if (!styleElement) {
                   styleElement = create("style", {}, { id: "classicalProfilesHidden" });
@@ -2706,14 +2725,25 @@ deferredCallback(
 
       document.arrive("#profile_redesigned", { existing: true }, async function (e) {
         imReady = false;
+		let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
+function _o(e) {
+          const t = {};
+          if (!e) return t;
+          for (const n of Object.keys(e))
+            n.startsWith("__reactFiber") && (t.fiber = e[n]),
+              n.startsWith("__reactProps") && (t.props = e[n]),
+              n.startsWith("__reactContainer") && (t.container = e[n]);
+          return t;
+        }
         let objectId1 = await getId();
         let userdata = await getUserDataWithoutOnline(objectId1);
+		let userdata1 = pizda.store.getState().owner;
         let friends;
         let frenCount = { count: 0 };
-        if ((!userdata[0].is_closed || userdata[0].can_access_closed) && !userdata[0].blacklisted == 1 && !userdata[0].deactivated) {
+        if ((!userdata.is_closed || userdata.can_access_closed) && !userdata.blacklisted == 1 && !userdata.deactivated) {
           try {
-            friends = await vkApi.api("friends.get", { user_id: userdata[0].id, fields: 'photo_100,online,domain', count: 10000 });
-            frenCount = await vkApi.api("friends.get", { user_id: userdata[0].id, count: 10000 });
+            friends = await vkApi.api("friends.get", { user_id: userdata.id, fields: 'photo_100,online,domain', count: 10000 });
+            frenCount = await vkApi.api("friends.get", { user_id: userdata.id, count: 10000 });
           }
           catch (error) { }
         }
@@ -2736,7 +2766,7 @@ deferredCallback(
             aHrefSectionFrens.textContent = getLang("global_search").toLowerCase();
           }
           friendsSection.innerHTML = `
-        <a href="/friends?id=${userdata[0].id}&section=all" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
+        <a href="/friends?id=${userdata.id}&section=all" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
             <div style="padding:7px 0 0 17px;" class="vkEnhancerFriendsPadding vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
                 <div class="vkuiHeader__main">
                     <div class="vkEnhancerFrenBox vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1">
@@ -2799,7 +2829,7 @@ deferredCallback(
 
             friendsContainer1.appendChild(friendItem);
           });
-          if (vk.id === userdata[0].id) {
+          if (vk.id === userdata.id) {
             const onlineFriends = friends.items.filter(friend => friend.online === 1);
             const countOnline = onlineFriends.length;
             if (countOnline > 0) {
@@ -2873,14 +2903,14 @@ deferredCallback(
           catch (error) { }
           let myFriends = myFriendsResponse.items;
           let commonFriends = friends.items.filter(friend => myFriends.includes(friend.id));
-          if (commonFriends.length > 0 && userdata[0].id != vk.id) {
+          if (commonFriends.length > 0 && userdata.id != vk.id) {
             const commonFriendsHeader = document.createElement('div');
             commonFriendsHeader.tabIndex = "0";
             commonFriendsHeader.role = "button";
             commonFriendsHeader.dataset.allowLinkOnclickWeb = "1";
             commonFriendsHeader.classList.add('Header-module__tappable--mabke', 'ProfileGroupHeader', 'vkuiTappable', 'vkuiInternalTappable', 'vkuiTappable--hasActive', 'vkui-focus-visible');
             commonFriendsHeader.innerHTML = `
-	<a href="/friends?id=${userdata[0].id}&amp;section=common" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
+	<a href="/friends?id=${userdata.id}&amp;section=common" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
         <div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
             <div class="vkuiHeader__main">
                 <div class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1">
@@ -2889,7 +2919,7 @@ deferredCallback(
                             <div class="TextClamp-module__singleLine--mRCrF">`+ getLang("profile_common_friends") + `</div>
                         </div>
                     </span>
-                    <span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${commonFriends.length}</span>
+                    <span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${userdata1.mutual.count}</span>
                 </div>
             </div>
         </div>
@@ -2976,9 +3006,9 @@ deferredCallback(
               moreItemsLoaded.classList.add("vkEnhancerMoreItems");
 
               if (
-                (userData[0].home_town && userData[0].home_town != "") ||
-                (userData[0].personal && userData[0].personal.langs_full) ||
-                (userData[0].relatives && userData[0].relatives.length > 0)
+                (userData.home_town && userData.home_town != "") ||
+                (userData.personal && userData.personal.langs_full) ||
+                (userData.relatives && userData.relatives.length > 0)
               ) {
                 var commonDiv = document.createElement("div");
                 commonDiv.classList.add("vkEnhancerSectionProfile");
@@ -2991,7 +3021,7 @@ deferredCallback(
                 commonDiv.appendChild(inner);
                 moreItemsLoaded.appendChild(commonDiv);
 
-                var hometown = userData[0].home_town;
+                var hometown = userData.home_town;
                 if (hometown) {
                   var hometownLink = document.createElement("a");
                   hometownLink.href = `/search/people?c[name]=0&c[hometown]=${hometown}`;
@@ -3020,7 +3050,7 @@ deferredCallback(
                 }
 
                 try {
-                  var langsFull = userData[0].personal.langs_full;
+                  var langsFull = userData.personal.langs_full;
                 } catch (error) {
                   var langsFull = "авыловаыловаылоаывллоавы";
                 }
@@ -3051,9 +3081,9 @@ deferredCallback(
               }
 
               if (
-                (userData[0].home_phone && userData[0].home_phone != "") ||
-                (userData[0].mobile_phone && userData[0].mobile_phone != "") ||
-                (userData[0].skype && userData[0].skype != "")
+                (userData.home_phone && userData.home_phone != "") ||
+                (userData.mobile_phone && userData.mobile_phone != "") ||
+                (userData.skype && userData.skype != "")
               ) {
                 var commonDiv = document.createElement("div");
                 commonDiv.classList.add("vkEnhancerSectionProfile");
@@ -3066,7 +3096,7 @@ deferredCallback(
                 commonDiv.appendChild(inner);
                 moreItemsLoaded.appendChild(commonDiv);
 
-                var mobile_phone = userData[0].mobile_phone;
+                var mobile_phone = userData.mobile_phone;
                 if (mobile_phone) {
                   var mobile_phoneLink = document.createElement("div");
                   mobile_phoneLink.textContent = mobile_phone;
@@ -3084,7 +3114,7 @@ deferredCallback(
                   moreItemsLoaded.appendChild(mobile_phoneRow);
                 }
 
-                var home_phone = userData[0].home_phone;
+                var home_phone = userData.home_phone;
                 if (home_phone) {
                   var home_phoneLink = document.createElement("div");
                   home_phoneLink.textContent = home_phone;
@@ -3101,7 +3131,7 @@ deferredCallback(
                   home_phoneRow.appendChild(home_phoneLink);
                   moreItemsLoaded.appendChild(home_phoneRow);
                 }
-                var skype = userData[0].skype;
+                var skype = userData.skype;
                 if (skype) {
                   var skypeLink = document.createElement("a");
                   skypeLink.href = `skype:` + skype + `?call`;
@@ -3130,7 +3160,7 @@ deferredCallback(
                 }
               }
 
-              var career = userData[0].career;
+              var career = userData.career;
 
               if (career && career.length > 0) {
                 var commonDiv = document.createElement("div");
@@ -3285,9 +3315,9 @@ deferredCallback(
                     moreItemsLoaded.appendChild(jobRow);
                   });
                   if (
-                    (userData[0].schools && userData[0].schools.length > 0) ||
-                    (userData[0].universities &&
-                      userData[0].universities.length > 0)
+                    (userData.schools && userData.schools.length > 0) ||
+                    (userData.universities &&
+					userData.universities.length > 0)
                   ) {
                     var commonDiv = document.createElement("div");
                     commonDiv.classList.add("vkEnhancerSectionProfile");
@@ -3304,9 +3334,9 @@ deferredCallback(
                 });
               } else {
                 if (
-                  (userData[0].schools && userData[0].schools.length > 0) ||
-                  (userData[0].universities &&
-                    userData[0].universities.length > 0)
+                  (userData.schools && userData.schools.length > 0) ||
+                  (userData.universities &&
+				  userData.universities.length > 0)
                 ) {
                   var commonDiv = document.createElement("div");
                   commonDiv.classList.add("vkEnhancerSectionProfile");
@@ -3343,7 +3373,7 @@ deferredCallback(
       }
 
       async function nextExpander(userData, moreItemsLoaded, educationInner) {
-        var education = userData[0].universities;
+        var education = userData.universities;
         var educationDiv = document.createElement("div");
         if (education) {
           education.forEach((edu) => {
@@ -3356,7 +3386,7 @@ deferredCallback(
             var statusInfo = document.createElement("div");
             if (edu.name) {
               var universityLink = document.createElement("a");
-              universityLink.href = `/search/people?c[name]=0&c[uni_country]=1&c[uni_city]=153&c[university]=${edu.id}`;
+              universityLink.href = `/search/people?c[name]=0&c[uni_country]=${edu.country}&c[uni_city]=${edu.city}&c[university]=${edu.id}`;
               universityLink.textContent = edu.name;
               universityLink.classList.add(
                 "vkuiLink",
@@ -3374,7 +3404,7 @@ deferredCallback(
               }
 
               var graduationLink = document.createElement("a");
-              graduationLink.href = `/search/people?c[name]=0&c[uni_country]=1&c[uni_city]=119&c[university]=${edu.university}&c[uni_year]=${edu.graduation}`;
+              graduationLink.href = `/search/people?c[name]=0&c[uni_country]=${edu.country}&c[uni_city]=${edu.city}&c[university]=${edu.id}&c[uni_year]=${edu.graduation}`;
               graduationLink.textContent = graduationYearText;
               graduationLink.classList.add(
                 "vkuiLink",
@@ -3496,7 +3526,7 @@ deferredCallback(
 
           moreItemsLoaded.appendChild(educationDiv);
         }
-        var schools = userData[0].schools;
+        var schools = userData.schools;
         if (schools) {
           schools.forEach((school) => {
             var schoolInfo = document.createElement("div");
@@ -3656,7 +3686,7 @@ deferredCallback(
           });
         }
 
-        if (userData[0].military && userData[0].military.length > 0) {
+        if (userData.military && userData.military.length > 0) {
           var commonDiv = document.createElement("div");
           commonDiv.classList.add("vkEnhancerSectionProfile");
           var innerText = document.createElement("div");
@@ -3667,7 +3697,7 @@ deferredCallback(
           commonDiv.appendChild(innerText);
           commonDiv.appendChild(inner);
           moreItemsLoaded.appendChild(commonDiv);
-          var military = userData[0].military;
+          var military = userData.military;
           if (military) {
             military.forEach((voin) => {
               var voinInfo = document.createElement("div");
@@ -3721,20 +3751,20 @@ deferredCallback(
         }
 
         if (
-          userData[0].personal &&
-          ((userData[0].personal.alcohol &&
-            userData[0].personal.alcohol != 0) ||
-            (userData[0].personal.life_main &&
-              userData[0].personal.life_main != 0) ||
-            (userData[0].personal.people_main &&
-              userData[0].personal.people_main != 0) ||
-            (userData[0].personal.smoking &&
-              userData[0].personal.smoking != 0) ||
-            (userData[0].personal.inspired_by &&
-              userData[0].personal.inspired_by != "") ||
-            (userData[0].personal.religion &&
-              userData[0].personal.religion != "")) &&
-          Object.keys(userData[0].personal).length > 0
+          userData.personal &&
+          ((userData.personal.alcohol &&
+            userData.personal.alcohol != 0) ||
+		  (userData.personal.life_main &&
+		  userData.personal.life_main != 0) ||
+		  (userData.personal.people_main &&
+		  userData.personal.people_main != 0) ||
+		  (userData.personal.smoking &&
+		  userData.personal.smoking != 0) ||
+		  (userData.personal.inspired_by &&
+		  userData.personal.inspired_by != "") ||
+		  (userData.personal.religion &&
+              userData.personal.religion != "")) &&
+          Object.keys(userData.personal).length > 0
         ) {
           var commonDiv = document.createElement("div");
           commonDiv.classList.add("vkEnhancerSectionProfile");
@@ -3762,7 +3792,7 @@ deferredCallback(
             getLang("politics_indiff"),
             getLang("politics_libert"),
           ];
-          var political = userData[0].personal.political;
+          var political = userData.personal.political;
           if (political) {
             var politicalDiv = document.createElement("div");
             politicalDiv.classList.add("politicalRow");
@@ -3781,7 +3811,7 @@ deferredCallback(
           }
 
           // 2. Мировоззрение
-          var religion = userData[0].personal.religion;
+          var religion = userData.personal.religion;
           if (religion) {
             var religionDiv = document.createElement("div");
             religionDiv.classList.add("religionRow");
@@ -3821,7 +3851,7 @@ deferredCallback(
             getLang("Personal_priority7"),
             getLang("Personal_priority8"),
           ];
-          var lifeMain = userData[0].personal.life_main;
+          var lifeMain = userData.personal.life_main;
           if (lifeMain) {
             var lifeMainDiv = document.createElement("div");
             lifeMainDiv.classList.add("lifeMainRow");
@@ -3859,7 +3889,7 @@ deferredCallback(
             getLang("Important_in_others5"),
             getLang("Important_in_others6"),
           ];
-          var peopleMain = userData[0].personal.people_main;
+          var peopleMain = userData.personal.people_main;
           if (peopleMain) {
             var peopleMainDiv = document.createElement("div");
             peopleMainDiv.classList.add("peopleMainRow");
@@ -3898,7 +3928,7 @@ deferredCallback(
             getLang("Smoking_like4"),
             getLang("Smoking_like5"),
           ];
-          var smoking = userData[0].personal.smoking;
+          var smoking = userData.personal.smoking;
           if (smoking) {
             var smokingDiv = document.createElement("div");
             smokingDiv.classList.add("smokingRow");
@@ -3935,7 +3965,7 @@ deferredCallback(
             getLang("Alcohol_like4"),
             getLang("Alcohol_like5"),
           ];
-          var alcohol = userData[0].personal.alcohol;
+          var alcohol = userData.personal.alcohol;
           if (alcohol) {
             var alcoholDiv = document.createElement("div");
             alcoholDiv.classList.add("alcoholRow");
@@ -3965,7 +3995,7 @@ deferredCallback(
           }
 
           // 7. Источники вдохновения
-          var inspiredBy = userData[0].personal.inspired_by;
+          var inspiredBy = userData.personal.inspired_by;
           if (inspiredBy) {
             var inspiredByDiv = document.createElement("div");
             inspiredByDiv.classList.add("inspired_by_info");
@@ -4010,15 +4040,15 @@ deferredCallback(
         }
 
         if (
-          (userData[0].activities && userData[0].activities != "") ||
-          (userData[0].interests && userData[0].interests != "") ||
-          (userData[0].music && userData[0].music != "") ||
-          (userData[0].movies && userData[0].movies != "") ||
-          (userData[0].tv && userData[0].tv != "") ||
-          (userData[0].books && userData[0].books != "") ||
-          (userData[0].games && userData[0].games != "") ||
-          (userData[0].quotes && userData[0].quotes != "") ||
-          (userData[0].about && userData[0].about != "")
+          (userData.activities && userData.activities != "") ||
+          (userData.interests && userData.interests != "") ||
+		(userData.music && userData.music != "") ||
+          (userData.movies && userData.movies != "") ||
+          (userData.tv && userData.tv != "") ||
+          (userData.books && userData.books != "") ||
+          (userData.games && userData.games != "") ||
+          (userData.quotes && userData.quotes != "") ||
+          (userData.about && userData.about != "")
         ) {
           var commonDiv = document.createElement("div");
           commonDiv.classList.add("vkEnhancerSectionProfile");
@@ -4031,7 +4061,7 @@ deferredCallback(
           commonDiv.appendChild(inner);
           moreItemsLoaded.appendChild(commonDiv);
 
-          var activities = userData[0].activities;
+          var activities = userData.activities;
           if (activities) {
             var interestsDiv = document.createElement("div");
             interestsDiv.classList.add("interests_info");
@@ -4073,7 +4103,7 @@ deferredCallback(
             moreItemsLoaded.appendChild(interestsDiv);
           }
 
-          var interests = userData[0].interests;
+          var interests = userData.interests;
           if (interests && interests.length > 0) {
             var interestsDiv = document.createElement("div");
             interestsDiv.classList.add("interests_info");
@@ -4115,7 +4145,7 @@ deferredCallback(
             moreItemsLoaded.appendChild(interestsDiv);
           }
 
-          var music = userData[0].music;
+          var music = userData.music;
           if (music) {
             var musicDiv = document.createElement("div");
             musicDiv.classList.add("music_info");
@@ -4157,7 +4187,7 @@ deferredCallback(
             moreItemsLoaded.appendChild(musicDiv);
           }
 
-          var movies = userData[0].movies;
+          var movies = userData.movies;
           if (movies) {
             var moviesDiv = document.createElement("div");
             moviesDiv.classList.add("movies_info");
@@ -4199,7 +4229,7 @@ deferredCallback(
             moreItemsLoaded.appendChild(moviesDiv);
           }
 
-          var tv = userData[0].tv;
+          var tv = userData.tv;
           if (tv) {
             var moviesDiv = document.createElement("div");
             moviesDiv.classList.add("movies_info");
@@ -4241,7 +4271,7 @@ deferredCallback(
             moreItemsLoaded.appendChild(moviesDiv);
           }
 
-          var books = userData[0].books;
+          var books = userData.books;
           if (books) {
             var booksDiv = document.createElement("div");
             booksDiv.classList.add("books_info");
@@ -4283,7 +4313,7 @@ deferredCallback(
             moreItemsLoaded.appendChild(booksDiv);
           }
 
-          var games = userData[0].games;
+          var games = userData.games;
           if (games) {
             var gamesDiv = document.createElement("div");
             gamesDiv.classList.add("games_info");
@@ -4325,7 +4355,7 @@ deferredCallback(
             moreItemsLoaded.appendChild(gamesDiv);
           }
 
-          var quotes = userData[0].quotes;
+          var quotes = userData.quotes;
           if (quotes) {
             var quotesDiv = document.createElement("div");
             quotesDiv.classList.add("quotes_info");
@@ -4343,7 +4373,7 @@ deferredCallback(
             moreItemsLoaded.appendChild(quotesDiv);
           }
 
-          var about = userData[0].about;
+          var about = userData.about;
           if (about) {
             var aboutDiv = document.createElement("div");
             aboutDiv.classList.add("about_info");
@@ -5326,7 +5356,7 @@ deferredCallback(
       }
 
       async function addRelatives(userData, moreItemsLoaded) {
-        var relatives = userData[0].relatives;
+        var relatives = userData.relatives;
         if (relatives) {
           var relativesByType = {};
 
@@ -5372,7 +5402,7 @@ deferredCallback(
               } else if (relative.id) {
                 var relativeData = await getUserDataWithoutOnline(relative.id);
                 if (relativeData) {
-                  var name = `${relativeData[0].first_name} ${relativeData[0].last_name}`;
+                  var name = `${relativeData.first_name} ${relativeData.last_name}`;
                   var id = relative.id.toString();
                   if (id.startsWith("-")) {
                     id = id.substring(1);
@@ -5439,19 +5469,18 @@ deferredCallback(
             clearInterval(interval);
             return;
           }
-          const url = window.location.href;
-          var parts = url.split("/");
-          var username = parts[parts.length - 1];
-          if (username.includes("?")) {
-            username = username.split("?")[0];
-          }
-          var objectId;
-          const url1 = `https://vkenhancer-api.vercel.app/getId?username=${username}`;
-          fetch(url1)
-            .then((response) => response.json())
-            .then((data) => {
-              objectId = data.response.object_id;
-              //console.log("ID fetched successfully: " + objectId);
+          let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
+function _o(e) {
+          const t = {};
+          if (!e) return t;
+          for (const n of Object.keys(e))
+            n.startsWith("__reactFiber") && (t.fiber = e[n]),
+              n.startsWith("__reactProps") && (t.props = e[n]),
+              n.startsWith("__reactContainer") && (t.container = e[n]);
+          return t;
+        }
+          var objectId = pizda.store.getState().owner.id;
+          
               var newElement = document.createElement("div");
               newElement.className = "ProfileGifts__all";
               newElement.innerHTML = `
@@ -5470,10 +5499,6 @@ deferredCallback(
               );
               var theFirstChild = headerButtons.firstChild;
               headerButtons.insertBefore(newElement, theFirstChild);
-            })
-            .catch((error) => {
-              console.error("Ошибка:", error);
-            });
           count++;
         }, 1); // 10 секунд
       }
@@ -5748,14 +5773,14 @@ deferredCallback(
         profileShort.classList.add("profile_info", "profile_info_short");
         profileShort.id = "profile_short";
 
-        var birthday = userData[0].bdate;
+        var birthday = userData.bdate;
         if (birthday) {
           var formattedBirthday = formatBirthday(birthday);
           var ageAndZodiac = '';
 
           var parts = birthday.split('.');
           if (parts.length === 3) {
-            let bDayFull = userData[0].bdate;
+            let bDayFull = userData.bdate;
             let ptsOfAfe = bDayFull.split('.');
             let birthYear1 = parseInt(ptsOfAfe[2], 10);
             let birthMonth1 = parseInt(ptsOfAfe[1], 10);
@@ -5785,7 +5810,7 @@ deferredCallback(
 
         try {
           var regDateText = getRegDateLabel(vk.lang);
-          let regDateValue1 = await getRegDateValue(userData[0].id);
+          let regDateValue1 = await getRegDateValue(userData.id);
           var regDateDate = formatRegister(regDateValue1[0]);
           regDateDate += " " + regDateValue1[1];
           var registrationRow = createProfileInfoRow(
@@ -5797,10 +5822,10 @@ deferredCallback(
           }
         }
         catch (error) {
-          console.error("[VKENH Error]: There is no registration date for user " + userData[0].id);
+          console.error("[VKENH Error]: There is no registration date for user " + userData.id);
         }
 
-        var relationText = await getRelationText(userData[0].relation);
+        var relationText = await getRelationText(userData.relation);
         var relationRow = createProfileInfoRow(
           getLang("profile_family"),
           relationText
@@ -5811,15 +5836,15 @@ deferredCallback(
 
         var cityRow = createProfileInfoRow(
           getLang("Town"),
-          userData[0].city
-            ? `<a href="https://vk.com/search?c[name]=0&c[section]=people&c[country]=1&c[city]=${userData[0].city.id}">${userData[0].city.title}</a>`
+          userData.city
+            ? `<a href="https://vk.com/search?c[name]=0&c[section]=people&c[country]=1&c[city]=${userData.city.id}">${userData.city.title}</a>`
             : null
         );
         if (cityRow) {
           profileShort.appendChild(cityRow);
         }
 
-        var occupation = userData[0].occupation;
+        var occupation = userData.occupation;
         var companyRow;
         if (occupation && occupation.type === "work") {
           var company = occupation.name;
@@ -5856,7 +5881,7 @@ deferredCallback(
           profileShort.appendChild(companyRow);
         }
 
-        var site = userData[0].site;
+        var site = userData.site;
         var siteRow = null;
         if (site) {
           var siteText = site;
@@ -5896,37 +5921,37 @@ deferredCallback(
         profileMoreInfoLink.appendChild(profileLabelLess);
         profileMoreInfo.appendChild(profileMoreInfoLink);
         if (
-          (userData[0].home_town && userData[0].home_town !== "") ||
-          (userData[0].personal && userData[0].personal.langs_full) ||
-          (userData[0].relatives && userData[0].relatives.length > 0) ||
-          (userData[0].home_phone && userData[0].home_phone !== "") ||
-          (userData[0].mobile_phone && userData[0].mobile_phone !== "") ||
-          (userData[0].skype && userData[0].skype !== "") ||
-          (userData[0].career && userData[0].career.length > 0) ||
-          (userData[0].universities && userData[0].universities.length > 0) ||
-          (userData[0].schools && userData[0].schools.length > 0) ||
-          (userData[0].military && userData[0].military.length > 0) ||
+          (userData.home_town && userData.home_town !== "") ||
+          (userData.personal && userData.personal.langs_full) ||
+          (userData.relatives && userData.relatives.length > 0) ||
+          (userData.home_phone && userData.home_phone !== "") ||
+          (userData.mobile_phone && userData.mobile_phone !== "") ||
+          (userData.skype && userData.skype !== "") ||
+          (userData.career && userData.career.length > 0) ||
+          (userData.universities && userData.universities.length > 0) ||
+          (userData.schools && userData.schools.length > 0) ||
+          (userData.military && userData.military.length > 0) ||
           (
-            userData[0].personal &&
+            userData.personal &&
             (
-              (userData[0].personal.alcohol && userData[0].personal.alcohol !== 0) ||
-              (userData[0].personal.life_main && userData[0].personal.life_main !== 0) ||
-              (userData[0].personal.people_main && userData[0].personal.people_main !== 0) ||
-              (userData[0].personal.smoking && userData[0].personal.smoking !== 0) ||
-              (userData[0].personal.inspired_by && userData[0].personal.inspired_by !== "") ||
-              (userData[0].personal.religion && userData[0].personal.religion !== "")
+              (userData.personal.alcohol && userData.personal.alcohol !== 0) ||
+              (userData.personal.life_main && userData.personal.life_main !== 0) ||
+              (userData.personal.people_main && userData.personal.people_main !== 0) ||
+              (userData.personal.smoking && userData.personal.smoking !== 0) ||
+              (userData.personal.inspired_by && userData.personal.inspired_by !== "") ||
+              (userData.personal.religion && userData.personal.religion !== "")
             ) &&
-            Object.keys(userData[0].personal).length > 0
+            Object.keys(userData.personal).length > 0
           ) ||
-          (userData[0].activities && userData[0].activities !== "") ||
-          (userData[0].interests && userData[0].interests !== "") ||
-          (userData[0].music && userData[0].music !== "") ||
-          (userData[0].movies && userData[0].movies !== "") ||
-          (userData[0].tv && userData[0].tv !== "") ||
-          (userData[0].books && userData[0].books !== "") ||
-          (userData[0].games && userData[0].games !== "") ||
-          (userData[0].quotes && userData[0].quotes !== "") ||
-          (userData[0].about && userData[0].about !== "")
+          (userData.activities && userData.activities !== "") ||
+          (userData.interests && userData.interests !== "") ||
+          (userData.music && userData.music !== "") ||
+          (userData.movies && userData.movies !== "") ||
+          (userData.tv && userData.tv !== "") ||
+          (userData.books && userData.books !== "") ||
+          (userData.games && userData.games !== "") ||
+          (userData.quotes && userData.quotes !== "") ||
+          (userData.about && userData.about !== "")
         ) {
           profileShort.appendChild(profileMoreInfo);
         }
@@ -5958,12 +5983,12 @@ deferredCallback(
           let match = profileBDayYearLetter.match(regex);
           let formattedYearLetter = match ? match[1].replace(/\s/g, "") : "";
           var yearLink = year
-            ? `<a href="https://vk.com/search?c[section]=people&c[byear]=${year}">${year} ${formattedYearLetter}</a>`
+            ? `<a href="https://vk.com/search/people?birth_year=${year}">${year} ${formattedYearLetter}</a>`
             : "";
           if (year) {
             formattedDate += ` ${yearLink}`;
           }
-          return `<a href="https://vk.com/search?c[section]=people&c[bday]=${day}&c[bmonth]=${parts[1]}">${formattedDate}</a>`;
+          return `<a href="https://vk.com/search/people?birth_day=${day}&birth_month=${parts[1]}">${formattedDate}</a>`;
         }
 
 
@@ -6025,13 +6050,13 @@ deferredCallback(
         async function getRelationText(relation) {
           if (!relation) return "";
           var relationText = "";
-          var relationPartner = userData[0].relation_partner;
-          var sex = userData[0].sex;
+          var relationPartner = userData.relation_partner;
+          var sex = userData.sex;
           if (relationPartner) {
             var partnerData = relationPartner.id
               ? await getUserDataWithoutOnline(relationPartner.id)
               : null;
-            var formatted_name = FuckName(relation, sex, partnerData[0]);
+            var formatted_name = FuckName(relation, sex, partnerData);
           }
           //console.log(formatted_name)
           switch (relation) {
@@ -6286,22 +6311,28 @@ deferredCallback(
       }
       async function getUserData(objectId) {
         try {
-          var response = await vkApi.api("users.get", {
-            user_ids: objectId,
-            fields:
-              "quotes, games, movies, music, photo_400_orig, universities, activities, about, books, bdate, can_see_audio, can_write_private_message, career, city, connections, contacts, counters, country, crop_photo, education, has_photo, home_town, interests, military, nickname, occupation, online, personal, quotes, relatives, relation, schools, sex, site, tv, id,first_name,first_name_gen,first_name_acc,last_name,last_name_gen,last_name_acc,sex,has_photo,photo_id,photo_50,photo_100,photo_200,contact_name,occupation,bdate,city,screen_name,online_info,verified,blacklisted,blacklisted_by_me,can_call,can_write_private_message,can_send_friend_request,can_invite_to_chats,friend_status,followers_count,profile_type,contacts,employee_mark,employee_working_state,is_service_account,image_status,name,type,members_count,member_status,is_closed,can_message,deactivated,activity,ban_info,is_messages_blocked,can_post_donut,site,reposts_disabled,description,action_button,menu,role,first_name_nom,first_name_gen,first_name_dat,first_name_acc,first_name_ins,last_name_gen,last_name_dat,last_name_acc,last_name_ins,nickname,maiden_name,screen_name,first_name,last_name",
-          });
+		let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
+function _o(e) {
+          const t = {};
+          if (!e) return t;
+          for (const n of Object.keys(e))
+            n.startsWith("__reactFiber") && (t.fiber = e[n]),
+              n.startsWith("__reactProps") && (t.props = e[n]),
+              n.startsWith("__reactContainer") && (t.container = e[n]);
+          return t;
+        }
+          var response = pizda.store.getState().owner;
           console.info("[VK ENH] Profile fetched");
-          console.log(response[0]);
-          if (!response[0].hidden) {
+          console.log(response);
+          if (!response.hidden) {
             let wasInSetb = getLang("profile_last_seen", "raw");
             let newLangArray = wasInSetb.map((item) => item.replace(/%s/, ""));
-            let index = response[0].sex === 1 ? 2 : 1;
+            let index = response.sex === 1 ? 2 : 1;
             let zahodil = newLangArray[index];
             if (zahodil == "") {
-              zahodil = newLangArray[response[0].sex];
+              zahodil = newLangArray[response.sex];
             }
-            let onlineInfo = getTimeString(response[0].online_info);
+            let onlineInfo = getTimeString(response.online_info);
             let zahodilString = zahodil + " " + onlineInfo;
             try {
               let onlineBadgeByl = document.querySelector(
@@ -6309,7 +6340,7 @@ deferredCallback(
               );
               onlineBadgeByl.textContent = zahodilString;
 
-              if (response[0].online_info.is_mobile) {
+              if (response.online_info.is_mobile) {
                 let mobileDiv = document.createElement("div");
                 mobileDiv.className = "vkEnhancerMobileWas";
                 onlineBadgeByl.appendChild(mobileDiv);
@@ -6328,10 +6359,10 @@ deferredCallback(
               onlineBadgeMob.textContent = "Onlineᅠ​";
             } catch (error) { }
           }
-          if (response[0].online_info.status && response[0].online_info.status == "recently") {
+          if (response.online_info.status && response.online_info.status == "recently") {
             try {
               let lastSeenRecently = getLang("global_online_was_recently", "raw");
-              let indexRecently = response[0].sex === 1 ? 2 : 1;
+              let indexRecently = response.sex === 1 ? 2 : 1;
               let recentlyCurrent = lastSeenRecently[indexRecently];
               let parentBadge = document.querySelector('.ProfileIndicatorBadge');
               let innerBadge = document.createElement('div');
@@ -6342,10 +6373,10 @@ deferredCallback(
             }
             catch (error) { }
           }
-          if (response[0].online_info.status && response[0].online_info.status == "last_week") {
+          if (response.online_info.status && response.online_info.status == "last_week") {
             try {
               let lastSeenRecently = getLang("global_online_was_week", "raw");
-              let indexRecently = response[0].sex === 1 ? 2 : 1;
+              let indexRecently = response.sex === 1 ? 2 : 1;
               let recentlyCurrent = lastSeenRecently[indexRecently];
               let parentBadge = document.querySelector('.ProfileIndicatorBadge');
               let innerBadge = document.createElement('div');
@@ -6356,10 +6387,10 @@ deferredCallback(
             }
             catch (error) { }
           }
-          if (response[0].online_info.status && response[0].online_info.status == "last_month") {
+          if (response.online_info.status && response.online_info.status == "last_month") {
             try {
               let lastSeenRecently = getLang("global_online_this_month", "raw");
-              let indexRecently = response[0].sex === 1 ? 2 : 1;
+              let indexRecently = response.sex === 1 ? 2 : 1;
               let recentlyCurrent = lastSeenRecently[indexRecently];
               let parentBadge = document.querySelector('.ProfileIndicatorBadge');
               let innerBadge = document.createElement('div');
@@ -6370,10 +6401,10 @@ deferredCallback(
             }
             catch (error) { }
           }
-          if (response[0].online_info.status && response[0].online_info.status == "long_ago") {
+          if (response.online_info.status && response.online_info.status == "long_ago") {
             try {
               let lastSeenRecently = getLang("global_online_long_ago", "raw");
-              let indexRecently = response[0].sex === 1 ? 2 : 1;
+              let indexRecently = response.sex === 1 ? 2 : 1;
               let recentlyCurrent = lastSeenRecently[indexRecently];
               let parentBadge = document.querySelector('.ProfileIndicatorBadge');
               let innerBadge = document.createElement('div');
@@ -6393,7 +6424,7 @@ deferredCallback(
           styleElement.id = "vken_box_online_classic";
           let wasInSetb = getLang("profile_last_seen","raw");
           let newLangArray = wasInSetb.map(item => item.replace(/%s/, ""));
-          styleElement.innerHTML = `.ProfileIndicatorBadge__badgeLastSeen::before {content:"`+newLangArray[response[0].sex === 2 ? 1 : 2]+`​ ​"}`;*/
+          styleElement.innerHTML = `.ProfileIndicatorBadge__badgeLastSeen::before {content:"`+newLangArray[response.sex === 2 ? 1 : 2]+`​ ​"}`;*/
           return response;
         } catch (error) {
           console.error(error);
@@ -6409,7 +6440,7 @@ deferredCallback(
               "quotes, games, movies, music, photo_400_orig, universities, activities, about, books, bdate, can_see_audio, can_write_private_message, career, city, connections, contacts, counters, country, crop_photo, education, has_photo, home_town, interests, military, nickname, occupation, online, personal, quotes, relatives, relation, schools, sex, site, tv, id,first_name,first_name_gen,first_name_acc,last_name,last_name_gen,last_name_acc,sex,has_photo,photo_id,photo_50,photo_100,photo_200,contact_name,occupation,bdate,city,screen_name,online_info,verified,blacklisted,blacklisted_by_me,can_call,can_write_private_message,can_send_friend_request,can_invite_to_chats,friend_status,followers_count,profile_type,contacts,employee_mark,employee_working_state,is_service_account,image_status,name,type,members_count,member_status,is_closed,can_message,deactivated,activity,ban_info,is_messages_blocked,can_post_donut,site,reposts_disabled,description,action_button,menu,role,first_name_nom,first_name_gen,first_name_dat,first_name_acc,first_name_ins,last_name_gen,last_name_dat,last_name_acc,last_name_ins,nickname,maiden_name,screen_name,first_name,last_name",
           });
           //console.log("[VK ENH] Profile fetched" + response);
-          return response;
+          return response[0];
         } catch (error) {
           console.error(error);
           return [];
@@ -6524,7 +6555,7 @@ deferredCallback(
         photosModule.id = 'profile_photos_module';
         let photodata = await vkApi.api('photos.getAll', { owner_id: ownerId, count: 4, skip_hidden: true });
         let userDataPi = await getUserDataPhoto(ownerId);
-        let userNamePi = userDataPi[0].first_name_gen;
+        let userNamePi = userDataPi.first_name_gen;
         photosModule.innerHTML = `
         <div class="header_right_link fl_r"></div>
         <a href="/albums${ownerId}" onclick="return showAlbums(${ownerId}, {noHistory: true}, event);" class="module_header">
@@ -6617,7 +6648,7 @@ deferredCallback(
         let userIDHereWeGoAgain = await getId();
         let profileCheckIsClosed = await getUserDataWithoutOnline(userIDHereWeGoAgain);
         let albumsGetter;
-        if (!profileCheckIsClosed[0].is_closed || profileCheckIsClosed[0].can_access_closed) {
+        if (!profileCheckIsClosed.is_closed || profileCheckIsClosed.can_access_closed) {
           try {
             albumsGetter = await vkApi.api('photos.getAlbums', { owner_id: userIDHereWeGoAgain, need_covers: true });
           }
@@ -6878,12 +6909,12 @@ deferredCallback(
             let userDataOwner;
             getUserDataPhoto(vk.id).then(e => {
               userDataOwner = e;
-              let userPhotoAva = userDataOwner[0].photo_id;
-              let photo200 = userDataOwner[0].photo_200;
+              let userPhotoAva = userDataOwner.photo_id;
+              let photo200 = userDataOwner.photo_200;
               deferredCallback(
                 () => {
                   try {
-                    jopa.innerHTML = `<div class="owner_photo_top_bubble_wrap"> <div class="owner_photo_top_bubble"> <div class="ui_thumb_x_button" onclick="showFastBox(getLang('global_warning'), getLang('profile_really_delete_photo'), getLang('global_delete'),()=>{ vkApi.api('users.get',{fields:'photo_id'}).then(e=>{ vkApi.api('photos.delete',{owner_id:` + vk.id + `,photo_id:` + userDataOwner[0].photo_id.split("_")[1] + `}).then(e=>{ window.curBox().hide(true);nav.reload(); }) }) },getLang('global_cancel'))" data-title=` + getLang('profile_delete_photo') + ` onmouseover="showTitle(this);" tabindex="0" role="button" aria-label=` + getLang('profile_delete_photo') + `> <div class="ui_thumb_x"></div> </div> </div> </div> <div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"><a id="profile_photo_link" href="https://vk.com/photo` + userPhotoAva + `" onclick="return showPhoto('` + userPhotoAva + `', 'album` + vk.id + `_0/rev', {&quot;temp&quot;:{&quot;x&quot;:&quot;` + photo200 + `&amp;quality=95&amp;sign=0449f67717df7848702286a3d078dbf3&amp;type=album&quot;,&quot;y&quot;:&quot;` + photo200 + `;quality=95&amp;sign=850d65bf30f3e8721f1a76410c013d90&amp;type=album&quot;,&quot;z&quot;:&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,&quot;w&quot;:&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,&quot;x_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=0449f67717df7848702286a3d078dbf3&amp;type=album&quot;,604,499],&quot;y_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=850d65bf30f3e8721f1a76410c013d90&amp;type=album&quot;,807,667],&quot;z_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,1080,893],&quot;w_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,1080,893],&quot;base&quot;:&quot;&quot;},&quot;jumpTo&quot;:{&quot;z&quot;:&quot;albums` + vk.id + `&quot;}}, event)"><img class="page_avatar_img" src="` + photo200 + `"></a> </div> </aside> </div> <div class="owner_photo_bubble_wrap"> <div class="owner_photo_bubble"> <div class="owner_photo_bubble_action owner_photo_bubble_action_update" data-task-click="Page/owner_new_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` + vk.id + `}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` + getLang('profile_update_photo') + `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" data-task-click="Page/owner_edit_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` + vk.id + `,&quot;hash&quot;:&quot;` + getPhotoEditHash() + `&quot;}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` + getLang('profile_edit_small_copy') + `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_effects" onclick="Page.ownerPhotoEffects('` + userPhotoAva + `', ` + vk.id + `)" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` + getLang('profile_photo_action_effects') + `</span> </div> </div> </div>`;
+                    jopa.innerHTML = `<div class="owner_photo_top_bubble_wrap"> <div class="owner_photo_top_bubble"> <div class="ui_thumb_x_button" onclick="showFastBox(getLang('global_warning'), getLang('profile_really_delete_photo'), getLang('global_delete'),()=>{ vkApi.api('users.get',{fields:'photo_id'}).then(e=>{ vkApi.api('photos.delete',{owner_id:` + vk.id + `,photo_id:` + userDataOwner.photo_id.split("_")[1] + `}).then(e=>{ window.curBox().hide(true);nav.reload(); }) }) },getLang('global_cancel'))" data-title=` + getLang('profile_delete_photo') + ` onmouseover="showTitle(this);" tabindex="0" role="button" aria-label=` + getLang('profile_delete_photo') + `> <div class="ui_thumb_x"></div> </div> </div> </div> <div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"><a id="profile_photo_link" href="https://vk.com/photo` + userPhotoAva + `" onclick="return showPhoto('` + userPhotoAva + `', 'album` + vk.id + `_0/rev', {&quot;temp&quot;:{&quot;x&quot;:&quot;` + photo200 + `&amp;quality=95&amp;sign=0449f67717df7848702286a3d078dbf3&amp;type=album&quot;,&quot;y&quot;:&quot;` + photo200 + `;quality=95&amp;sign=850d65bf30f3e8721f1a76410c013d90&amp;type=album&quot;,&quot;z&quot;:&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,&quot;w&quot;:&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,&quot;x_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=0449f67717df7848702286a3d078dbf3&amp;type=album&quot;,604,499],&quot;y_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=850d65bf30f3e8721f1a76410c013d90&amp;type=album&quot;,807,667],&quot;z_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,1080,893],&quot;w_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,1080,893],&quot;base&quot;:&quot;&quot;},&quot;jumpTo&quot;:{&quot;z&quot;:&quot;albums` + vk.id + `&quot;}}, event)"><img class="page_avatar_img" src="` + photo200 + `"></a> </div> </aside> </div> <div class="owner_photo_bubble_wrap"> <div class="owner_photo_bubble"> <div class="owner_photo_bubble_action owner_photo_bubble_action_update" data-task-click="Page/owner_new_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` + vk.id + `}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` + getLang('profile_update_photo') + `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" data-task-click="Page/owner_edit_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` + vk.id + `,&quot;hash&quot;:&quot;` + getPhotoEditHash() + `&quot;}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` + getLang('profile_edit_small_copy') + `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_effects" onclick="Page.ownerPhotoEffects('` + userPhotoAva + `', ` + vk.id + `)" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` + getLang('profile_photo_action_effects') + `</span> </div> </div> </div>`;
                   }
                   catch (error) {
                     jopa.innerHTML = `<div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"> <a id="profile_photo_link"><img class="page_avatar_img" src="` + photo200 + `"></a> </div> </aside> </div> <a class="owner_photo_bubble_action owner_photo_bubble_action_update owner_photo_no_ava" data-task-click="Page/owner_new_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` + vk.id + `}" tabindex="0" role="button" style="
@@ -6923,11 +6954,17 @@ deferredCallback(
 
       async function getUserDataPhoto(objectId) {
         try {
-          var response = await vkApi.api("users.get", {
-            user_ids: objectId,
-            fields:
-              "photo_id,photo_200,first_name_gen",
-          });
+          let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
+function _o(e) {
+          const t = {};
+          if (!e) return t;
+          for (const n of Object.keys(e))
+            n.startsWith("__reactFiber") && (t.fiber = e[n]),
+              n.startsWith("__reactProps") && (t.props = e[n]),
+              n.startsWith("__reactContainer") && (t.container = e[n]);
+          return t;
+        }
+		var response = pizda.store.getState().owner;
           return response;
         } catch (error) {
           console.error(error);
