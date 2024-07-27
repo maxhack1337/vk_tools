@@ -716,6 +716,7 @@ function getMiddleLang(lang) {
             break;
         }
       }
+if (getLocalValue("isMiddleName")) {
 document.arrive("#pedit_general", { existing: true }, async function (e) {
   let pedit_middle = document.createElement('div');
   pedit_middle.classList.add('pedit_row');
@@ -739,6 +740,7 @@ document.arrive("#pedit_general", { existing: true }, async function (e) {
 	e.prepend(pedit_middle);
   }
 });
+}
 ///ОТЧЕСТВО КОНЕЦ///
 ///ДАТА РЕГИ В НОВОМ ПРОФИЛЕ///
 async function getIdAntiAsync1() {
@@ -6632,6 +6634,73 @@ function _o(e) {
           countAddedPhotos++;
           pagePhotosModule.appendChild(photoElement);
         });
+		///ИСТОРИИ В КЛАССИК ПРОФИЛЕ///
+		let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
+		function _o(e) {
+          const t = {};
+          if (!e) return t;
+          for (const n of Object.keys(e))
+            n.startsWith("__reactFiber") && (t.fiber = e[n]),
+              n.startsWith("__reactProps") && (t.props = e[n]),
+              n.startsWith("__reactContainer") && (t.container = e[n]);
+          return t;
+        }
+		let ownerStory = pizda.store.getState().owner;
+		let stories = pizda.store.getState().stories;
+		if(stories.count > 0) {
+			let storyElement = document.createElement('a');
+			storyElement.setAttribute('onclick',`showStory('/owner_feed${ownerStory.id}', {source: 'post_avatar'});`);
+			storyElement.id = 'profile_story';
+			storyElement.classList.add('yPVSkNQu');
+			storyElement.style.backgroundPosition = '50% 50%';
+			storyElement.style.backgroundRepeat = 'no-repeat';
+			let storyStyleImage;
+			try {
+				storyStyleImage = `url(${stories.items[0].stories[0].photo.sizes.at(-1).url})`;
+			}
+			catch(error) {
+				storyStyleImage = `url(${stories.items[0].stories[0].video.image.at(-1).url})`;
+			}
+			storyElement.style.backgroundImage = storyStyleImage;
+			storyElement.style.backgroundSize = 'cover';
+			storyElement.style.cursor = 'pointer';
+			storyElement.style.display = 'inline-block';
+			storyElement.style.height = '123px';
+			storyElement.style.imageRendering = '-webkit-optimize-contrast';
+			storyElement.style.marginLeft = '0px';
+			storyElement.style.position = 'relative';
+			storyElement.style.overflow = 'hidden';
+			storyElement.style.textAlign = 'center';
+			storyElement.style.textDecoration = 'none';
+			storyElement.style.width = `123px`;
+			storyElement.innerHTML = `<span class="EoMSGvQz"></span><div class="WezUccGf">
+    <div class="JDEMGFbn"></div>
+    <div class="gZFGalLh">${getLang('stories_selected_count',stories.items[0].stories.length)}</div>
+  </div>
+<span class="fhwwGZRs"></span>`;
+let styleElement = fromId("vks_blur");
+  if (!styleElement) {
+    styleElement = document.createElement("style");
+    styleElement.id = "vks_blur";
+    document.head.appendChild(styleElement);
+  }
+  styleElement.id = "vks_blur";
+  styleElement.innerHTML = `
+  .page_square_photo.crisp_image:nth-child(5) {display:none;}
+  #profile_story:after{
+    background-image: ${storyStyleImage};
+    filter: blur(5px);
+    content: '.';
+    width: 123px;
+    height: 123px;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+  }`;
+  
+			pagePhotosModule.prepend(storyElement);
+		}
+		///КОНЕЦ ИСТОРИЙ В КЛАССИК ПРОФИЛЕ///
         let photosLoadModule = document.createElement('section');
         photosLoadModule.classList.add("vkEnhancerLoadPhotoModule");
         photosLoadModule.innerHTML = `
