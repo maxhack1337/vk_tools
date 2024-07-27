@@ -6817,7 +6817,7 @@ let styleElement = fromId("vks_blur");
   </a>`;
             }
             appendHereAlbum.appendChild(albumElement);
-          });
+		});}
           ///ДЛЯ ВИДЕО///
           try {
             let videos = document.querySelector('.ProfileVideos').innerHTML;
@@ -6840,7 +6840,7 @@ let styleElement = fromId("vks_blur");
           let audioResponse;
           try {
             audioResponse = await vkApi.api('audio.get', { owner_id: userIDHereWeGoAgain });
-            if (audioResponse.count > 0) {
+            if (audioResponse.count > 0 && !document.querySelector('.vkEnAudioRow')) {
               let newAudioElement = document.createElement('section');
               newAudioElement.classList = "vkuiInternalGroup vkuiGroup vkuiGroup--mode-card vkuiInternalGroup--mode-card vkuiGroup--padding-m Group-module__group--lRMIn Group-module__groupPaddingM Group-module__groupModeCard vkuiInternalGroupCard ProfileGroupEnhancer ProfileAlbumsEnhancer";
               newAudioElement.innerHTML = ` <div class="vkuiGroup__header">
@@ -6922,7 +6922,7 @@ let styleElement = fromId("vks_blur");
             }
           }
           catch (error) { }
-        }
+        
       });
 
 
