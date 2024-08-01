@@ -1,4 +1,4 @@
-console.log('Версия 3.16 Release');
+console.log('Версия 3.17.1 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
@@ -378,7 +378,7 @@ saveSettings.addEventListener('click', (event) => {
         var blob = new Blob([jsonData], { type: 'text/json' });
         var a = document.createElement('a');
 
-        a.download = 'VKEnhancerSettings.json';
+        a.download = 'VKToolsSettings.json';
         a.href = window.URL.createObjectURL(blob);
         a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
         a.click();
