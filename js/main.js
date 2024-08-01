@@ -7464,7 +7464,7 @@ function getAudioDescriptionText(lang) {
   }
 }
 document.arrive(
-  ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper > div > .ActionsMenu",
+  ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper > div > .DropdownReforged__contentWrapper > .ActionsMenu",
   { existing: true },
   function (e) {
     let styleElement = fromId("MEPopperStyle");
@@ -7492,7 +7492,7 @@ document.arrive(
       getLang("mail_added_sticker") +
       "</span></button>";
     var newpanel = document.querySelector(
-      ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper > div > .ActionsMenu"
+      ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper > div > .DropdownReforged__contentWrapper > .ActionsMenu"
     );
     var setElement = document.querySelector(".AudioMenuPopper");
     if (!setElement) {
