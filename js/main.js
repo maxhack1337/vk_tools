@@ -1404,7 +1404,7 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (e)
 */
 ///КОНЕЦ ПЕРЕХОДА К ПЕРВОМУ СООБЩ БЕСЕДЫ - СТАРОЕ///
 ///ПОСТЕРЫ///
-document.arrive("#page_add_media > .media_selector", { existing: true }, function (e) {
+/*document.arrive("#page_add_media > .media_selector", { existing: true }, function (e) {
   let posters = document.createElement('a');
   posters.classList.add('fl_r');
   posters.innerHTML = `<div style="display:block; bottom:-1px; padding-left:6px; width:20px; right: 6px; margin-top:0px; position:relative;" class="poster__open-btn-wrapper poster " id="page_poster_btn">
@@ -1413,7 +1413,7 @@ document.arrive("#page_add_media > .media_selector", { existing: true }, functio
       </div>
     </div>`;
 	e.appendChild(posters);
-});
+});*/
 ///КОНЕЦ ПОСТЕРОВ///
 ///УДАЛЕННОЕ СООБЩЕНИЕ///
 document.arrive(".ConvoHistory__messageBlock", { existing: true }, async function (e) {
