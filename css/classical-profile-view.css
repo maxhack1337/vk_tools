@@ -109,16 +109,17 @@ section:has(>[class^="ClosedProfileBlock-module__container"]) {
 #profile_skeleton {
 	display:none!important;
 }
-#profile_redesigned > div > div > div:has(>div.ProfileHeader a[href="/edit"]) > div.vkuiPopoutRoot.vkuiSplitLayout > div > div.vkuiSplitCol.vkuiSplitCol--viewWidth-smallTabletPlus.vkuiInternalSplitCol--viewWidth-tabletPlus.vkuiSplitCol--spaced-none.vkuiInternalSplitCol--spaced-none.Profile__column
+
+#profile_redesigned > div > div > div:has(>div.ProfileHeader a[href="/edit"]) > div.vkuiPopoutRoot.vkuiSplitLayout > div > .Profile__column
 {
     margin-top:calc(var(--vkenhancer-info-height) - 280px);
 }
 
-#profile_redesigned > div > div > div > div.vkuiPopoutRoot.vkuiSplitLayout > div > div.vkuiSplitCol.vkuiSplitCol--viewWidth-smallTabletPlus.vkuiInternalSplitCol--viewWidth-tabletPlus.vkuiSplitCol--spaced-none.vkuiInternalSplitCol--spaced-none.Profile__column
+#profile_redesigned > div > div > div > div.vkuiPopoutRoot.vkuiSplitLayout > div > .Profile__column
 {
     margin-top:calc(var(--vkenhancer-info-height) - 320px);
 }
-body.anonym #profile_redesigned > div > div > div > div.vkuiPopoutRoot.vkuiSplitLayout > div > div.vkuiSplitCol.vkuiSplitCol--viewWidth-smallTabletPlus.vkuiInternalSplitCol--viewWidth-tabletPlus.vkuiSplitCol--spaced-none.vkuiInternalSplitCol--spaced-none.Profile__column
+body.anonym #profile_redesigned > div > div > div > div.vkuiPopoutRoot.vkuiSplitLayout > div > .Profile__column
 {
     margin-top:calc(var(--vkenhancer-info-height) - 234px);
 }
