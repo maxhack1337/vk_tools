@@ -60,7 +60,7 @@ const newDesignFunctions = [
   "vkm_chat_list_collapse",
   "vkm_show_inviter",
   "vkm_video_chat",
-  "vkm_up_drafted_convos_in_list"
+  "vkm_up_drafted_convos_in_list",
 ];
 const adsSelector = [
   ".page_block.feed_blog_reminder_large",
@@ -88,9 +88,8 @@ const fromId = document.getElementById.bind(document);
 
 let intMedia = false;
 try {
-	intMedia = JSON.parse(localStorage.getItem('intMediaValue'));
-}
-catch(error){}
+  intMedia = JSON.parse(localStorage.getItem("intMediaValue"));
+} catch (error) {}
 var pollResultsValue = false;
 var nechitalkaValue = false;
 var nepisalkaValue = false;
@@ -103,109 +102,243 @@ window.vkenh = {};
 window.vkenh.setEnglishMusic = 0;
 
 async function restoreOrig() {
-                    const e = new window.MessageBox;
-                    if (await new Promise((t => {
-                                e.setOptions({
-                                    title: getLang("photos_filtered_restore")
-                                }),
-                                e.addButton(getLang('box_restore'), (() => {
-                                        t(!0)
-                                    })),
-                                e.addButton(getLang('box_cancel'), (() => e.hide())),
-                                e.content(getLang('payments_verify_start_over_header')),
-                                e.show()
-                            })), !cur.pvCurPhoto)
-                        return;
-                    const[t, a] = cur.pvCurPhoto.id.split("_").map((e => parseInt(e))),
-                    i = cur.pvCurPhoto.peHash;
-                    e.showProgress(),
-                    window.ajax.post("al_photos.php", {
-                        act: "restore_original",
-                        oid: t,
-                        pid: a,
-                        hash: i
-                    }, {
-                        onDone: async function (t, a) {
-                            e.hide(),
-                            window.showPhoto(t.id, a, t),
-                            cur.pvPhoto.getElementsByTagName("img")[0].src = a
-                        }
-                    })
+  const e = new window.MessageBox();
+  if (
+    (await new Promise((t) => {
+      e.setOptions({
+        title: getLang("photos_filtered_restore"),
+      }),
+        e.addButton(getLang("box_restore"), () => {
+          t(!0);
+        }),
+        e.addButton(getLang("box_cancel"), () => e.hide()),
+        e.content(getLang("payments_verify_start_over_header")),
+        e.show();
+    }),
+    !cur.pvCurPhoto)
+  )
+    return;
+  const [t, a] = cur.pvCurPhoto.id.split("_").map((e) => parseInt(e)),
+    i = cur.pvCurPhoto.peHash;
+  e.showProgress(),
+    window.ajax.post(
+      "al_photos.php",
+      {
+        act: "restore_original",
+        oid: t,
+        pid: a,
+        hash: i,
+      },
+      {
+        onDone: async function (t, a) {
+          e.hide(),
+            window.showPhoto(t.id, a, t),
+            (cur.pvPhoto.getElementsByTagName("img")[0].src = a);
+        },
+      }
+    );
 }
 
-document.addEventListener('keydown', function(event) {
-    if ((event.ctrlKey && event.key === ']') || (event.ctrlKey && event.key === 'ъ')) {
-        event.preventDefault();
-        const activeElement = document.activeElement;
+document.addEventListener("keydown", function (event) {
+  if (
+    (event.ctrlKey && event.key === "]") ||
+    (event.ctrlKey && event.key === "ъ")
+  ) {
+    event.preventDefault();
+    const activeElement = document.activeElement;
 
-        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.isContentEditable)) {
-            toggleLayout(activeElement);
-        }
+    if (
+      activeElement &&
+      (activeElement.tagName === "INPUT" ||
+        activeElement.tagName === "TEXTAREA" ||
+        activeElement.isContentEditable)
+    ) {
+      toggleLayout(activeElement);
     }
+  }
 });
 
 function toggleLayout(element) {
-    let selectedText, start, end;
+  let selectedText, start, end;
+
+  if (element.isContentEditable) {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0);
+      selectedText = range.toString();
+      start = range.startOffset;
+      end = range.endOffset;
+    }
+  } else {
+    start = element.selectionStart;
+    end = element.selectionEnd;
+    selectedText = element.value.substring(start, end);
+  }
+
+  if (selectedText) {
+    const convertedText = convertLayout(selectedText);
 
     if (element.isContentEditable) {
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            selectedText = range.toString();
-            start = range.startOffset;
-            end = range.endOffset;
-        }
+      const selection = window.getSelection();
+      const range = selection.getRangeAt(0);
+      range.deleteContents();
+      range.insertNode(document.createTextNode(convertedText));
+      selection.removeAllRanges();
+      selection.addRange(range);
     } else {
-        start = element.selectionStart;
-        end = element.selectionEnd;
-        selectedText = element.value.substring(start, end);
+      const beforeText = element.value.substring(0, start);
+      const afterText = element.value.substring(end);
+
+      element.value = beforeText + convertedText + afterText;
+      element.setSelectionRange(start, start + convertedText.length);
     }
-
-    if (selectedText) {
-        const convertedText = convertLayout(selectedText);
-
-        if (element.isContentEditable) {
-            const selection = window.getSelection();
-            const range = selection.getRangeAt(0);
-            range.deleteContents();
-            range.insertNode(document.createTextNode(convertedText));
-            selection.removeAllRanges();
-            selection.addRange(range);
-        } else {
-            const beforeText = element.value.substring(0, start);
-            const afterText = element.value.substring(end);
-
-            element.value = beforeText + convertedText + afterText;
-            element.setSelectionRange(start, start + convertedText.length);
-        }
-    }
+  }
 }
 
-    function convertLayout(text) {
-        const layoutMap = {
-            'а': 'f', 'б': ',', 'в': 'd', 'г': 'u', 'д': 'l', 'е': 't', 'ё': '`', 'ж': ';', 'з': 'p', 'и': 'b', 
-            'й': 'q', 'к': 'r', 'л': 'k', 'м': 'v', 'н': 'y', 'о': 'j', 'п': 'g', 'р': 'h', 'с': 'c', 'т': 'n', 
-            'у': 'e', 'ф': 'a', 'х': '[', 'ц': 'w', 'ч': 'x', 'ш': 'i', 'щ': 'o', 'ъ': ']', 'ы': 's', 'ь': 'm', 
-            'э': "'", 'ю': '.', 'я': 'z',
+function convertLayout(text) {
+  const layoutMap = {
+    а: "f",
+    б: ",",
+    в: "d",
+    г: "u",
+    д: "l",
+    е: "t",
+    ё: "`",
+    ж: ";",
+    з: "p",
+    и: "b",
+    й: "q",
+    к: "r",
+    л: "k",
+    м: "v",
+    н: "y",
+    о: "j",
+    п: "g",
+    р: "h",
+    с: "c",
+    т: "n",
+    у: "e",
+    ф: "a",
+    х: "[",
+    ц: "w",
+    ч: "x",
+    ш: "i",
+    щ: "o",
+    ъ: "]",
+    ы: "s",
+    ь: "m",
+    э: "'",
+    ю: ".",
+    я: "z",
 
-            'F': 'А', ',': 'Б', 'D': 'В', 'U': 'Г', 'L': 'Д', 'T': 'Е', '`': 'Ё', ';': 'Ж', 'P': 'З', 'B': 'И', 
-            'Q': 'Й', 'R': 'К', 'K': 'Л', 'V': 'М', 'Y': 'Н', 'J': 'О', 'G': 'П', 'H': 'Р', 'C': 'С', 'N': 'Т', 
-            'E': 'У', 'A': 'Ф', '[': 'Х', 'W': 'Ц', 'X': 'Ч', 'I': 'Ш', 'O': 'Щ', ']': 'Ъ', 'S': 'Ы', 'M': 'Ь', 
-            "'": 'Э', '.': 'Ю', 'Z': 'Я',
+    F: "А",
+    ",": "Б",
+    D: "В",
+    U: "Г",
+    L: "Д",
+    T: "Е",
+    "`": "Ё",
+    ";": "Ж",
+    P: "З",
+    B: "И",
+    Q: "Й",
+    R: "К",
+    K: "Л",
+    V: "М",
+    Y: "Н",
+    J: "О",
+    G: "П",
+    H: "Р",
+    C: "С",
+    N: "Т",
+    E: "У",
+    A: "Ф",
+    "[": "Х",
+    W: "Ц",
+    X: "Ч",
+    I: "Ш",
+    O: "Щ",
+    "]": "Ъ",
+    S: "Ы",
+    M: "Ь",
+    "'": "Э",
+    ".": "Ю",
+    Z: "Я",
 
-            'f': 'а', ',': 'б', 'd': 'в', 'u': 'г', 'l': 'д', 't': 'е', '`': 'ё', ';': 'ж', 'p': 'з', 'b': 'и', 
-            'q': 'й', 'r': 'к', 'k': 'л', 'v': 'м', 'y': 'н', 'j': 'о', 'g': 'п', 'h': 'р', 'c': 'с', 'n': 'т', 
-            'e': 'у', 'a': 'ф', '[': 'х', 'w': 'ц', 'x': 'ч', 'i': 'ш', 'o': 'щ', ']': 'ъ', 's': 'ы', 'm': 'ь', 
-            "'": 'э', '.': 'ю', 'z': 'я',
+    f: "а",
+    ",": "б",
+    d: "в",
+    u: "г",
+    l: "д",
+    t: "е",
+    "`": "ё",
+    ";": "ж",
+    p: "з",
+    b: "и",
+    q: "й",
+    r: "к",
+    k: "л",
+    v: "м",
+    y: "н",
+    j: "о",
+    g: "п",
+    h: "р",
+    c: "с",
+    n: "т",
+    e: "у",
+    a: "ф",
+    "[": "х",
+    w: "ц",
+    x: "ч",
+    i: "ш",
+    o: "щ",
+    "]": "ъ",
+    s: "ы",
+    m: "ь",
+    "'": "э",
+    ".": "ю",
+    z: "я",
 
-            'А': 'F', 'Б': ',', 'В': 'D', 'Г': 'U', 'Д': 'L', 'Е': 'T', 'Ё': '`', 'Ж': ';', 'З': 'P', 'И': 'B', 
-            'Й': 'Q', 'К': 'R', 'Л': 'K', 'М': 'V', 'Н': 'Y', 'О': 'J', 'П': 'G', 'Р': 'H', 'С': 'C', 'Т': 'N', 
-            'У': 'E', 'Ф': 'A', 'Х': '[', 'Ц': 'W', 'Ч': 'X', 'Ш': 'I', 'Щ': 'O', 'Ъ': ']', 'Ы': 'S', 'Ь': 'M', 
-            'Э': "'", 'Ю': '.', 'Я': 'Z'
-        };
+    А: "F",
+    Б: ",",
+    В: "D",
+    Г: "U",
+    Д: "L",
+    Е: "T",
+    Ё: "`",
+    Ж: ";",
+    З: "P",
+    И: "B",
+    Й: "Q",
+    К: "R",
+    Л: "K",
+    М: "V",
+    Н: "Y",
+    О: "J",
+    П: "G",
+    Р: "H",
+    С: "C",
+    Т: "N",
+    У: "E",
+    Ф: "A",
+    Х: "[",
+    Ц: "W",
+    Ч: "X",
+    Ш: "I",
+    Щ: "O",
+    Ъ: "]",
+    Ы: "S",
+    Ь: "M",
+    Э: "'",
+    Ю: ".",
+    Я: "Z",
+  };
 
-        return text.split('').map(char => layoutMap[char] || char).join('');
-    }
+  return text
+    .split("")
+    .map((char) => layoutMap[char] || char)
+    .join("");
+}
 
 deferredCallback(
   async (_vk) => {
@@ -218,8 +351,7 @@ async function getUserDataLocalStoragePhoto(objectId) {
   try {
     var response = await vkApi.api("users.get", {
       user_ids: objectId,
-      fields:
-        "photo_id,photo_200",
+      fields: "photo_id,photo_200",
     });
     localStorage.setItem("ownerPhoto200", response[0].photo_200);
   } catch (error) {
@@ -230,9 +362,8 @@ async function getUserDataLocalStoragePhoto(objectId) {
 
 function getLocalValue(item) {
   let store = localStorage.getItem(item);
-  return store !== "undefined" && JSON.parse(store)
+  return store !== "undefined" && JSON.parse(store);
 }
-
 
 function XHRListener() {
   const { send } = XMLHttpRequest.prototype;
@@ -264,15 +395,12 @@ deferredCallback(
   () => {
     let currentVKID = localStorage.getItem("currentVKID");
     let currID = currentVKID ? parseInt(currentVKID) : 0;
-    if (vk.id != currID && vk.id != false) {
+    if (vk.id != currID && vk.id != false && vk.id != 0) {
       localStorage.setItem("convo_history", "[]");
-      window.postMessage(
-        { action: "tokenRemove" },
-        "*"
-      );
+      window.postMessage({ action: "tokenRemove" }, "*");
       localStorage.setItem("currentVKID", vk.id);
     }
-	let styleElement = fromId("CheckValidationPhone");
+    let styleElement = fromId("CheckValidationPhone");
     if (!styleElement) {
       styleElement = document.createElement("style");
       styleElement.id = "CheckValidationPhone";
@@ -311,12 +439,12 @@ deferredCallback(
           e === "execute" &&
           n.code &&
           n.code.includes("messages.markAsRead") &&
-		getLocalValue("nechitalkaValue"))
-         {
-          return new Promise(() => { });
+          getLocalValue("nechitalkaValue")
+        ) {
+          return new Promise(() => {});
         }
         if (e === "messages.setActivity" && getLocalValue("nepisalkaValue")) {
-          return new Promise(() => { });
+          return new Promise(() => {});
         }
         return j.apply(this, Array.prototype.slice.call(arguments));
       };
@@ -351,14 +479,17 @@ window.addEventListener("message", async (event) => {
         () => {
           let orig_ajax = ajax.post;
           ajax.post = function (...e) {
-		    if("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act)
-			{
-				if(e[1].nickname) {
-					e[1].nick_name = e[1].nickname;
-					delete e[1].nickname
-				}
-				else if(!e[1].nick_name){e[1].nick_name = ""}
-			}
+            if (
+              "al_profileEdit.php" === e[0] &&
+              "a_save_general" === e[1].act
+            ) {
+              if (e[1].nickname) {
+                e[1].nick_name = e[1].nickname;
+                delete e[1].nickname;
+              } else if (!e[1].nick_name) {
+                e[1].nick_name = "";
+              }
+            }
             if ((newDesign(), "al_im.php" === e[0] && "im" === e[1]?.__query)) {
               const t = e[2].onDone;
               e[2].onDone = function (...e) {
@@ -383,20 +514,23 @@ window.addEventListener("message", async (event) => {
     }
     case "vkNewDesignOff": {
       localStorage.setItem("isNewDesign", false);
-	  localStorage.setItem("isVKMReforgedDesign", false);
+      localStorage.setItem("isVKMReforgedDesign", false);
       deferredCallback(
         () => {
           let orig_ajax = ajax.post;
           ajax.post = function (...e) {
-		    if("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act)
-			{
-				if(e[1].nickname) {
-					e[1].nick_name = e[1].nickname;
-					delete e[1].nickname
-				}
-				else if(!e[1].nick_name){e[1].nick_name = ""}
-			}
-			const t = orig_ajax.apply(this, e);
+            if (
+              "al_profileEdit.php" === e[0] &&
+              "a_save_general" === e[1].act
+            ) {
+              if (e[1].nickname) {
+                e[1].nick_name = e[1].nickname;
+                delete e[1].nickname;
+              } else if (!e[1].nick_name) {
+                e[1].nick_name = "";
+              }
+            }
+            const t = orig_ajax.apply(this, e);
             return t;
           };
         },
@@ -433,28 +567,28 @@ window.addEventListener("message", async (event) => {
       localStorage.setItem("removePostReactions", true);
       try {
         updateMarginLeft();
-      } catch (error) { }
+      } catch (error) {}
       break;
     }
     case "backPostReactions": {
       localStorage.setItem("removePostReactions", false);
       try {
         backPostReactionsFunc();
-      } catch (error) { }
+      } catch (error) {}
       break;
     }
     case "secretFunctionsEnabled": {
       localStorage.setItem("secretFunctions", true);
       try {
         updateMarginLeft();
-      } catch (error) { }
+      } catch (error) {}
       break;
     }
     case "secretFunctionsDisabled": {
       localStorage.setItem("secretFunctions", false);
       try {
         backPostReactionsFunc();
-      } catch (error) { }
+      } catch (error) {}
       break;
     }
     case "removeAway": {
@@ -473,11 +607,11 @@ window.addEventListener("message", async (event) => {
       localStorage.setItem("isOldHover", event.data.value);
       break;
     }
-	case "defaultThemeFix": {
+    case "defaultThemeFix": {
       localStorage.setItem("isDefaultTheme", event.data.value);
       break;
     }
-	case "oldBadge": {
+    case "oldBadge": {
       localStorage.setItem("isOldBadge", event.data.value);
       break;
     }
@@ -496,123 +630,469 @@ window.addEventListener("message", async (event) => {
   }
 });
 
-document.arrive(".OwnerPageName__icons", { existing: true }, function (e) {
+document.arrive("#owner_page_name", { existing: true }, function (e) {
   updateUsers();
 });
 
 document.arrive(".pv_more_acts", { existing: true }, function (e) {
-   let i = document.createElement('button');
-   i.textContent = getLang("photos_filtered_restore");
-   i.classList.add("pv_more_act_item");
-   i.id = "pv_more_act_orig";
-   i.addEventListener('click',async function() {
-	  restoreOrig(); 
-   });
-  if(cur.pvCurPhoto.actions.edit && window.cur.pvCurPhoto.was_edited) {
-       let styleElement = fromId("restorePhotoStyle");
-  if (!styleElement) {
-    styleElement = create("style", {}, { id: "restorePhotoStyle" });
-    document.head.appendChild(styleElement);
-  }
-  styleElement.innerHTML =
-    `#pv_more_act_orig:before{
+  let i = document.createElement("button");
+  i.textContent = getLang("photos_filtered_restore");
+  i.classList.add("pv_more_act_item");
+  i.id = "pv_more_act_orig";
+  i.addEventListener("click", async function () {
+    restoreOrig();
+  });
+  if (cur.pvCurPhoto.actions.edit && window.cur.pvCurPhoto.was_edited) {
+    let styleElement = fromId("restorePhotoStyle");
+    if (!styleElement) {
+      styleElement = create("style", {}, { id: "restorePhotoStyle" });
+      document.head.appendChild(styleElement);
+    }
+    styleElement.innerHTML = `#pv_more_act_orig:before{
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23fff' viewBox='0 0 20 20'%3E%3Cpath fill-rule='evenodd' d='M10 5.75a.75.75 0 0 1 .75.75v2.837c0 .129 0 .2.003.255a.238.238 0 0 0 .067.164c.037.04.088.09.18.182l1.533 1.531a.75.75 0 1 1-1.06 1.062c-.523-.522-1.044-1.045-1.568-1.566a2.569 2.569 0 0 1-.397-.464 1.75 1.75 0 0 1-.21-.507c-.049-.204-.048-.414-.048-.61.002-.96 0-1.922 0-2.884a.75.75 0 0 1 .75-.75Z M8.106 3.261a7 7 0 1 1-2.847 11.89.75.75 0 0 0-1.015 1.103A8.5 8.5 0 1 0 4 3.98v-.976a.75.75 0 0 0-1.5 0v2.36c0 .058 0 .139.006.212.007.088.027.229.103.379a1 1 0 0 0 .437.437c.15.076.29.096.379.103.073.006.154.006.212.006H6A.75.75 0 0 0 6 5h-.899a7 7 0 0 1 3.005-1.739Z'%3E%3C/path%3E%3C/svg%3E")!important;
 	scale: .9;
 	background-position: 0;}`;
-	e.prepend(i);
-  }
-  else {
-	  const customStyle = fromId("restorePhotoStyle");
-  if (customStyle) {
-    customStyle.remove();
-  }
+    e.prepend(i);
+  } else {
+    const customStyle = fromId("restorePhotoStyle");
+    if (customStyle) {
+      customStyle.remove();
+    }
   }
 });
 
 document.arrive(".ComposerInput__input", { existing: true }, function (e) {
-  e.addEventListener('keydown', function(event) {
-    if ((event.ctrlKey && event.key === ']') || (event.ctrlKey && event.key === 'ъ')) {
-        event.preventDefault();
-        const activeElement = document.activeElement;
+  e.addEventListener("keydown", function (event) {
+    if (
+      (event.ctrlKey && event.key === "]") ||
+      (event.ctrlKey && event.key === "ъ")
+    ) {
+      event.preventDefault();
+      const activeElement = document.activeElement;
 
-        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA' || activeElement.isContentEditable)) {
-            toggleLayout(activeElement);
-        }
+      if (
+        activeElement &&
+        (activeElement.tagName === "INPUT" ||
+          activeElement.tagName === "TEXTAREA" ||
+          activeElement.isContentEditable)
+      ) {
+        toggleLayout(activeElement);
+      }
     }
+  });
 });
-});
+///ГОЛОСОВОЙ ВВОД///
+function golos() {
+  if (!("webkitSpeechRecognition" in window)) {
+    console.log(
+      "[VKENH Error] Ваш браузер не поддерживает Web Speech API. Голосовой ввод недоступен"
+    );
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = "ru-RU";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  let currentEditableElement = null;
+
+  recognition.onstart = function () {
+    if (currentEditableElement) {
+      currentEditableElement.style.backgroundColor = "#e0ffe0";
+    }
+  };
+
+  recognition.onend = function () {
+    if (currentEditableElement) {
+      currentEditableElement.style.backgroundColor = "";
+    }
+  };
+
+  recognition.onresult = function (event) {
+    const transcript = event.results[0][0].transcript;
+    if (currentEditableElement) {
+      if (currentEditableElement.isContentEditable) {
+        currentEditableElement.textContent += transcript;
+      } else {
+        currentEditableElement.value += transcript;
+      }
+    }
+  };
+  let isStarted = false;
+  function handleKeyPress(event) {
+    if (
+      ((event.ctrlKey && event.key === "'") ||
+        (event.ctrlKey && event.key === "э")) &&
+      !isStarted
+    ) {
+      isStarted = true;
+      event.preventDefault();
+      currentEditableElement = event.target;
+      recognition.start();
+    } else if (
+      ((event.ctrlKey && event.key === "'") ||
+        (event.ctrlKey && event.key === "э")) &&
+      isStarted
+    ) {
+      isStarted = false;
+      event.preventDefault();
+      currentEditableElement = event.target;
+      recognition.stop();
+    }
+  }
+  document.arrive(
+    `input, textarea, [contenteditable="true"]`,
+    { existing: true },
+    async function (e) {
+      e.addEventListener("keydown", handleKeyPress);
+    }
+  );
+}
+
+golos();
+///КОНЕЦ ГОЛОСОВОГО ВВОДА///
+///СТАРЫЙ ДИЗАЙН///
+async function appendSecondaryStyles(loc) {
+  if (loc.includes("/album")) {
+    getSecondaryStyle("album");
+  } else {
+    removeSecondaryStyle("album");
+  }
+  if (loc.includes("/badbrowser")) {
+    getSecondaryStyle("badbrowser");
+  } else {
+    removeSecondaryStyle("badbrowser");
+  }
+  if (loc.includes("/docs")) {
+    getSecondaryStyle("docs");
+  } else {
+    removeSecondaryStyle("docs");
+  }
+  if (loc.includes("/edit")) {
+    getSecondaryStyle("edit");
+  } else {
+    removeSecondaryStyle("edit");
+  }
+  if (loc.includes("/gim")) {
+    getSecondaryStyle("gim");
+  } else {
+    removeSecondaryStyle("gim");
+  }
+  if (loc.includes("/playlist")) {
+    getSecondaryStyle("playlists");
+  } else {
+    removeSecondaryStyle("playlists");
+  }
+  if (loc.includes("/settings")) {
+    getSecondaryStyle("settings");
+  } else {
+    removeSecondaryStyle("settings");
+  }
+  if (loc.includes("/sticker")) {
+    getSecondaryStyle("stickers");
+  } else {
+    removeSecondaryStyle("stickers");
+  }
+  if (loc.includes("/video")) {
+    getSecondaryStyle("video");
+    getSecondaryStyle("video2");
+  } else {
+    removeSecondaryStyle("video");
+    removeSecondaryStyle("video2");
+  }
+  if (loc.includes("/wall")) {
+    getSecondaryStyle("wall");
+  } else {
+    removeSecondaryStyle("wall");
+  }
+}
+
+async function getSecondaryStyle(linkstyle) {
+  try {
+    const url1 =
+      `https://vkenhancer.ru/vkold_${linkstyle}.css` +
+      "?_cacheOverride" +
+      new Date().valueOf();
+    const response = await fetch(url1);
+    const oldStyle = await response.text();
+    let styleOld = oldStyle;
+    let styleElement = fromId(linkstyle);
+    if (!styleElement) {
+      styleElement = create("style", {}, { id: linkstyle });
+      document.querySelector("html").appendChild(styleElement);
+    }
+    styleElement.innerHTML = styleOld;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function removeSecondaryStyle(linkstyle) {
+  const customStyle = fromId(linkstyle);
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
+
+if (getLocalValue("secretFunctions")) {
+  window.onload = async function getOldStyle() {
+    try {
+      const url1 =
+        "https://vkenhancer.ru/vkold.css" +
+        "?_cacheOverride" +
+        new Date().valueOf();
+      const response = await fetch(url1);
+      const oldStyle = await response.text();
+      let styleOld = oldStyle;
+      let styleElement = fromId("oldDes");
+      if (!styleElement) {
+        styleElement = create("style", {}, { id: "oldDes" });
+        document.querySelector("html").appendChild(styleElement);
+      }
+      styleElement.innerHTML = styleOld;
+    } catch (error) {
+      console.error(error);
+    }
+    appendSecondaryStyles(window.location.pathname);
+  };
+  document.arrive(`#l_vid > a`, { existing: true }, async function (e) {
+    e.href = `/video/@id${vk.id}`;
+  });
+  document.arrive(
+    `#l_msg [data-testid="leftmenuitem-text"]`,
+    { existing: true },
+    async function (e) {
+      e.textContent = getLang("mail_search_messages");
+    }
+  );
+  document.arrive(
+    `#l_gr [data-testid="leftmenuitem-text"]`,
+    { existing: true },
+    async function (e) {
+      e.textContent = "Группы";
+    }
+  );
+  document.arrive(
+    `#l_doc [data-testid="leftmenuitem-text"]`,
+    { existing: true },
+    async function (e) {
+      e.textContent = "Документы";
+    }
+  );
+  document.arrive(
+    `div[class^="HeaderLayout-module__container"] [class^="TextClamp-module__root"]`,
+    { existing: true },
+    async function (e) {
+      if(e.textContent == getLang('me_files_title')) {
+		e.textContent = 'Документы';
+	  }
+    }
+  );
+  document.arrive(
+    `.page_block_header_extra:has(>.VideoShowcaseMyHeaderActions)`,
+    { existing: true },
+    async function (e) {
+      let vid = document.createElement("div");
+      vid.classList.add("VideoActions");
+      vid.innerHTML = `
+  <div class="VideoActions__item" data-task-click="VideoShowcase/upload_video" data-owner-id="368066032" data-task-mouseover="VideoShowcase/show_main_action_tooltip" data-task-mouseout="VideoShowcase/hide_tooltip" data-text="${getLang(
+    "video_add_video_btn"
+  )}" aria-label="${getLang(
+        "video_add_video_btn"
+      )}" style="font-size: 13px;">${getLang("video_add_video_btn")}</div>
+  <div class="VideoActions__item VideoActions__item--secondary" data-task-click="VideoShowcase/create_live" data-owner-id="368066032" data-task-mouseover="VideoShowcase/show_main_action_tooltip" data-task-mouseout="VideoShowcase/hide_tooltip" data-text="Создать трансляцию" aria-label="Создать трансляцию" style="font-size: 13px;">Создать трансляцию</div>
+  <div class="VideoActions__item VideoActions__item--secondary" data-task-click="VideoShowcase/create_playlist" data-owner-id="185853506" data-task-mouseover="VideoShowcase/show_main_action_tooltip" data-task-mouseout="VideoShowcase/hide_tooltip" data-text="${getLang(
+    "photos_albums_create_album"
+  )}" aria-label="${getLang(
+        "photos_albums_create_album"
+      )}" style="font-size: 13px;">${getLang(
+        "photos_albums_create_album"
+      )}</div>
+  <div class="tt_w tt_black tt_up tocenter" style="position: absolute; opacity: 0; top: 38px; left: 43.4766px; pointer-events: auto; display: none;">
+    <div class="wrapped">
+      <div class="tt_text">Создать трансляцию</div>
+    </div>
+  </div>
+  <div class="tt_w tt_black tt_up tocenter" style="position: absolute; opacity: 1; top: 38px; left: 220.031px; pointer-events: auto; display: none;">
+    <div class="wrapped">
+      <div class="tt_text">${getLang("video_add_video_btn")}</div>
+    </div>
+  </div>
+  <div class="tt_w tt_black tt_up tocenter" style="position: absolute; opacity: 1; top: 38px; left: -104.867px; pointer-events: auto; display: none;">
+    <div class="wrapped">
+      <div class="tt_text">${getLang("photos_albums_create_album")}</div>
+    </div>
+  </div>
+  `;
+      e.appendChild(vid);
+    }
+  );
+  document.arrive(
+    `[class^="VideoModalInfoActions-module__container"]`,
+    { existing: true },
+    async function (e) {
+      let data1 = e.querySelector(".vkuiSimpleCell__subtitle");
+      data1.textContent = getPropsOfVid(
+        document.querySelector("div#mv_main_info")
+      ).container.memoizedState.element.props.date;
+      let views = document.querySelector(
+        '[class*="VideoModalInfoTitle-module__info"]'
+      );
+      views.textContent = getPropsOfVid(
+        document.querySelector("div#mv_main_info")
+      ).container.memoizedState.element.props.views;
+    }
+  );
+  document.arrive(
+    `#mv_main_info .vkuiTappable:has(.vkuiIcon--like_outline_24) > .vkuiTypography,#mv_main_info .vkuiTappable:has(.vkuiIcon--like_circle_fill_red_28) > .vkuiTypography`,
+    { existing: true },
+    async function (e) {
+      let data1 = e.querySelector(".vkuiSimpleCell__subtitle");
+      let idvid = getPropsOfVid(document.querySelector("div#mv_main_info"))
+        .container.memoizedState.element.props.id;
+      let oidvid = getPropsOfVid(document.querySelector("div#mv_main_info"))
+        .container.memoizedState.element.props.owner.id;
+      e.setAttribute(
+        "onmouseover",
+        `Likes.showLikes(this, 'video${oidvid}_${idvid}')`
+      );
+    }
+  );
+  document.arrive(
+    `[aria-label^="Перейти к непрочитанным сообщениям"]`,
+    { existing: true },
+    async function (e) {
+      e.innerHTML += `<span class='story_end'>Перейти в конец истории</span>`;
+    }
+  );
+  function getPropsOfVid(elem) {
+    const t = {};
+    if (!elem) return t;
+    for (const n of Object.keys(elem)) {
+      n.startsWith("__reactFiber") && (t.fiber = elem[n]);
+      n.startsWith("__reactProps") && (t.props = elem[n]);
+      n.startsWith("__reactContainer") && (t.container = elem[n]);
+    }
+    return t;
+  }
+}
+
+///КОНЕЦ СТАРОГО ДИЗАЙНА///
 ///ВСЕГО СООБЩЕНИЙ КОЛВО КОЛИЧЕСТВО///
 function getCounterLang(lang) {
-        switch (lang) {
-          case 0:
-            return "Всего сообщений";
-            break;
-          case 1:
-            return "Всього повідомлень";
-            break;
-          case 454:
-            return "Всього повідомлень";
-            break;
-          case 114:
-            return "Усяго паведамленняў";
-            break;
-          case 2:
-            return "Усяго паведамленняў";
-            break;
-          case 777:
-            return "Всего телеграмм";
-            break;
-          case 97:
-            return "Жалпы хабарлар";
-            break;
-          case 100:
-            return "Всѣго писем";
-            break;
-          default:
-            return "Total messages";
-            break;
-        }
-      }
+  switch (lang) {
+    case 0:
+      return "Всего сообщений";
+      break;
+    case 1:
+      return "Всього повідомлень";
+      break;
+    case 454:
+      return "Всього повідомлень";
+      break;
+    case 114:
+      return "Усяго паведамленняў";
+      break;
+    case 2:
+      return "Усяго паведамленняў";
+      break;
+    case 777:
+      return "Всего телеграмм";
+      break;
+    case 97:
+      return "Жалпы хабарлар";
+      break;
+    case 100:
+      return "Всѣго писем";
+      break;
+    default:
+      return "Total messages";
+      break;
+  }
+}
 function getTextTTNum(lang) {
-        switch (lang) {
-          case 0:
-            return ["Количество сообщений в пределах нормы. Можете пользоваться мессенджером","Количество сообщений приближается к ограничителю в 15.000.000. Будьте внимательны","Количество сообщений приближается к ограничителю в 15.000.000. Рекомендуем скачать архив с сообщениями"];
-            break;
-          case 1:
-            return ["Кількість повідомлень у межах норми. Можете користуватися месенджером","Кількість повідомлень наближається до ліміту до 15.000.000. Будьте уважні","Кількість повідомлень наближається до ліміту до 15.000.000. Рекомендуємо завантажити архів із повідомленнями"];
-            break;
-          case 454:
-            return ["Кількість повідомлень у межах норми. Можете користуватися месенджером","Кількість повідомлень наближається до ліміту до 15.000.000. Будьте уважні","Кількість повідомлень наближається до ліміту до 15.000.000. Рекомендуємо завантажити архів із повідомленнями"];
-            break;
-          case 114:
-            return ["Колькасць паведамленняў у межах нормы. Можаце карыстацца мэсанджарам","Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Будзьце ўважлівыя","Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Рэкамендуем спампаваць архіў з паведамленнямі"];
-            break;
-          case 2:
-            return ["Колькасць паведамленняў у межах нормы. Можаце карыстацца мэсанджарам","Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Будзьце ўважлівыя","Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Рэкамендуем спампаваць архіў з паведамленнямі"];
-            break;
-          case 777:
-            return ["Количество телеграмм в пределах нормы. Можете пользоваться телеграфом","Количество телеграмм приближается к ограничителю в 15.000.000. Будьте внимательны","Количество телеграмм приближается к ограничителю в 15.000.000. Рекомендуем скачать досье с телеграммами"];
-            break;
-          case 97:
-            return ["Хабарламалар саны қалыпты шектерде. Сіз мессенджерді пайдалана аласыз","Хабарламалар саны 15.000.000 шегіне жақындап қалды. Сақ болыңыз","Хабарламалар саны 15.000.000 шегіне жақындап қалды. Хабарламалары бар мұрағатты жүктеп алуды ұсынамыз"];
-            break;
-          case 100:
-            return ["Количество сообщений в пределах нормы. Можете пользоваться мессенджером","Количество сообщений приближается к ограничителю в 15.000.000. Будьте внимательны","Количество сообщений приближается к ограничителю в 15.000.000. Рекомендуем скачать архив с сообщениями"];
-            break;
-          default:
-            return ["The number of messages is within normal limits. You can use messenger","The number of messages is approaching the limit of 15.000.000. Be careful","The number of messages is approaching the limit of 15.000.000. We recommend downloading the archive with messages"];
-            break;
-        }
-      }
-document.arrive(".ConvoList__scrollbar-content", { existing: true }, async function (e) {
-  let countermsg = document.createElement('div');
-  countermsg.classList.add('ConvoList__topFiltersWrap');
-  countermsg.classList.add('vkEnhancerCounterOfMessages');
-  let lastMessage = await vkApi.api('messages.search',{q:"#",count:1});
-  let idMess;
-  try {idMess = lastMessage.items[0].id;}
-  catch (error){idMess = 0;}
-  countermsg.innerHTML = `<div role="button" tabindex="0" class="ConvoListFilter">
+  switch (lang) {
+    case 0:
+      return [
+        "Количество сообщений в пределах нормы. Можете пользоваться мессенджером",
+        "Количество сообщений приближается к ограничителю в 15.000.000. Будьте внимательны",
+        "Количество сообщений приближается к ограничителю в 15.000.000. Рекомендуем скачать архив с сообщениями",
+      ];
+      break;
+    case 1:
+      return [
+        "Кількість повідомлень у межах норми. Можете користуватися месенджером",
+        "Кількість повідомлень наближається до ліміту до 15.000.000. Будьте уважні",
+        "Кількість повідомлень наближається до ліміту до 15.000.000. Рекомендуємо завантажити архів із повідомленнями",
+      ];
+      break;
+    case 454:
+      return [
+        "Кількість повідомлень у межах норми. Можете користуватися месенджером",
+        "Кількість повідомлень наближається до ліміту до 15.000.000. Будьте уважні",
+        "Кількість повідомлень наближається до ліміту до 15.000.000. Рекомендуємо завантажити архів із повідомленнями",
+      ];
+      break;
+    case 114:
+      return [
+        "Колькасць паведамленняў у межах нормы. Можаце карыстацца мэсанджарам",
+        "Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Будзьце ўважлівыя",
+        "Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Рэкамендуем спампаваць архіў з паведамленнямі",
+      ];
+      break;
+    case 2:
+      return [
+        "Колькасць паведамленняў у межах нормы. Можаце карыстацца мэсанджарам",
+        "Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Будзьце ўважлівыя",
+        "Колькасць паведамленняў набліжаецца да абмежавальніка ў 15.000.000. Рэкамендуем спампаваць архіў з паведамленнямі",
+      ];
+      break;
+    case 777:
+      return [
+        "Количество телеграмм в пределах нормы. Можете пользоваться телеграфом",
+        "Количество телеграмм приближается к ограничителю в 15.000.000. Будьте внимательны",
+        "Количество телеграмм приближается к ограничителю в 15.000.000. Рекомендуем скачать досье с телеграммами",
+      ];
+      break;
+    case 97:
+      return [
+        "Хабарламалар саны қалыпты шектерде. Сіз мессенджерді пайдалана аласыз",
+        "Хабарламалар саны 15.000.000 шегіне жақындап қалды. Сақ болыңыз",
+        "Хабарламалар саны 15.000.000 шегіне жақындап қалды. Хабарламалары бар мұрағатты жүктеп алуды ұсынамыз",
+      ];
+      break;
+    case 100:
+      return [
+        "Количество сообщений в пределах нормы. Можете пользоваться мессенджером",
+        "Количество сообщений приближается к ограничителю в 15.000.000. Будьте внимательны",
+        "Количество сообщений приближается к ограничителю в 15.000.000. Рекомендуем скачать архив с сообщениями",
+      ];
+      break;
+    default:
+      return [
+        "The number of messages is within normal limits. You can use messenger",
+        "The number of messages is approaching the limit of 15.000.000. Be careful",
+        "The number of messages is approaching the limit of 15.000.000. We recommend downloading the archive with messages",
+      ];
+      break;
+  }
+}
+document.arrive(
+  ".ConvoList__scrollbar-content",
+  { existing: true },
+  async function (e) {
+    let countermsg = document.createElement("div");
+    countermsg.classList.add("ConvoList__topFiltersWrap");
+    countermsg.classList.add("vkEnhancerCounterOfMessages");
+    let lastMessage = await vkApi.api("messages.search", { q: "#", count: 1 });
+    let idMess;
+    try {
+      idMess = lastMessage.items[0].id;
+    } catch (error) {
+      idMess = 0;
+    }
+    countermsg.innerHTML = `<div role="button" tabindex="0" class="ConvoListFilter">
   <div class="ConvoListFilter__icons">
   <i role="img" class="vkEnIconWatn ConvoListFilter__icon">
   <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--work_outline_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;">
@@ -629,10 +1109,10 @@ document.arrive(".ConvoList__scrollbar-content", { existing: true }, async funct
   </div>
   </div>`;
 
-  let iconn = countermsg.querySelector('.vkEnIconWatn');
-  let counterColor = countermsg.querySelector('.vkEnIconWatnCount');
-  counterColor.style.backgroundColor = "var(--vkui--color_icon_secondary)";
-  const tooltipText = create(
+    let iconn = countermsg.querySelector(".vkEnIconWatn");
+    let counterColor = countermsg.querySelector(".vkEnIconWatnCount");
+    counterColor.style.backgroundColor = "var(--vkui--color_icon_secondary)";
+    const tooltipText = create(
       "span",
       {
         display: "none",
@@ -656,208 +1136,236 @@ document.arrive(".ConvoList__scrollbar-content", { existing: true }, async funct
       },
       { innerText: "Обновить хотбар" }
     );
-  if(idMess < 10000000) {
-	  iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    if (idMess < 10000000) {
+      iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M13.2803 8.78033C13.5732 8.48744 13.5732 8.01256 13.2803 7.71967C12.9874 7.42678 12.5126 7.42678 12.2197 7.71967L9 10.9393L7.78033 9.71967C7.48744 9.42678 7.01256 9.42678 6.71967 9.71967C6.42678 10.0126 6.42678 10.4874 6.71967 10.7803L8.46967 12.5303C8.76256 12.8232 9.23744 12.8232 9.53033 12.5303L13.2803 8.78033Z" fill="#219653"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M18.5 10C18.5 14.6944 14.6944 18.5 10 18.5C5.30558 18.5 1.5 14.6944 1.5 10C1.5 5.30558 5.30558 1.5 10 1.5C14.6944 1.5 18.5 5.30558 18.5 10ZM17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" fill="#219653"/>
 </svg>
 `;
-countermsg.querySelector('.ConvoListFilter').setAttribute(`onclick`,`showFastBox(getLang("me_convo_profile_info"), "${getTextTTNum(vk.lang)[0]}", getLang("global_close"));`);
-  }
-  else if(idMess < 14000000) {
-	  iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      countermsg
+        .querySelector(".ConvoListFilter")
+        .setAttribute(
+          `onclick`,
+          `showFastBox(getLang("me_convo_profile_info"), "${
+            getTextTTNum(vk.lang)[0]
+          }", getLang("global_close"));`
+        );
+    } else if (idMess < 14000000) {
+      iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14Z" fill="#F2994A"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3757 3.36327C12.2181 3.09234 11.4897 2.00101 9.99924 2.00101C8.50879 2.00101 7.79028 3.07794 7.62431 3.36327L1.52311 13.8521C1.11213 14.5586 1.03548 15.4106 1.31378 16.179C1.70981 17.2725 2.74912 18.001 3.91316 18.001H16.0868C17.2509 18.001 18.2902 17.2725 18.6862 16.179C18.9645 15.4106 18.8879 14.5586 18.4769 13.8521L12.3757 3.36327ZM16.0868 16.5025C16.6192 16.5025 17.0946 16.1693 17.2757 15.6692C17.403 15.3178 17.3679 14.9281 17.18 14.6049L11.0788 4.11615C11.0788 4.11615 10.7499 3.49487 9.99921 3.49487C9.24848 3.49487 8.92124 4.11615 8.92124 4.11615L2.82003 14.6049C2.63207 14.9281 2.59701 15.3178 2.72429 15.6692C2.90543 16.1693 3.38077 16.5025 3.91316 16.5025H16.0868Z" fill="#F2994A"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.99994 6.00003C10.4142 6.00003 10.7499 6.33582 10.7499 6.75003V11.25C10.7499 11.6642 10.4142 12 9.99994 12C9.58573 12 9.24994 11.6642 9.24994 11.25V6.75003C9.24994 6.33582 9.58573 6.00003 9.99994 6.00003Z" fill="#F2994A"/>
 </svg>
-`;  
-  countermsg.querySelector('.ConvoListFilter').setAttribute(`onclick`,`showFastBox(getLang("global_warning"), "${getTextTTNum(vk.lang)[1]}", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`);  }
-  else if(idMess < 15000000) {
-	  iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+`;
+      countermsg
+        .querySelector(".ConvoListFilter")
+        .setAttribute(
+          `onclick`,
+          `showFastBox(getLang("global_warning"), "${
+            getTextTTNum(vk.lang)[1]
+          }", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`
+        );
+    } else if (idMess < 15000000) {
+      iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14Z" fill="#EB5757"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M12.3757 3.36327C12.2181 3.09234 11.4897 2.00101 9.99924 2.00101C8.50879 2.00101 7.79028 3.07794 7.62431 3.36327L1.52311 13.8521C1.11213 14.5586 1.03548 15.4106 1.31378 16.179C1.70981 17.2725 2.74912 18.001 3.91316 18.001H16.0868C17.2509 18.001 18.2902 17.2725 18.6862 16.179C18.9645 15.4106 18.8879 14.5586 18.4769 13.8521L12.3757 3.36327ZM16.0868 16.5025C16.6192 16.5025 17.0946 16.1693 17.2757 15.6692C17.403 15.3178 17.3679 14.9281 17.18 14.6049L11.0788 4.11615C11.0788 4.11615 10.7499 3.49487 9.99921 3.49487C9.24848 3.49487 8.92124 4.11615 8.92124 4.11615L2.82003 14.6049C2.63207 14.9281 2.59701 15.3178 2.72429 15.6692C2.90543 16.1693 3.38077 16.5025 3.91316 16.5025H16.0868Z" fill="#EB5757"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.99994 6.00003C10.4142 6.00003 10.7499 6.33582 10.7499 6.75003V11.25C10.7499 11.6642 10.4142 12 9.99994 12C9.58573 12 9.24994 11.6642 9.24994 11.25V6.75003C9.24994 6.33582 9.58573 6.00003 9.99994 6.00003Z" fill="#EB5757"/>
 </svg>
-`;  
-countermsg.querySelector('.ConvoListFilter').setAttribute(`onclick`,`showFastBox(getLang("global_warning"), "${getTextTTNum(vk.lang)[2]}", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`);
+`;
+      countermsg
+        .querySelector(".ConvoListFilter")
+        .setAttribute(
+          `onclick`,
+          `showFastBox(getLang("global_warning"), "${
+            getTextTTNum(vk.lang)[2]
+          }", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`
+        );
+    }
+    e.prepend(countermsg);
   }
-  e.prepend(countermsg);
-});
+);
 ///КОНЕЦ ВСЕГО СООБЩЕНИЙ///
 ///ОТЧЕСТВО///
 function getMiddleLang(lang) {
-        switch (lang) {
-          case 0:
-            return "Отчество:";
-            break;
-          case 1:
-            return "По-батькові:";
-            break;
-          case 454:
-            return "По-батькові:";
-            break;
-          case 114:
-            return "Імя па бацьку:";
-            break;
-          case 2:
-            return "Імя па бацьку:";
-            break;
-          case 777:
-            return "Отчество:";
-            break;
-          case 97:
-            return "Әкенің аты:";
-            break;
-          case 100:
-            return "Отчество:";
-            break;
-          default:
-            return "Middle name:";
-            break;
-        }
-      }
+  switch (lang) {
+    case 0:
+      return "Отчество:";
+      break;
+    case 1:
+      return "По-батькові:";
+      break;
+    case 454:
+      return "По-батькові:";
+      break;
+    case 114:
+      return "Імя па бацьку:";
+      break;
+    case 2:
+      return "Імя па бацьку:";
+      break;
+    case 777:
+      return "Отчество:";
+      break;
+    case 97:
+      return "Әкенің аты:";
+      break;
+    case 100:
+      return "Отчество:";
+      break;
+    default:
+      return "Middle name:";
+      break;
+  }
+}
 if (getLocalValue("isMiddleName")) {
-document.arrive("#pedit_general", { existing: true }, async function (e) {
-  let pedit_middle = document.createElement('div');
-  pedit_middle.classList.add('pedit_row');
-  pedit_middle.classList.add('clear_fix');
-  pedit_middle.style.paddingTop = "20px";
-  pedit_middle.innerHTML = `
+  document.arrive("#pedit_general", { existing: true }, async function (e) {
+    let pedit_middle = document.createElement("div");
+    pedit_middle.classList.add("pedit_row");
+    pedit_middle.classList.add("clear_fix");
+    pedit_middle.style.paddingTop = "20px";
+    pedit_middle.innerHTML = `
         <div class="pedit_label">${getMiddleLang(vk.lang)}</div>
         <div class="pedit_labeled"><input type="text" class="dark" id="pedit_middle_name"></div>
 `;
-  let sep = document.createElement('div');
-  sep.classList.add('pedit_separator');
-  deferredCallback(
-  async (_vk) => {
-      let curmid = await vkApi.api('users.get',{fields:'nickname',id:vk.id});
-		pedit_middle.querySelector('#pedit_middle_name').value = curmid[0].nickname;
-  },
-  { variable: "vkApi" }
-);
-  if(!nav.objLoc.act) {
-	e.prepend(sep);
-	e.prepend(pedit_middle);
-  }
-});
+    let sep = document.createElement("div");
+    sep.classList.add("pedit_separator");
+    deferredCallback(
+      async (_vk) => {
+        let curmid = await vkApi.api("users.get", {
+          fields: "nickname",
+          id: vk.id,
+        });
+        pedit_middle.querySelector("#pedit_middle_name").value =
+          curmid[0].nickname;
+      },
+      { variable: "vkApi" }
+    );
+    if (!nav.objLoc.act) {
+      e.prepend(sep);
+      e.prepend(pedit_middle);
+    }
+  });
 }
 ///ОТЧЕСТВО КОНЕЦ///
 ///ДАТА РЕГИ В НОВОМ ПРОФИЛЕ///
 async function getIdAntiAsync1() {
-        const url = window.location.href;
-        var parts = url.split("/");
-        var username = parts[parts.length - 1];
-        if (username.includes("?")) {
-          username = username.split("?")[0];
-        }
-        const url1 = `https://vkenhancer-api.vercel.app/getId?username=${username}`;
-        return fetch(url1)
-          .then(response => response.json())
-          .then(data => data.response.object_id)
-          .catch(error => {
-            console.error(error);
-            return 1;
-          });
-      }
-	  function getMonthName(month) {
-          var monthNames = [
-            getLang("month1_of"),
-            getLang("month2_of"),
-            getLang("month3_of"),
-            getLang("month4_of"),
-            getLang("month5_of"),
-            getLang("month6_of"),
-            getLang("month7_of"),
-            getLang("month8_of"),
-            getLang("month9_of"),
-            getLang("month10_of"),
-            getLang("month11_of"),
-            getLang("month12_of"),
-          ];
-          return monthNames[parseInt(month) - 1];
-        }
-	  function formatRegister(bdate) {
-          if (!bdate) return null;
-          var parts = bdate.split(".");
-          var day = parts[0];
-          var month = getMonthName(parts[1]);
-          var year = parts[2];
-          var formattedDate = `${day} ${month}`;
-          var profileBDayYearLetter = getLang("profile_birthday_year_date");
-          let regex = /{year}(.*?){\/link_year}/;
-          let match = profileBDayYearLetter.match(regex);
-          let formattedYearLetter = match ? match[1].replace(/\s/g, "") : "";
-          var yearLink = year;
-          if (year) {
-            formattedDate += ` ${yearLink}`;
-          }
-          return `${formattedDate}`;
-        }
-	  function padZero(num) {
-        return num < 10 ? `0${num}` : num;
-      }
-	  function formatRegDate1(unixTimestamp) {
-        const date = new Date(unixTimestamp);
-        const formattedDate = [
-          `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`,
-          `(${padZero(date.getHours())}:${padZero(date.getMinutes())})`
-        ];
-        return formattedDate;
-      }
+  const url = window.location.href;
+  var parts = url.split("/");
+  var username = parts[parts.length - 1];
+  if (username.includes("?")) {
+    username = username.split("?")[0];
+  }
+  const url1 = `https://vkenhancer-api.vercel.app/getId?username=${username}`;
+  return fetch(url1)
+    .then((response) => response.json())
+    .then((data) => data.response.object_id)
+    .catch((error) => {
+      console.error(error);
+      return 1;
+    });
+}
+function getMonthName(month) {
+  var monthNames = [
+    getLang("month1_of"),
+    getLang("month2_of"),
+    getLang("month3_of"),
+    getLang("month4_of"),
+    getLang("month5_of"),
+    getLang("month6_of"),
+    getLang("month7_of"),
+    getLang("month8_of"),
+    getLang("month9_of"),
+    getLang("month10_of"),
+    getLang("month11_of"),
+    getLang("month12_of"),
+  ];
+  return monthNames[parseInt(month) - 1];
+}
+function formatRegister(bdate) {
+  if (!bdate) return null;
+  var parts = bdate.split(".");
+  var day = parts[0];
+  var month = getMonthName(parts[1]);
+  var year = parts[2];
+  var formattedDate = `${day} ${month}`;
+  var profileBDayYearLetter = getLang("profile_birthday_year_date");
+  let regex = /{year}(.*?){\/link_year}/;
+  let match = profileBDayYearLetter.match(regex);
+  let formattedYearLetter = match ? match[1].replace(/\s/g, "") : "";
+  var yearLink = year;
+  if (year) {
+    formattedDate += ` ${yearLink}`;
+  }
+  return `${formattedDate}`;
+}
+function padZero(num) {
+  return num < 10 ? `0${num}` : num;
+}
+function formatRegDate1(unixTimestamp) {
+  const date = new Date(unixTimestamp);
+  const formattedDate = [
+    `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`,
+    `(${padZero(date.getHours())}:${padZero(date.getMinutes())})`,
+  ];
+  return formattedDate;
+}
 async function getRegDateValue1(id) {
-        const regDateAlready = Number(localStorage.getItem(`regDate_${id}`));
-        if (regDateAlready) return formatRegDate1(regDateAlready);
+  const regDateAlready = Number(localStorage.getItem(`regDate_${id}`));
+  if (regDateAlready) return formatRegDate1(regDateAlready);
 
-        const foafGet = await fetch(`https://vk.com/foaf.php?id=${id}`);
-        const response = await foafGet.text();
-        const [, regDateReady] = response.match(/ya:created dc:date="(.+?)"/) || [];
-        if (regDateReady) {
-          const regDateReadyUNIX = new Date(regDateReady).getTime();
-          localStorage.setItem(`regDate_${id}`, regDateReadyUNIX);
-          return formatRegDate1(regDateReadyUNIX);
-        }
-      }
-	  function getRegDateLabelNew(lang) {
-        switch (lang) {
-          case 0:
-            return "Дата регистрации:";
-            break;
-          case 1:
-            return "Дата реєстрації:";
-            break;
-          case 454:
-            return "Дата реєстрації:";
-            break;
-          case 114:
-            return "Дата рэгістрацыі:";
-            break;
-          case 2:
-            return "Дата рэгістрацыі:";
-            break;
-          case 777:
-            return "Дата заведения досье:";
-            break;
-          case 97:
-            return "Тіркеу күні:";
-            break;
-          case 100:
-            return "Дата рѣгистрацiи:";
-            break;
-          default:
-            return "Registration date:";
-            break;
-        }
-      }
-	  document.arrive(`[class^="ProfileFullInfoModal-module__content"]>section:nth-child(1)`, { existing: true }, async function (e) {
-	try {
-          let regDateText1 = getRegDateLabelNew(vk.lang);
-		  let uiddd = await getIdAntiAsync1();
-          let regDateValue1 = await getRegDateValue1(uiddd);
-          let regDateDate1 = formatRegister(regDateValue1[0]);
-          regDateDate1 += " " + regDateValue1[1];
-		  let registrationRow1 = document.createElement(`div`);
-		  registrationRow1.classList.add('ProfileModalMiniInfoCell');
-		  registrationRow1.innerHTML = `
+  const foafGet = await fetch(`https://vk.com/foaf.php?id=${id}`);
+  const response = await foafGet.text();
+  const [, regDateReady] = response.match(/ya:created dc:date="(.+?)"/) || [];
+  if (regDateReady) {
+    const regDateReadyUNIX = new Date(regDateReady).getTime();
+    localStorage.setItem(`regDate_${id}`, regDateReadyUNIX);
+    return formatRegDate1(regDateReadyUNIX);
+  }
+}
+function getRegDateLabelNew(lang) {
+  switch (lang) {
+    case 0:
+      return "Дата регистрации:";
+      break;
+    case 1:
+      return "Дата реєстрації:";
+      break;
+    case 454:
+      return "Дата реєстрації:";
+      break;
+    case 114:
+      return "Дата рэгістрацыі:";
+      break;
+    case 2:
+      return "Дата рэгістрацыі:";
+      break;
+    case 777:
+      return "Дата заведения досье:";
+      break;
+    case 97:
+      return "Тіркеу күні:";
+      break;
+    case 100:
+      return "Дата рѣгистрацiи:";
+      break;
+    default:
+      return "Registration date:";
+      break;
+  }
+}
+document.arrive(
+  `[class^="ProfileFullInfoModal-module__content"]>section:nth-child(1)`,
+  { existing: true },
+  async function (e) {
+    try {
+      let regDateText1 = getRegDateLabelNew(vk.lang);
+      let uiddd = await getIdAntiAsync1();
+      let regDateValue1 = await getRegDateValue1(uiddd);
+      let regDateDate1 = formatRegister(regDateValue1[0]);
+      regDateDate1 += " " + regDateValue1[1];
+      let registrationRow1 = document.createElement(`div`);
+      registrationRow1.classList.add("ProfileModalMiniInfoCell");
+      registrationRow1.innerHTML = `
 		  <div class="ProfileModalMiniInfoCell__before">
 		  <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 ProfileFullCommonInfo__icon" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;">
 		  <path fill="currentColor" d="M7.13 1.323a.75.75 0 0 1 1.043-.197c.749.51 1.235 1.012 1.484 1.56.262.577.212 1.095.128 1.5a10 10 0 0 1-.086.363l-.038.154a2 2 0 0 0-.06.381c-.008.187.025.408.254.721a.75.75 0 1 1-1.21.886c-.43-.586-.565-1.141-.543-1.67.01-.248.055-.472.098-.658l.057-.233c.022-.084.04-.156.06-.249.053-.258.049-.41-.026-.575-.087-.192-.32-.503-.963-.942a.75.75 0 0 1-.198-1.041m9.844 4.73c-.211.338-.49.702-.899.99-.72.509-1.495.721-2.106.889l-.2.055c-.672.189-1.114.357-1.456.745a.75.75 0 0 1-1.124-.992c.657-.744 1.488-1.004 2.175-1.197l.193-.054c.635-.176 1.158-.322 1.653-.67.184-.13.337-.313.49-.56a6 6 0 0 0 .275-.492c.057-.109.119-.226.194-.361.167-.3.39-.662.726-.94a2.04 2.04 0 0 1 1.369-.467.75.75 0 1 1-.018 1.5c-.204-.003-.309.05-.393.12-.111.092-.224.246-.373.514-.039.07-.085.158-.135.254-.11.207-.24.456-.371.666"></path><path fill="currentColor" fill-rule="evenodd" d="M6.145 7.997a2.3 2.3 0 0 1 .505.05c.4.086.727.31 1.021.56.287.244.616.58 1.007.978l1.795 1.83c.387.395.713.727.95 1.016.242.297.457.625.536 1.023a2.25 2.25 0 0 1-.32 1.664c-.22.34-.541.566-.877.752-.327.18-.752.368-1.258.592L6.25 17.899c-.86.38-1.553.686-2.097.872-.521.178-1.088.316-1.61.15a2.25 2.25 0 0 1-1.47-1.482c-.162-.524-.02-1.089.163-1.608.19-.543.502-1.232.89-2.09l1.471-3.255c.23-.509.424-.937.61-1.265q.128-.233.293-.445a1.8 1.8 0 0 1 .472-.432 2.25 2.25 0 0 1 1.173-.347m-1.137 3.009-.809 1.79a5.32 5.32 0 0 0 2.764 3.149l2.032-.898a6.83 6.83 0 0 1-3.987-4.041m5.494 2.905a5.31 5.31 0 0 1-4.339-4.415.8.8 0 0 1 .17.017c.04.008.14.043.366.236.23.195.51.48.933.91l1.746 1.782c.418.425.695.709.883.94.186.227.219.326.227.366q.015.082.014.164m-5.22 2.775a6.8 6.8 0 0 1-1.901-2.079c-.34.752-.581 1.298-.73 1.72a3 3 0 0 0-.14.517c-.016.112-.005.154-.005.154a.75.75 0 0 0 .49.493s.041.012.153-.003c.12-.015.285-.056.519-.136.402-.138.917-.358 1.615-.666Zm8.599-4.702c.746-.137 1.704-.123 2.435.206.353.159.639.384.84.69.2.304.346.737.346 1.365a.75.75 0 0 0 1.5 0c0-.871-.207-1.601-.592-2.188a3.4 3.4 0 0 0-1.478-1.234c-1.106-.498-2.401-.483-3.322-.314a.75.75 0 1 0 .271 1.475m1.989 2.697-.556-.556a.444.444 0 0 0-.628 0l-.556.556a.443.443 0 0 0 0 .628l.556.556a.444.444 0 0 0 .628 0l.556-.556a.443.443 0 0 0 0-.628M5.314 4.129l.556.556a.443.443 0 0 1 0 .627l-.556.556a.444.444 0 0 1-.628 0l-.556-.556a.443.443 0 0 1 0-.627l.556-.556a.444.444 0 0 1 .628 0m8.556-.444-.556-.556a.444.444 0 0 0-.628 0l-.556.556a.443.443 0 0 0 0 .628l.556.556a.444.444 0 0 0 .628 0l.556-.556a.443.443 0 0 0 0-.628m4.444 4.442.556.557a.443.443 0 0 1 0 .627l-.556.556a.444.444 0 0 1-.628 0l-.556-.556a.443.443 0 0 1 0-.627l.556-.557a.444.444 0 0 1 .628 0"></path>
@@ -867,208 +1375,276 @@ async function getRegDateValue1(id) {
 		  <span class="ProfileFullCommonInfo__caption">${regDateText1}
 		  <span>${regDateDate1}</span>
 		  </span></div>
-		  `
-          if (registrationRow1) {
-            e.appendChild(registrationRow1);
-          }
+		  `;
+      if (registrationRow1) {
+        e.appendChild(registrationRow1);
+      }
+    } catch (error) {
+      console.error(
+        "[VKENH Error]: There is no registration date for user " +
+          (await getIdAntiAsync1()) +
+          error
+      );
     }
-    catch (error) {
-          console.error("[VKENH Error]: There is no registration date for user " + await getIdAntiAsync1() + error);
-    }
-});
+  }
+);
 function formatBirthday(bdate) {
-          if (!bdate) return null;
-          var parts = bdate.split(".");
-          var day = parts[0];
-          var month = getMonthName(parts[1]);
-          var year = parts[2];
-          var formattedDate = `${day} ${month}`;
-          var profileBDayYearLetter = getLang("profile_birthday_year_date");
-          let regex = /{year}(.*?){\/link_year}/;
-          let match = profileBDayYearLetter.match(regex);
-          let formattedYearLetter = match ? match[1].replace(/\s/g, "") : "";
-          var yearLink = year
-            ? `<a href="https://vk.com/search/people?birth_year=${year}">${year} ${formattedYearLetter}</a>`
-            : "";
-          if (year) {
-            formattedDate += ` ${yearLink}`;
-          }
-          return `<a href="https://vk.com/search/people?birth_day=${day}&birth_month=${parts[1]}">${formattedDate}</a>`;
-        }
-		
-function getLangYearsOld(e, t, n) {
-        const o = window.langConfig;
-        if (!t || !o) {
-          if (!(0, r.isNumeric)(e)) {
-            const t = new Error("Non-numeric value passed to langNumeric");
-            throw (console.log(e, t), t);
-          }
-          return String(e);
-        }
-        let i;
-        Array.isArray(t)
-          ? ((i = t[1]),
-            e != Math.floor(e)
-              ? (i = t[o.numRules.float])
-              : (o.numRules.int || []).some((n) => {
-                if ("*" === n[0]) return (i = t[n[2]]), !0;
-                const r = n[0] ? e % n[0] : e;
-                return Array.isArray(n[1]) && n[1].includes(r)
-                  ? ((i = t[n[2]]), !0)
-                  : void 0;
-              }))
-          : (i = t);
-        let a = String(e);
-        if (n) {
-          const e = a.split("."),
-            t = [];
-          for (let n = e[0].length - 3; n > -3; n -= 3)
-            t.unshift(e[0].slice(n > 0 ? n : 0, n + 3));
-          (e[0] = t.join(o.numDel)), (a = e.join(o.numDec));
-        }
-        return (i = (i || "%s").replace("%s", a)), i;
-      }
-	  
-	  function getZodiacIndex(den, month) {
-        var value = "";
-        den = Number(den);
-        month = Number(month);
-        switch (month) {
-          case 1:
-            if (den <= 19)
-              value = getZodiacSigns(vk.lang)[9];
-            else
-              value = getZodiacSigns(vk.lang)[10];
-            break;
-          case 2:
-            if (den <= 18)
-              value = getZodiacSigns(vk.lang)[10];
-            else
-              value = getZodiacSigns(vk.lang)[11];
-            break;
-          case 3:
-            if (den <= 20)
-              value = getZodiacSigns(vk.lang)[11];
-            else
-              value = getZodiacSigns(vk.lang)[0];
-            break;
-          case 4:
-            if (den <= 19)
-              value = getZodiacSigns(vk.lang)[0];
-            else
-              value = getZodiacSigns(vk.lang)[1];
-            break;
-          case 5:
-            if (den <= 20)
-              value = getZodiacSigns(vk.lang)[1];
-            else
-              value = getZodiacSigns(vk.lang)[2];
-            break;
-          case 6:
-            if (den <= 21)
-              value = getZodiacSigns(vk.lang)[2];
-            else
-              value = getZodiacSigns(vk.lang)[3];
-            break;
-          case 7:
-            if (den <= 22)
-              value = getZodiacSigns(vk.lang)[3];
-            else
-              value = getZodiacSigns(vk.lang)[4];
-            break;
-          case 8:
-            if (den <= 22)
-              value = getZodiacSigns(vk.lang)[4];
-            else
-              value = getZodiacSigns(vk.lang)[5];
-            break;
-          case 9:
-            if (den <= 22)
-              value = getZodiacSigns(vk.lang)[5];
-            else
-              value = getZodiacSigns(vk.lang)[6];
-            break;
-          case 10:
-            if (den <= 22)
-              value = getZodiacSigns(vk.lang)[6];
-            else
-              value = getZodiacSigns(vk.lang)[7];
-            break;
-          case 11:
-            if (den <= 22)
-              value = getZodiacSigns(vk.lang)[7];
-            else
-              value = getZodiacSigns(vk.lang)[8];
-            break;
-          case 12:
-            if (den <= 21)
-              value = getZodiacSigns(vk.lang)[8];
-            else
-              value = getZodiacSigns(vk.lang)[9];
-            break;
-          default:
-            value = 'Zodiac parsing failed'
-        }
-        return value;
-      }
-      function getZodiacSigns(lang) {
-        switch (lang) {
-          case 0:
-            return ["Овен", "Телец", "Близнецы", "Рак", "Лев", "Дева", "Весы", "Скорпион", "Стрелец", "Козерог", "Водолей", "Рыбы"];
-          case 1:
-          case 454:
-            return ["Овен", "Телец", "Близнюки", "Рак", "Лев", "Діва", "Терези", "Скорпіон", "Стрілець", "Козеріг", "Водолій", "Риби"];
-          case 2:
-          case 114:
-            return ["Баран", "Тэлец", "Блізнюкі", "Рак", "Лев", "Дзева", "Вагі", "Шкапец", "Стралец", "Козераг", "Вадалей", "Рыбы"];
-          case 777:
-          case 100:
-            return ["Овен", "Телец", "Близнецы", "Рак", "Лев", "Дева", "Весы", "Скорпион", "Стрелец", "Козерог", "Водолей", "Рыбы"];
-          case 97:
-            return ["Овен", "Телец", "Близнесін", "Рак", "Лев", "Дева", "Терезе", "Ақшақар", "Оят", "Козерге", "Суғайыр", "Балық"];
-          default:
-            return ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
-        }
-      }
-document.arrive(`.ProfileModalMiniInfoCell:has(.vkuiIcon--gift_outline_20)`, { existing: true }, async function (e) {
-	let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
-function _o(e) {
-          const t = {};
-          if (!e) return t;
-          for (const n of Object.keys(e))
-            n.startsWith("__reactFiber") && (t.fiber = e[n]),
-              n.startsWith("__reactProps") && (t.props = e[n]),
-              n.startsWith("__reactContainer") && (t.container = e[n]);
-          return t;
-        }
-	      let respsp = pizda.store.getState().owner;
-		  let birthday = respsp.bdate;
-	      var formattedBirthday = formatBirthday(birthday);
-          var ageAndZodiac = '';
+  if (!bdate) return null;
+  var parts = bdate.split(".");
+  var day = parts[0];
+  var month = getMonthName(parts[1]);
+  var year = parts[2];
+  var formattedDate = `${day} ${month}`;
+  var profileBDayYearLetter = getLang("profile_birthday_year_date");
+  let regex = /{year}(.*?){\/link_year}/;
+  let match = profileBDayYearLetter.match(regex);
+  let formattedYearLetter = match ? match[1].replace(/\s/g, "") : "";
+  var yearLink = year
+    ? `<a href="https://vk.com/search/people?birth_year=${year}">${year} ${formattedYearLetter}</a>`
+    : "";
+  if (year) {
+    formattedDate += ` ${yearLink}`;
+  }
+  return `<a href="https://vk.com/search/people?birth_day=${day}&birth_month=${parts[1]}">${formattedDate}</a>`;
+}
 
-          var parts = birthday.split('.');
-          if (parts.length === 3) {
-            let bDayFull = birthday;
-            let ptsOfAfe = bDayFull.split('.');
-            let birthYear1 = parseInt(ptsOfAfe[2], 10);
-            let birthMonth1 = parseInt(ptsOfAfe[1], 10);
-            let birthDay1 = parseInt(ptsOfAfe[0], 10);
-            let todayDate1 = new Date();
-            let currentYear1 = todayDate1.getFullYear();
-            let currentMonth1 = todayDate1.getMonth() + 1;
-            let currentDay1 = todayDate1.getDate();
-            let age = currentYear1 - birthYear1;
-            if (currentMonth1 < birthMonth1 || (currentMonth1 === birthMonth1 && currentDay1 < birthDay1)) {
-              age--;
-            }
-            ageAndZodiac = `${getLangYearsOld(age, getLang("global_years_accusative", "raw"))}, ${getZodiacIndex(parts[0], parts[1])}`
-          }
-          else if (parts.length === 2) {
-            ageAndZodiac = `${getZodiacIndex(parts[0], parts[1])}`
-          }
-		  let appherenow = e.querySelector('.ProfileFullCommonInfo__caption');
-		  appherenow.textContent += ' (' + ageAndZodiac + ')';
-});
+function getLangYearsOld(e, t, n) {
+  const o = window.langConfig;
+  if (!t || !o) {
+    if (!(0, r.isNumeric)(e)) {
+      const t = new Error("Non-numeric value passed to langNumeric");
+      throw (console.log(e, t), t);
+    }
+    return String(e);
+  }
+  let i;
+  Array.isArray(t)
+    ? ((i = t[1]),
+      e != Math.floor(e)
+        ? (i = t[o.numRules.float])
+        : (o.numRules.int || []).some((n) => {
+            if ("*" === n[0]) return (i = t[n[2]]), !0;
+            const r = n[0] ? e % n[0] : e;
+            return Array.isArray(n[1]) && n[1].includes(r)
+              ? ((i = t[n[2]]), !0)
+              : void 0;
+          }))
+    : (i = t);
+  let a = String(e);
+  if (n) {
+    const e = a.split("."),
+      t = [];
+    for (let n = e[0].length - 3; n > -3; n -= 3)
+      t.unshift(e[0].slice(n > 0 ? n : 0, n + 3));
+    (e[0] = t.join(o.numDel)), (a = e.join(o.numDec));
+  }
+  return (i = (i || "%s").replace("%s", a)), i;
+}
+
+function getZodiacIndex(den, month) {
+  var value = "";
+  den = Number(den);
+  month = Number(month);
+  switch (month) {
+    case 1:
+      if (den <= 19) value = getZodiacSigns(vk.lang)[9];
+      else value = getZodiacSigns(vk.lang)[10];
+      break;
+    case 2:
+      if (den <= 18) value = getZodiacSigns(vk.lang)[10];
+      else value = getZodiacSigns(vk.lang)[11];
+      break;
+    case 3:
+      if (den <= 20) value = getZodiacSigns(vk.lang)[11];
+      else value = getZodiacSigns(vk.lang)[0];
+      break;
+    case 4:
+      if (den <= 19) value = getZodiacSigns(vk.lang)[0];
+      else value = getZodiacSigns(vk.lang)[1];
+      break;
+    case 5:
+      if (den <= 20) value = getZodiacSigns(vk.lang)[1];
+      else value = getZodiacSigns(vk.lang)[2];
+      break;
+    case 6:
+      if (den <= 21) value = getZodiacSigns(vk.lang)[2];
+      else value = getZodiacSigns(vk.lang)[3];
+      break;
+    case 7:
+      if (den <= 22) value = getZodiacSigns(vk.lang)[3];
+      else value = getZodiacSigns(vk.lang)[4];
+      break;
+    case 8:
+      if (den <= 22) value = getZodiacSigns(vk.lang)[4];
+      else value = getZodiacSigns(vk.lang)[5];
+      break;
+    case 9:
+      if (den <= 22) value = getZodiacSigns(vk.lang)[5];
+      else value = getZodiacSigns(vk.lang)[6];
+      break;
+    case 10:
+      if (den <= 22) value = getZodiacSigns(vk.lang)[6];
+      else value = getZodiacSigns(vk.lang)[7];
+      break;
+    case 11:
+      if (den <= 22) value = getZodiacSigns(vk.lang)[7];
+      else value = getZodiacSigns(vk.lang)[8];
+      break;
+    case 12:
+      if (den <= 21) value = getZodiacSigns(vk.lang)[8];
+      else value = getZodiacSigns(vk.lang)[9];
+      break;
+    default:
+      value = "Zodiac parsing failed";
+  }
+  return value;
+}
+function getZodiacSigns(lang) {
+  switch (lang) {
+    case 0:
+      return [
+        "Овен",
+        "Телец",
+        "Близнецы",
+        "Рак",
+        "Лев",
+        "Дева",
+        "Весы",
+        "Скорпион",
+        "Стрелец",
+        "Козерог",
+        "Водолей",
+        "Рыбы",
+      ];
+    case 1:
+    case 454:
+      return [
+        "Овен",
+        "Телец",
+        "Близнюки",
+        "Рак",
+        "Лев",
+        "Діва",
+        "Терези",
+        "Скорпіон",
+        "Стрілець",
+        "Козеріг",
+        "Водолій",
+        "Риби",
+      ];
+    case 2:
+    case 114:
+      return [
+        "Баран",
+        "Тэлец",
+        "Блізнюкі",
+        "Рак",
+        "Лев",
+        "Дзева",
+        "Вагі",
+        "Шкапец",
+        "Стралец",
+        "Козераг",
+        "Вадалей",
+        "Рыбы",
+      ];
+    case 777:
+    case 100:
+      return [
+        "Овен",
+        "Телец",
+        "Близнецы",
+        "Рак",
+        "Лев",
+        "Дева",
+        "Весы",
+        "Скорпион",
+        "Стрелец",
+        "Козерог",
+        "Водолей",
+        "Рыбы",
+      ];
+    case 97:
+      return [
+        "Овен",
+        "Телец",
+        "Близнесін",
+        "Рак",
+        "Лев",
+        "Дева",
+        "Терезе",
+        "Ақшақар",
+        "Оят",
+        "Козерге",
+        "Суғайыр",
+        "Балық",
+      ];
+    default:
+      return [
+        "Aries",
+        "Taurus",
+        "Gemini",
+        "Cancer",
+        "Leo",
+        "Virgo",
+        "Libra",
+        "Scorpio",
+        "Sagittarius",
+        "Capricorn",
+        "Aquarius",
+        "Pisces",
+      ];
+  }
+}
+document.arrive(
+  `.ProfileModalMiniInfoCell:has(.vkuiIcon--gift_outline_20)`,
+  { existing: true },
+  async function (e) {
+    let pizda = _o(document.getElementById("react_rootprofile"))?.container
+      ?.memoizedState?.element?.props;
+    function _o(e) {
+      const t = {};
+      if (!e) return t;
+      for (const n of Object.keys(e))
+        n.startsWith("__reactFiber") && (t.fiber = e[n]),
+          n.startsWith("__reactProps") && (t.props = e[n]),
+          n.startsWith("__reactContainer") && (t.container = e[n]);
+      return t;
+    }
+    let respsp = pizda.store.getState().owner;
+    let birthday = respsp.bdate;
+    var formattedBirthday = formatBirthday(birthday);
+    var ageAndZodiac = "";
+
+    var parts = birthday.split(".");
+    if (parts.length === 3) {
+      let bDayFull = birthday;
+      let ptsOfAfe = bDayFull.split(".");
+      let birthYear1 = parseInt(ptsOfAfe[2], 10);
+      let birthMonth1 = parseInt(ptsOfAfe[1], 10);
+      let birthDay1 = parseInt(ptsOfAfe[0], 10);
+      let todayDate1 = new Date();
+      let currentYear1 = todayDate1.getFullYear();
+      let currentMonth1 = todayDate1.getMonth() + 1;
+      let currentDay1 = todayDate1.getDate();
+      let age = currentYear1 - birthYear1;
+      if (
+        currentMonth1 < birthMonth1 ||
+        (currentMonth1 === birthMonth1 && currentDay1 < birthDay1)
+      ) {
+        age--;
+      }
+      ageAndZodiac = `${getLangYearsOld(
+        age,
+        getLang("global_years_accusative", "raw")
+      )}, ${getZodiacIndex(parts[0], parts[1])}`;
+    } else if (parts.length === 2) {
+      ageAndZodiac = `${getZodiacIndex(parts[0], parts[1])}`;
+    }
+    let appherenow = e.querySelector(".ProfileFullCommonInfo__caption");
+    appherenow.textContent += " (" + ageAndZodiac + ")";
+  }
+);
 ///КОНЕЦ ДАТЫ РЕГИ В НОВОМ ПРОФИЛЕ///
 ///СТАРЫЙ ДИЗАЙН ПОКАЗАТЬ ВЛОЖЕНИЯ - МЕНЮ ЭНХАНСЕРА///
 function getPeerProps(elem) {
@@ -1089,7 +1665,7 @@ function getPeerProps(elem) {
 }
 
 function getBeginChat(lang) {
-	switch (lang) {
+  switch (lang) {
     case 0:
       return "Перейти в начало чата";
       break;
@@ -1123,19 +1699,21 @@ function getBeginChat(lang) {
   }
 }
 
-document.arrive(".ConvoHeader__controls", { existing: true }, async function (e) {
-  let upToButton = document.createElement('button');
-  upToButton.classList.add('ConvoHeader__action');
- /* upToButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+document.arrive(".ConvoHeader__controls", { existing: true }, async function (
+  e
+) {
+  let upToButton = document.createElement("button");
+  upToButton.classList.add("ConvoHeader__action");
+  /* upToButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
  <path fill="currentColor" fill-rule="evenodd" d="M14.95 3.801a2.72 2.72 0 0 0-3.857 0L5.56 9.35a4.49 4.49 0 0 0 0 6.338 4.46 4.46 0 0 0 6.317 0l.002-.002 2.88-2.86a.75.75 0 0 1 1.057 1.064l-2.877 2.857-.002.002a5.96 5.96 0 0 1-8.439-.001 5.99 5.99 0 0 1 0-8.458l5.534-5.548a4.22 4.22 0 0 1 5.981 0 4.244 4.244 0 0 1 0 5.991l-5.534 5.548a2.486 2.486 0 0 1-3.521 0 2.497 2.497 0 0 1 0-3.525l.002-.002 3.102-3.083a.75.75 0 0 1 1.058 1.064l-3.1 3.08-.001.002a.997.997 0 0 0 0 1.405.986.986 0 0 0 1.398 0l5.534-5.548a2.744 2.744 0 0 0 0-3.873" clip-rule="evenodd"></path></svg>`;*/
- upToButton.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  upToButton.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.2156 12.0544C15.2156 13.8258 13.7764 15.2618 12.001 15.2618C10.2256 15.2618 8.78632 13.8258 8.78632 12.0544C8.78632 10.283 10.2256 8.84698 12.001 8.84698C13.7764 8.84698 15.2156 10.283 15.2156 12.0544ZM12.001 14.1926C13.1846 14.1926 14.1441 13.2353 14.1441 12.0544C14.1441 10.8734 13.1846 9.91611 12.001 9.91611C10.8174 9.91611 9.85787 10.8734 9.85787 12.0544C9.85787 13.2353 10.8174 14.1926 12.001 14.1926Z" fill="currentColor"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M12.4516 3.43023C12.1667 3.43017 11.881 3.43628 11.5961 3.42957C11.4497 3.42613 10.9359 3.41402 10.504 3.75935C10.0803 4.09817 9.92244 4.61563 9.82732 4.99591C9.77042 5.22341 9.66028 5.51469 9.51138 5.79361C9.21102 5.91293 8.92139 6.05313 8.64429 6.21236C8.343 6.15214 8.0578 6.05703 7.85155 5.96106C7.49587 5.79556 6.9931 5.59199 6.46192 5.70814C5.92151 5.8263 5.60785 6.23276 5.51857 6.34845C5.35397 6.56175 5.18343 6.77214 5.00895 6.97747C4.91403 7.08917 4.58233 7.47952 4.57906 8.03068C4.57584 8.57215 4.87853 9.02021 5.11465 9.33381C5.25992 9.52675 5.4219 9.80562 5.54639 10.106C5.45667 10.4029 5.38692 10.7084 5.33867 11.0208C5.09846 11.2312 4.83626 11.4064 4.62525 11.514C4.2754 11.6925 3.80622 11.9629 3.57137 12.4515C3.33255 12.9484 3.45945 13.4443 3.49575 13.5862C3.56253 13.8472 3.6235 14.111 3.67792 14.3748C3.70745 14.518 3.81096 15.0199 4.24413 15.3623C4.67023 15.6992 5.21122 15.7366 5.60377 15.7437C5.83588 15.7479 6.14113 15.7889 6.44388 15.8698C6.62622 16.1346 6.82698 16.3856 7.0443 16.6211C7.05447 16.9324 7.02578 17.2368 6.97791 17.4625C6.89657 17.8462 6.81165 18.38 7.04357 18.8695C7.27988 19.3683 7.74628 19.5823 7.87951 19.6434C8.12445 19.7557 8.36795 19.8744 8.60731 19.9982C8.73719 20.0653 9.19384 20.3015 9.73392 20.1802C10.2642 20.0612 10.6335 19.6646 10.8857 19.3645C11.0397 19.1813 11.2723 18.9631 11.5342 18.7755C11.8429 18.7967 12.159 18.7967 12.4677 18.7755C12.7296 18.9631 12.9622 19.1813 13.1162 19.3645C13.3685 19.6646 13.7377 20.0612 14.268 20.1802C14.8081 20.3015 15.2647 20.0653 15.3946 19.9982C15.634 19.8744 15.8775 19.7558 16.1224 19.6434C16.2557 19.5823 16.7221 19.3683 16.9584 18.8695C17.1903 18.38 17.1054 17.8462 17.024 17.4625C16.9762 17.2368 16.9475 16.9324 16.9576 16.6211C17.1749 16.3856 17.3757 16.1346 17.558 15.8698C17.8608 15.7889 18.166 15.7479 18.3982 15.7437C18.7907 15.7366 19.3317 15.6992 19.7578 15.3623C20.191 15.0199 20.2945 14.5181 20.324 14.3748C20.3784 14.111 20.4394 13.8472 20.5062 13.5862C20.5425 13.4443 20.6694 12.9484 20.4306 12.4515C20.1957 11.9629 19.7265 11.6925 19.3767 11.514C19.1657 11.4064 18.9035 11.2312 18.6633 11.0208C18.615 10.7084 18.5453 10.4029 18.4555 10.106C18.58 9.80562 18.742 9.52675 18.8873 9.33381C19.1234 9.02021 19.4261 8.57215 19.4229 8.03068C19.4196 7.47952 19.0879 7.08917 18.993 6.97746C18.8185 6.77213 18.6479 6.56175 18.4834 6.34845C18.3941 6.23276 18.0804 5.8263 17.54 5.70814C17.0088 5.59199 16.5061 5.79556 16.1504 5.96106C15.9441 6.05703 15.6589 6.15214 15.3576 6.21236C15.0805 6.05313 14.7909 5.91293 14.4905 5.79361C14.3417 5.51469 14.2315 5.22341 14.1746 4.99591C14.0832 4.63046 13.937 4.15753 13.5737 3.82428C13.148 3.43376 12.6467 3.43123 12.4672 3.43032L12.4516 3.43023ZM15.6276 18.6942L14.9481 19.0254C14.6084 19.191 14.4385 19.2738 13.9372 18.6775C13.6562 18.3431 13.2162 17.9541 12.7349 17.6753C12.2544 17.7374 11.7476 17.7374 11.2671 17.6753C10.7858 17.9541 10.3458 18.3431 10.0647 18.6775C9.56342 19.2738 9.39355 19.191 9.05382 19.0254L8.37434 18.6942C8.0346 18.5285 7.86473 18.4457 8.02627 17.6838C8.11524 17.2641 8.15142 16.6911 8.08009 16.1489C7.71605 15.8005 7.3984 15.404 7.13733 14.9697C6.62333 14.7768 6.05396 14.6825 5.62318 14.6747C4.84406 14.6606 4.80154 14.4766 4.71651 14.1084L4.54645 13.3722C4.46142 13.0041 4.41891 12.82 5.113 12.466C5.5005 12.2683 5.97627 11.9295 6.35549 11.5258C6.40173 11.027 6.51264 10.547 6.67976 10.0941C6.51655 9.56053 6.23511 9.04193 5.97138 8.69166C5.50281 8.06933 5.62175 7.92253 5.85963 7.62892L6.33539 7.0417C6.57327 6.74809 6.69221 6.60129 7.39866 6.93C7.78581 7.11015 8.33263 7.27352 8.87449 7.32688C9.29254 7.05018 9.74942 6.82739 10.2352 6.66841C10.5407 6.21002 10.7621 5.6742 10.867 5.25479C11.056 4.49918 11.245 4.49918 11.623 4.49918L12.4437 4.49933C12.7792 4.50179 12.9571 4.54363 13.1349 5.25479C13.2398 5.6742 13.4612 6.21002 13.7667 6.66841C14.2525 6.82739 14.7094 7.05018 15.1274 7.32688C15.6693 7.27352 16.2161 7.11015 16.6033 6.93C17.3097 6.60129 17.4287 6.74809 17.6665 7.0417L18.1423 7.62892C18.3802 7.92253 18.4991 8.06933 18.0305 8.69166C17.7668 9.04193 17.4854 9.56053 17.3222 10.0941C17.4893 10.547 17.6002 11.027 17.6464 11.5258C18.0257 11.9295 18.5014 12.2683 18.8889 12.466C19.583 12.82 19.5405 13.0041 19.4555 13.3722L19.2854 14.1084C19.2004 14.4766 19.1579 14.6606 18.3787 14.6747C17.948 14.6825 17.3786 14.7768 16.8646 14.9697C16.6035 15.404 16.2859 15.8005 15.9218 16.1489C15.8505 16.6911 15.8867 17.2641 15.9757 17.6838C16.1372 18.4457 15.9673 18.5285 15.6276 18.6942Z" fill="currentColor"/>
 <path d="M12.4516 3.43023C12.4565 3.43027 12.4617 3.43029 12.4672 3.43032M12.4516 3.43023L12.4672 3.43032M12.4516 3.43023C12.1667 3.43017 11.881 3.43628 11.5961 3.42957C11.4497 3.42613 10.9359 3.41402 10.504 3.75935C10.0803 4.09817 9.92244 4.61563 9.82732 4.99591C9.77042 5.22341 9.66028 5.51469 9.51138 5.79361C9.21102 5.91293 8.92139 6.05313 8.64429 6.21236C8.343 6.15214 8.0578 6.05703 7.85155 5.96106C7.49587 5.79556 6.9931 5.59199 6.46192 5.70814C5.92151 5.8263 5.60785 6.23276 5.51857 6.34845C5.35397 6.56175 5.18343 6.77214 5.00895 6.97747C4.91403 7.08917 4.58233 7.47952 4.57906 8.03068C4.57584 8.57215 4.87853 9.02021 5.11465 9.33381C5.25992 9.52675 5.4219 9.80562 5.54639 10.106C5.45667 10.4029 5.38692 10.7084 5.33867 11.0208C5.09846 11.2312 4.83626 11.4064 4.62525 11.514C4.2754 11.6925 3.80622 11.9629 3.57137 12.4515C3.33255 12.9484 3.45945 13.4443 3.49575 13.5862C3.56253 13.8472 3.6235 14.111 3.67792 14.3748C3.70745 14.518 3.81096 15.0199 4.24413 15.3623C4.67023 15.6992 5.21122 15.7366 5.60377 15.7437C5.83588 15.7479 6.14113 15.7889 6.44388 15.8698C6.62622 16.1346 6.82698 16.3856 7.0443 16.6211C7.05447 16.9324 7.02578 17.2368 6.97791 17.4625C6.89657 17.8462 6.81165 18.38 7.04357 18.8695C7.27988 19.3683 7.74628 19.5823 7.87951 19.6434C8.12445 19.7557 8.36795 19.8744 8.60731 19.9982C8.73719 20.0653 9.19384 20.3015 9.73392 20.1802C10.2642 20.0612 10.6335 19.6646 10.8857 19.3645C11.0397 19.1813 11.2723 18.9631 11.5342 18.7755C11.8429 18.7967 12.159 18.7967 12.4677 18.7755C12.7296 18.9631 12.9622 19.1813 13.1162 19.3645C13.3685 19.6646 13.7377 20.0612 14.268 20.1802C14.8081 20.3015 15.2647 20.0653 15.3946 19.9982C15.634 19.8744 15.8775 19.7558 16.1224 19.6434C16.2557 19.5823 16.7221 19.3683 16.9584 18.8695C17.1903 18.38 17.1054 17.8462 17.024 17.4625C16.9762 17.2368 16.9475 16.9324 16.9576 16.6211C17.1749 16.3856 17.3757 16.1346 17.558 15.8698C17.8608 15.7889 18.166 15.7479 18.3982 15.7437C18.7907 15.7366 19.3317 15.6992 19.7578 15.3623C20.191 15.0199 20.2945 14.5181 20.324 14.3748C20.3784 14.111 20.4394 13.8472 20.5062 13.5862C20.5425 13.4443 20.6694 12.9484 20.4306 12.4515C20.1957 11.9629 19.7265 11.6925 19.3767 11.514C19.1657 11.4064 18.9035 11.2312 18.6633 11.0208C18.615 10.7084 18.5453 10.4029 18.4555 10.106C18.58 9.80562 18.742 9.52675 18.8873 9.33381C19.1234 9.02021 19.4261 8.57215 19.4229 8.03068C19.4196 7.47952 19.0879 7.08917 18.993 6.97746C18.8185 6.77213 18.6479 6.56175 18.4834 6.34845C18.3941 6.23276 18.0804 5.8263 17.54 5.70814C17.0088 5.59199 16.5061 5.79556 16.1504 5.96106C15.9441 6.05703 15.6589 6.15214 15.3576 6.21236C15.0805 6.05313 14.7909 5.91293 14.4905 5.79361C14.3417 5.51469 14.2315 5.22341 14.1746 4.99591C14.0832 4.63046 13.937 4.15753 13.5737 3.82428C13.148 3.43376 12.6467 3.43123 12.4672 3.43032M14.9481 19.0254L15.6276 18.6942C15.9673 18.5285 16.1372 18.4457 15.9757 17.6838C15.8867 17.2641 15.8505 16.6911 15.9218 16.1489C16.2859 15.8005 16.6035 15.404 16.8646 14.9697C17.3786 14.7768 17.948 14.6825 18.3787 14.6747C19.1579 14.6606 19.2004 14.4766 19.2854 14.1084L19.4555 13.3722C19.5405 13.0041 19.583 12.82 18.8889 12.466C18.5014 12.2683 18.0257 11.9295 17.6464 11.5258C17.6002 11.027 17.4893 10.547 17.3222 10.0941C17.4854 9.56053 17.7668 9.04193 18.0305 8.69166C18.4991 8.06933 18.3802 7.92253 18.1423 7.62892L17.6665 7.0417C17.4287 6.74809 17.3097 6.60129 16.6033 6.93C16.2161 7.11015 15.6693 7.27352 15.1274 7.32688C14.7094 7.05018 14.2525 6.82739 13.7667 6.66841C13.4612 6.21002 13.2398 5.6742 13.1349 5.25479C12.9571 4.54363 12.7792 4.50179 12.4437 4.49933L11.623 4.49918C11.245 4.49918 11.056 4.49918 10.867 5.25479C10.7621 5.6742 10.5407 6.21002 10.2352 6.66841C9.74942 6.82739 9.29254 7.05018 8.87449 7.32688C8.33263 7.27352 7.78581 7.11015 7.39866 6.93C6.69221 6.60129 6.57327 6.74809 6.33539 7.0417L5.85963 7.62892C5.62175 7.92253 5.50281 8.06933 5.97138 8.69166C6.23511 9.04193 6.51655 9.56053 6.67976 10.0941C6.51264 10.547 6.40173 11.027 6.35549 11.5258C5.97627 11.9295 5.5005 12.2683 5.113 12.466C4.41891 12.82 4.46142 13.0041 4.54645 13.3722L4.71651 14.1084C4.80154 14.4766 4.84406 14.6606 5.62318 14.6747C6.05396 14.6825 6.62333 14.7768 7.13733 14.9697C7.3984 15.404 7.71605 15.8005 8.08009 16.1489C8.15142 16.6911 8.11524 17.2641 8.02627 17.6838C7.86473 18.4457 8.0346 18.5285 8.37434 18.6942L9.05382 19.0254C9.39355 19.191 9.56342 19.2738 10.0647 18.6775C10.3458 18.3431 10.7858 17.9541 11.2671 17.6753C11.7476 17.7374 12.2544 17.7374 12.7349 17.6753C13.2162 17.9541 13.6562 18.3431 13.9372 18.6775C14.4385 19.2738 14.6084 19.191 14.9481 19.0254ZM12.001 15.2618C13.7764 15.2618 15.2156 13.8258 15.2156 12.0544C15.2156 10.283 13.7764 8.84698 12.001 8.84698C10.2256 8.84698 8.78632 10.283 8.78632 12.0544C8.78632 13.8258 10.2256 15.2618 12.001 15.2618ZM14.1441 12.0544C14.1441 13.2353 13.1846 14.1926 12.001 14.1926C10.8174 14.1926 9.85787 13.2353 9.85787 12.0544C9.85787 10.8734 10.8174 9.91611 12.001 9.91611C13.1846 9.91611 14.1441 10.8734 14.1441 12.0544Z" stroke="currentColor" stroke-width="0.5"/>
 </svg>
 `;
-  let ActionEnhancerMenu = document.createElement('div');
-  ActionEnhancerMenu.classList = 'ActionsMenu ConvoMainActionsMenu';
+  let ActionEnhancerMenu = document.createElement("div");
+  ActionEnhancerMenu.classList = "ActionsMenu ConvoMainActionsMenu";
   ActionEnhancerMenu.innerHTML = `<button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkEnUp">
   <i class="ActionsMenuAction__icon">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -1148,57 +1726,67 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (e)
   <i class="ActionsMenuAction__icon">
   <svg style = "padding-top: 1px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
  <path style="scale:1.2;" fill="currentColor" fill-rule="evenodd" d="M14.95 3.801a2.72 2.72 0 0 0-3.857 0L5.56 9.35a4.49 4.49 0 0 0 0 6.338 4.46 4.46 0 0 0 6.317 0l.002-.002 2.88-2.86a.75.75 0 0 1 1.057 1.064l-2.877 2.857-.002.002a5.96 5.96 0 0 1-8.439-.001 5.99 5.99 0 0 1 0-8.458l5.534-5.548a4.22 4.22 0 0 1 5.981 0 4.244 4.244 0 0 1 0 5.991l-5.534 5.548a2.486 2.486 0 0 1-3.521 0 2.497 2.497 0 0 1 0-3.525l.002-.002 3.102-3.083a.75.75 0 0 1 1.058 1.064l-3.1 3.08-.001.002a.997.997 0 0 0 0 1.405.986.986 0 0 0 1.398 0l5.534-5.548a2.744 2.744 0 0 0 0-3.873" clip-rule="evenodd"></path></svg></i>
-  <span class="ActionsMenuAction__title">${getLang("me_convo_action_attach")}</span></button>
+  <span class="ActionsMenuAction__title">${getLang(
+    "me_convo_action_attach"
+  )}</span></button>
   
     <button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkEnOnline">
   <i class="ActionsMenuAction__icon">
   <svg width="24" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 9.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0v-4a.75.75 0 0 1 .75-.75z" fill="currentColor"></path><path d="M11 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M3.99 3.99A8.48 8.48 0 0 1 10 1.5c2.35 0 4.47.95 6.01 2.49A8.48 8.48 0 0 1 18.5 10a8.48 8.48 0 0 1-2.49 6.01A8.48 8.48 0 0 1 10 18.5a8.48 8.48 0 0 1-6.01-2.49A8.48 8.48 0 0 1 1.5 10c0-2.35.95-4.47 2.49-6.01zM10 3a6.98 6.98 0 0 0-4.95 2.05A6.98 6.98 0 0 0 3 10c0 1.93.78 3.68 2.05 4.95A6.98 6.98 0 0 0 10 17a6.97 6.97 0 0 0 4.95-2.05A6.97 6.97 0 0 0 17 10a6.98 6.98 0 0 0-2.05-4.95A6.98 6.98 0 0 0 10 3z" fill="currentColor"></path></svg>
-  </i><span class="ActionsMenuAction__title">${getLang("mail_im_mention_online")}</span></button>
+  </i><span class="ActionsMenuAction__title">${getLang(
+    "mail_im_mention_online"
+  )}</span></button>
   </div>`;
-  ActionEnhancerMenu.style.position = 'absolute';
-  ActionEnhancerMenu.style.display = 'none';
-  ActionEnhancerMenu.style.marginTop = '40px';
-  ActionEnhancerMenu.style.right = '20px';
-  ActionEnhancerMenu.style.padding = '4px';
-  upToButton.addEventListener('click', function() {
-    if (ActionEnhancerMenu.style.display == 'none') ActionEnhancerMenu.style.display = 'flex';
-	else ActionEnhancerMenu.style.display = 'none';
+  ActionEnhancerMenu.style.position = "absolute";
+  ActionEnhancerMenu.style.display = "none";
+  ActionEnhancerMenu.style.marginTop = "40px";
+  ActionEnhancerMenu.style.right = "20px";
+  ActionEnhancerMenu.style.padding = "4px";
+  upToButton.addEventListener("click", function () {
+    if (ActionEnhancerMenu.style.display == "none")
+      ActionEnhancerMenu.style.display = "flex";
+    else ActionEnhancerMenu.style.display = "none";
   });
   e.prepend(ActionEnhancerMenu);
   let onlineArr = [];
   try {
-	let onlineUsersOf = getPeerProps(e.parentElement).convo.peerId;
-	let onlUsersRes = await vkApi.api('messages.getConversationMembers',{peer_id:onlineUsersOf,fields:'online_info, photo_50',extended:1});
-	let countOnl = 0;
-	let ita = 0;
-	for (const o of onlUsersRes.profiles) {
-		if (o.online_info.is_online) { 
-			countOnl++;
-			onlineArr[ita] = [o.first_name + " " + o.last_name, o.id, o.photo_50];
-			ita += 1;
-		}
-	}
-	let onlUsDiv = document.createElement('div');
-	onlUsDiv.classList.add('vkenhancerUsersOnline');
-	if(countOnl > 1 && onlineUsersOf > 2000000000) {
-	    onlUsDiv.textContent = '​ - ' + countOnl + ` ` + getLang("global_user_is_online");
-		e.parentElement.querySelector('.ConvoHeader__infoContainer > h5').appendChild(onlUsDiv);
-	}
-	else {
-		ActionEnhancerMenu.querySelector('.vkEnOnline').style.display = "none";
-	}
-  }
-  catch(error) {
-	  
-  }
-  ActionEnhancerMenu.querySelector('.vkEnOnline').addEventListener('click',async function() {
-          let styleElement = fromId("vkenOnline");
-        if (!styleElement) {
-          styleElement = document.createElement("style");
-          styleElement.id = "vkenOnline";
-          document.head.appendChild(styleElement);
-        }
-        styleElement.innerHTML = `
+    let onlineUsersOf = getPeerProps(e.parentElement).convo.peerId;
+    let onlUsersRes = await vkApi.api("messages.getConversationMembers", {
+      peer_id: onlineUsersOf,
+      fields: "online_info, photo_50",
+      extended: 1,
+    });
+    let countOnl = 0;
+    let ita = 0;
+    for (const o of onlUsersRes.profiles) {
+      if (o.online_info.is_online) {
+        countOnl++;
+        onlineArr[ita] = [o.first_name + " " + o.last_name, o.id, o.photo_50];
+        ita += 1;
+      }
+    }
+    let onlUsDiv = document.createElement("div");
+    onlUsDiv.classList.add("vkenhancerUsersOnline");
+    if (countOnl > 1 && onlineUsersOf > 2000000000) {
+      onlUsDiv.textContent =
+        "​ - " + countOnl + ` ` + getLang("global_user_is_online");
+      e.parentElement
+        .querySelector(".ConvoHeader__infoContainer > h5")
+        .appendChild(onlUsDiv);
+    } else {
+      ActionEnhancerMenu.querySelector(".vkEnOnline").style.display = "none";
+    }
+  } catch (error) {}
+  ActionEnhancerMenu.querySelector(".vkEnOnline").addEventListener(
+    "click",
+    async function () {
+      let styleElement = fromId("vkenOnline");
+      if (!styleElement) {
+        styleElement = document.createElement("style");
+        styleElement.id = "vkenOnline";
+        document.head.appendChild(styleElement);
+      }
+      styleElement.innerHTML = `
 		.arrLen{color:var(--vkui--color_text_secondary); padding-left:6px;}
 		::-webkit-scrollbar { background-color: var(--scrollbar_background, var(--vkui--color_background_content)); width: 16px; } ::-webkit-scrollbar-track { background-color: var(--scrollbar_background, var(--vkui--color_background_content)); } ::-webkit-scrollbar-thumb { background-color: var(--scrollbar_thumb, var(--vkui--color_icon_tertiary)); border-radius: 16px; border: 4px solid var(--scrollbar_background, var(--vkui--color_background_content)); } ::-webkit-scrollbar-button { display: none; }
 		.vkEnBgWhiteOnline {
@@ -1236,51 +1824,62 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (e)
 		.vkEnhancerDiv { padding-block: var(--vkui--size_base_padding_vertical--regular); padding-inline: var(--vkui--size_base_padding_horizontal--regular); }
 		.vkEnhancerSpacing { position: relative; box-sizing: border-box; }
 		.vkEnhancerTappable { min-height: 22px; --vkui_internal--icon_color: var(--vkui--color_icon_accent); color: var(--vkui--color_text_accent); justify-content: center; text-align: center; box-sizing: border-box; text-decoration: none; margin: 0; border: 0; inline-size: 100%; background: rgba(0,0,0,0); padding-block: 0; min-block-size: 44px; display: flex; align-items: center; white-space: nowrap; padding-inline: var(--vkui--size_base_padding_horizontal--regular); isolation: isolate; position: relative; border-radius: var(--vkui--size_border_radius--regular); cursor: pointer; --vkui_internal--outline_width: 2px; transition: background-color .15s ease-out; } .vkEnhancerSimpleCell__before { padding-block: 4px; flex-grow: initial; max-inline-size: initial; display: flex; align-items: center; padding-inline-end: 12px; color: var(--vkui_internal--icon_color, var(--vkui--color_icon_accent)); position: relative; z-index: var(--vkui_internal--z_index_tappable_element); } .vkEnhancerSimpleCell__middle { flex-grow: initial; max-inline-size: initial; display: flex; flex-direction: column; justify-content: center; padding-block: 10px; min-inline-size: 0; overflow: hidden; position: relative; z-index: var(--vkui_internal--z_index_tappable_element); } .vkEnhancerSimpleCell__content { justify-content: flex-start; display: flex; align-content: flex-start; align-items: center; max-inline-size: 100%; } .vkEnhancerTypography { font-weight: var(--vkui--font_weight_accent3); font-size: var(--vkui--font_headline1--font_size--compact); line-height: var(--vkui--font_headline1--line_height--compact); color: inherit; text-overflow: ellipsis; overflow: hidden; display: block; margin: 0; padding: 0; } .vkEnhancerVisuallyHidden { position: absolute !important; block-size: 1px !important; inline-size: 1px !important; padding: 0 !important; margin: -1px !important; white-space: nowrap !important; clip: rect(0, 0, 0, 0) !important; clip-path: inset(50%); overflow: hidden !important; border: 0 !important; opacity: 0; } .vkEnhancerTappable:hover{ background-color:var(--vkui--color_transparent--hover); } .vkEnhancerGraffitiList { display: grid; gap: 4px; grid-template-columns: repeat(4,1fr); } .vkEnhancerGraffitiList__item { height: 158px; width: 158px; align-items: center; background-color: var(--vkui--color_transparent--hover); border-radius: 10px; cursor: pointer; display: flex; justify-content: center; transition: all .15s ease; vertical-align: bottom; } .vkEnhancerGraffitiList__item:hover { background-color: var(--vkui--color_transparent--active); } .vkEnhancerGraffitiList__item--doc { background-position: 50%; background-repeat: no-repeat; background-size: contain; border-radius: 10px; height: 158px; width: 158px; } .vkEnhancerCloseButton { position: absolute; justify-content: center; inset-block-start: 0; inset-inline-end: -56px; inline-size: 56px; block-size: 56px; padding: 18px; box-sizing: border-box; color: var(--vkui--color_icon_contrast); transition: opacity .15s ease-out; isolation: isolate; border-radius: var(--vkui--size_border_radius--regular); cursor: pointer; --vkui_internal--outline_width: 2px; } .vkEnhancerCloseButton:before { display: block; content: ""; inset: 14px; background: var(--vkui--color_overlay_primary); border-radius: 50%; position: absolute; } .vkEnhancerCloseButton:hover:before { background:var(--vkui--color_overlay_primary--hover); } .vkEnhancerVisuallyHidden { position: absolute !important; block-size: 1px !important; inline-size: 1px !important; padding: 0 !important; margin: -1px !important; white-space: nowrap !important; clip: rect(0, 0, 0, 0) !important; clip-path: inset(50%); overflow: hidden !important; border: 0 !important; opacity: 0; z-index: var(--vkui_internal--z_index_tappable_element); }`;
-       
-	await VKEnhancerOnineBox(onlineArr);
-  });
+
+      await VKEnhancerOnineBox(onlineArr);
+    }
+  );
   let memoizedPeer = getPeerProps(e.parentElement).peer.id;
-  ActionEnhancerMenu.querySelector('.vkEnAttaches').addEventListener('click',function() {
-	window.showWiki({w: `history${memoizedPeer}_photo` }, null, {});
-	ActionEnhancerMenu.style.display = "none";
-  });
+  ActionEnhancerMenu.querySelector(".vkEnAttaches").addEventListener(
+    "click",
+    function () {
+      window.showWiki({ w: `history${memoizedPeer}_photo` }, null, {});
+      ActionEnhancerMenu.style.display = "none";
+    }
+  );
   let cmid;
   //console.log(memoizedPeer);
   try {
-	let reoo = await vkApi.api('messages.getHistory',{count:1,peer_id:memoizedPeer,rev:1});
-	cmid = reoo.items[0].conversation_message_id;
+    let reoo = await vkApi.api("messages.getHistory", {
+      count: 1,
+      peer_id: memoizedPeer,
+      rev: 1,
+    });
+    cmid = reoo.items[0].conversation_message_id;
+  } catch (error) {
+    cmid = 1;
   }
-  catch(error) {
-	cmid = 1;  
-  }
-  ActionEnhancerMenu.querySelector('.vkEnUp').addEventListener('click',function() {
-  let urlS1 = window.location.href;
-	if (urlS1.includes("?")) {
-  nav.go(`${urlS1}&cmid=${cmid}`);
-} else {
-  nav.go(`${urlS1}?cmid=${cmid}`);
-}
-	ActionEnhancerMenu.style.display = "none";
-  });
-  try{
-  e.prepend(upToButton); }
-  catch(error){}
+  ActionEnhancerMenu.querySelector(".vkEnUp").addEventListener(
+    "click",
+    function () {
+      let urlS1 = window.location.href;
+      if (urlS1.includes("?")) {
+        nav.go(`${urlS1}&cmid=${cmid}`);
+      } else {
+        nav.go(`${urlS1}?cmid=${cmid}`);
+      }
+      ActionEnhancerMenu.style.display = "none";
+    }
+  );
+  try {
+    e.prepend(upToButton);
+  } catch (error) {}
 });
 
 function onClose() {
-		let customStyle = fromId("vkenOnline");
-      if (customStyle) {
-        customStyle.remove();
-      }
-      let mainGrafBox = document.querySelector('.vkEnhancerOnlineMainBox');
-      mainGrafBox.remove();
-    }
+  let customStyle = fromId("vkenOnline");
+  if (customStyle) {
+    customStyle.remove();
+  }
+  let mainGrafBox = document.querySelector(".vkEnhancerOnlineMainBox");
+  mainGrafBox.remove();
+}
 
 async function VKEnhancerOnineBox(onlineArr) {
-	  let arrLen = onlineArr.length;
-      let boxG = document.createElement("div");
-      boxG.classList.add("vkEnhancerOnlineMainBox");
-      boxG.innerHTML = `<div class="vkEnhancerModalPage__in-wrap" style="opacity: 1;">
+  let arrLen = onlineArr.length;
+  let boxG = document.createElement("div");
+  boxG.classList.add("vkEnhancerOnlineMainBox");
+  boxG.innerHTML =
+    `<div class="vkEnhancerModalPage__in-wrap" style="opacity: 1;">
   <div class="vkEnhancerModalPage__in">
     <div class="vkEnhancerModalPage__header">
       <div class="vkEnhancerModalPageHeader vkEnhancerModalPageHeader--withGaps vkEnhancerModalPageHeader--desktop">
@@ -1289,7 +1888,9 @@ async function VKEnhancerOnineBox(onlineArr) {
             <div class="vkEnhancerPanelHeader__content">
               <h2 class="vkEnhancerPanelHeader__content-in" id=":r1:-label" style="
     display: flex;
-">` + getLang("mail_im_mention_online") + `<div class="arrLen">${arrLen}</div></h2>
+">` +
+    getLang("mail_im_mention_online") +
+    `<div class="arrLen">${arrLen}</div></h2>
             </div>
           </div>
         </div>
@@ -1317,15 +1918,15 @@ async function VKEnhancerOnineBox(onlineArr) {
     </div>
   </div>
 </div>`;
-      let peerList = boxG.querySelector('.vkenPeerList');
-	  //console.log(onlineArr);
-	  for (const user of onlineArr) {
-		let peer = document.createElement(`a`);
-		peer.title = user[0];
-		peer.classList.add('PeerListItemLink');
-		peer.href = `/id${user[1]}`;
-		peer.target = `_blank`;
-		peer.innerHTML = `
+  let peerList = boxG.querySelector(".vkenPeerList");
+  //console.log(onlineArr);
+  for (const user of onlineArr) {
+    let peer = document.createElement(`a`);
+    peer.title = user[0];
+    peer.classList.add("PeerListItemLink");
+    peer.href = `/id${user[1]}`;
+    peer.target = `_blank`;
+    peer.innerHTML = `
 		<div class="PeerListItem PeerListItem--clickable" tabindex="-1">
   <div class="PeerListItem__main">
     <div class="PeerListItem__avatar" style="
@@ -1350,32 +1951,37 @@ async function VKEnhancerOnineBox(onlineArr) {
   </div>
 </div>
 		`;
-		peerList.appendChild(peer);
-	  }
-	  let boxLayer = document.getElementById('box_layer');
-      boxG.style.top = "0px";
-      boxG.style.zIndex = "999999";
-      boxG.style.backgroundColor = "#000000B3";
-      document.body.appendChild(boxG);
-      let closeButton = document.querySelector('.vkEnhancerCloseButton');
-      closeButton.addEventListener("click", function () {
-        onClose();
-      });
-      boxG.addEventListener("click", function (event) {
-        if (!event.target.closest('.vkEnhancerModalPage__in-wrap')) {
-          onClose();
-        }
-      });
+    peerList.appendChild(peer);
+  }
+  let boxLayer = document.getElementById("box_layer");
+  boxG.style.top = "0px";
+  boxG.style.zIndex = "999999";
+  boxG.style.backgroundColor = "#000000B3";
+  document.body.appendChild(boxG);
+  let closeButton = document.querySelector(".vkEnhancerCloseButton");
+  closeButton.addEventListener("click", function () {
+    onClose();
+  });
+  boxG.addEventListener("click", function (event) {
+    if (!event.target.closest(".vkEnhancerModalPage__in-wrap")) {
+      onClose();
     }
+  });
+}
 ///КОНЕЦ СТАРОГО ДИЗАЙНА ПОКАЗАТЬ ВЛОЖЕНИЯ - МЕНЮ ЭНХАНСЕРА///
 ///РЕДАКТОР ГРАФФИТИ В КОММЕНТАХ///
 document.arrive(".ms_items_more._more_items", { existing: true }, function (e) {
-	let grafelem = document.createElement('a');
-	grafelem.classList.add('ms_item');
-	grafelem.classList.add('ms_item_graf');
-	grafelem.innerHTML = `<span class="MediaSelector__mediaIcon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M6.66738 12.4934C5.66072 12.4934 4.89771 13.2639 4.85288 14.219C4.78943 15.5707 4.14574 16.3782 3.56758 16.8697C4.09576 17.0241 4.83625 17.0816 5.79412 16.7965C7.69684 16.2301 8.48106 15.0732 8.48106 14.1836C8.48106 13.2865 7.70617 12.4934 6.66738 12.4934ZM3.35859 14.1483C3.44019 12.4098 4.84452 10.9918 6.66738 10.9918C8.4581 10.9918 9.977 12.3845 9.977 14.1836C9.977 15.9903 8.47815 17.5638 6.21942 18.2361C4.06158 18.8784 2.57907 18.2114 1.87062 17.688C1.78649 17.6258 1.66019 17.5141 1.57758 17.3353C1.48322 17.131 1.47952 16.9126 1.54181 16.7213C1.69148 16.2618 2.17858 16.0626 2.52898 15.7829C2.9113 15.4778 3.31759 15.0219 3.35859 14.1483Z"></path><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M15.7019 2.00141C16.312 1.36368 17.3109 1.32806 17.9631 1.93024C18.6094 2.527 18.68 3.5332 18.1327 4.21788L12.0531 11.716C11.7923 12.0376 11.3212 12.0861 11.0008 11.8244C10.6804 11.5626 10.6321 11.0897 10.8928 10.7681L16.9669 3.27699C17.0242 3.20385 17.0127 3.09301 16.9503 3.0354C16.8833 2.97354 16.8169 3.009 16.7482 3.07474L9.74543 9.7831C9.44658 10.0694 8.97312 10.0583 8.68792 9.75831C8.40272 9.45834 8.41378 8.98309 8.71263 8.69681L15.7019 2.00141Z"></path></svg></span>${getLang("mail_added_graffiti")} (editor)`;
-	grafelem.setAttribute(`onclick`,`showBox("al_wall.php", {act: "canvas_draw_box"}, {stat: [window.jsc("web/graffiti_new.js")],cache: 1,onDone: (e,t)=>{window.Graffiti.initDrawBox(e, t)}})`);
-	e.appendChild(grafelem);
+  let grafelem = document.createElement("a");
+  grafelem.classList.add("ms_item");
+  grafelem.classList.add("ms_item_graf");
+  grafelem.innerHTML = `<span class="MediaSelector__mediaIcon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M6.66738 12.4934C5.66072 12.4934 4.89771 13.2639 4.85288 14.219C4.78943 15.5707 4.14574 16.3782 3.56758 16.8697C4.09576 17.0241 4.83625 17.0816 5.79412 16.7965C7.69684 16.2301 8.48106 15.0732 8.48106 14.1836C8.48106 13.2865 7.70617 12.4934 6.66738 12.4934ZM3.35859 14.1483C3.44019 12.4098 4.84452 10.9918 6.66738 10.9918C8.4581 10.9918 9.977 12.3845 9.977 14.1836C9.977 15.9903 8.47815 17.5638 6.21942 18.2361C4.06158 18.8784 2.57907 18.2114 1.87062 17.688C1.78649 17.6258 1.66019 17.5141 1.57758 17.3353C1.48322 17.131 1.47952 16.9126 1.54181 16.7213C1.69148 16.2618 2.17858 16.0626 2.52898 15.7829C2.9113 15.4778 3.31759 15.0219 3.35859 14.1483Z"></path><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M15.7019 2.00141C16.312 1.36368 17.3109 1.32806 17.9631 1.93024C18.6094 2.527 18.68 3.5332 18.1327 4.21788L12.0531 11.716C11.7923 12.0376 11.3212 12.0861 11.0008 11.8244C10.6804 11.5626 10.6321 11.0897 10.8928 10.7681L16.9669 3.27699C17.0242 3.20385 17.0127 3.09301 16.9503 3.0354C16.8833 2.97354 16.8169 3.009 16.7482 3.07474L9.74543 9.7831C9.44658 10.0694 8.97312 10.0583 8.68792 9.75831C8.40272 9.45834 8.41378 8.98309 8.71263 8.69681L15.7019 2.00141Z"></path></svg></span>${getLang(
+    "mail_added_graffiti"
+  )} (editor)`;
+  grafelem.setAttribute(
+    `onclick`,
+    `showBox("al_wall.php", {act: "canvas_draw_box"}, {stat: [window.jsc("web/graffiti_new.js")],cache: 1,onDone: (e,t)=>{window.Graffiti.initDrawBox(e, t)}})`
+  );
+  e.appendChild(grafelem);
 });
 ///КОНЕЦ РЕДАКТОРА ГРАФФИТИ В КОММЕНТАХ///
 ///ПЕРЕХОД К ПЕРВОМУ СООБЩ БЕСЕДЫ - СТАРОЕ///
@@ -1416,59 +2022,77 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (e)
 });*/
 ///КОНЕЦ ПОСТЕРОВ///
 ///УДАЛЕННОЕ СООБЩЕНИЕ///
-document.arrive(".ConvoHistory__messageBlock", { existing: true }, async function (e) {
-  try {
-    let currentProps = getMessageProps(e);
-    let ph = await vkApi.api('messages.getByConversationMessageId', { peer_id: currentProps[1], conversation_message_ids: currentProps[0] });
-    if (ph.count == 0) {
-      e.classList.add("vkEnhancerDeletedMessageMain");
-      const appendHere = e.querySelector(".ConvoMessageBottomInfo,.ConvoMessage__info");
-      if (appendHere) {
-	  					  const customStyle = fromId("DeletedMessageTT");
-  if (customStyle) {
-    customStyle.remove();
-  }
-        const spanDeleted = document.createElement("span");
-        spanDeleted.setAttribute('onmouseover', `showTooltip(this, { text: '${getLang("mail_deleted_stop")}', black: true, shift: [12, 5] });`)
-        spanDeleted.classList.add("vkEnhancerDeletedMessage");
-        spanDeleted.style.width = "16px";
-        spanDeleted.style.height = "16px";
-        spanDeleted.style.margin = "4px";
-        spanDeleted.innerHTML = `<svg width="16" height="16" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+document.arrive(
+  ".ConvoHistory__messageBlock",
+  { existing: true },
+  async function (e) {
+    try {
+      let currentProps = getMessageProps(e);
+      let ph = await vkApi.api("messages.getByConversationMessageId", {
+        peer_id: currentProps[1],
+        conversation_message_ids: currentProps[0],
+      });
+      if (ph.count == 0) {
+        e.classList.add("vkEnhancerDeletedMessageMain");
+        const appendHere = e.querySelector(
+          ".ConvoMessageBottomInfo,.ConvoMessage__info"
+        );
+        if (appendHere) {
+          const customStyle = fromId("DeletedMessageTT");
+          if (customStyle) {
+            customStyle.remove();
+          }
+          const spanDeleted = document.createElement("span");
+          spanDeleted.setAttribute(
+            "onmouseover",
+            `showTooltip(this, { text: '${getLang(
+              "mail_deleted_stop"
+            )}', black: true, shift: [12, 5] });`
+          );
+          spanDeleted.classList.add("vkEnhancerDeletedMessage");
+          spanDeleted.style.width = "16px";
+          spanDeleted.style.height = "16px";
+          spanDeleted.style.margin = "4px";
+          spanDeleted.innerHTML = `<svg width="16" height="16" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M18.7782 18.7782C23.0739 14.4824 23.0739 7.51761 18.7782 3.22184C14.4824 -1.07393 7.51759 -1.07393 3.22183 3.22184C-1.07394 7.51761 -1.07394 14.4824 3.22183 18.7782C7.51759 23.074 14.4824 23.074 18.7782 18.7782ZM12.4142 11L15.2426 13.8284C15.6332 14.219 15.6332 14.8521 15.2426 15.2427C14.8521 15.6332 14.219 15.6332 13.8284 15.2427L11 12.4142L8.17157 15.2427C7.78105 15.6332 7.14788 15.6332 6.75736 15.2427C6.36683 14.8521 6.36684 14.219 6.75736 13.8284L9.58579 11L6.75736 8.17159C6.36684 7.78106 6.36684 7.1479 6.75736 6.75737C7.14788 6.36685 7.78105 6.36685 8.17157 6.75737L11 9.5858L13.8284 6.75737C14.219 6.36685 14.8521 6.36685 15.2426 6.75737C15.6332 7.1479 15.6332 7.78106 15.2426 8.17159L12.4142 11Z" fill="#E64646"/>
 </svg>`;
-        appendHere.append(spanDeleted)
-      }
-      const appendHere1 = e.querySelector(".ConvoMessageInfoWithoutBubbles");
-      if (appendHere1) {
-	  									    let styleElement = fromId("DeletedMessageTT");
-  if (!styleElement) {
-    styleElement = create("style", {}, { id: "DeletedMessageTT" });
-    document.head.appendChild(styleElement);
-  }
-  styleElement.innerHTML =
-    `.ConvoMessageWithoutBubble__wrapper .tt_w:after{display:none;}`;
-        const divDeleted = document.createElement("div");
-        divDeleted.setAttribute('onmouseover', `showTooltip(this, { text: '${getLang("mail_deleted_stop")}', black: true, shift: [52, 5] });`)
-        divDeleted.classList.add("vkEnhancerDeletedMessageWithoutBubbles");
-        divDeleted.style.width = "16px";
-        divDeleted.style.height = "16px";
-        divDeleted.style.margin = "4px";
-        divDeleted.innerHTML = `<svg width="16" height="16" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          appendHere.append(spanDeleted);
+        }
+        const appendHere1 = e.querySelector(".ConvoMessageInfoWithoutBubbles");
+        if (appendHere1) {
+          let styleElement = fromId("DeletedMessageTT");
+          if (!styleElement) {
+            styleElement = create("style", {}, { id: "DeletedMessageTT" });
+            document.head.appendChild(styleElement);
+          }
+          styleElement.innerHTML = `.ConvoMessageWithoutBubble__wrapper .tt_w:after{display:none;}`;
+          const divDeleted = document.createElement("div");
+          divDeleted.setAttribute(
+            "onmouseover",
+            `showTooltip(this, { text: '${getLang(
+              "mail_deleted_stop"
+            )}', black: true, shift: [52, 5] });`
+          );
+          divDeleted.classList.add("vkEnhancerDeletedMessageWithoutBubbles");
+          divDeleted.style.width = "16px";
+          divDeleted.style.height = "16px";
+          divDeleted.style.margin = "4px";
+          divDeleted.innerHTML = `<svg width="16" height="16" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M18.7782 18.7782C23.0739 14.4824 23.0739 7.51761 18.7782 3.22184C14.4824 -1.07393 7.51759 -1.07393 3.22183 3.22184C-1.07394 7.51761 -1.07394 14.4824 3.22183 18.7782C7.51759 23.074 14.4824 23.074 18.7782 18.7782ZM12.4142 11L15.2426 13.8284C15.6332 14.219 15.6332 14.8521 15.2426 15.2427C14.8521 15.6332 14.219 15.6332 13.8284 15.2427L11 12.4142L8.17157 15.2427C7.78105 15.6332 7.14788 15.6332 6.75736 15.2427C6.36683 14.8521 6.36684 14.219 6.75736 13.8284L9.58579 11L6.75736 8.17159C6.36684 7.78106 6.36684 7.1479 6.75736 6.75737C7.14788 6.36685 7.78105 6.36685 8.17157 6.75737L11 9.5858L13.8284 6.75737C14.219 6.36685 14.8521 6.36685 15.2426 6.75737C15.6332 7.1479 15.6332 7.78106 15.2426 8.17159L12.4142 11Z" fill="#E64646"/>
 </svg>`;
-        appendHere1.prepend(divDeleted)
+          appendHere1.prepend(divDeleted);
+        }
       }
-    }
-  } catch (error) { }
-});
+    } catch (error) {}
+  }
+);
 deferredCallback(
   () => {
-    MECommonContext.then(e => {
+    MECommonContext.then((e) => {
       const n = e.engine.fetchMaster;
       const store = e.store;
       e.engine.fetchMaster = async function (...e) {
-        const l = await n.apply(this, e)
+        const l = await n.apply(this, e);
         let mess = [];
         for (const e of l.updates) {
           const [n] = e;
@@ -1476,73 +2100,95 @@ deferredCallback(
             case 10002: {
               const [, t, n, o] = e;
               if (n > 10000) {
-                document.querySelectorAll(".ConvoHistory__messageBlock").forEach(se => {
-                  if (getMessagePropsMin(se) == e[1]) {
-                    se.classList.add("vkEnhancerDeletedMessageMain");
-                    const appendHere = se.querySelector(".ConvoMessageBottomInfo,.ConvoMessage__info");
-                    if (appendHere) {
-					  const customStyle = fromId("DeletedMessageTT");
-  if (customStyle) {
-    customStyle.remove();
-  }
-                      const spanDeleted = document.createElement("span");
-                      spanDeleted.setAttribute('onmouseover', `showTooltip(this, { text: '${getLang("mail_deleted_stop")}', black: true, shift: [12, 5] });`)
-                      spanDeleted.classList.add("vkEnhancerDeletedMessage");
-                      spanDeleted.style.width = "16px";
-                      spanDeleted.style.height = "16px";
-                      spanDeleted.style.margin = "4px";
-                      spanDeleted.innerHTML = `<svg width="16" height="16" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                document
+                  .querySelectorAll(".ConvoHistory__messageBlock")
+                  .forEach((se) => {
+                    if (getMessagePropsMin(se) == e[1]) {
+                      se.classList.add("vkEnhancerDeletedMessageMain");
+                      const appendHere = se.querySelector(
+                        ".ConvoMessageBottomInfo,.ConvoMessage__info"
+                      );
+                      if (appendHere) {
+                        const customStyle = fromId("DeletedMessageTT");
+                        if (customStyle) {
+                          customStyle.remove();
+                        }
+                        const spanDeleted = document.createElement("span");
+                        spanDeleted.setAttribute(
+                          "onmouseover",
+                          `showTooltip(this, { text: '${getLang(
+                            "mail_deleted_stop"
+                          )}', black: true, shift: [12, 5] });`
+                        );
+                        spanDeleted.classList.add("vkEnhancerDeletedMessage");
+                        spanDeleted.style.width = "16px";
+                        spanDeleted.style.height = "16px";
+                        spanDeleted.style.margin = "4px";
+                        spanDeleted.innerHTML = `<svg width="16" height="16" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M18.7782 18.7782C23.0739 14.4824 23.0739 7.51761 18.7782 3.22184C14.4824 -1.07393 7.51759 -1.07393 3.22183 3.22184C-1.07394 7.51761 -1.07394 14.4824 3.22183 18.7782C7.51759 23.074 14.4824 23.074 18.7782 18.7782ZM12.4142 11L15.2426 13.8284C15.6332 14.219 15.6332 14.8521 15.2426 15.2427C14.8521 15.6332 14.219 15.6332 13.8284 15.2427L11 12.4142L8.17157 15.2427C7.78105 15.6332 7.14788 15.6332 6.75736 15.2427C6.36683 14.8521 6.36684 14.219 6.75736 13.8284L9.58579 11L6.75736 8.17159C6.36684 7.78106 6.36684 7.1479 6.75736 6.75737C7.14788 6.36685 7.78105 6.36685 8.17157 6.75737L11 9.5858L13.8284 6.75737C14.219 6.36685 14.8521 6.36685 15.2426 6.75737C15.6332 7.1479 15.6332 7.78106 15.2426 8.17159L12.4142 11Z" fill="#E64646"/>
 </svg>`;
-                      appendHere.append(spanDeleted)
-                    }
-                    const appendHere1 = se.querySelector(".ConvoMessageInfoWithoutBubbles");
-                    if (appendHere1) {
-									    let styleElement = fromId("DeletedMessageTT");
-  if (!styleElement) {
-    styleElement = create("style", {}, { id: "DeletedMessageTT" });
-    document.head.appendChild(styleElement);
-  }
-  styleElement.innerHTML =
-    `.ConvoMessageWithoutBubble__wrapper .tt_w:after{display:none;}`;
-                      const divDeleted = document.createElement("div");
-                      divDeleted.setAttribute('onmouseover', `showTooltip(this, { text: '${getLang("mail_deleted_stop")}', black: true, shift: [52, 5] });`)
-                      divDeleted.classList.add("vkEnhancerDeletedMessageWithoutBubbles");
-                      divDeleted.style.width = "16px";
-                      divDeleted.style.height = "16px";
-                      divDeleted.style.margin = "4px";
-                      divDeleted.innerHTML = `<svg width="16" height="16" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        appendHere.append(spanDeleted);
+                      }
+                      const appendHere1 = se.querySelector(
+                        ".ConvoMessageInfoWithoutBubbles"
+                      );
+                      if (appendHere1) {
+                        let styleElement = fromId("DeletedMessageTT");
+                        if (!styleElement) {
+                          styleElement = create(
+                            "style",
+                            {},
+                            { id: "DeletedMessageTT" }
+                          );
+                          document.head.appendChild(styleElement);
+                        }
+                        styleElement.innerHTML = `.ConvoMessageWithoutBubble__wrapper .tt_w:after{display:none;}`;
+                        const divDeleted = document.createElement("div");
+                        divDeleted.setAttribute(
+                          "onmouseover",
+                          `showTooltip(this, { text: '${getLang(
+                            "mail_deleted_stop"
+                          )}', black: true, shift: [52, 5] });`
+                        );
+                        divDeleted.classList.add(
+                          "vkEnhancerDeletedMessageWithoutBubbles"
+                        );
+                        divDeleted.style.width = "16px";
+                        divDeleted.style.height = "16px";
+                        divDeleted.style.margin = "4px";
+                        divDeleted.innerHTML = `<svg width="16" height="16" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M18.7782 18.7782C23.0739 14.4824 23.0739 7.51761 18.7782 3.22184C14.4824 -1.07393 7.51759 -1.07393 3.22183 3.22184C-1.07394 7.51761 -1.07394 14.4824 3.22183 18.7782C7.51759 23.074 14.4824 23.074 18.7782 18.7782ZM12.4142 11L15.2426 13.8284C15.6332 14.219 15.6332 14.8521 15.2426 15.2427C14.8521 15.6332 14.219 15.6332 13.8284 15.2427L11 12.4142L8.17157 15.2427C7.78105 15.6332 7.14788 15.6332 6.75736 15.2427C6.36683 14.8521 6.36684 14.219 6.75736 13.8284L9.58579 11L6.75736 8.17159C6.36684 7.78106 6.36684 7.1479 6.75736 6.75737C7.14788 6.36685 7.78105 6.36685 8.17157 6.75737L11 9.5858L13.8284 6.75737C14.219 6.36685 14.8521 6.36685 15.2426 6.75737C15.6332 7.1479 15.6332 7.78106 15.2426 8.17159L12.4142 11Z" fill="#E64646"/>
 </svg>`;
-                      appendHere1.prepend(divDeleted)
+                        appendHere1.prepend(divDeleted);
+                      }
                     }
-                  }
-                });
+                  });
               } else {
                 mess.push(e);
               }
-              break
+              break;
             }
             case 10019: {
               mess.push(e);
-              break
+              break;
             }
             case 10005: {
               mess.push(e);
-              break
+              break;
             }
             default: {
-              mess.push(e)
+              mess.push(e);
               break;
             }
           }
           //console.log(store.getState(),e)
         }
-        return l.updates = mess, l
-      }
-    })
+        return (l.updates = mess), l;
+      };
+    });
   },
-  { variable: "MECommonContext" });
+  { variable: "MECommonContext" }
+);
 
 function getMessagePropsMin(elem) {
   try {
@@ -1566,49 +2212,60 @@ function getMessagePropsMin(elem) {
 }
 ///КОНЕЦ УДАЛЕННОГО СООБШЕНИЯ///
 ///РЕДАКТИРОВАНИЕ СООБЩЕНИЯ///
-document.arrive(".ConvoHistory__messageBlock", { existing: true }, function (e) {
-  const key = 'convoMessage' + getMessageProps(e)[1] + "_" + getMessageProps(e)[0];
+document.arrive(".ConvoHistory__messageBlock", { existing: true }, function (
+  e
+) {
+  const key =
+    "convoMessage" + getMessageProps(e)[1] + "_" + getMessageProps(e)[0];
   if (!localStorage.getItem(key)) {
     localStorage.setItem(key, e.innerHTML);
   }
-  e.addEventListener('mouseover',function() {
-		let buttonShowOrig = document.createElement('a');
-		buttonShowOrig.style.color = "var(--vkui--color_icon_secondary)";
-		buttonShowOrig.style.padding = "4px";
-		buttonShowOrig.style.width = "28px";
-		buttonShowOrig.style.height = "28px";
-		buttonShowOrig.style.position = "relative";
-		buttonShowOrig.classList.add('vkEnButtonShowOrig');
-		buttonShowOrig.innerHTML = `<svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--stars_20" viewBox="0 0 20 20" width="14" height="14" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" d="M12.004 8.13c-.368.835-.857 1.717-1.507 2.367s-1.532 1.14-2.367 1.507c.835.367 1.717.857 2.367 1.507s1.14 1.532 1.507 2.367c.367-.835.857-1.717 1.507-2.367s1.532-1.14 2.367-1.507c-.835-.368-1.717-.857-2.367-1.507s-1.14-1.532-1.507-2.367m-.785-2.178c-.421 1.317-1.014 2.716-1.782 3.485-.769.768-2.168 1.36-3.485 1.782a21 21 0 0 1-1.162.338c-.38.1-.38.793 0 .894a27 27 0 0 1 .912.26q.124.037.25.078c1.317.421 2.716 1.014 3.485 1.782s1.36 2.168 1.782 3.485a21 21 0 0 1 .27.907l.068.255c.1.38.793.38.894 0a28 28 0 0 1 .26-.912q.037-.124.078-.25c.421-1.317 1.014-2.717 1.782-3.485s2.168-1.36 3.485-1.782a21 21 0 0 1 .907-.27l.255-.068c.38-.1.38-.793 0-.894a28 28 0 0 1-.912-.26l-.25-.078c-1.317-.421-2.717-1.014-3.485-1.782-.768-.769-1.36-2.168-1.782-3.485a21 21 0 0 1-.338-1.162c-.1-.38-.793-.38-.894 0a27 27 0 0 1-.26.912zM4.365.763a.385.385 0 0 0-.73 0l-.414 1.24a1.93 1.93 0 0 1-1.218 1.218l-1.24.414a.385.385 0 0 0 0 .73l1.24.414a1.93 1.93 0 0 1 1.218 1.218l.414 1.24a.385.385 0 0 0 .73 0l.414-1.24a1.93 1.93 0 0 1 1.218-1.218l1.24-.414a.385.385 0 0 0 0-.73l-1.24-.414a1.93 1.93 0 0 1-1.218-1.218z"></path></svg>`;
-		buttonShowOrig.setAttribute('onmouseover', 'this.style.backgroundColor = `var(--vkui--color_background_secondary)`');
-		buttonShowOrig.setAttribute('onmouseout', 'this.style.backgroundColor = `transparent`');
-		let msg = e;
-		if (getAllMessageProps(msg)?.updatedAt) {
-			if(!e.querySelector('.vkEnButtonShowOrig')) 
-			{
-				try {
-					e.querySelector('.MessageActionsButtonWrapper').prepend(buttonShowOrig);
-				}
-				catch(error){}
-			}
-			let originalProps = getMessageProps(msg);
-			buttonShowOrig.addEventListener('click', function () {
-				msg.innerHTML = localStorage.getItem("convoMessage" + originalProps[1] + "_" + originalProps[0]);
-				buttonShowOrig.textContent = getLang("photos_pe_apply_changes").toLowerCase() + "! ​";
-				buttonShowOrig.style.pointerEvents = "none";
-			});
-		}
+  e.addEventListener("mouseover", function () {
+    let buttonShowOrig = document.createElement("a");
+    buttonShowOrig.style.color = "var(--vkui--color_icon_secondary)";
+    buttonShowOrig.style.padding = "4px";
+    buttonShowOrig.style.width = "28px";
+    buttonShowOrig.style.height = "28px";
+    buttonShowOrig.style.position = "relative";
+    buttonShowOrig.classList.add("vkEnButtonShowOrig");
+    buttonShowOrig.innerHTML = `<svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--stars_20" viewBox="0 0 20 20" width="14" height="14" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" d="M12.004 8.13c-.368.835-.857 1.717-1.507 2.367s-1.532 1.14-2.367 1.507c.835.367 1.717.857 2.367 1.507s1.14 1.532 1.507 2.367c.367-.835.857-1.717 1.507-2.367s1.532-1.14 2.367-1.507c-.835-.368-1.717-.857-2.367-1.507s-1.14-1.532-1.507-2.367m-.785-2.178c-.421 1.317-1.014 2.716-1.782 3.485-.769.768-2.168 1.36-3.485 1.782a21 21 0 0 1-1.162.338c-.38.1-.38.793 0 .894a27 27 0 0 1 .912.26q.124.037.25.078c1.317.421 2.716 1.014 3.485 1.782s1.36 2.168 1.782 3.485a21 21 0 0 1 .27.907l.068.255c.1.38.793.38.894 0a28 28 0 0 1 .26-.912q.037-.124.078-.25c.421-1.317 1.014-2.717 1.782-3.485s2.168-1.36 3.485-1.782a21 21 0 0 1 .907-.27l.255-.068c.38-.1.38-.793 0-.894a28 28 0 0 1-.912-.26l-.25-.078c-1.317-.421-2.717-1.014-3.485-1.782-.768-.769-1.36-2.168-1.782-3.485a21 21 0 0 1-.338-1.162c-.1-.38-.793-.38-.894 0a27 27 0 0 1-.26.912zM4.365.763a.385.385 0 0 0-.73 0l-.414 1.24a1.93 1.93 0 0 1-1.218 1.218l-1.24.414a.385.385 0 0 0 0 .73l1.24.414a1.93 1.93 0 0 1 1.218 1.218l.414 1.24a.385.385 0 0 0 .73 0l.414-1.24a1.93 1.93 0 0 1 1.218-1.218l1.24-.414a.385.385 0 0 0 0-.73l-1.24-.414a1.93 1.93 0 0 1-1.218-1.218z"></path></svg>`;
+    buttonShowOrig.setAttribute(
+      "onmouseover",
+      "this.style.backgroundColor = `var(--vkui--color_background_secondary)`"
+    );
+    buttonShowOrig.setAttribute(
+      "onmouseout",
+      "this.style.backgroundColor = `transparent`"
+    );
+    let msg = e;
+    if (getAllMessageProps(msg)?.updatedAt) {
+      if (!e.querySelector(".vkEnButtonShowOrig")) {
+        try {
+          e.querySelector(".MessageActionsButtonWrapper").prepend(
+            buttonShowOrig
+          );
+        } catch (error) {}
+      }
+      let originalProps = getMessageProps(msg);
+      buttonShowOrig.addEventListener("click", function () {
+        msg.innerHTML = localStorage.getItem(
+          "convoMessage" + originalProps[1] + "_" + originalProps[0]
+        );
+        buttonShowOrig.textContent =
+          getLang("photos_pe_apply_changes").toLowerCase() + "! ​";
+        buttonShowOrig.style.pointerEvents = "none";
+      });
+    }
   });
 });
 
-window.addEventListener('beforeunload', () => {
-  Object.keys(localStorage).forEach(key => {
+window.addEventListener("beforeunload", () => {
+  Object.keys(localStorage).forEach((key) => {
     if (key.startsWith("convoMessage") || key.startsWith("deletedMSG")) {
       localStorage.removeItem(key);
     }
   });
 });
-
 
 function getMessageProps(elem) {
   try {
@@ -1625,9 +2282,13 @@ function getMessageProps(elem) {
       if (n === 2) break;
     }
 
-    return [t.fiber.return.memoizedProps.message.cmid, t.fiber.return.memoizedProps.message.peerId];
+    return [
+      t.fiber.return.memoizedProps.message.cmid,
+      t.fiber.return.memoizedProps.message.peerId,
+    ];
+  } catch (error) {
+    return [0, 0];
   }
-  catch (error) { return [0, 0] }
 }
 function getAllMessageProps(elem) {
   try {
@@ -1645,8 +2306,9 @@ function getAllMessageProps(elem) {
     }
 
     return t.fiber.return.memoizedProps.message;
+  } catch (error) {
+    return [0, 0];
   }
-  catch (error) { return [0, 0] }
 }
 ///КОНЕЦ РЕДАКТИРОВАНИЯ СООБЩЕНИЯ///
 ///СКАЧИВАНИЕ ВИДЕО///
@@ -1654,63 +2316,81 @@ document.arrive(".videoplayer_btn_mute", { existing: true }, function (e) {
   let quality;
   let vidUrl;
   try {
-    quality = Math.max(...Object.keys(window.mvcur.player.media.vars).filter(e => e.startsWith("url")).map(url => parseInt(url.match(/\d+/)[0])));
+    quality = Math.max(
+      ...Object.keys(window.mvcur.player.media.vars)
+        .filter((e) => e.startsWith("url"))
+        .map((url) => parseInt(url.match(/\d+/)[0]))
+    );
     vidUrl = window.mvcur.player.media.vars[`url${quality}`];
-    if (vidUrl == undefined) { vidUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
-    let videoButton = document.createElement('a');
+    if (vidUrl == undefined) {
+      vidUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    }
+    let videoButton = document.createElement("a");
     videoButton.href = vidUrl;
     videoButton.style.padding = "15px 10px 0 8px";
-    videoButton.setAttribute('onmouseover', `showTooltip(this, { text: '${getLang("video_download_short")}', black: true, shift: [2, 24] });`);
+    videoButton.setAttribute(
+      "onmouseover",
+      `showTooltip(this, { text: '${getLang(
+        "video_download_short"
+      )}', black: true, shift: [2, 24] });`
+    );
     videoButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" viewBox="0 0 16 16" style="min-width: 20px;"><path fill-rule="evenodd" d="M8.75 1.75a.75.75 0 0 0-1.5 0v6.6893L5.0303 6.2197a.75.75 0 0 0-1.0606 1.0606l3.5 3.5a.7498.7498 0 0 0 1.0606 0l3.5-3.5a.75.75 0 0 0-1.0606-1.0606L8.75 8.4393V1.75Zm-6 10.75a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H2.75Z" clip-rule="evenodd"/></svg>`;
     e.parentNode.insertBefore(videoButton, e);
-  }
-  catch (error) { }
+  } catch (error) {}
 });
 
 function querySelectorAllShadows(selector, el = document.body) {
-  const childShadows = Array.from(el.querySelectorAll('*')).
-    map(el => el.shadowRoot).filter(Boolean);
-  const childResults = childShadows.map(child => querySelectorAllShadows(selector, child));
+  const childShadows = Array.from(el.querySelectorAll("*"))
+    .map((el) => el.shadowRoot)
+    .filter(Boolean);
+  const childResults = childShadows.map((child) =>
+    querySelectorAllShadows(selector, child)
+  );
   const result = Array.from(el.querySelectorAll(selector));
   return result.concat(childResults).flat();
 }
 
 document.arrive("vk-video-player", { existing: true }, function (e) {
-  let muteButton = querySelectorAllShadows('.volumeBar-container')[0];
+  let muteButton = querySelectorAllShadows(".volumeBar-container")[0];
   let props;
   let files;
-  try { 
-	props = Object.keys(getVideoProps(document.querySelector('.MediaViewerVideo')).video.files);
-	files = getVideoProps(document.querySelector('.MediaViewerVideo')).video.files;
-  } catch(error) {
-	//props = Object.keys(getVideoProps(document.querySelector('.AttachVideos__base')).video.files);
-	props = Object.keys(getVideoProps(e.closest('.AttachVideos__base')).video.files);
-	files = getVideoProps(e.closest('.AttachVideos__base')).video.files;
+  try {
+    props = Object.keys(
+      getVideoProps(document.querySelector(".MediaViewerVideo")).video.files
+    );
+    files = getVideoProps(document.querySelector(".MediaViewerVideo")).video
+      .files;
+  } catch (error) {
+    //props = Object.keys(getVideoProps(document.querySelector('.AttachVideos__base')).video.files);
+    props = Object.keys(
+      getVideoProps(e.closest(".AttachVideos__base")).video.files
+    );
+    files = getVideoProps(e.closest(".AttachVideos__base")).video.files;
   }
   let maxNumber = -1;
   let quality;
-  props.forEach(element => {
-    if(element.startsWith("mp4")) {
-        const number = parseInt(element.split('_')[1]);
-        if(number > maxNumber) {
-            maxNumber = number;
-            quality = element;
-        }
+  props.forEach((element) => {
+    if (element.startsWith("mp4")) {
+      const number = parseInt(element.split("_")[1]);
+      if (number > maxNumber) {
+        maxNumber = number;
+        quality = element;
+      }
     }
-	});
+  });
   let vidUrl = files[quality];
-  let videoButton = document.createElement('a');
+  let videoButton = document.createElement("a");
   videoButton.style.padding = "5px 10px 0 8px";
   videoButton.style.cursor = "pointer";
-  videoButton.setAttribute('aria-label', `${getLang("video_download_short")}`);
-  videoButton.addEventListener('click', function () {
-    let linkV = document.createElement('a');
+  videoButton.setAttribute("aria-label", `${getLang("video_download_short")}`);
+  videoButton.addEventListener("click", function () {
+    let linkV = document.createElement("a");
     linkV.href = vidUrl;
     linkV.click();
   });
   videoButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" viewBox="0 0 16 16" style="min-width: 20px;"><path fill-rule="evenodd" d="M8.75 1.75a.75.75 0 0 0-1.5 0v6.6893L5.0303 6.2197a.75.75 0 0 0-1.0606 1.0606l3.5 3.5a.7498.7498 0 0 0 1.0606 0l3.5-3.5a.75.75 0 0 0-1.0606-1.0606L8.75 8.4393V1.75Zm-6 10.75a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H2.75Z" clip-rule="evenodd"/></svg>`;
   muteButton.parentNode.insertBefore(videoButton, muteButton);
-  videoButton.title = videoButton.getAttribute('aria-label');
+  videoButton.title = videoButton.getAttribute("aria-label");
 });
 
 function getVideoProps(elem) {
@@ -1738,11 +2418,11 @@ const _o = (t) => {
       o = "" === e[1] ? "" : _a(e[1]);
     if (((e = _a(e[0])), "string" != typeof o || !e)) return t;
     o = o ? o.split(String.fromCharCode(9)) : [];
-    for (var s, r, n = o.length; n--;) {
+    for (var s, r, n = o.length; n--; ) {
       if (
         ((r = o[n].split(String.fromCharCode(11))),
-          (s = r.splice(0, 1, e)[0]),
-          !_l[s])
+        (s = r.splice(0, 1, e)[0]),
+        !_l[s])
       )
         return t;
       e = _l[s].apply(null, r);
@@ -1753,11 +2433,11 @@ const _o = (t) => {
 };
 const _a = (t) => {
   if (!t || t.length % 4 == 1) return !1;
-  for (var e, i, o = 0, a = 0, s = ""; (i = t.charAt(a++));)
+  for (var e, i, o = 0, a = 0, s = ""; (i = t.charAt(a++)); )
     (i = _r.indexOf(i)),
       ~i &&
-      ((e = o % 4 ? 64 * e + i : i), o++ % 4) &&
-      (s += String.fromCharCode(255 & (e >> ((-2 * o) & 6))));
+        ((e = o % 4 ? 64 * e + i : i), o++ % 4) &&
+        (s += String.fromCharCode(255 & (e >> ((-2 * o) & 6))));
   return s;
 };
 const _s = (t, e) => {
@@ -1765,7 +2445,7 @@ const _s = (t, e) => {
     o = [];
   if (i) {
     var a = i;
-    for (e = Math.abs(e); a--;)
+    for (e = Math.abs(e); a--; )
       (e = ((i * (a + 1)) ^ (e + a)) % i), (o[a] = e);
   }
   return o;
@@ -1777,7 +2457,7 @@ var _r = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN0PQRSTUVWXYZO123456789+/=",
     },
     r: function (t, e) {
       t = t.split("");
-      for (var i, o = _r + _r, a = t.length; a--;)
+      for (var i, o = _r + _r, a = t.length; a--; )
         (i = o.indexOf(t[a])), ~i && (t[a] = o.substr(i - e, 1));
       return t.join("");
     },
@@ -1786,7 +2466,7 @@ var _r = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN0PQRSTUVWXYZO123456789+/=",
       if (i) {
         var o = _s(t, e),
           a = 0;
-        for (t = t.split(""); ++a < i;)
+        for (t = t.split(""); ++a < i; )
           t[a] = t.splice(o[i - 1 - a], 1, t[a])[0];
         t = t.join("");
       }
@@ -1808,9 +2488,13 @@ var _r = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN0PQRSTUVWXYZO123456789+/=",
   };
 /// FUCK
 
-document.arrive(".audio_row:not(.audio_claimed) .audio_row__actions", { existing: true }, function (e) {
-  appendButton(e);
-});
+document.arrive(
+  ".audio_row:not(.audio_claimed) .audio_row__actions",
+  { existing: true },
+  function (e) {
+    appendButton(e);
+  }
+);
 
 function appendButton(elem) {
   const audioElement = elem.parentNode;
@@ -1841,7 +2525,7 @@ function appendButton(elem) {
     border: none;
     background-color: transparent;
 		}
-	  </style>`
+	  </style>`,
     }
   );
   const progress = create(
@@ -1874,11 +2558,16 @@ function appendButton(elem) {
 </div>`,
     }
   );
-  button.setAttribute('onmouseover', `showTooltip(this, { text: '${getLang("video_download_short")}', black: true, shift: [7, 5] });`);
+  button.setAttribute(
+    "onmouseover",
+    `showTooltip(this, { text: '${getLang(
+      "video_download_short"
+    )}', black: true, shift: [7, 5] });`
+  );
   button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="min-width: 20px;"><path fill-rule="evenodd" d="M8.75 1.75a.75.75 0 0 0-1.5 0v6.6893L5.0303 6.2197a.75.75 0 0 0-1.0606 1.0606l3.5 3.5a.7498.7498 0 0 0 1.0606 0l3.5-3.5a.75.75 0 0 0-1.0606-1.0606L8.75 8.4393V1.75Zm-6 10.75a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H2.75Z" clip-rule="evenodd"/></svg>`;
   button.addEventListener("click", handleDownloadButton);
-  button.dataset.audio = elem.closest('.audio_row').dataset.audio;
-  button.dataset.fullId = elem.closest('.audio_row').dataset.fullId;
+  button.dataset.audio = elem.closest(".audio_row").dataset.audio;
+  button.dataset.fullId = elem.closest(".audio_row").dataset.fullId;
   div.appendChild(button);
   elem.prepend(div);
 }
@@ -1892,10 +2581,10 @@ function handleDownloadButton(e) {
   const Orig2 = getDownloadName1(e.target);
   let Cyr = Orig;
   let Cyr1 = Orig2;
-  if(window.vkenh.setEnglishMusic == 1) {
-	Cyr = parseCyr(Orig) ? parseCyr(Orig) : Orig;
-	Cyr1 = parseCyr(Orig2) ? parseCyr(Orig2) : Orig2;
-	  }
+  if (window.vkenh.setEnglishMusic == 1) {
+    Cyr = parseCyr(Orig) ? parseCyr(Orig) : Orig;
+    Cyr1 = parseCyr(Orig2) ? parseCyr(Orig2) : Orig2;
+  }
   fetch("https://vk.com/al_audio.php?act=reload_audios", {
     headers: {
       "content-type": "application/x-www-form-urlencoded",
@@ -1909,19 +2598,21 @@ function handleDownloadButton(e) {
     .then((e) => e.json())
     .then((e) => {
       let url = _o(e.payload[1][0][0][2]);
-      console.log(Download_Fucking_Stream(url, Cyr + " - " + Cyr1, bar));
+      console.log(Download_Fucking_Stream(url, Cyr1 + " - " + Cyr, bar));
     });
 }
 let getValidID = (elem) => {
-  return `${elem.closest('.audio_row').dataset.fullId}_${JSON.parse(elem.closest('.audio_row').dataset.audio)[24]}`;
+  return `${elem.closest(".audio_row").dataset.fullId}_${
+    JSON.parse(elem.closest(".audio_row").dataset.audio)[24]
+  }`;
 };
 
 let getDownloadName = (elem) => {
-  return `${JSON.parse(elem.closest('.audio_row').dataset.audio)[3]}`;
+  return `${JSON.parse(elem.closest(".audio_row").dataset.audio)[3]}`;
 };
 
 let getDownloadName1 = (elem) => {
-  return `${JSON.parse(elem.closest('.audio_row').dataset.audio)[4]}`;
+  return `${JSON.parse(elem.closest(".audio_row").dataset.audio)[4]}`;
 };
 
 function Download_Fucking_Stream(url, name, elem) {
@@ -1931,7 +2622,7 @@ function Download_Fucking_Stream(url, name, elem) {
     dur,
     frag_length;
   let temp_audio = document.createElement("audio");
-  let downloadInProgress = document.createElement('div');
+  let downloadInProgress = document.createElement("div");
   downloadInProgress.innerHTML = `<div class="vkEnhSnackbar vkEnhSnackbar--ios vkEnhSnackbar--desktop vkui--vkIOS--light">
   <div class="vkEnhSnackbar__in">
     <div class="vkEnhSnackbar__body vkEnhSnackbar--layout-vertical vkEnhSnackbar__snackbar">
@@ -2023,24 +2714,38 @@ function Download_Fucking_Stream(url, name, elem) {
 	}
 }
 `;
-  let progrText = downloadInProgress.querySelector('.vkEnhSnackbar__content-text')
+  let progrText = downloadInProgress.querySelector(
+    ".vkEnhSnackbar__content-text"
+  );
 
   document.body.appendChild(downloadInProgress);
   if (Hls.isSupported()) {
     hls.loadSource(url);
     hls.attachMedia(temp_audio);
     hls.on(Hls.Events.FRAG_BUFFERED, (e, h) => {
-      progrText.innerHTML = getLang("docs_add_title") + "...<br><br>" + name + ".mp3 " + "".repeat((new Date() / 1e3) % 4) + "" + ((blob_data.length / frag_length) * 100).toFixed() + "%";
+      progrText.innerHTML =
+        getLang("docs_add_title") +
+        "...<br><br>" +
+        name +
+        ".mp3 " +
+        "".repeat((new Date() / 1e3) % 4) +
+        "" +
+        ((blob_data.length / frag_length) * 100).toFixed() +
+        "%";
       blob_data.push(audio_data);
       temp_audio.currentTime = h.frag.start + h.frag.duration;
       if (blob_data.length >= frag_length) {
-        (hls.stopLoad(),
+        hls.stopLoad(),
           hls.destroy(),
-          downloadInProgress.querySelector('.vkEnhSnackbar__in').classList.add('vkEnhRemovebar'),
-          downloadInProgress.querySelector('.vkEnhSnackbar__in').addEventListener('animationend', () => {
-            downloadInProgress.remove();
-          }),
-          downloadBlob(new Blob(blob_data), name + ".mp3"));
+          downloadInProgress
+            .querySelector(".vkEnhSnackbar__in")
+            .classList.add("vkEnhRemovebar"),
+          downloadInProgress
+            .querySelector(".vkEnhSnackbar__in")
+            .addEventListener("animationend", () => {
+              downloadInProgress.remove();
+            }),
+          downloadBlob(new Blob(blob_data), name + ".mp3");
       }
     });
     hls.on(
@@ -2091,8 +2796,7 @@ deferredCallback(
       styleElement = create("style", {}, { id: "downloadProgressBar" });
       document.head.appendChild(styleElement);
     }
-    styleElement.innerHTML =
-      `.vkEnhancerDownloadAlbumButton{display: flex;
+    styleElement.innerHTML = `.vkEnhancerDownloadAlbumButton{display: flex;
     flex-direction: column;
     align-items: center;}
 .pBarVkEnhAlbum {
@@ -2137,26 +2841,38 @@ deferredCallback(
     border-radius: var(--border-radius);
 }
 `;
-    document.arrive("[class^='PhotosAlbumPageSubHeader-module__info']", { existing: true }, function (e) {
-      let buttonAlbumSettings = document.querySelector('[class^="HeaderLayout-module__aside"]');
-      let updateButton = document.createElement('div');
-      updateButton.style.marginRight = '8px';
-      updateButton.innerHTML = `<div class="vkEnhancerDownloadAlbumButton">
+    document.arrive(
+      "[class^='PhotosAlbumPageSubHeader-module__info']",
+      { existing: true },
+      function (e) {
+        let buttonAlbumSettings = document.querySelector(
+          '[class^="HeaderLayout-module__aside"]'
+        );
+        let updateButton = document.createElement("div");
+        updateButton.style.marginRight = "8px";
+        updateButton.innerHTML = `<div class="vkEnhancerDownloadAlbumButton">
 	<a style="background-color:var(--vkui--color_background_accent_themed);color:var(--vkui--color_text_contrast_themed)" class="Button-module__root--enpNU vkuiButton vkuiButton--size-m vkuiButton--appearance-accent vkuiButton--align-center vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible">
-	<span class="vkuiButton__in"><span class="vkuiButton__content">${getLang("photos_album_menu_download")}</span></span></a></div>`;
-      buttonAlbumSettings.prepend(updateButton);
-      updateButton.addEventListener('click', async function () {
-        await parseAlbum();
-      });
-    });
+	<span class="vkuiButton__in"><span class="vkuiButton__content">${getLang(
+    "photos_album_menu_download"
+  )}</span></span></a></div>`;
+        buttonAlbumSettings.prepend(updateButton);
+        updateButton.addEventListener("click", async function () {
+          await parseAlbum();
+        });
+      }
+    );
 
     document.arrive(".photos_album_intro", { existing: true }, function (e) {
-      let buttonAlbumSettings = document.querySelector('.page_block_header_extra._header_extra');
-      let updateButton = document.createElement('div');
-      updateButton.style.marginTop = '12px';
-      updateButton.innerHTML = `<span class="photos_album_info"><a>${getLang("photos_album_menu_download")}</a></span>`;
-      e.querySelector('.photos_album_intro_info').appendChild(updateButton);
-      updateButton.addEventListener('click', async function () {
+      let buttonAlbumSettings = document.querySelector(
+        ".page_block_header_extra._header_extra"
+      );
+      let updateButton = document.createElement("div");
+      updateButton.style.marginTop = "12px";
+      updateButton.innerHTML = `<span class="photos_album_info"><a>${getLang(
+        "photos_album_menu_download"
+      )}</a></span>`;
+      e.querySelector(".photos_album_intro_info").appendChild(updateButton);
+      updateButton.addEventListener("click", async function () {
         await parseAlbum();
       });
     });
@@ -2268,21 +2984,26 @@ async function parseAlbum() {
       "0000000": -7000,
       "00000000": -165,
       "000000000": -183,
-      "0000000000": -185
-    }
+      "0000000000": -185,
+    };
     if (replaceIt[idA] !== undefined) {
       idA = replaceIt[idA];
     }
-    let albumsRes = await vkApi.api('photos.getAlbums', { owner_id: oidA, album_ids: idA });
+    let albumsRes = await vkApi.api("photos.getAlbums", {
+      owner_id: oidA,
+      album_ids: idA,
+    });
     if (albumsRes.items[0].size > 0) {
       let albumCount = albumsRes.items[0].size;
       let offset = 0;
-      let progressBar = document.createElement('div');
+      let progressBar = document.createElement("div");
       progressBar.innerHTML = `<div class="vkEnhSnackbar vkEnhSnackbar--ios vkEnhSnackbar--desktop vkui--vkIOS--light">
   <div class="vkEnhSnackbar__in">
     <div class="vkEnhSnackbar__body vkEnhSnackbar--layout-vertical vkEnhSnackbar__snackbar">
       <div class="vkEnhSnackbar__before"><svg fill="currentColor" height="28" viewBox="0 0 20 20" width="28" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M6.84 16.44c.76.06 1.74.06 3.16.06 1.42 0 2.4 0 3.16-.06a3.75 3.75 0 0 0 1.43-.32 3.5 3.5 0 0 0 1.53-1.53c.15-.29.26-.69.32-1.43l.03-.63-1.3-1.3c-.3-.3-.5-.5-.67-.64a.86.86 0 0 0-.27-.18.75.75 0 0 0-.46 0 .86.86 0 0 0-.27.18c-.16.13-.36.33-.67.64l-2.3 2.3a.75.75 0 0 1-1.06 0l-.3-.3c-.3-.3-.5-.5-.67-.64a.86.86 0 0 0-.27-.18.75.75 0 0 0-.46 0 .86.86 0 0 0-.27.18c-.16.13-.36.33-.67.64L4.56 15.5c.25.24.53.45.85.6.29.16.69.27 1.43.33zm9.39-6.27.27.27V10c0-1.42 0-2.4-.06-3.16a3.75 3.75 0 0 0-.32-1.43 3.5 3.5 0 0 0-1.53-1.53 3.75 3.75 0 0 0-1.43-.32A43.2 43.2 0 0 0 10 3.5c-1.42 0-2.4 0-3.16.06-.74.06-1.14.17-1.43.32a3.5 3.5 0 0 0-1.53 1.53c-.15.29-.26.69-.32 1.43A43.2 43.2 0 0 0 3.5 10c0 1.42 0 2.4.06 3.16.04.47.1.8.17 1.05l2.04-2.04.02-.02c.28-.28.52-.52.74-.7.23-.2.47-.37.77-.47.46-.15.94-.15 1.4 0 .3.1.54.27.77.46.16.14.34.3.53.5l1.77-1.77.02-.02c.28-.28.52-.52.74-.7.23-.2.47-.37.77-.47.46-.15.94-.15 1.4 0 .3.1.54.27.77.46.22.19.46.43.74.7zM2.54 4.73C2 5.8 2 7.2 2 10c0 2.8 0 4.2.54 5.27a5 5 0 0 0 2.19 2.19C5.8 18 7.2 18 10 18c2.8 0 4.2 0 5.27-.54a5 5 0 0 0 2.19-2.19C18 14.2 18 12.8 18 10c0-2.8 0-4.2-.55-5.27a5 5 0 0 0-2.18-2.19C14.2 2 12.8 2 10 2c-2.8 0-4.2 0-5.27.54a5 5 0 0 0-2.19 2.19zM7.25 6a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
-      <div class="vkEnhSnackbar__content"><span class="vkEnhTypography vkEnhSnackbar__content-text vkEnhParagraph">${getLang("video_upload_waiting")}</span></div>
+      <div class="vkEnhSnackbar__content"><span class="vkEnhTypography vkEnhSnackbar__content-text vkEnhParagraph">${getLang(
+        "video_upload_waiting"
+      )}</span></div>
     </div>
   </div>
 </div>`;
@@ -2290,7 +3011,13 @@ async function parseAlbum() {
       let counterProgress = 0;
       while (albumCount > 0) {
         let count = Math.min(1000, albumCount);
-        let allPhotos = await vkApi.api('photos.get', { owner_id: oidA, album_id: idA, count: count, offset: offset, rev: true });
+        let allPhotos = await vkApi.api("photos.get", {
+          owner_id: oidA,
+          album_id: idA,
+          count: count,
+          offset: offset,
+          rev: true,
+        });
         const zip = new JSZip();
         let currentZipIndex = "_" + Math.ceil((offset + 1) / 1000);
         if (albumsRes.items[0].size < 1000) {
@@ -2301,8 +3028,35 @@ async function parseAlbum() {
           let sizes = photoItem.sizes;
           let oldS = 0;
           let newS;
-          const availableSizes = ["a", "b", "i", "p", "q", "s", "w", "z", "y", "x", "r", "o", "m", "g", "max", "l", "f", "k", "c", "e", "d", "j", "temp", "h", "n"]
-          let n = null, e = 0;
+          const availableSizes = [
+            "a",
+            "b",
+            "i",
+            "p",
+            "q",
+            "s",
+            "w",
+            "z",
+            "y",
+            "x",
+            "r",
+            "o",
+            "m",
+            "g",
+            "max",
+            "l",
+            "f",
+            "k",
+            "c",
+            "e",
+            "d",
+            "j",
+            "temp",
+            "h",
+            "n",
+          ];
+          let n = null,
+            e = 0;
           let t;
           for (const curSize of sizes) {
             t = curSize.type;
@@ -2318,13 +3072,26 @@ async function parseAlbum() {
           let maxSizeUrl;
           try {
             maxSizeUrl = maxSizer.url;
+          } catch (error) {
+            console.log(maxSizer);
           }
-          catch (error) { console.log(maxSizer) }
           try {
-            let [filename, blob] = await getPhoto(maxSizeUrl, photoItem, progressBar);
+            let [filename, blob] = await getPhoto(
+              maxSizeUrl,
+              photoItem,
+              progressBar
+            );
             zip.file(filename, blob);
             counterProgress++;
-            progressBar.querySelector('.vkEnhSnackbar__content-text').innerHTML = getLang("docs_add_title") + "...<br><br>" + `${albumsRes.items[0].title}${currentZipIndex}.zip ` + counterProgress + "/" + albumsRes.items[0].size;
+            progressBar.querySelector(
+              ".vkEnhSnackbar__content-text"
+            ).innerHTML =
+              getLang("docs_add_title") +
+              "...<br><br>" +
+              `${albumsRes.items[0].title}${currentZipIndex}.zip ` +
+              counterProgress +
+              "/" +
+              albumsRes.items[0].size;
           } catch (error) {
             console.log("Failed ", maxSizeUrl);
           }
@@ -2340,10 +3107,14 @@ async function parseAlbum() {
         albumCount -= count;
         offset += count;
       }
-      progressBar.querySelector('.vkEnhSnackbar__in').classList.add('vkEnhRemovebar');
-      progressBar.querySelector('.vkEnhSnackbar__in').addEventListener('animationend', () => {
-        progressBar.remove();
-      });
+      progressBar
+        .querySelector(".vkEnhSnackbar__in")
+        .classList.add("vkEnhRemovebar");
+      progressBar
+        .querySelector(".vkEnhSnackbar__in")
+        .addEventListener("animationend", () => {
+          progressBar.remove();
+        });
       counterProgress = 0;
     }
     //console.log(albumsRes);
@@ -2359,54 +3130,54 @@ async function getPhoto(maxSizeUrl, photoItem, progressBar) {
       let filename = `${photoItem.owner_id}_${photoItem.id}.jpg`;
       return [filename, blob];
     } catch (error) {
-      progressBar.querySelector('.vkEnhSnackbar__content-text').innerHTML = getLang("calls_status_bad_internet_connection");
+      progressBar.querySelector(
+        ".vkEnhSnackbar__content-text"
+      ).innerHTML = getLang("calls_status_bad_internet_connection");
       attempts++;
-      await new Promise(resolve => setTimeout(resolve, 60000));
+      await new Promise((resolve) => setTimeout(resolve, 60000));
     }
   }
   throw new Error("Failed to fetch photo after 10 attempts");
 }
-
-
-
-
-
 
 ///КОНЕЦ СКАЧИВАНИЯ АЛЬБОМА///
 ///ОБНОВЛЕНИЕ ПОДМЕНА ФОТОГРАФИИ///
 document.arrive("#pv_delete", { existing: true }, async function (e) {
   let userIDHereWeGoAgain2;
 
-  let updateButton = document.createElement('div');
-  updateButton.style.float = 'left';
-  updateButton.style.marginRight = '8px';
-  updateButton.style.marginTop = '-8px';
+  let updateButton = document.createElement("div");
+  updateButton.style.float = "left";
+  updateButton.style.marginRight = "8px";
+  updateButton.style.marginTop = "-8px";
   updateButton.innerHTML = `<div class="vkEnhancerUpdateButton">
 	<a style="background-color:rgba(255, 255, 255, 0.04);color:white" class="Button-module__root--enpNU vkuiButton vkuiButton--size-m vkuiButton--mode-vkEnhancer vkuiButton--appearance-accent vkuiButton--align-center vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible">
-	<span class="vkuiButton__in"><span class="vkuiButton__content">${getLang("global_notify_refresh")}</span></span></a></div>
+	<span class="vkuiButton__in"><span class="vkuiButton__content">${getLang(
+    "global_notify_refresh"
+  )}</span></span></a></div>
 	<input id="photoUpdateInput" class="file" type="file" size="28" accept="image/jpeg,image/png,image/gif" multiple="" name="photo" style="visibility: hidden; position: absolute;">`;
   let styleElement = fromId("mode-vkEnhancer");
   if (!styleElement) {
     styleElement = create("style", {}, { id: "mode-vkEnhancer" });
     document.head.appendChild(styleElement);
   }
-  styleElement.innerHTML =
-    `.vkuiButton--mode-vkEnhancer:hover{background-color:rgba(255, 255, 255, 0.08)!important;}`;
-  userIDHereWeGoAgain2 = cur.pvCurPhoto.id.split('_')[0];
+  styleElement.innerHTML = `.vkuiButton--mode-vkEnhancer:hover{background-color:rgba(255, 255, 255, 0.08)!important;}`;
+  userIDHereWeGoAgain2 = cur.pvCurPhoto.id.split("_")[0];
   e.parentElement.prepend(updateButton);
 
   try {
-    updateButton.addEventListener('click', async function () {
-      e.parentElement.querySelector('#photoUpdateInput').click();
+    updateButton.addEventListener("click", async function () {
+      e.parentElement.querySelector("#photoUpdateInput").click();
     });
-    e.parentElement.querySelector('#photoUpdateInput').addEventListener("change", function () {
-      if (e.parentElement.querySelector('#photoUpdateInput').files.length > 0) {
-        handleUpdatePhoto();
-      }
-    });
-  }
-  catch (error) { }
-
+    e.parentElement
+      .querySelector("#photoUpdateInput")
+      .addEventListener("change", function () {
+        if (
+          e.parentElement.querySelector("#photoUpdateInput").files.length > 0
+        ) {
+          handleUpdatePhoto();
+        }
+      });
+  } catch (error) {}
 });
 async function handleUpdatePhoto() {
   const filesInputUpdate = document.getElementById("photoUpdateInput");
@@ -2415,8 +3186,7 @@ async function handleUpdatePhoto() {
 }
 async function sendUpdatePhoto(fileNameOutput) {
   /** Получаем URL для загрузки */
-  const uploadUrl1 = await vkApi.api("photos.getPhotoEditorUploadServer", {
-  });
+  const uploadUrl1 = await vkApi.api("photos.getPhotoEditorUploadServer", {});
   const uploadUrl = uploadUrl1["upload_url"];
 
   /** Загружаем файл */
@@ -2424,7 +3194,10 @@ async function sendUpdatePhoto(fileNameOutput) {
   /** Сохраняем */
   const data = JSON.parse(file);
   let photoId = cur.pvCurPhoto.id;
-  let doc = await vkApi.api("photos.savePhotoEditor", { response_json: file, photo: photoId });
+  let doc = await vkApi.api("photos.savePhotoEditor", {
+    response_json: file,
+    photo: photoId,
+  });
   nav.reload();
 }
 
@@ -2474,21 +3247,19 @@ if (getLocalValue("isMiddleName")) {
         let lastName = ownerName.substring(lastNameIndex + 1);
         ownerNameElement.firstChild.textContent = `${firstName} ${nickname} ${lastName}`;
       } else {
-        let antiIcons = document.querySelector('.OwnerPageName__noWrapText');
+        let antiIcons = document.querySelector(".OwnerPageName__noWrapText");
         if (antiIcons) {
           let antiIconsText = antiIcons.textContent.trim();
           let lastNameIndex = antiIconsText.lastIndexOf(" ");
           let firstName = antiIconsText.substring(0, lastNameIndex);
           let lastName = antiIconsText.substring(lastNameIndex + 1);
           if (antiIcons.textContent.trim().includes(" ")) {
-            antiIcons.textContent = '';
+            antiIcons.textContent = "";
             ownerNameElement.firstChild.textContent = `${firstName} ${nickname} ${lastName}`;
-          }
-          else {
+          } else {
             ownerNameElement.firstChild.textContent += ` ${nickname} ​`;
           }
-        }
-        else {
+        } else {
           ownerNameElement.firstChild.textContent += ` ${nickname} ​`;
         }
       }
@@ -2497,16 +3268,17 @@ if (getLocalValue("isMiddleName")) {
 
   async function getUserMiddleName(objectId) {
     try {
-	let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
-function _o(e) {
-          const t = {};
-          if (!e) return t;
-          for (const n of Object.keys(e))
-            n.startsWith("__reactFiber") && (t.fiber = e[n]),
-              n.startsWith("__reactProps") && (t.props = e[n]),
-              n.startsWith("__reactContainer") && (t.container = e[n]);
-          return t;
-        }
+      let pizda = _o(document.getElementById("react_rootprofile"))?.container
+        ?.memoizedState?.element?.props;
+      function _o(e) {
+        const t = {};
+        if (!e) return t;
+        for (const n of Object.keys(e))
+          n.startsWith("__reactFiber") && (t.fiber = e[n]),
+            n.startsWith("__reactProps") && (t.props = e[n]),
+            n.startsWith("__reactContainer") && (t.container = e[n]);
+        return t;
+      }
       var response = pizda.store.getState().owner.nickname;
       return response;
     } catch (error) {
@@ -2541,14 +3313,11 @@ function _o(e) {
 ///КОНЕЦ ДОБАВЛЕНИЯ ОТЧЕСТВА///
 ///НАЧАЛО ДОБАВЛЕНИЯ СТИКЕРА ВО ВЛОЖЕНИЯ///
 
-
 ///КОНЕЦ ДОБАВЛЕНИЯ СТИКЕРА ВО ВЛОЖЕНИЯ///
 ///НАЧАЛО КЛАССИЧЕСКОГО ДИЗАЙНА ПРОФИЛЯ///
 deferredCallback(
   () => {
-    if (
-      getLocalValue("isClassicalProfileDesign")
-    ) {
+    if (getLocalValue("isClassicalProfileDesign")) {
       const cssLinkClassic = document.createElement("link");
       cssLinkClassic.rel = "stylesheet";
       cssLinkClassic.type = "text/css";
@@ -2581,7 +3350,12 @@ deferredCallback(
             var activityText = userData.activity;
             appendActivityText(activityText);
             await appearStarts(userData);
-            if (!userData.blacklisted == 1 && !userData.deactivated && !userData.is_service && !userData.hidden) {
+            if (
+              !userData.blacklisted == 1 &&
+              !userData.deactivated &&
+              !userData.is_service &&
+              !userData.hidden
+            ) {
               const customStyle = fromId("classicalProfilesDELETED");
               if (customStyle) {
                 customStyle.remove();
@@ -2608,27 +3382,33 @@ deferredCallback(
                 buttonrun();
               }
               expandMore(userData);
-            }
-            else {
+            } else {
               try {
-                let pMoreInfo = document.querySelector('.profile_more_info');
-                pMoreInfo.style.display = 'none';
-              }
-              catch (error) { }
+                let pMoreInfo = document.querySelector(".profile_more_info");
+                pMoreInfo.style.display = "none";
+              } catch (error) {}
               let styleElement = fromId("classicalProfilesDELETED");
               if (!styleElement) {
-                styleElement = create("style", {}, { id: "classicalProfilesDELETED" });
+                styleElement = create(
+                  "style",
+                  {},
+                  { id: "classicalProfilesDELETED" }
+                );
                 document.head.appendChild(styleElement);
               }
-              styleElement.innerHTML = ".vkuiInternalGroup:has(>.PlaceholderMessageBlock) {display: none !important;}";
-              let pInfoShort = document.querySelector('.profile_info.profile_info_short');
-              let pModuleText = '';
+              styleElement.innerHTML =
+                ".vkuiInternalGroup:has(>.PlaceholderMessageBlock) {display: none !important;}";
+              let pInfoShort = document.querySelector(
+                ".profile_info.profile_info_short"
+              );
+              let pModuleText = "";
               try {
-                pModuleText = document.querySelector('.vkuiInternalGroup:has(>.PlaceholderMessageBlock) [class^="Placeholder-module__text"]').innerHTML;
-              }
-              catch (error) { }
-              let pModuleDiv = document.createElement('div');
-              let pModuleSpan = document.createElement('span');
+                pModuleText = document.querySelector(
+                  '.vkuiInternalGroup:has(>.PlaceholderMessageBlock) [class^="Placeholder-module__text"]'
+                ).innerHTML;
+              } catch (error) {}
+              let pModuleDiv = document.createElement("div");
+              let pModuleSpan = document.createElement("span");
               pModuleSpan.innerHTML = pModuleText;
               pModuleDiv.classList.add("vkEnhancerOffProfile");
               pModuleDiv.style.display = "flex";
@@ -2642,41 +3422,61 @@ deferredCallback(
               pModuleSpan.style.textAlign = "center";
               pModuleSpan.style.color = "var(--vkui--color_text_secondary)";
               pModuleDiv.appendChild(pModuleSpan);
-              if (pModuleText != '') {
+              if (pModuleText != "") {
                 pInfoShort.appendChild(pModuleDiv);
               }
               if (userData.blacklisted == 1 && !userData.deactivated) {
                 let styleElement = fromId("classicalProfilesBlackListed");
                 if (!styleElement) {
-                  styleElement = create("style", {}, { id: "classicalProfilesBlackListed" });
+                  styleElement = create(
+                    "style",
+                    {},
+                    { id: "classicalProfilesBlackListed" }
+                  );
                   document.head.appendChild(styleElement);
                 }
-                styleElement.innerHTML = ".ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}";
+                styleElement.innerHTML =
+                  ".ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}";
               }
               if (userData.deactivated) {
                 let styleElement = fromId("classicalProfilesDeactivated");
                 if (!styleElement) {
-                  styleElement = create("style", {}, { id: "classicalProfilesDeactivated" });
+                  styleElement = create(
+                    "style",
+                    {},
+                    { id: "classicalProfilesDeactivated" }
+                  );
                   document.head.appendChild(styleElement);
                 }
-                styleElement.innerHTML = ".ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){display:none!important}";
+                styleElement.innerHTML =
+                  ".ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){display:none!important}";
               }
               if (userData.is_service) {
                 addCounters(userData, userData.counters);
                 let styleElement = fromId("classicalProfilesService");
                 if (!styleElement) {
-                  styleElement = create("style", {}, { id: "classicalProfilesService" });
+                  styleElement = create(
+                    "style",
+                    {},
+                    { id: "classicalProfilesService" }
+                  );
                   document.head.appendChild(styleElement);
                 }
-                styleElement.innerHTML = ".page_current_info.current_text{border-bottom:none!important;}.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}";
+                styleElement.innerHTML =
+                  ".page_current_info.current_text{border-bottom:none!important;}.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}";
               }
               if (userData.hidden) {
                 let styleElement = fromId("classicalProfilesHidden");
                 if (!styleElement) {
-                  styleElement = create("style", {}, { id: "classicalProfilesHidden" });
+                  styleElement = create(
+                    "style",
+                    {},
+                    { id: "classicalProfilesHidden" }
+                  );
                   document.head.appendChild(styleElement);
                 }
-                styleElement.innerHTML = ".ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}";
+                styleElement.innerHTML =
+                  ".ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}";
               }
               appearVariable();
             }
@@ -2685,19 +3485,27 @@ deferredCallback(
           }
         }
       );
-
+      document.arrive(
+        ".ProfileHeaderButton > a[href='/edit'] .vkuiButton__content",
+        { existing: true },
+        async function (e) {
+          e.textContent = getLang("global_edit");
+        }
+      );
       var friendsSection;
       var aHrefSectionFrens;
       var imReady;
       document.arrive(".ProfileGroup", { existing: true }, async function (e) {
-        const profileGroups = document.querySelectorAll('section.ProfileGroup');
-        profileGroups.forEach(profileGroup => {
+        const profileGroups = document.querySelectorAll("section.ProfileGroup");
+        profileGroups.forEach((profileGroup) => {
           const content = profileGroup.textContent;
           if (
             content.includes(getLang("profile_followers")) ||
             content.includes(getLang("profile_common_friends")) ||
             content.includes(getLang("profile_friends")) ||
-            content.includes(getLang("profile_closed_profile_banner_closed_btn")) ||
+            content.includes(
+              getLang("profile_closed_profile_banner_closed_btn")
+            ) ||
             content.includes(getLang("profile_narratives"))
           ) {
             //console.log("Removed: "+profileGroup.innerHTML);
@@ -2706,86 +3514,136 @@ deferredCallback(
         });
       });
       document.arrive(".page_counter", { existing: true }, async function (e) {
-        let i = document.querySelectorAll('.vkuiInternalGroupCard:not(.ProfileGroup)');
-        i.forEach(elem => {
+        let i = document.querySelectorAll(
+          ".vkuiInternalGroupCard:not(.ProfileGroup)"
+        );
+        i.forEach((elem) => {
           if (elem.textContent.includes(getLang("profile_unknown_error"))) {
             elem.remove();
           }
-        }
-        );
+        });
       });
-      document.arrive(".imReadyForShowingFriends", { existing: true }, async function (e) {
-        if (friendsSection != null && imReady) {
-          document.querySelector('.ScrollStickyWrapper > div').prepend(friendsSection);
-          document.querySelector('.vkEnhancerFrenBox').appendChild(aHrefSectionFrens);
-        }
-        let i = document.querySelectorAll('.vkuiInternalGroupCard:not(.ProfileGroup)');
-        i.forEach(elem => {
-          if (elem.textContent.includes(getLang("profile_unknown_error"))) {
-            elem.remove();
+      document.arrive(
+        ".imReadyForShowingFriends",
+        { existing: true },
+        async function (e) {
+          if (friendsSection != null && imReady) {
+            document
+              .querySelector(".ScrollStickyWrapper > div")
+              .prepend(friendsSection);
+            document
+              .querySelector(".vkEnhancerFrenBox")
+              .appendChild(aHrefSectionFrens);
           }
+          let i = document.querySelectorAll(
+            ".vkuiInternalGroupCard:not(.ProfileGroup)"
+          );
+          i.forEach((elem) => {
+            if (elem.textContent.includes(getLang("profile_unknown_error"))) {
+              elem.remove();
+            }
+          });
         }
-        );
+      );
+
+      document.arrive(".page_current_info", { existing: true }, async function (
+        e
+      ) {
+        try {
+          if (
+            !document
+              .querySelector("#profile_redesigned .ProfileHeader")
+              .classList.contains("ProfileHeader--noCover")
+          ) {
+            document
+              .querySelector("#profile_redesigned .ProfileHeader")
+              .classList.add("ProfileHeader--noCover");
+          }
+        } catch (error) {}
       });
 
-      document.arrive(".page_current_info", { existing: true }, async function (e) {
-	  try {
-        if (!document.querySelector('#profile_redesigned .ProfileHeader').classList.contains('ProfileHeader--noCover')) {
-          document.querySelector('#profile_redesigned .ProfileHeader').classList.add('ProfileHeader--noCover');
-        }
-	  } catch(error){}
-      });
-
-      document.arrive("#profile_redesigned", { existing: true }, async function (e) {
-        imReady = false;
-		let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
-function _o(e) {
-          const t = {};
-          if (!e) return t;
-          for (const n of Object.keys(e))
-            n.startsWith("__reactFiber") && (t.fiber = e[n]),
-              n.startsWith("__reactProps") && (t.props = e[n]),
-              n.startsWith("__reactContainer") && (t.container = e[n]);
-          return t;
-        }
-        let objectId1 = await getId();
-        let userdata = await getUserDataWithoutOnline(objectId1);
-		let userdata1 = pizda.store.getState().owner;
-        let friends;
-        let frenCount = { count: 0 };
-        if ((!userdata.is_closed || userdata.can_access_closed) && !userdata.blacklisted == 1 && !userdata.deactivated) {
-          try {
-            friends = await vkApi.api("friends.get", { user_id: userdata.id, fields: 'photo_100,online,domain', count: 10000 });
-            frenCount = await vkApi.api("friends.get", { user_id: userdata.id, count: 10000 });
+      document.arrive(
+        "#profile_redesigned",
+        { existing: true },
+        async function (e) {
+          imReady = false;
+          let pizda = _o(document.getElementById("react_rootprofile"))
+            ?.container?.memoizedState?.element?.props;
+          function _o(e) {
+            const t = {};
+            if (!e) return t;
+            for (const n of Object.keys(e))
+              n.startsWith("__reactFiber") && (t.fiber = e[n]),
+                n.startsWith("__reactProps") && (t.props = e[n]),
+                n.startsWith("__reactContainer") && (t.container = e[n]);
+            return t;
           }
-          catch (error) { }
-        }
-        if (frenCount.count > 0 && !document.querySelector('.ProfileFriends')) {
-          friendsSection = document.createElement('section');
-          friendsSection.classList.add('vkuiInternalGroup', 'vkuiGroup', 'vkuiGroup--mode-card', 'vkuiInternalGroup--mode-card', 'vkuiGroup--padding-m', 'vkuiInternalGroupCard', 'ProfileFriends', 'vkEnhancerProfileFriends');
-          aHrefSectionFrens = document.createElement('a');
-          if (vk.id != objectId1) {
-            aHrefSectionFrens.href = `/friends?id=${objectId1}&section=online`;
-            aHrefSectionFrens.style.marginLeft = "auto";
-            aHrefSectionFrens.style.marginRight = "23px";
-            aHrefSectionFrens.style.color = "var(--vkui--color_text_secondary)";
-            aHrefSectionFrens.textContent = getLang("profile_friendsonln").toLowerCase();
+          let objectId1 = await getId();
+          let userdata = await getUserDataWithoutOnline(objectId1);
+          let userdata1 = pizda.store.getState().owner;
+          let friends;
+          let frenCount = { count: 0 };
+          if (
+            (!userdata.is_closed || userdata.can_access_closed) &&
+            !userdata.blacklisted == 1 &&
+            !userdata.deactivated
+          ) {
+            try {
+              friends = await vkApi.api("friends.get", {
+                user_id: userdata.id,
+                fields: "photo_100,online,domain",
+                count: 10000,
+              });
+              frenCount = await vkApi.api("friends.get", {
+                user_id: userdata.id,
+                count: 10000,
+              });
+            } catch (error) {}
           }
-          else {
-            aHrefSectionFrens.href = `/friends?act=find`;
-            aHrefSectionFrens.style.marginLeft = "auto";
-            aHrefSectionFrens.style.marginRight = "23px";
-            aHrefSectionFrens.style.color = "var(--vkui--color_text_secondary)";
-            aHrefSectionFrens.textContent = getLang("global_search").toLowerCase();
-          }
-          friendsSection.innerHTML = `
+          if (
+            frenCount.count > 0 &&
+            !document.querySelector(".ProfileFriends")
+          ) {
+            friendsSection = document.createElement("section");
+            friendsSection.classList.add(
+              "vkuiInternalGroup",
+              "vkuiGroup",
+              "vkuiGroup--mode-card",
+              "vkuiInternalGroup--mode-card",
+              "vkuiGroup--padding-m",
+              "vkuiInternalGroupCard",
+              "ProfileFriends",
+              "vkEnhancerProfileFriends"
+            );
+            aHrefSectionFrens = document.createElement("a");
+            if (vk.id != objectId1) {
+              aHrefSectionFrens.href = `/friends?id=${objectId1}&section=online`;
+              aHrefSectionFrens.style.marginLeft = "auto";
+              aHrefSectionFrens.style.marginRight = "23px";
+              aHrefSectionFrens.style.color =
+                "var(--vkui--color_text_secondary)";
+              aHrefSectionFrens.textContent = getLang(
+                "profile_friendsonln"
+              ).toLowerCase();
+            } else {
+              aHrefSectionFrens.href = `/feed?section=updates`;
+              aHrefSectionFrens.style.marginLeft = "auto";
+              aHrefSectionFrens.style.marginRight = "23px";
+              aHrefSectionFrens.style.color =
+                "var(--vkui--color_text_secondary)";
+              aHrefSectionFrens.textContent = getLang("updates").toLowerCase();
+            }
+            friendsSection.innerHTML =
+              `
         <a href="/friends?id=${userdata.id}&section=all" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
             <div style="padding:7px 0 0 17px;" class="vkEnhancerFriendsPadding vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
                 <div class="vkuiHeader__main">
                     <div class="vkEnhancerFrenBox vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1">
                         <span class="vkuiHeader__content-in">
                             <div class="Header-module__content--F5x_X">
-                                <div class="TextClamp-module__singleLine--mRCrF">`+ getLang("profile_friends") + `</div>
+                                <div class="TextClamp-module__singleLine--mRCrF">` +
+              getLang("profile_friends") +
+              `</div>
                             </div>
                         </span>
                         <span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${frenCount.count}</span>
@@ -2800,62 +3658,103 @@ function _o(e) {
         </div>
         <div class="vkuiSpacing" style="height: 4px; padding: 2px 0px;"></div>
     `;
-          friendsSection.style.marginBottom = "16px";
-          friendsSection.style.padding = "0px";
-          const friendsContainer = friendsSection.querySelector('.ProfileGroupHorizontalCells');
-          const friendsContainer1 = friendsSection.querySelector('.PrimaryCells');
-          const randomFriends = friends.items.sort(() => 0.5 - Math.random()).slice(0, 6);
-          randomFriends.forEach(friend => {
-            const friendItem = document.createElement('div');
-            friendItem.classList.add('vkuiHorizontalCell', 'vkuiHorizontalCell--size-s', 'ProfileFriends__item', 'HorizontalCell-module__root--XStwI', 'HorizontalCell-module__rootSizeS--JwyO0');
-            friendItem.innerHTML = `
-            <a href="/${friend.domain}" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
+            //friendsSection.style.marginBottom = "16px";
+            friendsSection.style.padding = "0px";
+            const friendsContainer = friendsSection.querySelector(
+              ".ProfileGroupHorizontalCells"
+            );
+            const friendsContainer1 = friendsSection.querySelector(
+              ".PrimaryCells"
+            );
+            const randomFriends = friends.items
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 6);
+            randomFriends.forEach((friend) => {
+              const friendItem = document.createElement("div");
+              friendItem.classList.add(
+                "vkuiHorizontalCell",
+                "vkuiHorizontalCell--size-s",
+                "ProfileFriends__item",
+                "HorizontalCell-module__root--XStwI",
+                "HorizontalCell-module__rootSizeS--JwyO0"
+              );
+              friendItem.innerHTML = `
+            <a href="/${
+              friend.domain
+            }" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
                 <div class="vkuiHorizontalCell__image">
-                    <div class="vkuiImageBase vkuiImageBase--loaded vkuiAvatar" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${friend.photo_100}">${friend.online === 1 ? '' : ''}</div>
+                    <div class="vkuiImageBase vkuiImageBase--loaded vkuiAvatar" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${
+                      friend.photo_100
+                    }">${friend.online === 1 ? "" : ""}</div>
                 </div>
                 <div class="vkuiHorizontalCell__content">
-                    <span class="vkuiTypography vkuiTypography--normalize vkuiCaption--level-1"><div class="TextClamp-module__singleLine--mRCrF">${friend.first_name}</div></span>
+                    <span class="vkuiTypography vkuiTypography--normalize vkuiCaption--level-1"><div class="TextClamp-module__singleLine--mRCrF">${
+                      friend.first_name
+                    }</div></span>
                 </div>
             </a>
         `;
-            if (friend.online === 1) {
-              const onlineBadge = document.createElement('div');
-              onlineBadge.classList.add('vkuiImageBaseBadge', 'vkuiImageBaseBadge--background-stroke', 'vkuiAvatarBadge', 'vkuiAvatarBadge--preset-onlineMobile', 'Badge-module__root--dY2bH', 'Badge-module__rootBottomRight--HIk3W');
-              if (friend.online_mobile && friend.online_mobile == 1) {
-                onlineBadge.innerHTML = `
+              if (friend.online === 1) {
+                const onlineBadge = document.createElement("div");
+                onlineBadge.classList.add(
+                  "vkuiImageBaseBadge",
+                  "vkuiImageBaseBadge--background-stroke",
+                  "vkuiAvatarBadge",
+                  "vkuiAvatarBadge--preset-onlineMobile",
+                  "Badge-module__root--dY2bH",
+                  "Badge-module__rootBottomRight--HIk3W"
+                );
+                if (friend.online_mobile && friend.online_mobile == 1) {
+                  onlineBadge.innerHTML = `
                 <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--12 vkuiIcon--w-8 vkuiIcon--h-12 vkuiIcon--online_mobile_12" viewBox="0 0 8 12" width="8" height="12" style="width: 8px; height: 12px;">
                     <path fill="currentColor" d="M5.99 0C7.1 0 8 .9 8 2.01v7.98C8 11.1 7.1 12 5.99 12H2.01C.9 12 0 11.1 0 9.99V2.01C0 .9.9 0 2.01 0zm.008 3H2.003a.5.5 0 0 0-.503.502v4.996c0 .277.225.502.503.502h3.995a.5.5 0 0 0 .502-.502V3.503A.5.5 0 0 0 5.997 3"></path>
                 </svg>
             `;
-              }
-              else {
-                onlineBadge.innerHTML = `
+                } else {
+                  onlineBadge.innerHTML = `
                 <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--12 vkuiIcon--w-12 vkuiIcon--h-12 vkuiIcon--circle_12" viewBox="0 0 12 12" width="12" height="12" style="width: 12px; height: 12px;">
 					<path fill="currentColor" d="M10 6a4 4 0 1 1-8 0 4 4 0 0 1 8 0"></path>
 				</svg>
             `;
-                onlineBadge.classList.remove('vkuiAvatarBadge--preset-onlineMobile');
-                onlineBadge.classList.add('vkuiAvatarBadge--preset-online');
+                  onlineBadge.classList.remove(
+                    "vkuiAvatarBadge--preset-onlineMobile"
+                  );
+                  onlineBadge.classList.add("vkuiAvatarBadge--preset-online");
+                }
+                friendItem
+                  .querySelector(".vkuiImageBase")
+                  .appendChild(onlineBadge);
               }
-              friendItem.querySelector('.vkuiImageBase').appendChild(onlineBadge);
-            }
 
-            friendsContainer1.appendChild(friendItem);
-          });
-          if (vk.id === userdata.id) {
-            const onlineFriends = friends.items.filter(friend => friend.online === 1);
-            const countOnline = onlineFriends.length;
-            if (countOnline > 0) {
-              const onlineFriendsHeader = document.createElement('a');
-              onlineFriendsHeader.href = `/friends?id=${vk.id}&section=online`;
-              onlineFriendsHeader.classList.add('Header-module__tappable--mabke', 'ProfileGroupHeader', 'vkuiTappable', 'vkuiInternalTappable', 'vkuiTappable--hasActive', 'vkui-focus-visible', 'vkEnhFriendsOnline');
-              onlineFriendsHeader.innerHTML = `
+              friendsContainer1.appendChild(friendItem);
+            });
+            if (vk.id === userdata.id) {
+              const onlineFriends = friends.items.filter(
+                (friend) => friend.online === 1
+              );
+              const countOnline = onlineFriends.length;
+              if (countOnline > 0) {
+                const onlineFriendsHeader = document.createElement("a");
+                onlineFriendsHeader.href = `/friends?id=${vk.id}&section=online`;
+                onlineFriendsHeader.classList.add(
+                  "Header-module__tappable--mabke",
+                  "ProfileGroupHeader",
+                  "vkuiTappable",
+                  "vkuiInternalTappable",
+                  "vkuiTappable--hasActive",
+                  "vkui-focus-visible",
+                  "vkEnhFriendsOnline"
+                );
+                onlineFriendsHeader.innerHTML =
+                  `
             <div style="padding-top:0px; padding-bottom:0px;" class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
                 <div class="vkuiHeader__main">
                     <div class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1">
                         <span class="vkuiHeader__content-in">
                             <div class="Header-module__content--F5x_X">
-                                <div class="TextClamp-module__singleLine--mRCrF">`+ getLang("profile_friendsonln") + `</div>
+                                <div class="TextClamp-module__singleLine--mRCrF">` +
+                  getLang("profile_friendsonln") +
+                  `</div>
                             </div>
                         </span>
                         <span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${countOnline}</span>
@@ -2863,17 +3762,28 @@ function _o(e) {
                 </div>
             </div>
         `;
-              friendsContainer.appendChild(onlineFriendsHeader);
+                friendsContainer.appendChild(onlineFriendsHeader);
 
-              const onlineFriendsContainer = document.createElement('div');
-              onlineFriendsContainer.classList.add('ProfileGroupHorizontalCells');
-              onlineFriendsContainer.style.paddingLeft = "8px";
-              onlineFriendsContainer.style.paddingRight = "8px";
-              onlineFriendsContainer.style.paddingBottom = "8px";
-              onlineFriends.sort(() => 0.5 - Math.random()).slice(0, 3).forEach(onlineFriend => {
-                const friendItem = document.createElement('div');
-                friendItem.classList.add('vkuiHorizontalCell', 'vkuiHorizontalCell--size-s', 'ProfileFriends__item', 'HorizontalCell-module__root--XStwI', 'HorizontalCell-module__rootSizeS--JwyO0');
-                friendItem.innerHTML = `
+                const onlineFriendsContainer = document.createElement("div");
+                onlineFriendsContainer.classList.add(
+                  "ProfileGroupHorizontalCells"
+                );
+                onlineFriendsContainer.style.paddingLeft = "8px";
+                onlineFriendsContainer.style.paddingRight = "8px";
+                onlineFriendsContainer.style.paddingBottom = "8px";
+                onlineFriends
+                  .sort(() => 0.5 - Math.random())
+                  .slice(0, 3)
+                  .forEach((onlineFriend) => {
+                    const friendItem = document.createElement("div");
+                    friendItem.classList.add(
+                      "vkuiHorizontalCell",
+                      "vkuiHorizontalCell--size-s",
+                      "ProfileFriends__item",
+                      "HorizontalCell-module__root--XStwI",
+                      "HorizontalCell-module__rootSizeS--JwyO0"
+                    );
+                    friendItem.innerHTML = `
                 <a href="/${onlineFriend.domain}" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
                     <div class="vkuiHorizontalCell__image">
                         <div class="vkuiImageBase vkuiImageBase--loaded vkuiAvatar" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${onlineFriend.photo_100}"></div>
@@ -2883,53 +3793,81 @@ function _o(e) {
                     </div>
                 </a>
             `;
-                if (onlineFriend.online === 1) {
-                  const onlineBadge = document.createElement('div');
-                  onlineBadge.classList.add('vkuiImageBaseBadge', 'vkuiImageBaseBadge--background-stroke', 'vkuiAvatarBadge', 'vkuiAvatarBadge--preset-onlineMobile', 'Badge-module__root--dY2bH', 'Badge-module__rootBottomRight--HIk3W');
-                  if (onlineFriend.online_mobile && onlineFriend.online_mobile == 1) {
-                    onlineBadge.innerHTML = `
+                    if (onlineFriend.online === 1) {
+                      const onlineBadge = document.createElement("div");
+                      onlineBadge.classList.add(
+                        "vkuiImageBaseBadge",
+                        "vkuiImageBaseBadge--background-stroke",
+                        "vkuiAvatarBadge",
+                        "vkuiAvatarBadge--preset-onlineMobile",
+                        "Badge-module__root--dY2bH",
+                        "Badge-module__rootBottomRight--HIk3W"
+                      );
+                      if (
+                        onlineFriend.online_mobile &&
+                        onlineFriend.online_mobile == 1
+                      ) {
+                        onlineBadge.innerHTML = `
                 <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--12 vkuiIcon--w-8 vkuiIcon--h-12 vkuiIcon--online_mobile_12" viewBox="0 0 8 12" width="8" height="12" style="width: 8px; height: 12px;">
                     <path fill="currentColor" d="M5.99 0C7.1 0 8 .9 8 2.01v7.98C8 11.1 7.1 12 5.99 12H2.01C.9 12 0 11.1 0 9.99V2.01C0 .9.9 0 2.01 0zm.008 3H2.003a.5.5 0 0 0-.503.502v4.996c0 .277.225.502.503.502h3.995a.5.5 0 0 0 .502-.502V3.503A.5.5 0 0 0 5.997 3"></path>
                 </svg>
             `;
-                  }
-                  else {
-                    onlineBadge.innerHTML = `
+                      } else {
+                        onlineBadge.innerHTML = `
                 <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--12 vkuiIcon--w-12 vkuiIcon--h-12 vkuiIcon--circle_12" viewBox="0 0 12 12" width="12" height="12" style="width: 12px; height: 12px;">
 					<path fill="currentColor" d="M10 6a4 4 0 1 1-8 0 4 4 0 0 1 8 0"></path>
 				</svg>
             `;
-                    onlineBadge.classList.remove('vkuiAvatarBadge--preset-onlineMobile');
-                    onlineBadge.classList.add('vkuiAvatarBadge--preset-online');
-                  }
-                  friendItem.querySelector('.vkuiImageBase').appendChild(onlineBadge);
-                }
-                onlineFriendsContainer.appendChild(friendItem);
-              });
-              friendsContainer.appendChild(onlineFriendsContainer);
+                        onlineBadge.classList.remove(
+                          "vkuiAvatarBadge--preset-onlineMobile"
+                        );
+                        onlineBadge.classList.add(
+                          "vkuiAvatarBadge--preset-online"
+                        );
+                      }
+                      friendItem
+                        .querySelector(".vkuiImageBase")
+                        .appendChild(onlineBadge);
+                    }
+                    onlineFriendsContainer.appendChild(friendItem);
+                  });
+                friendsContainer.appendChild(onlineFriendsContainer);
+              }
             }
-          }
-          let myFriendsResponse = { items: [''] };
-          try {
-            myFriendsResponse = await vkApi.api('friends.get', { user_id: vk.id });
-          }
-          catch (error) { }
-          let myFriends = myFriendsResponse.items;
-          let commonFriends = friends.items.filter(friend => myFriends.includes(friend.id));
-          if (commonFriends.length > 0 && userdata.id != vk.id) {
-            const commonFriendsHeader = document.createElement('div');
-            commonFriendsHeader.tabIndex = "0";
-            commonFriendsHeader.role = "button";
-            commonFriendsHeader.dataset.allowLinkOnclickWeb = "1";
-            commonFriendsHeader.classList.add('Header-module__tappable--mabke', 'ProfileGroupHeader', 'vkuiTappable', 'vkuiInternalTappable', 'vkuiTappable--hasActive', 'vkui-focus-visible');
-            commonFriendsHeader.innerHTML = `
+            let myFriendsResponse = { items: [""] };
+            try {
+              myFriendsResponse = await vkApi.api("friends.get", {
+                user_id: vk.id,
+              });
+            } catch (error) {}
+            let myFriends = myFriendsResponse.items;
+            let commonFriends = friends.items.filter((friend) =>
+              myFriends.includes(friend.id)
+            );
+            if (commonFriends.length > 0 && userdata.id != vk.id) {
+              const commonFriendsHeader = document.createElement("div");
+              commonFriendsHeader.tabIndex = "0";
+              commonFriendsHeader.role = "button";
+              commonFriendsHeader.dataset.allowLinkOnclickWeb = "1";
+              commonFriendsHeader.classList.add(
+                "Header-module__tappable--mabke",
+                "ProfileGroupHeader",
+                "vkuiTappable",
+                "vkuiInternalTappable",
+                "vkuiTappable--hasActive",
+                "vkui-focus-visible"
+              );
+              commonFriendsHeader.innerHTML =
+                `
 	<a href="/friends?id=${userdata.id}&amp;section=common" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
         <div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
             <div class="vkuiHeader__main">
                 <div class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1">
                     <span class="vkuiHeader__content-in">
                         <div class="Header-module__content--F5x_X">
-                            <div class="TextClamp-module__singleLine--mRCrF">`+ getLang("profile_common_friends") + `</div>
+                            <div class="TextClamp-module__singleLine--mRCrF">` +
+                getLang("profile_common_friends") +
+                `</div>
                         </div>
                     </span>
                     <span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${userdata1.mutual.count}</span>
@@ -2939,16 +3877,24 @@ function _o(e) {
 	</a>
     `;
 
-            const jopaContainer = document.createElement('div');
-            jopaContainer.classList.add("vkEnhancerMutualFriends");
-            jopaContainer.appendChild(commonFriendsHeader);
-            const commonFriendsContainer = document.createElement('div');
-            commonFriendsContainer.classList.add('ProfileGroupHorizontalCells');
+              const jopaContainer = document.createElement("div");
+              jopaContainer.classList.add("vkEnhancerMutualFriends");
+              jopaContainer.appendChild(commonFriendsHeader);
+              const commonFriendsContainer = document.createElement("div");
+              commonFriendsContainer.classList.add(
+                "ProfileGroupHorizontalCells"
+              );
 
-            commonFriends.slice(0, 3).forEach(commonFriend => {
-              const friendItem = document.createElement('div');
-              friendItem.classList.add('vkuiHorizontalCell', 'vkuiHorizontalCell--size-s', 'ProfileFriends__item', 'HorizontalCell-module__root--XStwI', 'HorizontalCell-module__rootSizeS--JwyO0');
-              friendItem.innerHTML = `
+              commonFriends.slice(0, 3).forEach((commonFriend) => {
+                const friendItem = document.createElement("div");
+                friendItem.classList.add(
+                  "vkuiHorizontalCell",
+                  "vkuiHorizontalCell--size-s",
+                  "ProfileFriends__item",
+                  "HorizontalCell-module__root--XStwI",
+                  "HorizontalCell-module__rootSizeS--JwyO0"
+                );
+                friendItem.innerHTML = `
             <a href="/${commonFriend.domain}" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
                 <div class="vkuiHorizontalCell__image">
                     <div class="vkuiImageBase vkuiImageBase--loaded vkuiAvatar" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${commonFriend.photo_100}"><div aria-hidden="true" class="vkuiImageBase__border"></div></div>
@@ -2958,38 +3904,52 @@ function _o(e) {
                 </div>
             </a>
         `;
-              if (commonFriend.online === 1) {
-                const onlineBadge = document.createElement('div');
-                onlineBadge.classList.add('vkuiImageBaseBadge', 'vkuiImageBaseBadge--background-stroke', 'vkuiAvatarBadge', 'vkuiAvatarBadge--preset-onlineMobile', 'Badge-module__root--dY2bH', 'Badge-module__rootBottomRight--HIk3W');
-                if (commonFriend.online_mobile && commonFriend.online_mobile == 1) {
-                  onlineBadge.innerHTML = `
+                if (commonFriend.online === 1) {
+                  const onlineBadge = document.createElement("div");
+                  onlineBadge.classList.add(
+                    "vkuiImageBaseBadge",
+                    "vkuiImageBaseBadge--background-stroke",
+                    "vkuiAvatarBadge",
+                    "vkuiAvatarBadge--preset-onlineMobile",
+                    "Badge-module__root--dY2bH",
+                    "Badge-module__rootBottomRight--HIk3W"
+                  );
+                  if (
+                    commonFriend.online_mobile &&
+                    commonFriend.online_mobile == 1
+                  ) {
+                    onlineBadge.innerHTML = `
                 <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--12 vkuiIcon--w-8 vkuiIcon--h-12 vkuiIcon--online_mobile_12" viewBox="0 0 8 12" width="8" height="12" style="width: 8px; height: 12px;">
                     <path fill="currentColor" d="M5.99 0C7.1 0 8 .9 8 2.01v7.98C8 11.1 7.1 12 5.99 12H2.01C.9 12 0 11.1 0 9.99V2.01C0 .9.9 0 2.01 0zm.008 3H2.003a.5.5 0 0 0-.503.502v4.996c0 .277.225.502.503.502h3.995a.5.5 0 0 0 .502-.502V3.503A.5.5 0 0 0 5.997 3"></path>
                 </svg>
             `;
-                }
-                else {
-                  onlineBadge.innerHTML = `
+                  } else {
+                    onlineBadge.innerHTML = `
                 <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--12 vkuiIcon--w-12 vkuiIcon--h-12 vkuiIcon--circle_12" viewBox="0 0 12 12" width="12" height="12" style="width: 12px; height: 12px;">
 					<path fill="currentColor" d="M10 6a4 4 0 1 1-8 0 4 4 0 0 1 8 0"></path>
 				</svg>
             `;
-                  onlineBadge.classList.remove('vkuiAvatarBadge--preset-onlineMobile');
-                  onlineBadge.classList.add('vkuiAvatarBadge--preset-online');
+                    onlineBadge.classList.remove(
+                      "vkuiAvatarBadge--preset-onlineMobile"
+                    );
+                    onlineBadge.classList.add("vkuiAvatarBadge--preset-online");
+                  }
+                  friendItem
+                    .querySelector(".vkuiImageBase")
+                    .appendChild(onlineBadge);
                 }
-                friendItem.querySelector('.vkuiImageBase').appendChild(onlineBadge);
-              }
-              commonFriendsContainer.appendChild(friendItem);
-            });
-            jopaContainer.appendChild(commonFriendsContainer);
-            friendsSection.prepend(jopaContainer);
+                commonFriendsContainer.appendChild(friendItem);
+              });
+              jopaContainer.appendChild(commonFriendsContainer);
+              friendsSection.prepend(jopaContainer);
+            }
           }
+          imReady = true;
+          let readyElement = document.createElement("div");
+          readyElement.classList.add("imReadyForShowingFriends");
+          document.body.appendChild(readyElement);
         }
-        imReady = true;
-        let readyElement = document.createElement('div');
-        readyElement.classList.add("imReadyForShowingFriends");
-        document.body.appendChild(readyElement);
-      });
+      );
       document.arrive(".label.fl_l", { existing: true }, async function (e) {
         appearVariable();
       });
@@ -3002,7 +3962,6 @@ function _o(e) {
           profileInfoHeight + "px"
         );
       }
-
 
       async function expandMore(userData) {
         var profileMoreInfo = document.querySelector(".profile_more_info");
@@ -3089,7 +4048,7 @@ function _o(e) {
                     clFix.appendChild(langsList);
                     moreItemsLoaded.appendChild(clFix);
                   }
-                } catch (error) { }
+                } catch (error) {}
                 await addRelatives(userData, moreItemsLoaded);
               }
 
@@ -3211,8 +4170,8 @@ function _o(e) {
                   if (job.group_id) {
                     groupLink = document.createElement("a");
                     groupLink.href = `https://vk.com/club${job.group_id}`;
-                    groupLink.setAttribute('mention_id', `club${job.group_id}`);
-                    groupLink.setAttribute('onmouseover', 'mentionOver(this)');
+                    groupLink.setAttribute("mention_id", `club${job.group_id}`);
+                    groupLink.setAttribute("onmouseover", "mentionOver(this)");
                     groupLink.textContent = groupName;
                     groupLink.classList.add(
                       "vkuiLink",
@@ -3240,25 +4199,26 @@ function _o(e) {
 
                   var additionalS = document.createElement("div");
                   additionalS.classList.add("vkEnhancerAdditionalJob");
-				  if (job.city_name) {
+                  if (job.city_name) {
                     var city_nameLink = document.createElement("div");
                     city_nameLink.textContent = job.city_name;
                     additionalS.appendChild(city_nameLink);
-                  }
-				  else if(job.city_id) {
-					var city_nameID = document.createElement("div");
-					let cids = await vkApi.api('database.getCitiesById',{city_ids:job.city_id});
-					let cidThis = cids[0].title;
+                  } else if (job.city_id) {
+                    var city_nameID = document.createElement("div");
+                    let cids = await vkApi.api("database.getCitiesById", {
+                      city_ids: job.city_id,
+                    });
+                    let cidThis = cids[0].title;
                     city_nameID.textContent = cidThis;
                     additionalS.appendChild(city_nameID);
-				  }
-				  if(job.city_id || job.city_name) {
-					if(job.from || job.until) {
-						let zapytaya = document.createElement('div');
-						zapytaya.textContent = ', ​';
-						additionalS.appendChild(zapytaya);
-					}
-				  }
+                  }
+                  if (job.city_id || job.city_name) {
+                    if (job.from || job.until) {
+                      let zapytaya = document.createElement("div");
+                      zapytaya.textContent = ", ​";
+                      additionalS.appendChild(zapytaya);
+                    }
+                  }
                   if (job.from && job.until) {
                     var PIZDA = document.createElement("div");
                     PIZDA.textContent = ` ${job.from}-${job.until}`;
@@ -3276,11 +4236,11 @@ function _o(e) {
                     ).replace("%s", job.until);
                     additionalS.appendChild(untilLink);
                   }
-				  if (job.position) {
+                  if (job.position) {
                     var positionLink = document.createElement("a");
                     positionLink.href = `/search/people?c[name]=0&c[position]=${job.position}`;
-					positionLink.style.position = `absolute`;
-					positionLink.style.marginTop = `16px`;
+                    positionLink.style.position = `absolute`;
+                    positionLink.style.marginTop = `16px`;
                     positionLink.innerHTML = job.position + " ";
                     positionLink.classList.add(
                       "vkuiLink",
@@ -3294,26 +4254,31 @@ function _o(e) {
                     additionalS.appendChild(positionLink);
                   }
                   var jobRow = document.createElement("div");
-				  jobRow.classList.add("job_row");
+                  jobRow.classList.add("job_row");
                   jobRow.appendChild(careerDiv);
-				  if (job.group_id) {
-					let groupAva = document.createElement("a");
-					groupAva.classList.add('fl_r');
-					groupAva.classList.add('profile_career_group');
-					groupAva.setAttribute('mention','');
-					groupAva.setAttribute('mention_id','club'+job.group_id);
-					groupAva.setAttribute('onmouseover','mentionOver(this, {shift: [31, 9, 4]});');
-					groupAva.href = "https://vk.com/club"+job.group_id;
-					let groupAvaImg = document.createElement('img');
-					groupAvaImg.classList.add('profile_career_img');
-					groupAvaImg.style.width = '50px';
-					groupAvaImg.style.height = '50px';
-					groupAvaImg.style.borderRadius = '100px';
-					let groupInfo = await vkApi.api('groups.getById',{group_ids:job.group_id});
-					groupAvaImg.src = groupInfo.groups[0].photo_50;
-					groupAva.appendChild(groupAvaImg);
-					jobRow.appendChild(groupAva);
-				  }
+                  if (job.group_id) {
+                    let groupAva = document.createElement("a");
+                    groupAva.classList.add("fl_r");
+                    groupAva.classList.add("profile_career_group");
+                    groupAva.setAttribute("mention", "");
+                    groupAva.setAttribute("mention_id", "club" + job.group_id);
+                    groupAva.setAttribute(
+                      "onmouseover",
+                      "mentionOver(this, {shift: [31, 9, 4]});"
+                    );
+                    groupAva.href = "https://vk.com/club" + job.group_id;
+                    let groupAvaImg = document.createElement("img");
+                    groupAvaImg.classList.add("profile_career_img");
+                    groupAvaImg.style.width = "50px";
+                    groupAvaImg.style.height = "50px";
+                    groupAvaImg.style.borderRadius = "100px";
+                    let groupInfo = await vkApi.api("groups.getById", {
+                      group_ids: job.group_id,
+                    });
+                    groupAvaImg.src = groupInfo.groups[0].photo_50;
+                    groupAva.appendChild(groupAvaImg);
+                    jobRow.appendChild(groupAva);
+                  }
                   jobRow.appendChild(groupLink);
                   jobRow.appendChild(additionalS);
 
@@ -3329,8 +4294,7 @@ function _o(e) {
                   });
                   if (
                     (userData.schools && userData.schools.length > 0) ||
-                    (userData.universities &&
-					userData.universities.length > 0)
+                    (userData.universities && userData.universities.length > 0)
                   ) {
                     var commonDiv = document.createElement("div");
                     commonDiv.classList.add("vkEnhancerSectionProfile");
@@ -3348,8 +4312,7 @@ function _o(e) {
               } else {
                 if (
                   (userData.schools && userData.schools.length > 0) ||
-                  (userData.universities &&
-				  userData.universities.length > 0)
+                  (userData.universities && userData.universities.length > 0)
                 ) {
                   var commonDiv = document.createElement("div");
                   commonDiv.classList.add("vkEnhancerSectionProfile");
@@ -3569,17 +4532,18 @@ function _o(e) {
             if (school.year_from && school.year_to) {
               var yearClassDiv = document.createElement("div");
               yearClassDiv.classList.add("yearClassDiv");
-			  if(school.city) {
-				vkApi.api('database.getCitiesById', { city_ids: school.city })
-					.then(cidSchool => {
-						let schoolCity = document.createElement("div");
-						schoolCity.textContent = cidSchool[0].title + ", ​";
-						yearClassDiv.prepend(schoolCity);
-					})
-					.catch(error => {
-						console.error('Error fetching city:', error);
-					});
-				}
+              if (school.city) {
+                vkApi
+                  .api("database.getCitiesById", { city_ids: school.city })
+                  .then((cidSchool) => {
+                    let schoolCity = document.createElement("div");
+                    schoolCity.textContent = cidSchool[0].title + ", ​";
+                    yearClassDiv.prepend(schoolCity);
+                  })
+                  .catch((error) => {
+                    console.error("Error fetching city:", error);
+                  });
+              }
               var yearRangeDiv = document.createElement("div");
               yearRangeDiv.textContent = `${school.year_from}-${school.year_to} ​`;
               yearClassDiv.appendChild(yearRangeDiv);
@@ -3605,57 +4569,24 @@ function _o(e) {
               schoolInfo.appendChild(yearClassDiv);
             } else if (school.year_from) {
               var yearFromDiv = document.createElement("div");
-			  yearFromDiv.classList.add('yearClassDiv');
-			  let yearFromString = getLang("profile_places_year_from");
-              yearFromDiv.textContent = yearFromString.replace('%s',`${school.year_from}`);
-			  if(school.city) {
-				vkApi.api('database.getCitiesById', { city_ids: school.city })
-					.then(cidSchool => {
-						let schoolCity = document.createElement("div");
-						schoolCity.textContent = cidSchool[0].title + ", ​";
-						yearFromDiv.prepend(schoolCity);
-					})
-					.catch(error => {
-						console.error('Error fetching city:', error);
-					});
-				}
-              schoolInfo.appendChild(yearFromDiv);
-
-              // Класс
-              if (school.class) {
-                var classLink = document.createElement("a");
-                classLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}&c[school_year]=${school.year_graduated}&c[school_class]=${school.class}`;
-                classLink.textContent = `(${school.class})`;
-                classLink.classList.add(
-                  "classLinkA",
-                  "vkuiLink",
-                  "Link-module__link--V7bkY",
-                  "ProfileModalInfoLink",
-                  "vkuiTappable",
-                  "vkuiInternalTappable",
-                  "vkuiTappable--hasActive",
-                  "vkui-focus-visible"
-                );
-                schoolInfo.appendChild(classLink);
+              yearFromDiv.classList.add("yearClassDiv");
+              let yearFromString = getLang("profile_places_year_from");
+              yearFromDiv.textContent = yearFromString.replace(
+                "%s",
+                `${school.year_from}`
+              );
+              if (school.city) {
+                vkApi
+                  .api("database.getCitiesById", { city_ids: school.city })
+                  .then((cidSchool) => {
+                    let schoolCity = document.createElement("div");
+                    schoolCity.textContent = cidSchool[0].title + ", ​";
+                    yearFromDiv.prepend(schoolCity);
+                  })
+                  .catch((error) => {
+                    console.error("Error fetching city:", error);
+                  });
               }
-            }
-			
-			else if (school.year_to) {
-              var yearFromDiv = document.createElement("div");
-			  yearFromDiv.classList.add('yearClassDiv');
-			  let yearFromString = getLang("profile_places_year_to");
-              yearFromDiv.textContent = yearFromString.replace('%s',`${school.year_to}`);
-			  if(school.city) {
-				vkApi.api('database.getCitiesById', { city_ids: school.city })
-					.then(cidSchool => {
-						let schoolCity = document.createElement("div");
-						schoolCity.textContent = cidSchool[0].title + ", ​";
-						yearFromDiv.prepend(schoolCity);
-					})
-					.catch(error => {
-						console.error('Error fetching city:', error);
-					});
-				}
               schoolInfo.appendChild(yearFromDiv);
 
               // Класс
@@ -3673,7 +4604,46 @@ function _o(e) {
                   "vkuiTappable--hasActive",
                   "vkui-focus-visible"
                 );
-                schoolInfo.appendChild(classLink);
+                yearFromDiv.appendChild(classLink);
+              }
+            } else if (school.year_to) {
+              var yearFromDiv = document.createElement("div");
+              yearFromDiv.classList.add("yearClassDiv");
+              let yearFromString = getLang("profile_places_year_to");
+              yearFromDiv.textContent = yearFromString.replace(
+                "%s",
+                `${school.year_to}`
+              );
+              if (school.city) {
+                vkApi
+                  .api("database.getCitiesById", { city_ids: school.city })
+                  .then((cidSchool) => {
+                    let schoolCity = document.createElement("div");
+                    schoolCity.textContent = cidSchool[0].title + ", ​";
+                    yearFromDiv.prepend(schoolCity);
+                  })
+                  .catch((error) => {
+                    console.error("Error fetching city:", error);
+                  });
+              }
+              schoolInfo.appendChild(yearFromDiv);
+
+              // Класс
+              if (school.class) {
+                var classLink = document.createElement("a");
+                classLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}&c[school_year]=${school.year_graduated}&c[school_class]=${school.class}`;
+                classLink.textContent = `(${school.class})`;
+                classLink.classList.add(
+                  "classLinkA",
+                  "vkuiLink",
+                  "Link-module__link--V7bkY",
+                  "ProfileModalInfoLink",
+                  "vkuiTappable",
+                  "vkuiInternalTappable",
+                  "vkuiTappable--hasActive",
+                  "vkui-focus-visible"
+                );
+                yearFromDiv.appendChild(classLink);
               }
             }
 
@@ -3749,13 +4719,23 @@ function _o(e) {
                 voinInfo.appendChild(voinClassDiv);
               } else if (voin.from) {
                 var voinFromDiv = document.createElement("div");
-				let voinFromString = getLang("profile_places_year_from");
-                voinFromDiv.textContent = voinFromString.replace('%s',`${voin.from}`);
+				voinFromDiv.classList.add("voinClassDiv");
+				
+                let voinFromString = getLang("profile_places_year_from");
+                voinFromDiv.textContent = voinFromString.replace(
+                  "%s",
+                  `${voin.from}`
+                );
                 voinInfo.appendChild(voinFromDiv);
               } else if (voin.until) {
                 var voinUntilDiv = document.createElement("div");
-				let voinUntilString = getLang("profile_places_year_to");
-                voinUntilDiv.textContent = voinUntilString.replace('%s',`${voin.until}`);
+				voinUntilDiv.classList.add("voinClassDiv");
+				
+                let voinUntilString = getLang("profile_places_year_to");
+                voinUntilDiv.textContent = voinUntilString.replace(
+                  "%s",
+                  `${voin.until}`
+                );
                 voinInfo.appendChild(voinUntilDiv);
               }
               moreItemsLoaded.appendChild(voinInfo);
@@ -3765,18 +4745,14 @@ function _o(e) {
 
         if (
           userData.personal &&
-          ((userData.personal.alcohol &&
-            userData.personal.alcohol != 0) ||
-		  (userData.personal.life_main &&
-		  userData.personal.life_main != 0) ||
-		  (userData.personal.people_main &&
-		  userData.personal.people_main != 0) ||
-		  (userData.personal.smoking &&
-		  userData.personal.smoking != 0) ||
-		  (userData.personal.inspired_by &&
-		  userData.personal.inspired_by != "") ||
-		  (userData.personal.religion &&
-              userData.personal.religion != "")) &&
+          ((userData.personal.alcohol && userData.personal.alcohol != 0) ||
+            (userData.personal.life_main && userData.personal.life_main != 0) ||
+            (userData.personal.people_main &&
+              userData.personal.people_main != 0) ||
+            (userData.personal.smoking && userData.personal.smoking != 0) ||
+            (userData.personal.inspired_by &&
+              userData.personal.inspired_by != "") ||
+            (userData.personal.religion && userData.personal.religion != "")) &&
           Object.keys(userData.personal).length > 0
         ) {
           var commonDiv = document.createElement("div");
@@ -4055,7 +5031,7 @@ function _o(e) {
         if (
           (userData.activities && userData.activities != "") ||
           (userData.interests && userData.interests != "") ||
-		(userData.music && userData.music != "") ||
+          (userData.music && userData.music != "") ||
           (userData.movies && userData.movies != "") ||
           (userData.tv && userData.tv != "") ||
           (userData.books && userData.books != "") ||
@@ -4440,11 +5416,11 @@ function _o(e) {
 
       function formatCounterValue(value) {
         if (value >= 1000000000) {
-          return (value / 1000000000).toFixed(1) + 'B';
+          return (value / 1000000000).toFixed(1) + "B";
         } else if (value >= 1000000) {
-          return (value / 1000000).toFixed(1) + 'M';
+          return (value / 1000000).toFixed(1) + "M";
         } else if (value >= 10000) {
-          return (value / 1000).toFixed(1) + 'K';
+          return (value / 1000).toFixed(1) + "K";
         } else {
           return value.toString();
         }
@@ -4477,8 +5453,7 @@ function _o(e) {
         ];
         if (countersData) {
           countersData = sortObject(countersData, order);
-        }
-        else {
+        } else {
           return;
         }
         for (var counterType in countersData) {
@@ -4554,7 +5529,7 @@ function _o(e) {
                 break;
               case "posts":
                 labelClass = "vkenhancerCounterPages";
-				counterDiv.classList.add(labelClass);
+                counterDiv.classList.add(labelClass);
                 break;
             }
             if (labelHref && counterDiv) {
@@ -4562,12 +5537,11 @@ function _o(e) {
               counterDiv.classList.add(labelClass);
               counterDiv.setAttribute("onclick", labelOnclick);
             }
-			if(counterType == "posts" && userData.can_access_closed) {
-				try {
-					countsModule.querySelector(".vkenhancerCounterPages").remove();
-				}
-				catch(error){}
-			}
+            if (counterType == "posts" && userData.can_access_closed) {
+              try {
+                countsModule.querySelector(".vkenhancerCounterPages").remove();
+              } catch (error) {}
+            }
           }
         }
 
@@ -4596,12 +5570,12 @@ function _o(e) {
             e != Math.floor(e)
               ? (i = t[o.numRules.float])
               : (o.numRules.int || []).some((n) => {
-                if ("*" === n[0]) return (i = t[n[2]]), !0;
-                const r = n[0] ? e % n[0] : e;
-                return Array.isArray(n[1]) && n[1].includes(r)
-                  ? ((i = t[n[2]]), !0)
-                  : void 0;
-              }))
+                  if ("*" === n[0]) return (i = t[n[2]]), !0;
+                  const r = n[0] ? e % n[0] : e;
+                  return Array.isArray(n[1]) && n[1].includes(r)
+                    ? ((i = t[n[2]]), !0)
+                    : void 0;
+                }))
           : (i = t);
         let a = String(e);
         if (n) {
@@ -5433,8 +6407,11 @@ function _o(e) {
                       "vkuiTappable--hasActive",
                       "vkui-focus-visible"
                     );
-                    relativeLink.setAttribute('mention_id', `id${id}`);
-                    relativeLink.setAttribute('onmouseover', 'mentionOver(this)');
+                    relativeLink.setAttribute("mention_id", `id${id}`);
+                    relativeLink.setAttribute(
+                      "onmouseover",
+                      "mentionOver(this)"
+                    );
                   }
                 }
               }
@@ -5482,36 +6459,38 @@ function _o(e) {
             clearInterval(interval);
             return;
           }
-          let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
-function _o(e) {
-          const t = {};
-          if (!e) return t;
-          for (const n of Object.keys(e))
-            n.startsWith("__reactFiber") && (t.fiber = e[n]),
-              n.startsWith("__reactProps") && (t.props = e[n]),
-              n.startsWith("__reactContainer") && (t.container = e[n]);
-          return t;
-        }
+          let pizda = _o(document.getElementById("react_rootprofile"))
+            ?.container?.memoizedState?.element?.props;
+          function _o(e) {
+            const t = {};
+            if (!e) return t;
+            for (const n of Object.keys(e))
+              n.startsWith("__reactFiber") && (t.fiber = e[n]),
+                n.startsWith("__reactProps") && (t.props = e[n]),
+                n.startsWith("__reactContainer") && (t.container = e[n]);
+            return t;
+          }
           var objectId = pizda.store.getState().owner.id;
-          
-              var newElement = document.createElement("div");
-              newElement.className = "ProfileGifts__all";
-              newElement.innerHTML = `
-                        <a onclick="window.Profile.showGiftBox(${objectId},${vk.id
-                },'profile_module')" class="Button-module__root--enpNU vkuiButton vkuiButton--size-s vkuiButton--mode-secondary vkuiButton--appearance-accent vkuiButton--align-center vkuiButton--stretched vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible">
+
+          var newElement = document.createElement("div");
+          newElement.className = "ProfileGifts__all";
+          newElement.innerHTML = `
+                        <a onclick="window.Profile.showGiftBox(${objectId},${
+            vk.id
+          },'profile_module')" class="Button-module__root--enpNU vkuiButton vkuiButton--size-s vkuiButton--mode-secondary vkuiButton--appearance-accent vkuiButton--align-center vkuiButton--stretched vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible">
                             <span class="vkuiButton__in">
 								<svg><g fill="none" fill-rule="evenodd"><path d="M0 0h20v20H0z"></path><path fill="currentColor" fill-rule="nonzero" d="M14.846 2.314c1.026 1.026 1.23 2.875-.257 4.186h.911a3 3 0 0 1 3 3v.49c0 .827-.093 1.16-.267 1.487-.174.326-.43.582-.756.756a1.9 1.9 0 0 1-.477.182v1.618c0 1.56-.162 2.126-.467 2.696a3.2 3.2 0 0 1-1.324 1.324l-.202.101c-.48.224-1.037.349-2.229.364l-5.291.002c-1.56 0-2.126-.162-2.696-.467a3.2 3.2 0 0 1-1.324-1.324l-.101-.202c-.224-.48-.349-1.037-.364-2.229L3 12.415a1.9 1.9 0 0 1-.477-.182 1.8 1.8 0 0 1-.756-.756c-.16-.299-.251-.605-.265-1.29L1.5 9.5a3 3 0 0 1 3-3h.911c-1.487-1.31-1.283-3.16-.257-4.186C6.369 1.099 8.738 1.038 10 3.569c1.262-2.531 3.631-2.47 4.846-1.255M9.25 12.499 4.5 12.5l.001 1.762.009.399c.021.604.083.924.202 1.2l.078.161q.246.462.708.708l.162.078c.33.143.724.203 1.598.211l1.991-.001zm6.251.001-4.751-.001v4.519l1.993.001.399-.009c.604-.021.924-.083 1.2-.202l.161-.078a1.7 1.7 0 0 0 .708-.708c.186-.348.267-.688.286-1.551l.004-.438zM9.159 7.999 4.5 8A1.5 1.5 0 0 0 3 9.5v.638l.007.232c.012.227.037.315.083.4a.32.32 0 0 0 .14.14c.11.059.223.085.632.09l5.387-.001.002-3L9.16 8zM15.5 8l-4.661-.001h-.09v3h5.39c.408-.004.521-.03.63-.089a.32.32 0 0 0 .141-.14c.065-.122.09-.248.09-.78V9.5A1.5 1.5 0 0 0 15.5 8M9.223 6.159c-.43-3.101-1.96-3.834-3.009-2.785C5.165 4.424 5.898 5.952 9 6.384l.257.032Zm1.554 0-.024.191.007.062.241-.029c3.101-.43 3.834-1.96 2.785-3.009-1.05-1.049-2.578-.316-3.01 2.785"></path></g></svg>
                                 <span class="vkuiButton__content">${getLang(
-                  "profile_send_gift"
-                )}</span>
+                                  "profile_send_gift"
+                                )}</span>
                             </span>
                         </a>
                     `;
-              var headerButtons = document.querySelector(
-                ".ProfileHeader__wrapper .ProfileHeaderActions__buttons"
-              );
-              var theFirstChild = headerButtons.firstChild;
-              headerButtons.insertBefore(newElement, theFirstChild);
+          var headerButtons = document.querySelector(
+            ".ProfileHeader__wrapper .ProfileHeaderActions__buttons"
+          );
+          var theFirstChild = headerButtons.firstChild;
+          headerButtons.insertBefore(newElement, theFirstChild);
           count++;
         }, 1); // 10 секунд
       }
@@ -5619,20 +6598,98 @@ function _o(e) {
       function getZodiacSigns(lang) {
         switch (lang) {
           case 0:
-            return ["Овен", "Телец", "Близнецы", "Рак", "Лев", "Дева", "Весы", "Скорпион", "Стрелец", "Козерог", "Водолей", "Рыбы"];
+            return [
+              "Овен",
+              "Телец",
+              "Близнецы",
+              "Рак",
+              "Лев",
+              "Дева",
+              "Весы",
+              "Скорпион",
+              "Стрелец",
+              "Козерог",
+              "Водолей",
+              "Рыбы",
+            ];
           case 1:
           case 454:
-            return ["Овен", "Телец", "Близнюки", "Рак", "Лев", "Діва", "Терези", "Скорпіон", "Стрілець", "Козеріг", "Водолій", "Риби"];
+            return [
+              "Овен",
+              "Телец",
+              "Близнюки",
+              "Рак",
+              "Лев",
+              "Діва",
+              "Терези",
+              "Скорпіон",
+              "Стрілець",
+              "Козеріг",
+              "Водолій",
+              "Риби",
+            ];
           case 2:
           case 114:
-            return ["Баран", "Тэлец", "Блізнюкі", "Рак", "Лев", "Дзева", "Вагі", "Шкапец", "Стралец", "Козераг", "Вадалей", "Рыбы"];
+            return [
+              "Баран",
+              "Тэлец",
+              "Блізнюкі",
+              "Рак",
+              "Лев",
+              "Дзева",
+              "Вагі",
+              "Шкапец",
+              "Стралец",
+              "Козераг",
+              "Вадалей",
+              "Рыбы",
+            ];
           case 777:
           case 100:
-            return ["Овен", "Телец", "Близнецы", "Рак", "Лев", "Дева", "Весы", "Скорпион", "Стрелец", "Козерог", "Водолей", "Рыбы"];
+            return [
+              "Овен",
+              "Телец",
+              "Близнецы",
+              "Рак",
+              "Лев",
+              "Дева",
+              "Весы",
+              "Скорпион",
+              "Стрелец",
+              "Козерог",
+              "Водолей",
+              "Рыбы",
+            ];
           case 97:
-            return ["Овен", "Телец", "Близнесін", "Рак", "Лев", "Дева", "Терезе", "Ақшақар", "Оят", "Козерге", "Суғайыр", "Балық"];
+            return [
+              "Овен",
+              "Телец",
+              "Близнесін",
+              "Рак",
+              "Лев",
+              "Дева",
+              "Терезе",
+              "Ақшақар",
+              "Оят",
+              "Козерге",
+              "Суғайыр",
+              "Балық",
+            ];
           default:
-            return ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+            return [
+              "Aries",
+              "Taurus",
+              "Gemini",
+              "Cancer",
+              "Leo",
+              "Virgo",
+              "Libra",
+              "Scorpio",
+              "Sagittarius",
+              "Capricorn",
+              "Aquarius",
+              "Pisces",
+            ];
         }
       }
 
@@ -5642,7 +6699,8 @@ function _o(e) {
 
         const foafGet = await fetch(`https://vk.com/foaf.php?id=${id}`);
         const response = await foafGet.text();
-        const [, regDateReady] = response.match(/ya:created dc:date="(.+?)"/) || [];
+        const [, regDateReady] =
+          response.match(/ya:created dc:date="(.+?)"/) || [];
         if (regDateReady) {
           const regDateReadyUNIX = new Date(regDateReady).getTime();
           localStorage.setItem(`regDate_${id}`, regDateReadyUNIX);
@@ -5654,7 +6712,7 @@ function _o(e) {
         const date = new Date(unixTimestamp);
         const formattedDate = [
           `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`,
-          `(${padZero(date.getHours())}:${padZero(date.getMinutes())})`
+          `(${padZero(date.getHours())}:${padZero(date.getMinutes())})`,
         ];
         return formattedDate;
       }
@@ -5669,79 +6727,55 @@ function _o(e) {
         month = Number(month);
         switch (month) {
           case 1:
-            if (den <= 19)
-              value = getZodiacSigns(vk.lang)[9];
-            else
-              value = getZodiacSigns(vk.lang)[10];
+            if (den <= 19) value = getZodiacSigns(vk.lang)[9];
+            else value = getZodiacSigns(vk.lang)[10];
             break;
           case 2:
-            if (den <= 18)
-              value = getZodiacSigns(vk.lang)[10];
-            else
-              value = getZodiacSigns(vk.lang)[11];
+            if (den <= 18) value = getZodiacSigns(vk.lang)[10];
+            else value = getZodiacSigns(vk.lang)[11];
             break;
           case 3:
-            if (den <= 20)
-              value = getZodiacSigns(vk.lang)[11];
-            else
-              value = getZodiacSigns(vk.lang)[0];
+            if (den <= 20) value = getZodiacSigns(vk.lang)[11];
+            else value = getZodiacSigns(vk.lang)[0];
             break;
           case 4:
-            if (den <= 19)
-              value = getZodiacSigns(vk.lang)[0];
-            else
-              value = getZodiacSigns(vk.lang)[1];
+            if (den <= 19) value = getZodiacSigns(vk.lang)[0];
+            else value = getZodiacSigns(vk.lang)[1];
             break;
           case 5:
-            if (den <= 20)
-              value = getZodiacSigns(vk.lang)[1];
-            else
-              value = getZodiacSigns(vk.lang)[2];
+            if (den <= 20) value = getZodiacSigns(vk.lang)[1];
+            else value = getZodiacSigns(vk.lang)[2];
             break;
           case 6:
-            if (den <= 21)
-              value = getZodiacSigns(vk.lang)[2];
-            else
-              value = getZodiacSigns(vk.lang)[3];
+            if (den <= 21) value = getZodiacSigns(vk.lang)[2];
+            else value = getZodiacSigns(vk.lang)[3];
             break;
           case 7:
-            if (den <= 22)
-              value = getZodiacSigns(vk.lang)[3];
-            else
-              value = getZodiacSigns(vk.lang)[4];
+            if (den <= 22) value = getZodiacSigns(vk.lang)[3];
+            else value = getZodiacSigns(vk.lang)[4];
             break;
           case 8:
-            if (den <= 22)
-              value = getZodiacSigns(vk.lang)[4];
-            else
-              value = getZodiacSigns(vk.lang)[5];
+            if (den <= 22) value = getZodiacSigns(vk.lang)[4];
+            else value = getZodiacSigns(vk.lang)[5];
             break;
           case 9:
-            if (den <= 22)
-              value = getZodiacSigns(vk.lang)[5];
-            else
-              value = getZodiacSigns(vk.lang)[6];
+            if (den <= 22) value = getZodiacSigns(vk.lang)[5];
+            else value = getZodiacSigns(vk.lang)[6];
             break;
           case 10:
-            if (den <= 22)
-              value = getZodiacSigns(vk.lang)[6];
-            else
-              value = getZodiacSigns(vk.lang)[7];
+            if (den <= 22) value = getZodiacSigns(vk.lang)[6];
+            else value = getZodiacSigns(vk.lang)[7];
             break;
           case 11:
-            if (den <= 22)
-              value = getZodiacSigns(vk.lang)[7];
-            else
-              value = getZodiacSigns(vk.lang)[8];
+            if (den <= 22) value = getZodiacSigns(vk.lang)[7];
+            else value = getZodiacSigns(vk.lang)[8];
             break;
           case 12:
-            if (den <= 21)
-              value = getZodiacSigns(vk.lang)[8];
-            else
-              value = getZodiacSigns(vk.lang)[9];
+            if (den <= 21) value = getZodiacSigns(vk.lang)[8];
+            else value = getZodiacSigns(vk.lang)[9];
             break;
           default:
-            value = 'Zodiac parsing failed'
+            value = "Zodiac parsing failed";
         }
         return value;
       }
@@ -5761,12 +6795,12 @@ function _o(e) {
             e != Math.floor(e)
               ? (i = t[o.numRules.float])
               : (o.numRules.int || []).some((n) => {
-                if ("*" === n[0]) return (i = t[n[2]]), !0;
-                const r = n[0] ? e % n[0] : e;
-                return Array.isArray(n[1]) && n[1].includes(r)
-                  ? ((i = t[n[2]]), !0)
-                  : void 0;
-              }))
+                  if ("*" === n[0]) return (i = t[n[2]]), !0;
+                  const r = n[0] ? e % n[0] : e;
+                  return Array.isArray(n[1]) && n[1].includes(r)
+                    ? ((i = t[n[2]]), !0)
+                    : void 0;
+                }))
           : (i = t);
         let a = String(e);
         if (n) {
@@ -5789,12 +6823,12 @@ function _o(e) {
         var birthday = userData.bdate;
         if (birthday) {
           var formattedBirthday = formatBirthday(birthday);
-          var ageAndZodiac = '';
+          var ageAndZodiac = "";
 
-          var parts = birthday.split('.');
+          var parts = birthday.split(".");
           if (parts.length === 3) {
             let bDayFull = userData.bdate;
-            let ptsOfAfe = bDayFull.split('.');
+            let ptsOfAfe = bDayFull.split(".");
             let birthYear1 = parseInt(ptsOfAfe[2], 10);
             let birthMonth1 = parseInt(ptsOfAfe[1], 10);
             let birthDay1 = parseInt(ptsOfAfe[0], 10);
@@ -5803,13 +6837,18 @@ function _o(e) {
             let currentMonth1 = todayDate1.getMonth() + 1;
             let currentDay1 = todayDate1.getDate();
             let age = currentYear1 - birthYear1;
-            if (currentMonth1 < birthMonth1 || (currentMonth1 === birthMonth1 && currentDay1 < birthDay1)) {
+            if (
+              currentMonth1 < birthMonth1 ||
+              (currentMonth1 === birthMonth1 && currentDay1 < birthDay1)
+            ) {
               age--;
             }
-            ageAndZodiac = `${getLangYearsOld(age, getLang("global_years_accusative", "raw"))}, ${getZodiacIndex(parts[0], parts[1])}`
-          }
-          else if (parts.length === 2) {
-            ageAndZodiac = `${getZodiacIndex(parts[0], parts[1])}`
+            ageAndZodiac = `${getLangYearsOld(
+              age,
+              getLang("global_years_accusative", "raw")
+            )}, ${getZodiacIndex(parts[0], parts[1])}`;
+          } else if (parts.length === 2) {
+            ageAndZodiac = `${getZodiacIndex(parts[0], parts[1])}`;
           }
 
           var birthdayRow = createProfileInfoRow(
@@ -5826,16 +6865,15 @@ function _o(e) {
           let regDateValue1 = await getRegDateValue(userData.id);
           var regDateDate = formatRegister(regDateValue1[0]);
           regDateDate += " " + regDateValue1[1];
-          var registrationRow = createProfileInfoRow(
-            regDateText,
-            regDateDate
-          );
+          var registrationRow = createProfileInfoRow(regDateText, regDateDate);
           if (registrationRow) {
             profileShort.appendChild(registrationRow);
           }
-        }
-        catch (error) {
-          console.error("[VKENH Error]: There is no registration date for user " + userData.id);
+        } catch (error) {
+          console.error(
+            "[VKENH Error]: There is no registration date for user " +
+              userData.id
+          );
         }
 
         var relationText = await getRelationText(userData.relation);
@@ -5880,10 +6918,13 @@ function _o(e) {
           var graduate = "";
           var companyLink = `/search/people?c[name]=10&c[uni_country]=${occupation.country_id}&c[uni_city]=${occupation.city_id}&c[university]=${comid}`;
           if (occupation.graduate_year) {
-            graduate = `<a href="/search/people?c[name]=20&c[uni_country]=${occupation.country_id
-              }&c[uni_city]=${occupation.city_id
-              }&c[university]=${comid}&c[uni_year]=${occupation.graduate_year
-              }">'${occupation.graduate_year.toString().slice(-2)}</a>`;
+            graduate = `<a href="/search/people?c[name]=20&c[uni_country]=${
+              occupation.country_id
+            }&c[uni_city]=${
+              occupation.city_id
+            }&c[university]=${comid}&c[uni_year]=${
+              occupation.graduate_year
+            }">'${occupation.graduate_year.toString().slice(-2)}</a>`;
           }
           companyRow = createProfileInfoRow(
             `${getLang("profile_education")}`,
@@ -5944,18 +6985,18 @@ function _o(e) {
           (userData.universities && userData.universities.length > 0) ||
           (userData.schools && userData.schools.length > 0) ||
           (userData.military && userData.military.length > 0) ||
-          (
-            userData.personal &&
-            (
-              (userData.personal.alcohol && userData.personal.alcohol !== 0) ||
-              (userData.personal.life_main && userData.personal.life_main !== 0) ||
-              (userData.personal.people_main && userData.personal.people_main !== 0) ||
+          (userData.personal &&
+            ((userData.personal.alcohol && userData.personal.alcohol !== 0) ||
+              (userData.personal.life_main &&
+                userData.personal.life_main !== 0) ||
+              (userData.personal.people_main &&
+                userData.personal.people_main !== 0) ||
               (userData.personal.smoking && userData.personal.smoking !== 0) ||
-              (userData.personal.inspired_by && userData.personal.inspired_by !== "") ||
-              (userData.personal.religion && userData.personal.religion !== "")
-            ) &&
-            Object.keys(userData.personal).length > 0
-          ) ||
+              (userData.personal.inspired_by &&
+                userData.personal.inspired_by !== "") ||
+              (userData.personal.religion &&
+                userData.personal.religion !== "")) &&
+            Object.keys(userData.personal).length > 0) ||
           (userData.activities && userData.activities !== "") ||
           (userData.interests && userData.interests !== "") ||
           (userData.music && userData.music !== "") ||
@@ -6003,7 +7044,6 @@ function _o(e) {
           }
           return `<a href="https://vk.com/search/people?birth_day=${day}&birth_month=${parts[1]}">${formattedDate}</a>`;
         }
-
 
         function formatRegister(bdate) {
           if (!bdate) return null;
@@ -6213,7 +7253,10 @@ function _o(e) {
         let minsAgo = getLang("global_mins_ago", "raw");
         let hoursAgo = getLang("global_hours_ago", "raw");
         let hours12345 = getLang("global_word_hours_ago", "raw");
-        let minutes12345 = getLang("mobile_profile_status_word_mins_ago", "raw");
+        let minutes12345 = getLang(
+          "mobile_profile_status_word_mins_ago",
+          "raw"
+        );
         let longAgo = getLang("vkui_common_short_date_time", "raw");
 
         if (secondsAgo == 0) {
@@ -6226,8 +7269,7 @@ function _o(e) {
           let minString;
           if (minutesAgo < 6) {
             minString = minutes12345[minutesAgo];
-          }
-          else {
+          } else {
             minString = getLangTime(minutesAgo, minsAgo);
           }
           return minString;
@@ -6287,12 +7329,12 @@ function _o(e) {
             e != Math.floor(e)
               ? (i = t[o.numRules.float])
               : (o.numRules.int || []).some((n) => {
-                if ("*" === n[0]) return (i = t[n[2]]), !0;
-                const r = n[0] ? e % n[0] : e;
-                return Array.isArray(n[1]) && n[1].includes(r)
-                  ? ((i = t[n[2]]), !0)
-                  : void 0;
-              }))
+                  if ("*" === n[0]) return (i = t[n[2]]), !0;
+                  const r = n[0] ? e % n[0] : e;
+                  return Array.isArray(n[1]) && n[1].includes(r)
+                    ? ((i = t[n[2]]), !0)
+                    : void 0;
+                }))
           : (i = t);
         let a = String(e);
         if (n) {
@@ -6324,16 +7366,17 @@ function _o(e) {
       }
       async function getUserData(objectId) {
         try {
-		let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
-function _o(e) {
-          const t = {};
-          if (!e) return t;
-          for (const n of Object.keys(e))
-            n.startsWith("__reactFiber") && (t.fiber = e[n]),
-              n.startsWith("__reactProps") && (t.props = e[n]),
-              n.startsWith("__reactContainer") && (t.container = e[n]);
-          return t;
-        }
+          let pizda = _o(document.getElementById("react_rootprofile"))
+            ?.container?.memoizedState?.element?.props;
+          function _o(e) {
+            const t = {};
+            if (!e) return t;
+            for (const n of Object.keys(e))
+              n.startsWith("__reactFiber") && (t.fiber = e[n]),
+                n.startsWith("__reactProps") && (t.props = e[n]),
+                n.startsWith("__reactContainer") && (t.container = e[n]);
+            return t;
+          }
           var response = pizda.store.getState().owner;
           console.info("[VK ENH] Profile fetched");
           console.log(response);
@@ -6358,84 +7401,106 @@ function _o(e) {
                 mobileDiv.className = "vkEnhancerMobileWas";
                 onlineBadgeByl.appendChild(mobileDiv);
               }
-            } catch (error) { }
+            } catch (error) {}
             try {
               let onlineBadgeComp = document.querySelector(
                 ".ProfileIndicatorBadge__badgeOnline"
               );
               onlineBadgeComp.textContent = "Online";
-            } catch (error) { }
+            } catch (error) {}
             try {
               let onlineBadgeMob = document.querySelector(
                 ".ProfileIndicatorBadge__badgeOnlineMobile"
               );
               onlineBadgeMob.textContent = "Onlineᅠ​";
-            } catch (error) { }
+            } catch (error) {}
           }
-		  if (!response.hidden) {
-          if (response.online_info.status && response.online_info.status == "recently") {
-            try {
-              let lastSeenRecently = getLang("global_online_was_recently", "raw");
-              let indexRecently = response.sex === 1 ? 2 : 1;
-              let recentlyCurrent = lastSeenRecently[indexRecently];
-              let parentBadge = document.querySelector('.ProfileIndicatorBadge');
-              let innerBadge = document.createElement('div');
-              innerBadge.classList.add('ProfileIndicatorBadge__badge');
-              innerBadge.setAttribute('aria-hidden', "true");
-              innerBadge.innerHTML = `<span class="ProfileIndicatorBadge__badgeLastSeenWrapper"><span class="ProfileIndicatorBadge__badgeLastSeen">${recentlyCurrent}</span></span>`;
-              parentBadge.appendChild(innerBadge);
+          if (!response.hidden) {
+            if (
+              response.online_info.status &&
+              response.online_info.status == "recently"
+            ) {
+              try {
+                let lastSeenRecently = getLang(
+                  "global_online_was_recently",
+                  "raw"
+                );
+                let indexRecently = response.sex === 1 ? 2 : 1;
+                let recentlyCurrent = lastSeenRecently[indexRecently];
+                let parentBadge = document.querySelector(
+                  ".ProfileIndicatorBadge"
+                );
+                let innerBadge = document.createElement("div");
+                innerBadge.classList.add("ProfileIndicatorBadge__badge");
+                innerBadge.setAttribute("aria-hidden", "true");
+                innerBadge.innerHTML = `<span class="ProfileIndicatorBadge__badgeLastSeenWrapper"><span class="ProfileIndicatorBadge__badgeLastSeen">${recentlyCurrent}</span></span>`;
+                parentBadge.appendChild(innerBadge);
+              } catch (error) {}
             }
-            catch (error) { }
           }
-		  }
-		  if (!response.hidden) {
-          if (response.online_info.status && response.online_info.status == "last_week") {
-            try {
-              let lastSeenRecently = getLang("global_online_was_week", "raw");
-              let indexRecently = response.sex === 1 ? 2 : 1;
-              let recentlyCurrent = lastSeenRecently[indexRecently];
-              let parentBadge = document.querySelector('.ProfileIndicatorBadge');
-              let innerBadge = document.createElement('div');
-              innerBadge.classList.add('ProfileIndicatorBadge__badge');
-              innerBadge.setAttribute('aria-hidden', "true");
-              innerBadge.innerHTML = `<span class="ProfileIndicatorBadge__badgeLastSeenWrapper"><span class="ProfileIndicatorBadge__badgeLastSeen">${recentlyCurrent}</span></span>`;
-              parentBadge.appendChild(innerBadge);
+          if (!response.hidden) {
+            if (
+              response.online_info.status &&
+              response.online_info.status == "last_week"
+            ) {
+              try {
+                let lastSeenRecently = getLang("global_online_was_week", "raw");
+                let indexRecently = response.sex === 1 ? 2 : 1;
+                let recentlyCurrent = lastSeenRecently[indexRecently];
+                let parentBadge = document.querySelector(
+                  ".ProfileIndicatorBadge"
+                );
+                let innerBadge = document.createElement("div");
+                innerBadge.classList.add("ProfileIndicatorBadge__badge");
+                innerBadge.setAttribute("aria-hidden", "true");
+                innerBadge.innerHTML = `<span class="ProfileIndicatorBadge__badgeLastSeenWrapper"><span class="ProfileIndicatorBadge__badgeLastSeen">${recentlyCurrent}</span></span>`;
+                parentBadge.appendChild(innerBadge);
+              } catch (error) {}
             }
-            catch (error) { }
           }
-		  }
-		  if (!response.hidden) {
-          if (response.online_info.status && response.online_info.status == "last_month") {
-            try {
-              let lastSeenRecently = getLang("global_online_this_month", "raw");
-              let indexRecently = response.sex === 1 ? 2 : 1;
-              let recentlyCurrent = lastSeenRecently[indexRecently];
-              let parentBadge = document.querySelector('.ProfileIndicatorBadge');
-              let innerBadge = document.createElement('div');
-              innerBadge.classList.add('ProfileIndicatorBadge__badge');
-              innerBadge.setAttribute('aria-hidden', "true");
-              innerBadge.innerHTML = `<span class="ProfileIndicatorBadge__badgeLastSeenWrapper"><span class="ProfileIndicatorBadge__badgeLastSeen">${recentlyCurrent}</span></span>`;
-              parentBadge.appendChild(innerBadge);
+          if (!response.hidden) {
+            if (
+              response.online_info.status &&
+              response.online_info.status == "last_month"
+            ) {
+              try {
+                let lastSeenRecently = getLang(
+                  "global_online_this_month",
+                  "raw"
+                );
+                let indexRecently = response.sex === 1 ? 2 : 1;
+                let recentlyCurrent = lastSeenRecently[indexRecently];
+                let parentBadge = document.querySelector(
+                  ".ProfileIndicatorBadge"
+                );
+                let innerBadge = document.createElement("div");
+                innerBadge.classList.add("ProfileIndicatorBadge__badge");
+                innerBadge.setAttribute("aria-hidden", "true");
+                innerBadge.innerHTML = `<span class="ProfileIndicatorBadge__badgeLastSeenWrapper"><span class="ProfileIndicatorBadge__badgeLastSeen">${recentlyCurrent}</span></span>`;
+                parentBadge.appendChild(innerBadge);
+              } catch (error) {}
             }
-            catch (error) { }
           }
-		  }
-		  if (!response.hidden) {
-          if (response.online_info.status && response.online_info.status == "long_ago") {
-            try {
-              let lastSeenRecently = getLang("global_online_long_ago", "raw");
-              let indexRecently = response.sex === 1 ? 2 : 1;
-              let recentlyCurrent = lastSeenRecently[indexRecently];
-              let parentBadge = document.querySelector('.ProfileIndicatorBadge');
-              let innerBadge = document.createElement('div');
-              innerBadge.classList.add('ProfileIndicatorBadge__badge');
-              innerBadge.setAttribute('aria-hidden', "true");
-              innerBadge.innerHTML = `<span class="ProfileIndicatorBadge__badgeLastSeenWrapper"><span class="ProfileIndicatorBadge__badgeLastSeen">${recentlyCurrent}</span></span>`;
-              parentBadge.appendChild(innerBadge);
+          if (!response.hidden) {
+            if (
+              response.online_info.status &&
+              response.online_info.status == "long_ago"
+            ) {
+              try {
+                let lastSeenRecently = getLang("global_online_long_ago", "raw");
+                let indexRecently = response.sex === 1 ? 2 : 1;
+                let recentlyCurrent = lastSeenRecently[indexRecently];
+                let parentBadge = document.querySelector(
+                  ".ProfileIndicatorBadge"
+                );
+                let innerBadge = document.createElement("div");
+                innerBadge.classList.add("ProfileIndicatorBadge__badge");
+                innerBadge.setAttribute("aria-hidden", "true");
+                innerBadge.innerHTML = `<span class="ProfileIndicatorBadge__badgeLastSeenWrapper"><span class="ProfileIndicatorBadge__badgeLastSeen">${recentlyCurrent}</span></span>`;
+                parentBadge.appendChild(innerBadge);
+              } catch (error) {}
             }
-            catch (error) { }
           }
-		  }
           /*let styleElement = fromId("vken_box_online_classic");
           if (!styleElement) {
             styleElement = document.createElement("style");
@@ -6504,23 +7569,25 @@ function _o(e) {
         }
         const url1 = `https://vkenhancer-api.vercel.app/getId?username=${username}`;
         return fetch(url1)
-          .then(response => response.json())
-          .then(data => data.response.object_id)
-          .catch(error => {
+          .then((response) => response.json())
+          .then((data) => data.response.object_id)
+          .catch((error) => {
             console.error(error);
             return 1;
           });
       }
 
       async function changeBroadcastState() {
-        let expVa = await ajax.promisifiedPost("al_audio.php?act=status_tt", {});
+        let expVa = await ajax.promisifiedPost(
+          "al_audio.php?act=status_tt",
+          {}
+        );
         let expVal = expVa[1].is_profile_active;
         let j = ap.getCurrentAudio();
         let o;
         try {
           o = `${j[1]}_${j[0]}`;
-        }
-        catch (error) {
+        } catch (error) {
           return;
         }
         await ajax.promisifiedPost("al_audio.php?act=toggle_status", {
@@ -6529,20 +7596,22 @@ function _o(e) {
           hash: window.vk.statusExportHash,
           id: o,
           top: 0,
-          access_key: ""
-        })
-        let statusVK = document.querySelector('.page_current_info');
+          access_key: "",
+        });
+        let statusVK = document.querySelector(".page_current_info");
         statusVK.remove();
       }
 
       function getPhotoEditHash() {
-        let script = Array.from(document.querySelectorAll('script')).find(e => e.innerHTML.includes('window.initReactApplication'));
+        let script = Array.from(document.querySelectorAll("script")).find((e) =>
+          e.innerHTML.includes("window.initReactApplication")
+        );
         let scriptContent = script.innerHTML;
         let startIndex = scriptContent.indexOf('"hashes":{');
         if (startIndex === -1) return undefined;
-        let endIndex = scriptContent.indexOf('}', startIndex) + 1;
+        let endIndex = scriptContent.indexOf("}", startIndex) + 1;
         let hashesString = scriptContent.substring(startIndex, endIndex);
-        let braceIndex = hashesString.indexOf('{');
+        let braceIndex = hashesString.indexOf("{");
         hashesString = hashesString.substring(braceIndex);
         let hashesObject = JSON.parse(hashesString);
         let avatarEditHash = hashesObject.avatarEdit;
@@ -6551,7 +7620,9 @@ function _o(e) {
 
       async function replaceTabsWithPhotosModule() {
         // Найти элемент section с классом vkuiInternalGroup
-        let section = document.querySelector('section.vkuiInternalGroup:has(>.OwnerContentTabs)');
+        let section = document.querySelector(
+          "section.vkuiInternalGroup:has(>.OwnerContentTabs)"
+        );
 
         if (!section) {
           console.error("Элемент section не найден");
@@ -6559,7 +7630,7 @@ function _o(e) {
         }
 
         // Найти элемент с классом OwnerContentTabs внутри section
-        let tabs = section.querySelector('.OwnerContentTabs');
+        let tabs = section.querySelector(".OwnerContentTabs");
 
         if (!tabs) {
           console.error("Элемент OwnerContentTabs не найден");
@@ -6570,73 +7641,87 @@ function _o(e) {
         tabs.remove();
 
         // Создать новый элемент для модуля фотографий
-        let photosModule = document.createElement('div');
+        let photosModule = document.createElement("div");
         let ownerId = await getId();
-        photosModule.classList.add('module', 'clear', 'photos_module');
-        photosModule.id = 'profile_photos_module';
-        let photodata = await vkApi.api('photos.getAll', { owner_id: ownerId, count: 4, skip_hidden: true });
+        photosModule.classList.add("module", "clear", "photos_module");
+        photosModule.id = "profile_photos_module";
+        let photodata = await vkApi.api("photos.getAll", {
+          owner_id: ownerId,
+          count: 4,
+          skip_hidden: true,
+        });
         let userDataPi = await getUserDataPhoto(ownerId);
         let userNamePi = userDataPi.first_name_gen;
         photosModule.innerHTML = `
         <div class="header_right_link fl_r"></div>
         <a href="/albums${ownerId}" onclick="return showAlbums(${ownerId}, {noHistory: true}, event);" class="module_header">
             <div class="header_top clear_fix">
-                <span class="header_label fl_l">${getLang("photos_feed_title_breadcrumb")} ${userNamePi}</span>
+                <span class="header_label fl_l">${getLang(
+                  "photos_feed_title_breadcrumb"
+                )} ${userNamePi}</span>
                 <span class="header_count fl_l">${photodata.count}</span>
             </div>
         </a>
         <div id="page_photos_module" class="page_photos_module"></div>
     `;
-        let d = document.createElement('a');
+        let d = document.createElement("a");
         d.classList.add("fl_r");
-        d.setAttribute('onclick', `event.preventDefault(); event.stopPropagation(); window.showBox("al_places.php", {
+        d.setAttribute(
+          "onclick",
+          `event.preventDefault(); event.stopPropagation(); window.showBox("al_places.php", {
                     act: "photos_box",
                     uid: ${ownerId}
                 }, {
                     stat: ["maps.js", window.jsc("web/places.js"), "places.css", "ui_controls.js", "ui_controls.css"]
-                });`);
+                });`
+        );
         d.style.color = "var(--vkui--color_text_secondary)";
         d.style.marginRight = "-12px";
         d.textContent = getLang("photos_photo_menu_show_on_map").toLowerCase();
-        photosModule.querySelector('.header_top').appendChild(d);
+        photosModule.querySelector(".header_top").appendChild(d);
         if (!photodata || !photodata.items) {
           console.error("Данные фотографий не найдены");
           return;
         }
 
-        let pagePhotosModule = photosModule.querySelector('#page_photos_module');
+        let pagePhotosModule = photosModule.querySelector(
+          "#page_photos_module"
+        );
         let countAddedPhotos = 0;
-        photodata.items.forEach(item => {
+        photodata.items.forEach((item) => {
           let photoLink = item.sizes[item.sizes.length - 1].url;
           let photoId = `${item.owner_id}_${item.id}`;
 
-          let photoElement = document.createElement('a');
-          photoElement.classList.add('page_square_photo', 'crisp_image');
+          let photoElement = document.createElement("a");
+          photoElement.classList.add("page_square_photo", "crisp_image");
           photoElement.dataset.photoId = photoId;
           photoElement.href = `/photo${photoId}?all=1`;
-          photoElement.onclick = () => showPhoto(photoId, `photos(${item.owner_id})`, {
-            temp: {
-              x: photoLink,
-              y: photoLink,
-              z: photoLink,
-              w: photoLink,
-              x_: [photoLink, 604, 340],
-              y_: [photoLink, 807, 454],
-              z_: [photoLink, 1280, 720],
-              w_: [photoLink, 1920, 1080],
-              base: ''
-            }
-          });
+          photoElement.onclick = () =>
+            showPhoto(photoId, `photos(${item.owner_id})`, {
+              temp: {
+                x: photoLink,
+                y: photoLink,
+                z: photoLink,
+                w: photoLink,
+                x_: [photoLink, 604, 340],
+                y_: [photoLink, 807, 454],
+                z_: [photoLink, 1280, 720],
+                w_: [photoLink, 1920, 1080],
+                base: "",
+              },
+            });
 
           photoElement.style.backgroundImage = `url(${photoLink})`;
-          photoElement.setAttribute('aria-label', 'Фотография');
-          photoElement.innerHTML = '<span class="blind_label">Фотография</span>';
+          photoElement.setAttribute("aria-label", "Фотография");
+          photoElement.innerHTML =
+            '<span class="blind_label">Фотография</span>';
           countAddedPhotos++;
           pagePhotosModule.appendChild(photoElement);
         });
-		///ИСТОРИИ В КЛАССИК ПРОФИЛЕ///
-		let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
-		function _o(e) {
+        ///ИСТОРИИ В КЛАССИК ПРОФИЛЕ///
+        let pizda = _o(document.getElementById("react_rootprofile"))?.container
+          ?.memoizedState?.element?.props;
+        function _o(e) {
           const t = {};
           if (!e) return t;
           for (const n of Object.keys(e))
@@ -6645,47 +7730,56 @@ function _o(e) {
               n.startsWith("__reactContainer") && (t.container = e[n]);
           return t;
         }
-		let ownerStory = pizda.store.getState().owner;
-		let stories = pizda.store.getState().stories;
-		if(stories.count > 0) {
-			let storyElement = document.createElement('a');
-			storyElement.setAttribute('onclick',`showStory('/owner_feed${ownerStory.id}', {source: 'post_avatar'});`);
-			storyElement.id = 'profile_story';
-			storyElement.classList.add('yPVSkNQu');
-			storyElement.style.backgroundPosition = '50% 50%';
-			storyElement.style.backgroundRepeat = 'no-repeat';
-			let storyStyleImage;
-			try {
-				storyStyleImage = `url(${stories.items[0].stories[0].photo.sizes.at(-1).url})`;
-			}
-			catch(error) {
-				storyStyleImage = `url(${stories.items[0].stories[0].video.image.at(-1).url})`;
-			}
-			storyElement.style.backgroundImage = storyStyleImage;
-			storyElement.style.backgroundSize = 'cover';
-			storyElement.style.cursor = 'pointer';
-			storyElement.style.display = 'inline-block';
-			storyElement.style.height = '123px';
-			storyElement.style.imageRendering = '-webkit-optimize-contrast';
-			storyElement.style.marginLeft = '0px';
-			storyElement.style.position = 'relative';
-			storyElement.style.overflow = 'hidden';
-			storyElement.style.textAlign = 'center';
-			storyElement.style.textDecoration = 'none';
-			storyElement.style.width = `123px`;
-			storyElement.innerHTML = `<span class="EoMSGvQz"></span><div class="WezUccGf">
+        let ownerStory = pizda.store.getState().owner;
+        let stories = pizda.store.getState().stories;
+        if (stories.count > 0) {
+          let storyElement = document.createElement("a");
+          storyElement.setAttribute(
+            "onclick",
+            `showStory('/owner_feed${ownerStory.id}', {source: 'post_avatar'});`
+          );
+          storyElement.id = "profile_story";
+          storyElement.classList.add("yPVSkNQu");
+          storyElement.style.backgroundPosition = "50% 50%";
+          storyElement.style.backgroundRepeat = "no-repeat";
+          let storyStyleImage;
+          try {
+            storyStyleImage = `url(${
+              stories.items[0].stories[0].photo.sizes.at(-1).url
+            })`;
+          } catch (error) {
+            storyStyleImage = `url(${
+              stories.items[0].stories[0].video.image.at(-1).url
+            })`;
+          }
+          storyElement.style.backgroundImage = storyStyleImage;
+          storyElement.style.backgroundSize = "cover";
+          storyElement.style.cursor = "pointer";
+          storyElement.style.display = "inline-block";
+          storyElement.style.height = "123px";
+          storyElement.style.imageRendering = "-webkit-optimize-contrast";
+          storyElement.style.marginLeft = "0px";
+          storyElement.style.position = "relative";
+          storyElement.style.overflow = "hidden";
+          storyElement.style.textAlign = "center";
+          storyElement.style.textDecoration = "none";
+          storyElement.style.width = `123px`;
+          storyElement.innerHTML = `<span class="EoMSGvQz"></span><div class="WezUccGf">
     <div class="JDEMGFbn"></div>
-    <div class="gZFGalLh">${getLang('stories_selected_count',stories.items[0].stories.length)}</div>
+    <div class="gZFGalLh">${getLang(
+      "stories_selected_count",
+      stories.items[0].stories.length
+    )}</div>
   </div>
 <span class="fhwwGZRs"></span>`;
-let styleElement = fromId("vks_blur");
-  if (!styleElement) {
-    styleElement = document.createElement("style");
-    styleElement.id = "vks_blur";
-    document.head.appendChild(styleElement);
-  }
-  styleElement.id = "vks_blur";
-  styleElement.innerHTML = `
+          let styleElement = fromId("vks_blur");
+          if (!styleElement) {
+            styleElement = document.createElement("style");
+            styleElement.id = "vks_blur";
+            document.head.appendChild(styleElement);
+          }
+          styleElement.id = "vks_blur";
+          styleElement.innerHTML = `
   .page_square_photo.crisp_image:nth-child(5) {display:none;}
   #profile_story:after{
     background-image: ${storyStyleImage};
@@ -6697,14 +7791,16 @@ let styleElement = fromId("vks_blur");
     background-size: cover;
     background-position: center;
   }`;
-  
-			pagePhotosModule.prepend(storyElement);
-		}
-		///КОНЕЦ ИСТОРИЙ В КЛАССИК ПРОФИЛЕ///
-        let photosLoadModule = document.createElement('section');
+
+          pagePhotosModule.prepend(storyElement);
+        }
+        ///КОНЕЦ ИСТОРИЙ В КЛАССИК ПРОФИЛЕ///
+        let photosLoadModule = document.createElement("section");
         photosLoadModule.classList.add("vkEnhancerLoadPhotoModule");
         photosLoadModule.innerHTML = `
-	 <a id="photos_choose_upload_area_vkEnhancer" class="photos_choose_upload_area" title="${getLang("market_drop_to_upload")}" style="display: block;" onclick="cur.meUploadPhoto ? cur.meUploadPhoto() : document.querySelector('.ProfileTabsPhotoUploadInput').click();">
+	 <a id="photos_choose_upload_area_vkEnhancer" class="photos_choose_upload_area" title="${getLang(
+     "market_drop_to_upload"
+   )}" style="display: block;" onclick="cur.meUploadPhoto ? cur.meUploadPhoto() : document.querySelector('.ProfileTabsPhotoUploadInput').click();">
     <div class="photos_choose_upload_area_uploadvkEnhancer">
 	  <svg fill="none" height="32" viewBox="0 0 56 56" width="32" xmlns="http://www.w3.org/2000/svg"><clipPath id="camera_outline_56__a"><path d="M0 0h56v56H0z"></path></clipPath><g clip-path="url(#camera_outline_56__a)" clip-rule="evenodd" fill="currentColor" fill-rule="evenodd"><path d="M19.08 6.66A4.74 4.74 0 0 1 22 5.5h12c1.21 0 2.21.6 2.92 1.16a12.69 12.69 0 0 1 2.27 2.44l.98 1.23c.13.16.48.42 1.09.63.57.21 1.22.32 1.74.32h1c2.45 0 4.5 1.27 5.87 3.14A11.86 11.86 0 0 1 52 21.44h-3c0-2.12-.6-3.97-1.54-5.24A4.27 4.27 0 0 0 44 14.28h-1c-.89 0-1.87-.18-2.75-.49-.85-.3-1.8-.8-2.42-1.59l-1.02-1.27-.33-.42a50.36 50.36 0 0 0-.12-.15c-.4-.49-.84-.98-1.31-1.36-.49-.38-.83-.5-1.05-.5H22c-.22 0-.56.12-1.05.5a9.84 9.84 0 0 0-1.33 1.39l-.1.12-.33.42-1.02 1.27a5.42 5.42 0 0 1-2.42 1.6c-.88.3-1.86.48-2.75.48h-1c-1.32 0-2.53.67-3.46 1.92A8.88 8.88 0 0 0 7 21.44H4c0-2.67.76-5.16 2.13-7.02A7.26 7.26 0 0 1 12 11.28h1c.52 0 1.17-.11 1.74-.32.61-.21.96-.47 1.09-.63l.98-1.23.53-.67c.41-.49 1.02-1.2 1.74-1.77zM17 46.5V45h21c4.72 0 6.88-1.09 8.5-2.82.66-.7 1.24-1.7 1.73-2.8.35-.78.56-1.84.66-2.9.1-1.05.11-1.99.11-2.48V21.44h3V34c0 .5 0 1.56-.12 2.76a12.73 12.73 0 0 1-3.18 7.45C46.34 46.74 43.28 48 38 48H17zm-9.72-2.3a11.69 11.69 0 0 1-2.3-3.63c-.38-.9-.6-2.35-.75-3.53A30.5 30.5 0 0 1 4 34V21.44h3V34c0 .42.07 1.5.2 2.68.15 1.22.35 2.28.55 2.75.43 1.04 1.02 2 1.72 2.72l.05.05.04.05a7.25 7.25 0 0 0 3.2 2.01c1.38.5 2.9.74 4.24.74v3c-1.67 0-3.54-.3-5.25-.91a10.25 10.25 0 0 1-4.47-2.89z"></path><path d="M18 28a10 10 0 1 1 20 0 10 10 0 0 1-20 0zm10-7a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"></path></g></svg>
       <span id="photos_choose_upload_area_labelvkEnhancer" class="photos_choose_upload_area_label">
@@ -6714,44 +7810,61 @@ let styleElement = fromId("vks_blur");
     <div class="photos_choose_upload_area_dropvkEnhancer">
       <div class="photos_choose_upload_area_drop_label">
         <svg fill="none" height="56" viewBox="0 0 56 56" width="56" xmlns="http://www.w3.org/2000/svg"><clipPath id="camera_outline_56__a"><path d="M0 0h56v56H0z"></path></clipPath><g clip-path="url(#camera_outline_56__a)" clip-rule="evenodd" fill="currentColor" fill-rule="evenodd"><path d="M19.08 6.66A4.74 4.74 0 0 1 22 5.5h12c1.21 0 2.21.6 2.92 1.16a12.69 12.69 0 0 1 2.27 2.44l.98 1.23c.13.16.48.42 1.09.63.57.21 1.22.32 1.74.32h1c2.45 0 4.5 1.27 5.87 3.14A11.86 11.86 0 0 1 52 21.44h-3c0-2.12-.6-3.97-1.54-5.24A4.27 4.27 0 0 0 44 14.28h-1c-.89 0-1.87-.18-2.75-.49-.85-.3-1.8-.8-2.42-1.59l-1.02-1.27-.33-.42a50.36 50.36 0 0 0-.12-.15c-.4-.49-.84-.98-1.31-1.36-.49-.38-.83-.5-1.05-.5H22c-.22 0-.56.12-1.05.5a9.84 9.84 0 0 0-1.33 1.39l-.1.12-.33.42-1.02 1.27a5.42 5.42 0 0 1-2.42 1.6c-.88.3-1.86.48-2.75.48h-1c-1.32 0-2.53.67-3.46 1.92A8.88 8.88 0 0 0 7 21.44H4c0-2.67.76-5.16 2.13-7.02A7.26 7.26 0 0 1 12 11.28h1c.52 0 1.17-.11 1.74-.32.61-.21.96-.47 1.09-.63l.98-1.23.53-.67c.41-.49 1.02-1.2 1.74-1.77zM17 46.5V45h21c4.72 0 6.88-1.09 8.5-2.82.66-.7 1.24-1.7 1.73-2.8.35-.78.56-1.84.66-2.9.1-1.05.11-1.99.11-2.48V21.44h3V34c0 .5 0 1.56-.12 2.76a12.73 12.73 0 0 1-3.18 7.45C46.34 46.74 43.28 48 38 48H17zm-9.72-2.3a11.69 11.69 0 0 1-2.3-3.63c-.38-.9-.6-2.35-.75-3.53A30.5 30.5 0 0 1 4 34V21.44h3V34c0 .42.07 1.5.2 2.68.15 1.22.35 2.28.55 2.75.43 1.04 1.02 2 1.72 2.72l.05.05.04.05a7.25 7.25 0 0 0 3.2 2.01c1.38.5 2.9.74 4.24.74v3c-1.67 0-3.54-.3-5.25-.91a10.25 10.25 0 0 1-4.47-2.89z"></path><path d="M18 28a10 10 0 1 1 20 0 10 10 0 0 1-20 0zm10-7a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"></path></g></svg>
-        <div class="photos_choose_upload_area_drop_label_tex">${getLang("market_drop_to_upload")}</div>
+        <div class="photos_choose_upload_area_drop_label_tex">${getLang(
+          "market_drop_to_upload"
+        )}</div>
       </div>
     </div>
   </a>`;
-        let inserBeforeThis = document.querySelector('.WallLegacy');
+        let inserBeforeThis = document.querySelector(".WallLegacy");
         if (ownerId == vk.id) {
           section.parentElement.insertBefore(photosLoadModule, inserBeforeThis);
-          photosModule.querySelector('.header_label').textContent = getLang("photo_my_feed");
+          photosModule.querySelector(".header_label").textContent = getLang(
+            "photo_my_feed"
+          );
         }
         if (countAddedPhotos != 0) {
           section.appendChild(photosModule);
+        } else if (countAddedPhotos == 0) {
+          section.remove();
         }
-        else if (countAddedPhotos == 0) { section.remove(); }
-
       }
 
-      document.arrive('.ProfileGroup', { existing: true }, async function (e) {
-        let scrollSticky = document.querySelector('.ScrollStickyWrapper > div');
+      document.arrive(".ProfileGroup", { existing: true }, async function (e) {
+        let scrollSticky = document.querySelector(".ScrollStickyWrapper > div");
         ///ДЛЯ ФОТОАЛЬБОМОВ///
         let userIDHereWeGoAgain = await getId();
-        let profileCheckIsClosed = await getUserDataWithoutOnline(userIDHereWeGoAgain);
+        let profileCheckIsClosed = await getUserDataWithoutOnline(
+          userIDHereWeGoAgain
+        );
         let albumsGetter;
-        if (!profileCheckIsClosed.is_closed || profileCheckIsClosed.can_access_closed) {
+        if (
+          !profileCheckIsClosed.is_closed ||
+          profileCheckIsClosed.can_access_closed
+        ) {
           try {
-            albumsGetter = await vkApi.api('photos.getAlbums', { owner_id: userIDHereWeGoAgain, need_covers: true });
+            albumsGetter = await vkApi.api("photos.getAlbums", {
+              owner_id: userIDHereWeGoAgain,
+              need_covers: true,
+            });
+          } catch (error) {
+            albumsGetter = { count: 0 };
           }
-          catch (error) { albumsGetter = { count: 0 }; }
-        }
-        else {
+        } else {
           albumsGetter = { count: 0 };
         }
-        let newAlbumElement = document.createElement('section');
-        newAlbumElement.classList = "vkuiInternalGroup vkuiGroup vkuiGroup--mode-card vkuiInternalGroup--mode-card vkuiGroup--padding-m Group-module__group--lRMIn Group-module__groupPaddingM Group-module__groupModeCard vkuiInternalGroupCard ProfileGroupEnhancer ProfileAlbumsEnhancer";
+        let newAlbumElement = document.createElement("section");
+        newAlbumElement.classList =
+          "vkuiInternalGroup vkuiGroup vkuiGroup--mode-card vkuiInternalGroup--mode-card vkuiGroup--padding-m Group-module__group--lRMIn Group-module__groupPaddingM Group-module__groupModeCard vkuiInternalGroupCard ProfileGroupEnhancer ProfileAlbumsEnhancer";
         newAlbumElement.innerHTML = ` <div class="vkuiGroup__header">
     <a href="/albums${userIDHereWeGoAgain}" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
       <div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
         <div class="vkuiHeader__main">
-          <div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1"><span class="vkuiHeader__content-in"><div class="Header-module__content--F5x_X"><div class="TextClamp-module__singleLine--mRCrF">${getLang("photos_feed_album_tab")}</div></div></span><span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${albumsGetter.count}</span></div>
+          <div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1"><span class="vkuiHeader__content-in"><div class="Header-module__content--F5x_X"><div class="TextClamp-module__singleLine--mRCrF">${getLang(
+            "photos_feed_album_tab"
+          )}</div></div></span><span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${
+          albumsGetter.count
+        }</span></div>
         </div>
       </div>
     </a>
@@ -6772,18 +7885,29 @@ let styleElement = fromId("vks_blur");
     </div>
   </div>
   <div class="vkuiSpacing" style="height: 12px; padding: 6px 0px;"></div>`;
-        if (albumsGetter.count > 0 && !document.querySelector('.ProfileAlbumsEnhancer')) {
+        if (
+          albumsGetter.count > 0 &&
+          !document.querySelector(".ProfileAlbumsEnhancer")
+        ) {
           scrollSticky.appendChild(newAlbumElement);
 
-          let appendHereAlbum = document.querySelector('.OwnerAlbumsList__items');
-          albumsGetter.items.slice(0, 2).forEach(async item => {
-            let thumb = await vkApi.api('photos.get', { owner_id: item.owner_id, photo_ids: item.thumb_id, album_id: item.id });
+          let appendHereAlbum = document.querySelector(
+            ".OwnerAlbumsList__items"
+          );
+          albumsGetter.items.slice(0, 2).forEach(async (item) => {
+            let thumb = await vkApi.api("photos.get", {
+              owner_id: item.owner_id,
+              photo_ids: item.thumb_id,
+              album_id: item.id,
+            });
             let thumbSrc;
             try {
-              thumbSrc = thumb.items[0].sizes[thumb.items[0].sizes.length - 1].url;
+              thumbSrc =
+                thumb.items[0].sizes[thumb.items[0].sizes.length - 1].url;
+            } catch (error) {
+              thumbSrc = "https://vk.com/images/camera_big.png";
             }
-            catch (error) { thumbSrc = "https://vk.com/images/camera_big.png" };
-            let albumElement = document.createElement('div');
+            let albumElement = document.createElement("div");
             if (item.thumb_id != 0) {
               albumElement.innerHTML = `<a href="/album${item.owner_id}_${item.id}" data-href="album${item.owner_id}_${item.id}?rev=1" onclick="return showPhoto('${item.owner_id}_${item.thumb_id}', 'album${item.owner_id}_${item.id}/rev', {&quot;temp&quot;:{&quot;x&quot;:&quot;${thumbSrc}&quot;,&quot;y&quot;:&quot;${thumbSrc}&quot;,&quot;z&quot;:&quot;${thumbSrc}&quot;,&quot;w&quot;:&quot;${thumbSrc}&quot;,&quot;x_&quot;:[&quot;${thumbSrc}&quot;,431,604],&quot;y_&quot;:[&quot;${thumbSrc}&quot;,576,807],&quot;z_&quot;:[&quot;${thumbSrc}&quot;,771,1080],&quot;w_&quot;:[&quot;${thumbSrc}&quot;,1542,2160],&quot;base&quot;:&quot;&quot;},&quot;jumpTo&quot;:{&quot;z&quot;:&quot;albums${item.owner_id}&quot;}}, event); return nav.go(this, event)" class="img_link  photos_album_w_description vkenh">
     <div class="photos_album_thumb_wrap vkenh">
@@ -6799,8 +7923,7 @@ let styleElement = fromId("vks_blur");
       </div>
     </div>
   </a>`;
-            }
-            else {
+            } else {
               albumElement.innerHTML = `<a href="/album${item.owner_id}_${item.id}" data-href="album${item.owner_id}_${item.id}?rev=1" class="img_link  photos_album_w_description vkenh">
     <div class="photos_album_thumb_wrap vkenh">
       <div class="photos_album_thumb crisp_image vkenh" style="background-image: url(${thumbSrc}); background-size: 60px 48px; background-position: center;">
@@ -6817,37 +7940,50 @@ let styleElement = fromId("vks_blur");
   </a>`;
             }
             appendHereAlbum.appendChild(albumElement);
-		});}
-          ///ДЛЯ ВИДЕО///
-          try {
-            let videos = document.querySelector('.ProfileVideos').innerHTML;
-            let popec = document.querySelector('.ProfileVideos');
-            popec.remove();
-            let newElem = document.createElement('section');
-            newElem.classList = "vkuiInternalGroup vkuiGroup vkuiGroup--mode-card vkuiInternalGroup--mode-card vkuiGroup--padding-m Group-module__group--lRMIn Group-module__groupPaddingM Group-module__groupModeCard vkuiInternalGroupCard ProfileGroupEnhancer ProfileVideosEnhancer";
-            newElem.innerHTML = videos;
-            scrollSticky.appendChild(newElem);//ДОБАВЛЕНИЕ БЛОКА ВИДЕО
-            let allVideos = document.querySelectorAll('.OwnerVideosListItem');
-            allVideos.forEach(videoItem => {
-              let href = videoItem.querySelector('a').getAttribute('href');
-              let videoId = href.split('/').pop().replace('video', '');
+          });
+        }
+        ///ДЛЯ ВИДЕО///
+        try {
+          let videos = document.querySelector(".ProfileVideos").innerHTML;
+          let popec = document.querySelector(".ProfileVideos");
+          popec.remove();
+          let newElem = document.createElement("section");
+          newElem.classList =
+            "vkuiInternalGroup vkuiGroup vkuiGroup--mode-card vkuiInternalGroup--mode-card vkuiGroup--padding-m Group-module__group--lRMIn Group-module__groupPaddingM Group-module__groupModeCard vkuiInternalGroupCard ProfileGroupEnhancer ProfileVideosEnhancer";
+          newElem.innerHTML = videos;
+          scrollSticky.appendChild(newElem); //ДОБАВЛЕНИЕ БЛОКА ВИДЕО
+          let allVideos = document.querySelectorAll(".OwnerVideosListItem");
+          allVideos.forEach((videoItem) => {
+            let href = videoItem.querySelector("a").getAttribute("href");
+            let videoId = href.split("/").pop().replace("video", "");
 
-              videoItem.setAttribute('onclick', `event.preventDefault(); event.stopPropagation(); window.showVideo('${videoId}','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);`);
-            });
-
-          }
-          catch (error) { }
-          let audioResponse;
-          try {
-            audioResponse = await vkApi.api('audio.get', { owner_id: userIDHereWeGoAgain });
-            if (audioResponse.count > 0 && !document.querySelector('.vkEnAudioRow')) {
-              let newAudioElement = document.createElement('section');
-              newAudioElement.classList = "vkuiInternalGroup vkuiGroup vkuiGroup--mode-card vkuiInternalGroup--mode-card vkuiGroup--padding-m Group-module__group--lRMIn Group-module__groupPaddingM Group-module__groupModeCard vkuiInternalGroupCard ProfileGroupEnhancer ProfileAlbumsEnhancer";
-              newAudioElement.innerHTML = ` <div class="vkuiGroup__header">
+            videoItem.setAttribute(
+              "onclick",
+              `event.preventDefault(); event.stopPropagation(); window.showVideo('${videoId}','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);`
+            );
+          });
+        } catch (error) {}
+        let audioResponse;
+        try {
+          audioResponse = await vkApi.api("audio.get", {
+            owner_id: userIDHereWeGoAgain,
+          });
+          if (
+            audioResponse.count > 0 &&
+            !document.querySelector(".vkEnAudioRow")
+          ) {
+            let newAudioElement = document.createElement("section");
+            newAudioElement.classList =
+              "vkuiInternalGroup vkuiGroup vkuiGroup--mode-card vkuiInternalGroup--mode-card vkuiGroup--padding-m Group-module__group--lRMIn Group-module__groupPaddingM Group-module__groupModeCard vkuiInternalGroupCard ProfileGroupEnhancer ProfileAlbumsEnhancer";
+            newAudioElement.innerHTML = ` <div class="vkuiGroup__header">
 				<a href="/audios${userIDHereWeGoAgain}?section=all" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
 					<div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
 						<div class="vkuiHeader__main">
-						<div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1"><span class="vkuiHeader__content-in"><div class="Header-module__content--F5x_X"><div class="TextClamp-module__singleLine--mRCrF">${getLang("profile_user_content_audio")}</div></div></span><span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${audioResponse.count}</span></div>
+						<div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1"><span class="vkuiHeader__content-in"><div class="Header-module__content--F5x_X"><div class="TextClamp-module__singleLine--mRCrF">${getLang(
+              "profile_user_content_audio"
+            )}</div></div></span><span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${
+              audioResponse.count
+            }</span></div>
 						</div>
 					</div>
 					</a>
@@ -6868,11 +8004,43 @@ let styleElement = fromId("vks_blur");
 					</div>
 				</div>
 				<div class="vkuiSpacing" style="height: 12px; padding: 6px 0px;"></div>`;
-              scrollSticky.appendChild(newAudioElement);
-              let appendHereAudio = document.querySelector('.OwnerAudiosList__items');
-              audioResponse.items.slice(0, 6).forEach(async audioItem => {
-                let audioElement = document.createElement('div');
-                audioElement.innerHTML = `<div tabindex="0" class="audio_row audio_row_with_cover _audio_row _audio_row_${audioItem.owner_id}_${audioItem.id} audio_can_add audio_lpb audio_row2 audio_row_playable audio_new_lyrics" data-full-id="${audioItem.owner_id}_${audioItem.id}" onclick="return getAudioPlayer().toggleAudio(this, event)" data-audio="[${audioItem.id},${audioItem.owner_id},&quot;&quot;,&quot;${audioItem.title}&quot;,&quot;${audioItem.artist}&quot;,157,0,0,&quot;&quot;,0,34,&quot;module:${audioItem.owner_id}&quot;,&quot;[]&quot;,&quot;62efa83eaf32d46ab7\/\/e3727249bcd60c36ee\/\/\/bca050eaeb2ae61a22\/&quot;,&quot;&quot;,{&quot;duration&quot;:${audioItem.ads.duration},&quot;content_id&quot;:&quot;${audioItem.owner_id}_${audioItem.id}&quot;,&quot;puid22&quot;:${audioItem.ads.puid22},&quot;account_age_type&quot;:${audioItem.ads.account_age_type},&quot;_SITEID&quot;:276,&quot;vk_id&quot;:${vk.id},&quot;ver&quot;:251116},&quot;&quot;,&quot;&quot;,&quot;&quot;,false,&quot;9c91d4359kPPl-j5wiDD-N-q4xNYySV8d1i8YjJXvg6StjuAn436s3dh-U5Vim743w&quot;,0,0,true,&quot;${audioItem.access_key}&quot;,false,&quot;&quot;,false]" onmouseover="window.AudioUtils &amp;&amp; window.AudioUtils.onRowOver(this, event, false, '', '${audioItem.access_key}')" onmouseleave="window.AudioUtils &amp;&amp; window.AudioUtils.onRowLeave(this, event)">
+            scrollSticky.appendChild(newAudioElement);
+            let appendHereAudio = document.querySelector(
+              ".OwnerAudiosList__items"
+            );
+            audioResponse.items.slice(0, 6).forEach(async (audioItem) => {
+              let audioElement = document.createElement("div");
+              audioElement.innerHTML = `<div tabindex="0" class="audio_row audio_row_with_cover _audio_row _audio_row_${
+                audioItem.owner_id
+              }_${
+                audioItem.id
+              } audio_can_add audio_lpb audio_row2 audio_row_playable audio_new_lyrics" data-full-id="${
+                audioItem.owner_id
+              }_${
+                audioItem.id
+              }" onclick="return getAudioPlayer().toggleAudio(this, event)" data-audio="[${
+                audioItem.id
+              },${audioItem.owner_id},&quot;&quot;,&quot;${
+                audioItem.title
+              }&quot;,&quot;${
+                audioItem.artist
+              }&quot;,157,0,0,&quot;&quot;,0,34,&quot;module:${
+                audioItem.owner_id
+              }&quot;,&quot;[]&quot;,&quot;62efa83eaf32d46ab7\/\/e3727249bcd60c36ee\/\/\/bca050eaeb2ae61a22\/&quot;,&quot;&quot;,{&quot;duration&quot;:${
+                audioItem.ads.duration
+              },&quot;content_id&quot;:&quot;${audioItem.owner_id}_${
+                audioItem.id
+              }&quot;,&quot;puid22&quot;:${
+                audioItem.ads.puid22
+              },&quot;account_age_type&quot;:${
+                audioItem.ads.account_age_type
+              },&quot;_SITEID&quot;:276,&quot;vk_id&quot;:${
+                vk.id
+              },&quot;ver&quot;:251116},&quot;&quot;,&quot;&quot;,&quot;&quot;,false,&quot;9c91d4359kPPl-j5wiDD-N-q4xNYySV8d1i8YjJXvg6StjuAn436s3dh-U5Vim743w&quot;,0,0,true,&quot;${
+                audioItem.access_key
+              }&quot;,false,&quot;&quot;,false]" onmouseover="window.AudioUtils &amp;&amp; window.AudioUtils.onRowOver(this, event, false, '', '${
+                audioItem.access_key
+              }')" onmouseleave="window.AudioUtils &amp;&amp; window.AudioUtils.onRowLeave(this, event)">
   <div class="audio_row_content _audio_row_content vkEnAudioRow">
     <button class="blind_label _audio_row__play_btn" aria-label="Воспроизвести " data-testid="audio_row_play_pause_button" onclick="getAudioPlayer().toggleAudio(this, event); return cancelEvent(event)"></button>
     <div class="audio_row__cover audio_row__without_cover"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="song_24__Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="song_24__song_24"><path id="song_24__Bounds" d="M0 0h24v24H0z"></path><path d="M13 11.48v5.65c0 4.52-.87 5.39-4.37 5.85C6.96 23.19 5 22.44 5 19.8c0-1.28.8-2.5 2.46-2.81 1.27-.25-.09.02 2.78-.52.7-.13.77-.37.77-.9V3.97c0-1.24.67-1.69 2.66-2.09l4.68-.87c.37-.07.65.07.65.49v4.05c0 .42-.17.6-.59.68l-4.86.86c-.38.1-.55.36-.55.74v3.64Z" id="song_24__Mask" fill="currentColor"></path></g></g></svg></div>
@@ -6893,46 +8061,53 @@ let styleElement = fromId("vks_blur");
         
       </div>
       <div class="audio_row__performer_title">
-        <div onmouseover="setTitle(this)" class="audio_row__performers" data-testid="audio_row_performers"><a href="/audio?performer=1&amp;q=${audioItem.artist}">${audioItem.artist}</a></div>
+        <div onmouseover="setTitle(this)" class="audio_row__performers" data-testid="audio_row_performers"><a href="/audio?performer=1&amp;q=${
+          audioItem.artist
+        }">${audioItem.artist}</a></div>
         <div class="audio_row__title _audio_row__title" onmouseover="setTitle(this)">
-          <a href="" class="audio_row__title_inner _audio_row__title_inner" data-testid="audio_row_title">${audioItem.title}</a>
+          <a href="" class="audio_row__title_inner _audio_row__title_inner" data-testid="audio_row_title">${
+            audioItem.title
+          }</a>
           <span class="audio_row__title_inner_subtitle _audio_row__title_inner_subtitle"></span>
           
         </div>
       </div>
-      <div class="audio_row__info _audio_row__info"><div class="audio_row__duration audio_row__duration-s _audio_row__duration" style="visibility: visible;">${splitDuration(audioItem.duration)}</div></div>
+      <div class="audio_row__info _audio_row__info"><div class="audio_row__duration audio_row__duration-s _audio_row__duration" style="visibility: visible;">${splitDuration(
+        audioItem.duration
+      )}</div></div>
     </div>
 
     <div class="audio_player__place _audio_player__place"></div>
   </div>
 </div>`;
-                function splitDuration(dura) {
-                  let hours = Math.floor(dura / 3600);
-                  let minutes = Math.floor((dura % 3600) / 60);
-                  let seconds = dura % 60;
+              function splitDuration(dura) {
+                let hours = Math.floor(dura / 3600);
+                let minutes = Math.floor((dura % 3600) / 60);
+                let seconds = dura % 60;
 
-                  if (hours === 0) {
-                    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                  } else {
-                    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                  }
+                if (hours === 0) {
+                  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+                } else {
+                  return `${hours}:${minutes
+                    .toString()
+                    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
                 }
-                appendHereAudio.appendChild(audioElement);
-              });
-            }
+              }
+              appendHereAudio.appendChild(audioElement);
+            });
           }
-          catch (error) { }
-        
+        } catch (error) {}
       });
 
-
-      document.arrive('.OwnerContentTabs', { existing: true }, async function (e) {
+      document.arrive(".OwnerContentTabs", { existing: true }, async function (
+        e
+      ) {
         await replaceTabsWithPhotosModule();
       });
 
       function appendActivityText(activityText) {
-        getIdAntiAsync().then(objectId => {
-          let broadcast = document.querySelector('.ProfileInfo__broadcast');
+        getIdAntiAsync().then((objectId) => {
+          let broadcast = document.querySelector(".ProfileInfo__broadcast");
           if (!broadcast) {
             if (vk.id != objectId) {
               var activitySpan = document.createElement("span");
@@ -6941,51 +8116,99 @@ let styleElement = fromId("vks_blur");
               activitySpan.textContent = activityText;
 
               var ownerPageName = document.getElementById("owner_page_name");
-              ownerPageName.insertAdjacentElement('afterend', activitySpan);
+              ownerPageName.insertAdjacentElement("afterend", activitySpan);
             } else {
               var ip_h = vk.ip_h;
               var activitySpan = document.createElement("div");
               activitySpan.style.width = "100%";
-              if (activityText != '') {
-                activitySpan.innerHTML = '<div class="page_current_info" id="page_current_info"><div id="currinfo_editor" class="page_status_editor clear" onclick="cancelEvent(event)" style="display: none;"> <div class="editor"> <div class="page_status_input_wrap _emoji_field_wrap"> <div class="emoji_smile_wrap _emoji_wrap"> <div class="emoji_smile _emoji_btn" role="button" title="' + getLang("global_emoji_hint") + '" onmouseenter="return Emoji.show(this, event);" onmouseleave="return Emoji.hide(this, event);" onclick="return cancelEvent(event);" aria-label="Добавить эмодзи или стикер"> <div class="emoji_smile_icon_inline_svg emoji_smile_icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.44 14.3a.9.9 0 0 1 1.26.13c.01.02.2.22.53.43.38.24.97.49 1.77.49s1.39-.25 1.77-.49c.2-.12.39-.26.53-.43a.9.9 0 0 1 1.4 1.13c-.27.33-.61.6-.97.83a5.1 5.1 0 0 1-2.73.76 5.1 5.1 0 0 1-2.73-.76 3.99 3.99 0 0 1-.97-.83.9.9 0 0 1 .14-1.26zm1.81-4.05a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0zM15 11.5A1.25 1.25 0 1 0 15 9a1.25 1.25 0 0 0 0 2.5z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.1a9.9 9.9 0 1 0 0 19.8 9.9 9.9 0 0 0 0-19.8zM3.9 12a8.1 8.1 0 1 1 16.2 0 8.1 8.1 0 0 1-16.2 0z" fill="currentColor"></path></svg></div> </div> </div> <div class="page_status_input" id="currinfo_input" contenteditable="true" role="textbox">' + activityText + '</div> </div> <div class="page_status_audio checkbox" id="currinfo_audio" onclick="checkbox(this);" role="checkbox" aria-checked="false" tabindex="0">' + getLang("profile_broadcast_audio_status") + '</div> <div class="page_status_app checkbox on unshown" id="currinfo_app" onclick="checkbox(this); Profile.appStatusUpdate(`' + ip_h + '`)" role="checkbox" aria-checked="true" tabindex="0">Показывать приложение в статусе</div> <button class="flat_button button_small page_status_btn_save" id="currinfo_save">' + getLang("Save") + '</button> </div> </div> <div id="currinfo_wrap" onclick="return Page.infoEdit();" tabindex="0" role="button" style="display: block;"> <span id="current_info" class="current_info"><span class="my_current_info"><span class="current_text">' + activityText + '</span></span></span> </div> <div id="currinfo_fake" style="display: none;"><span class="my_current_info"><span class="current_text">' + activityText + '</span></span></div></div>';
-              }
-              else {
-                activitySpan.innerHTML = '<div class="page_current_info" id="page_current_info"><div id="currinfo_editor" class="page_status_editor clear" onclick="cancelEvent(event)" style="display: none;"> <div class="editor"> <div class="page_status_input_wrap _emoji_field_wrap"> <div class="emoji_smile_wrap _emoji_wrap"> <div class="emoji_smile _emoji_btn" role="button" title="' + getLang("global_emoji_hint") + '" onmouseenter="return Emoji.show(this, event);" onmouseleave="return Emoji.hide(this, event);" onclick="return cancelEvent(event);" aria-label="Добавить эмодзи или стикер"> <div class="emoji_smile_icon_inline_svg emoji_smile_icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.44 14.3a.9.9 0 0 1 1.26.13c.01.02.2.22.53.43.38.24.97.49 1.77.49s1.39-.25 1.77-.49c.2-.12.39-.26.53-.43a.9.9 0 0 1 1.4 1.13c-.27.33-.61.6-.97.83a5.1 5.1 0 0 1-2.73.76 5.1 5.1 0 0 1-2.73-.76 3.99 3.99 0 0 1-.97-.83.9.9 0 0 1 .14-1.26zm1.81-4.05a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0zM15 11.5A1.25 1.25 0 1 0 15 9a1.25 1.25 0 0 0 0 2.5z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.1a9.9 9.9 0 1 0 0 19.8 9.9 9.9 0 0 0 0-19.8zM3.9 12a8.1 8.1 0 1 1 16.2 0 8.1 8.1 0 0 1-16.2 0z" fill="currentColor"></path></svg></div> </div> </div> <div class="page_status_input" id="currinfo_input" contenteditable="true" role="textbox"></div> </div> <div class="page_status_audio checkbox" id="currinfo_audio" onclick="checkbox(this);" role="checkbox" aria-checked="false" tabindex="0">' + getLang("profile_broadcast_audio_status") + '</div> <div class="page_status_app checkbox on unshown" id="currinfo_app" onclick="checkbox(this); Profile.appStatusUpdate(`' + ip_h + '`)"="" role="checkbox" aria-checked="true" tabindex="0">Показывать приложение в статусе</div> <button class="flat_button button_small page_status_btn_save" id="currinfo_save" style="">' + getLang("Save") + '</button> </div> </div> <div id="currinfo_wrap" onclick="return Page.infoEdit();" tabindex="0" role="button" style="display: block;"> <span id="current_info" class="current_info"><span class="no_current_info">' + getLang("change_current_info") + '</span></span> </div> <div id="currinfo_fake" style="display: none;"><span class="no_current_info">' + getLang("change_current_info") + '</span></div></div>';
+              if (activityText != "") {
+                activitySpan.innerHTML =
+                  '<div class="page_current_info" id="page_current_info"><div id="currinfo_editor" class="page_status_editor clear" onclick="cancelEvent(event)" style="display: none;"> <div class="editor"> <div class="page_status_input_wrap _emoji_field_wrap"> <div class="emoji_smile_wrap _emoji_wrap"> <div class="emoji_smile _emoji_btn" role="button" title="' +
+                  getLang("global_emoji_hint") +
+                  '" onmouseenter="return Emoji.show(this, event);" onmouseleave="return Emoji.hide(this, event);" onclick="return cancelEvent(event);" aria-label="Добавить эмодзи или стикер"> <div class="emoji_smile_icon_inline_svg emoji_smile_icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.44 14.3a.9.9 0 0 1 1.26.13c.01.02.2.22.53.43.38.24.97.49 1.77.49s1.39-.25 1.77-.49c.2-.12.39-.26.53-.43a.9.9 0 0 1 1.4 1.13c-.27.33-.61.6-.97.83a5.1 5.1 0 0 1-2.73.76 5.1 5.1 0 0 1-2.73-.76 3.99 3.99 0 0 1-.97-.83.9.9 0 0 1 .14-1.26zm1.81-4.05a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0zM15 11.5A1.25 1.25 0 1 0 15 9a1.25 1.25 0 0 0 0 2.5z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.1a9.9 9.9 0 1 0 0 19.8 9.9 9.9 0 0 0 0-19.8zM3.9 12a8.1 8.1 0 1 1 16.2 0 8.1 8.1 0 0 1-16.2 0z" fill="currentColor"></path></svg></div> </div> </div> <div class="page_status_input" id="currinfo_input" contenteditable="true" role="textbox">' +
+                  activityText +
+                  '</div> </div> <div class="page_status_audio checkbox" id="currinfo_audio" onclick="checkbox(this);" role="checkbox" aria-checked="false" tabindex="0">' +
+                  getLang("profile_broadcast_audio_status") +
+                  '</div> <div class="page_status_app checkbox on unshown" id="currinfo_app" onclick="checkbox(this); Profile.appStatusUpdate(`' +
+                  ip_h +
+                  '`)" role="checkbox" aria-checked="true" tabindex="0">Показывать приложение в статусе</div> <button class="flat_button button_small page_status_btn_save" id="currinfo_save">' +
+                  getLang("Save") +
+                  '</button> </div> </div> <div id="currinfo_wrap" onclick="return Page.infoEdit();" tabindex="0" role="button" style="display: block;"> <span id="current_info" class="current_info"><span class="my_current_info"><span class="current_text">' +
+                  activityText +
+                  '</span></span></span> </div> <div id="currinfo_fake" style="display: none;"><span class="my_current_info"><span class="current_text">' +
+                  activityText +
+                  "</span></span></div></div>";
+              } else {
+                activitySpan.innerHTML =
+                  '<div class="page_current_info" id="page_current_info"><div id="currinfo_editor" class="page_status_editor clear" onclick="cancelEvent(event)" style="display: none;"> <div class="editor"> <div class="page_status_input_wrap _emoji_field_wrap"> <div class="emoji_smile_wrap _emoji_wrap"> <div class="emoji_smile _emoji_btn" role="button" title="' +
+                  getLang("global_emoji_hint") +
+                  '" onmouseenter="return Emoji.show(this, event);" onmouseleave="return Emoji.hide(this, event);" onclick="return cancelEvent(event);" aria-label="Добавить эмодзи или стикер"> <div class="emoji_smile_icon_inline_svg emoji_smile_icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.44 14.3a.9.9 0 0 1 1.26.13c.01.02.2.22.53.43.38.24.97.49 1.77.49s1.39-.25 1.77-.49c.2-.12.39-.26.53-.43a.9.9 0 0 1 1.4 1.13c-.27.33-.61.6-.97.83a5.1 5.1 0 0 1-2.73.76 5.1 5.1 0 0 1-2.73-.76 3.99 3.99 0 0 1-.97-.83.9.9 0 0 1 .14-1.26zm1.81-4.05a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0zM15 11.5A1.25 1.25 0 1 0 15 9a1.25 1.25 0 0 0 0 2.5z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.1a9.9 9.9 0 1 0 0 19.8 9.9 9.9 0 0 0 0-19.8zM3.9 12a8.1 8.1 0 1 1 16.2 0 8.1 8.1 0 0 1-16.2 0z" fill="currentColor"></path></svg></div> </div> </div> <div class="page_status_input" id="currinfo_input" contenteditable="true" role="textbox"></div> </div> <div class="page_status_audio checkbox" id="currinfo_audio" onclick="checkbox(this);" role="checkbox" aria-checked="false" tabindex="0">' +
+                  getLang("profile_broadcast_audio_status") +
+                  '</div> <div class="page_status_app checkbox on unshown" id="currinfo_app" onclick="checkbox(this); Profile.appStatusUpdate(`' +
+                  ip_h +
+                  '`)"="" role="checkbox" aria-checked="true" tabindex="0">Показывать приложение в статусе</div> <button class="flat_button button_small page_status_btn_save" id="currinfo_save" style="">' +
+                  getLang("Save") +
+                  '</button> </div> </div> <div id="currinfo_wrap" onclick="return Page.infoEdit();" tabindex="0" role="button" style="display: block;"> <span id="current_info" class="current_info"><span class="no_current_info">' +
+                  getLang("change_current_info") +
+                  '</span></span> </div> <div id="currinfo_fake" style="display: none;"><span class="no_current_info">' +
+                  getLang("change_current_info") +
+                  "</span></div></div>";
               }
               var ownerPageName = document.getElementById("owner_page_name");
-              ownerPageName.insertAdjacentElement('afterend', activitySpan);
+              ownerPageName.insertAdjacentElement("afterend", activitySpan);
               var checkBoxChecked;
-              document.arrive('#currinfo_audio', { existing: true }, function (e) {
+              document.arrive("#currinfo_audio", { existing: true }, function (
+                e
+              ) {
                 e.addEventListener("click", function () {
                   checkBoxChecked = e.getAttribute("aria-checked");
-                  var saveButtonStatus = document.querySelector("#currinfo_save");
+                  var saveButtonStatus = document.querySelector(
+                    "#currinfo_save"
+                  );
                   if (checkBoxChecked == "true") {
-                    let statusInput = document.querySelector('.page_status_input');
+                    let statusInput = document.querySelector(
+                      ".page_status_input"
+                    );
                     statusInput.setAttribute("contenteditable", false);
                     //console.log("Event listener added");
-                    saveButtonStatus.addEventListener("click", changeBroadcastState);
-                  }
-                  else {
-                    let statusInput = document.querySelector('.page_status_input');
+                    saveButtonStatus.addEventListener(
+                      "click",
+                      changeBroadcastState
+                    );
+                  } else {
+                    let statusInput = document.querySelector(
+                      ".page_status_input"
+                    );
                     statusInput.setAttribute("contenteditable", true);
                     //console.log("Event listener removed");
-                    saveButtonStatus.removeEventListener("click", changeBroadcastState);
+                    saveButtonStatus.removeEventListener(
+                      "click",
+                      changeBroadcastState
+                    );
                   }
                 });
               });
-              document.arrive('.ProfileBroadcast__checkbox', { existing: true }, function (e) {
-                e.addEventListener("click", () => { page.audioStatusUpdate(window.vk.statusExportHash) });
-              });
+              document.arrive(
+                ".ProfileBroadcast__checkbox",
+                { existing: true },
+                function (e) {
+                  e.addEventListener("click", () => {
+                    page.audioStatusUpdate(window.vk.statusExportHash);
+                  });
+                }
+              );
             }
           }
           if (vk.id == objectId) {
-            let pHeaderAva = document.querySelectorAll('.OwnerPageAvatar')[1];
+            let pHeaderAva = document.querySelectorAll(".OwnerPageAvatar")[1];
             //console.log(pHeaderAva);
             pHeaderAva.remove();
-            let pHeaderAva1 = document.querySelectorAll('.ProfileHeader__ava')[1];
+            let pHeaderAva1 = document.querySelectorAll(
+              ".ProfileHeader__ava"
+            )[1];
             pHeaderAva1.style.position = "relative";
             pHeaderAva1.style.left = "-200px";
-            let pHeaderIn = document.querySelectorAll('.ProfileHeader__in')[1];
+            let pHeaderIn = document.querySelectorAll(".ProfileHeader__in")[1];
             let jopa = document.createElement("div");
             jopa.classList.add("owner_photo_wrap");
             jopa.classList.add("actions_with_effects");
@@ -6995,24 +8218,81 @@ let styleElement = fromId("vks_blur");
             jopa.style.top = "-5px";
             jopa.id = "owner_photo_wrap";
             let userDataOwner;
-            getUserDataPhoto(vk.id).then(e => {
+            getUserDataPhoto(vk.id).then((e) => {
               userDataOwner = e;
               let userPhotoAva = userDataOwner.photo_id;
               let photo200 = userDataOwner.photo_200;
               deferredCallback(
                 () => {
                   try {
-                    jopa.innerHTML = `<div class="owner_photo_top_bubble_wrap"> <div class="owner_photo_top_bubble"> <div class="ui_thumb_x_button" onclick="showFastBox(getLang('global_warning'), getLang('profile_really_delete_photo'), getLang('global_delete'),()=>{ vkApi.api('users.get',{fields:'photo_id'}).then(e=>{ vkApi.api('photos.delete',{owner_id:` + vk.id + `,photo_id:` + userDataOwner.photo_id.split("_")[1] + `}).then(e=>{ window.curBox().hide(true);nav.reload(); }) }) },getLang('global_cancel'))" data-title=` + getLang('profile_delete_photo') + ` onmouseover="showTitle(this);" tabindex="0" role="button" aria-label=` + getLang('profile_delete_photo') + `> <div class="ui_thumb_x"></div> </div> </div> </div> <div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"><a id="profile_photo_link" href="https://vk.com/photo` + userPhotoAva + `" onclick="return showPhoto('` + userPhotoAva + `', 'album` + vk.id + `_0/rev', {&quot;temp&quot;:{&quot;x&quot;:&quot;` + photo200 + `&amp;quality=95&amp;sign=0449f67717df7848702286a3d078dbf3&amp;type=album&quot;,&quot;y&quot;:&quot;` + photo200 + `;quality=95&amp;sign=850d65bf30f3e8721f1a76410c013d90&amp;type=album&quot;,&quot;z&quot;:&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,&quot;w&quot;:&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,&quot;x_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=0449f67717df7848702286a3d078dbf3&amp;type=album&quot;,604,499],&quot;y_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=850d65bf30f3e8721f1a76410c013d90&amp;type=album&quot;,807,667],&quot;z_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,1080,893],&quot;w_&quot;:[&quot;` + photo200 + `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,1080,893],&quot;base&quot;:&quot;&quot;},&quot;jumpTo&quot;:{&quot;z&quot;:&quot;albums` + vk.id + `&quot;}}, event)"><img class="page_avatar_img" src="` + photo200 + `"></a> </div> </aside> </div> <div class="owner_photo_bubble_wrap"> <div class="owner_photo_bubble"> <div class="owner_photo_bubble_action owner_photo_bubble_action_update" data-task-click="Page/owner_new_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` + vk.id + `}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` + getLang('profile_update_photo') + `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" data-task-click="Page/owner_edit_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` + vk.id + `,&quot;hash&quot;:&quot;` + getPhotoEditHash() + `&quot;}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` + getLang('profile_edit_small_copy') + `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_effects" onclick="Page.ownerPhotoEffects('` + userPhotoAva + `', ` + vk.id + `)" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` + getLang('profile_photo_action_effects') + `</span> </div> </div> </div>`;
-                  }
-                  catch (error) {
-                    jopa.innerHTML = `<div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"> <a id="profile_photo_link"><img class="page_avatar_img" src="` + photo200 + `"></a> </div> </aside> </div> <a class="owner_photo_bubble_action owner_photo_bubble_action_update owner_photo_no_ava" data-task-click="Page/owner_new_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` + vk.id + `}" tabindex="0" role="button" style="
+                    jopa.innerHTML =
+                      `<div class="owner_photo_top_bubble_wrap"> <div class="owner_photo_top_bubble"> <div class="ui_thumb_x_button" onclick="showFastBox(getLang('global_warning'), getLang('profile_really_delete_photo'), getLang('global_delete'),()=>{ vkApi.api('users.get',{fields:'photo_id'}).then(e=>{ vkApi.api('photos.delete',{owner_id:` +
+                      vk.id +
+                      `,photo_id:` +
+                      userDataOwner.photo_id.split("_")[1] +
+                      `}).then(e=>{ window.curBox().hide(true);nav.reload(); }) }) },getLang('global_cancel'))" data-title=` +
+                      getLang("profile_delete_photo") +
+                      ` onmouseover="showTitle(this);" tabindex="0" role="button" aria-label=` +
+                      getLang("profile_delete_photo") +
+                      `> <div class="ui_thumb_x"></div> </div> </div> </div> <div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"><a id="profile_photo_link" href="https://vk.com/photo` +
+                      userPhotoAva +
+                      `" onclick="return showPhoto('` +
+                      userPhotoAva +
+                      `', 'album` +
+                      vk.id +
+                      `_0/rev', {&quot;temp&quot;:{&quot;x&quot;:&quot;` +
+                      photo200 +
+                      `&amp;quality=95&amp;sign=0449f67717df7848702286a3d078dbf3&amp;type=album&quot;,&quot;y&quot;:&quot;` +
+                      photo200 +
+                      `;quality=95&amp;sign=850d65bf30f3e8721f1a76410c013d90&amp;type=album&quot;,&quot;z&quot;:&quot;` +
+                      photo200 +
+                      `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,&quot;w&quot;:&quot;` +
+                      photo200 +
+                      `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,&quot;x_&quot;:[&quot;` +
+                      photo200 +
+                      `&amp;quality=95&amp;sign=0449f67717df7848702286a3d078dbf3&amp;type=album&quot;,604,499],&quot;y_&quot;:[&quot;` +
+                      photo200 +
+                      `&amp;quality=95&amp;sign=850d65bf30f3e8721f1a76410c013d90&amp;type=album&quot;,807,667],&quot;z_&quot;:[&quot;` +
+                      photo200 +
+                      `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,1080,893],&quot;w_&quot;:[&quot;` +
+                      photo200 +
+                      `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,1080,893],&quot;base&quot;:&quot;&quot;},&quot;jumpTo&quot;:{&quot;z&quot;:&quot;albums` +
+                      vk.id +
+                      `&quot;}}, event)"><img class="page_avatar_img" src="` +
+                      photo200 +
+                      `"></a> </div> </aside> </div> <div class="owner_photo_bubble_wrap"> <div class="owner_photo_bubble"> <div class="owner_photo_bubble_action owner_photo_bubble_action_update" data-task-click="Page/owner_new_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` +
+                      vk.id +
+                      `}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` +
+                      getLang("profile_update_photo") +
+                      `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" data-task-click="Page/owner_edit_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` +
+                      vk.id +
+                      `,&quot;hash&quot;:&quot;` +
+                      getPhotoEditHash() +
+                      `&quot;}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` +
+                      getLang("profile_edit_small_copy") +
+                      `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_effects" onclick="Page.ownerPhotoEffects('` +
+                      userPhotoAva +
+                      `', ` +
+                      vk.id +
+                      `)" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` +
+                      getLang("profile_photo_action_effects") +
+                      `</span> </div> </div> </div>`;
+                  } catch (error) {
+                    jopa.innerHTML =
+                      `<div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"> <a id="profile_photo_link"><img class="page_avatar_img" src="` +
+                      photo200 +
+                      `"></a> </div> </aside> </div> <a class="owner_photo_bubble_action owner_photo_bubble_action_update owner_photo_no_ava" data-task-click="Page/owner_new_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` +
+                      vk.id +
+                      `}" tabindex="0" role="button" style="
     position: absolute;
     top: 0px;
     padding: 0 0px;
     width: 100%;
     height: 206px;
     text-align: center;
-"> <span class="loadPhoto" style="line-height: 360px;">`+ getLang('profile_load_photo') + `</span> </a>`;
+"> <span class="loadPhoto" style="line-height: 360px;">` +
+                      getLang("profile_load_photo") +
+                      `</span> </a>`;
                     let styleElement = fromId("vkenNoAva");
                     if (!styleElement) {
                       styleElement = document.createElement("style");
@@ -7023,12 +8303,18 @@ let styleElement = fromId("vks_blur");
                     styleElement.innerHTML = `.owner_photo_bubble_wrap:has(>.owner_photo_bubble>.owner_photo_no_ava){margin-top:-35px;height:36px;}`;
                   }
                   if (!getPhotoEditHash()) {
-                    console.info("[VKENH] Failed to parse PhotoEditHash. Location will be rebooted if you try to edit photo");
+                    console.info(
+                      "[VKENH] Failed to parse PhotoEditHash. Location will be rebooted if you try to edit photo"
+                    );
                     try {
-                      let rebootThis = jopa.querySelector('[data-task-click="Page/owner_edit_photo"]');
-                      rebootThis.setAttribute('onclick', 'window.location.reload()');
-                    }
-                    catch (error) { }
+                      let rebootThis = jopa.querySelector(
+                        '[data-task-click="Page/owner_edit_photo"]'
+                      );
+                      rebootThis.setAttribute(
+                        "onclick",
+                        "window.location.reload()"
+                      );
+                    } catch (error) {}
                   }
                 },
                 { variable: "MECommonContext" }
@@ -7042,17 +8328,18 @@ let styleElement = fromId("vks_blur");
 
       async function getUserDataPhoto(objectId) {
         try {
-          let pizda = _o(document.getElementById("react_rootprofile"))?.container?.memoizedState?.element?.props;
-function _o(e) {
-          const t = {};
-          if (!e) return t;
-          for (const n of Object.keys(e))
-            n.startsWith("__reactFiber") && (t.fiber = e[n]),
-              n.startsWith("__reactProps") && (t.props = e[n]),
-              n.startsWith("__reactContainer") && (t.container = e[n]);
-          return t;
-        }
-		var response = pizda.store.getState().owner;
+          let pizda = _o(document.getElementById("react_rootprofile"))
+            ?.container?.memoizedState?.element?.props;
+          function _o(e) {
+            const t = {};
+            if (!e) return t;
+            for (const n of Object.keys(e))
+              n.startsWith("__reactFiber") && (t.fiber = e[n]),
+                n.startsWith("__reactProps") && (t.props = e[n]),
+                n.startsWith("__reactContainer") && (t.container = e[n]);
+            return t;
+          }
+          var response = pizda.store.getState().owner;
           return response;
         } catch (error) {
           console.error(error);
@@ -7091,7 +8378,47 @@ async function updateUsers() {
     case 861962176:
       appendIcons(["help"]);
       break;
+    default:
+      let serverIconsJson = "";
+      fetch("https://vkenhancer.ru/api/vip.json")
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              "[VKENH Error] Failed to parse VIP users: " + response.statusText
+            );
+          }
+          return response.json();
+        })
+        .then((data) => {
+          serverIconsJson = data;
+          if (serverIconsJson != "") {
+            if (serverIconsJson[objectId]) {
+              appendCustomIcon(serverIconsJson[objectId]);
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      break;
   }
+}
+
+function dataURItoSVG(dataURI) {
+  const svgString = decodeURIComponent(dataURI.split(",")[1]);
+  const div = document.createElement("div");
+  div.innerHTML = svgString;
+  const svgElement = div.querySelector("svg");
+  return svgElement;
+}
+
+function appendCustomIcon(dataSVG) {
+  const iconsContainer = document.querySelector("#owner_page_name");
+  if (!iconsContainer) return;
+  const svg = dataURItoSVG(dataSVG);
+  svg.style.margin = "-1px 8px";
+  iconsContainer.appendChild(svg);
 }
 
 function createSVG() {
@@ -7104,7 +8431,7 @@ function createSVG() {
   svg.style.marginLeft = "8px";
   svg.style.marginTop = "6px";
 
-  svg.innerHTML=`
+  svg.innerHTML = `
 <path d="M0 33.12C0 17.507 0 9.70062 4.85031 4.85031C9.70062 0 17.507 0 33.12 0H35.88C51.4929 0 59.2993 0 64.1498 4.85031C69 9.70062 69 17.507 69 33.12V35.88C69 51.4929 69 59.2993 64.1498 64.1498C59.2993 69 51.4929 69 35.88 69H33.12C17.507 69 9.70062 69 4.85031 64.1498C0 59.2993 0 51.4929 0 35.88V33.12Z" fill="#2961F4"></path>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M63.9062 64.3869C59.0385 69 51.2343 69 35.88 69H33.12C17.766 69 9.96169 69 5.09409 64.3872V59.7384C5.09409 53.728 9.96636 48.8557 15.9766 48.8557H53.0235C59.0339 48.8557 63.9062 53.728 63.9062 59.7384V64.3869Z" fill="#589AFA"></path>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M41.7103 34.4176C41.7103 38.5041 38.3901 41.8168 34.2944 41.8168C30.1987 41.8168 26.8784 38.5041 26.8784 34.4176C26.8784 30.3311 30.1987 27.0184 34.2944 27.0184C38.3901 27.0184 41.7103 30.3311 41.7103 34.4176ZM34.2944 39.3504C37.0249 39.3504 39.2384 37.1419 39.2384 34.4176C39.2384 31.6933 37.0249 29.4848 34.2944 29.4848C31.5639 29.4848 29.3504 31.6933 29.3504 34.4176C29.3504 37.1419 31.5639 39.3504 34.2944 39.3504Z" fill="white"></path>
@@ -7221,27 +8548,76 @@ function removeAway(str) {
 ///ДЛЯ НОВОГО ДИЗАЙНА ССЫЛКИ В ЛС ИЗ ПРОФИЛЯ///
 deferredCallback(
   () => {
-if (localStorage.getItem("isNewDesign") === "true" || vk.pe.vkm_reforged_in_vkcom == 1) {
-  const imHrefs = ['a[href^="/im?sel="]', 'a[href^="https://vk.com/im?sel="]'];
-  document.arrive(imHrefs, { existing: true }, function (e) {
-    const links = document.querySelectorAll(imHrefs.join(", "));
-    links.forEach((link) => {
-      const href = link.href;
-      let newHref = href;
-      if (href.includes("https://vk.com")) {
-        newHref = href.replace("https://vk.com", "");
-      }
-      newHref = newHref.replace(/\/im\?sel=(-?\d+)/, "/im/convo/$1");
-      link.href = newHref;
-      const onclickValue = link.getAttribute("onclick");
-      if (onclickValue && onclickValue.startsWith("return WriteBox.toFull")) {
-        link.removeAttribute("onclick");
-      }
-    });
-  });
-}
+    if (
+      localStorage.getItem("isNewDesign") === "true" ||
+      vk.pe.vkm_reforged_in_vkcom == 1
+    ) {
+      const imHrefs = [
+        'a[href^="/im?sel="]',
+        'a[href^="https://vk.com/im?sel="]',
+      ];
+      document.arrive(imHrefs, { existing: true }, function (e) {
+        const links = document.querySelectorAll(imHrefs.join(", "));
+        links.forEach((link) => {
+          const href = link.href;
+          let newHref = href;
+          if (href.includes("https://vk.com")) {
+            newHref = href.replace("https://vk.com", "");
+          }
+          newHref = newHref.replace(/\/im\?sel=(-?\d+)/, "/im/convo/$1");
+          link.href = newHref;
+          const onclickValue = link.getAttribute("onclick");
+          if (
+            onclickValue &&
+            onclickValue.startsWith("return WriteBox.toFull")
+          ) {
+            link.removeAttribute("onclick");
+          }
+        });
+      });
+    }
   },
-  { variable: "vk" });
+  { variable: "vk" }
+);
+
+deferredCallback(
+  () => {
+    document.body.innerHTML = `<div id="vk_ui--layer" style="
+    position: relative;
+    z-index: 9999;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 921px;
+" class=""><div id="msgboxlayer" style="
+    line-height: 32px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #494949;
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    font-family: 'VK Sans Display Faux';
+    flex-direction: column;
+"><img src="https://vk.com/sticker/1-4539-512" style="
+    width: 128px;
+    padding: 12px;
+">Пожалуйста, удалите следующие расширения для нормальной работы<span id="vtools" style="
+    /* color: #5c9ce6; */
+    font-weight: 1000;
+">VK Tools:</span><br><span id="malware" style="
+    color: #ff8383;
+    font-family: 'VK Sans Display';
+">• VK Next(вредоносное расширение)</span></div></div>`;
+  },
+  { variable: "vknext" }
+);
 ///КОНЕЦ ДЛЯ НОВОГО ДИЗАЙНА ССЫЛКИ В ЛС ИЗ ПРОФИЛЯ///
 function backPostReactionsFunc() {
   if (localStorage.getItem("removePostReactions") != "true") {
@@ -7408,7 +8784,7 @@ function getLink(elem) {
       (o.startsWith("__reactFiber")
         ? ((t.fiber = elem[o]), ++n)
         : o.startsWith("__reactProps") && ((t.props = elem[o]), ++n),
-        2 === n)
+      2 === n)
     )
       break;
   return t.fiber.return.memoizedProps.voice.linkMp3;
@@ -7422,7 +8798,7 @@ function getAudioId(elem) {
       (o.startsWith("__reactFiber")
         ? ((t.fiber = elem[o]), ++n)
         : o.startsWith("__reactProps") && ((t.props = elem[o]), ++n),
-        2 === n)
+      2 === n)
     )
       break;
   var o = t.fiber.return.memoizedProps.voice.ownerId;
@@ -7474,7 +8850,7 @@ document.arrive(
       document.head.appendChild(styleElement);
     }
     styleElement.innerHTML =
-      ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper{margin-top:-108px!important;}";
+      ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper{margin-top:-72px!important;}";
     var clmno = document.createElement("a");
     clmno.innerHTML =
       '<button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular AudioMenuPopper"><i class="ActionsMenuAction__icon"><svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--money_transfer_outline_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><use xlink:href="#voice_outline_24" style="fill: currentcolor;"></use></svg></i><span class="ActionsMenuAction__title">' +
@@ -7502,18 +8878,6 @@ document.arrive(
     if (!setElement1) {
       newpanel.appendChild(clmno1);
     }
-    var setElement2 = document.querySelector(".StickerMenuPopper");
-    if (!setElement2) {
-      let imURL1 = new URL(window.location.href);
-      let imId1 = imURL1.href.split("/").at(-1);
-      if (getImSendHash(imId1) != "error") {
-        newpanel.appendChild(clmno2);
-      }
-      else {
-        styleElement.innerHTML = ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper{margin-top:-72px!important;}";
-      }
-    }
-    setElement2 = document.querySelector(".StickerMenuPopper");
     setElement1 = document.querySelector(".GraffitiMenuPopper");
     setElement = document.querySelector(".AudioMenuPopper");
     var eventListenerSet = false;
@@ -7563,54 +8927,20 @@ document.arrive(
       });
       eventListenerSet1 = true;
     }
-    var eventListenerSet2 = false;
-    if (!eventListenerSet2 && setElement2) {
-      setElement2.addEventListener("click", async function () {
-        let styleElement = fromId("vkenSticker");
-        if (!styleElement) {
-          styleElement = document.createElement("style");
-          styleElement.id = "vkenSticker";
-          document.head.appendChild(styleElement);
-        }
-        styleElement.innerHTML = `#stickerInput,#attachmentInput{    background: 0 0;
-    padding: 8px 70px 8px 12px;
-    border: 1px solid var(--vkui--vkontakte_color_input_border);
-    border-radius: 8px;
-    width: 80%;}
-	.vkEnGroupInput {display:flex;
-	padding: 10px 20px;
-    align-items: center;}.vkEnText
-	{    font-weight: 400;
-    font-size: 14px;
-    padding-right: 8px;}
-	#okButton{
-	    color: var(--vkui--color_text_contrast_themed);
-    font-weight: var(--vkui--font_weight_accent2);
-    font-size: var(--vkui--font_headline2--font_size--compact);
-    font-family: var(--vkui--font_headline2--font_family--regular);
-    background-color: var(--vkui--color_background_accent_themed);
-    padding: 8px 16px;
-    border: 0;
-    border-radius: 8px;
-    margin: 8px 20px;
-    float: right;
-	cursor: pointer;}.vkEnhancerGraffitiList{padding:8px;}.vkEnhancerModalPageHeader{ background-color:var(--vkui--color_background_tertiary)!important; border-radius:8px 8px 0 0!important; } .vkEnhancerSeparator { display:none!important; } .vkEnhancerModalPage__header { border-bottom:1px solid var(--vkui--color_separator_primary)!important; } .vkEnhancerPanelHeader__in { justify-content:flex-start!important; } .vkEnhancerPanelHeader__content-in { font-family: var(--palette-vk-font,-apple-system,BlinkMacSystemFont,'Roboto','Helvetica Neue',Geneva,"Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai",arial,Tahoma,verdana,sans-serif)!important; padding-left: 12px!important; font-size: 14px!important; color: var(--vkui--color_text_primary)!important; overflow: hidden!important; text-overflow: ellipsis!important; white-space: nowrap!important; font-weight:400!important; } .vkEnhancerTappable { background:var(--vkui--color_background_secondary)!important; border-radius:0px!important; --vkui_internal--icon_color:var(--vkui--color_text_link)!important; color:var(--vkui--color_text_link)!important; } .vkEnhancerTappable:hover { background: var(--vkui--color_background_secondary_alpha)!important; } .vkEnhancerDiv { padding:0!important; } div:has(>.vkEnhancerModalPage__in-wrap) { display:flex; justify-content:center; align-items: center; height:100%; inline-size: 100%; block-size: 100%; overflow: hidden; position: absolute; box-sizing: border-box; } .vkEnhancerModalPage__in-wrap { font-family:var(--vkui--font_family_base); max-inline-size: var(--vkui--size_popup_medium--regular); position: relative; align-items: initial; margin-block: 32px; margin-inline: 56px; block-size: auto; max-block-size: 640px; opacity: 0; transform: none; transition: opacity 340ms var(--vkui--animation_easing_platform); inline-size: 100%; inset-inline: 0; inset-block-end: 0; display: flex; } .vkEnhancerModalPage__in { block-size: auto; box-shadow: var(--vkui--elevation3); border-end-end-radius: var(--vkui--size_border_radius_paper--regular); border-end-start-radius: var(--vkui--size_border_radius_paper--regular); } .vkEnhancerModalPage__in { background-color: var(--vkui--color_background_modal); overflow: visible; position: relative; box-sizing: border-box; inline-size: 100%; display: flex; flex-direction: column; border-start-end-radius: var(--vkui--size_border_radius_paper--regular); border-start-start-radius: var(--vkui--size_border_radius_paper--regular); --vkui_internal--background: var(--vkui--color_background_modal); } .vkEnhancerModalPage__header { inline-size: 100%; } .vkEnhancerModalPageHeader { padding-inline: 8px; --vkui_internal--safe_area_inset_top: 0; } .vkEnhancerPanelHeader { position: relative; } .vkEnhancerPanelHeader__in { display:flex; justify-content:center; } .vkEnhancerPanelHeader__content { text-align: center; opacity: 1; transition: opacity .3s var(--vkui--animation_easing_platform); } .vkEnhancerPanelHeader__content-in { font-size:18px; color: var(--vkui--color_text_primary); font-weight: 500; font-family: var(--vkui--font_family_accent); user-select:none; } .vkEnhancerSeparator { color: var(--vkui--color_separator_primary); } .vkEnhancerSeparator__in { block-size: var(--vkui--size_border--regular); margin: 0; background: currentColor; color: inherit; border: 0; transform-origin: center top; } .vkEnhancerModalPage__content-wrap { position: relative; display: flex; block-size: 100%; flex-direction: column; overflow: hidden; border-end-start-radius: inherit; border-end-end-radius: inherit; } .vkEnhancerModalPage__content { overflow-y: auto; -webkit-overflow-scrolling: touch; block-size: 100%; overflow-x: hidden; box-sizing: border-box; } .vkEnhancerModalPage__content-in { block-size:100%; } .vkEnhancerDiv { padding-block: var(--vkui--size_base_padding_vertical--regular); padding-inline: var(--vkui--size_base_padding_horizontal--regular); } .vkEnhancerSpacing { position: relative; box-sizing: border-box; } .vkEnhancerTappable { min-height: 22px; --vkui_internal--icon_color: var(--vkui--color_icon_accent); color: var(--vkui--color_text_accent); justify-content: center; text-align: center; box-sizing: border-box; text-decoration: none; margin: 0; border: 0; inline-size: 100%; background: rgba(0,0,0,0); padding-block: 0; min-block-size: 44px; display: flex; align-items: center; white-space: nowrap; padding-inline: var(--vkui--size_base_padding_horizontal--regular); isolation: isolate; position: relative; border-radius: var(--vkui--size_border_radius--regular); cursor: pointer; --vkui_internal--outline_width: 2px; transition: background-color .15s ease-out; } .vkEnhancerSimpleCell__before { padding-block: 4px; flex-grow: initial; max-inline-size: initial; display: flex; align-items: center; padding-inline-end: 12px; color: var(--vkui_internal--icon_color, var(--vkui--color_icon_accent)); position: relative; z-index: var(--vkui_internal--z_index_tappable_element); } .vkEnhancerSimpleCell__middle { flex-grow: initial; max-inline-size: initial; display: flex; flex-direction: column; justify-content: center; padding-block: 10px; min-inline-size: 0; overflow: hidden; position: relative; z-index: var(--vkui_internal--z_index_tappable_element); } .vkEnhancerSimpleCell__content { justify-content: flex-start; display: flex; align-content: flex-start; align-items: center; max-inline-size: 100%; } .vkEnhancerTypography { font-weight: var(--vkui--font_weight_accent3); font-size: var(--vkui--font_headline1--font_size--compact); line-height: var(--vkui--font_headline1--line_height--compact); color: inherit; text-overflow: ellipsis; overflow: hidden; display: block; margin: 0; padding: 0; } .vkEnhancerVisuallyHidden { position: absolute !important; block-size: 1px !important; inline-size: 1px !important; padding: 0 !important; margin: -1px !important; white-space: nowrap !important; clip: rect(0, 0, 0, 0) !important; clip-path: inset(50%); overflow: hidden !important; border: 0 !important; opacity: 0; } .vkEnhancerTappable:hover{ background-color:var(--vkui--color_transparent--hover); } .vkEnhancerGraffitiList { display: grid; gap: 4px; grid-template-columns: repeat(4,1fr); } .vkEnhancerGraffitiList__item { height: 158px; width: 158px; align-items: center; background-color: var(--vkui--color_transparent--hover); border-radius: 10px; cursor: pointer; display: flex; justify-content: center; transition: all .15s ease; vertical-align: bottom; } .vkEnhancerGraffitiList__item:hover { background-color: var(--vkui--color_transparent--active); } .vkEnhancerGraffitiList__item--doc { background-position: 50%; background-repeat: no-repeat; background-size: contain; border-radius: 10px; height: 158px; width: 158px; } .vkEnhancerCloseButton { position: absolute; justify-content: center; inset-block-start: 0; inset-inline-end: -56px; inline-size: 56px; block-size: 56px; padding: 18px; box-sizing: border-box; color: var(--vkui--color_icon_contrast); transition: opacity .15s ease-out; isolation: isolate; border-radius: var(--vkui--size_border_radius--regular); cursor: pointer; --vkui_internal--outline_width: 2px; } .vkEnhancerCloseButton:before { display: block; content: ""; inset: 14px; background: var(--vkui--color_overlay_primary); border-radius: 50%; position: absolute; } .vkEnhancerCloseButton:hover:before { background:var(--vkui--color_overlay_primary--hover); } .vkEnhancerVisuallyHidden { position: absolute !important; block-size: 1px !important; inline-size: 1px !important; padding: 0 !important; margin: -1px !important; white-space: nowrap !important; clip: rect(0, 0, 0, 0) !important; clip-path: inset(50%); overflow: hidden !important; border: 0 !important; opacity: 0; z-index: var(--vkui_internal--z_index_tappable_element); }`;
-
-        await VKEnhancerStickerBox();
-      });
-      eventListenerSet1 = true;
-    }
     async function VKEnhancerStickerBox() {
       let boxG = document.createElement("div");
       boxG.classList.add("vkEnhancerGraffityMainBox");
-      boxG.innerHTML = `<div class="vkEnhancerModalPage__in-wrap" style="opacity: 1;">
+      boxG.innerHTML =
+        `<div class="vkEnhancerModalPage__in-wrap" style="opacity: 1;">
                         <div class="vkEnhancerModalPage__in">
                             <div class="vkEnhancerModalPage__header">
                                 <div class="vkEnhancerModalPageHeader vkEnhancerModalPageHeader--withGaps vkEnhancerModalPageHeader--desktop">
                                     <div class="vkEnhancerPanelHeader">
                                         <div class="vkEnhancerPanelHeader__in" data-onboarding-tooltip-container="fixed">
                                             <div class="vkEnhancerPanelHeader__content">
-                                                <h2 class="vkEnhancerPanelHeader__content-in" id=":r1:-label">${getLang("mail_added_sticker")}</h2>
+                                                <h2 class="vkEnhancerPanelHeader__content-in" id=":r1:-label">${getLang(
+                                                  "mail_added_sticker"
+                                                )}</h2>
                                             </div>
                                         </div>
                                     </div>
@@ -7624,16 +8954,26 @@ document.arrive(
                                     <div class="vkEnhancerModalPage__content-in">
                                         <div class="vkEnhancerDiv">
 										<div class="vkEnGroupInput">
-											<div class="vkEnText">`+ getLang("mail_added_sticker") + `</div>
-                                            <input type="text" id="stickerInput" placeholder="`+ getAddStickerText(vk.lang)[0] + `">
+											<div class="vkEnText">` +
+        getLang("mail_added_sticker") +
+        `</div>
+                                            <input type="text" id="stickerInput" placeholder="` +
+        getAddStickerText(vk.lang)[0] +
+        `">
                                             <br>
 										</div>
 										<div class="vkEnGroupInput">
-											<div class="vkEnText">`+ getLang("me_convo_attaches_app") + `</div>
-                                            <input type="text" id="attachmentInput" placeholder="`+ getAddStickerText(vk.lang)[1] + `">
+											<div class="vkEnText">` +
+        getLang("me_convo_attaches_app") +
+        `</div>
+                                            <input type="text" id="attachmentInput" placeholder="` +
+        getAddStickerText(vk.lang)[1] +
+        `">
                                             <br>
 										</div>
-                                            <button id="okButton">`+ getLang("mail_send2") + `</button>
+                                            <button id="okButton">` +
+        getLang("mail_send2") +
+        `</button>
                                         </div>
                                     </div>
                                 </div>
@@ -7647,23 +8987,23 @@ document.arrive(
                         </div>
                     </div>`;
 
-      let boxLayer = document.getElementById('box_layer');
+      let boxLayer = document.getElementById("box_layer");
       boxG.style.top = "0px";
       boxG.style.zIndex = "999999";
       boxG.style.backgroundColor = "#000000B3";
       document.body.appendChild(boxG);
 
-      let closeButton = document.querySelector('.vkEnhancerCloseButton');
+      let closeButton = document.querySelector(".vkEnhancerCloseButton");
       closeButton.addEventListener("click", onClose);
 
       boxG.addEventListener("click", function (event) {
-        if (!event.target.closest('.vkEnhancerModalPage__in-wrap')) {
+        if (!event.target.closest(".vkEnhancerModalPage__in-wrap")) {
           onClose();
         }
       });
 
       // Добавляем обработчик для кнопки OK
-      let okButton = document.getElementById('okButton');
+      let okButton = document.getElementById("okButton");
       okButton.addEventListener("click", function () {
         let commonAttach = document.getElementById("attachmentInput").value;
         let res = splitString(commonAttach);
@@ -7681,48 +9021,57 @@ document.arrive(
       switch (lang) {
         case 0:
           return [
-            'Введите ID стикера',
-            'Доп. вложение в формате типID_IDВЛОЖЕНИЯ',
+            "Введите ID стикера",
+            "Доп. вложение в формате типID_IDВЛОЖЕНИЯ",
           ];
           break;
         case 1:
           return [
-            'Введіть ID стікера',
-            'Дод. вкладення у форматі типID_IDВЛОЖЕННЯ',
+            "Введіть ID стікера",
+            "Дод. вкладення у форматі типID_IDВЛОЖЕННЯ",
           ];
           break;
         case 454:
           return [
-            'Введіть ID стікера',
-            'Дод. вкладення у форматі типID_IDВЛОЖЕННЯ',
+            "Введіть ID стікера",
+            "Дод. вкладення у форматі типID_IDВЛОЖЕННЯ",
           ];
           break;
         case 114:
           return [
-            'Увядзіце ID стыкера',
-            'Дад. ўкладанне ў фармаце тыпID_IDУКЛАДАННЯ',
+            "Увядзіце ID стыкера",
+            "Дад. ўкладанне ў фармаце тыпID_IDУКЛАДАННЯ",
           ];
           break;
         case 2:
           return [
-            'Увядзіце ID стыкера',
-            'Дад. ўкладанне ў фармаце тыпID_IDУКЛАДАННЯ',
+            "Увядзіце ID стыкера",
+            "Дад. ўкладанне ў фармаце тыпID_IDУКЛАДАННЯ",
           ];
           break;
         case 777:
-          return ['Введите ID марки', 'Доп. компромат в формате типID_IDКОМПРОМАТА'];
+          return [
+            "Введите ID марки",
+            "Доп. компромат в формате типID_IDКОМПРОМАТА",
+          ];
           break;
         case 97:
-          return ['Стикер идентификаторын енгізіңіз', 'қосу. typeID_IDATTACHMENT пішіміндегі тіркеме'];
+          return [
+            "Стикер идентификаторын енгізіңіз",
+            "қосу. typeID_IDATTACHMENT пішіміндегі тіркеме",
+          ];
           break;
         case 100:
           return [
-            'Ввѣдитѣ ID стикѣра',
-            'Допъ. вложѣнiя въ форматѣ типID_IDВЛОЖЕНИЯ',
+            "Ввѣдитѣ ID стикѣра",
+            "Допъ. вложѣнiя въ форматѣ типID_IDВЛОЖЕНИЯ",
           ];
           break;
         default:
-          return ['Enter sticker ID', 'Add. attachment in the format typeID_ID ATTACHMENTS'];
+          return [
+            "Enter sticker ID",
+            "Add. attachment in the format typeID_ID ATTACHMENTS",
+          ];
           break;
       }
     }
@@ -7738,51 +9087,68 @@ document.arrive(
       }
     }
 
-
     function runStickerAdder(id, sticker_id, hash, type, second_attach) {
       fetch("https://vk.com/al_im.php?act=a_send", {
-        "headers": {
-          "accept": "*/*",
+        headers: {
+          accept: "*/*",
           "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
           "cache-control": "no-cache",
           "content-type": "application/x-www-form-urlencoded",
-          "pragma": "no-cache",
-          "sec-ch-ua": "\"Google Chrome\";v=\"113\", \"Chromium\";v=\"113\", \"Not-A.Brand\";v=\"24\"",
+          pragma: "no-cache",
+          "sec-ch-ua":
+            '"Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
           "sec-ch-ua-mobile": "?0",
-          "sec-ch-ua-platform": "\"Windows\"",
+          "sec-ch-ua-platform": '"Windows"',
           "sec-fetch-dest": "empty",
           "sec-fetch-mode": "cors",
           "sec-fetch-site": "same-origin",
-          "x-requested-with": "XMLHttpRequest"
+          "x-requested-with": "XMLHttpRequest",
         },
-        "referrer": "https://vk.com/im?sel=" + id,
-        "referrerPolicy": "strict-origin-when-cross-origin",
-        "body": "act=a_send&al=1&cancelled_shares[0]=sticker%2C" + sticker_id + "&entrypoint=list_all&gid=0&guid=" + Math.floor(Math.random() * 2147483647) + "&hash=" + hash + "&im_v=3&media=sticker%3A" + sticker_id + "%3Aundefined%2C" + type + "%3A" + second_attach + "%3Aundefined&module=im&msg=&random_id=" + Math.floor(Math.random() * 2147483647) + "&to=" + id,
-        "method": "POST",
-        "mode": "cors",
-        "credentials": "include"
+        referrer: "https://vk.com/im?sel=" + id,
+        referrerPolicy: "strict-origin-when-cross-origin",
+        body:
+          "act=a_send&al=1&cancelled_shares[0]=sticker%2C" +
+          sticker_id +
+          "&entrypoint=list_all&gid=0&guid=" +
+          Math.floor(Math.random() * 2147483647) +
+          "&hash=" +
+          hash +
+          "&im_v=3&media=sticker%3A" +
+          sticker_id +
+          "%3Aundefined%2C" +
+          type +
+          "%3A" +
+          second_attach +
+          "%3Aundefined&module=im&msg=&random_id=" +
+          Math.floor(Math.random() * 2147483647) +
+          "&to=" +
+          id,
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
       });
     }
 
-
     function getImSendHash(id) {
-      let script = Array.from(document.querySelectorAll('script')).find(e => e.innerHTML.includes('IM.init'));
+      let script = Array.from(document.querySelectorAll("script")).find((e) =>
+        e.innerHTML.includes("IM.init")
+      );
       let scriptContent;
       try {
         scriptContent = script.innerHTML;
+      } catch (error) {
+        return "error";
       }
-      catch (error) { return "error" }
       let startIndex = scriptContent.indexOf('"' + id + '":{');
       let endIndex;
       if (id > 2000000000) {
         endIndex = scriptContent.indexOf('","sex":', startIndex) + 1;
-      }
-      else {
+      } else {
         endIndex = scriptContent.indexOf('","online":', startIndex) + 1;
       }
       let hashesString = scriptContent.substring(startIndex, endIndex);
-      let braceIndex = hashesString.indexOf('{');
-      hashesString = hashesString.substring(braceIndex) + '}';
+      let braceIndex = hashesString.indexOf("{");
+      hashesString = hashesString.substring(braceIndex) + "}";
       //console.log(hashesString);
       let hashesObject = JSON.parse(hashesString);
       let avatarEditHash = hashesObject.hash;
@@ -7791,29 +9157,40 @@ document.arrive(
     async function VKEnhancerGraffitiBox() {
       let boxG = document.createElement("div");
       boxG.classList.add("vkEnhancerGraffityMainBox");
-      boxG.innerHTML = `<div class="vkEnhancerModalPage__in-wrap" style="opacity: 1;"> <div class="vkEnhancerModalPage__in"> <div class="vkEnhancerModalPage__header"> <div class="vkEnhancerModalPageHeader vkEnhancerModalPageHeader--withGaps vkEnhancerModalPageHeader--desktop"> <div class="vkEnhancerPanelHeader"> <div class="vkEnhancerPanelHeader__in" data-onboarding-tooltip-container="fixed"> <div class="vkEnhancerPanelHeader__content"> <h2 class="vkEnhancerPanelHeader__content-in" id=":r1:-label">` + getLang("mail_added_graffiti") + `</h2> </div> </div> </div> <div class="vkEnhancerSeparator"> <hr class="vkEnhancerSeparator__in"> </div> </div> </div> <div class="vkEnhancerModalPage__content-wrap"> <div class="vkEnhancerModalPage__content"> <div class="vkEnhancerModalPage__content-in"> <div class="vkEnhancerDiv"> <div class="vkEnhancerTappable" role="button" tabindex="0"> <div class="vkEnhancerSimpleCell__before"> <img src="https://vk.com/images/icons/upload_icon.png"> </div> <div class="vkEnhancerSimpleCell__middle"> <div class="vkEnhancerSimpleCell__content"><span class="vkEnhancerTypography">` + getLang("calls_translation_planned_preview_download") + `<input class="vkEnhancerVisuallyHidden" type="file" accept="image/png"></span></div> </div> </div> <div class="vkEnhancerGraffitiList"> </div> </div> </div> </div> </div> <div class="vkEnhancerCloseButton" role="button" tabindex="0"><span class="vkEnhancerVisuallyHidden">Закрыть</span> <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"> <path fill="currentColor" fill-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06" clip-rule="evenodd"></path> </svg> </div> </div> </div>`;
-      let boxLayer = document.getElementById('box_layer');
+      boxG.innerHTML =
+        `<div class="vkEnhancerModalPage__in-wrap" style="opacity: 1;"> <div class="vkEnhancerModalPage__in"> <div class="vkEnhancerModalPage__header"> <div class="vkEnhancerModalPageHeader vkEnhancerModalPageHeader--withGaps vkEnhancerModalPageHeader--desktop"> <div class="vkEnhancerPanelHeader"> <div class="vkEnhancerPanelHeader__in" data-onboarding-tooltip-container="fixed"> <div class="vkEnhancerPanelHeader__content"> <h2 class="vkEnhancerPanelHeader__content-in" id=":r1:-label">` +
+        getLang("mail_added_graffiti") +
+        `</h2> </div> </div> </div> <div class="vkEnhancerSeparator"> <hr class="vkEnhancerSeparator__in"> </div> </div> </div> <div class="vkEnhancerModalPage__content-wrap"> <div class="vkEnhancerModalPage__content"> <div class="vkEnhancerModalPage__content-in"> <div class="vkEnhancerDiv"> <div class="vkEnhancerTappable" role="button" tabindex="0"> <div class="vkEnhancerSimpleCell__before"> <img src="https://vk.com/images/icons/upload_icon.png"> </div> <div class="vkEnhancerSimpleCell__middle"> <div class="vkEnhancerSimpleCell__content"><span class="vkEnhancerTypography">` +
+        getLang("calls_translation_planned_preview_download") +
+        `<input class="vkEnhancerVisuallyHidden" type="file" accept="image/png"></span></div> </div> </div> <div class="vkEnhancerGraffitiList"> </div> </div> </div> </div> </div> <div class="vkEnhancerCloseButton" role="button" tabindex="0"><span class="vkEnhancerVisuallyHidden">Закрыть</span> <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"> <path fill="currentColor" fill-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06" clip-rule="evenodd"></path> </svg> </div> </div> </div>`;
+      let boxLayer = document.getElementById("box_layer");
       boxG.style.top = "0px";
       boxG.style.zIndex = "999999";
       boxG.style.backgroundColor = "#000000B3";
       document.body.appendChild(boxG);
-      let responseGraffiti = await vkApi.api("messages.getRecentGraffities", {});
-      var graffitiList = document.querySelector('.vkEnhancerGraffitiList');
+      let responseGraffiti = await vkApi.api(
+        "messages.getRecentGraffities",
+        {}
+      );
+      var graffitiList = document.querySelector(".vkEnhancerGraffitiList");
       responseGraffiti.forEach(function (graffiti) {
-        var ultraItemDiv = document.createElement('div');
-        ultraItemDiv.classList.add('vkEnhancerGraffitiUltraItem');
-        var itemDiv = document.createElement('div');
-        itemDiv.classList.add('vkEnhancerGraffitiList__item');
-        var docDiv = document.createElement('div');
-        docDiv.classList.add('vkEnhancerGraffitiList__item--doc');
+        var ultraItemDiv = document.createElement("div");
+        ultraItemDiv.classList.add("vkEnhancerGraffitiUltraItem");
+        var itemDiv = document.createElement("div");
+        itemDiv.classList.add("vkEnhancerGraffitiList__item");
+        var docDiv = document.createElement("div");
+        docDiv.classList.add("vkEnhancerGraffitiList__item--doc");
         docDiv.style.backgroundImage = `url("${graffiti.url}")`;
-        var removGButton = document.createElement('div');
+        var removGButton = document.createElement("div");
         removGButton.classList.add("vkEnhancerRemoveGraffityButton");
-        removGButton.setAttribute('onclick', `vkApi.api("messages.hideRecentGraffiti", {
+        removGButton.setAttribute(
+          "onclick",
+          `vkApi.api("messages.hideRecentGraffiti", {
                                     doc_id: ${graffiti.id}
-                                });`);
-        removGButton.addEventListener('click', function () {
-          ultraItemDiv.style.display = 'none';
+                                });`
+        );
+        removGButton.addEventListener("click", function () {
+          ultraItemDiv.style.display = "none";
         });
         removGButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.84 4H2.75a.75.75 0 0 0 0 1.5h.55l.9 9.25c.05.52.1.96.16 1.31.06.37.16.71.35 1.03a2.9 2.9 0 0 0 1.25 1.13c.33.16.68.22 1.06.25.36.03.8.03 1.32.03h3.32c.53 0 .96 0 1.32-.03.38-.03.73-.1 1.06-.25a2.9 2.9 0 0 0 1.25-1.13c.19-.32.29-.66.35-1.03.06-.35.1-.79.16-1.31l.9-9.25h.55a.75.75 0 0 0 0-1.5h-4.09a3.25 3.25 0 0 0-6.32 0Zm1.58 0h3.16a1.75 1.75 0 0 0-3.16 0Zm6.78 1.5H4.8l.9 9.07c.05.56.08.94.13 1.23.05.28.1.42.17.52a1.4 1.4 0 0 0 .6.55c.1.04.25.08.53.1.3.03.68.03 1.24.03h3.26c.56 0 .94 0 1.23-.02.29-.03.43-.07.54-.11a1.4 1.4 0 0 0 .6-.55c.06-.1.11-.24.16-.52.05-.3.1-.67.15-1.23l.89-9.07Zm-2.89 2a.75.75 0 0 1 .69.81l-.5 6a.75.75 0 0 1-1.5-.12l.5-6a.75.75 0 0 1 .81-.69Zm-4.62 0a.75.75 0 0 1 .8.69l.5 6a.75.75 0 0 1-1.49.13l-.5-6a.75.75 0 0 1 .69-.82Z" clip-rule="evenodd"></path></svg>`;
         ultraItemDiv.appendChild(removGButton);
@@ -7833,35 +9210,44 @@ document.arrive(
           onClose();
         });
       });
-      let closeButton = document.querySelector('.vkEnhancerCloseButton');
+      let closeButton = document.querySelector(".vkEnhancerCloseButton");
       closeButton.addEventListener("click", function () {
         onClose();
       });
       boxG.addEventListener("click", function (event) {
-        if (!event.target.closest('.vkEnhancerModalPage__in-wrap')) {
+        if (!event.target.closest(".vkEnhancerModalPage__in-wrap")) {
           onClose();
         }
       });
-      const graffityFileInput = document.querySelector(".vkEnhancerVisuallyHidden");
+      const graffityFileInput = document.querySelector(
+        ".vkEnhancerVisuallyHidden"
+      );
       graffityFileInput.addEventListener("change", function () {
         if (graffityFileInput.files.length > 0) {
           boxG.style.display = "none";
           handleGraffity();
         }
       });
-      document.querySelector('.vkEnhancerTappable').addEventListener("click", function (event) {
-        graffityFileInput.click();
-      });
+      document
+        .querySelector(".vkEnhancerTappable")
+        .addEventListener("click", function (event) {
+          graffityFileInput.click();
+        });
     }
 
     async function handleGraffity() {
-      const graffityFileInput = document.querySelector(".vkEnhancerVisuallyHidden");
+      const graffityFileInput = document.querySelector(
+        ".vkEnhancerVisuallyHidden"
+      );
       const file = graffityFileInput.files[0];
       await sendGraffity(file);
     }
     async function sendGraffity(fileNameOutput) {
       /** Получаем URL для загрузки */
-      const url1 = "https://api.vk.com/method/docs.getMessagesUploadServer?v=5.231&client_id=5776857&access_token=" + localStorage.getItem("vk_enhancer_access_token") + "&type=graffiti";
+      const url1 =
+        "https://api.vk.com/method/docs.getMessagesUploadServer?v=5.231&client_id=5776857&access_token=" +
+        localStorage.getItem("vk_enhancer_access_token") +
+        "&type=graffiti";
 
       fetch(url1)
         .then((response) => response.json())
@@ -7899,7 +9285,7 @@ document.arrive(
       try {
         const response = await fetch(uploadUrl, {
           method: "POST",
-          body: formData
+          body: formData,
         });
 
         if (response.ok) {
@@ -7912,7 +9298,6 @@ document.arrive(
       }
     }
 
-
     function onClose() {
       let customStyle = fromId("vkenGraffity");
       if (customStyle) {
@@ -7922,7 +9307,7 @@ document.arrive(
       if (customStyle) {
         customStyle.remove();
       }
-      let mainGrafBox = document.querySelector('.vkEnhancerGraffityMainBox');
+      let mainGrafBox = document.querySelector(".vkEnhancerGraffityMainBox");
       mainGrafBox.remove();
     }
     async function VKEnhancerMessageBox(
@@ -8047,8 +9432,8 @@ if (
         postButton.setAttribute(
           "onmouseover",
           "Likes.showLikes(this, '" +
-          postId.replace("post", "wall") +
-          "', {isFromReactionsPreview:1})"
+            postId.replace("post", "wall") +
+            "', {isFromReactionsPreview:1})"
         );
       }
     }
@@ -8132,60 +9517,67 @@ if (localStorage.getItem("pollResultsValue") == "true") {
       });
     }
   );
-  document.arrive(
-    ".media_voting",
-    { existing: true },
-    async function (e) {
-      let pollOid = e.dataset.ownerId;
-      let pollId = e.dataset.id;
-      let pollRes = await vkApi.api("polls.getById", { owner_id: pollOid, poll_id: pollId });
+  document.arrive(".media_voting", { existing: true }, async function (e) {
+    let pollOid = e.dataset.ownerId;
+    let pollId = e.dataset.id;
+    let pollRes = await vkApi.api("polls.getById", {
+      owner_id: pollOid,
+      poll_id: pollId,
+    });
 
-      pollRes.answers.forEach(option => {
-        let optionWrap = document.querySelector(`._media_voting_option${option.id}`);
-        if (optionWrap) {
-          let percentElem = optionWrap.querySelector('.media_voting_option_percent');
-          percentElem.textContent = option.rate;
+    pollRes.answers.forEach((option) => {
+      let optionWrap = document.querySelector(
+        `._media_voting_option${option.id}`
+      );
+      if (optionWrap) {
+        let percentElem = optionWrap.querySelector(
+          ".media_voting_option_percent"
+        );
+        percentElem.textContent = option.rate;
 
-          let barElem = optionWrap.querySelector('.media_voting_option_bar');
-          barElem.style.transform = `scaleX(${option.rate / 100})`;
+        let barElem = optionWrap.querySelector(".media_voting_option_bar");
+        barElem.style.transform = `scaleX(${option.rate / 100})`;
 
-          let countElem = optionWrap.querySelector('.media_voting_option_count');
-          countElem.classList.remove('media_voting_option_count_hidden');
-          countElem.querySelector('.media_voting_option_counter').innerHTML = `<span class="media_voting_separator">⋅</span><span>${option.votes}</span>`;
-        }
-      });
-      let styleElement = fromId("PollResultsShowSecondary");
-      if (!styleElement) {
-        styleElement = document.createElement("style");
-        styleElement.id = "PollResultsShowSecondary";
-        document.head.appendChild(styleElement);
+        let countElem = optionWrap.querySelector(".media_voting_option_count");
+        countElem.classList.remove("media_voting_option_count_hidden");
+        countElem.querySelector(
+          ".media_voting_option_counter"
+        ).innerHTML = `<span class="media_voting_separator">⋅</span><span>${option.votes}</span>`;
       }
-      styleElement.innerHTML =
-        '.media_voting_multiple .media_voting_option_text::after{right:52px!important;}';
+    });
+    let styleElement = fromId("PollResultsShowSecondary");
+    if (!styleElement) {
+      styleElement = document.createElement("style");
+      styleElement.id = "PollResultsShowSecondary";
+      document.head.appendChild(styleElement);
     }
-  );
+    styleElement.innerHTML =
+      ".media_voting_multiple .media_voting_option_text::after{right:52px!important;}";
+  });
 
-  document.arrive(
-    ".AttachPoll__answers",
-    { existing: true },
-    async function (e) {
-      const answerElements = e.querySelectorAll('.AttachPoll__answer');
-      answerElements.forEach(element => {
-        const [votes, rate] = getAnswerProps(element);
-        const revealAnswers = document.createElement("span");
-        revealAnswers.classList.add("vkEnAnswerCount");
-        revealAnswers.textContent = `${rate}%`;
-        const rightAnswer = element.getElementsByClassName("AttachPoll__answerRight")[0];
-        rightAnswer.prepend(revealAnswers);
-        const revealVotes = document.createElement("span");
-        revealVotes.classList.add("vkEnAnswerVotes");
-        revealVotes.textContent = ` ⋅ ${votes}`;
-        rightAnswer.parentNode.insertBefore(revealVotes, rightAnswer);
-        const answerBar = element.getElementsByClassName("AttachPoll__answerBar")[0];
-        answerBar.style.transform = `scaleX(${rate / 100})`;
-      });
-    }
-  );
+  document.arrive(".AttachPoll__answers", { existing: true }, async function (
+    e
+  ) {
+    const answerElements = e.querySelectorAll(".AttachPoll__answer");
+    answerElements.forEach((element) => {
+      const [votes, rate] = getAnswerProps(element);
+      const revealAnswers = document.createElement("span");
+      revealAnswers.classList.add("vkEnAnswerCount");
+      revealAnswers.textContent = `${rate}%`;
+      const rightAnswer = element.getElementsByClassName(
+        "AttachPoll__answerRight"
+      )[0];
+      rightAnswer.prepend(revealAnswers);
+      const revealVotes = document.createElement("span");
+      revealVotes.classList.add("vkEnAnswerVotes");
+      revealVotes.textContent = ` ⋅ ${votes}`;
+      rightAnswer.parentNode.insertBefore(revealVotes, rightAnswer);
+      const answerBar = element.getElementsByClassName(
+        "AttachPoll__answerBar"
+      )[0];
+      answerBar.style.transform = `scaleX(${rate / 100})`;
+    });
+  });
 
   let styleElement = fromId("PollResultsShowAttach");
   if (!styleElement) {
@@ -8194,8 +9586,7 @@ if (localStorage.getItem("pollResultsValue") == "true") {
     document.head.appendChild(styleElement);
   }
   styleElement.innerHTML =
-    '.AttachPoll__answer--voted .vkEnAnswerVotes, .AttachPoll__answer--voted .vkEnAnswerCount{display:none!important;}.vkEnAnswerVotes{display:contents;color:var(--vkui--color_text_subhead);}.vkEnAnswerCount{padding-right: 6px; line-height: 16px; font-size: 13px; color: var(--vkui--color_text_primary); font-weight: 600; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; white-space: nowrap; text-align: right; z-index: 1; transition: opacity .1s,transform .1s;}';
-
+    ".AttachPoll__answer--voted .vkEnAnswerVotes, .AttachPoll__answer--voted .vkEnAnswerCount{display:none!important;}.vkEnAnswerVotes{display:contents;color:var(--vkui--color_text_subhead);}.vkEnAnswerCount{padding-right: 6px; line-height: 16px; font-size: 13px; color: var(--vkui--color_text_primary); font-weight: 600; -webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; white-space: nowrap; text-align: right; z-index: 1; transition: opacity .1s,transform .1s;}";
 
   function getAnswerProps(elem) {
     const t = {};
@@ -8214,7 +9605,6 @@ if (localStorage.getItem("pollResultsValue") == "true") {
     const rate = t.fiber.return.memoizedProps.answer.rate;
     return [votes, rate];
   }
-
 }
 ///КОНЕЦ РЕЗУЛЬТАТОВ ОПРОСА БЕЗ ГОЛОСОВАНИЯ///
 ///НАЧАЛО ХОВЕРА НА ТЕГ В НОВОМ ДИЗАЙНЕ///
@@ -8271,7 +9661,10 @@ document.arrive(".BurgerMenu__actionsMenu", { existing: true }, function (e) {
   const spamText = getLang("reports_media_reason_its_spam");
   const spammerSVG = spamSVG;
   spamButton.innerHTML = `<i class="ActionsMenuAction__icon">${spammerSVG}</i><span class="ActionsMenuAction__title">${spamText}</span>`;
-  spamButton.setAttribute('onclick','showTabbedBox("al_im.php", {act: "a_spam", offset: "0", gid: 0}, {params: {width: 638}})');
+  spamButton.setAttribute(
+    "onclick",
+    'showTabbedBox("al_im.php", {act: "a_spam", offset: "0", gid: 0}, {params: {width: 638}})'
+  );
   //showTabbedBox("al_im.php", {act: "a_important", offset: "0", gid: 0}, {params: {width: 638}}) Это важные сообщения, если вдруг пригодится
   let styleElementSpam = fromId("vken_spam_style");
   if (!styleElementSpam) {
@@ -8288,7 +9681,7 @@ document.arrive(".BurgerMenu__actionsMenu", { existing: true }, function (e) {
     margin: 0 5px 5px 0;
 }.nim-peer.nim-peer_small .nim-peer--photo>img, .nim-peer.nim-peer_small .nim-peer--photo .im_grid>img { width: 36px; height: 36px; border-radius: 50%; -moz-force-broken-image-icon: 0; position: relative; background-color: inherit; } .nim-peer .im_grid { display: block; float: left; height:36px; } .nim-peer.nim-peer_small .nim-peer--photo { background-color: inherit; overflow: hidden; height:36px; width:36px; } .nim-peer .nim-peer--photo-w { overflow: hidden; border-radius: 50%; height:36px; width:36px; } .nim-peer.nim-peer_small { width: 36px; height: 36px; } .nim-peer { position: relative; border-color: inherit; background-color: inherit; } .im-mess-stack .im-mess-stack--photo { position: absolute; left: 43px; top: 8px; z-index: 2; } .im-mess-stack.im-mess-stack_full-date { line-height: 1.23; } .im-mess-stack { position: relative; } .im-mess-stack .im-mess-stack--content .im-mess-stack--pname { display: block; z-index: 2; font-size: 12.5px; position: absolute; left: 92px; top: 10px; color: var(--vkui--color_text_secondary); } .im-mess-stack .im-mess-stack--content .im-mess-stack--pname>a { font-weight: 700; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; } .im-mess-stack .im-mess-stack--content .im-mess-stack--lnk { max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: top; line-height: 1.23; color: var(--vkui--vkontakte_color_im_text_name); } .im-mess-stack.im-mess-stack_full-date .im-mess-stack--tools { position: absolute; right: 60px; margin-top: 11px; } .im-mess-stack .im-mess-stack--content .im-mess-stack--tools { color: var(--vkui--color_text_secondary); font-size: 12px; z-index: 2; margin-left: 4px; line-height: 1.4; } .im-mess-stack .im-mess-stack--mess li:last-of-type { margin-bottom: 4px; } .im-important .im-mess { padding-right: 110px; } .im-mess:not(._im_mess_callsnippet) { cursor: pointer; } .im-mess { padding: 6px 30px 7px 0; position: relative; margin: 0 7px 0 7px; } .im-mess-stack .im-mess-stack--mess .im-mess:first-child>.im-mess--text { padding-top: 21px; } .im-mess .im-mess--text { outline: 0; margin: 0 49px 0 86px; line-height: 18px; word-wrap: break-word; } .wall_module { --post-reply-block-padding: 12px; --post-reply-box-fix-padding: 2px; } .im-important-box .im-important-box--select { display: none; } .im-important { position: relative; padding: 10px 15px 40px 15px; } `;
   ///КОНЕЦ СПАМА///
-  const spamSeparator = burgerim.querySelector('.ActionsMenuAction__separator');
+  const spamSeparator = burgerim.querySelector(".ActionsMenuAction__separator");
   burgerim.insertBefore(spamButton, spamSeparator);
   burgerim.appendChild(changeDesign);
   /*if(isCentralDesign == "true") {
@@ -8388,10 +9781,7 @@ if (!im.test(window.location.href)) {
   }
 }
 
-if (
-  im.test(window.location.href) &&
-  getLocalValue("isVKMReforgedDesign")
-) {
+if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
   function getNewMessengerError(lang) {
     switch (lang) {
       case 0:
@@ -8504,10 +9894,7 @@ if (
         let isMainRightRoot = document.querySelector(".MainRightRoot");
         aReboot.innerHTML = getNewMessengerError(vk.lang)[1];
         aReboot.style.pointerEvents = "none";
-        if (
-          !isMainRightRoot &&
-          getLocalValue("isCentralDesign")
-        ) {
+        if (!isMainRightRoot && getLocalValue("isCentralDesign")) {
           //console.log("MainRightRoot comeback");
           await mainRightRootComeback();
         }
@@ -8541,19 +9928,20 @@ if (
     let newElement = document.createElement("div");
 
     if (!primary) {
-      newElement.innerHTML = `<a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa" data-muted="${muted}" data-unread="${unread ? true : false
-        }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a>`;
+      newElement.innerHTML = `<a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa" data-muted="${muted}" data-unread="${
+        unread ? true : false
+      }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a>`;
     } else {
-      newElement.innerHTML = `<div data-simplebar="init" style="max-height: 749.5px;" class=""><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;"><div class="simplebar-content" style="padding: 0px;"><div role="separator" class="F2l1IgGrOaY823Rc"></div><a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa " data-muted="${muted}" data-unread="${unread ? true : false
-        }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a></div></div></div></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; display: none;"></div></div></div>`;
+      newElement.innerHTML = `<div data-simplebar="init" style="max-height: 749.5px;" class=""><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;"><div class="simplebar-content" style="padding: 0px;"><div role="separator" class="F2l1IgGrOaY823Rc"></div><a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa " data-muted="${muted}" data-unread="${
+        unread ? true : false
+      }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a></div></div></div></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; display: none;"></div></div></div>`;
     }
 
     return newElement;
   }
 
   function removeFromConvoHistory(href) {
-    const convoHistory =
-      getLocalValue("convo_history") || [];
+    const convoHistory = getLocalValue("convo_history") || [];
     const index = convoHistory.findIndex((item) => item.href === href);
     if (index !== -1) {
       convoHistory.splice(index, 1);
@@ -8648,23 +10036,28 @@ if (
     // Добавляем элементы в DOM
     linkAllChats.appendChild(spanAllChats);
     section.appendChild(linkAllChats);
-	
-			  const linkUnread = document.createElement("a");
-          linkUnread.classList.add("ARightRoot1");
-          linkUnread.classList.add("ARightRoot2");
-          linkUnread.classList.add("ARightRoot3");
-          linkUnread.classList.add("ARightRoot4");
-          linkUnread.classList.add("ARightRoot5");
-          linkUnread.href = "/im/?tab=unread";
 
-          const spanUnreadChats = document.createElement("span");
-          spanUnreadChats.classList.add("SpanTextRightRoot");
-          spanUnreadChats.textContent = getLang("me_fc_unread_chats").split(" ")[0];
+    const linkUnread = document.createElement("a");
+    linkUnread.classList.add("ARightRoot1");
+    linkUnread.classList.add("ARightRoot2");
+    linkUnread.classList.add("ARightRoot3");
+    linkUnread.classList.add("ARightRoot4");
+    linkUnread.classList.add("ARightRoot5");
+    linkUnread.href = "/im/?tab=unread";
 
-          linkUnread.appendChild(spanUnreadChats);
+    const spanUnreadChats = document.createElement("span");
+    spanUnreadChats.classList.add("SpanTextRightRoot");
+	try {
+		spanUnreadChats.textContent = getLang("me_fc_unread_chats").split(" ")[0];
+	}
+	catch(error) {
+		spanUnreadChats.textContent = "Непрочитанные";
+	}
 
-          section.appendChild(linkUnread);
-	
+    linkUnread.appendChild(spanUnreadChats);
+
+    section.appendChild(linkUnread);
+
     const linkArchive = document.createElement("a");
     linkArchive.classList.add("ARightRoot1");
     linkArchive.classList.add("ARightRoot2");
@@ -8690,12 +10083,17 @@ if (
     let simplebarContentDiv = document.querySelector(".simplebar-content");
     let history = getLocalValue("convo_history") ?? [];
     let ids = "";
-    history.forEach((e) => { const id = e.href.split("/").at(-1); if (id != vk.id) { ids += id + ","; } });
+    history.forEach((e) => {
+      const id = e.href.split("/").at(-1);
+      if (id != vk.id) {
+        ids += id + ",";
+      }
+    });
     ids = ids.slice(0, -1);
     let obj = ids
       ? await vkApi.api("messages.getConversationsById", {
-        peer_ids: ids,
-      })
+          peer_ids: ids,
+        })
       : null;
     deferredCallback(
       () => {
@@ -8729,8 +10127,9 @@ if (
       let unread;
       try {
         unread = user.unread_count ? user.unread_count : 0;
+      } catch (error) {
+        unread = 0;
       }
-      catch (error) { unread = 0; }
       let muted = user?.push_settings?.no_sound ? true : false;
       simplebarContentDiv = document.querySelector(".simplebar-content");
       if (!simplebarContentDiv) {
@@ -8772,19 +10171,20 @@ deferredCallback(
         let newElement = document.createElement("div");
 
         if (!primary) {
-          newElement.innerHTML = `<a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa" data-muted="${muted}" data-unread="${unread ? true : false
-            }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a>`;
+          newElement.innerHTML = `<a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa" data-muted="${muted}" data-unread="${
+            unread ? true : false
+          }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a>`;
         } else {
-          newElement.innerHTML = `<div data-simplebar="init" style="max-height: 749.5px;" class=""><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;"><div class="simplebar-content" style="padding: 0px;"><div role="separator" class="F2l1IgGrOaY823Rc"></div><a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa " data-muted="${muted}" data-unread="${unread ? true : false
-            }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a></div></div></div></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; display: none;"></div></div></div>`;
+          newElement.innerHTML = `<div data-simplebar="init" style="max-height: 749.5px;" class=""><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;"><div class="simplebar-content" style="padding: 0px;"><div role="separator" class="F2l1IgGrOaY823Rc"></div><a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa " data-muted="${muted}" data-unread="${
+            unread ? true : false
+          }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a></div></div></div></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; display: none;"></div></div></div>`;
         }
 
         return newElement;
       }
 
       function removeFromConvoHistory(href) {
-        const convoHistory =
-          getLocalValue("convo_history") || [];
+        const convoHistory = getLocalValue("convo_history") || [];
         const index = convoHistory.findIndex((item) => item.href === href);
         if (index !== -1) {
           convoHistory.splice(index, 1);
@@ -8824,115 +10224,129 @@ deferredCallback(
         ".ConvoHeader__infoContainer",
         { existing: true },
         async function (e) {
-		  try{
-          // Проверяем, существует ли элемент div с классом simplebar-content
-          var simplebarContentDiv = document.querySelector(
-            ".simplebar-content"
-          );
-          var ConvoTitle__title = document.querySelector(
-            ".ConvoHeader__infoContainer >.ConvoTitle > .ConvoTitle__title"
-          ).textContent;
-          var ConvoUrl = new URL(window.location.href);
-          var ConvoHref = ConvoUrl.pathname;
-
-          // Создаем новый элемент
-
-          let history = getLocalValue("convo_history") ?? [];
-          let convo = { name: ConvoTitle__title, href: ConvoHref };
-		  if(ConvoHref.startsWith('/im/convo/'))
-	      {
-			history.find((e) => e.href === ConvoHref)
-				? null
-				: (history.push(convo),
-				localStorage.setItem("convo_history", JSON.stringify(history)));
-		  }
-          let convo_other = Array.from(
-            document.querySelectorAll("a.ARightRoot1")
-          ).find((e) => e.href === ConvoUrl.href);
-          let ids = "";
-          history.forEach((e) => { const id = e.href.split("/").at(-1); if (id != vk.id) { ids += id + ","; } });
-          ids = ids.slice(0, -1);
-          let obj = ids
-            ? await vkApi.api("messages.getConversationsById", {
-              peer_ids: ids,
-            })
-            : null;
-          let id = ConvoUrl.href.split("/").at(-1);
-          if (id.includes("?")) {
-            var match = ConvoUrl.pathname.match(/\/(\d+)$/);
-            id = match[1];
-            convo_other = Array.from(
-              document.querySelectorAll("a.ARightRoot1")
-            ).find((e) => e.href === `https://vk.com/im/convo/${id}`);
-          }
-          let user = obj.items.find((e) => e.peer.id == id);
-          let unread;
           try {
-            unread = user.unread_count ? user.unread_count : 0;
-          }
-          catch (error) { unread = 0; }
-          let muted = user?.push_settings?.no_sound ? true : false;
-          if (!convo_other) {
-            if (!simplebarContentDiv) {
-              // Если элемент .simplebar-content не существует, добавляем новый элемент внутрь элемента section с классом vkenhancer--right-section
-              var sectionElement = document.querySelector(
-                "section.vkenhancer--right-section"
-              );
-              try {
-			  if(ConvoHref.startsWith('/im/convo/')){
-                sectionElement.appendChild(
-                  addConvoItem(
-                    ConvoTitle__title,
-                    ConvoHref,
-                    true,
-                    unread,
-                    muted
-                  )
-                );
-			  }
-              } catch (error) {
-                location.reload;
-              }
-              closeButtons();
-              checkPickerOfIm();
-            } else {
-			if(ConvoHref.startsWith('/im/convo/')){
-              simplebarContentDiv.appendChild(
-                addConvoItem(ConvoTitle__title, ConvoHref, false, unread, muted)
-              );
-			}
-              closeButtons();
-              checkPickerOfIm();
+            // Проверяем, существует ли элемент div с классом simplebar-content
+            var simplebarContentDiv = document.querySelector(
+              ".simplebar-content"
+            );
+            var ConvoTitle__title = document.querySelector(
+              ".ConvoHeader__infoContainer >.ConvoTitle > .ConvoTitle__title"
+            ).textContent;
+            var ConvoUrl = new URL(window.location.href);
+            var ConvoHref = ConvoUrl.pathname;
+
+            // Создаем новый элемент
+
+            let history = getLocalValue("convo_history") ?? [];
+            let convo = { name: ConvoTitle__title, href: ConvoHref };
+            if (ConvoHref.startsWith("/im/convo/")) {
+              history.find((e) => e.href === ConvoHref)
+                ? null
+                : (history.push(convo),
+                  localStorage.setItem(
+                    "convo_history",
+                    JSON.stringify(history)
+                  ));
             }
-          }
-          deferredCallback(
-            () => {
-              MECommonContext.then((e) => {
-                e.store.subscribe((e) => {
-                  history =
-                    getLocalValue("convo_history") ?? [];
-                  let allhistory = e.convos;
-                  for (let item of history) {
-                    let id = Number(item.href.split("/").at(-1));
-                    let user = allhistory.get(id);
-                    if (user) {
-                      let elem = Array.from(
-                        document.querySelectorAll("a.ARightRoot1")
-                      ).find((e) => e.href.indexOf(id) !== -1);
-                      if (!elem) return;
-                      let user_elem = elem.querySelector("i > span");
-                      user_elem.dataset.muted = user.push.mode !== "everything";
-                      user_elem.dataset.unread =
-                        user.unreadCount > 0 ? true : false;
-                      user_elem.innerText = user.unreadCount;
-                    }
+            let convo_other = Array.from(
+              document.querySelectorAll("a.ARightRoot1")
+            ).find((e) => e.href === ConvoUrl.href);
+            let ids = "";
+            history.forEach((e) => {
+              const id = e.href.split("/").at(-1);
+              if (id != vk.id) {
+                ids += id + ",";
+              }
+            });
+            ids = ids.slice(0, -1);
+            let obj = ids
+              ? await vkApi.api("messages.getConversationsById", {
+                  peer_ids: ids,
+                })
+              : null;
+            let id = ConvoUrl.href.split("/").at(-1);
+            if (id.includes("?")) {
+              var match = ConvoUrl.pathname.match(/\/(\d+)$/);
+              id = match[1];
+              convo_other = Array.from(
+                document.querySelectorAll("a.ARightRoot1")
+              ).find((e) => e.href === `https://vk.com/im/convo/${id}`);
+            }
+            let user = obj.items.find((e) => e.peer.id == id);
+            let unread;
+            try {
+              unread = user.unread_count ? user.unread_count : 0;
+            } catch (error) {
+              unread = 0;
+            }
+            let muted = user?.push_settings?.no_sound ? true : false;
+            if (!convo_other) {
+              if (!simplebarContentDiv) {
+                // Если элемент .simplebar-content не существует, добавляем новый элемент внутрь элемента section с классом vkenhancer--right-section
+                var sectionElement = document.querySelector(
+                  "section.vkenhancer--right-section"
+                );
+                try {
+                  if (ConvoHref.startsWith("/im/convo/")) {
+                    sectionElement.appendChild(
+                      addConvoItem(
+                        ConvoTitle__title,
+                        ConvoHref,
+                        true,
+                        unread,
+                        muted
+                      )
+                    );
                   }
+                } catch (error) {
+                  location.reload;
+                }
+                closeButtons();
+                checkPickerOfIm();
+              } else {
+                if (ConvoHref.startsWith("/im/convo/")) {
+                  simplebarContentDiv.appendChild(
+                    addConvoItem(
+                      ConvoTitle__title,
+                      ConvoHref,
+                      false,
+                      unread,
+                      muted
+                    )
+                  );
+                }
+                closeButtons();
+                checkPickerOfIm();
+              }
+            }
+            deferredCallback(
+              () => {
+                MECommonContext.then((e) => {
+                  e.store.subscribe((e) => {
+                    history = getLocalValue("convo_history") ?? [];
+                    let allhistory = e.convos;
+                    for (let item of history) {
+                      let id = Number(item.href.split("/").at(-1));
+                      let user = allhistory.get(id);
+                      if (user) {
+                        let elem = Array.from(
+                          document.querySelectorAll("a.ARightRoot1")
+                        ).find((e) => e.href.indexOf(id) !== -1);
+                        if (!elem) return;
+                        let user_elem = elem.querySelector("i > span");
+                        user_elem.dataset.muted =
+                          user.push.mode !== "everything";
+                        user_elem.dataset.unread =
+                          user.unreadCount > 0 ? true : false;
+                        user_elem.innerText = user.unreadCount;
+                      }
+                    }
+                  });
                 });
-              });
-            },
-            { variable: "MECommonContext" }
-          );
-		  } catch(error){}
+              },
+              { variable: "MECommonContext" }
+            );
+          } catch (error) {}
           const convoHeader = document.querySelector(".ConvoHeader");
           // Создаем элемент div
           const backButtonDiv = document.createElement("a");
@@ -8971,7 +10385,8 @@ deferredCallback(
               );
               document.head.appendChild(styleElement);
             }
-            styleElement.innerHTML = ".CollapsibleContainer:has(.MEApp__mainPanel) {display:none;}";
+            styleElement.innerHTML =
+              ".CollapsibleContainer:has(.MEApp__mainPanel) {display:none;}";
           }
 
           const vkuiRoot = e;
@@ -9023,7 +10438,7 @@ deferredCallback(
           linkAllChats.appendChild(spanAllChats);
           section.appendChild(linkAllChats);
 
-		  const linkUnread = document.createElement("a");
+          const linkUnread = document.createElement("a");
           linkUnread.classList.add("ARightRoot1");
           linkUnread.classList.add("ARightRoot2");
           linkUnread.classList.add("ARightRoot3");
@@ -9033,7 +10448,9 @@ deferredCallback(
 
           const spanUnreadChats = document.createElement("span");
           spanUnreadChats.classList.add("SpanTextRightRoot");
-          spanUnreadChats.textContent = getLang("me_fc_unread_chats").split(" ")[0];
+          spanUnreadChats.textContent = getLang("me_fc_unread_chats").split(
+            " "
+          )[0];
 
           linkUnread.appendChild(spanUnreadChats);
 
@@ -9066,19 +10483,23 @@ deferredCallback(
           );
           let history = getLocalValue("convo_history") ?? [];
           let ids = "";
-          history.forEach((e) => { const id = e.href.split("/").at(-1); if (id != vk.id) { ids += id + ","; } });
+          history.forEach((e) => {
+            const id = e.href.split("/").at(-1);
+            if (id != vk.id) {
+              ids += id + ",";
+            }
+          });
           ids = ids.slice(0, -1);
           let obj = ids
             ? await vkApi.api("messages.getConversationsById", {
-              peer_ids: ids,
-            })
+                peer_ids: ids,
+              })
             : null;
           deferredCallback(
             () => {
               MECommonContext.then((e) => {
                 e.store.subscribe((e) => {
-                  history =
-                    getLocalValue("convo_history") ?? [];
+                  history = getLocalValue("convo_history") ?? [];
                   let allhistory = e.convos;
                   for (let item of history) {
                     let id = Number(item.href.split("/").at(-1));
@@ -9107,8 +10528,9 @@ deferredCallback(
             let unread;
             try {
               unread = user.unread_count ? user.unread_count : 0;
+            } catch (error) {
+              unread = 0;
             }
-            catch (error) { unread = 0; }
             let muted = user?.push_settings?.no_sound ? true : false;
             simplebarContentDiv = document.querySelector(".simplebar-content");
             if (!simplebarContentDiv) {
@@ -9199,7 +10621,8 @@ deferredCallback(
           styleElement = create("style", {}, { id: "MEApp__mainPanel1234" });
           document.head.appendChild(styleElement);
         }
-        styleElement.innerHTML = ".CollapsibleContainer:has(.MEApp__mainPanel) {display:none;}";
+        styleElement.innerHTML =
+          ".CollapsibleContainer:has(.MEApp__mainPanel) {display:none;}";
       } else {
         const customStyle = fromId("MEApp__mainPanel1234");
         if (customStyle) {
@@ -9226,7 +10649,13 @@ deferredCallback(
       }
       //updateUsers();
       //updateMarginLeft();
+	  if (getLocalValue("secretFunctions")) {
+		appendSecondaryStyles(window.location.pathname);
+	  }
     });
+    // nav.addNavigationStartListener(function (e) {
+    //   appendSecondaryStyles(window.location.pathname);
+    // });
   },
   { variable: "nav" }
 );
@@ -9266,7 +10695,7 @@ function newDesign() {
       if (e) for (const t of e.childNodes) e.removeChild(t);
       if (
         new URL(window.location.href).searchParams.get("sel") ||
-        new URL(window.location.href).searchParams.get("peers") 
+        new URL(window.location.href).searchParams.get("peers")
       ) {
         console.log(new URL(window.location.href).searchParams);
         const t = { ...window.nav.objLoc };
@@ -9281,7 +10710,7 @@ function newDesign() {
     window.vk.pe.me_vkcom_api_feature_flags = 1;
     window.vk.pe.vkm_hide_forward_author = 1;
     window.vk.pe.vkm_theme_styles_settings = 1;
-	window.vk.pe.vkm_reactions || (window.vk.pe.vkm_reactions = 20);
+    window.vk.pe.vkm_reactions || (window.vk.pe.vkm_reactions = 20);
     localStorage.setItem("isVKMReforgedDesign", true);
 
     window.MECommonContext &&
@@ -9290,30 +10719,28 @@ function newDesign() {
           newDesignFunctions.forEach((flag) => {
             e.store.featureFlags[flag] = true;
           });
-		  try {
-			if(localStorage.getItem("isDefaultTheme") == "true") {
-				e.store.featureFlags["vkm_bubble_theme_default_value"] = 1;
-			}
-		  } catch(error){}
-		  try {
-				if(localStorage.getItem("isOldBadge") == "false") {
-					e.store.featureFlags["vkm_new_read_indicator"] = true;
-					e.store.featureFlags["me_new_read_indicator"] = true;
-				}
-				else if(localStorage.getItem("isOldBadge") == "undefined"){
-					e.store.featureFlags["vkm_new_read_indicator"] = true;
-					e.store.featureFlags["me_new_read_indicator"] = true;	
-				}
-				else if(localStorage.getItem("isOldBadge") == "true"){
-					e.store.featureFlags["vkm_new_read_indicator"] = false;
-					e.store.featureFlags["me_new_read_indicator"] = false;	
-				}
-			} catch(error) {
-					e.store.featureFlags["vkm_new_read_indicator"] = true;
-					e.store.featureFlags["me_new_read_indicator"] = true;
-			}
-		  e.store.featureFlags["vkm_reactions"] = 20;
-		  e.store.featureFlags["me_reactions"] = 20;
+          try {
+            if (localStorage.getItem("isDefaultTheme") == "true") {
+              e.store.featureFlags["vkm_bubble_theme_default_value"] = 1;
+            }
+          } catch (error) {}
+          try {
+            if (localStorage.getItem("isOldBadge") == "false") {
+              e.store.featureFlags["vkm_new_read_indicator"] = true;
+              e.store.featureFlags["me_new_read_indicator"] = true;
+            } else if (localStorage.getItem("isOldBadge") == "undefined") {
+              e.store.featureFlags["vkm_new_read_indicator"] = true;
+              e.store.featureFlags["me_new_read_indicator"] = true;
+            } else if (localStorage.getItem("isOldBadge") == "true") {
+              e.store.featureFlags["vkm_new_read_indicator"] = false;
+              e.store.featureFlags["me_new_read_indicator"] = false;
+            }
+          } catch (error) {
+            e.store.featureFlags["vkm_new_read_indicator"] = true;
+            e.store.featureFlags["me_new_read_indicator"] = true;
+          }
+          e.store.featureFlags["vkm_reactions"] = 20;
+          e.store.featureFlags["me_reactions"] = 20;
           e.store.featureFlags["vkm_integration_media_viewer"] = intMedia;
           resolve(true);
           //console.info("[VK ENH] Messenger injection completed.");
@@ -9514,7 +10941,7 @@ function HotBarAppear(cHotBarValue) {
     });
     try {
       chatInputContainer[0].appendChild(hotbarDiv);
-    } catch (error) { }
+    } catch (error) {}
   }
 }
 function OldDesign() {
@@ -9544,33 +10971,31 @@ function OldDesign() {
             newDesignFunctions.forEach((flag) => {
               e.store.featureFlags[flag] = false;
             });
-		    try {
-				if(localStorage.getItem("isDefaultTheme") == "true") {
-					e.store.featureFlags["vkm_bubble_theme_default_value"] = 1;
-				}
-			} catch(error){}
-		  try {
-				if(localStorage.getItem("isOldBadge") == "false") {
-					e.store.featureFlags["vkm_new_read_indicator"] = true;
-					e.store.featureFlags["me_new_read_indicator"] = true;
-				}
-				else if(localStorage.getItem("isOldBadge") == "undefined"){
-					e.store.featureFlags["vkm_new_read_indicator"] = true;
-					e.store.featureFlags["me_new_read_indicator"] = true;	
-				}
-				else if(localStorage.getItem("isOldBadge") == "true"){
-					e.store.featureFlags["vkm_new_read_indicator"] = false;
-					e.store.featureFlags["me_new_read_indicator"] = false;	
-				}
-			} catch(error) {
-					e.store.featureFlags["vkm_new_read_indicator"] = true;
-					e.store.featureFlags["me_new_read_indicator"] = true;
-			}
-			e.store.featureFlags["vkm_reactions"] = 20;
-			e.store.featureFlags["me_reactions"] = 20;
+            try {
+              if (localStorage.getItem("isDefaultTheme") == "true") {
+                e.store.featureFlags["vkm_bubble_theme_default_value"] = 1;
+              }
+            } catch (error) {}
+            try {
+              if (localStorage.getItem("isOldBadge") == "false") {
+                e.store.featureFlags["vkm_new_read_indicator"] = true;
+                e.store.featureFlags["me_new_read_indicator"] = true;
+              } else if (localStorage.getItem("isOldBadge") == "undefined") {
+                e.store.featureFlags["vkm_new_read_indicator"] = true;
+                e.store.featureFlags["me_new_read_indicator"] = true;
+              } else if (localStorage.getItem("isOldBadge") == "true") {
+                e.store.featureFlags["vkm_new_read_indicator"] = false;
+                e.store.featureFlags["me_new_read_indicator"] = false;
+              }
+            } catch (error) {
+              e.store.featureFlags["vkm_new_read_indicator"] = true;
+              e.store.featureFlags["me_new_read_indicator"] = true;
+            }
+            e.store.featureFlags["vkm_reactions"] = 20;
+            e.store.featureFlags["me_reactions"] = 20;
             e.store.featureFlags["vkm_integration_media_viewer"] = false;
-			e.store.featureFlags["me_theme_styles_settings"] = true;
-			e.store.featureFlags["vkm_chat_list_collapse"] = true;
+            e.store.featureFlags["me_theme_styles_settings"] = true;
+            e.store.featureFlags["vkm_chat_list_collapse"] = true;
           } else {
             console.error("Feature flags object is not available");
           }
