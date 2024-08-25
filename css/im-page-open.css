@@ -1,6 +1,6 @@
 .RightPanel:not(.RightPanel--fullScreen):not(.RightPanel--compact):has( .RightPanel__profile )
 {
-	max-width: calc(100% - 319 - var(--aside_panel_width));
+	max-width: calc(100% - 319 - var(--aside_panel_width))!important;
 }
 .ConvoHeader__action.ConvoHeader__back,.CollapsibleContainer__widthControllerButton,.CollapsibleContainer__widthControllerArea,.ConvoList__folderDropDown
 {

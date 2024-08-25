@@ -15,6 +15,11 @@ left: 50px;
 	display:none;
 }
 
+header#page_header {
+width: 970px;
+}
+}
+
 .EoMSGvQz {
     min-height: 123px;
     z-index: 2;
@@ -61,11 +66,6 @@ left: 50px;
     position: absolute;
     top: -13px;
     width: 150px;
-}
-
-header#page_header {
-width: 970px;
-}
 }
 
 #profile_redesigned [class*="Group-module__groupModeCard"]:has(div[class^="UsersBlock-module__usersBlockItemsWrap"])
@@ -448,6 +448,9 @@ div.ProfileHeaderActions__moreButtonContainer > div > button > span {
     display:flex!important;
     flex-wrap: wrap;
     justify-content: center;
+}
+.OwnerVideosList .vkuiScrollArrow {
+	display:none;
 }
 .ProfileHeaderActions__buttons > .ProfileGifts__all > a:hover {
 	background-color:var(--vkui--color_background_accent_themed--hover);
