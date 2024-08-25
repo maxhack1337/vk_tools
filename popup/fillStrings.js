@@ -39,7 +39,8 @@ function fillStrings() {
     document.querySelector('#NewProfiles > div > div > .vkenhancerChoosePickerText1').innerHTML = '<span class="newSpan"><img class="newFire" src="assets/new.png"></span>' + getLocalizedString(strings.classicProfileInterface);
     document.querySelector('#NewMessenger > div > div > .vkenhancerChoosePickerText1').innerHTML = '<span class="newSpan"><img class="newFire" src="assets/new.png"></span>' + getLocalizedString(strings.newMessengerDesign);
     document.querySelector('#MessagesDefaultTheme > div > div > .vkenhancerChoosePickerText1').innerHTML = getLocalizedString(strings.messagesDefaultTheme);
-	document.querySelector('#SecretOldDesign > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.additionalVKEnhancerFunctions);
+	document.querySelector('#SecretOldDesign > div > div > .vkenhancerChoosePickerText1').innerHTML = `<span class="newSpan"><img class="newFire" src="assets/new.png"></span>` + getLocalizedString(strings.additionalVKEnhancerFunctions);
+	document.querySelector('#SecretOldDesign > div > div > .vkenhancerOldWarning').innerHTML = getLocalizedString(strings.additionalFunctionsDescription);
     document.querySelector('#SliderBlock > div > label').textContent = getLocalizedString(strings.blockTransparency);
 
     document.querySelector('div.footerInfo > h3:nth-child(1)').textContent = getLocalizedString(strings.usefulLinks);

@@ -1,4 +1,4 @@
-console.log('Версия 3.17.1 Release');
+console.log('Версия 3.100 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
@@ -119,7 +119,7 @@ function defaultTab0() {
         styleElement.id = "tabs0";
         document.head.appendChild(styleElement);
     }
-    styleElement.innerHTML = '#tab0,#tab0>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important}#MiddleName,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{display:flex!important;}';
+    styleElement.innerHTML = '#tab0,#tab0>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important}#SecretOldDesign,#MiddleName,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{display:flex!important;}';
     chrome.storage.local.set({
         defaultTab: "0",
     });
@@ -194,7 +194,7 @@ function defaultTab3() {
         styleElement.id = "tabs3";
         document.head.appendChild(styleElement);
     }
-    styleElement.innerHTML = '#tab3,#tab3>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important}#AwayR,#PollsRes,#SaveSettings,#ClearSettings,#LoadSettings,#ReloadVKE,#SecretOldDesign,#HiderL,#CallsM,.vkEnhancerHeaderRatio4,.vkEnhancerHeaderRatioPseudo3{display:flex!important;}[aria-id="true"]{display:block!important}';
+    styleElement.innerHTML = '#tab3,#tab3>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important}#AwayR,#PollsRes,#SaveSettings,#ClearSettings,#LoadSettings,#ReloadVKE,#HiderL,#CallsM,.vkEnhancerHeaderRatio4,.vkEnhancerHeaderRatioPseudo3{display:flex!important;}[aria-id="true"]{display:block!important}';
     chrome.storage.local.set({
         defaultTab: "3",
     });
@@ -656,17 +656,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const stylusInstalled = result.stylusInstalled;
         const labelElement = document.querySelector('.vkenhancerOldLabel');
         const warningElement = document.querySelector('.vkenhancerOldWarning');
-        // Если расширение "Stylus" установлено
-        if (stylusInstalled) {
-            warningElement.style.display = 'none';
-            labelElement.style.pointerEvents = 'auto';
-            labelElement.style.opacity = '1';
-            return;
-        }
-        // Если расширение "Stylus" не установлено
-        warningElement.style.display = 'block';
-        labelElement.style.pointerEvents = 'none';
-        labelElement.style.opacity = '0.5';
     });
 });
 document.addEventListener('DOMContentLoaded', function () {
@@ -1202,6 +1191,7 @@ muteCalls.addEventListener('change', (event) => {
         });
     });
 });
+
 secretFuncC.addEventListener('change', (event) => {
     const checked = event.target.checked;
     chrome.storage.local.set({
@@ -1217,6 +1207,55 @@ secretFuncC.addEventListener('change', (event) => {
             isChecked: checked
         });
     });
+	if(checked) {
+		if(!cameraphoto.checked) {
+			cameraphoto.click();
+		}
+		if(!middlename.checked) {
+			middlename.click();
+		}
+		if(!accentC.checked) {
+			accentC.click();
+		}
+		if(!emojistatus.checked) {
+			emojistatus.click();
+		}
+		if(!postReactionsC.checked) {
+			postReactionsC.click();
+		}
+		if(!nameAva.checked) {
+			nameAva.click();
+		}
+		if(!recentgroups.checked) {
+			recentgroups.click();
+		}
+		if(!newprofiles.checked) {
+			newprofiles.click();
+		}
+		if(!newdesign.checked) {
+			newdesign.click();
+		}
+		if(!oldhover.checked) {
+			oldhover.click();
+		}
+		if(!addsticker.checked) {
+			addsticker.click();
+		}
+		let styleElement = document.getElementById("oldDesignPopup");
+		if (!styleElement) {
+			styleElement = document.createElement("style");
+			styleElement.id = "oldDesignPopup";
+			document.head.appendChild(styleElement);
+		}
+		styleElement.innerHTML = '#ReconnectInd,#OldHover,#NewMessenger,#MiddleName,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{opacity:.5;pointer-events:none;}';
+	}
+	else {
+	const customStyle = document.getElementById("oldDesignPopup");
+		if (customStyle) {
+			customStyle.remove();
+		}
+	}
+	
 });
 postReactionsC.addEventListener('change', (event) => {
     const checked = event.target.checked;
@@ -1326,6 +1365,21 @@ function loadSavedCheckBoxes() {
             colorPickerText.value = items.colorPickerText;
         }
         console.log(items)
+		if(items.secretFuncState) {
+		let styleElement = document.getElementById("oldDesignPopup");
+		if (!styleElement) {
+			styleElement = document.createElement("style");
+			styleElement.id = "oldDesignPopup";
+			document.head.appendChild(styleElement);
+		}
+		styleElement.innerHTML = '#ReconnectInd,#OldHover,#NewMessenger,#MiddleName,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{opacity:.5;pointer-events:none;}';
+	}
+	else {
+	const customStyle = document.getElementById("oldDesignPopup");
+		if (customStyle) {
+			customStyle.remove();
+		}
+}
         if (items.customLogo && items.customLogo != "undefined") {
             customLogoText.value = items.customLogo.substring(0, 100);
         }
