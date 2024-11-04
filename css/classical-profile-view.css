@@ -11,7 +11,7 @@ body:has(#profile_redesigned) {
 left: 50px;
 }
 
-[data-testid="richavatar-outline-gray"] {
+[data-testid="richavatar-outline-gray"], [data-testid="richavatar-outline-accent"] {
 	display:none;
 }
 
