@@ -1,4 +1,4 @@
-console.log('Версия 3.100 Release');
+console.log('Версия 3.102 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
@@ -169,7 +169,7 @@ function defaultTab2() {
         styleElement.id = "tabs2";
         document.head.appendChild(styleElement);
     }
-    styleElement.innerHTML = '#tab2,#tab2>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important}#MessageCounter,#OldHover,#OldBadge,#Chitalka,#Pisalka,#MediaViewer,#MessagesDefaultTheme,#NewMessenger,#msgR,#ReconnectInd,.vkEnhancerHeaderRatio3,.vkEnhancerHeaderRatio5,.vkEnhancerHeaderRatioPseudo2{display:flex!important;}[aria-hotbar="true"]{display:block!important}';
+    styleElement.innerHTML = '#tab2,#tab2>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important}#MessageCounter,#OldHover,#OldBadge,#Chitalka,#Pisalka,#MediaViewer,#msgR,#ReconnectInd,.vkEnhancerHeaderRatio3,.vkEnhancerHeaderRatio5,.vkEnhancerHeaderRatioPseudo2{display:flex!important;}[aria-hotbar="true"]{display:block!important}';
     chrome.storage.local.set({
         defaultTab: "2",
     });
@@ -1247,7 +1247,7 @@ secretFuncC.addEventListener('change', (event) => {
 			styleElement.id = "oldDesignPopup";
 			document.head.appendChild(styleElement);
 		}
-		styleElement.innerHTML = '#ReconnectInd,#OldHover,#NewMessenger,#MiddleName,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{opacity:.5;pointer-events:none;}';
+		styleElement.innerHTML = '#ReconnectInd,#OldHover,#MiddleName,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{opacity:.5;pointer-events:none;}';
 	}
 	else {
 	const customStyle = document.getElementById("oldDesignPopup");
@@ -1372,7 +1372,7 @@ function loadSavedCheckBoxes() {
 			styleElement.id = "oldDesignPopup";
 			document.head.appendChild(styleElement);
 		}
-		styleElement.innerHTML = '#ReconnectInd,#OldHover,#NewMessenger,#MiddleName,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{opacity:.5;pointer-events:none;}';
+		styleElement.innerHTML = '#ReconnectInd,#OldHover,#MiddleName,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{opacity:.5;pointer-events:none;}';
 	}
 	else {
 	const customStyle = document.getElementById("oldDesignPopup");
