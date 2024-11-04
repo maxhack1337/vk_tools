@@ -1,66 +1,24 @@
 const newDesignFunctions = [
-  "vkm_reforged_in_vkcom",
-  "vkm_convo_profile",
-  "me_fc_message_actions",
-  "me_message_selecting",
-  "me_fc_simple_composer",
   "vkm_chat_big_stickers",
   "vkm_mention_highlight_tertiary",
-  "vkm_message_context_menu",
-  "vkm_photo_viewer_owner",
-  "vkm_photo_viewer_rotating",
-  "vkm_photo_viewer_scaling",
-  "vkm_profile_info_screen_name",
-  "vkm_qr_code_chat_invitation",
-  "vkm_ugc_stickers_in_keyboard",
-  "vkm_video_messages_shapes",
-  "vkm_video_messges_subtitles",
   "vkm_send_promoted_stickers",
   "vkm_settings_experimental",
   "vkm_hide_forward_author",
   "vkm_extended_reaction_picker",
-  "vkm_composer_new",
-  "me_community_messages_enabled",
   "vkm_convo_forbid_writing_all",
   "vkm_convo_member_temporary_ban",
-  "vkm_create_avatar_from_sticker",
   "vkm_message_preview_on_hover",
-  "vkm_mini_apps_attach_picker",
-  "vkm_new_attach_track",
-  "vkm_new_attach_video",
-  "vkm_new_music_attaches",
-  "vkm_recommended_folders",
-  "vkm_upload_v2",
-  "vkm_spam_message_types",
   "vkm_settings_hide_suggested",
-  "vkm_send_private_message_link",
-  "vkm_new_remove_empty_forwards",
   "vkm_theme_styles_settings",
   "vkm_forward_modal_multipick",
-  "vkm_new_attach_post",
-  "vkm_new_miniapp_attaches",
   "vkm_stickers_popup",
-  "vkm_media_share",
-  "vkm_reforged_in_vkcom",
-  "me_vkcom_api_feature_flags",
-  "vkm_hide_forward_author",
-  "vkm_theme_styles_settings",
   "vkm_delete_chat",
   "vkm_admin_can_delete_message",
-  "vkm_photo_save_to_album",
-  "vkm_media_viewer_report",
-  "vkm_convo_check_can_read",
-  "vkm_new_chunk_parser",
-  "vkm_business_folder",
-  "vkm_sublists_in_folder",
-  "vkm_new_convo_folder_logic",
   "vkm_stickers_animation_setting",
   "vkm_gifs_autoplay",
-  "vkm_fastchat_in_spa",
-  "vkm_chat_list_collapse",
   "vkm_show_inviter",
   "vkm_video_chat",
-  "vkm_up_drafted_convos_in_list",
+  "vkm_up_drafted_convos_in_list"
 ];
 const adsSelector = [
   ".page_block.feed_blog_reminder_large",
@@ -475,7 +433,12 @@ window.addEventListener("message", async (event) => {
     }
     case "vkNewDesign": {
       // Замена функции ajax.post
-      deferredCallback(
+		
+      break;
+    }
+    case "vkNewDesignOff": {
+      // Замена функции ajax.post
+      /*deferredCallback(
         () => {
           let orig_ajax = ajax.post;
           ajax.post = function (...e) {
@@ -509,33 +472,7 @@ window.addEventListener("message", async (event) => {
           ajax_replaced = true;
         },
         { variable: "ajax" }
-      );
-      break;
-    }
-    case "vkNewDesignOff": {
-      localStorage.setItem("isNewDesign", false);
-      localStorage.setItem("isVKMReforgedDesign", false);
-      deferredCallback(
-        () => {
-          let orig_ajax = ajax.post;
-          ajax.post = function (...e) {
-            if (
-              "al_profileEdit.php" === e[0] &&
-              "a_save_general" === e[1].act
-            ) {
-              if (e[1].nickname) {
-                e[1].nick_name = e[1].nickname;
-                delete e[1].nickname;
-              } else if (!e[1].nick_name) {
-                e[1].nick_name = "";
-              }
-            }
-            const t = orig_ajax.apply(this, e);
-            return t;
-          };
-        },
-        { variable: "ajax" }
-      );
+      );*/
       break;
     }
     case "muteCalls": {
@@ -630,6 +567,42 @@ window.addEventListener("message", async (event) => {
   }
 });
 
+      deferredCallback(
+        () => {
+          let orig_ajax = ajax.post;
+          ajax.post = function (...e) {
+            if (
+              "al_profileEdit.php" === e[0] &&
+              "a_save_general" === e[1].act
+            ) {
+              if (e[1].nickname) {
+                e[1].nick_name = e[1].nickname;
+                delete e[1].nickname;
+              } else if (!e[1].nick_name) {
+                e[1].nick_name = "";
+              }
+            }
+            if ((newDesign(), "al_im.php" === e[0] && "im" === e[1]?.__query)) {
+              const t = e[2].onDone;
+              e[2].onDone = function (...e) {
+                const n = t.apply(this, e);
+                return (
+                  n instanceof Promise
+                    ? n.finally(() => newDesign())
+                    : newDesign().catch(console.error),
+                  n
+                );
+              };
+            }
+            const t = orig_ajax.apply(this, e);
+
+            return newDesign, t;
+          };
+          ajax_replaced = true;
+        },
+        { variable: "ajax" }
+      );
+
 document.arrive("#owner_page_name", { existing: true }, function (e) {
   updateUsers();
 });
@@ -681,6 +654,16 @@ document.arrive(".ComposerInput__input", { existing: true }, function (e) {
     }
   });
 });
+///ВОЗВРАЩЕНИЕ ПОДДЕРЖКИ///
+document.arrive('.faq_tabs:not(:has([href="support?act=new"]))', { existing: true }, function (e) {
+  let support = document.createElement('a');
+  support.id = "new_link";
+  support.innerText = getLang('support_ask_question');
+  support.href = "https://vk.com/support?act=new&from=h";
+  support.style = "float:right;padding-bottom:0px;padding-left:10px;padding-right:10px;padding-top:16px;text-decoration-line:none;text-decoration-style:solid;text-decoration-thickness:auto;";
+  e.appendChild(support);
+});
+///КОНЕЦ ВОЗВРАЩЕНИЯ ПОДДЕРЖКИ///
 ///ГОЛОСОВОЙ ВВОД///
 function golos() {
   if (!("webkitSpeechRecognition" in window)) {
@@ -856,6 +839,15 @@ if (getLocalValue("secretFunctions")) {
     }
     appendSecondaryStyles(window.location.pathname);
   };
+  document.arrive(`#ui_rmenu_mr`,{existing:true}, async function(e) {
+     let s = e.cloneNode(true);
+	 s.setAttribute('onclick','showTabbedBox("al_im.php", {act: "a_important", offset: "0", gid: 0}, {params: {width: 638}})');
+	 s.removeAttribute('href');
+	 s.id = 'ui_rmenu_important';
+	 s.setAttribute('search_global_tab_mr','');
+	 s.querySelector('.ui_rmenu_label-text').textContent = `Важные сообщения`;
+	 document.querySelector('._im_right_menu').insertBefore(s, document.querySelector('._im_ui_peers_list'));
+  });
   document.arrive(`#l_vid > a`, { existing: true }, async function (e) {
     e.href = `/video/@id${vk.id}`;
   });
@@ -1773,6 +1765,7 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
       e.parentElement
         .querySelector(".ConvoHeader__infoContainer > h5")
         .appendChild(onlUsDiv);
+		e.parentElement.querySelector(".ConvoHeader__infoContainer > h5").style.Display = "flex";
     } else {
       ActionEnhancerMenu.querySelector(".vkEnOnline").style.display = "none";
     }
@@ -3314,6 +3307,126 @@ if (getLocalValue("isMiddleName")) {
 ///НАЧАЛО ДОБАВЛЕНИЯ СТИКЕРА ВО ВЛОЖЕНИЯ///
 
 ///КОНЕЦ ДОБАВЛЕНИЯ СТИКЕРА ВО ВЛОЖЕНИЯ///
+///НАЧАЛО КЛАССИЧЕСКОГО ДИЗАЙНА ГРУПП///
+/*
+document.arrive("#page_group_info_block", { existing: true }, async function (e) {
+	deferredCallback(
+                async () => {
+let group;
+try {
+	group = await vkApi.api('groups.getById',{group_ids: cur.options.public_id,fields:"activity,city,counters,description,links,place,site,status,verified,is_closed,is_admin,can_message,is_member,type"});
+}
+
+catch(error) {
+	group = await vkApi.api('groups.getById',{group_ids: cur.options.group_id,fields:"activity,city,counters,description,links,place,site,status,verified,is_closed,is_admin,can_message,is_member,type"})
+}
+let groupMain = group.groups[0];
+let groupAvatarUrl = groupMain.photo_base;
+let groupName = groupMain.name;
+let groupDescr = groupMain.description;
+let groupCounters = groupMain.counters;
+let groupLinks = groupMain.links;
+let groupSite = groupMain.site;
+let groupStatus = groupMain.status;
+let groupClosed = groupMain.is_closed;
+let groupIsAdmin = groupMain.is_admin;
+let groupCanMessage = groupMain.can_message;
+let groupIsMember = groupMain.is_member;
+let groupType = groupMain.type;
+let groupActiveButton = document.querySelector('[onclick*="Groups.processActionButton"]');
+let groupMoreActions = document.querySelector('.page-group-actions--more');
+let groupAdminBlock = document.querySelector('.page_block.page_action_menu_groups');
+let groupAvaBlock = document.querySelector('#page_group_info_block');
+
+document.querySelector('.group-redesigned-narrow').insertBefore(groupAdminBlock, document.querySelector('.page_block:has(#group_followers)'))
+
+appendAvatarActionBlock(groupAvatarUrl,groupIsMember,groupCanMessage,groupActiveButton,groupMoreActions,groupType)
+},
+                { variable: "vkApi" }
+              );
+function appendAvatarActionBlock(ava,sub,canmsg,actbutton,moreaction,type) {
+	let appendHere = document.querySelector('.group_info_rows');
+	let superBlock = document.createElement('div');
+	superBlock.classList.add('public_bottom_actions');
+	let avatar = document.createElement('div');
+	let avaClick = document.querySelector('[onclick^="return showPhoto"]').getAttribute('onclick').replaceAll(`"`,`'`);
+	let avaLink = document.querySelector('[onclick^="return showPhoto"]').getAttribute('href');
+	avatar.className = 'page_avatar_wrap';
+	avatar.innerHTML = `
+	<div id="page_avatar" class="page_avatar">
+  <a href=${avaLink} onclick="${avaClick}"><img onmouseover="uiActionsMenu.show(document.querySelector('.page-group-actions--avatar'), null, {'delay':100});" onmouseout="uiActionsMenu.hide(document.querySelector('.page-group-actions--avatar'), null, {'delay':100});" class="page_avatar_img" src="${ava}"></a>
+</div>`;
+	appendHere.appendChild(avatar);
+	if(canmsg == 1) {
+		let messageButton = document.createElement('button');
+		messageButton.classList = 'FlatButton FlatButton--primary FlatButton--size-m redesigned-group-action';
+		messageButton.id = 'public_messages';
+		switch(type) {
+			case "group":
+				messageButton.setAttribute('onclick','showWriteMessageBox(this,-cur.options.group_id)');
+				break;
+			case "page":
+				messageButton.setAttribute('onclick','showWriteMessageBox(this,-cur.options.public_id)');
+				break;
+		}
+		messageButton.innerHTML = `
+			<span class="FlatButton__in">
+			<span class="FlatButton__content">${getLang("global_write_msg")}</span>
+			</span>`;
+		appendHere.appendChild(messageButton);
+	}
+	let subButton = document.createElement('button');
+	subButton.classList = 'FlatButton FlatButton--primary FlatButton--size-m redesigned-group-action';
+	subButton.id = 'public_subscribe';
+	switch(type) {
+		case "group":
+			subButton.setAttribute('onclick','Groups.subscribe(cur.options.group_id)');
+			break;
+		case "page":
+			subButton.setAttribute('onclick','Public.subscribe(cur.options.public_id)');
+			break;
+	}
+	subButton.innerHTML = `
+	
+	<span class="FlatButton__in">
+    
+    <span class="FlatButton__content">${getLang("me_group_join")}</span>
+    
+  </span>`;
+  
+  let unSubButton = document.createElement('button');
+	unSubButton.classList = 'FlatButton FlatButton--secondary FlatButton--size-m FlatButton--wide';
+	unSubButton.id = 'public_unsubscribe';
+	switch(type) {
+		case "group":
+			unSubButton.setAttribute('onclick','Groups.leave(cur.options.group_id)');
+			break;
+		case "page":
+			unSubButton.setAttribute('onclick','Public.unSubscribe(cur.options.public_id)');
+			break;
+	}
+	unSubButton.innerHTML = `
+	
+	<span class="FlatButton__in">
+    
+    <span class="FlatButton__content">${getLang("groups_unsubscribe")}</span>
+    
+  </span>`;
+	appendHere.appendChild(superBlock);
+	switch(sub) {
+		case 1:
+			superBlock.appendChild(unSubButton);
+			break;
+		case 0:
+			superBlock.appendChild(subButton);
+			break;
+	}
+	
+	superBlock.appendChild(moreaction);
+}
+});
+*/
+///КОНЕЦ КЛАССИЧЕСКОГО ДИЗАЙНА ГРУПП///
 ///НАЧАЛО КЛАССИЧЕСКОГО ДИЗАЙНА ПРОФИЛЯ///
 deferredCallback(
   () => {
@@ -7861,7 +7974,7 @@ deferredCallback(
       <div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
         <div class="vkuiHeader__main">
           <div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1"><span class="vkuiHeader__content-in"><div class="Header-module__content--F5x_X"><div class="TextClamp-module__singleLine--mRCrF">${getLang(
-            "photos_feed_album_tab"
+            "profile_user_content_albums"
           )}</div></div></span><span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${
           albumsGetter.count
         }</span></div>
@@ -8840,7 +8953,7 @@ function getAudioDescriptionText(lang) {
   }
 }
 document.arrive(
-  ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper > div > .DropdownReforged__contentWrapper > .ActionsMenu",
+  ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper > div > .DropdownReforged__contentWrapper > .ActionsMenu:not(#member_actions)",
   { existing: true },
   function (e) {
     let styleElement = fromId("MEPopperStyle");
@@ -8850,7 +8963,7 @@ document.arrive(
       document.head.appendChild(styleElement);
     }
     styleElement.innerHTML =
-      ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper{margin-top:-72px!important;}";
+      ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper:not(:has(#member_actions)){margin-top:-72px!important;}";
     var clmno = document.createElement("a");
     clmno.innerHTML =
       '<button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular AudioMenuPopper"><i class="ActionsMenuAction__icon"><svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--money_transfer_outline_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><use xlink:href="#voice_outline_24" style="fill: currentcolor;"></use></svg></i><span class="ActionsMenuAction__title">' +
@@ -9485,7 +9598,7 @@ function updateMarginLeft() {
 ///РЕЗУЛЬТАТЫ ОПРОСА БЕЗ ГОЛОСОВАНИЯ///
 if (localStorage.getItem("pollResultsValue") == "true") {
   document.arrive(
-    "[class^='PrimaryAttachmentPoll-module__voting']",
+    "[class^='vkitPrimaryAttachmentPoll__voting']",
     { existing: true },
     function (e) {
       let styleElement = fromId("PollResultsShow");
@@ -9495,23 +9608,23 @@ if (localStorage.getItem("pollResultsValue") == "true") {
         document.head.appendChild(styleElement);
       }
       styleElement.innerHTML =
-        '.VKEnhancer-module__votingOptionsVoted [class^="PollOptions-module__votingOptionVotes"] { opacity: .4; } .VKEnhancer-module__votingOptionsVoted [class^="PollOptions-module__votingOptionRight"] { opacity: 1; transform: translateX(0);} [class*="PollOptions-module__votingOptionsVoted"] [class^="PollOptions-module__votingOptionRight"]{ margin-right:0px!important;} div:has(>[class^="PollOptions-module__votingOptionCheckboxIcon"]>svg) > [class^="PollOptions-module__votingOptionRight"] {margin-right:28px;} [class*="PollOptions-module__votingOptionsVoted"] [class^="PollOptions-module__votingOptionCheckboxIcon"]{display:none!important;}.VKEnhancer-module__votingOptionsVoted [class^="PollOptions-module__votingOptionFill"] { opacity:.06 } [class*="PollOptions-module__votingOptionsDark"].VKEnhancer-module__votingOptionsVoted [class^="PollOptions-module__votingOptionFill"] { opacity:.12 } ';
+        '.VKEnhancer-module__votingOptionsVoted [class^="vkitPollOptions__votingOptionVotes"] { opacity: .4; } .VKEnhancer-module__votingOptionsVoted [class^="vkitPollOptions__votingOptionRight"] { opacity: 1; transform: translateX(0); } [class*="vkitPollOptions__votingOptionsVoted"] [class^="vkitPollOptions__votingOptionRight"] { margin-right: 0px !important; } div:has(>[class^="vkitPollOptions__votingOptionCheckboxIcon"]>svg)>[class^="vkitPollOptions__votingOptionRight"] { margin-right: 28px; } [class*="vkitPollOptions__votingOptionsVoted"] [class^="vkitPollOptions__votingOptionCheckboxIcon"] { display: none !important; } .VKEnhancer-module__votingOptionsVoted [class^="vkitPollOptions__votingOptionFill"] { opacity: .06 } [class*="vkitPollOptions__votingOptionsDark"].VKEnhancer-module__votingOptionsVoted [class^="vkitPollOptions__votingOptionFill"] { opacity: .12 }';
       var polls = document.querySelectorAll(
-        '[class^="PollOptions-module__votingOptions"]'
+        '[class^="vkitPollOptions__votingOptions"]'
       );
       for (var poll of polls) {
         poll.classList.add("VKEnhancer-module__votingOptionsVoted");
       }
       var percentageElements = document.querySelectorAll(
-        '[class^="PollOptions-module__votingOptionRight"]'
+        '[class^="vkitPollOptions__votingOptionRight"]'
       );
       percentageElements.forEach(function (element) {
         var percentage = parseFloat(element.textContent.replace("%", ""));
         var parentElement = element.closest(
-          '[class^="PollOptions-module__votingOptionWrapper"]'
+          '[class^="vkitPollOptions__votingOptionWrapper"]'
         );
         var fillElement = parentElement.querySelector(
-          '[class^="PollOptions-module__votingOptionFill"]'
+          '[class^="vkitPollOptions__votingOptionFill"]'
         );
         fillElement.style.width = percentage + "%";
       });
@@ -9758,7 +9871,7 @@ async function getAllChatTabs(lang) {
       return "All chats";
       break;
     default:
-      return getLang("me_folder_list_all");
+      return "Все чаты";
       break;
   }
 }
@@ -9858,7 +9971,7 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
     function (e) {
       vk.pe.vkm_theme_styles_settings = 1;
       let spaRoot = e;
-      let rebootDiv = document.createElement("div");
+      /*let rebootDiv = document.createElement("div");
       rebootDiv.classList.add("vkEnhancerRebootDiv");
       rebootDiv.style.height = "calc(100vh - var(--header-height, 0) - 32px)";
       rebootDiv.style.display = "flex";
@@ -9908,7 +10021,7 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
             aReboot.innerHTML = getNewMessengerError(vk.lang)[2];
           }
         }, 10000);
-      });
+      });*/
     }
   );
 
@@ -10027,7 +10140,7 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
     linkAllChats.classList.add("ARightRoot4");
     //linkAllChats.classList.add('isChosen');
     linkAllChats.classList.add("ARightRoot5");
-    linkAllChats.href = "/im";
+    linkAllChats.href = "/im/?tab=all";
 
     const spanAllChats = document.createElement("span");
     spanAllChats.classList.add("SpanTextRightRoot");
@@ -10068,7 +10181,10 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
 
     const spanArchiveChats = document.createElement("span");
     spanArchiveChats.classList.add("SpanTextRightRoot");
+	try { 
     spanArchiveChats.textContent = getLang("me_archive_title");
+	}
+	catch(error) {spanArchiveChats.textContent = "Архив";}
 
     linkArchive.appendChild(spanArchiveChats);
 
@@ -10428,7 +10544,7 @@ deferredCallback(
           linkAllChats.classList.add("ARightRoot4");
           //linkAllChats.classList.add('isChosen');
           linkAllChats.classList.add("ARightRoot5");
-          linkAllChats.href = "/im";
+          linkAllChats.href = "/im/?tab=all";
 
           const spanAllChats = document.createElement("span");
           spanAllChats.classList.add("SpanTextRightRoot");
@@ -10448,9 +10564,12 @@ deferredCallback(
 
           const spanUnreadChats = document.createElement("span");
           spanUnreadChats.classList.add("SpanTextRightRoot");
-          spanUnreadChats.textContent = getLang("me_fc_unread_chats").split(
-            " "
-          )[0];
+          try {
+			spanUnreadChats.textContent = getLang("me_fc_unread_chats").split(" ")[0];
+			}
+			catch(error) {
+			spanUnreadChats.textContent = "Непрочитанные";
+			}
 
           linkUnread.appendChild(spanUnreadChats);
 
@@ -10466,7 +10585,10 @@ deferredCallback(
 
           const spanArchiveChats = document.createElement("span");
           spanArchiveChats.classList.add("SpanTextRightRoot");
-          spanArchiveChats.textContent = getLang("me_archive_title");
+          try { 
+    spanArchiveChats.textContent = getLang("me_archive_title");
+	}
+	catch(error) {spanArchiveChats.textContent = "Архив";}
 
           linkArchive.appendChild(spanArchiveChats);
 
@@ -10690,24 +10812,10 @@ function newDesign() {
   localStorage.setItem("isNewDesign", true);
   return new Promise((resolve, reject) => {
     let url = window.location.href;
-    if (im.test(url)) {
-      const e = document.querySelector(".body_im #wrap3");
-      if (e) for (const t of e.childNodes) e.removeChild(t);
-      if (
-        new URL(window.location.href).searchParams.get("sel") ||
-        new URL(window.location.href).searchParams.get("peers")
-      ) {
-        console.log(new URL(window.location.href).searchParams);
-        const t = { ...window.nav.objLoc };
-        window.location.href = "/im";
-      }
-    }
     newDesignFunctions.forEach((flag) => {
       window.vk.pe[flag] = 1;
     });
     window.vk.pe.vkm_integration_media_viewer = intMedia ? 1 : 0;
-    window.vk.pe.vkm_reforged_in_vkcom = 1;
-    window.vk.pe.me_vkcom_api_feature_flags = 1;
     window.vk.pe.vkm_hide_forward_author = 1;
     window.vk.pe.vkm_theme_styles_settings = 1;
     window.vk.pe.vkm_reactions || (window.vk.pe.vkm_reactions = 20);
