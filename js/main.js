@@ -1073,7 +1073,7 @@ function getTextTTNum(lang) {
 document.arrive(
   ".ConvoList__scrollbar-content",
   { existing: true },
-  async function (e) {
+  async function lyagushka(e) {
     let countermsg = document.createElement("div");
     countermsg.classList.add("ConvoList__topFiltersWrap");
     countermsg.classList.add("vkEnhancerCounterOfMessages");
@@ -1086,7 +1086,7 @@ document.arrive(
     }
     countermsg.innerHTML = `<div role="button" tabindex="0" class="ConvoListFilter">
   <div class="ConvoListFilter__icons">
-  <i role="img" class="vkEnIconWatn ConvoListFilter__icon">
+  <i role="img" style="height:20px;" class="vkEnIconWatn ConvoListFilter__icon">
   <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--work_outline_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;">
   <use xlink:href="#null" style="fill: currentcolor;">
   </use>
@@ -1099,6 +1099,21 @@ document.arrive(
   <div role="img" class="vkEnIconWatnCount ConvoListFilter__counter UnreadCounter UnreadCounter--size-18">
   ${idMess}
   </div>
+  <div id="vkEnhancerRebootMessageCounter" style="
+    scale: .85;
+    margin-left: 8px;
+	margin-top: 2px;
+">
+  <a class="vkEnhancerRebootMessageCounter">
+    <div class="vkEnhancerRebootMessageCounter__inner">
+      <div style="scale: 0.75; color: var(--vkui--color_icon_secondary);" class="vkEnhancerRebootMessageCounter__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22" fill="currentColor">
+          <path d="M11.7422 3.21838C10.1412 2.65442 8.40531 2.59833 6.77131 3.05777C5.66909 3.36769 4.64943 3.902 3.7732 4.62084H4.87502C5.49634 4.62084 6.00002 5.12452 6.00002 5.74584C6.00002 6.36716 5.49634 6.87084 4.87502 6.87084L1.70519 6.87085C1.61913 6.87091 1.49731 6.871 1.38711 6.86199C1.25501 6.8512 1.04417 6.82206 0.819035 6.70735C0.536792 6.56354 0.307321 6.33407 0.163511 6.05182C0.0487986 5.82669 0.0196589 5.61585 0.00886567 5.48375C-0.000138422 5.37354 -5.10709e-05 5.25173 1.07093e-05 5.16567L2.03652e-05 2C2.03652e-05 1.37868 0.5037 0.875 1.12502 0.875C1.74634 0.875 2.25002 1.37868 2.25002 2V2.96111C3.38657 2.00587 4.71877 1.29764 6.16229 0.891762C8.24222 0.306941 10.4519 0.378336 12.4897 1.0962C14.5276 1.81406 16.2943 3.1434 17.5489 4.90275C18.8034 6.6621 19.4847 8.76577 19.4998 10.9267C19.5149 13.0876 18.863 15.2006 17.6331 16.9773C16.4033 18.754 14.6553 20.1079 12.6276 20.8541C10.6 21.6004 8.39155 21.7026 6.30367 21.1469C4.6601 20.7095 3.11556 19.8787 1.86301 18.7255C1.40593 18.3047 1.37655 17.5929 1.79739 17.1359C2.21824 16.6788 2.92994 16.6494 3.38703 17.0702C4.36132 17.9673 5.57811 18.6255 6.88238 18.9726C8.52263 19.4092 10.2576 19.3289 11.8505 18.7426C13.4435 18.1563 14.8168 17.0927 15.7831 15.6967C16.7495 14.3007 17.2617 12.6404 17.2498 10.9424C17.238 9.24439 16.7026 7.59142 15.7169 6.20907C14.7312 4.82672 13.3431 3.78234 11.7422 3.21838Z"></path>
+        </svg>
+      </div>
+    </div>
+  </a>
+</div>
   </div>`;
 
     let iconn = countermsg.querySelector(".vkEnIconWatn");
@@ -1173,6 +1188,13 @@ document.arrive(
           }", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`
         );
     }
+	
+	   countermsg.querySelector("#vkEnhancerRebootMessageCounter").addEventListener("click", function (s) {
+		s.preventDefault();
+		s.stopPropagation();
+		countermsg.remove();
+		lyagushka(e);
+	   });
     e.prepend(countermsg);
   }
 );
@@ -1346,7 +1368,7 @@ function getRegDateLabelNew(lang) {
   }
 }
 document.arrive(
-  `[class^="ProfileFullInfoModal-module__content"]>section:nth-child(1)`,
+  `[class^="ProfileFullInfoModal__content"]>section:nth-child(1)`,
   { existing: true },
   async function (e) {
     try {
@@ -2315,10 +2337,14 @@ document.arrive(".videoplayer_btn_mute", { existing: true }, function (e) {
         .map((url) => parseInt(url.match(/\d+/)[0]))
     );
     vidUrl = window.mvcur.player.media.vars[`url${quality}`];
-    if (vidUrl == undefined) {
-      vidUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-    }
     let videoButton = document.createElement("a");
+	if (vidUrl == undefined) {
+      vidUrl = "";
+	  videoButton.setAttribute(
+      "onclick",
+      `showFastBox("Ошибка", "Не удалось найти URL видео");`
+    );
+	}
     videoButton.href = vidUrl;
     videoButton.style.padding = "15px 10px 0 8px";
     videoButton.setAttribute(
@@ -2329,7 +2355,33 @@ document.arrive(".videoplayer_btn_mute", { existing: true }, function (e) {
     );
     videoButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" viewBox="0 0 16 16" style="min-width: 20px;"><path fill-rule="evenodd" d="M8.75 1.75a.75.75 0 0 0-1.5 0v6.6893L5.0303 6.2197a.75.75 0 0 0-1.0606 1.0606l3.5 3.5a.7498.7498 0 0 0 1.0606 0l3.5-3.5a.75.75 0 0 0-1.0606-1.0606L8.75 8.4393V1.75Zm-6 10.75a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H2.75Z" clip-rule="evenodd"/></svg>`;
     e.parentNode.insertBefore(videoButton, e);
-  } catch (error) {}
+  } 
+  catch (error) {
+	quality = Math.max(
+      ...Object.keys(window.cur.videoInlinePlayer.media.vars)
+        .filter((e) => e.startsWith("url"))
+        .map((url) => parseInt(url.match(/\d+/)[0]))
+    );
+    vidUrl = window.cur.videoInlinePlayer.media.vars[`url${quality}`];
+    let videoButton = document.createElement("a");
+	    if (vidUrl == undefined) {
+      vidUrl = "";
+	  videoButton.setAttribute(
+      "onclick",
+      `showFastBox("Ошибка", "Не удалось найти URL видео");`
+    );
+    }
+    videoButton.href = vidUrl;
+    videoButton.style.padding = "15px 10px 0 8px";
+    videoButton.setAttribute(
+      "onmouseover",
+      `showTooltip(this, { text: '${getLang(
+        "video_download_short"
+      )}', black: true, shift: [2, 24] });`
+    );
+    videoButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" viewBox="0 0 16 16" style="min-width: 20px;"><path fill-rule="evenodd" d="M8.75 1.75a.75.75 0 0 0-1.5 0v6.6893L5.0303 6.2197a.75.75 0 0 0-1.0606 1.0606l3.5 3.5a.7498.7498 0 0 0 1.0606 0l3.5-3.5a.75.75 0 0 0-1.0606-1.0606L8.75 8.4393V1.75Zm-6 10.75a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H2.75Z" clip-rule="evenodd"/></svg>`;
+    e.parentNode.insertBefore(videoButton, e);  
+  }
 });
 
 function querySelectorAllShadows(selector, el = document.body) {
@@ -2835,11 +2887,11 @@ deferredCallback(
 }
 `;
     document.arrive(
-      "[class^='PhotosAlbumPageSubHeader-module__info']",
+      "[class^='PhotosAlbumPageSubHeader__info']",
       { existing: true },
       function (e) {
         let buttonAlbumSettings = document.querySelector(
-          '[class^="HeaderLayout-module__aside"]'
+          '[data-testid="headerlayout-aside"] .vkuiButtonGroup'
         );
         let updateButton = document.createElement("div");
         updateButton.style.marginRight = "8px";
@@ -3510,14 +3562,14 @@ deferredCallback(
                 document.head.appendChild(styleElement);
               }
               styleElement.innerHTML =
-                ".vkuiInternalGroup:has(>.PlaceholderMessageBlock) {display: none !important;}";
+                '[class^="vkitGroup__group"]:has(>.PlaceholderMessageBlock) {display: none !important;}';
               let pInfoShort = document.querySelector(
                 ".profile_info.profile_info_short"
               );
               let pModuleText = "";
               try {
                 pModuleText = document.querySelector(
-                  '.vkuiInternalGroup:has(>.PlaceholderMessageBlock) [class^="Placeholder-module__text"]'
+                  '[class^="vkitGroup__group"]:has(>.PlaceholderMessageBlock) [class^="vkitPlaceholder__text"]'
                 ).innerHTML;
               } catch (error) {}
               let pModuleDiv = document.createElement("div");
@@ -4798,7 +4850,8 @@ deferredCallback(
             military.forEach((voin) => {
               var voinInfo = document.createElement("div");
               voinInfo.classList.add("voin_info");
-
+			  voinInfo.style.display = "flex";
+			  voinInfo.style.flexWrap = "wrap";
               // Школа
               if (voin.unit) {
                 var voinDiv = document.createElement("div");
@@ -4807,6 +4860,7 @@ deferredCallback(
                 voinInfo.appendChild(voinDiv);
 
                 var voinLink = document.createElement("a");
+				voinLink.style.width = '335px';
                 voinLink.href = `/search/people?c[name]=0&c[mil_country]=${voin.country_id}&c[mil_unit]=${voin.unit_id}`;
                 voinLink.textContent = voin.unit;
                 voinLink.classList.add(
@@ -9752,6 +9806,8 @@ document.arrive(".BurgerMenu__actionsMenu", { existing: true }, function (e) {
   changeDesign.classList.add("ActionsMenuAction");
   changeDesign.classList.add("ActionsMenuAction--secondary");
   changeDesign.classList.add("ActionsMenuAction--size-regular");
+  //changeDesign.style.display = "none";
+  //localStorage.setItem("isCentralDesign", false);
   const isCentralDesign = localStorage.getItem("isCentralDesign") || "false";
   const newInterfaceSVG =
     '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" d="M4.01 2.53C4.66 2.18 5.31 2 7.08 2h5.84c1.77 0 2.42.18 3.07.53.64.34 1.14.84 1.48 1.48.35.65.53 1.3.53 3.07v5.84c0 1.77-.18 2.42-.53 3.07A3.57 3.57 0 0116 17.47c-.65.35-1.3.53-3.07.53H7.08c-1.77 0-2.42-.18-3.07-.53A3.57 3.57 0 012.53 16c-.35-.65-.53-1.3-.53-3.07V7.08c0-1.77.18-2.42.53-3.07.34-.64.84-1.14 1.48-1.48zm11.27 13.62c-.34.18-.7.35-2.36.35H9v-13h3.92c1.66 0 2.02.17 2.36.35.38.2.67.5.87.87.18.34.35.7.35 2.36v5.84c0 1.66-.17 2.02-.35 2.36-.2.38-.5.67-.87.87zM7.08 3.5c-1.66 0-2.02.17-2.36.35-.38.2-.67.5-.87.87-.18.34-.35.7-.35 2.36v5.84c0 1.66.17 2.02.35 2.36.2.38.5.67.87.87.34.18.7.35 2.36.35h.42v-13h-.42z"/></svg>';
@@ -9878,7 +9934,6 @@ async function getAllChatTabs(lang) {
 
 //console.log(localStorage.getItem("isCentralDesign"));
 ///НАЧАЛО ЦЕНТРАЛЬНОГО ДИЗАЙНА///
-
 if (!im.test(window.location.href)) {
   let styleElement = fromId("rightBarClassicRemove");
   if (!styleElement) {
@@ -9971,57 +10026,6 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
     function (e) {
       vk.pe.vkm_theme_styles_settings = 1;
       let spaRoot = e;
-      /*let rebootDiv = document.createElement("div");
-      rebootDiv.classList.add("vkEnhancerRebootDiv");
-      rebootDiv.style.height = "calc(100vh - var(--header-height, 0) - 32px)";
-      rebootDiv.style.display = "flex";
-      rebootDiv.style.justifyContent = "center";
-      rebootDiv.style.alignItems = "center";
-      rebootDiv.style.position = "absolute";
-      rebootDiv.style.backgroundColor = "var(--vkui--color_background_content)";
-      rebootDiv.style.borderRadius =
-        "var(--vkui--size_border_radius_paper--regular)";
-      rebootDiv.style.marginTop = "var(--page-block-offset, 15px)";
-      rebootDiv.style.boxShadow =
-        "inset 0 0 0 var(--vkui--size_border--regular) var(--vkui--color_field_border_alpha)";
-      if (getLocalValue("isCentralDesign")) {
-        rebootDiv.style.width = "550px";
-      } else {
-        rebootDiv.style.width = "911px";
-      }
-      let aReboot = document.createElement("a");
-      if (window.location.href != "https://vk.com/im/?tab=all") {
-        aReboot.href = "/im/?tab=all";
-      } else {
-        aReboot.href = "/im";
-      }
-      aReboot.textDecoration = "none!important";
-      aReboot.style.width = "350px";
-      aReboot.style.textAlign = "center";
-      aReboot.innerHTML = getNewMessengerError(vk.lang)[0];
-      rebootDiv.appendChild(aReboot);
-      if (spaRoot) {
-        spaRoot.appendChild(rebootDiv);
-      }
-      aReboot.addEventListener("click", async function () {
-        let isMainRightRoot = document.querySelector(".MainRightRoot");
-        aReboot.innerHTML = getNewMessengerError(vk.lang)[1];
-        aReboot.style.pointerEvents = "none";
-        if (!isMainRightRoot && getLocalValue("isCentralDesign")) {
-          //console.log("MainRightRoot comeback");
-          await mainRightRootComeback();
-        }
-        vk.pe.vkm_theme_styles_settings = 1;
-
-        // Устанавливаем новый таймер
-        clearTimeout(arriveTimer);
-        arriveTimer = setTimeout(function () {
-          let rebootDivDisplay = document.querySelector(".vkEnhancerRebootDiv");
-          if (rebootDivDisplay) {
-            aReboot.innerHTML = getNewMessengerError(vk.lang)[2];
-          }
-        }, 10000);
-      });*/
     }
   );
 
@@ -10104,25 +10108,18 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
     );
 
     const currentURL = window.location.href;
-    // Создаем элемент div
     const container = document.createElement("div");
-
-    // Добавляем классы к элементу
     container.classList.add("MainRightRoot");
     container.classList.add("vkui__root");
     container.classList.add("vkui__root--embedded");
     container.classList.add("vkui--vkIOS--light");
     container.classList.add("vkui--sizeX-none");
     container.classList.add("vkui--sizeY-none");
-
-    // Создаем вложенный div
     const nestedDiv = document.createElement("div");
     nestedDiv.classList.add("SecondaryRightRoot");
     nestedDiv.classList.add("vkuiAppRoot--wGiqT");
     nestedDiv.classList.add("vkuiAppRoot--pointer-none--qVNj5");
     nestedDiv.classList.add("SecondaryRightRoot1");
-
-    // Создаем секцию
     const section = document.createElement("section");
     section.classList.add("vkuiInternalGroup");
     section.classList.add("vkuiGroup--H9z2H");
@@ -10132,13 +10129,11 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
     section.classList.add("vkuiInternalGroup--mode-none");
     section.classList.add("vkuiGroup--padding-m--JoaTI");
     section.classList.add("vkenhancer--right-section");
-    // Создаем ссылки
     const linkAllChats = document.createElement("a");
     linkAllChats.classList.add("ARightRoot1");
     linkAllChats.classList.add("ARightRoot2");
     linkAllChats.classList.add("ARightRoot3");
     linkAllChats.classList.add("ARightRoot4");
-    //linkAllChats.classList.add('isChosen');
     linkAllChats.classList.add("ARightRoot5");
     linkAllChats.href = "/im/?tab=all";
 
@@ -10146,7 +10141,6 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
     spanAllChats.classList.add("SpanTextRightRoot");
     spanAllChats.textContent = await getAllChatTabs(vk.lang);
 
-    // Добавляем элементы в DOM
     linkAllChats.appendChild(spanAllChats);
     section.appendChild(linkAllChats);
 
@@ -10193,7 +10187,6 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
     container.appendChild(nestedDiv);
     nestedDiv.appendChild(section);
 
-    // Добавляем созданный элемент в DOM
     vkuiRoot.appendChild(container);
 
     let simplebarContentDiv = document.querySelector(".simplebar-content");

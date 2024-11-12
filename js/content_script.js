@@ -1,4 +1,4 @@
-console.log("Content script is running!");
+console.log("VK Tools content script is running!");
 function CheckToken() {
   if (window.location.href.indexOf('https://oauth.vk.com/blank.html') === -1) {
     location.href = 'https://oauth.vk.com/authorize?client_id=6121396&scope=196608&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1';
