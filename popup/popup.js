@@ -1,4 +1,4 @@
-console.log('Версия 3.103 Release');
+console.log('Версия 3.104 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
@@ -1206,7 +1206,7 @@ secretFuncC.addEventListener('change', (event) => {
             type: "toggleSecretFunctions",
             isChecked: checked
         });
-    });
+    });/*
 	if(checked) {
 		if(!cameraphoto.checked) {
 			cameraphoto.click();
@@ -1255,6 +1255,7 @@ secretFuncC.addEventListener('change', (event) => {
 			customStyle.remove();
 		}
 	}
+	*/
 	
 });
 postReactionsC.addEventListener('change', (event) => {
@@ -1365,7 +1366,7 @@ function loadSavedCheckBoxes() {
             colorPickerText.value = items.colorPickerText;
         }
         console.log(items)
-		if(items.secretFuncState) {
+		if(items.secretFuncState) {/*
 		let styleElement = document.getElementById("oldDesignPopup");
 		if (!styleElement) {
 			styleElement = document.createElement("style");
@@ -1373,7 +1374,7 @@ function loadSavedCheckBoxes() {
 			document.head.appendChild(styleElement);
 		}
 		styleElement.innerHTML = '#ReconnectInd,#OldHover,#MiddleName,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{opacity:.5;pointer-events:none;}';
-	}
+	*/}
 	else {
 	const customStyle = document.getElementById("oldDesignPopup");
 		if (customStyle) {
