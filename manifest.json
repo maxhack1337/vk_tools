@@ -5,7 +5,7 @@
     "default_title": "Настройки VK Tools"
   },
   "name": "VK Tools - улучшение ВКонтакте",
-  "version": "3.103",
+  "version": "3.104",
   "icons": {
     "128": "assets/icon128.png",
     "16": "assets/icon16.png",
@@ -19,7 +19,8 @@
   "host_permissions": [
     "*://vk.com/*",
     "*://vk.ru/*",
-    "*://oauth.vk.com/*"
+    "*://oauth.vk.com/*",
+	"*://vkvideo.ru/*"
   ],
   "permissions": [
     "browsingData",
@@ -28,7 +29,8 @@
     "declarativeNetRequestWithHostAccess",
     "activeTab",
     "declarativeNetRequest",
-    "declarativeNetRequestFeedback"
+    "declarativeNetRequestFeedback",
+	"commands"
   ],
   "background": {
     "service_worker": "js/service-worker.js"
@@ -36,7 +38,7 @@
   "content_scripts": [
     {
       "matches": [
-        "*://vk.com/*","*://vk.ru/*","*://oauth.vk.com/*"
+        "*://vk.com/*","*://vk.ru/*","*://oauth.vk.com/*","*://vkvideo.ru/*"
       ],
       "js": [
         "js/modules-start.js",
@@ -56,12 +58,12 @@
     ]
   },
   "commands": {
-    "Ctrl+M": {
+    "reload-extension": {
       "suggested_key": {
-        "default": "Ctrl+M",
+        "default": "Alt+Shift+R",
         "mac": "Command+M"
       },
-      "description": "Ctrl+M."
+      "description": "Reload extension button"
     }
   },
   "web_accessible_resources": [
@@ -77,7 +79,7 @@
         "css/classical-profile-view.css"
       ],
       "matches": [
-        "*://vk.com/*","*://vk.ru/*","*://oauth.vk.com/*"
+        "*://vk.com/*","*://vk.ru/*","*://oauth.vk.com/*","*://vkvideo.ru/*"
       ]
     }
   ]
