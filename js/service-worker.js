@@ -2,8 +2,9 @@ console.log('BG script is running!');
 
 chrome.commands.onCommand.addListener((shortcut) => {
   console.log(shortcut);
-  if (shortcut.includes("+M")) {
-    chrome.runtime.reload();
+  if (shortcut === "reload-extension") {
+    console.log("Reloading...");
+	chrome.runtime.reload();
   }
 });
 

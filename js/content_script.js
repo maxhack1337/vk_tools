@@ -516,7 +516,7 @@ function hideNFT_Avatars() {
     document.head.appendChild(styleElement);
   }
   styleElement.innerHTML =
-'.AvatarRich--nft .AvatarRich__img, .AvatarRich--nft .AvatarRich__background, .AvatarRich--nft .AvatarRich__children{clip-path:none; border-radius:100%;}.AvatarRich__outline--nft path {display:none}.AvatarRich__outline--nft{    border-radius: 100%;    outline: var(--avatar-rich-stroke-width) solid var(--vkui--color_icon_accent);    outline-offset: calc(var(--avatar-rich-stroke-width) * -1);} .OwnerPageAvatar--nft .OwnerPageAvatar__underlay:not(.OwnerPageAvatar__underlay--outlined) { top: calc(var(--stroke-width, 4px) * -1) !important; bottom: calc(var(--stroke-width, 4px) * -1) !important; left: calc(var(--stroke-width, 4px) * -1) !important; right: calc(var(--stroke-width, 4px) * -1) !important; } .OwnerPageAvatar--nft .OwnerPageAvatar__underlay, .AvatarRich--nft .AvatarRich__img, .OwnerPageAvatar--nft .vkuiImageBase__img, div[class*="RichAvatar-module__rootNft"] > img { clip-path: none !important; -webkit-clip-path: none !important; border-radius: 50% !important; } .OwnerPageAvatar--nft .vkuiAvatar svg, .AvatarRich__heptagonUnderlay,div[class*="RichAvatar-module__rootNft"] > svg { display: none !important; } svg[data-testid="richavatar-nft-heptagon"] { display:none; } [class*="vkitRichAvatar__rootNft"]>img { clip-path:none; border-radius:100%; }';
+'[data-testid="profile-avatar"] .vkuiImageBase__img {border-radius:0px!important;}.AvatarRich--nft .AvatarRich__img, .AvatarRich--nft .AvatarRich__background, .AvatarRich--nft .AvatarRich__children{clip-path:none; border-radius:100%;}.AvatarRich__outline--nft path {display:none}.AvatarRich__outline--nft{    border-radius: 100%;    outline: var(--avatar-rich-stroke-width) solid var(--vkui--color_icon_accent);    outline-offset: calc(var(--avatar-rich-stroke-width) * -1);} .OwnerPageAvatar--nft .OwnerPageAvatar__underlay:not(.OwnerPageAvatar__underlay--outlined) { top: calc(var(--stroke-width, 4px) * -1) !important; bottom: calc(var(--stroke-width, 4px) * -1) !important; left: calc(var(--stroke-width, 4px) * -1) !important; right: calc(var(--stroke-width, 4px) * -1) !important; } .OwnerPageAvatar--nft .OwnerPageAvatar__underlay, .AvatarRich--nft .AvatarRich__img, div[class*="RichAvatar-module__rootNft"] > img { clip-path: none !important; -webkit-clip-path: none !important; border-radius: 50% !important; } .OwnerPageAvatar--nft .vkuiAvatar svg, .AvatarRich__heptagonUnderlay,div[class*="RichAvatar-module__rootNft"] > svg { display: none !important; } svg[data-testid="richavatar-nft-heptagon"] { display:none; } [class*="vkitRichAvatar__rootNft"]>img { clip-path:none; border-radius:100%; }';
 }
 
 function backNFT_Avatars() {
@@ -1555,7 +1555,7 @@ function loadScripts() {
     console.log(
       /*"Элемент NNVAFTTSLJUUDLPQ не найден на странице. Запускаю скрипты"*/
     );
-    isSecretCheckFunc();
+    /*isSecretCheckFunc();*/
     var element = document.createElement("div");
     element.id = "NNVAFTTSLJUUDLPQ";
     var parent = document.querySelector("body");

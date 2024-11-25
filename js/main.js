@@ -817,8 +817,123 @@ async function removeSecondaryStyle(linkstyle) {
     customStyle.remove();
   }
 }
+///СТАРЫЕ ВИДОСЫ///
 
 if (getLocalValue("secretFunctions")) {
+	document.arrive(`._video_item`,{existing:true}, async function(e) {
+	e.setAttribute('onclick',`
+	event.preventDefault();
+	event.stopPropagation();
+	window.showVideo("` + e.getAttribute('data-id') + `",'0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);`)
+});
+
+document.arrive(`[class^="VideoCardList__videoItem"]:has([class^="vkitVideoCardThumb__thumb"][href^="/video"])`,{existing:true}, async function(e) {
+	let videoLink;
+	try {
+		videoLink = e.querySelector('[class^="vkitVideoCardThumb__thumb"][href^="/video"]').getAttribute('href').substring(6);
+	}
+	catch(error) {
+		
+	}
+	e.setAttribute('onclick',`
+	event.preventDefault();
+	event.stopPropagation();
+	window.showVideo("` + videoLink + `",'0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);`)
+});
+
+document.arrive(`[class^="vkitVideoCardLayout__card"]:has([class^="vkitVideoCardThumb__thumb"][href^="/video"])`,{existing:true}, async function(e) {
+	let videoLink;
+	try {
+		videoLink = e.querySelector('[class^="vkitVideoCardThumb__thumb"][href^="/video"]').getAttribute('href').substring(6);
+	}
+	catch(error) {
+		
+	}
+	e.setAttribute('onclick',`
+	event.preventDefault();
+	event.stopPropagation();
+	window.showVideo("` + videoLink + `",'0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);`)
+});
+
+
+document.arrive(`[class*="vkitDraggableVideoCard__card"]:has([class^="vkitVideoCardThumb__thumb"][href^="/playlist"])`,{existing:true}, async function(e) {
+	let videoLink;
+	try {
+		videoLink = extractVideoPart(e.querySelector('[class^="vkitVideoCardThumb__thumb"][href^="/playlist"]').getAttribute('href'));
+	}
+	catch(error) {
+		
+	}
+	let plistID; 
+	try {
+		plistID = extractPlaylistPart(e.querySelector('[class^="vkitVideoCardThumb__thumb"][href^="/playlist"]').getAttribute('href'));
+	}
+	catch(error) {
+		
+	}
+	e.setAttribute('onclick',`
+	event.preventDefault();
+	event.stopPropagation();
+	window.showVideo("` + videoLink + `",'0',{autoplay: 1, queue: 0, listId: '', playlistId: '`+plistID+`'}, this);`)
+});
+
+document.arrive(`[class^="vkitVideoPlaylistSideBlockThumb__thumbWrapper"]:has([class^="vkitVideoCardThumb__thumb"][href^="/playlist"])`,{existing:true}, async function(e) {
+	let videoLink;
+	try {
+		videoLink = extractVideoPart(e.querySelector('[class^="vkitVideoCardThumb__thumb"][href^="/playlist"]').getAttribute('href'));
+	}
+	catch(error) {
+		
+	}
+	let plistID; 
+	try {
+		plistID = extractPlaylistPart(e.querySelector('[class^="vkitVideoCardThumb__thumb"][href^="/playlist"]').getAttribute('href'));
+	}
+	catch(error) {
+		
+	}
+	e.setAttribute('onclick',`
+	event.preventDefault();
+	event.stopPropagation();
+	window.showVideo("` + videoLink + `",'0',{autoplay: 1, queue: 0, listId: '', playlistId: '`+plistID+`'}, this);`);
+});
+
+document.arrive(`[class^="vkitVideoCardLayout__card"]:has([class^="vkitVideoCardThumb__thumb"][href^="/playlist"])`,{existing:true}, async function(e) {
+	let videoLink;
+	try {
+		videoLink = extractVideoPart(e.querySelector('[class^="vkitVideoCardThumb__thumb"][href^="/playlist"]').getAttribute('href'));
+	}
+	catch(error) {
+		
+	}
+	let plistID; 
+	try {
+		plistID = extractPlaylistPart(e.querySelector('[class^="vkitVideoCardThumb__thumb"][href^="/playlist"]').getAttribute('href'));
+	}
+	catch(error) {
+		
+	}
+	e.setAttribute('onclick',`
+	event.preventDefault();
+	event.stopPropagation();
+	window.showVideo("` + videoLink + `",'0',{autoplay: 1, queue: 0, listId: '', playlistId: '`+plistID+`'}, this);`)
+});
+
+function extractVideoPart(href) {
+  const videoIndex = href.indexOf('video');
+  if (videoIndex === -1) return null;
+  const videoPart = href.slice(videoIndex + 5);
+  return videoPart;
+}
+
+function extractPlaylistPart(href) {
+  const videoIndex = href.indexOf('video');
+  if (videoIndex === -1) return null;
+  const playlistPart = href.slice(10, videoIndex - 1);
+ 
+  return playlistPart;
+}
+	/*
   window.onload = async function getOldStyle() {
     try {
       const url1 =
@@ -968,9 +1083,10 @@ if (getLocalValue("secretFunctions")) {
     }
     return t;
   }
+  */
 }
 
-///КОНЕЦ СТАРОГО ДИЗАЙНА///
+///КОНЕЦ СТАРЫХ ВИДОСОВ///
 ///ВСЕГО СООБЩЕНИЙ КОЛВО КОЛИЧЕСТВО///
 function getCounterLang(lang) {
   switch (lang) {
@@ -3650,6 +3766,7 @@ deferredCallback(
           }
         }
       );
+
       document.arrive(
         ".ProfileHeaderButton > a[href='/edit'] .vkuiButton__content",
         { existing: true },
@@ -9578,8 +9695,7 @@ document.arrive(
 ///КОНЕЦ ОТПРАВКИ АУДИО КАК ГОЛОСОВОГО///
 ///МАРГИН ДЛЯ ЛАЙКОВ ПРИ ВЫКЛЮЧЕННЫХ РЕАКЦИЯХ///
 if (
-  localStorage.getItem("removePostReactions") == "true" ||
-  localStorage.getItem("secretFunctions") == "true"
+  localStorage.getItem("removePostReactions") == "true"
 ) {
   const wallSel = [".PostActionStatusBar--inPost"];
   document.arrive(wallSel, { existing: true }, function (e) {
@@ -9610,8 +9726,7 @@ if (
 function updateMarginLeft() {
   if (
     window.location.href.includes("wall") &&
-    (localStorage.getItem("removePostReactions") == "true" ||
-      localStorage.getItem("secretFunctions") == "true")
+    localStorage.getItem("removePostReactions") == "true"
   ) {
     const reactionsPreviewCount = document.querySelector(
       '.ReactionsPreview__count[data-section-ref="like-button-count"]'
@@ -10765,7 +10880,7 @@ deferredCallback(
       //updateUsers();
       //updateMarginLeft();
 	  if (getLocalValue("secretFunctions")) {
-		appendSecondaryStyles(window.location.pathname);
+		/*appendSecondaryStyles(window.location.pathname);*/
 	  }
     });
     // nav.addNavigationStartListener(function (e) {
