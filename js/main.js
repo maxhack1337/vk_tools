@@ -656,12 +656,20 @@ document.arrive(".ComposerInput__input", { existing: true }, function (e) {
 });
 ///ВОЗВРАЩЕНИЕ ПОДДЕРЖКИ///
 document.arrive('.faq_tabs:not(:has([href="support?act=new"]))', { existing: true }, function (e) {
-  let support = document.createElement('a');
-  support.id = "new_link";
-  support.innerText = getLang('support_ask_question');
-  support.href = "https://vk.com/support?act=new&from=h";
-  support.style = "float:right;padding-bottom:0px;padding-left:10px;padding-right:10px;padding-top:16px;text-decoration-line:none;text-decoration-style:solid;text-decoration-thickness:auto;";
-  e.appendChild(support);
+	let isAlready = !document.querySelector('.vkEnhancerSupportLink');
+  if(isAlready) {
+	let support = document.createElement('a');
+	support.id = "new_link";
+	support.classList.add('vkEnhancerSupportLink');
+	support.innerText = getLang('support_ask_question');
+	support.href = "https://vk.com/support?act=new&from=h";
+	support.style = "float:right;padding-bottom:0px;padding-left:10px;padding-right:10px;padding-top:16px;text-decoration-line:none;text-decoration-style:solid;text-decoration-thickness:auto;";
+	e.appendChild(support);
+  }
+});
+
+document.arrive('.tickets_new_link', { existing: true }, function (e) {
+	e.remove();
 });
 ///КОНЕЦ ВОЗВРАЩЕНИЯ ПОДДЕРЖКИ///
 ///ГОЛОСОВОЙ ВВОД///
@@ -2466,7 +2474,7 @@ document.arrive(".videoplayer_btn_mute", { existing: true }, function (e) {
     videoButton.setAttribute(
       "onmouseover",
       `showTooltip(this, { text: '${getLang(
-        "video_download_short"
+        "video_download_video_from_modal"
       )}', black: true, shift: [2, 24] });`
     );
     videoButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" viewBox="0 0 16 16" style="min-width: 20px;"><path fill-rule="evenodd" d="M8.75 1.75a.75.75 0 0 0-1.5 0v6.6893L5.0303 6.2197a.75.75 0 0 0-1.0606 1.0606l3.5 3.5a.7498.7498 0 0 0 1.0606 0l3.5-3.5a.75.75 0 0 0-1.0606-1.0606L8.75 8.4393V1.75Zm-6 10.75a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H2.75Z" clip-rule="evenodd"/></svg>`;
@@ -2492,7 +2500,7 @@ document.arrive(".videoplayer_btn_mute", { existing: true }, function (e) {
     videoButton.setAttribute(
       "onmouseover",
       `showTooltip(this, { text: '${getLang(
-        "video_download_short"
+        "video_download_video_from_modal"
       )}', black: true, shift: [2, 24] });`
     );
     videoButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" viewBox="0 0 16 16" style="min-width: 20px;"><path fill-rule="evenodd" d="M8.75 1.75a.75.75 0 0 0-1.5 0v6.6893L5.0303 6.2197a.75.75 0 0 0-1.0606 1.0606l3.5 3.5a.7498.7498 0 0 0 1.0606 0l3.5-3.5a.75.75 0 0 0-1.0606-1.0606L8.75 8.4393V1.75Zm-6 10.75a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H2.75Z" clip-rule="evenodd"/></svg>`;
@@ -2543,7 +2551,7 @@ document.arrive("vk-video-player", { existing: true }, function (e) {
   let videoButton = document.createElement("a");
   videoButton.style.padding = "5px 10px 0 8px";
   videoButton.style.cursor = "pointer";
-  videoButton.setAttribute("aria-label", `${getLang("video_download_short")}`);
+  videoButton.setAttribute("aria-label", `${getLang("video_download_video_from_modal")}`);
   videoButton.addEventListener("click", function () {
     let linkV = document.createElement("a");
     linkV.href = vidUrl;
@@ -2722,7 +2730,7 @@ function appendButton(elem) {
   button.setAttribute(
     "onmouseover",
     `showTooltip(this, { text: '${getLang(
-      "video_download_short"
+      "video_download_video_from_modal"
     )}', black: true, shift: [7, 5] });`
   );
   button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="min-width: 20px;"><path fill-rule="evenodd" d="M8.75 1.75a.75.75 0 0 0-1.5 0v6.6893L5.0303 6.2197a.75.75 0 0 0-1.0606 1.0606l3.5 3.5a.7498.7498 0 0 0 1.0606 0l3.5-3.5a.75.75 0 0 0-1.0606-1.0606L8.75 8.4393V1.75Zm-6 10.75a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H2.75Z" clip-rule="evenodd"/></svg>`;
@@ -2885,8 +2893,8 @@ function Download_Fucking_Stream(url, name, elem) {
     hls.attachMedia(temp_audio);
     hls.on(Hls.Events.FRAG_BUFFERED, (e, h) => {
       progrText.innerHTML =
-        getLang("docs_add_title") +
-        "...<br><br>" +
+        getLang("box_loading") +
+        "<br><br>" +
         name +
         ".mp3 " +
         "".repeat((new Date() / 1e3) % 4) +
@@ -3030,8 +3038,8 @@ deferredCallback(
       let updateButton = document.createElement("div");
       updateButton.style.marginTop = "12px";
       updateButton.innerHTML = `<span class="photos_album_info"><a>${getLang(
-        "photos_album_menu_download"
-      )}</a></span>`;
+        "calls_qr_code_modal_download"
+      ) + " " + getLang("audio_music_album_playlist_type_album").toLowerCase()}</a></span>`;
       e.querySelector(".photos_album_intro_info").appendChild(updateButton);
       updateButton.addEventListener("click", async function () {
         await parseAlbum();
@@ -3163,8 +3171,8 @@ async function parseAlbum() {
     <div class="vkEnhSnackbar__body vkEnhSnackbar--layout-vertical vkEnhSnackbar__snackbar">
       <div class="vkEnhSnackbar__before"><svg fill="currentColor" height="28" viewBox="0 0 20 20" width="28" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M6.84 16.44c.76.06 1.74.06 3.16.06 1.42 0 2.4 0 3.16-.06a3.75 3.75 0 0 0 1.43-.32 3.5 3.5 0 0 0 1.53-1.53c.15-.29.26-.69.32-1.43l.03-.63-1.3-1.3c-.3-.3-.5-.5-.67-.64a.86.86 0 0 0-.27-.18.75.75 0 0 0-.46 0 .86.86 0 0 0-.27.18c-.16.13-.36.33-.67.64l-2.3 2.3a.75.75 0 0 1-1.06 0l-.3-.3c-.3-.3-.5-.5-.67-.64a.86.86 0 0 0-.27-.18.75.75 0 0 0-.46 0 .86.86 0 0 0-.27.18c-.16.13-.36.33-.67.64L4.56 15.5c.25.24.53.45.85.6.29.16.69.27 1.43.33zm9.39-6.27.27.27V10c0-1.42 0-2.4-.06-3.16a3.75 3.75 0 0 0-.32-1.43 3.5 3.5 0 0 0-1.53-1.53 3.75 3.75 0 0 0-1.43-.32A43.2 43.2 0 0 0 10 3.5c-1.42 0-2.4 0-3.16.06-.74.06-1.14.17-1.43.32a3.5 3.5 0 0 0-1.53 1.53c-.15.29-.26.69-.32 1.43A43.2 43.2 0 0 0 3.5 10c0 1.42 0 2.4.06 3.16.04.47.1.8.17 1.05l2.04-2.04.02-.02c.28-.28.52-.52.74-.7.23-.2.47-.37.77-.47.46-.15.94-.15 1.4 0 .3.1.54.27.77.46.16.14.34.3.53.5l1.77-1.77.02-.02c.28-.28.52-.52.74-.7.23-.2.47-.37.77-.47.46-.15.94-.15 1.4 0 .3.1.54.27.77.46.22.19.46.43.74.7zM2.54 4.73C2 5.8 2 7.2 2 10c0 2.8 0 4.2.54 5.27a5 5 0 0 0 2.19 2.19C5.8 18 7.2 18 10 18c2.8 0 4.2 0 5.27-.54a5 5 0 0 0 2.19-2.19C18 14.2 18 12.8 18 10c0-2.8 0-4.2-.55-5.27a5 5 0 0 0-2.18-2.19C14.2 2 12.8 2 10 2c-2.8 0-4.2 0-5.27.54a5 5 0 0 0-2.19 2.19zM7.25 6a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
       <div class="vkEnhSnackbar__content"><span class="vkEnhTypography vkEnhSnackbar__content-text vkEnhParagraph">${getLang(
-        "video_upload_waiting"
-      )}</span></div>
+        "me_download_waiting"
+      ) + "..."}</span></div>
     </div>
   </div>
 </div>`;
@@ -3247,8 +3255,8 @@ async function parseAlbum() {
             progressBar.querySelector(
               ".vkEnhSnackbar__content-text"
             ).innerHTML =
-              getLang("docs_add_title") +
-              "...<br><br>" +
+              getLang("box_loading") +
+              "<br><br>" +
               `${albumsRes.items[0].title}${currentZipIndex}.zip ` +
               counterProgress +
               "/" +
@@ -5911,7 +5919,7 @@ deferredCallback(
           case "user_photos": {
             return getLangBottom(
               value,
-              getLang("photos_tags_modal_count", "raw")
+              getPhotoTagText(vk.lang)
             );
           }
           case "mutual_friends": {
@@ -5921,7 +5929,7 @@ deferredCallback(
             );
           }
           case "videos": {
-            return getLangBottom(value, getLang("video_playlist_size", "raw"));
+            return getLangBottom(value, getLang("profile_videos", "raw").toLowerCase());
             //return getLangBottom(value,removeStringsVideo(getLang("video_found_videos_global", "raw")))
           }
           case "posts": {
@@ -5929,6 +5937,38 @@ deferredCallback(
           }
         }
       }
+	  
+function getPhotoTagText(lang) {
+  switch (lang) {
+    case 0:
+      return ["","отметка","отметки","отметок"];
+      break;
+    case 1:
+      return ["","позначка","відмітки","відміток"];
+      break;
+    case 454:
+      return ["","позначка","відмітки","відміток"];
+      break;
+    case 114:
+      return ["","адзнака","адзнакі","адзнак"];
+      break;
+    case 2:
+      return ["","адзнака","адзнакі","адзнак"];
+      break;
+    case 777:
+      return ["","отметка","отметки","отметок"];
+      break;
+    case 97:
+      return ["","белгі","белгілер","белгілер"];
+      break;
+    case 100:
+      return ["","отметка","отметки","отметок"];
+      break;
+    default:
+      return ["","mark","marks","marks"];
+      break;
+  }
+}
 
       function getPostLangKey(lang) {
         switch (lang) {
@@ -7541,7 +7581,7 @@ deferredCallback(
           "mobile_profile_status_word_mins_ago",
           "raw"
         );
-        let longAgo = getLang("vkui_common_short_date_time", "raw");
+        let longAgo = getLang("global_short_date_time", "raw");
 
         if (secondsAgo == 0) {
           return justNow;
@@ -7901,6 +7941,102 @@ deferredCallback(
         let avatarEditHash = hashesObject.avatarEdit;
         return avatarEditHash;
       }
+	  
+	 function getPhotoMapText(lang) {
+  switch (lang) {
+    case 0:
+      return "показать на карте";
+      break;
+    case 1:
+      return "показати на карті";
+      break;
+    case 454:
+      return "показати на карті";
+      break;
+    case 114:
+      return "паказаць на карце";
+      break;
+    case 2:
+      return "паказаць на карце";
+      break;
+    case 777:
+      return "показать на атласе";
+      break;
+    case 97:
+      return "картада көрсету";
+      break;
+    case 100:
+      return "показать на атласѣ";
+      break;
+    default:
+      return "show on map";
+      break;
+  }
+}
+
+function getMyPhotoText(lang) {
+  switch (lang) {
+    case 0:
+      return "Мои фотографии";
+      break;
+    case 1:
+      return "Мої фотографії";
+      break;
+    case 454:
+      return "Мої фотографії";
+      break;
+    case 114:
+      return "Мае фатаграфіі";
+      break;
+    case 2:
+      return "Мае фатаграфіі";
+      break;
+    case 777:
+      return "Мои фотокарточки";
+      break;
+    case 97:
+      return "Менің фотоларым";
+      break;
+    case 100:
+      return "Мои фотокарточки";
+      break;
+    default:
+      return "My photos";
+      break;
+  }
+}
+
+function getStoryText(lang) {
+  switch (lang) {
+    case 0:
+      return ["","история","истории","историй"];
+      break;
+    case 1:
+      return ["","історія","історії","історій"];
+      break;
+    case 454:
+      return ["","історія","історії","історій"];
+      break;
+    case 114:
+      return ["","гісторыя","гісторыі","гісторый"];
+      break;
+    case 2:
+      return ["","гісторыя","гісторыі","гісторый"];
+      break;
+    case 777:
+      return ["","хроника","хроники","хроник"];
+      break;
+    case 97:
+      return ["","история","истории","историй"];
+      break;
+    case 100:
+      return ["","история","истории","историй"];
+      break;
+    default:
+      return ["","story","story","story"];
+      break;
+  }
+}
 
       async function replaceTabsWithPhotosModule() {
         // Найти элемент section с классом vkuiInternalGroup
@@ -7941,7 +8077,7 @@ deferredCallback(
         <a href="/albums${ownerId}" onclick="return showAlbums(${ownerId}, {noHistory: true}, event);" class="module_header">
             <div class="header_top clear_fix">
                 <span class="header_label fl_l">${getLang(
-                  "photos_feed_title_breadcrumb"
+                  "me_convo_attaches_type_photo"
                 )} ${userNamePi}</span>
                 <span class="header_count fl_l">${photodata.count}</span>
             </div>
@@ -7961,7 +8097,7 @@ deferredCallback(
         );
         d.style.color = "var(--vkui--color_text_secondary)";
         d.style.marginRight = "-12px";
-        d.textContent = getLang("photos_photo_menu_show_on_map").toLowerCase();
+        d.textContent = getPhotoMapText(vk.lang);
         photosModule.querySelector(".header_top").appendChild(d);
         if (!photodata || !photodata.items) {
           console.error("Данные фотографий не найдены");
@@ -8003,6 +8139,7 @@ deferredCallback(
           pagePhotosModule.appendChild(photoElement);
         });
         ///ИСТОРИИ В КЛАССИК ПРОФИЛЕ///
+		
         let pizda = _o(document.getElementById("react_rootprofile"))?.container
           ?.memoizedState?.element?.props;
         function _o(e) {
@@ -8050,10 +8187,7 @@ deferredCallback(
           storyElement.style.width = `123px`;
           storyElement.innerHTML = `<span class="EoMSGvQz"></span><div class="WezUccGf">
     <div class="JDEMGFbn"></div>
-    <div class="gZFGalLh">${getLang(
-      "stories_selected_count",
-      stories.items[0].stories.length
-    )}</div>
+    <div class="gZFGalLh">${stories.items[0].stories.length + " " + getLangBottom(stories.items[0].stories.length,getStoryText(vk.lang))}</div>
   </div>
 <span class="fhwwGZRs"></span>`;
           let styleElement = fromId("vks_blur");
@@ -8103,9 +8237,7 @@ deferredCallback(
         let inserBeforeThis = document.querySelector(".WallLegacy");
         if (ownerId == vk.id) {
           section.parentElement.insertBefore(photosLoadModule, inserBeforeThis);
-          photosModule.querySelector(".header_label").textContent = getLang(
-            "photo_my_feed"
-          );
+          photosModule.querySelector(".header_label").textContent = getMyPhotoText(vk.lang);
         }
         if (countAddedPhotos != 0) {
           section.appendChild(photosModule);
@@ -9138,7 +9270,7 @@ document.arrive(
     var clmno = document.createElement("a");
     clmno.innerHTML =
       '<button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular AudioMenuPopper"><i class="ActionsMenuAction__icon"><svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--money_transfer_outline_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><use xlink:href="#voice_outline_24" style="fill: currentcolor;"></use></svg></i><span class="ActionsMenuAction__title">' +
-      getLang("mail_audio_message") +
+      getLang("me_notifications_pushes_attachments_voice") +
       "</span></button>";
 
     var clmno1 = document.createElement("a");
