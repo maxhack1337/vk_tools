@@ -1,4 +1,4 @@
-console.log('Версия 3.104 Release');
+console.log('Версия 3.105 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
