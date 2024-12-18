@@ -9253,7 +9253,7 @@ document.arrive('[class^="StoryBlock__noIslandsContainer"]', { existing: true },
 	e.prepend(superPuperSettings);
 });
 
-document.arrive(".feed_wall--no-islands", { existing: true }, function (e) { 
+document.arrive(".feed_wall--no-islands:has(.Post--redesignV3)", { existing: true }, function (e) { 
 	e.style.backgroundColor = "transparent";
 	e.style.boxShadow = "0 0 0 0 transparent";
 });
