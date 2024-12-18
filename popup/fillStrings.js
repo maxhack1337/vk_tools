@@ -25,10 +25,13 @@ function fillStrings() {
     document.querySelector('#GroupsRecent > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.hideRecentCommunities);
     document.querySelector('#ScrollBar > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.alternativeScrollbar);
     document.querySelector('#ReconnectInd > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.disableReconnectIndicator);
-    document.querySelector('#MediaViewer > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.newMediaViewer);
-    document.querySelector('#ReloadVKE > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.reloadFunctionsButton);
+    document.querySelector('#MediaViewer > div > div > .vkenhancerChoosePickerText1').innerHTML = `<span class="newFunctionSpan"><img class="newFire" src="assets/new_function_text.svg"></span>`+getLocalizedString(strings.newMediaViewer);
+    document.querySelector('#MediaViewer > div > div > .vkenhancerStandartWarning').innerHTML = getLocalizedString(strings.newMediaViewerDescription);
+	document.querySelector('#ReloadVKE > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.reloadFunctionsButton);
     document.querySelector('#SaveSettings > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.saveSettingsToFile);
     document.querySelector('#LoadSettings > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.loadSettingsFromFile);
+	document.querySelector('#SaveConfigLeft > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.saveConfigLeft);
+    document.querySelector('#LoadConfigLeft > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.loadConfigLeft);
     document.querySelector('#ClearSettings > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.resetSettings);
     document.querySelector('#Photo > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.returnCamera);
     document.querySelector('#PollsRes > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.showPollResults);
@@ -37,11 +40,57 @@ function fillStrings() {
 	document.querySelector('#OldBadge > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.oldMessagesBadge);
 	document.querySelector('#MessageCounter > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.disableMessageCounter);
     document.querySelector('#NewProfiles > div > div > .vkenhancerChoosePickerText1').innerHTML = '<span class="newSpan"><img class="newFire" src="assets/new.png"></span>' + getLocalizedString(strings.classicProfileInterface);
-    document.querySelector('#NewMessenger > div > div > .vkenhancerChoosePickerText1').innerHTML = '<span class="newSpan"><img class="newFire" src="assets/new.png"></span>' + getLocalizedString(strings.newMessengerDesign);
-    document.querySelector('#MessagesDefaultTheme > div > div > .vkenhancerChoosePickerText1').innerHTML = getLocalizedString(strings.messagesDefaultTheme);
+    document.querySelector('#GraffityFromFile > div > div > .vkenhancerChoosePickerText1').innerHTML = getLocalizedString(strings.newMessengerDesign);
 	document.querySelector('#SecretOldDesign > div > div > .vkenhancerChoosePickerText1').innerHTML =  getLocalizedString(strings.additionalVKEnhancerFunctions);
 	document.querySelector('#SecretOldDesign > div > div > .vkenhancerOldWarning').innerHTML = getLocalizedString(strings.additionalFunctionsDescription);
+	document.querySelector('#FeedDefaultTheme > div > div > .vkenhancerChoosePickerText1').innerHTML =  `<span class="newFunctionSpan"><img class="newFire" src="assets/new_function_text.svg"></span>`+`<span class="newSpan"><img class="newFire" src="assets/new.png"></span>`+getLocalizedString(strings.feedOldTheme);
+	document.querySelector('#FeedDefaultTheme > div > div > .vkenhancerStandartWarning').innerHTML = getLocalizedString(strings.feedOldThemeDescription);
     document.querySelector('#SliderBlock > div > label').textContent = getLocalizedString(strings.blockTransparency);
+	
+	document.querySelector('#scrollableBlock > div.customLeftMenu > h3').textContent = getLocalizedString(strings.leftMenuSettingsHeader);
+	
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(2) > h5').textContent = getLocalizedString(strings.profile);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(2) > span > input').placeholder = getLocalizedString(strings.profile);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(3) > h5').textContent = getLocalizedString(strings.feed);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(3) > span > input').placeholder = getLocalizedString(strings.feed);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(4) > h5').textContent = getLocalizedString(strings.im);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(4) > span > input').placeholder = getLocalizedString(strings.im);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(5) > h5').textContent = getLocalizedString(strings.calls);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(5) > span > input').placeholder = getLocalizedString(strings.calls);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(6) > h5').textContent = getLocalizedString(strings.friends);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(6) > span > input').placeholder = getLocalizedString(strings.friends);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(7) > h5').textContent = getLocalizedString(strings.groups);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(7) > span > input').placeholder = getLocalizedString(strings.groups);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(8) > h5').textContent = getLocalizedString(strings.photo);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(8) > span > input').placeholder = getLocalizedString(strings.photo);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(9) > h5').textContent = getLocalizedString(strings.audio);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(9) > span > input').placeholder = getLocalizedString(strings.audio);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(10) > h5').textContent = getLocalizedString(strings.video);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(10) > span > input').placeholder = getLocalizedString(strings.video);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(11) > h5').textContent = getLocalizedString(strings.clips);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(11) > span > input').placeholder = getLocalizedString(strings.clips);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(12) > h5').textContent = getLocalizedString(strings.games);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(12) > span > input').placeholder = getLocalizedString(strings.games);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(13) > h5').textContent = getLocalizedString(strings.stickers);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(13) > span > input').placeholder = getLocalizedString(strings.stickers);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(14) > h5').textContent = getLocalizedString(strings.market);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(14) > span > input').placeholder = getLocalizedString(strings.market);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(15) > h5').textContent = getLocalizedString(strings.services);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(15) > span > input').placeholder = getLocalizedString(strings.services);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(16) > h5').textContent = getLocalizedString(strings.vkpay);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(16) > span > input').placeholder = getLocalizedString(strings.vkpay);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(17) > h5').textContent = getLocalizedString(strings.bookmarks);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(17) > span > input').placeholder = getLocalizedString(strings.bookmarks);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(18) > h5').textContent = getLocalizedString(strings.files);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(18) > span > input').placeholder = getLocalizedString(strings.files);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(19) > h5').textContent = getLocalizedString(strings.ads);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(19) > span > input').placeholder = getLocalizedString(strings.ads);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(20) > h5').textContent = getLocalizedString(strings.appmng);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(20) > span > input').placeholder = getLocalizedString(strings.appmng);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(21) > h5').textContent = getLocalizedString(strings.faq);
+	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(21) > span > input').placeholder = getLocalizedString(strings.faq);
+	
+	document.querySelector('#leftmenusave > span > span.vkenhancerButtonText__in').textContent = getLocalizedString(strings.save);
 
     document.querySelector('div.footerInfo > h3:nth-child(1)').textContent = getLocalizedString(strings.usefulLinks);
     document.querySelector('div.footerInfo > a:nth-child(2) > h4').textContent = getLocalizedString(strings.vkEnhancerGitHub);
@@ -103,8 +152,7 @@ function fillStrings() {
     document.querySelector('#PollsRes > div.vkenhancerChoosePicker > div:nth-child(2) > span').textContent = getLocalizedString(strings.defaultPollHidden);
     document.querySelector('#CallsM > div.vkenhancerChoosePicker > div:nth-child(2) > span').textContent = getLocalizedString(strings.doNotDisturbDescription);
     document.querySelector('#NewProfiles > div.vkenhancerChoosePicker > div:nth-child(2) > span').innerHTML = getLocalizedString(strings.classicProfileInterfaceDescription);
-    document.querySelector('#NewMessenger > div.vkenhancerChoosePicker > div:nth-child(2) > span').innerHTML = getLocalizedString(strings.newMessengerDesignDescription);
-	document.querySelector('#MessagesDefaultTheme > div.vkenhancerChoosePicker > div:nth-child(2) > span').innerHTML = getLocalizedString(strings.messagesDefaultThemeDescription);
+    document.querySelector('#GraffityFromFile > div.vkenhancerChoosePicker > div:nth-child(2) > span').innerHTML = getLocalizedString(strings.newMessengerDesignDescription);
     document.querySelector('#textfieldprotip').textContent = getLocalizedString(strings.emojiHotbarDescription);
     document.querySelector('#textfieldprotipID').textContent = getLocalizedString(strings.enterProfileGroupIDDescription);
 
@@ -124,6 +172,7 @@ function fillStrings() {
 	document.querySelector('.vkEnhancerHeaderRatioPseudo2').textContent = getLocalizedString(strings.pseudoTab2);
 	document.querySelector('.vkEnhancerHeaderRatioPseudo3').textContent = getLocalizedString(strings.pseudoTab3);
 	document.querySelector('.vkEnhancerHeaderRatio5').textContent = getLocalizedString(strings.afterReboot);
+	document.querySelector('.vkEnhancerHeaderRatio6').textContent = getLocalizedString(strings.someAfterReboot);
 	
 	document.querySelector("#parseid").value = getLocalizedString(strings.notGroupOrUserId);;
 }

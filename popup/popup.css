@@ -1,3 +1,7 @@
+[aria-left="true"] {
+	padding-bottom:0px!important;
+}
+
 div.vkenhancerPreLogo > div.vkuiInternalPanelHead__before.vkuiInternalPanelHeader__before > div > svg > path:nth-child(6) {
 	fill:#fff!important
 }
@@ -303,6 +307,12 @@ option {
     .newSpan img {
       width: 14px;
       height: 14px;
+      padding-right: 8px;
+    }
+	
+	.newFunctionSpan img {
+      width: 26px;
+      height: 10px;
       padding-right: 8px;
     }
     
@@ -923,12 +933,14 @@ option {
     }
     
     #textfieldprotip {
-      width: 132%!important;
+      width: 183%!important;
+	  padding: 8px;
     }
     
     .textfieldpro,
     #textfieldprotipID {
-      width: 157%;
+	  padding: 8px;
+      width: 156%;
       display: block;
       color: var(--vkui--color_text_subhead);
       background-color: var(--vkui--color_background_content--active);
@@ -982,7 +994,7 @@ option {
     
     #textfieldprotipID {
       display: block;
-      width: 156%!important;
+      width: 183%!important;
     }
   
   

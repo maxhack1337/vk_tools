@@ -1,4 +1,4 @@
-console.log('Версия 3.105 Release');
+console.log('Версия 4.0 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
@@ -61,6 +61,73 @@ var tab2 = document.getElementById('tab2');
 var tab3 = document.getElementById('tab3');
 var tab4 = document.getElementById('tab4');
 var ID;
+var saveLeft = document.getElementById('SaveConfigLeft');
+var loadLeft = document.getElementById('LoadConfigLeft');
+var loadCFGInput = document.getElementById('LoadConfigLeftInput');
+
+const leftMenuInputs = [
+    "profileLeft",
+    "feedLeft",
+    "imLeft",
+    "callsLeft",
+    "friendsLeft",
+    "groupsLeft",
+    "photoLeft",
+    "audioLeft",
+    "videoLeft",
+    "clipsLeft",
+    "gamesLeft",
+    "stickersLeft",
+    "marketLeft",
+    "appsLeft",
+    "vkPayLeft",
+    "bookLeft",
+    "docsLeft",
+    "adsLeft",
+    "manageLeft",
+    "helpLeft"
+];
+
+    document.getElementById("leftmenusave").addEventListener("click", function() {
+        let changedValues = {};
+        leftMenuInputs.forEach(id => {
+            const input = document.getElementById(id);
+            if (input && input.value !== "") {
+                changedValues[id] = input.value;
+            }
+        });
+        chrome.storage.local.set({
+			customLeftMenuObject: changedValues,
+		});
+		chrome.tabs.query({
+			active: true,
+			currentWindow: true
+		}, function (tabs) {
+			const activeTabId = tabs[0].id;
+			chrome.tabs.sendMessage(activeTabId, {
+				type: "toggleLeftMenuLabels",
+				leftMenuLabels: changedValues
+			});
+			chrome.tabs.reload(activeTabId);
+		});
+    });
+	
+	fillInputsFromStorage();
+	
+	function fillInputsFromStorage() {
+    chrome.storage.local.get('customLeftMenuObject', function(data) {
+        if (data.customLeftMenuObject) {
+            const savedValues = data.customLeftMenuObject;
+            leftMenuInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input && savedValues[id]) {
+                    input.value = savedValues[id];
+                }
+            });
+        }
+    });
+}
+
 
 openinnewtab.addEventListener('click', function () {
     chrome.tabs.create({ url: 'popup/popup.html' });
@@ -119,7 +186,7 @@ function defaultTab0() {
         styleElement.id = "tabs0";
         document.head.appendChild(styleElement);
     }
-    styleElement.innerHTML = '#tab0,#tab0>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important}#SecretOldDesign,#MiddleName,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{display:flex!important;}';
+    styleElement.innerHTML = '#tab0,#tab0>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important} .vkEnhancerHeaderRatio6,#FeedDefaultTheme,#SecretOldDesign,#MiddleName,#MediaViewer,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{display:flex!important;}';
     chrome.storage.local.set({
         defaultTab: "0",
     });
@@ -144,7 +211,7 @@ function defaultTab1() {
         styleElement.id = "tabs1";
         document.head.appendChild(styleElement);
     }
-    styleElement.innerHTML = '#tab1,#tab1>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important}#FixMenu,#TabletMenu,#ScrollBar,.vkEnhancerHeaderRatio2,.vkEnhancerHeaderRatioPseudo1{display:flex!important;}#CustomAccentChoose,#CustomTextChoose,#CustomTextChoose1,[aria-customfont="true"],[aria-custombg="true"],[aria-customlogo="true"],#SliderBlock{display:block!important}';
+    styleElement.innerHTML = '#tab1,#tab1>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important} .customLeftMenu,[aria-left="true"],#SaveConfigLeft,#LoadConfigLeft,#FixMenu,#TabletMenu,#ScrollBar,.vkEnhancerHeaderRatio2,.vkEnhancerHeaderRatioPseudo1{display:flex!important;}#CustomAccentChoose,#CustomTextChoose,#CustomTextChoose1,[aria-customfont="true"],[aria-custombg="true"],[aria-customlogo="true"],#SliderBlock{display:block!important}';
     chrome.storage.local.set({
         defaultTab: "1",
     });
@@ -169,7 +236,7 @@ function defaultTab2() {
         styleElement.id = "tabs2";
         document.head.appendChild(styleElement);
     }
-    styleElement.innerHTML = '#tab2,#tab2>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important}#MessageCounter,#OldHover,#OldBadge,#Chitalka,#Pisalka,#MediaViewer,#msgR,#ReconnectInd,.vkEnhancerHeaderRatio3,.vkEnhancerHeaderRatio5,.vkEnhancerHeaderRatioPseudo2{display:flex!important;}[aria-hotbar="true"]{display:block!important}';
+    styleElement.innerHTML = '#tab2,#tab2>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important}#GraffityFromFile,#MessageCounter,#OldHover,#OldBadge,#Chitalka,#Pisalka,#msgR,#ReconnectInd,.vkEnhancerHeaderRatio3,.vkEnhancerHeaderRatio5,.vkEnhancerHeaderRatioPseudo2{display:flex!important;}[aria-hotbar="true"]{display:block!important}';
     chrome.storage.local.set({
         defaultTab: "2",
     });
@@ -371,7 +438,7 @@ function arrayBufferToBase64(buffer) {
 saveSettings.addEventListener('click', (event) => {
     var jsonData = null;
     var JSONSettings = {};
-    chrome.storage.local.get(["messageCounterState","fixMenuState", "oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
+    chrome.storage.local.get(["customLeftMenuObject","messageCounterState","fixMenuState", "oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
         console.log(items);
         jsonData = JSON.stringify(items);
         console.log(jsonData);
@@ -386,13 +453,14 @@ saveSettings.addEventListener('click', (event) => {
 });
 
 clearSettings.addEventListener('click', async function () {
-    var result = { "addstickerState": false, "altSBState": false, "cameraPhotoState": false, "checkboxState": false, "checkboxState1": false, "checkboxStateAva": false, "colorPicker": "#3291ff", "colorPickerText": "#ffffff", "customAccent": "#ffffff", "customBg": "undefined", "customFont": "undefined", "customHotbar": [], "customLogo": "undefined", "emojiStatusState": false, "hideButtonState": false, "hiderState": false, "integrationMediaState": false, "issThemeChanged": false, "muteCallsState": false, "nechitalkaState": false, "nepisalkaState": false, "newDesignState": false, "pollResultsState": false, "postReactionsState": false, "recentGroupsState": false, "removeAwayState": false, "newProfilesState": false, "middleNameState": false, "oldHoverState": false, "tabletMenuState": false, "defaultThemeState": false, "oldBadgeState": false, "fixMenuState":false,"messageCounterState":false, "secretFuncState": false, "sliderValue": "100" };
+    var result = { "customLeftMenuObject": {},"addstickerState": false, "altSBState": false, "cameraPhotoState": false, "checkboxState": false, "checkboxState1": false, "checkboxStateAva": false, "colorPicker": "#3291ff", "colorPickerText": "#ffffff", "customAccent": "#ffffff", "customBg": "undefined", "customFont": "undefined", "customHotbar": [], "customLogo": "undefined", "emojiStatusState": false, "hideButtonState": false, "hiderState": false, "integrationMediaState": false, "issThemeChanged": false, "muteCallsState": false, "nechitalkaState": false, "nepisalkaState": false, "newDesignState": false, "pollResultsState": false, "postReactionsState": false, "recentGroupsState": false, "removeAwayState": false, "newProfilesState": false, "middleNameState": false, "oldHoverState": false, "tabletMenuState": false, "defaultThemeState": false, "oldBadgeState": false, "fixMenuState":false,"messageCounterState":false, "secretFuncState": false, "sliderValue": "100" };
     for (item of Object.keys(result)) {
         let item123 = {};
         item123[item] = result[item];
         await chrome.storage.local.set(item123);
     }
     loadSavedCheckBoxes();
+	fillInputsFromStorage();
 });
 
 loadSettingsInput.addEventListener('change', function () {
@@ -406,6 +474,7 @@ loadSettingsInput.addEventListener('change', function () {
                 await chrome.storage.local.set(item123);
             }
             loadSavedCheckBoxes();
+			fillInputsFromStorage();
             loadSettingsInput.value = null;
         });
 
@@ -882,6 +951,7 @@ newdesign.addEventListener('change', (event) => {
             type: "toggleNewDesign",
             isChecked: checked
         });
+		chrome.tabs.reload(activeTabId);
     });
 });
 checkId.addEventListener('click', (event) => {
@@ -1312,7 +1382,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadSavedCheckBoxes() {
     // Получение состояния из Local Storage
-    chrome.storage.local.get(["messageCounterState","fixMenuState","oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
+    chrome.storage.local.get(["customLeftMenuObject","messageCounterState","fixMenuState","oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
         accentC.checked = items.checkboxState;
         msgreact.checked = items.checkboxState1;
         recentgroups.checked = items.recentGroupsState;
@@ -1417,6 +1487,10 @@ function loadSavedCheckBoxes() {
             currentWindow: true
         }, function (tabs) {
             const activeTabId = tabs[0].id;
+			chrome.tabs.sendMessage(activeTabId, {
+				type: "toggleLeftMenuLabels",
+				leftMenuLabels: items.customLeftMenuObject
+			});
             chrome.tabs.sendMessage(activeTabId, {
                 type: "toggleNewDesign",
                 isChecked: items.newDesignState
