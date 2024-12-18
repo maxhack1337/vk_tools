@@ -2,6 +2,11 @@
 	filter: blur(5px);
 	content: '.';
 }
+
+[data-testid="profile-avatar"] .vkuiImageBase__img {
+	border-radius:0px!important;
+}
+
 body:has(#profile_redesigned) .ProfileHeader__ageMarkContainer {
 	display:none;
 }
