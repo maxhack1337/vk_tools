@@ -46,7 +46,8 @@ const fromId = document.getElementById.bind(document);
 
 let intMedia = false;
 try {
-  intMedia = JSON.parse(localStorage.getItem("intMediaValue"));
+  /*intMedia = JSON.parse(localStorage.getItem("intMediaValue"));*/
+  intMedia = false;
 } catch (error) {}
 var pollResultsValue = false;
 var nechitalkaValue = false;
@@ -504,7 +505,10 @@ window.addEventListener("message", async (event) => {
       localStorage.setItem("removePostReactions", true);
       try {
         updateMarginLeft();
-      } catch (error) {}
+		updateReactState();
+      } catch (error) {
+		  console.log(error);
+	  }
       break;
     }
     case "backPostReactions": {
@@ -544,12 +548,16 @@ window.addEventListener("message", async (event) => {
       localStorage.setItem("isOldHover", event.data.value);
       break;
     }
-    case "defaultThemeFix": {
+    case "defaultThemeFeed": {
       localStorage.setItem("isDefaultTheme", event.data.value);
       break;
     }
     case "oldBadge": {
       localStorage.setItem("isOldBadge", event.data.value);
+      break;
+    }
+	case "customLeftMenu": {
+      localStorage.setItem("customLeftMenuLabels", JSON.stringify(event.data.value));
       break;
     }
     case "vkEnhancerAccessToken": {
@@ -654,6 +662,84 @@ document.arrive(".ComposerInput__input", { existing: true }, function (e) {
     }
   });
 });
+///ЛЕВОЕ МЕНЮ КАСТОМИЗАЦИЯ///
+document.arrive('[class^="vkitLeftMenuItem__container"]', { existing: true }, function (e) {
+	try {
+		let leftTabs = JSON.parse(localStorage.getItem('customLeftMenuLabels'));
+		let savedString = e.querySelector('[data-testid="leftmenuitem-text"]').textContent;
+		switch(e.id) {
+			case "l_pr":
+				savedString = leftTabs.profileLeft;
+				break;
+			case "l_nwsf":
+				savedString = leftTabs.feedLeft;
+				break;
+			case "l_msg":
+				savedString = leftTabs.imLeft;
+				break;
+			case "l_ca":
+				savedString = leftTabs.callsLeft;
+				break;
+			case "l_fr":
+				savedString = leftTabs.friendsLeft;
+				break;
+			case "l_gr":
+				savedString = leftTabs.groupsLeft;
+				break;
+			case "l_ph":
+				savedString = leftTabs.photoLeft;
+				break;
+			case "l_aud":
+				savedString = leftTabs.audioLeft;
+				break;
+			case "l_vid":
+				savedString = leftTabs.videoLeft;
+				break;
+			case "l_svd":
+				savedString = leftTabs.clipsLeft;
+				break;
+			case "l_ap":
+				savedString = leftTabs.gamesLeft;
+				break;
+			case "l_stickers":
+				savedString = leftTabs.stickersLeft;
+				break;
+			case "l_mk":
+				savedString = leftTabs.marketLeft;
+				break;
+			case "l_mini_apps":
+				savedString = leftTabs.appsLeft;
+				break;
+			case "l_vkp":
+				savedString = leftTabs.vkPayLeft;
+				break;
+			case "l_fav":
+				savedString = leftTabs.bookLeft;
+				break;
+			case "l_doc":
+				savedString = leftTabs.docsLeft;
+				break;
+			case "l_ads":
+				savedString = leftTabs.adsLeft;
+				break;
+			case "l_apm":
+				savedString = leftTabs.manageLeft;
+				break;
+			case "l_faq":
+				savedString = leftTabs.helpLeft;
+				break;
+				
+		}
+		if(savedString) {
+			e.querySelector('[data-testid="leftmenuitem-text"]').textContent = savedString;
+		}
+	}
+	catch(error) {
+		
+	}
+  }
+);
+///КОНЕЦ КАСТОМИЗАЦИИ ЛЕВОГО МЕНЮ///
 ///ВОЗВРАЩЕНИЕ ПОДДЕРЖКИ///
 document.arrive('.faq_tabs:not(:has([href="support?act=new"]))', { existing: true }, function (e) {
 	let isAlready = !document.querySelector('.vkEnhancerSupportLink');
@@ -828,7 +914,7 @@ async function removeSecondaryStyle(linkstyle) {
 ///СТАРЫЕ ВИДОСЫ///
 
 if (getLocalValue("secretFunctions")) {
-	document.arrive(`._video_item`,{existing:true}, async function(e) {
+	document.arrive(`body:not(:has(#video_choose_box)) ._video_item`,{existing:true}, async function(e) {
 	e.setAttribute('onclick',`
 	event.preventDefault();
 	event.stopPropagation();
@@ -2481,6 +2567,7 @@ document.arrive(".videoplayer_btn_mute", { existing: true }, function (e) {
     e.parentNode.insertBefore(videoButton, e);
   } 
   catch (error) {
+	try {
 	quality = Math.max(
       ...Object.keys(window.cur.videoInlinePlayer.media.vars)
         .filter((e) => e.startsWith("url"))
@@ -2505,6 +2592,9 @@ document.arrive(".videoplayer_btn_mute", { existing: true }, function (e) {
     );
     videoButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" viewBox="0 0 16 16" style="min-width: 20px;"><path fill-rule="evenodd" d="M8.75 1.75a.75.75 0 0 0-1.5 0v6.6893L5.0303 6.2197a.75.75 0 0 0-1.0606 1.0606l3.5 3.5a.7498.7498 0 0 0 1.0606 0l3.5-3.5a.75.75 0 0 0-1.0606-1.0606L8.75 8.4393V1.75Zm-6 10.75a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H2.75Z" clip-rule="evenodd"/></svg>`;
     e.parentNode.insertBefore(videoButton, e);  
+  } catch(error) {
+	console.info('[VKENH] Post with video found, nothing to worry about');
+  }
   }
 });
 
@@ -2656,6 +2746,173 @@ var _r = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN0PQRSTUVWXYZO123456789+/=",
     },
   };
 /// FUCK
+
+/*Заготовка под аудио в плейлистах*/
+document.arrive('[class^="vkitAudioRow__rootHasHover"]',
+  { existing: true },
+  async function (e) {
+    let key = getSuperAudioPropsMin(e.parentElement).fiber.alternate.key;
+	let subKey = key.substring(4,key.length);
+	let pListID;
+	let getPlistID = ajax.post("al_audio.php?act=reload_audios", {
+                        audio_ids: subKey,
+                        al: 1
+                    });
+
+	getPlistID.onload = function() {
+		pListID = JSON.parse(getPlistID.response).payload[1][0][0][19][2];
+	};
+	let linkAudio = await vkApi.api('audio.getById',{'audios':subKey + "_" + pListID});
+	let objectOf = [linkAudio[0].artist,linkAudio[0].title];
+	appendButtonPlist(e.querySelector('[class^="vkitAudioRow__actions"] > div'),linkAudio,subKey + "_" + pListID,objectOf)
+  }
+);
+
+
+function getSuperAudioPropsMin(elem) {
+  try {
+    const t = {};
+    let n = 0;
+    for (const o of Object.keys(elem)) {
+      if (o.startsWith("__reactFiber")) {
+        t.fiber = elem[o];
+        ++n;
+      } else if (o.startsWith("__reactProps")) {
+        t.props = elem[o];
+        ++n;
+      }
+      if (n === 2) break;
+    }
+
+    return t;
+  } catch (error) {
+    return [0, 0];
+  }
+}
+
+function appendButtonPlist(elem, linkAudio, subKey, objectOf) {
+  const audioElement = elem.parentNode;
+  const button = create(
+    "button",
+    {},
+    {
+      innerText: "",
+    }
+  );
+  button.classList.add("vkEnhancerDownloadMusicButton");
+  const div = create(
+    "div",
+    {},
+    {
+      className: "download",
+      innerHTML: `<style>
+		.vkEnhancerDownloadMusicButton {
+	color: var(--vkui--color_icon_secondary);
+    isolation: isolate;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    cursor: pointer;
+    height: 24px;
+    width: 24px;
+    border: none;
+    background-color: transparent;
+		}
+	  </style>`,
+    }
+  );
+  const progress = create(
+    "div",
+    {},
+    {
+      className: "bar",
+      innerHTML: `<style>.progress-bar {
+  background-color:var(--vkui--color_text_contrast_themed) ;
+  border-radius: 13px;
+  height: 10px;
+  width: 100%;
+  margin: 10px 0;
+  border: 2px var(--vkui--color_separator_primary) solid;
+}
+
+.progress-bar-inner {
+  background-color: var(--vkui--color_background_accent_themed);
+  height: 100%;
+  line-height: 10px;
+  color: white;
+  text-align: right;
+  padding-right: 5px;
+  border-radius: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+}</style><div class="progress-bar" style="display:none;">
+  <div id="progress-bar-inner" class="progress-bar-inner" style="width: 100%;">
+  </div>
+</div>`,
+    }
+  );
+  button.setAttribute(
+    "onmouseover",
+    `showTooltip(this, { text: '${getLang(
+      "video_download_video_from_modal"
+    )}', black: true, shift: [7, 5] });`
+  );
+  button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="min-width: 20px;"><path fill-rule="evenodd" d="M8.75 1.75a.75.75 0 0 0-1.5 0v6.6893L5.0303 6.2197a.75.75 0 0 0-1.0606 1.0606l3.5 3.5a.7498.7498 0 0 0 1.0606 0l3.5-3.5a.75.75 0 0 0-1.0606-1.0606L8.75 8.4393V1.75Zm-6 10.75a.75.75 0 0 0 0 1.5h10.5a.75.75 0 0 0 0-1.5H2.75Z" clip-rule="evenodd"/></svg>`;
+  button.dataset.title = objectOf[1];
+  button.dataset.subtitle = objectOf[0];
+  button.dataset.fullId = subKey;
+  button.dataset.linkAudio = linkAudio;
+  button.addEventListener("click", handleDownloadButtonPlist);
+  div.appendChild(button);
+  elem.prepend(div);
+}
+
+function handleDownloadButtonPlist(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const bar = e.target.parentNode.querySelector(".bar > .progress-bar");
+  const id = getValidIDPlist(e.target);
+  const Orig = getDownloadNamePlist(e.target);
+  const Orig2 = getDownloadName1Plist(e.target);
+  const Url = getDownloadLinkPlist(e.target);
+  let Cyr = Orig;
+  let Cyr1 = Orig2;
+  if (window.vkenh.setEnglishMusic == 1) {
+    Cyr = parseCyr(Orig) ? parseCyr(Orig) : Orig;
+    Cyr1 = parseCyr(Orig2) ? parseCyr(Orig2) : Orig2;
+  }
+  fetch("https://vk.com/al_audio.php?act=reload_audios", {
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+      "x-requested-with": "XMLHttpRequest",
+    },
+    body: `al=1&audio_ids=${id}`,
+    method: "POST",
+    mode: "cors",
+    credentials: "include",
+  })
+    .then((e) => e.json())
+    .then((e) => {
+      let url = _o(e.payload[1][0][0][2]);
+      console.log(Download_Fucking_Stream(url, Cyr1 + " - " + Cyr, bar));
+    });
+}
+let getDownloadLinkPlist = (elem) => {
+  return `${elem.closest(".vkEnhancerDownloadMusicButton").dataset.linkAudio}`;
+};
+
+let getValidIDPlist = (elem) => {
+  return `${elem.closest(".vkEnhancerDownloadMusicButton").dataset.fullId}`;
+};
+
+let getDownloadNamePlist = (elem) => {
+  return `${elem.closest(".vkEnhancerDownloadMusicButton").dataset.title}`;
+};
+
+let getDownloadName1Plist = (elem) => {
+  return `${elem.closest(".vkEnhancerDownloadMusicButton").dataset.subtitle}`;
+};
 
 document.arrive(
   ".audio_row:not(.audio_claimed) .audio_row__actions",
@@ -8786,7 +9043,7 @@ async function updateUsers() {
       appendIcons(["founder", "dev", "designer"]);
       break;
     case 539793061:
-      appendIcons(["dev"]);
+      appendIcons(["former", "old"]);
       break;
     case 86322416:
       appendIcons(["help", "old"]);
@@ -8897,6 +9154,10 @@ function createTooltipText(roles) {
         text =
           '<div style="display:flex;align-items:center;" class="optionContainer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"> <rect width="20" height="20" rx="10" fill="url(#paint0_linear_35635_1259)"/> <path d="M9.54691 4.03936C9.5956 4.00469 9.65761 3.99211 9.71676 4.00488C9.82904 4.02913 9.89958 4.13616 9.87432 4.24395L9.87428 4.24394C9.84477 4.36985 9.80783 4.46569 9.76346 4.53147C8.19037 6.86335 8.88126 8.26503 9.94201 8.41565C11.0392 8.57145 11.8417 7.86577 11.67 6.3426C11.6404 6.08032 11.6157 5.85929 11.5958 5.67949C11.5912 5.63709 11.602 5.59444 11.6264 5.55884C11.6846 5.474 11.8035 5.45056 11.8919 5.50647L11.8919 5.50645C12.2484 5.73205 12.6751 6.14228 13.172 6.73714C14.9401 8.85418 15.0092 10.6262 14.9993 11.3883C14.9636 14.1208 12.8566 16 9.99964 16C7.1427 16 5 14.1212 5 11.3883C5.01265 9.31934 6.1013 6.40699 9.10674 4.34818C9.21899 4.27128 9.36571 4.16834 9.54691 4.03936Z" fill="white"/> <defs> <linearGradient id="paint0_linear_35635_1259" x1="-10" y1="10" x2="10" y2="30" gradientUnits="userSpaceOnUse"> <stop stop-color="#FF5263"/> <stop offset="1" stop-color="#FF3347"/> </linearGradient> </defs> </svg><div style="margin-left: 8px;">Установил VK Tools до релиза в магазине Chrome</div></div>';
         break;
+	  case "former":
+        text =
+          '<div style="display:flex;align-items:center;" class="optionContainer"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" clip-rule="evenodd" d="M10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20Z" fill="url(#paint0_linear_35678_1233)"/> <path d="M13.1787 10.0009C13.1787 10.6356 13.1706 11.2081 13.1569 11.7228C13.1547 11.7953 13.1528 11.8666 13.1506 11.9366C13.1453 12.1122 13.1391 12.2806 13.1325 12.4419C13.1297 12.5147 13.1266 12.5856 13.1234 12.6556C13.0553 14.1434 12.9419 15.0009 12.8794 15.3834C12.8559 15.5266 12.7322 15.6275 12.5875 15.6222C9.61594 15.5106 7.16687 13.0006 7.16687 10.0009C7.16687 7.00125 9.61594 4.49156 12.5875 4.38C12.7322 4.37437 12.8559 4.47562 12.8794 4.61844C12.9725 5.18812 13.1787 6.81125 13.1787 10.0009Z" fill="url(#paint1_radial_35678_1233)"/> <path d="M13.1787 10.0009C13.1787 10.6356 13.1706 11.2081 13.1569 11.7228C13.1547 11.7953 13.1528 11.8666 13.1506 11.9366C13.1453 12.1122 13.1391 12.2806 13.1325 12.4419C13.1297 12.5147 13.1266 12.5856 13.1234 12.6556C13.0553 14.1434 12.9419 15.0009 12.8794 15.3834C12.8559 15.5266 12.7322 15.6275 12.5875 15.6222C9.61594 15.5106 7.16687 13.0006 7.16687 10.0009C7.16687 7.00125 9.61594 4.49156 12.5875 4.38C12.7322 4.37437 12.8559 4.47562 12.8794 4.61844C12.9725 5.18812 13.1787 6.81125 13.1787 10.0009Z" fill="url(#paint2_radial_35678_1233)"/> <path d="M13.1787 10.0009C13.1787 10.6356 13.1706 11.2081 13.1569 11.7228C13.1547 11.7953 13.1528 11.8666 13.1506 11.9366C13.1453 12.1122 13.1391 12.2806 13.1325 12.4419C13.1297 12.5147 13.1266 12.5856 13.1234 12.6556C13.0553 14.1434 12.9419 15.0009 12.8794 15.3834C12.8559 15.5266 12.7322 15.6275 12.5875 15.6222C9.61594 15.5106 7.16687 13.0006 7.16687 10.0009C7.16687 7.00125 9.61594 4.49156 12.5875 4.38C12.7322 4.37437 12.8559 4.47562 12.8794 4.61844C12.9725 5.18812 13.1787 6.81125 13.1787 10.0009Z" fill="white" fill-opacity="0.8"/> <path d="M13.1787 10.0009C13.1787 10.6356 13.1706 11.2081 13.1569 11.7228C13.1547 11.7953 13.1528 11.8666 13.1506 11.9366C13.1453 12.1122 13.1391 12.2806 13.1325 12.4419C13.1297 12.5147 13.1266 12.5856 13.1234 12.6556C13.0553 14.1434 12.9419 15.0009 12.8794 15.3834C12.8559 15.5266 12.7322 15.6275 12.5875 15.6222C9.61594 15.5106 7.16687 13.0006 7.16687 10.0009C7.16687 7.00125 9.61594 4.49156 12.5875 4.38C12.7322 4.37437 12.8559 4.47562 12.8794 4.61844C12.9725 5.18812 13.1787 6.81125 13.1787 10.0009Z" fill="white" fill-opacity="0.8"/> <path d="M12.0712 9.28438C12.0712 9.91438 11.7034 10.425 11.2497 10.425C10.7959 10.425 10.4281 9.91438 10.4281 9.28438C10.4281 8.65438 10.7959 8.14375 11.2497 8.14375C11.7034 8.14375 12.0712 8.65438 12.0712 9.28438Z" fill="#816BED"/> <path d="M11.8912 9.28438C11.8912 9.81063 11.6041 10.2375 11.2497 10.2375C10.8953 10.2375 10.6081 9.81063 10.6081 9.28438C10.6081 8.75813 10.8953 8.33125 11.2497 8.33125C11.6041 8.33125 11.8912 8.75782 11.8912 9.28438Z" fill="#816BED"/> <path opacity="0.25" d="M8.9894 8.64425C9.71716 7.79846 10.0195 6.86533 9.66469 6.56005C9.30989 6.25476 8.43231 6.69293 7.70456 7.53872C6.97681 8.38451 6.67447 9.31764 7.02927 9.62293C7.38407 9.92821 8.26165 9.49004 8.9894 8.64425Z" fill="#816BED"/> <path d="M13.1569 11.7228C13.1547 11.7953 13.1528 11.8666 13.1506 11.9366C13.1453 12.1122 13.1391 12.2806 13.1325 12.4419C13.1297 12.5147 13.1266 12.5856 13.1234 12.6556C12.0769 12.6556 11.2819 12.5803 11.2819 12.5803C11.0616 12.5522 10.9372 12.4037 10.9372 12.1862C10.9372 11.9687 11.0994 11.8153 11.2819 11.7919C11.2819 11.7919 12.5841 11.7228 13.1472 11.7228H13.1569Z" fill="white"/> <path d="M13.1506 11.9366C13.1453 12.1122 13.1391 12.2806 13.1325 12.4419C12.1703 12.4419 11.4381 12.4012 11.4381 12.4012C11.2366 12.3859 11.1225 12.3056 11.1225 12.1875C11.1225 12.0694 11.2397 11.9844 11.4381 11.9737C11.4381 11.9737 12.6312 11.9366 13.1472 11.9366H13.1506Z" fill="#816BED"/> <path d="M7.84781 8.89719C8.39813 8.39281 7.78281 7.96375 7.49625 8.11C6.73188 8.5 5.95656 9.07 5.26094 9.42156L5.61281 10.1322C6.34656 9.83406 7.4075 9.30062 7.8475 8.89719H7.84781Z" fill="url(#paint3_linear_35678_1233)"/> <path opacity="0.6" d="M5.77313 10.0637L5.425 9.25843C6.33406 8.71281 6.53594 8.57437 6.79219 8.4025C6.49875 8.91531 6.54031 9.71468 6.14906 9.89906C6.01094 9.96406 5.8775 10.0237 5.77313 10.0637Z" fill="#816BED"/> <path d="M8.89625 7.17638C9.44656 6.672 8.83125 6.24294 8.54469 6.38919C7.78031 6.77919 5.23937 8.34294 4.64406 8.7345L5.08062 9.72013C5.71219 9.35325 8.45625 7.57982 8.89625 7.17638Z" fill="url(#paint4_linear_35678_1233)"/> <path opacity="0.7" d="M8.20031 6.86593C8.56187 6.61031 8.69781 6.48562 8.62062 6.35968C8.93406 6.57968 8.80281 6.74906 8.45937 7.07218C7.95156 7.54999 7.63875 7.98093 7.06687 8.45687C6.84094 8.62312 6.2325 9.06249 5.98 9.23281L5.91156 8.54437C6.23469 8.35031 7.74594 7.22374 8.20031 6.86593Z" fill="#816BED"/> <path d="M8.68063 6.71938C9.23094 6.215 8.61563 5.78594 8.32906 5.93219C7.56469 6.32219 5.02375 7.88594 4.42844 8.2775L4.865 9.26344C5.49656 8.89656 8.24063 7.12313 8.68063 6.71969V6.71938Z" fill="white"/> <path d="M7.65656 7.01531C8.0425 6.60031 8.56031 6.25437 8.28438 5.99374C8.59781 6.21374 8.54375 6.54281 8.20031 6.86624C8.01031 7.04499 7.74563 7.35468 7.27 7.72218C6.88313 7.99281 6.45125 8.30499 6 8.56374L5.84313 8.26656C6.16625 8.07249 7.27125 7.43062 7.65688 7.01562L7.65656 7.01531Z" fill="#816BED"/> <path d="M8.19469 6.66407C8.745 6.15969 8.19719 5.72438 7.75688 5.97657C6.9925 6.36657 5.49969 7.27625 4.90438 7.6675L5.42031 8.54407C6.05219 8.17719 7.75469 7.06719 8.195 6.66375L8.19469 6.66407Z" fill="white"/> <path d="M6.98 7.38499C7.36594 6.96968 7.33219 6.61249 7.255 6.48656C7.47625 6.60187 7.72187 6.95124 7.48531 7.23531C7.37281 7.37062 7.24375 7.46406 7.12563 7.55874C6.77813 7.83656 6.01938 8.39437 5.63156 8.63374L5.52812 8.48562C5.85125 8.29156 6.59438 7.79999 6.98 7.38499Z" fill="#816BED"/> <path d="M5.75219 10.1403C6.43375 9.61969 5.99938 8.38625 5.75219 7.9125C4.97281 7.79781 2.70469 8.24187 2.71437 9.65562C2.72187 10.7944 4.37688 11.2044 5.75219 10.1403Z" fill="#816BED"/> <path d="M7.24625 7.24937C7.68563 6.85437 7.3275 6.29531 6.96187 6.4275C6.76281 6.49937 5.85875 6.92906 4.8475 7.51812C4.235 7.875 3.48563 8.36 3.12875 8.67718C1.87094 9.79594 3.39781 11.1256 4.48813 10.6666C5.78969 10.1184 6.00313 8.84312 5.77188 8.36031C6.39625 8.01343 6.83125 7.6225 7.23187 7.26218L7.24563 7.24968L7.24625 7.24937Z" fill="white"/> <defs> <linearGradient id="paint0_linear_35678_1233" x1="-10" y1="10" x2="10" y2="30" gradientUnits="userSpaceOnUse"> <stop stop-color="#937FF5"/> <stop offset="1" stop-color="#735CE6"/> </linearGradient> <radialGradient id="paint1_radial_35678_1233" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(12.6287 4.50031) scale(11.0456)"> <stop stop-color="#FFF1B6"/> <stop offset="0.43" stop-color="#FFD400"/> <stop offset="0.7" stop-color="#FFD400"/> <stop offset="1" stop-color="#FF8E00"/> </radialGradient> <radialGradient id="paint2_radial_35678_1233" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9.71625 5.23469) scale(11.5931)"> <stop offset="0.61" stop-color="#FFE437" stop-opacity="0"/> <stop offset="0.86" stop-color="#FF79B1" stop-opacity="0.45"/> <stop offset="0.99" stop-color="#FF3673" stop-opacity="0.56"/> </radialGradient> <linearGradient id="paint3_linear_35678_1233" x1="7.82656" y1="7.98906" x2="6.09625" y2="9.58094" gradientUnits="userSpaceOnUse"> <stop stop-color="white"/> <stop offset="1" stop-color="white"/> </linearGradient> <linearGradient id="paint4_linear_35678_1233" x1="8.72687" y1="6.2045" x2="5.90031" y2="8.73388" gradientUnits="userSpaceOnUse"> <stop stop-color="white"/> <stop offset="1" stop-color="white"/> </linearGradient> </defs> </svg> <div style="margin-left: 8px;">Бывший разработчик VK Tools</div></div>';
+        break;
       default:
         text = "";
         break;
@@ -8933,8 +9194,777 @@ function appendIcons(roles) {
   iconsContainer.appendChild(svg);
   iconsContainer.appendChild(tooltip);
 }
+///СТАРЫЙ ДИЗАЙН ЛЕНТЫ И ТАК ДАЛЕЕ///
+if (localStorage.getItem("isDefaultTheme") == "true") {
+document.arrive('[class^="StoryBlock__noIslandsContainer"]', { existing: true }, function (e) { 
+	let styleElement = fromId("storyStyleOld");
+    if (!styleElement) {
+      styleElement = document.createElement("style");
+      styleElement.id = "storyStyleOld";
+      document.head.appendChild(styleElement);
+    }
+    styleElement.innerHTML = `
+	    [class^="StoryBlock__noIslandsContainer"] {
+        background-color:var(--vkui--color_background_content);
+        border-radius:var(--vkui--size_border_radius_paper--regular);
+        box-shadow:var(--page-block-shadow);
+        padding:16px;
+    }
+    [class^="StoryBlock__noIslandsContainer"]:before {
+        content: "`+getLang('reports_strikes_object_story')+`";
+        font-family:var(--vk-sans-display,inherit,"Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai");
+        font-size: 17px;
+        line-height: 22px;
+        font-weight: 600;
+    }
+    [class^="StoryBlock__noIslandsContainer"] [class^="vkitGrid__root"][class*="vkitGrid__rootHasHorizontalScroll"] {
+        margin-top: 12px;
+    }
+    
+    [class^="StoryBlock__noIslandsContainer"] button.vkuiIconButton:has(svg.vkuiIcon--gear_outline_20) {
+        opacity:1!important;
+        background-color:transparent;
+        display:none;
+    }
+	[class^="StoryBlock__noIslandsContainer"]:hover {
+		.vkEnhancerOldStorySettingsButton {
+			opacity: 1!important;
+		}
+	}
+	.vkEnhancerOldStorySettingsButton:hover {
+		text-decoration:underline;
+	}
+	`;
+	let superPuperSettings = document.createElement('button');
+	superPuperSettings.classList.add('vkEnhancerOldStorySettingsButton');
+	superPuperSettings.style.color = "var(--vkui_internal--link-color,var(--vkui--color_text_link))";
+	superPuperSettings.style.background = "0 0";
+	superPuperSettings.style.display = "inline";
+	superPuperSettings.style.fontFamily = `-apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", Geneva, "Noto Sans Armenian", "Noto Sans Bengali", "Noto Sans Cherokee", "Noto Sans Devanagari", "Noto Sans Ethiopic", "Noto Sans Georgian", "Noto Sans Hebrew", "Noto Sans Kannada", "Noto Sans Khmer", "Noto Sans Lao", "Noto Sans Osmanya", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Thai", arial, Tahoma, verdana, sans-serif`;
+	superPuperSettings.style.border = 0;
+	superPuperSettings.style.position = "absolute";
+	superPuperSettings.style.right = "12px";
+	superPuperSettings.style.opacity = 0;
+	superPuperSettings.style.cursor = "pointer";
+	superPuperSettings.textContent = getLang('stories_settings');
+	superPuperSettings.addEventListener('click', function() {
+		window.Stories.showBlackList();
+	});
+	e.prepend(superPuperSettings);
+});
 
+document.arrive(".feed_wall--no-islands", { existing: true }, function (e) { 
+	e.style.backgroundColor = "transparent";
+	e.style.boxShadow = "0 0 0 0 transparent";
+});
+window.onload  = () => {
+console.info("[VKENH] Window loaded, awaiting posts");
+document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true }, async function (s) { 
+	let e = s.closest('._post.Post--redesignV3');
+	if(!e) {
+		e = s.closest('.wl_post.Post--redesignV3');
+	}
+	let styleElement = fromId("postStyleOld");
+    if (!styleElement) {
+      styleElement = document.createElement("style");
+      styleElement.id = "postStyleOld";
+      document.head.appendChild(styleElement);
+    }
+    styleElement.innerHTML = `
+	    ._post.Post--redesignV3 {
+			background-color:var(--vkui--color_background_content)!important;
+			border-radius:var(--vkui--size_border_radius_paper--regular)!important;
+			box-shadow:var(--page-block-shadow)!important;
+		}
+		.feed_wall--no-islands .page_block:has(#wall_tabs) {
+			background-color:var(--vkui--color_background_content)!important;
+			box-shadow:var(--page-block-shadow)!important;
+			border-radius:var(--vkui--size_border_radius_paper--regular)!important;
+		}
+		.PostHeader--redesignV3 .PostHeaderTitle {
+			display:flex;
+			height: 34px;
+			align-items: flex-start;
+			flex-direction: column;
+		}
+		.PostCopyQuote--redesignV3 .copy_post_header_info {
+			display:flex;
+			height: 32px;
+			align-items: flex-start;
+			flex-direction: column;
+		}
+		.PostCopyQuote--redesignV3 .copy_post_date {
+			font-size: 12.5px!important;
+			margin-left: 0px!important;
+		}
+		.PostHeader--redesignV3 .PostHeaderTitle__author,.PostCopyQuote--redesignV3 .CopyPost__authorLink,.PostCopyQuote--redesignV3 .CopyPost__author {
+			color: var(--vkui--color_text_link)!important;
+			font-size: 13px!important;
+			font-weight: 500!important;
+			line-height: 16px!important;			
+		}
+		.PostHeader--redesignV3 .PostHeaderTitle__authorBlock {
+			height:16px!important;
+		}
+		[class^="PostContentContainer__contentContainer"] > div:has( > [class^="vkitPrimaryAttachment__root"]) {
+			padding: 6px 20px 0px!important;
+		}
+		[class^="PostContentContainer__contentContainer"] > div:has( > [class^="vkitSnippetAttachment__root"]) {
+			padding: 12px 20px 0px!important;
+		}
+		[class^="PostContentContainer__contentContainer"] > div:has( > [class^="PrimaryAttachment"]:not([class^="vkitPrimaryAttachment__root"]))
+		{
+			padding: 12px 20px 0px!important;
+		}
+		[class^="PostContentContainer__contentContainer"] > div:has( > [class^="vkitMediaGrid__root"])
+		{
+			padding: 12px 20px 0px!important;
+		}
+		[class^="PostContentContainer__contentContainer"] > div > .vkuiAspectRatio:has( > [class^="vkitPrimaryAttachmentAlbum__container"])
+		{
+			margin: 12px 20px 0px!important;
+		}
+		[class^="PostContentContainer__contentContainer"] > div > .vkuiAspectRatio > [class^="vkitPrimaryAttachmentAlbum__container"] {
+			border-radius: 8px;
+		}
+		[class^="PostContentContainer__contentContainer"] > div:has( > [class^="OnMediaAttachmentOverlay__root"])
+		{
+			padding: 12px 20px 0px!important;
+		}
+		[class^="PostContentContainer__contentContainer"] div:has( > [class^="PrimaryAttachment"]:not([class^="vkitPrimaryAttachment__root"])) [class^=VideoPrimaryAttachment]
+		{
+			width: 510px!important;
+		}
+		.PostHeader--redesignV3 .PostHeader--hasSubtitle {
+			justify-content: center;
+		}
+		.Post--redesignV3 [class^="vkitShowMoreText__after"] > button {
+			display: inline-block;
+			color: var(--vkui--color_text_link);
+			font-weight: 500!important;
+			-webkit-font-smoothing: subpixel-antialiased;
+		}
+		.Post--redesignV3 ._copy_post_img {
+			width:40px!important;
+			height:40px!important;
+		}
+		.PostCopyQuote--redesignV3 .CopyPost__headerIcon {
+			display:none;
+		}
+		
+		.PostCopyQuote--redesignV3.copy_quote {
+			border-left: 2px solid var(--vkui--vkontakte_color_im_forward_line_alpha) !important;
+			margin-left: 20px !important;
+			/*margin-right: 20px;*/
+		}
+		.PostCopyQuote--redesignV3 .copy_post_header {
+			padding: 0 20px;
+		}
+		[class^="PostContentContainer__contentContainer"]:not(.feed_wall--no-islands [class^="PostContentContainer__contentContainer"]) {
+			margin: 0;
+		}
+		.Post--redesignV3 .wl_post_body_wrap:has(.PostCopyQuote--redesignV3) {
+			padding:0;
+		}
+		.Post--redesignV3 [class^="vkitPrimaryAttachment__root"]:not(:has([href^="/video"])),.Post--redesignV3 [class^="vkitMediaGrid__root"] {
+			border-radius:8px;
+			box-shadow: 0 0 0 1px var(--vkui--color_separator_secondary);
+		}
+		#wl_post.Post--redesignV3:not(:has(.PostCopyQuote--redesignV3)) [class^="PostContentContainer__contentContainer"] {
+			margin-left:-18px;
+		}
+		.feed_wall--no-islands .PostCopyQuote--redesignV3 .copy_post_header {
+			padding: 0 20px;
+		}
+		.Post--redesignV3 [class^="PostContentContainer__contentContainer"] .vkuiDiv:has([class^="vkitPostText__root"]) [class*="vkitSpacing__root"] {
+			--spacing-gap-size: 6px!important;
+		}
+		.vkEnhancerGeoTip .PostHeaderSubtitle--withGeo {
+			display: flex;
+			align-items: center;
+			margin-left: 20px;
+			cursor: pointer;
+		}
+		.vkEnhancerGeoTip .PostHeaderSubtitle--withGeo:hover {
+			text-decoration:underline;
+		}
+		.Post--redesignV3 .PostHeaderSubtitle__geoIcon {
+			padding-right: 4px;
+		}
+		.Post--redesignV3 .post_replies_header::before,.Post--redesignV3 .replies_list:before {
+			display:none;
+		}
+		.Post--redesignV3 .post_replies_header {
+			border-top: 1px solid var(--vkui--color_separator_primary)!important;
+		}
+		.vk_enhancer_copy_post_subhead {
+			display:flex!important;
+			align-items:center;
+		}
+		.PostCopyQuote--redesignV3 .CopyPost__explain {
+			margin-left:2px;
+		}
+		.PostCopyQuote--redesignV3 .copy_post_header {
+			padding: 0 12px!important;
+		}
+		.PostCopyQuote--redesignV3 .PostContentContainer__root {
+			margin-left:-8px;
+		}
+		.Post--redesignV3 [class^="vkitPostText__root"] {
+			font-family:var(--palette-vk-font,-apple-system,BlinkMacSystemFont,'Roboto','Helvetica Neue',Geneva,"Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai",arial,Tahoma,verdana,sans-serif);
+			font-size:13px;
+		}
+		.PostCopyQuote--redesignV3 .published_sec_quote {
+			margin-left: 12px!important;
+			border-left: 2px solid var(--vkui--vkontakte_color_im_forward_line_alpha) !important;
+		}
+		.PostCopyQuote--redesignV3 .published_sec_quote .copy_post_header_info {
+			flex-direction: column;
+		}
+		.Post--redesignV3 [class^="vkitShowMoreText__after"] {
+			position:static!important;
+		}
+		.Post--redesignV3 [class^="vkitShowMoreText__root"] {
+			--show-more-text-blur-size: 0px!important;
+			--show-more-text-after-width: auto!important;
+		}
+		[class*="vkitShowMoreText__rootInline"][class*="vkitShowMoreText__rootHasAfter"]:not([class*="vkitShowMoreText__rootExpanded"]) [class*="vkitShowMoreText__in"] {
+			mask: linear-gradient(to top, transparent 0px, #fff 10%)
+		}
+		.PostCopyQuote--redesignV3 .PostHeader__coauthorAvatarWrapper,.Post--redesignV3.PostHeader__coauthorAvatarWrapper {
+			width:40px;
+			height:40px;
+		}
+		.PostCopyQuote--redesignV3 .PostHeader__coauthorAvatarWrapper .PostHeader__coauthorAuthorAvatar, .PostCopyQuote--redesignV3 .PostHeader__coauthorAvatarWrapper .PostHeader__coauthorAvatar, .Post--redesignV3 .PostHeader__coauthorAvatarWrapper .PostHeader__coauthorAvatar, .Post--redesignV3 .PostHeader__coauthorAvatarWrapper .PostHeader__coauthorAuthorAvatar {
+			width: 30px;
+			height: 30px;
+		}
+		.PostCopyQuote--redesignV3 .PostHeader__coauthorAvatarWrapper .PostHeader__coauthorAuthorAvatar .AvatarRich, .PostCopyQuote--redesignV3 .PostHeader__coauthorAvatarWrapper .PostHeader__coauthorAvatar .AvatarRich, .Post--redesignV3 .PostHeader__coauthorAvatarWrapper .PostHeader__coauthorAuthorAvatar .AvatarRich, .Post--redesignV3 .PostHeader__coauthorAvatarWrapper .PostHeader__coauthorAvatar .AvatarRich{
+			width: 30px!important;
+			height: 30px!important;
+		}
+		.PostCopyQuote--redesignV3 .PostHeader__coauthorAvatarWrapper {
+			margin-left: 12px;
+		}
+		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_open_url"], .Post--redesignV3 [data-testid="feed_action_button_open_url"] {
+			margin: 8px 20px;
+			border-radius: 8px;
+		}
+		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_open_conversation"], .Post--redesignV3 [data-testid="feed_action_button_open_conversation"] {
+			margin: 8px 20px;
+			border-radius: 8px;
+		}
+		.PostCopyQuote--redesignV3 .vkuiDiv > .vkuiLink[class*="vkitLink__link"].vkuiTappable.vkuiTappable--hasPointer-none.vkuiClickable__resetLinkStyle[href^="http"] > .vkuiSimpleCell, .Post--redesignV3 .vkuiDiv > .vkuiLink[class*="vkitLink__link"].vkuiTappable.vkuiTappable--hasPointer-none.vkuiClickable__resetLinkStyle[href^="http"] > .vkuiSimpleCell {
+			margin: 8px 0px;
+			border-radius: 8px;
+		}
+		.PostCopyQuote--redesignV3 .PostHeader__coauthorAvatarWrapper {
+			background-color: var(--vkui--color_image_placeholder)!important;
+			border-radius: 100%;
+			box-shadow:inset 0 0 0 var(--vkui--size_border--regular) var(--vkui--color_image_border_alpha)!important;
+		}
+		.Post--redesignFooterV3 .PostBottomAction.comment {
+			padding-left:14px;
+		}
+		.Post--redesignV3 .reply:hover {
+			background-color:transparent!important;
+		}
+		.feed_row .Post--redesignV3 .replies:has(.reply_wrap > .AvatarRich) {
+			border-top: 1px solid var(--vkui--color_separator_primary)!important;
+		}
+		.Post--redesignV3 .reply_date:hover {
+			text-decoration: underline;
+		}
+		.Post--redesignV3 .wl_replies_wrap::before {
+			display:none;
+		}
+		.Post--redesignV3 .PostDateBlock__root {
+			display:none;
+		}
+		/*
+		.Post--redesignV3:has([class^="PostContentDumbSkeleton"]) {
+			display:none;
+		}
+		#wl_post.Post--redesignV3 .PostCopyQuote--redesignV3 [class^="PostContentContainer__root"] {
+			margin-left:18px;
+		}
+		.PostHeader--redesignV3 .PostHeaderSubtitle:has(.PostHeaderSubtitle--withGeo) {
+			display:none;
+		}
+		.Post--redesignV3 [class^="vkitShowMoreText__root"] {
+			--show-more-text-blur-size: 0px!important;
+			--show-more-text-blur-dynamic-size: 0px!important;
+			--show-more-text-after-left: 0px!important;
+			--show-more-text-after-width: 0px!important;
+		}
+		.Post--redesignV3 [class^="vkitShowMoreText__root"] [class^="vkitTextClamp__root"]{
+			--vkui_internal--textclamp-lines: 6!important;
+		}
+		.Post--redesignV3 [class^="vkitShowMoreText__root"] [class^="vkitShowMoreText__after"] {
+			left: 0!important;
+			bottom: -6px!important;
+		}
+		.Post--redesignV3 .replies_wrap .AvatarRich--sz-28.AvatarRich--shadow.reply_image {
+			width:34px!important;
+			height:34px!important;
+		}
+		*/
+	`;
+	try {
+		let postBottom = e.querySelector('[class^="PostDateBlock__root"]');
+		let postParentBottom = e.querySelector('[class^="PostDateBlock__root"]').parentElement;
+		postBottom.style.display = "none";
+		let postBottomNew = document.createElement('div');
+		postBottomNew.classList.add('vkEnhancerPostViews');
+		let postData = getPostData(postBottom);
+		/*Просмотры*/
+		let isViews;
+		if(postData.viewsCount && postData.viewsCount != null && !e.querySelector('.vkEnhancerPostViews')) {
+		postBottomNew.innerHTML = `
+		<div class="like_views like_views--inActionPanel" role="img" onmouseover="Likes &amp;&amp; Likes.updateViews('wall`+postData.postRaw+`', event);" title="`+getLang('video_N_views_list',postData.viewsCount)+`">
+			<span class="like_views__icon "><svg fill="none" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path d="M9.5 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path><path clip-rule="evenodd" d="M15.5 8c0-1-3-5-7.5-5S.5 7 .5 8s3 5 7.5 5 7.5-4 7.5-5zm-4 0a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z" fill-rule="evenodd"></path></g></svg></span>
+			<span class="_views" data-count="`+postData.viewsCount+`">`+getFormattedViews(postData.viewsCount)+`</span>
+			</div>
+		`;
+		postParentBottom.appendChild(postBottomNew);
+		}
+		/*Дата поста*/
+		if(!e.querySelector('.vkEnhancerPostDate')) {
+			try {
+				let postHeader = e.querySelector('[class^="PostHeaderTitle"]');
+				let postDate = document.createElement('div');
+				postDate.classList.add("PostHeaderSubtitle","PostHeaderSubtitle--layoutDefault","vk_enhancer_post_subhead");
+				postDate.innerHTML = `
+				<a class="vkEnhancerPostDate PostHeaderSubtitle__link" href="/wall`+postData.postRaw+`" onclick="return showWiki({w: 'wall`+postData.postRaw+`'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
+					<time class="PostHeaderSubtitle__item">`+getFormattedPostDate(postData.date)+`</time>
+				</a>
+				`;
+				postHeader.appendChild(postDate);
+			}
+			catch(error) {
+				console.log(error);
+			}
+		}
+		/*Текст поста*/			
+		if(!e.querySelector('.PostCopyQuote--redesignV3')) {
+		try {
+			let postText = e.querySelector('[class^="vkitPostText__root"]').parentElement;
+			let postContent = e.querySelector('[class^="PostContentContainer__contentContainer"]');
+			postText.style.padding = "0px 20px";
+			postText.querySelector('[class^="vkitPostText__root"]').style.fontSize = "13px";
+			postText.querySelector('[class^="vkitPostText__root"]').style.lineHeight = "1.462";
+			e.querySelector('[class^="vkitPostText__root"]').parentElement.remove();
+			postContent.prepend(postText);
+		}
+		catch(error) {
+			//console.log(error);
+		}
+		}
+		/*Репост поста*/
+		else {
+			try {
+			let postText;
+			try {
+				postText = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPostText__root"]').parentElement;
+				postText.style.padding = "0px 20px";
+				postText.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPostText__root"]').style.fontSize = "13px";
+				postText.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPostText__root"]').style.lineHeight = "1.462";
+				e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPostText__root"]').parentElement.remove();
+			}
+			catch(error) {
+				postText = document.createElement('div');
+			}
+			let postContent = e.querySelector('.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"]');
+			try {
+				postContent.prepend(postText);
+			}
+			catch(error) {
+				console.log(error);
+			}
+			/*Дата репоста*/
+			let repost = e.querySelector('.PostCopyQuote--redesignV3');
+			if(!repost.querySelector('.vkEnhancerPostDate')) {
+				let repostID;
+				try { 
+					repostID = repost.querySelector('.copy_post_image').getAttribute('data-post-id');
+				} catch(error) {
+					try {
+						repostID = repost.querySelector('.PostHeader__coauthorAvatarWrapper').getAttribute('data-item-owner-id') + "_" + repost.querySelector('.PostHeader__coauthorAvatarWrapper').getAttribute('data-item-id');
+					}
+					catch(error) {
+						console.error('[VKENH Error] Не удалось получить данные о репосте - данные о репосте отсутствуют в HTML');
+					}
+				}
+				let repostData;
+				try {
+					repostData = await vkApi.api('wall.getById',{'posts':repostID});	
+				}
+				catch(error) {
+					repostID = '-221416961_165';
+					repostData = {items:[{date:''}]};
+					console.error('[VKENH Error] Не удалось получить данные о репосте - не найден ID репоста. Вероятнее всего, у репоста удалён соавтор');
+				}
+				
+				let postHeader = repost.querySelector('[class^="copy_post_header_info"]');
+				let postDuoHeader = repost.querySelector('[class="CopyPost__author"]').parentElement;
+				let postDate = document.createElement('div');
+				postDate.classList.add("copy_post_date","vk_enhancer_copy_post_subhead");
+				postDate.innerHTML = `
+				<a class="vkEnhancerPostDate published_by_date" href="/wall`+repostID+`" onclick="return showWiki({w: 'wall`+repostID+`'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
+					`+getFormattedPostDate(repostData.items[0].date)+`
+				</a>
+			`;
+			try {
+				postHeader.appendChild(postDate);
+			}
+			catch(error) {
+				postDuoHeader.appendChild(postDate);
+			}
+			}
+			}
+			catch(error) {
+				console.log(error);
+			}
+		}
+		/*сабтайтл перенос в мой*/
+		if(e.querySelector('.PostHeaderInfo > .PostHeaderSubtitle .PostHeaderSubtitle__item')) {
+			try {
+				let sub = e.querySelector('.PostHeaderInfo > .PostHeaderSubtitle .PostHeaderSubtitle__item');
+				let removeThis = e.querySelector('.PostHeaderInfo > .PostHeaderSubtitle');
+				let appHere = e.querySelector('.vk_enhancer_post_subhead');
+				let separatorInPost = document.createElement('span');
+				separatorInPost.classList.add('PostHeaderSubtitle__separator');
+				separatorInPost.setAttribute('aria-hidden','true');
+				separatorInPost.textContent = '·';
+				appHere.appendChild(separatorInPost);
+				appHere.appendChild(sub);
+				removeThis.remove();
+			}
+			catch(error) {
+				console.log(error);
+			}
+		}
+		if(e.querySelector('.PostHeaderSubtitle:has(.PostHeaderSubtitle--withGeo):not(.vkEnhancerGeoTip)')) {
+			try {
+				let sub = e.querySelector('.PostHeaderSubtitle:has(.PostHeaderSubtitle--withGeo)');
+				sub.classList.add('vkEnhancerGeoTip');
+				let removeThis = e.querySelector('.PostHeaderInfo > .PostHeaderSubtitle');
+				let appHere = e.querySelector('[class^="PostContentContainer__contentContainer"]');
+				appHere.appendChild(sub);
+			}
+			catch(error) {
+				console.log(error);
+			}
+		}
+		if(e.querySelector('[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]:not(.vkEnhancerPostAuthorTip)')) {
+			try {
+				
+				let isRepost;
+				if(!e.querySelector('[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]:not(.vkEnhancerPostAuthorTip)').closest('.PostCopyQuote--redesignV3'))
+				{
+					isRepost = '';
+				}
+				else {
+					isRepost = '.PostCopyQuote--redesignV3 ';
+				}
+				let sub = e.querySelector(isRepost + '[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]');
+				sub.classList.add('vkEnhancerPostAuthorTip');
+				let removeThis = e.querySelector(isRepost + '[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]:not(.vkEnhancerPostAuthorTip)');
+				let appHere;
+				if(isRepost == '') {
+					appHere = e.querySelector('.vk_enhancer_post_subhead');
+				}
+				else {
+					appHere = e.querySelector('.vk_enhancer_copy_post_subhead');
+				}
+				let separatorInPost = document.createElement('span');
+				separatorInPost.classList.add('PostHeaderSubtitle__separator');
+				separatorInPost.setAttribute('aria-hidden','true');
+				separatorInPost.textContent = '·';
+				appHere.appendChild(separatorInPost);
+				appHere.appendChild(sub);
+			}
+			catch(error) {
+				console.log(error);
+			}
+			
+		}
+		/*Пост в посте в посте(кто бы мог подумать)*/
+		if(e.querySelector('.published_sec_quote.PostCopyQuote--redesignV3 .CopyPost__authorLink')) {
+			try {
+				let appHere = e.querySelector('.published_sec_quote.PostCopyQuote--redesignV3 .copy_post_header_info');
+				let dataSet = e.querySelector('.published_sec_quote.PostCopyQuote--redesignV3 .CopyPost__authorLink');
+				let postOpen = document.createElement('div');
+				postOpen.classList.add("copy_post_date","vk_enhancer_copy2_post_subhead");
+				postOpen.innerHTML = `
+				<a class="vkEnhancerPostDate published_by_date" href="/wall`+dataSet.getAttribute('data-item-owner-id') + "_" + dataSet.getAttribute('data-item-id') + `" onclick="return showWiki({w: 'wall`+dataSet.getAttribute('data-item-owner-id') + "_" + dataSet.getAttribute('data-item-id') + `'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
+					`+getLang('me_fc_open_wall_post')+`
+				</a>`
+				appHere.appendChild(postOpen);
+			}
+			catch(error) {
+				console.log(error);
+			}
+		}
+		/*видео название и просмотры в посте*/
+		if(e.querySelector('.vkuiDiv > [class^="vkitPrimaryAttachment__root"] [class^="vkitInteractiveWrapper__root"][href^="/video"]:not(.vkEnhancerVideoDescAlready)')) {
+			try {
+				let v = e.querySelector('[class^="vkitPrimaryAttachment__root"] [class^="vkitInteractiveWrapper__root"][href^="/video"]');
+				v.classList.add('vkEnhancerVideoDescAlready');
+				let videoDesc = document.createElement('div');
+				videoDesc.classList.add('media_desc', 'post_video_desc', 'vk_enhancer_video_desc');
+				videoDesc.style.padding = "12px 0 0 0";
+				let videoName = v.getAttribute('aria-label');
+				let videoList;
+				let videoDur = v.getAttribute('data-duration');
+				try {
+					videoList = v.getAttribute('data-list');
+				} catch(error) {
+					videoList = '';
+				}
+				let videoID = v.getAttribute('data-video');
+				let x;
+				if(videoList != '') {
+					x = await vkApi.api('video.get',{'videos':videoID + "_" + videoList});
+				} else {
+					x = await vkApi.api('video.get',{'videos':videoID});
+				}
+				let videoViews = x.items[0].views;
+				videoDesc.innerHTML = `
+				<a class="lnk" id="post_media_lnk" onclick="return showVideo('`+videoID+`',
+				'`+videoList+`',
+				{'autoplay':1,'queue':1,'user_id':`+vk.id+`,'module':'','skip_checks':false,'addParams':{'post_id':'`+postData.postRaw+`'}},
+				event,
+				this);"
+				href="/video`+videoID+`?`+videoList+`"
+				data-video="`+videoID+`"
+				data-list="`+videoList+`"
+				data-duration="`+videoDur+`"
+				aria-label="`+videoName+`"
+				>
+				<div class="a post_video_title">
+				`+videoName+`
+				</div>
+				<div class="post_video_views_count">`+getLang('video_showcase_N_viewers',videoViews)+`</div>
+				</a>
+				`;
+				v.closest('[class^="vkitPrimaryAttachment__root"]').parentElement.appendChild(videoDesc);
+			} catch(error) {
+				console.error(error);
+			}
+			
+		}
+		
+	}
+	catch(error) {
+		console.log(error);
+	}
+});
+}
+}
+function getPostDataText(elem) {
+  const t = {};
+  let n = 0;
+  for (const o of Object.keys(elem))
+    if (
+      (o.startsWith("__reactFiber")
+        ? ((t.fiber = elem[o]), ++n)
+        : o.startsWith("__reactProps") && ((t.props = elem[o]), ++n),
+      2 === n)
+    )
+      break;
+  return t.fiber.memoizedProps.children[0].props.text;
+}
+
+	function getLangTimeSuper(e, t, n) {
+        const o = window.langConfig;
+        if (!t || !o) {
+          if (!(0, r.isNumeric)(e)) {
+            const t = new Error("Non-numeric value passed to langNumeric");
+            throw (console.log(e, t), t);
+          }
+          return String(e);
+        }
+        let i;
+        Array.isArray(t)
+          ? ((i = t[1]),
+            e != Math.floor(e)
+              ? (i = t[o.numRules.float])
+              : (o.numRules.int || []).some((n) => {
+                  if ("*" === n[0]) return (i = t[n[2]]), !0;
+                  const r = n[0] ? e % n[0] : e;
+                  return Array.isArray(n[1]) && n[1].includes(r)
+                    ? ((i = t[n[2]]), !0)
+                    : void 0;
+                }))
+          : (i = t);
+        let a = String(e);
+        if (n) {
+          const e = a.split("."),
+            t = [];
+          for (let n = e[0].length - 3; n > -3; n -= 3)
+            t.unshift(e[0].slice(n > 0 ? n : 0, n + 3));
+          (e[0] = t.join(o.numDel)), (a = e.join(o.numDec));
+        }
+        return (i = (i || "%s").replace("%s", a)), i;
+      }
+
+      function getFormattedPostDate(onlineInfo) {
+        let currentTime = Math.floor(Date.now() / 1000); // Текущее время в секундах
+        let secondsAgo = currentTime - onlineInfo;
+        let justNow = getLang("global_just_now");
+        let secsAgo = getLang("global_secs_ago", "raw");
+        let minsAgo = getLang("global_mins_ago", "raw");
+        let hoursAgo = getLang("global_hours_ago", "raw");
+        let hours12345 = getLang("global_word_hours_ago", "raw");
+        let minutes12345 = getLang(
+          "mobile_profile_status_word_mins_ago",
+          "raw"
+        );
+        let longAgo = getLang("global_short_date_time", "raw");
+		let longAgoYear = getLang("global_short_date_year_time", "raw");
+
+        if (secondsAgo == 0) {
+          return justNow;
+        } else if (secondsAgo < 60) {
+          let secString = getLangTimeSuper(secondsAgo, secsAgo);
+          return secString;
+        } else if (secondsAgo < 3600) {
+          let minutesAgo = Math.floor(secondsAgo / 60);
+          let minString;
+          if (minutesAgo < 6) {
+            minString = minutes12345[minutesAgo];
+          } else {
+            minString = getLangTimeSuper(minutesAgo, minsAgo);
+          }
+          return minString;
+        } else if (secondsAgo < 14400) {
+          let hourssAgo = Math.floor(secondsAgo / 3600);
+          let hourString;
+          hourString = hours12345[hourssAgo];
+          return hourString;
+        } else {
+          let lastSeenDate = new Date(onlineInfo * 1000);
+          let day = lastSeenDate.getDate();
+          let month = getMonthNamePost(lastSeenDate.getMonth() + 1);
+          let hour = lastSeenDate.getHours();
+		  let nowDate = new Date();
+		  let yearNow = nowDate.getYear() + 1900;
+		  let yearNewNew = lastSeenDate.getYear()+ 1900;
+          let minute = lastSeenDate.getMinutes().toString().padStart(2, "0");
+
+          let dateString;
+          if (secondsAgo < 86400) {
+            dateString = longAgo[3]
+              .replace("{hour}", hour)
+              .replace("{minute}", minute);
+          } else if (secondsAgo < 172800) {
+            dateString = longAgo[2]
+              .replace("{hour}", hour)
+              .replace("{minute}", minute);
+          } else if (yearNewNew == yearNow){
+            dateString = longAgo[1]
+              .replace("{day}", day)
+              .replace("{month}", month)
+              .replace("{hour}", hour)
+              .replace("{minute}", minute);
+          } else {
+            dateString = longAgoYear[1]
+              .replace("{day}", day)
+              .replace("{month}", month)
+			  .replace("{year}", yearNewNew)
+              .replace("{hour}", hour)
+              .replace("{minute}", minute);
+          }
+
+          if (dateString.includes("{am_pm}")) {
+            let am_pm = hour >= 12 ? "PM" : "AM";
+            let newHour = hour % 12 || 12; // Преобразуем часы в формат 12-часового времени
+            dateString = dateString
+              .replace(hour, newHour)
+              .replace("{am_pm}", am_pm);
+          }
+
+          return dateString;
+        }
+      }
+	  
+	function getMonthNamePost(month) {
+        var monthNames = [
+          getLang("month1sm_of"),
+          getLang("month2sm_of"),
+          getLang("month3sm_of"),
+          getLang("month4sm_of"),
+          getLang("month5sm_of"),
+          getLang("month6sm_of"),
+          getLang("month7sm_of"),
+          getLang("month8sm_of"),
+          getLang("month9sm_of"),
+          getLang("month10sm_of"),
+          getLang("month11sm_of"),
+          getLang("month12sm_of"),
+        ];
+        return monthNames[parseInt(month) - 1];
+      }
+
+function getFormattedViews(views) {
+	if(views >= 1e9) {
+		const k = views / 1e9;
+		return k.toFixed(1) + 'B';
+	}
+	else if(views >= 1e6) {
+		const k = views / 1e6;
+		return k.toFixed(1) + 'M';
+	}
+	else if(views >= 1e3) {
+		const k = views / 1e3;
+		return k.toFixed(1) + 'K';	
+	}
+	return views.toString();
+}
+
+function getPostData(elem) {
+  const t = {};
+  let n = 0;
+  for (const o of Object.keys(elem))
+    if (
+      (o.startsWith("__reactContainer")
+        ? ((t.fiber = elem[o]), ++n)
+        : o.startsWith("__reactProps") && ((t.props = elem[o]), ++n),
+      2 === n)
+    )
+      break;
+  return t.fiber.memoizedState.element.props;
+}
+///КОНЕЦ СТАРОГО ДИЗАЙНА ЛЕНТЫ///
 ///КОНЕЦ ЗНАЧКОВ В ПРОФИЛЯХ///
+///СТАРЫЙ РЕДАКТОР ИСТОРИЙ///
+if (localStorage.getItem("intMediaValue") == "true") {
+  const storySelectors = [
+    'div[class^="vkitGridItem__root"]:has([class*="vkitStoryCard__root"] svg.vkuiIcon--add_20)',
+  ];
+  document.arrive(storySelectors, { existing: true }, function (e) {
+	e.addEventListener('click', function (s) {
+		s.preventDefault();
+		s.stopPropagation();
+		window.stManager.add([window.jsc("web/story_publisher.js")]).then(( () => {
+                    initStoryPublisher({
+                        entrypoint: "stories_feed",
+                        layerZIndex: 800
+                    })}));
+	})
+	function initStoryPublisher(e) {
+                window.StoryPublisher && window.StoryPublisher.init(e, (() => {}), ( (e, t) => {
+                    if (t && t.story) {
+                        const {owner_id: e, id: a} = t.story;
+                        return
+                    }
+                }
+                ))
+            }
+  });
+}
+///КОНЕЦ СТАРОГО РЕДАКТОРА ИСТОРИЙ///
 ///УБРАТЬ AWAY.PHP///
 if (localStorage.getItem("removeAway") == "true") {
   const awayHrefs = [
@@ -9268,12 +10298,14 @@ document.arrive(
     styleElement.innerHTML =
       ".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper:not(:has(#member_actions)){margin-top:-72px!important;}";
     var clmno = document.createElement("a");
+	clmno.style.textDecoration = "none";
     clmno.innerHTML =
       '<button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular AudioMenuPopper"><i class="ActionsMenuAction__icon"><svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--money_transfer_outline_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><use xlink:href="#voice_outline_24" style="fill: currentcolor;"></use></svg></i><span class="ActionsMenuAction__title">' +
       getLang("me_notifications_pushes_attachments_voice") +
       "</span></button>";
 
     var clmno1 = document.createElement("a");
+	clmno1.style.textDecoration = "none";
     clmno1.innerHTML =
       '<button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular GraffitiMenuPopper"><i class="ActionsMenuAction__icon"><svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--money_transfer_outline_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M6.66738 12.4934C5.66072 12.4934 4.89771 13.2639 4.85288 14.219C4.78943 15.5707 4.14574 16.3782 3.56758 16.8697C4.09576 17.0241 4.83625 17.0816 5.79412 16.7965C7.69684 16.2301 8.48106 15.0732 8.48106 14.1836C8.48106 13.2865 7.70617 12.4934 6.66738 12.4934ZM3.35859 14.1483C3.44019 12.4098 4.84452 10.9918 6.66738 10.9918C8.4581 10.9918 9.977 12.3845 9.977 14.1836C9.977 15.9903 8.47815 17.5638 6.21942 18.2361C4.06158 18.8784 2.57907 18.2114 1.87062 17.688C1.78649 17.6258 1.66019 17.5141 1.57758 17.3353C1.48322 17.131 1.47952 16.9126 1.54181 16.7213C1.69148 16.2618 2.17858 16.0626 2.52898 15.7829C2.9113 15.4778 3.31759 15.0219 3.35859 14.1483Z"/><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M15.7019 2.00141C16.312 1.36368 17.3109 1.32806 17.9631 1.93024C18.6094 2.527 18.68 3.5332 18.1327 4.21788L12.0531 11.716C11.7923 12.0376 11.3212 12.0861 11.0008 11.8244C10.6804 11.5626 10.6321 11.0897 10.8928 10.7681L16.9669 3.27699C17.0242 3.20385 17.0127 3.09301 16.9503 3.0354C16.8833 2.97354 16.8169 3.009 16.7482 3.07474L9.74543 9.7831C9.44658 10.0694 8.97312 10.0583 8.68792 9.75831C8.40272 9.45834 8.41378 8.98309 8.71263 8.69681L15.7019 2.00141Z" fill="currentColor"/></svg></i><span class="ActionsMenuAction__title">' +
       getLang("mail_added_graffiti") +
@@ -9301,7 +10333,7 @@ document.arrive(
       setElement.addEventListener("click", function () {
         var contAudio = getAudioDescriptionText(vk.lang);
         VKEnhancerMessageBox(
-          getLang("docs_upload_type_info_title"),
+          getLang("global_warning"),
           contAudio,
           getLang("calls_translation_planned_preview_download"),
           getLang("global_cancel"),
@@ -9576,7 +10608,7 @@ document.arrive(
       boxG.innerHTML =
         `<div class="vkEnhancerModalPage__in-wrap" style="opacity: 1;"> <div class="vkEnhancerModalPage__in"> <div class="vkEnhancerModalPage__header"> <div class="vkEnhancerModalPageHeader vkEnhancerModalPageHeader--withGaps vkEnhancerModalPageHeader--desktop"> <div class="vkEnhancerPanelHeader"> <div class="vkEnhancerPanelHeader__in" data-onboarding-tooltip-container="fixed"> <div class="vkEnhancerPanelHeader__content"> <h2 class="vkEnhancerPanelHeader__content-in" id=":r1:-label">` +
         getLang("mail_added_graffiti") +
-        `</h2> </div> </div> </div> <div class="vkEnhancerSeparator"> <hr class="vkEnhancerSeparator__in"> </div> </div> </div> <div class="vkEnhancerModalPage__content-wrap"> <div class="vkEnhancerModalPage__content"> <div class="vkEnhancerModalPage__content-in"> <div class="vkEnhancerDiv"> <div class="vkEnhancerTappable" role="button" tabindex="0"> <div class="vkEnhancerSimpleCell__before"> <img src="https://vk.com/images/icons/upload_icon.png"> </div> <div class="vkEnhancerSimpleCell__middle"> <div class="vkEnhancerSimpleCell__content"><span class="vkEnhancerTypography">` +
+        `</h2> </div> </div> </div> <div class="vkEnhancerSeparator"> <hr class="vkEnhancerSeparator__in"> </div> </div> </div> <div class="vkEnhancerModalPage__content-wrap"> <div class="vkEnhancerModalPage__content"> <div class="vkEnhancerModalPage__content-in"> <div class="vkEnhancerDiv"> <div class="vkEnhancerTappable vkEnhancerGraffityInput" role="button" tabindex="0"> <div class="vkEnhancerSimpleCell__before"> <img src="https://vk.com/images/icons/upload_icon.png"> </div> <div class="vkEnhancerSimpleCell__middle"> <div class="vkEnhancerSimpleCell__content"><span class="vkEnhancerTypography">` +
         getLang("calls_translation_planned_preview_download") +
         `<input class="vkEnhancerVisuallyHidden" type="file" accept="image/png"></span></div> </div> </div> <div class="vkEnhancerGraffitiList"> </div> </div> </div> </div> </div> <div class="vkEnhancerCloseButton" role="button" tabindex="0"><span class="vkEnhancerVisuallyHidden">Закрыть</span> <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"> <path fill="currentColor" fill-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06" clip-rule="evenodd"></path> </svg> </div> </div> </div>`;
       let boxLayer = document.getElementById("box_layer");
@@ -9831,7 +10863,18 @@ if (
 ) {
   const wallSel = [".PostActionStatusBar--inPost"];
   document.arrive(wallSel, { existing: true }, function (e) {
-    updateMarginLeft();
+	 try {
+		let likesInWl = e.querySelector('.ReactionsPreview--isInActionStatusBar');
+		let appendHereLikes;
+		try {
+			appendHereLikes = e.closest('.wl_post_actions_wrap').querySelector('.like_btns .PostButtonReactionsContainer');
+		} catch(error) {
+			appendHereLikes = e.closest('.post_info').querySelector('.like_btns .PostButtonReactionsContainer');
+		}
+		appendHereLikes.appendChild(likesInWl);
+	 } catch(error) {
+		 
+	 }
   });
   document.arrive(
     ".post--withPostBottomAction:not(.post--withActionStatusBar)",
@@ -9855,7 +10898,40 @@ if (
   );
 }
 
+updateReactState();
+
+function updateReactState() {
+	if (localStorage.getItem("removePostReactions") == "true") 
+  {
+	try {
+		document.arrive(
+		".PostBottomActionLikeBtns--withTransparentButtons .like_btns>.PostBottomActionContainer:first-child > .PostButtonReactions--post",
+		{ existing: true },
+			function (e) {
+				var postId;
+				try {
+					postId = e.closest('.Post--redesign.Post--redesignV3[id^="post"]').getAttribute("id");
+				}
+				catch(error) {
+					postId = '';
+				}
+				e.removeAttribute("onmouseenter");
+				e.removeAttribute("onkeydown");
+				e.setAttribute(
+					"onmouseover",
+					"Likes.showLikes(this, '" +
+						postId.replace("post", "wall") +
+					"', {isFromReactionsPreview:1})"
+			);
+			}
+		);
+	}
+	catch(error) {console.info('[VKENH] Post opened');}
+  }
+}
+
 function updateMarginLeft() {
+	/*
   if (
     window.location.href.includes("wall") &&
     localStorage.getItem("removePostReactions") == "true"
@@ -9868,11 +10944,16 @@ function updateMarginLeft() {
       const textLength = reactionsPreviewCount.textContent.length;
       const newMarginLeft = 12 + (textLength - 1) * 4;
       const likeBtns = document.querySelectorAll(
-        ".PostBottomActionLikeBtns--withBgButtons .like_btns>.PostBottomAction:first-child, .PostBottomActionLikeBtns--withBgButtons .like_btns>.PostBottomActionContainer:first-child"
+        ".PostBottomActionLikeBtns--withBgButtons .like_btns>.PostBottomAction:first-child, .PostBottomActionLikeBtns--withBgButtons .like_btns>.PostBottomActionContainer:first-child, .PostBottomActionLikeBtns--withTransparentButtons .like_btns>.PostBottomActionContainer:first-child"
       );
+	  var thatsNew = false;
       likeBtns.forEach(function (element) {
         if (!element.closest("#profile_redesigned")) {
           element.style.paddingRight = `${newMarginLeft}px`;
+		  if (element.querySelector('.PostBottomAction--transparent')) {
+			element.querySelector('.PostBottomAction--transparent').removeAttribute('onmouseenter');
+			thatsNew = true;
+		  }
         }
       });
       let styleElement = fromId("postReactionsMargin24");
@@ -9888,18 +10969,55 @@ function updateMarginLeft() {
         ".ReactionsPreview--isInActionStatusBar"
       );
       likeTop.forEach(function (element) {
-        if (!element.closest("#profile_redesigned")) {
+        if (!element.closest("#profile_redesigned") && !thatsNew) {
           element.style.marginTop = `25px`;
+        }
+		else if (!element.closest("#profile_redesigned") && thatsNew) {
+          element.style.marginTop = `-45px`;
         }
       });
     }
   }
+  */
 }
 ///КОНЕЦ МАРГИНА ДЛЯ ЛАЙКОВ ПРИ ВЫКЛЮЧЕННЫХ РЕАКЦИЯХ///
 ///РЕЗУЛЬТАТЫ ОПРОСА БЕЗ ГОЛОСОВАНИЯ///
 if (localStorage.getItem("pollResultsValue") == "true") {
   document.arrive(
     "[class^='vkitPrimaryAttachmentPoll__voting']",
+    { existing: true },
+    function (e) {
+      let styleElement = fromId("PollResultsShow");
+      if (!styleElement) {
+        styleElement = document.createElement("style");
+        styleElement.id = "PollResultsShow";
+        document.head.appendChild(styleElement);
+      }
+      styleElement.innerHTML =
+        '.VKEnhancer-module__votingOptionsVoted [class^="vkitPollOptions__votingOptionVotes"] { opacity: .4; } .VKEnhancer-module__votingOptionsVoted [class^="vkitPollOptions__votingOptionRight"] { opacity: 1; transform: translateX(0); } [class*="vkitPollOptions__votingOptionsVoted"] [class^="vkitPollOptions__votingOptionRight"] { margin-right: 0px !important; } div:has(>[class^="vkitPollOptions__votingOptionCheckboxIcon"]>svg)>[class^="vkitPollOptions__votingOptionRight"] { margin-right: 28px; } [class*="vkitPollOptions__votingOptionsVoted"] [class^="vkitPollOptions__votingOptionCheckboxIcon"] { display: none !important; } .VKEnhancer-module__votingOptionsVoted [class^="vkitPollOptions__votingOptionFill"] { opacity: .06 } [class*="vkitPollOptions__votingOptionsDark"].VKEnhancer-module__votingOptionsVoted [class^="vkitPollOptions__votingOptionFill"] { opacity: .12 }';
+      var polls = document.querySelectorAll(
+        '[class^="vkitPollOptions__votingOptions"]'
+      );
+      for (var poll of polls) {
+        poll.classList.add("VKEnhancer-module__votingOptionsVoted");
+      }
+      var percentageElements = document.querySelectorAll(
+        '[class^="vkitPollOptions__votingOptionRight"]'
+      );
+      percentageElements.forEach(function (element) {
+        var percentage = parseFloat(element.textContent.replace("%", ""));
+        var parentElement = element.closest(
+          '[class^="vkitPollOptions__votingOptionWrapper"]'
+        );
+        var fillElement = parentElement.querySelector(
+          '[class^="vkitPollOptions__votingOptionFill"]'
+        );
+        fillElement.style.width = percentage + "%";
+      });
+    }
+  );
+    document.arrive(
+    "[class^='vkitModalBody__container'] > [class^='vkitPollOptions__votingOptionsWrapper']",
     { existing: true },
     function (e) {
       let styleElement = fromId("PollResultsShow");
@@ -11069,7 +12187,7 @@ function newDesign() {
           });
           try {
             if (localStorage.getItem("isDefaultTheme") == "true") {
-              e.store.featureFlags["vkm_bubble_theme_default_value"] = 1;
+              
             }
           } catch (error) {}
           try {
@@ -11321,7 +12439,7 @@ function OldDesign() {
             });
             try {
               if (localStorage.getItem("isDefaultTheme") == "true") {
-                e.store.featureFlags["vkm_bubble_theme_default_value"] = 1;
+                
               }
             } catch (error) {}
             try {

@@ -21,35 +21,8 @@ function CheckToken() {
   }
 }
 var vkenAccessToken1 = '';
-chrome.storage.local.get(['vkenAccessToken'], function (result) {
-  try {
-    vkenAccessToken1 = result.vkenAccessToken;
-    if (!vkenAccessToken1 || vkenAccessToken1 == '') {
-      window.onload = () => {
-        CheckToken();
-      }
-    }
-    else {
-      window.onload = () => {
-          window.postMessage(
-            { action: "vkEnhancerAccessToken", value: vkenAccessToken1 },
-            "*"
-          );
-    }
-	}} catch (e) {
-    console.log(e)
-  }
-});
-window.addEventListener("message", async (event) => {
-  switch (event.data.action) {
-    case "tokenRemove": {
-      chrome.runtime.sendMessage({
-        type: 'vken_access_token_remove'
-      });
-      break;
-    }
-  }
-});
+
+
 const { testfunc } = importVarsFrom("helper");
 
 var isSecretCheck = false;
@@ -159,7 +132,8 @@ function createReloadButton() {
   reloadButton.addEventListener("click", (event) => {
     reloadButton.classList.add("vkEnhancerRebootLoading");
     chrome.storage.local.get(
-      [ "messageCounterState",
+      [ "customLeftMenuObject",
+		"messageCounterState",
 	    "fixMenuState",
 	    "oldBadgeState",
 	    "defaultThemeState",
@@ -230,7 +204,8 @@ function createReloadButton() {
 		defaultThemeState,
 		oldBadgeState,
 		fixMenuState,
-		messageCounterState
+		messageCounterState,
+		customLeftMenuObject
       }) =>
         applyStyles(
           checkboxState,
@@ -267,7 +242,8 @@ function createReloadButton() {
 		  defaultThemeState,
 		  oldBadgeState,
 		  fixMenuState,
-		  messageCounterState
+		  messageCounterState,
+		  customLeftMenuObject
         )
     );
     setTimeout(() => reloadButton.classList.remove("vkEnhancerRebootLoading"), 250);
@@ -516,7 +492,7 @@ function hideNFT_Avatars() {
     document.head.appendChild(styleElement);
   }
   styleElement.innerHTML =
-'[data-testid="profile-avatar"] .vkuiImageBase__img {border-radius:0px!important;}.AvatarRich--nft .AvatarRich__img, .AvatarRich--nft .AvatarRich__background, .AvatarRich--nft .AvatarRich__children{clip-path:none; border-radius:100%;}.AvatarRich__outline--nft path {display:none}.AvatarRich__outline--nft{    border-radius: 100%;    outline: var(--avatar-rich-stroke-width) solid var(--vkui--color_icon_accent);    outline-offset: calc(var(--avatar-rich-stroke-width) * -1);} .OwnerPageAvatar--nft .OwnerPageAvatar__underlay:not(.OwnerPageAvatar__underlay--outlined) { top: calc(var(--stroke-width, 4px) * -1) !important; bottom: calc(var(--stroke-width, 4px) * -1) !important; left: calc(var(--stroke-width, 4px) * -1) !important; right: calc(var(--stroke-width, 4px) * -1) !important; } .OwnerPageAvatar--nft .OwnerPageAvatar__underlay, .AvatarRich--nft .AvatarRich__img, div[class*="RichAvatar-module__rootNft"] > img { clip-path: none !important; -webkit-clip-path: none !important; border-radius: 50% !important; } .OwnerPageAvatar--nft .vkuiAvatar svg, .AvatarRich__heptagonUnderlay,div[class*="RichAvatar-module__rootNft"] > svg { display: none !important; } svg[data-testid="richavatar-nft-heptagon"] { display:none; } [class*="vkitRichAvatar__rootNft"]>img { clip-path:none; border-radius:100%; }';
+'[class^="vkitOutline__rootNft"] {display:none} .AvatarRich--nft .AvatarRich__img, .AvatarRich--nft .AvatarRich__background, .AvatarRich--nft .AvatarRich__children{clip-path:none; border-radius:100%;}.AvatarRich__outline--nft path {display:none}.AvatarRich__outline--nft{    border-radius: 100%;    outline: var(--avatar-rich-stroke-width) solid var(--vkui--color_icon_accent);    outline-offset: calc(var(--avatar-rich-stroke-width) * -1);} .OwnerPageAvatar--nft .OwnerPageAvatar__underlay:not(.OwnerPageAvatar__underlay--outlined) { top: calc(var(--stroke-width, 4px) * -1) !important; bottom: calc(var(--stroke-width, 4px) * -1) !important; left: calc(var(--stroke-width, 4px) * -1) !important; right: calc(var(--stroke-width, 4px) * -1) !important; } .OwnerPageAvatar--nft .OwnerPageAvatar__underlay, .AvatarRich--nft .AvatarRich__img, div[class*="RichAvatar-module__rootNft"] > img { clip-path: none !important; -webkit-clip-path: none !important; border-radius: 50% !important; } .OwnerPageAvatar--nft .vkuiAvatar svg, .AvatarRich__heptagonUnderlay,div[class*="RichAvatar-module__rootNft"] > svg { display: none !important; } svg[data-testid="richavatar-nft-heptagon"] { display:none; } [class*="vkitRichAvatar__rootNft"]>img { clip-path:none; border-radius:100%; }';
 }
 
 function backNFT_Avatars() {
@@ -618,9 +594,9 @@ function removePostReactions() {
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 0 24 24' width='24'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M0 0h24v24H0z'/%3E%3Cpath xmlns='http://www.w3.org/2000/svg' fill-rule='nonzero' fill='%23e64646' d='M11.95 4.83l-0.09 -0.09c-1.27,-1.23 -2.96,-1.93 -4.73,-1.94 0,0 0,0 0,0 -3.62,0 -6.55,2.93 -6.56,6.54 0,3.52 1.3,5.2 7.07,9.76l3.07 2.4c0.37,0.29 0.8,0.44 1.24,0.45l0 0c0.44,-0.01 0.88,-0.16 1.24,-0.45l3.07 -2.4c5.78,-4.56 7.07,-6.24 7.07,-9.76 -0.01,-3.61 -2.94,-6.54 -6.55,-6.54 0,0 0,0 0,0 -1.77,0.01 -3.47,0.71 -4.73,1.94l-0.1 0.09z'/%3E%3C/g%3E%3C/svg%3E";
   isPostReact = true;
   styleElement.innerHTML =
-    '.PostBottomAction--withBg{padding:4px 6px!important;}.PostButtonReactions__iconAnimation{display:none!important;}.PostButtonReactions__icon.PostButtonReactions__icon--custom{background: url("' +
+    '.PostBottomAction.PostButtonReactions.PostButtonReactions--post {z-index:10; padding-right:0px!important;} .PostButtonReactionsContainer {display:flex} .PostBottomAction--withBg{padding:4px 6px!important;}.PostButtonReactions__iconAnimation{display:none!important;}.PostButtonReactions__icon.PostButtonReactions__icon--custom{background: url("' +
     imageUrl +
-    '")!important;         scale:.85;} .ReactionsMenuPopperTransition-appear-done, .ReactionsMenuPopperTransition-enter-done {          display: none!important;      }                        .ReactionsMenu,    .ReactionsMenu--extraHoverArea,    .ReactionsMenu--extraHoverAreaToTop,    div.ReactionsPreview__items,.PostButtonReactions--post .PostButtonReactions__title--textual,.like_tt_reacted-count,.fans_fanph_reaction,li#likes_tab_reactions_0,    li#likes_tab_reactions_1,    li#likes_tab_reactions_2,    li#likes_tab_reactions_3,    li#likes_tab_reactions_4,    li#likes_tab_reactions_5,.ui_tab.ui_tab_group,.like_tt_reaction {        display: none !important;    }    .PostBottomAction {        --post-bottom-action-background-color: transparent !important;    }    div.ReactionsPreview.ReactionsPreview--active .ReactionsPreview__count._counter_anim_container {        color: #e64646 !important;    }   .ReactionsPreview--isInActionStatusBar .ReactionsPreview__count{color:var(--vkui--color_text_subhead);} [dir] .ReactionsPreview {        position: absolute;        margin-top: 14px;        margin-left: 30px;        z-index: 9;    }    .ReactionsPreview--isInActionStatusBar .ReactionsPreview__count {    font-size: 13px;    line-height: 16px;    font-weight: 500;    }    .PostButtonReactionsContainer {        width: auto !important;    }    .PostButtonReactions__iconAnimation svg    {        background: url("' +
+    '")!important;         scale:.85;} .ReactionsMenuPopperTransition-appear-done, .ReactionsMenuPopperTransition-enter-done {          display: none!important;      }                        .ReactionsMenu,    .ReactionsMenu--extraHoverArea,    .ReactionsMenu--extraHoverAreaToTop,    div.ReactionsPreview__items,.PostButtonReactions--post .PostButtonReactions__title--textual,.like_tt_reacted-count,.fans_fanph_reaction,li#likes_tab_reactions_0,    li#likes_tab_reactions_1,    li#likes_tab_reactions_2,    li#likes_tab_reactions_3,    li#likes_tab_reactions_4,    li#likes_tab_reactions_5,.ui_tab.ui_tab_group,.like_tt_reaction {        display: none !important;    }    .PostBottomAction {        --post-bottom-action-background-color: transparent !important;    }    div.ReactionsPreview.ReactionsPreview--active .ReactionsPreview__count._counter_anim_container {        color: #e64646 !important;    }   .ReactionsPreview--isInActionStatusBar .ReactionsPreview__count{color:var(--vkui--color_text_secondary);} [dir] .ReactionsPreview {  margin-left: -6px; z-index: 9;    }    .ReactionsPreview--isInActionStatusBar .ReactionsPreview__count {    font-size: 14px!important;    line-height: 16px;    font-weight: 500;    }    .PostButtonReactionsContainer {        width: auto !important;    }    .PostButtonReactions__iconAnimation svg    {        background: url("' +
     imageUrl +
     '") no-repeat!important;        margin-top:3px;        margin-left:3px;        scale:.85;    }    .PostButtonReactions__iconAnimation svg g    {        display:none;    }        [dir] .PostActionStatusBar--inPost {        padding-top: 0px !important;        padding-bottom: 0px !important;    }    div.like_cont.PostBottomActionLikeBtns {        border-top: 1px solid transparent !important;    }    .PostButtonReactionsContainer {        width: auto !important;    }        [dir=ltr] .post--withPostBottomAction .PostBottomActionLikeBtns .like_btns {        margin-top: 5px !important;    }    [dir] .PostBottomAction::before {        background-image: none!important;    }    [dir] .like_cont {           }    [dir] .PostBottomActionLikeBtns.like_cont {  padding-bottom:10px!important;   }';
 }
@@ -912,6 +888,23 @@ function enableCounter() {
     customStyle.remove();
   }
 }
+//Граффити можем или нет//
+function stopLoadGraffity() {
+  let styleElement = fromId("removeGraffitiInput");
+  if (!styleElement) {
+    styleElement = create("style", {}, { id: "removeGraffitiInput" });
+    document.head.appendChild(styleElement);
+  }
+  styleElement.innerHTML =
+    `.vkEnhancerGraffityInput{display:none!important;}`;
+}
+
+function canLoadGraffity() {
+  const customStyle = fromId("removeGraffitiInput");
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
 // Функция для добавления стилей
 function applyStyles(
   isOldAccentChecked,
@@ -948,7 +941,8 @@ function applyStyles(
   defaultThemeChecked,
   oldBadgeChecked,
   fixMenuChecked,
-  messageCounterСhecked
+  messageCounterСhecked,
+  customLeftMenuValue
 ) {
   if (isOldAccentChecked) {
     hideNFT_Avatars();
@@ -1065,12 +1059,40 @@ function applyStyles(
     hideEnButton();
   }
   if (newDesignChecked) {
-    //console.log("New design checked!");
     newDesignBool = true;
-    window.postMessage({ action: "vkNewDesign" }, "*");
+	canLoadGraffity();
+	chrome.storage.local.get(['vkenAccessToken'], function (result) {
+		try {
+		vkenAccessToken1 = result.vkenAccessToken;
+		if (!vkenAccessToken1 || vkenAccessToken1 == '') {
+			window.onload = () => {
+				CheckToken();
+			}
+		}
+		else {
+			window.onload = () => {
+				window.postMessage(
+					{ action: "vkEnhancerAccessToken", value: vkenAccessToken1 },
+					"*"
+				);
+			}
+		}
+		}
+		catch(e) {console.error(e)}
+	});
+	window.addEventListener("message", async (event) => {
+		switch (event.data.action) {
+			case "tokenRemove": {
+				chrome.runtime.sendMessage({
+					type: 'vken_access_token_remove'
+				});
+				break;
+			}
+		}
+	});
   } else {
     newDesignBool = false;
-    window.postMessage({ action: "vkNewDesignOff" }, "*");
+	stopLoadGraffity();
   }
   if (integrationMediaChecked) {
     //console.log("New int");
@@ -1184,13 +1206,13 @@ function applyStyles(
   }
     if (defaultThemeChecked) {
     window.postMessage(
-      { action: "defaultThemeFix", value: defaultThemeChecked },
+      { action: "defaultThemeFeed", value: defaultThemeChecked },
       "*"
     );
   }
   else {
     window.postMessage(
-      { action: "defaultThemeFix", value: defaultThemeChecked },
+      { action: "defaultThemeFeed", value: defaultThemeChecked },
       "*"
     );
   }
@@ -1218,11 +1240,19 @@ function applyStyles(
   else {
 	 enableCounter();  
   }
+
+  if (customLeftMenuValue) {
+    window.postMessage(
+      { action: "customLeftMenu", value: customLeftMenuValue },
+      "*"
+    );
+  }
 }
 // Функция для получения состояния чекбоксов из локального хранилища и применения стилей
 function applySavedStyles() {
   chrome.storage.local.get(
     [
+	  "customLeftMenuObject",
 	  "messageCounterState",
 	  "fixMenuState",
 	  "oldBadgeState",
@@ -1295,6 +1325,7 @@ function applySavedStyles() {
 	  const oldBadgeChecked = items.oldBadgeState;
 	  const fixMenuChecked = items.fixMenuState;
 	  const messageCounterСhecked = items.messageCounterState;
+	  const customLeftMenuValue = items.customLeftMenuObject;
       applyStyles(
         isOldAccentChecked,
         isMsgReactionsChecked,
@@ -1330,7 +1361,8 @@ function applySavedStyles() {
 		defaultThemeChecked,
 		oldBadgeChecked,
 		fixMenuChecked,
-		messageCounterСhecked
+		messageCounterСhecked,
+		customLeftMenuValue
       );
     }
   );
@@ -1374,7 +1406,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     message.type === "toggleDefaultTheme" ||
     message.type === "toggleOldBadge" || 
 	message.type === "toggleFixMenu" || 
-	message.type === "toggleMessageCounter"
+	message.type === "toggleMessageCounter" ||
+	message.type === "toggleLeftMenuLabels"
   ) {
     applySavedStyles();
   }
