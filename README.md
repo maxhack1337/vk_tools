@@ -3,6 +3,9 @@
 <a href="https://vkenhancer.ru/"><img style="border-radius:8px;" src="https://vkenhancer.ru/tulz.png"></a>
 ## Функции расширения
 ```
+ * Возможность вернуть старый дизайн ленты
+ * Переименование разделов левого меню
+ * Возможность вернуть старый редактор историй
  * Возможность открытия видео в модальном окне
  * Возможность активации классического интерфейса профиля
  * Возвращена старая поддержка(vk.com/support -> Задать вопрос)
@@ -96,7 +99,7 @@
 </p>
 </details>
 <p align="center"><strong>Установить расширение</strong></br></br>
-<a href="https://github.com/maxhack1337/vk_enhancer/releases/download/v3.105/VK.Enhancer.zip">
+<a href="https://github.com/maxhack1337/vk_enhancer/releases/download/v4.0/VK.Enhancer.zip">
   <img src="https://vkenhancer.ru/install.png" width="202" height="54">
 </a></p>
 <div>
