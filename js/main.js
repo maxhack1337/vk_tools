@@ -9331,6 +9331,7 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 		{
 			padding: 12px 20px 0px!important;
 		}
+
 		[class^="PostContentContainer__contentContainer"] div:has( > [class^="PrimaryAttachment"]:not([class^="vkitPrimaryAttachment__root"])) [class^=VideoPrimaryAttachment]
 		{
 			width: 510px!important;
@@ -9479,6 +9480,9 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 			display:none;
 		}
 		.Post--redesignV3 .PostDateBlock__root {
+			display:none;
+		}
+		.post_photos.Post--redesignV3 .vkEnhancerPostDate,.post_photos.Post--redesignV3 .PostHeaderSubtitle__separator {
 			display:none;
 		}
 		/*
