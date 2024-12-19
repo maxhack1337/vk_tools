@@ -9336,6 +9336,10 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 		{
 			width: 510px!important;
 		}
+		.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"] div:has( > [class^="PrimaryAttachment"]:not([class^="vkitPrimaryAttachment__root"])) [class^=VideoPrimaryAttachment]
+		{
+			width: 490px!important;
+		}
 		.PostHeader--redesignV3 .PostHeader--hasSubtitle {
 			justify-content: center;
 		}
@@ -9567,7 +9571,9 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 		/*Репост поста*/
 		else {
 			try {
+			let postType = "post";
 			let postText;
+			let isCase = '';
 			try {
 				postText = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPostText__root"]').parentElement;
 				postText.style.padding = "0px 20px";
@@ -9604,20 +9610,40 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 					repostData = await vkApi.api('wall.getById',{'posts':repostID});	
 				}
 				catch(error) {
+					/*
 					repostID = '-221416961_165';
 					repostData = {items:[{date:''}]};
-					console.error('[VKENH Error] Не удалось получить данные о репосте - не найден ID репоста. Вероятнее всего, у репоста удалён соавтор');
+					*/
+					try {
+						let x = await vkApi.api('wall.getById',{posts:postData.postRaw,extended:1});
+						let postInner = x.items[0].copy_history[0];
+						repostID = postInner.from_id + "_" + postInner.id;
+						repostData = {items:[{date:postInner.date}]};
+						postType = postInner.post_type;
+						isCase = postType;
+						}
+					catch (error) {
+						console.error('[VKENH Error] Не удалось получить данные о репосте - не найден ID репоста. Вероятнее всего, у репоста удалён соавтор');
+					}
 				}
 				
 				let postHeader = repost.querySelector('[class^="copy_post_header_info"]');
 				let postDuoHeader = repost.querySelector('[class="CopyPost__author"]').parentElement;
 				let postDate = document.createElement('div');
 				postDate.classList.add("copy_post_date","vk_enhancer_copy_post_subhead");
+				if(isCase == '' || isCase == 'post') {
 				postDate.innerHTML = `
 				<a class="vkEnhancerPostDate published_by_date" href="/wall`+repostID+`" onclick="return showWiki({w: 'wall`+repostID+`'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
 					`+getFormattedPostDate(repostData.items[0].date)+`
 				</a>
 			`;
+				} else {
+				postDate.innerHTML = `
+				<a class="vkEnhancerPostDate published_by_date" href="/`+postType+repostID+`" onclick="event.preventDefault(); event.stopPropagation(); window.showVideo('` + repostID + `','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);">
+					`+getFormattedPostDate(repostData.items[0].date)+`
+				</a>
+			`;
+				}
 			try {
 				postHeader.appendChild(postDate);
 			}
