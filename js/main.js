@@ -9853,16 +9853,19 @@ function getPostDataText(elem) {
           let month = getMonthNamePost(lastSeenDate.getMonth() + 1);
           let hour = lastSeenDate.getHours();
 		  let nowDate = new Date();
+		  let dayNow = nowDate.getDate();
+		  let monthNow = nowDate.getMonth() + 1;
+		  let monthPost = lastSeenDate.getMonth() + 1;
 		  let yearNow = nowDate.getYear() + 1900;
 		  let yearNewNew = lastSeenDate.getYear()+ 1900;
           let minute = lastSeenDate.getMinutes().toString().padStart(2, "0");
 
           let dateString;
-          if (secondsAgo < 86400) {
+          if (day == dayNow && monthNow == monthPost && yearNow == yearNewNew) {
             dateString = longAgo[3]
               .replace("{hour}", hour)
               .replace("{minute}", minute);
-          } else if (secondsAgo < 172800) {
+          } else if (dayNow-day == 1 && monthNow == monthPost && yearNow == yearNewNew) {
             dateString = longAgo[2]
               .replace("{hour}", hour)
               .replace("{minute}", minute);
