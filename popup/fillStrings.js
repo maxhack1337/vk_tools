@@ -41,6 +41,7 @@ function fillStrings() {
 	document.querySelector('#MessageCounter > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.disableMessageCounter);
     document.querySelector('#NewProfiles > div > div > .vkenhancerChoosePickerText1').innerHTML = '<span class="newSpan"><img class="newFire" src="assets/new.png"></span>' + getLocalizedString(strings.classicProfileInterface);
     document.querySelector('#GraffityFromFile > div > div > .vkenhancerChoosePickerText1').innerHTML = getLocalizedString(strings.newMessengerDesign);
+	document.querySelector('#GarlandDisable > div > div > .vkenhancerChoosePickerText1').innerHTML = getLocalizedString(strings.garlandDisable);
 	document.querySelector('#SecretOldDesign > div > div > .vkenhancerChoosePickerText1').innerHTML =  getLocalizedString(strings.additionalVKEnhancerFunctions);
 	document.querySelector('#SecretOldDesign > div > div > .vkenhancerOldWarning').innerHTML = getLocalizedString(strings.additionalFunctionsDescription);
 	document.querySelector('#FeedDefaultTheme > div > div > .vkenhancerChoosePickerText1').innerHTML =  `<span class="newFunctionSpan"><img class="newFire" src="assets/new_function_text.svg"></span>`+`<span class="newSpan"><img class="newFire" src="assets/new.png"></span>`+getLocalizedString(strings.feedOldTheme);

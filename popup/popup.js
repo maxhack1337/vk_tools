@@ -1,4 +1,4 @@
-console.log('Версия 4.0 Release');
+console.log('Версия 4.1 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
@@ -54,6 +54,7 @@ var tabletmenu = document.getElementById('tabletmenu');
 var defaulttheme = document.getElementById('defaulttheme');
 var oldbadge = document.getElementById('oldbadge');
 var fixmenu = document.getElementById('fixmenu');
+var garland = document.getElementById('garland');
 var messagecounter = document.getElementById('messagecounter');
 var tab0 = document.getElementById('tab0');
 var tab1 = document.getElementById('tab1');
@@ -211,7 +212,7 @@ function defaultTab1() {
         styleElement.id = "tabs1";
         document.head.appendChild(styleElement);
     }
-    styleElement.innerHTML = '#tab1,#tab1>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important} .customLeftMenu,[aria-left="true"],#SaveConfigLeft,#LoadConfigLeft,#FixMenu,#TabletMenu,#ScrollBar,.vkEnhancerHeaderRatio2,.vkEnhancerHeaderRatioPseudo1{display:flex!important;}#CustomAccentChoose,#CustomTextChoose,#CustomTextChoose1,[aria-customfont="true"],[aria-custombg="true"],[aria-customlogo="true"],#SliderBlock{display:block!important}';
+    styleElement.innerHTML = '#tab1,#tab1>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important} .customLeftMenu,[aria-left="true"],#FixMenu,#GarlandDisable,#TabletMenu,#ScrollBar,.vkEnhancerHeaderRatio2,.vkEnhancerHeaderRatioPseudo1{display:flex!important;}#CustomAccentChoose,#CustomTextChoose,#CustomTextChoose1,[aria-customfont="true"],[aria-custombg="true"],[aria-customlogo="true"],#SliderBlock{display:block!important}';
     chrome.storage.local.set({
         defaultTab: "1",
     });
@@ -438,7 +439,7 @@ function arrayBufferToBase64(buffer) {
 saveSettings.addEventListener('click', (event) => {
     var jsonData = null;
     var JSONSettings = {};
-    chrome.storage.local.get(["customLeftMenuObject","messageCounterState","fixMenuState", "oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
+    chrome.storage.local.get(["customLeftMenuObject","messageCounterState","fixMenuState", "garlandState", "oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
         console.log(items);
         jsonData = JSON.stringify(items);
         console.log(jsonData);
@@ -453,7 +454,7 @@ saveSettings.addEventListener('click', (event) => {
 });
 
 clearSettings.addEventListener('click', async function () {
-    var result = { "customLeftMenuObject": {},"addstickerState": false, "altSBState": false, "cameraPhotoState": false, "checkboxState": false, "checkboxState1": false, "checkboxStateAva": false, "colorPicker": "#3291ff", "colorPickerText": "#ffffff", "customAccent": "#ffffff", "customBg": "undefined", "customFont": "undefined", "customHotbar": [], "customLogo": "undefined", "emojiStatusState": false, "hideButtonState": false, "hiderState": false, "integrationMediaState": false, "issThemeChanged": false, "muteCallsState": false, "nechitalkaState": false, "nepisalkaState": false, "newDesignState": false, "pollResultsState": false, "postReactionsState": false, "recentGroupsState": false, "removeAwayState": false, "newProfilesState": false, "middleNameState": false, "oldHoverState": false, "tabletMenuState": false, "defaultThemeState": false, "oldBadgeState": false, "fixMenuState":false,"messageCounterState":false, "secretFuncState": false, "sliderValue": "100" };
+    var result = { "customLeftMenuObject": {},"addstickerState": false, "altSBState": false, "cameraPhotoState": false, "checkboxState": false, "checkboxState1": false, "checkboxStateAva": false, "colorPicker": "#3291ff", "colorPickerText": "#ffffff", "customAccent": "#ffffff", "customBg": "undefined", "customFont": "undefined", "customHotbar": [], "customLogo": "undefined", "emojiStatusState": false, "hideButtonState": false, "hiderState": false, "integrationMediaState": false, "issThemeChanged": false, "muteCallsState": false, "nechitalkaState": false, "nepisalkaState": false, "newDesignState": false, "pollResultsState": false, "postReactionsState": false, "recentGroupsState": false, "removeAwayState": false, "newProfilesState": false, "middleNameState": false, "oldHoverState": false, "tabletMenuState": false, "defaultThemeState": false, "oldBadgeState": false, "fixMenuState":false, "garlandState":false, "messageCounterState":false, "secretFuncState": false, "sliderValue": "100" };
     for (item of Object.keys(result)) {
         let item123 = {};
         item123[item] = result[item];
@@ -511,6 +512,23 @@ fixmenu.addEventListener('change', (event) => {
         const activeTabId = tabs[0].id;
         chrome.tabs.sendMessage(activeTabId, {
             type: "toggleFixMenu",
+            isChecked: checked
+        });
+    });
+});
+
+garland.addEventListener('change', (event) => {
+    const checked = event.target.checked;
+    chrome.storage.local.set({
+        garlandState: checked
+    });
+    chrome.tabs.query({
+        active: true,
+        currentWindow: true
+    }, function (tabs) {
+        const activeTabId = tabs[0].id;
+        chrome.tabs.sendMessage(activeTabId, {
+            type: "toggleGarland",
             isChecked: checked
         });
     });
@@ -1382,7 +1400,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadSavedCheckBoxes() {
     // Получение состояния из Local Storage
-    chrome.storage.local.get(["customLeftMenuObject","messageCounterState","fixMenuState","oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
+    chrome.storage.local.get(["customLeftMenuObject","messageCounterState","garlandState","fixMenuState","oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
         accentC.checked = items.checkboxState;
         msgreact.checked = items.checkboxState1;
         recentgroups.checked = items.recentGroupsState;
@@ -1404,6 +1422,7 @@ function loadSavedCheckBoxes() {
 		defaulttheme.checked = items.defaultThemeState;
 		oldbadge.checked = items.oldBadgeState;
 		fixmenu.checked = items.fixMenuState;
+		garland.checked = items.garlandState;
 		messagecounter.checked = items.messageCounterState;
         slider.value = items.sliderValue;
         const sliderValue = document.getElementById('slider-value');
@@ -1502,6 +1521,10 @@ function loadSavedCheckBoxes() {
 			chrome.tabs.sendMessage(activeTabId, {
                 type: "toggleFixMenu",
                 isChecked: items.fixMenuState
+            });
+			chrome.tabs.sendMessage(activeTabId, {
+                type: "toggleGarland",
+                isChecked: items.garlandState
             });
 			chrome.tabs.sendMessage(activeTabId, {
                 type: "toggleOldBadge",
