@@ -132,7 +132,8 @@ function createReloadButton() {
   reloadButton.addEventListener("click", (event) => {
     reloadButton.classList.add("vkEnhancerRebootLoading");
     chrome.storage.local.get(
-      [ "customLeftMenuObject",
+      [ "garlandState",
+		"customLeftMenuObject",
 		"messageCounterState",
 	    "fixMenuState",
 	    "oldBadgeState",
@@ -205,7 +206,8 @@ function createReloadButton() {
 		oldBadgeState,
 		fixMenuState,
 		messageCounterState,
-		customLeftMenuObject
+		customLeftMenuObject,
+		garlandState
       }) =>
         applyStyles(
           checkboxState,
@@ -243,7 +245,8 @@ function createReloadButton() {
 		  oldBadgeState,
 		  fixMenuState,
 		  messageCounterState,
-		  customLeftMenuObject
+		  customLeftMenuObject,
+		  garlandState
         )
     );
     setTimeout(() => reloadButton.classList.remove("vkEnhancerRebootLoading"), 250);
@@ -934,6 +937,25 @@ function oldBadgeDisable() {
     customStyle.remove();
   }
 }
+//Убрать гирлянду//
+function garlandRemove() {
+  let styleElement = fromId("garlandRemover");
+  if (!styleElement) {
+    styleElement = create("style", {}, { id: "garlandRemover" });
+    document.head.appendChild(styleElement);
+  }
+  styleElement.innerHTML =
+    `#page_header_wrap > div:has([class^="GarlandParts__root"]) {
+		visibility:hidden;
+	}`;
+}
+
+function garlandBack() {
+  const customStyle = fromId("garlandRemover");
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
 // Функция для добавления стилей
 function applyStyles(
   isOldAccentChecked,
@@ -971,7 +993,8 @@ function applyStyles(
   oldBadgeChecked,
   fixMenuChecked,
   messageCounterСhecked,
-  customLeftMenuValue
+  customLeftMenuValue,
+  garlandChecked
 ) {
   if (isOldAccentChecked) {
     hideNFT_Avatars();
@@ -1265,6 +1288,11 @@ function applyStyles(
   else {
 	 unFixLeftMenu();  
   }
+  if(garlandChecked) {
+	  garlandRemove();
+  } else {
+	  garlandBack();
+  }
   if(messageCounterСhecked) {
 	 disableCounter();  
   }
@@ -1283,6 +1311,7 @@ function applyStyles(
 function applySavedStyles() {
   chrome.storage.local.get(
     [
+	  "garlandState",
 	  "customLeftMenuObject",
 	  "messageCounterState",
 	  "fixMenuState",
@@ -1357,6 +1386,7 @@ function applySavedStyles() {
 	  const fixMenuChecked = items.fixMenuState;
 	  const messageCounterСhecked = items.messageCounterState;
 	  const customLeftMenuValue = items.customLeftMenuObject;
+	  const garlandChecked = items.garlandState;
       applyStyles(
         isOldAccentChecked,
         isMsgReactionsChecked,
@@ -1393,7 +1423,8 @@ function applySavedStyles() {
 		oldBadgeChecked,
 		fixMenuChecked,
 		messageCounterСhecked,
-		customLeftMenuValue
+		customLeftMenuValue,
+		garlandChecked
       );
     }
   );
@@ -1438,7 +1469,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     message.type === "toggleOldBadge" || 
 	message.type === "toggleFixMenu" || 
 	message.type === "toggleMessageCounter" ||
-	message.type === "toggleLeftMenuLabels"
+	message.type === "toggleLeftMenuLabels" || 
+	message.type === "toggleGarland"
   ) {
     applySavedStyles();
   }

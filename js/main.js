@@ -9785,6 +9785,7 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 			
 		}
 		/*Кнопка показать следующие комментарии в ленте*/
+		/*
 		if(e.querySelector('button.replies_next.replies_next_inline[href=""][onclick=""]')) {
 			let buttonNextComments = e.querySelector('button.replies_next.replies_next_inline[href=""][onclick=""]');
 			try {
@@ -9794,6 +9795,7 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 				console.error(error);
 			}
 		}
+		*/
 		
 	}
 	catch(error) {
