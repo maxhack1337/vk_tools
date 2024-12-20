@@ -905,6 +905,35 @@ function canLoadGraffity() {
     customStyle.remove();
   }
 }
+//Старый значок непрочитанных//
+function oldBadgeEnable() {
+  let styleElement = fromId("oldBadgeStyle12");
+  if (!styleElement) {
+    styleElement = create("style", {}, { id: "oldBadgeStyle12" });
+    document.head.appendChild(styleElement);
+  }
+  styleElement.innerHTML =
+    `    .ConvoListItem__outStatusIcon:has(.vkuiIcon--check_double_outline_16) {
+        display:none;
+    }
+    .ConvoListItem__outStatusIcon .vkuiIcon--check_outline_16 {
+        background-color: var(--vkui--color_background_accent_themed);
+        border-radius:100px;
+        width:7px!important;
+        height:7px!important;
+        scale: 1.143;
+    }
+    .ConvoListItem__outStatusIcon .vkuiIcon--check_outline_16 use {
+        display:none;
+    }`;
+}
+
+function oldBadgeDisable() {
+  const customStyle = fromId("oldBadgeStyle12");
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
 // Функция для добавления стилей
 function applyStyles(
   isOldAccentChecked,
@@ -1217,12 +1246,14 @@ function applyStyles(
     );
   }
       if (oldBadgeChecked) {
+	oldBadgeEnable();
     window.postMessage(
       { action: "oldBadge", value: oldBadgeChecked },
       "*"
     );
   }
   else {
+	oldBadgeDisable();
     window.postMessage(
       { action: "oldBadge", value: oldBadgeChecked },
       "*"

@@ -9271,7 +9271,7 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
       document.head.appendChild(styleElement);
     }
     styleElement.innerHTML = `
-	    ._post.Post--redesignV3 {
+	    ._post.Post--redesignV3, ._post.topic_comment, ._post.video_post, #feed_rows .fave_photos_page_block, ._post.photo_post  {
 			background-color:var(--vkui--color_background_content)!important;
 			border-radius:var(--vkui--size_border_radius_paper--regular)!important;
 			box-shadow:var(--page-block-shadow)!important;
@@ -9783,6 +9783,16 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 				console.error(error);
 			}
 			
+		}
+		/*Кнопка показать следующие комментарии в ленте*/
+		if(e.querySelector('button.replies_next.replies_next_inline[href=""][onclick=""]')) {
+			let buttonNextComments = e.querySelector('button.replies_next.replies_next_inline[href=""][onclick=""]');
+			try {
+				buttonNextComments.setAttribute('onclick','return wall.showNextReplies(this, "'+postData.postRaw+'", event);')
+			}
+			catch (error) {
+				console.error(error);
+			}
 		}
 		
 	}
