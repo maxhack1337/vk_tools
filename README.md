@@ -10,6 +10,7 @@
  * Возможность активации классического интерфейса профиля
  * Возвращена старая поддержка(vk.com/support -> Задать вопрос)
  * Отображение количества сообщений
+ * Возможность убрать гирлянду
  * Возможность просмотра онлайн-участников беседы
  * Возможность переключения раскладки выделенного текста(CTRL + ])
  * Возможность фиксации левого меню
@@ -99,7 +100,7 @@
 </p>
 </details>
 <p align="center"><strong>Установить расширение</strong></br></br>
-<a href="https://github.com/maxhack1337/vk_enhancer/releases/download/v4.0/VK.Enhancer.zip">
+<a href="https://github.com/maxhack1337/vk_enhancer/releases/download/v4.1/VK.Enhancer.zip">
   <img src="https://vkenhancer.ru/install.png" width="202" height="54">
 </a></p>
 <div>
