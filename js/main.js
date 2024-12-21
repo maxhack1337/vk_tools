@@ -9259,7 +9259,150 @@ document.arrive(".feed_wall--no-islands:has(.Post--redesignV3)", { existing: tru
 });
 window.onload  = () => {
 console.info("[VKENH] Window loaded, awaiting posts");
-document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true }, async function (s) { 
+/*Отложенные и предложенные посты*/
+let selectorsText = [`.postponed.Post--redesignV3 [class^='vkitPostText__root']`,`.suggest.Post--redesignV3 [class^='vkitPostText__root']`];
+document.arrive(selectorsText, { existing: true }, async function (e) {
+		if(!e.querySelector('.PostCopyQuote--redesignV3')) {
+		try {
+			let postText = e.parentElement;
+			let postContent = e.closest('[class^="PostContentContainer__contentContainer"]');
+			postText.style.padding = "0px 20px";
+			postText.querySelector('[class^="vkitPostText__root"]').style.fontSize = "13px";
+			postText.querySelector('[class^="vkitPostText__root"]').style.lineHeight = "1.462";
+			e.parentElement.remove();
+			postContent.prepend(postText);
+		}
+		catch(error) {
+			console.log(error);
+		}
+		}
+});
+
+let selectorsSub = [`.postponed.Post--redesignV3 .PostHeaderInfo > .PostHeaderSubtitle .PostHeaderSubtitle__item`,`.suggest.Post--redesignV3 .PostHeaderInfo > .PostHeaderSubtitle .PostHeaderSubtitle__item`];
+document.arrive(selectorsSub, { existing: true }, async function (e) {
+			try {
+				let sub = e;
+				let removeThis = e.closest('.PostHeaderInfo > .PostHeaderSubtitle');
+				let appHere = e.closest('.Post--redesignV3').querySelector('.post_date');
+				let separatorInPost = document.createElement('span');
+				separatorInPost.classList.add('PostHeaderSubtitle__separator');
+				separatorInPost.setAttribute('aria-hidden','true');
+				separatorInPost.textContent = '·';
+				appHere.appendChild(separatorInPost);
+				appHere.appendChild(sub);
+				removeThis.remove();
+			}
+			catch(error) {
+				console.log(error);
+			}
+});
+
+let selectorsAuthor = [`.postponed.Post--redesignV3 [class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]:not(.vkEnhancerPostAuthorTip)`,`.suggest.Post--redesignV3 [class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]:not(.vkEnhancerPostAuthorTip)`];
+document.arrive(selectorsAuthor, { existing: true }, async function (e) {
+			try {
+				
+				let isRepost;
+				if(!e.closest('.PostCopyQuote--redesignV3'))
+				{
+					isRepost = '';
+				}
+				else {
+					isRepost = '.PostCopyQuote--redesignV3 ';
+				}
+				let sub = e.closest(isRepost + '[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]');
+				sub.classList.add('vkEnhancerPostAuthorTip');
+				let appHere;
+				if(isRepost == '') {
+					appHere = e.closest('.Post--redesignV3').querySelector('.post_date');
+				}
+				else {
+					appHere = e.closest('.vk_enhancer_copy_post_subhead');
+				}
+				appHere.style.display = "flex";
+				appHere.style.alignItems = "center";
+				sub.style.fontSize = "12.5px";
+				let separatorInPost = document.createElement('span');
+				separatorInPost.classList.add('PostHeaderSubtitle__separator');
+				separatorInPost.setAttribute('aria-hidden','true');
+				separatorInPost.textContent = '·';
+				appHere.appendChild(separatorInPost);
+				appHere.appendChild(sub);
+			}
+			catch(error) {
+				console.log(error);
+			}
+});
+
+let selectorsDocs = [`.postponed.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]`,`.suggest.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]`]
+document.arrive(selectorsDocs, { existing: true }, async function (docu) {
+			let attachHref = docu.getAttribute('href');
+			let docId = extractDocId(attachHref);
+			let docData = await vkApi.api('docs.getById',{'docs':docId});
+			let postRaw1 = docu.closest('.Post--redesignV3').getAttribute('data-post-id');
+			if(docData.length == 0) {
+				let docOwner = docId.split('_')[0];
+				let docIId = docId.split('_')[1];
+				let post = await vkApi.api('wall.getById',{'posts':postRaw1});
+				let attaches = post.items[0].attachments;
+				attaches.forEach( async function(attach) {
+					if(attach.type=="doc") {
+						if(attach.doc.id == docIId && attach.doc.owner_id == docOwner) {
+							docData = [attach.doc];
+							return;
+						}
+					}
+				});
+			}
+			let secondaryAttachDoc = document.createElement('div');
+			secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
+			secondaryAttachDoc.style.padding = "0px 8px";
+			secondaryAttachDoc.innerHTML = `
+			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
+  <a href="`+docData[0].url+`" target="_blank" style="text-decoration:none;" class="vkitSecondaryAttachmentList__root vkitSecondaryAttachmentList__rootRedesign">
+    <div class="vkitSecondaryAttachment__root vkitSecondaryAttachment__rootNoHorizontalPadding vkitSecondaryAttachment__rootVerticalPaddingRedesign vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" role="button" tabindex="0" data-testid="secondaryattachment">
+      <div data-testid="secondaryattachment-before" class="vkitSecondaryAttachment__before">
+        <div class="vkuiInternalImage vkuiImage vkuiImageBase vkuiClickable__host vkuiRootComponent" style="width: 40px; height: 40px; --vkui_internal--Image_border_radius: 8px;">
+          <div class="vkuiImageBase__fallback">
+            <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-24 vkuiIcon--h-24 vkEnhancer--document_outline_24" width="22" height="22" viewBox="0 0 20 20" style="width: 22px; height: 22px;">
+              <path fill="currentColor" fill-rule="evenodd" d="M10.175 1.5H9c-.806 0-1.465.006-2.01.05-.63.052-1.172.16-1.67.413a4.25 4.25 0 0 0-1.857 1.858c-.253.497-.361 1.04-.413 1.67C3 6.103 3 6.864 3 7.816v4.366c0 .952 0 1.713.05 2.327.052.63.16 1.172.413 1.67a4.25 4.25 0 0 0 1.858 1.857c.497.253 1.04.361 1.67.413.613.05 1.374.05 2.326.05h1.366c.952 0 1.713 0 2.327-.05.63-.052 1.172-.16 1.67-.413a4.25 4.25 0 0 0 1.857-1.857c.253-.498.361-1.04.413-1.67.05-.614.05-1.375.05-2.327V8.325c0-.489 0-.733-.055-.963q-.075-.309-.24-.579c-.123-.201-.296-.374-.642-.72l-3.626-3.626c-.346-.346-.519-.519-.72-.642a2 2 0 0 0-.579-.24c-.23-.055-.474-.055-.963-.055M15.5 12.15c0 .992 0 1.692-.045 2.238-.044.537-.127.86-.255 1.11A2.75 2.75 0 0 1 14 16.7c-.252.128-.574.21-1.111.255-.546.044-1.245.045-2.238.045h-1.3c-.992 0-1.692 0-2.238-.045-.537-.044-.86-.127-1.11-.255A2.75 2.75 0 0 1 4.8 15.5c-.128-.252-.21-.574-.255-1.111-.044-.546-.045-1.245-.045-2.238v-4.3c0-.992 0-1.692.045-2.238.044-.537.127-.86.255-1.11A2.75 2.75 0 0 1 6.002 3.3c.25-.128.573-.21 1.11-.255C7.658 3.001 8.358 3 9.35 3H10v2.35c0 .409 0 .761.024 1.051.026.306.083.61.238.902.21.398.537.724.935.935.291.155.596.212.902.238.29.024.642.024 1.051.024h2.35zM14.879 7 11.5 3.621V5.32c0 .447 0 .736.02.955.017.21.047.288.067.326a.75.75 0 0 0 .312.312c.038.02.116.05.326.068.22.018.508.019.955.019z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="vkuiImageBase__children"></div>
+        </div>
+      </div>
+      <div class="vkitSecondaryAttachment__content">
+        <div class="vkitSecondaryAttachment__title vkuiFlex vkuiFlex--wrap vkuiFlex--align-center vkuiRootComponent" data-testid="secondaryattachment-title">
+          <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__titleText vkuiHeadline--sizeY-compact vkuiHeadline--level-1 vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiRootComponent" style="--vkui_internal--textclamp-lines: 1;">`+docData[0].title+`</div>
+        </div>
+        <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__description vkuiFootnote vkuiTypography vkuiTypography--normalize vkuiRootComponent" data-testid="secondaryattachment-description" style="--vkui_internal--textclamp-lines: 1;">`+getDocSize(docData[0].size)+`</div>
+        <div class="vkitSecondaryAttachment__progressBarContent">
+          <div class="vkitSecondaryAttachment__progressBar"></div>
+        </div>
+      </div>
+      <div class="vkitSecondaryAttachment__after vkuiButtonGroup vkuiButtonGroup--mode-horizontal vkuiButtonGroup--gap-s vkuiButtonGroup--align-left vkuiRootComponent" role="group" data-testid="secondaryattachment-after">
+        <div class="vkitSecondaryAction__root">
+          <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--chevron_right_outline_20 vkitSecondaryAction__chevron" width="20" height="20" viewBox="0 0 20 20" style="width: 20px; height: 20px;">
+            <use xlink:href="#chevron_right_outline_20" style="fill: currentcolor;"></use>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+			`;
+			if(docData[0].preview) {
+				let fallBack = secondaryAttachDoc.querySelector('.vkuiInternalImage');
+				fallBack.querySelector('.vkuiImageBase__fallback').remove();
+				fallBack.style.background = "url("+docData[0].preview.photo.sizes[0].src+")";
+				fallBack.style.backgroundSize = "cover";
+			} else {
+				
+			}
+			docu.closest('[class^="PostContentContainer__contentContainer"]').appendChild(secondaryAttachDoc);
+});
+/*Обычные посты*/
+let wallSelectors = [`[class^='PostDateBlock__root'] > .vkui__root`,`._post.postponed ._post_content`];
+document.arrive(wallSelectors, { existing: true }, async function (s) { 
 	let e = s.closest('._post.Post--redesignV3');
 	if(!e) {
 		e = s.closest('.wl_post.Post--redesignV3');
@@ -9489,34 +9632,89 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 		.post_photos.Post--redesignV3 .vkEnhancerPostDate,.post_photos.Post--redesignV3 .PostHeaderSubtitle__separator {
 			display:none;
 		}
-		/*
-		.Post--redesignV3:has([class^="PostContentDumbSkeleton"]) {
+		.vkitSecondaryAttachment__rootVerticalPaddingRedesign {
+			padding-top: 4px;
+			padding-bottom: 4px;
+		}
+		.vkitSecondaryAttachment__rootNoHorizontalPadding {
+			padding-left: 0;
+			padding-right: 0;
+		}
+		.vkitSecondaryAttachment__root {
+			display: flex;
+			align-items: center;
+			text-decoration: none;
+			border-radius: var(--vkui--size_border_radius--regular);
+		}
+		.vkitSecondaryAttachment__before {
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-right: 8px;
+		}
+		.vkitSecondaryAttachment__content {
+			display: grid;
+			grid-template-areas:
+				"title progressTime"
+				"description progressTime"
+				"progressBar progressBar ";
+			grid-template-columns: minmax(0, 1fr) auto;
+			flex-grow: 1;
+			min-width: 0;
+		}
+		.vkitSecondaryAttachment__title {
+			grid-area: title;
+			max-width: 100%;
+		}
+		.vkitTextClamp__root.vkitTextClamp__root {
+			display: -webkit-box;
+		}
+		.vkitSecondaryAttachment__titleText {
+			color: var(--vkui--color_text_primary);
+			min-width: 0;
+		}
+		.vkitTextClamp__rootSingleLine {
+			word-break: break-all;
+		}
+		.vkitTextClamp__root {
+			overflow: hidden;
+			white-space: normal;
+			word-break: break-word;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: var(--vkui_internal--textclamp-lines, 1);
+			line-clamp: var(--vkui_internal--textclamp-lines, 1);
+		}
+		.vkitSecondaryAttachment__description {
+			grid-area: description;
+			display: block;
+			color: var(--vkui--color_text_secondary);
+			min-width: 0;
+			max-width: 100%;
+		}
+		.vkitSecondaryAttachment__after {
+			margin-left: 8px;
+		}
+		.vkitSecondaryAction__root {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.vkitSecondaryAction__chevron,.vkEnhancer--document_outline_24 path {
+			color: var(--vkui--color_icon_secondary);
+		}
+		.vkEnhancer--document_outline_24 {
+			display:flex;
+		}
+		.vkEnhancerSecondaryAttach:hover {
+			opacity:.8;
+		}
+		.Post--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"]) {
 			display:none;
 		}
-		#wl_post.Post--redesignV3 .PostCopyQuote--redesignV3 [class^="PostContentContainer__root"] {
-			margin-left:18px;
-		}
-		.PostHeader--redesignV3 .PostHeaderSubtitle:has(.PostHeaderSubtitle--withGeo) {
+		.Post--redesignV3 [class^="vkitShowMoreText__text"]:has(> [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]) .vkuiSpacing--m:not(:first-child) {
 			display:none;
 		}
-		.Post--redesignV3 [class^="vkitShowMoreText__root"] {
-			--show-more-text-blur-size: 0px!important;
-			--show-more-text-blur-dynamic-size: 0px!important;
-			--show-more-text-after-left: 0px!important;
-			--show-more-text-after-width: 0px!important;
-		}
-		.Post--redesignV3 [class^="vkitShowMoreText__root"] [class^="vkitTextClamp__root"]{
-			--vkui_internal--textclamp-lines: 6!important;
-		}
-		.Post--redesignV3 [class^="vkitShowMoreText__root"] [class^="vkitShowMoreText__after"] {
-			left: 0!important;
-			bottom: -6px!important;
-		}
-		.Post--redesignV3 .replies_wrap .AvatarRich--sz-28.AvatarRich--shadow.reply_image {
-			width:34px!important;
-			height:34px!important;
-		}
-		*/
 	`;
 	try {
 		let postBottom = e.querySelector('[class^="PostDateBlock__root"]');
@@ -9525,6 +9723,7 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 		let postBottomNew = document.createElement('div');
 		postBottomNew.classList.add('vkEnhancerPostViews');
 		let postData = getPostData(postBottom);
+		//console.log(postData);
 		/*Просмотры*/
 		let isViews;
 		if(postData.viewsCount && postData.viewsCount != null && !e.querySelector('.vkEnhancerPostViews')) {
@@ -9565,7 +9764,7 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 			postContent.prepend(postText);
 		}
 		catch(error) {
-			//console.log(error);
+			console.log(error);
 		}
 		}
 		/*Репост поста*/
@@ -9796,6 +9995,75 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 			}
 		}
 		*/
+		/*Аттач-чипс: документы*/
+		if(e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"])')) {
+			let allDocs = e.querySelectorAll('[class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]');
+			allDocs.forEach(async function (docu) {
+			let attachHref = docu.getAttribute('href');
+			let docId = extractDocId(attachHref);
+			let docData = await vkApi.api('docs.getById',{'docs':docId});
+			if(docData.length == 0) {
+				let docOwner = docId.split('_')[0];
+				let docIId = docId.split('_')[1];
+				let post = await vkApi.api('wall.getById',{'posts':postData.postRaw});
+				let attaches = post.items[0].attachments;
+				attaches.forEach( async function(attach) {
+					if(attach.type=="doc") {
+						if(attach.doc.id == docIId && attach.doc.owner_id == docOwner) {
+							docData = [attach.doc];
+							return;
+						}
+					}
+				});
+			}
+			let secondaryAttachDoc = document.createElement('div');
+			secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
+			secondaryAttachDoc.style.padding = "0px 8px";
+			secondaryAttachDoc.innerHTML = `
+			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
+  <a href="`+docData[0].url+`" target="_blank" style="text-decoration:none;" class="vkitSecondaryAttachmentList__root vkitSecondaryAttachmentList__rootRedesign">
+    <div class="vkitSecondaryAttachment__root vkitSecondaryAttachment__rootNoHorizontalPadding vkitSecondaryAttachment__rootVerticalPaddingRedesign vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" role="button" tabindex="0" data-testid="secondaryattachment">
+      <div data-testid="secondaryattachment-before" class="vkitSecondaryAttachment__before">
+        <div class="vkuiInternalImage vkuiImage vkuiImageBase vkuiClickable__host vkuiRootComponent" style="width: 40px; height: 40px; --vkui_internal--Image_border_radius: 8px;">
+          <div class="vkuiImageBase__fallback">
+            <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-24 vkuiIcon--h-24 vkEnhancer--document_outline_24" width="22" height="22" viewBox="0 0 20 20" style="width: 22px; height: 22px;">
+              <path fill="currentColor" fill-rule="evenodd" d="M10.175 1.5H9c-.806 0-1.465.006-2.01.05-.63.052-1.172.16-1.67.413a4.25 4.25 0 0 0-1.857 1.858c-.253.497-.361 1.04-.413 1.67C3 6.103 3 6.864 3 7.816v4.366c0 .952 0 1.713.05 2.327.052.63.16 1.172.413 1.67a4.25 4.25 0 0 0 1.858 1.857c.497.253 1.04.361 1.67.413.613.05 1.374.05 2.326.05h1.366c.952 0 1.713 0 2.327-.05.63-.052 1.172-.16 1.67-.413a4.25 4.25 0 0 0 1.857-1.857c.253-.498.361-1.04.413-1.67.05-.614.05-1.375.05-2.327V8.325c0-.489 0-.733-.055-.963q-.075-.309-.24-.579c-.123-.201-.296-.374-.642-.72l-3.626-3.626c-.346-.346-.519-.519-.72-.642a2 2 0 0 0-.579-.24c-.23-.055-.474-.055-.963-.055M15.5 12.15c0 .992 0 1.692-.045 2.238-.044.537-.127.86-.255 1.11A2.75 2.75 0 0 1 14 16.7c-.252.128-.574.21-1.111.255-.546.044-1.245.045-2.238.045h-1.3c-.992 0-1.692 0-2.238-.045-.537-.044-.86-.127-1.11-.255A2.75 2.75 0 0 1 4.8 15.5c-.128-.252-.21-.574-.255-1.111-.044-.546-.045-1.245-.045-2.238v-4.3c0-.992 0-1.692.045-2.238.044-.537.127-.86.255-1.11A2.75 2.75 0 0 1 6.002 3.3c.25-.128.573-.21 1.11-.255C7.658 3.001 8.358 3 9.35 3H10v2.35c0 .409 0 .761.024 1.051.026.306.083.61.238.902.21.398.537.724.935.935.291.155.596.212.902.238.29.024.642.024 1.051.024h2.35zM14.879 7 11.5 3.621V5.32c0 .447 0 .736.02.955.017.21.047.288.067.326a.75.75 0 0 0 .312.312c.038.02.116.05.326.068.22.018.508.019.955.019z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="vkuiImageBase__children"></div>
+        </div>
+      </div>
+      <div class="vkitSecondaryAttachment__content">
+        <div class="vkitSecondaryAttachment__title vkuiFlex vkuiFlex--wrap vkuiFlex--align-center vkuiRootComponent" data-testid="secondaryattachment-title">
+          <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__titleText vkuiHeadline--sizeY-compact vkuiHeadline--level-1 vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiRootComponent" style="--vkui_internal--textclamp-lines: 1;">`+docData[0].title+`</div>
+        </div>
+        <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__description vkuiFootnote vkuiTypography vkuiTypography--normalize vkuiRootComponent" data-testid="secondaryattachment-description" style="--vkui_internal--textclamp-lines: 1;">`+getDocSize(docData[0].size)+`</div>
+        <div class="vkitSecondaryAttachment__progressBarContent">
+          <div class="vkitSecondaryAttachment__progressBar"></div>
+        </div>
+      </div>
+      <div class="vkitSecondaryAttachment__after vkuiButtonGroup vkuiButtonGroup--mode-horizontal vkuiButtonGroup--gap-s vkuiButtonGroup--align-left vkuiRootComponent" role="group" data-testid="secondaryattachment-after">
+        <div class="vkitSecondaryAction__root">
+          <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--chevron_right_outline_20 vkitSecondaryAction__chevron" width="20" height="20" viewBox="0 0 20 20" style="width: 20px; height: 20px;">
+            <use xlink:href="#chevron_right_outline_20" style="fill: currentcolor;"></use>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+			`;
+			if(docData[0].preview) {
+				let fallBack = secondaryAttachDoc.querySelector('.vkuiInternalImage');
+				fallBack.querySelector('.vkuiImageBase__fallback').remove();
+				fallBack.style.background = "url("+docData[0].preview.photo.sizes[0].src+")";
+				fallBack.style.backgroundSize = "cover";
+			} else {
+				
+			}
+			docu.closest('[class^="PostContentContainer__contentContainer"]').appendChild(secondaryAttachDoc);
+		});
+		}
 		
 	}
 	catch(error) {
@@ -9804,6 +10072,30 @@ document.arrive("[class^='PostDateBlock__root'] > .vkui__root", { existing: true
 });
 }
 }
+
+function getDocSize(docSize) {
+	if (!docSize) return "";
+    switch (!0) {
+        case docSize >= (2 ** 30):
+            return getLang("calls_decoded_page_doc_size_gb").replace(/{size}/g, String(Number((docSize / (2 ** 30)).toFixed(1))) + " ").toUpperCase();
+        case docSize >= (2 ** 20):
+            return getLang("calls_decoded_page_doc_size_mb").replace(/{size}/g, String(Number((docSize / (2 ** 20)).toFixed(1))) + " ").toUpperCase();
+        case docSize >= 1024:
+            return getLang("calls_decoded_page_doc_size_kb").replace(/{size}/g, String(Math.round(docSize / 1024)) + " ").toUpperCase();
+        default:
+            return getLang("calls_decoded_page_doc_size_kb").replace(/{size}/g, String(Number((docSize / 1024).toFixed(1))) + " ").toUpperCase();
+    }
+}
+
+function extractDocId(url) {
+  const regex = /doc(-?\d+_\d+)/;
+  const match = url.match(regex);
+  if (match) {
+    return match[1];
+  }
+  return null;
+}
+
 function getPostDataText(elem) {
   const t = {};
   let n = 0;
