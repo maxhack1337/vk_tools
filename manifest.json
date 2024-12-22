@@ -5,7 +5,7 @@
     "default_title": "Настройки VK Tools"
   },
   "name": "VK Tools - улучшение ВКонтакте",
-  "version": "4.2",
+  "version": "4.3",
   "icons": {
     "128": "assets/icon128.png",
     "16": "assets/icon16.png",
@@ -42,9 +42,9 @@
         "*://vk.com/*","*://vk.ru/*","*://oauth.vk.com/*","*://vkvideo.ru/*","*://*.vk.com/*"
       ],
       "js": [
+	    "js/content_script.js",
         "js/modules-start.js",
-        "js/helper.js",
-        "js/content_script.js"
+        "js/helper.js"
       ],
       "run_at": "document_start"
     }
@@ -70,8 +70,9 @@
   "web_accessible_resources": [
     {
       "resources": [
+	    "js/post_attaches.js",
         "js/main.js",
-	"js/jszip.min.js",
+		"js/jszip.min.js",
         "js/modules/arrive.js",
         "js/modules/hls.js",
         "js/vkm_reforged_in_vkcom.js",
