@@ -1,4 +1,6 @@
 console.log("VK Tools content script is running!");
+injectScript("js/post_attaches.js");
+
 function CheckToken() {
   if (window.location.href.indexOf('https://oauth.vk.com/blank.html') === -1) {
     location.href = 'https://oauth.vk.com/authorize?client_id=6121396&scope=196608&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1';
@@ -22,9 +24,6 @@ function CheckToken() {
 }
 var vkenAccessToken1 = '';
 
-
-const { testfunc } = importVarsFrom("helper");
-
 var isSecretCheck = false;
 var isPostReact = false;
 var isSecretEnabled = false;
@@ -41,8 +40,8 @@ const fromId = document.getElementById.bind(document);
 
 (async () => {
   await injectScript("js/modules/arrive.js");
-  await injectScript("js/modules/hls.js");
   await injectScript("js/main.js");
+  await injectScript("js/modules/hls.js");
   await injectScript("js/jszip.min.js");
   window.postMessage({ action: "Init" }, "*");
   window.postMessage(
