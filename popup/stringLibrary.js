@@ -82,7 +82,7 @@ const strings = {
 	pseudoTab1: ['Кастомизация акцентов', 'Accents customization', 'Кастомізація акцентів'],
 	pseudoTab2: ['Новый мессенджер', 'New messenger', 'Новий месенджер'],
 	pseudoTab3: ['Настройки', 'Settings', 'Налаштування'],
-	versionNumber: ['Версия 4.3 Release', 'v. 4.3 Release', 'Версія 4.3 Release'],
+	versionNumber: ['Версия 4.4 Release', 'v. 4.4 Release', 'Версія 4.4 Release'],
 	errorUpdating: ['Не обновляется расширение? Нажмите Alt+Shift+R в любом месте браузера и расширение перезагрузится, при этом, обновившись до новейшей версии', 'Extension not updating? Press Alt+Shift+R anywhere in the browser and the extension will reload, updating to the latest version', 'Чи не оновлюється розширення? Натисніть Alt+Shift+R будь-де браузера і розширення перезавантажиться, при цьому, оновившись до новітньої версії'],
 	lang: ['Язык:', 'Language:', 'Мова:'],
 	notGroupOrUserId: ['Данный элемент не является пользователем или группой', 'This element is not a user profile or group', 'Цей елемент не є користувачем або групою'],

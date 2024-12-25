@@ -103,13 +103,6 @@ function fillStrings() {
     document.querySelector('div.footerInfo > a:nth-child(4) > h4').textContent = getLocalizedString(strings.vkEnhancerChat);
     document.querySelector('div.footerInfo > a:nth-child(4) > span').textContent = getLocalizedString(strings.vkEnhancerChatDescription);
 
-    document.querySelector('div.footerInfo > h3:nth-child(5)').textContent = getLocalizedString(strings.team);
-    document.querySelector('div.footerInfo > a:nth-child(6) > span').textContent = getLocalizedString(strings.extensionCreator);
-
-    document.querySelector('div.footerInfo > a:nth-child(7) > span').textContent = getLocalizedString(strings.developer);
-	
-	document.querySelector('div.footerInfo > a:nth-child(8) > span').textContent = getLocalizedString(strings.tester);
-
     document.querySelector('#CustomAccentChoose > h5').textContent = getLocalizedString(strings.customAccent);
     document.querySelector('#CustomTextChoose > h5').textContent = getLocalizedString(strings.highlightColor);
     document.querySelector('#CustomTextChoose1 > h5').textContent = getLocalizedString(strings.selectedTextColor);
