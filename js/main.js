@@ -8683,6 +8683,8 @@ function getStoryText(lang) {
             );
             audioResponse.items.slice(0, 6).forEach(async (audioItem) => {
               let audioElement = document.createElement("div");
+			  let titleAud = audioItem.title.replace('"',"'");
+			  let artistAud = audioItem.artist.replace('"',"'");
               audioElement.innerHTML = `<div tabindex="0" class="audio_row audio_row_with_cover _audio_row _audio_row_${
                 audioItem.owner_id
               }_${
@@ -8694,9 +8696,9 @@ function getStoryText(lang) {
               }" onclick="return getAudioPlayer().toggleAudio(this, event)" data-audio="[${
                 audioItem.id
               },${audioItem.owner_id},&quot;&quot;,&quot;${
-                audioItem.title
+                titleAud
               }&quot;,&quot;${
-                audioItem.artist
+                artistAud
               }&quot;,157,0,0,&quot;&quot;,0,34,&quot;module:${
                 audioItem.owner_id
               }&quot;,&quot;[]&quot;,&quot;62efa83eaf32d46ab7\/\/e3727249bcd60c36ee\/\/\/bca050eaeb2ae61a22\/&quot;,&quot;&quot;,{&quot;duration&quot;:${
@@ -9253,11 +9255,6 @@ document.arrive('[class^="StoryBlock__noIslandsContainer"]', { existing: true },
 	e.prepend(superPuperSettings);
 });
 
-document.arrive(".feed_wall--no-islands:has(.Post--redesignV3)", { existing: true }, function (e) { 
-	e.style.backgroundColor = "transparent";
-	e.style.boxShadow = "0 0 0 0 transparent";
-});
-
 window.onload  = () => {
 console.info("[VKENH] Window loaded, awaiting posts");
 /*Отложенные и предложенные посты*/
@@ -9420,6 +9417,10 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
       document.head.appendChild(styleElement);
     }
     styleElement.innerHTML = `
+		.feed_wall--no-islands:has(.Post--redesignV3) {
+			background-color: transparent;
+			box-shadow: 0 0 0 0 transparent;
+		}
 	    ._post.Post--redesignV3, ._post.topic_comment, ._post.video_post, #feed_rows .fave_photos_page_block, ._post.photo_post  {
 			background-color:var(--vkui--color_background_content)!important;
 			border-radius:var(--vkui--size_border_radius_paper--regular)!important;
@@ -9725,6 +9726,12 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		.Post--redesignV3 [class^="vkitShowMoreText__text"]:has(> [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]) .vkuiSpacing--m:not(:first-child) {
 			display:none;
 		}
+		.Post--redesignV3 .vk_enhancer_in_post_audio {
+			margin: 6px 20px 0px!important;
+		}
+		.Post--redesignV3 [class^="vkitMusicOverlayAttachment__attachment"],.Post--redesignV3 [class^="OnMediaAttachmentOverlay__attachment"] {
+			display:none;
+		}
 	`;
 	try {
 		let postBottom = e.querySelector('[class^="PostDateBlock__root"]');
@@ -9732,7 +9739,12 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		postBottom.style.display = "none";
 		let postBottomNew = document.createElement('div');
 		postBottomNew.classList.add('vkEnhancerPostViews');
-		let postData = getPostData(postBottom);
+		let postData;
+		try {
+		postData = getPostData(postBottom);
+		} catch(error) {
+		postData = getPostDataNew(postBottom.querySelector('div'));
+		}
 		//console.log(postData);
 		/*Просмотры*/
 		let isViews;
@@ -9841,11 +9853,21 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 				let postDate = document.createElement('div');
 				postDate.classList.add("copy_post_date","vk_enhancer_copy_post_subhead");
 				if(isCase == '' || isCase == 'post') {
+				try {
 				postDate.innerHTML = `
 				<a class="vkEnhancerPostDate published_by_date" href="/wall`+repostID+`" onclick="return showWiki({w: 'wall`+repostID+`'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
 					`+getFormattedPostDate(repostData.items[0].date)+`
 				</a>
-			`;
+				`;}
+				catch(error) {
+					let copyPostQuery = await vkApi.api('wall.getById',{posts:postData.postRaw,extended:1});
+					let copyItem = copyPostQuery.items[0].copy_history[0];
+					postDate.innerHTML = `
+				<a class="vkEnhancerPostDate published_by_date" href="/wall`+copyItem.owner_id+`_`+copyItem.id+`" onclick="return showWiki({w: 'wall`+copyItem.owner_id+`_`+copyItem.id+`'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
+					`+getFormattedPostDate(copyItem.date)+`
+				</a>
+				`;
+				}
 				} else {
 				postDate.innerHTML = `
 				<a class="vkEnhancerPostDate published_by_date" href="/`+postType+repostID+`" onclick="event.preventDefault(); event.stopPropagation(); window.showVideo('` + repostID + `','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);">
@@ -10127,8 +10149,200 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		}
 		/*Музыка на фото*/
 		if(e.querySelector('[class^="vkitMusicTrackOverlayBadge__root"]')) {
-			//nav.reload();
+			let x = e.querySelector('[class^="vkitMusicTrackOverlayBadge__root"]');
+			if (dataAttachments && dataAttachments.item && dataAttachments.item.attachments) {
+                    dataAttachments.item.attachments.forEach(function(music) {
+                        if(music.type === "audio" && music.style === "on_media") {
+                            let audioElement = document.createElement("div");
+			  let titleAud = music.audio.title.replace('"',"'");
+			  let artistAud = music.audio.artist.replace('"',"'");
+              audioElement.innerHTML = `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row audio_row_with_cover _audio_row _audio_row_${
+                music.audio.owner_id
+              }_${
+                music.audio.id
+              } audio_can_add audio_lpb audio_row2 audio_row_playable audio_new_lyrics" data-full-id="${
+                music.audio.owner_id
+              }_${
+                music.audio.id
+              }" onclick="return getAudioPlayer().toggleAudio(this, event)" data-audio="[${
+                music.audio.id
+              },${music.audio.owner_id},&quot;&quot;,&quot;${
+                titleAud
+              }&quot;,&quot;${
+                artistAud
+              }&quot;,157,0,0,&quot;&quot;,0,34,&quot;module:${
+                music.audio.owner_id
+              }&quot;,&quot;[]&quot;,&quot;62efa83eaf32d46ab7\/\/e3727249bcd60c36ee\/\/\/bca050eaeb2ae61a22\/&quot;,&quot;&quot;,{&quot;duration&quot;:${
+                music.audio.ads.duration
+              },&quot;content_id&quot;:&quot;${music.audio.owner_id}_${
+                music.audio.id
+              }&quot;,&quot;puid22&quot;:${
+                music.audio.ads.puid22
+              },&quot;account_age_type&quot;:${
+                music.audio.ads.account_age_type
+              },&quot;_SITEID&quot;:276,&quot;vk_id&quot;:${
+                vk.id
+              },&quot;ver&quot;:251116},&quot;&quot;,&quot;&quot;,&quot;&quot;,false,&quot;9c91d4359kPPl-j5wiDD-N-q4xNYySV8d1i8YjJXvg6StjuAn436s3dh-U5Vim743w&quot;,0,0,true,&quot;${
+                music.audio.access_key
+              }&quot;,false,&quot;&quot;,false]" onmouseover="window.AudioUtils &amp;&amp; window.AudioUtils.onRowOver(this, event, false, '', '${
+                music.audio.access_key
+              }')" onmouseleave="window.AudioUtils &amp;&amp; window.AudioUtils.onRowLeave(this, event)">
+  <div class="audio_row_content _audio_row_content vkEnAudioRow">
+    <button class="blind_label _audio_row__play_btn" aria-label="Воспроизвести " data-testid="audio_row_play_pause_button" onclick="getAudioPlayer().toggleAudio(this, event); return cancelEvent(event)"></button>
+    <div class="audio_row__cover audio_row__without_cover"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="song_24__Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="song_24__song_24"><path id="song_24__Bounds" d="M0 0h24v24H0z"></path><path d="M13 11.48v5.65c0 4.52-.87 5.39-4.37 5.85C6.96 23.19 5 22.44 5 19.8c0-1.28.8-2.5 2.46-2.81 1.27-.25-.09.02 2.78-.52.7-.13.77-.37.77-.9V3.97c0-1.24.67-1.69 2.66-2.09l4.68-.87c.37-.07.65.07.65.49v4.05c0 .42-.17.6-.59.68l-4.86.86c-.38.1-.55.36-.55.74v3.64Z" id="song_24__Mask" fill="currentColor"></path></g></g></svg></div>
+    <div class="audio_row__cover_back _audio_row__cover_back"></div>
+    <div class="audio_row__cover_icon _audio_row__cover_icon">
+      <div class="audio_row__play_btn_icon--pause"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6.6c0-.56 0-.84.1-1.05a1 1 0 0 1 .45-.44C6.76 5 7.04 5 7.6 5h.8c.56 0 .84 0 1.05.1a1 1 0 0 1 .44.45c.11.21.11.49.11 1.05v10.8c0 .56 0 .84-.1 1.05a1 1 0 0 1-.45.44c-.21.11-.49.11-1.05.11h-.8c-.56 0-.84 0-1.05-.1a1 1 0 0 1-.44-.45C6 18.24 6 17.96 6 17.4V6.6Zm8 0c0-.56 0-.84.1-1.05a1 1 0 0 1 .45-.44C14.76 5 15.04 5 15.6 5h.8c.56 0 .84 0 1.05.1a1 1 0 0 1 .44.45c.11.21.11.49.11 1.05v10.8c0 .56 0 .84-.1 1.05a1 1 0 0 1-.45.44c-.21.11-.49.11-1.05.11h-.8c-.56 0-.84 0-1.05-.1a1 1 0 0 1-.44-.45c-.11-.21-.11-.49-.11-1.05V6.6Z"></path></svg></div>
+      <div class="audio_row__play_btn_icon--play"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M18.5 11.13a1 1 0 0 1 0 1.74l-9 5.2A1 1 0 0 1 8 17.2V6.8a1 1 0 0 1 1.5-.86l9 5.2Z"></path></svg></div>
+    </div>
+    <div class="audio_row__counter"></div>
+    <div class="audio_row__play_btn">
+      <div class="audio_row__play_btn_icon--pause"><svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12 24a12 12 0 1 0 0-24 12 12 0 0 0 0 24zM10.6 7.1c-.14-.06-.27-.1-.63-.1h-.94c-.36 0-.49.04-.62.1a.73.73 0 0 0-.3.3c-.07.14-.11.27-.11.63v7.94c0 .36.04.49.1.62.08.13.18.23.3.3.14.07.27.11.63.11h.94c.36 0 .49-.04.62-.1a.73.73 0 0 0 .3-.3c.07-.14.11-.27.11-.63V8.03c0-.36-.04-.49-.1-.62a.73.73 0 0 0-.3-.3zm5 0c-.14-.06-.27-.1-.63-.1h-.94c-.36 0-.49.04-.62.1a.73.73 0 0 0-.3.3c-.07.14-.11.27-.11.63v7.94c0 .36.04.49.1.62.08.13.18.23.3.3.14.07.27.11.63.11h.94c.36 0 .49-.04.62-.1a.73.73 0 0 0 .3-.3c.07-.14.11-.27.11-.63V8.03c0-.36-.04-.49-.1-.62a.73.73 0 0 0-.3-.3z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
+      <div class="audio_row__play_btn_icon--play"><svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12 24a12 12 0 1 0 0-24 12 12 0 0 0 0 24zm5.02-11.13c.64-.39.64-1.36 0-1.74l-6.6-4C9.77 6.75 9 7.23 9 8v8c0 .76.78 1.25 1.41.87z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
+    </div>
+
+    <div class="audio_row__inner">
+      <div class="audio_row__chart_info">
+        
+        
+      </div>
+      <div class="audio_row__performer_title">
+        <div onmouseover="setTitle(this)" class="audio_row__performers" data-testid="audio_row_performers"><a href="/audio?performer=1&amp;q=${
+          music.audio.artist
+        }">${music.audio.artist}</a></div>
+        <div class="audio_row__title _audio_row__title" onmouseover="setTitle(this)">
+          <a href="" class="audio_row__title_inner _audio_row__title_inner" data-testid="audio_row_title">${
+            music.audio.title
+          }</a>
+          <span class="audio_row__title_inner_subtitle _audio_row__title_inner_subtitle"></span>
+          
+        </div>
+      </div>
+      <div class="audio_row__info _audio_row__info"><div class="audio_row__duration audio_row__duration-s _audio_row__duration" style="visibility: visible;">${splitDuration(
+        music.audio.duration
+      )}</div></div>
+    </div>
+
+    <div class="audio_player__place _audio_player__place"></div>
+  </div>
+</div>`;
+              function splitDuration(dura) {
+                let hours = Math.floor(dura / 3600);
+                let minutes = Math.floor((dura % 3600) / 60);
+                let seconds = dura % 60;
+
+                if (hours === 0) {
+                  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+                } else {
+                  return `${hours}:${minutes
+                    .toString()
+                    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+                }
+              }
+              x.closest('[class^="PostContentContainer__contentContainer"]').appendChild(audioElement);
+                        }
+                    });
+                }
 		}
+		
+		if(e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitMusicTrackOverlayBadge__root"]')) {
+			let x = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitMusicTrackOverlayBadge__root"]');
+			if (dataRepostAttachments && dataRepostAttachments.item && dataRepostAttachments.item.attachments) {
+                    dataRepostAttachments.item.attachments.forEach(function(music) {
+                        if(music.type === "audio" && music.style === "on_media") {
+                            let audioElement = document.createElement("div");
+							let titleAud = music.audio.title.replace('"',"'");
+			  let artistAud = music.audio.artist.replace('"',"'");
+              audioElement.innerHTML = `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row audio_row_with_cover _audio_row _audio_row_${
+                music.audio.owner_id
+              }_${
+                music.audio.id
+              } audio_can_add audio_lpb audio_row2 audio_row_playable audio_new_lyrics" data-full-id="${
+                music.audio.owner_id
+              }_${
+                music.audio.id
+              }" onclick="return getAudioPlayer().toggleAudio(this, event)" data-audio="[${
+                music.audio.id
+              },${music.audio.owner_id},&quot;&quot;,&quot;${
+                titleAud
+              }&quot;,&quot;${
+                artistAud
+              }&quot;,157,0,0,&quot;&quot;,0,34,&quot;module:${
+                music.audio.owner_id
+              }&quot;,&quot;[]&quot;,&quot;62efa83eaf32d46ab7\/\/e3727249bcd60c36ee\/\/\/bca050eaeb2ae61a22\/&quot;,&quot;&quot;,{&quot;duration&quot;:${
+                music.audio.ads.duration
+              },&quot;content_id&quot;:&quot;${music.audio.owner_id}_${
+                music.audio.id
+              }&quot;,&quot;puid22&quot;:${
+                music.audio.ads.puid22
+              },&quot;account_age_type&quot;:${
+                music.audio.ads.account_age_type
+              },&quot;_SITEID&quot;:276,&quot;vk_id&quot;:${
+                vk.id
+              },&quot;ver&quot;:251116},&quot;&quot;,&quot;&quot;,&quot;&quot;,false,&quot;9c91d4359kPPl-j5wiDD-N-q4xNYySV8d1i8YjJXvg6StjuAn436s3dh-U5Vim743w&quot;,0,0,true,&quot;${
+                music.audio.access_key
+              }&quot;,false,&quot;&quot;,false]" onmouseover="window.AudioUtils &amp;&amp; window.AudioUtils.onRowOver(this, event, false, '', '${
+                music.audio.access_key
+              }')" onmouseleave="window.AudioUtils &amp;&amp; window.AudioUtils.onRowLeave(this, event)">
+  <div class="audio_row_content _audio_row_content vkEnAudioRow">
+    <button class="blind_label _audio_row__play_btn" aria-label="Воспроизвести " data-testid="audio_row_play_pause_button" onclick="getAudioPlayer().toggleAudio(this, event); return cancelEvent(event)"></button>
+    <div class="audio_row__cover audio_row__without_cover"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="song_24__Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="song_24__song_24"><path id="song_24__Bounds" d="M0 0h24v24H0z"></path><path d="M13 11.48v5.65c0 4.52-.87 5.39-4.37 5.85C6.96 23.19 5 22.44 5 19.8c0-1.28.8-2.5 2.46-2.81 1.27-.25-.09.02 2.78-.52.7-.13.77-.37.77-.9V3.97c0-1.24.67-1.69 2.66-2.09l4.68-.87c.37-.07.65.07.65.49v4.05c0 .42-.17.6-.59.68l-4.86.86c-.38.1-.55.36-.55.74v3.64Z" id="song_24__Mask" fill="currentColor"></path></g></g></svg></div>
+    <div class="audio_row__cover_back _audio_row__cover_back"></div>
+    <div class="audio_row__cover_icon _audio_row__cover_icon">
+      <div class="audio_row__play_btn_icon--pause"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6.6c0-.56 0-.84.1-1.05a1 1 0 0 1 .45-.44C6.76 5 7.04 5 7.6 5h.8c.56 0 .84 0 1.05.1a1 1 0 0 1 .44.45c.11.21.11.49.11 1.05v10.8c0 .56 0 .84-.1 1.05a1 1 0 0 1-.45.44c-.21.11-.49.11-1.05.11h-.8c-.56 0-.84 0-1.05-.1a1 1 0 0 1-.44-.45C6 18.24 6 17.96 6 17.4V6.6Zm8 0c0-.56 0-.84.1-1.05a1 1 0 0 1 .45-.44C14.76 5 15.04 5 15.6 5h.8c.56 0 .84 0 1.05.1a1 1 0 0 1 .44.45c.11.21.11.49.11 1.05v10.8c0 .56 0 .84-.1 1.05a1 1 0 0 1-.45.44c-.21.11-.49.11-1.05.11h-.8c-.56 0-.84 0-1.05-.1a1 1 0 0 1-.44-.45c-.11-.21-.11-.49-.11-1.05V6.6Z"></path></svg></div>
+      <div class="audio_row__play_btn_icon--play"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M18.5 11.13a1 1 0 0 1 0 1.74l-9 5.2A1 1 0 0 1 8 17.2V6.8a1 1 0 0 1 1.5-.86l9 5.2Z"></path></svg></div>
+    </div>
+    <div class="audio_row__counter"></div>
+    <div class="audio_row__play_btn">
+      <div class="audio_row__play_btn_icon--pause"><svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12 24a12 12 0 1 0 0-24 12 12 0 0 0 0 24zM10.6 7.1c-.14-.06-.27-.1-.63-.1h-.94c-.36 0-.49.04-.62.1a.73.73 0 0 0-.3.3c-.07.14-.11.27-.11.63v7.94c0 .36.04.49.1.62.08.13.18.23.3.3.14.07.27.11.63.11h.94c.36 0 .49-.04.62-.1a.73.73 0 0 0 .3-.3c.07-.14.11-.27.11-.63V8.03c0-.36-.04-.49-.1-.62a.73.73 0 0 0-.3-.3zm5 0c-.14-.06-.27-.1-.63-.1h-.94c-.36 0-.49.04-.62.1a.73.73 0 0 0-.3.3c-.07.14-.11.27-.11.63v7.94c0 .36.04.49.1.62.08.13.18.23.3.3.14.07.27.11.63.11h.94c.36 0 .49-.04.62-.1a.73.73 0 0 0 .3-.3c.07-.14.11-.27.11-.63V8.03c0-.36-.04-.49-.1-.62a.73.73 0 0 0-.3-.3z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
+      <div class="audio_row__play_btn_icon--play"><svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12 24a12 12 0 1 0 0-24 12 12 0 0 0 0 24zm5.02-11.13c.64-.39.64-1.36 0-1.74l-6.6-4C9.77 6.75 9 7.23 9 8v8c0 .76.78 1.25 1.41.87z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
+    </div>
+
+    <div class="audio_row__inner">
+      <div class="audio_row__chart_info">
+        
+        
+      </div>
+      <div class="audio_row__performer_title">
+        <div onmouseover="setTitle(this)" class="audio_row__performers" data-testid="audio_row_performers"><a href="/audio?performer=1&amp;q=${
+          music.audio.artist
+        }">${music.audio.artist}</a></div>
+        <div class="audio_row__title _audio_row__title" onmouseover="setTitle(this)">
+          <a href="" class="audio_row__title_inner _audio_row__title_inner" data-testid="audio_row_title">${
+            music.audio.title
+          }</a>
+          <span class="audio_row__title_inner_subtitle _audio_row__title_inner_subtitle"></span>
+          
+        </div>
+      </div>
+      <div class="audio_row__info _audio_row__info"><div class="audio_row__duration audio_row__duration-s _audio_row__duration" style="visibility: visible;">${splitDuration(
+        music.audio.duration
+      )}</div></div>
+    </div>
+
+    <div class="audio_player__place _audio_player__place"></div>
+  </div>
+</div>`;
+              function splitDuration(dura) {
+                let hours = Math.floor(dura / 3600);
+                let minutes = Math.floor((dura % 3600) / 60);
+                let seconds = dura % 60;
+
+                if (hours === 0) {
+                  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+                } else {
+                  return `${hours}:${minutes
+                    .toString()
+                    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+                }
+              }
+              x.closest('[class^="PostContentContainer__contentContainer"]').appendChild(audioElement);
+                        }
+                    });
+                }
+		}
+		/*Плейлист на фото*/
+		/*Без перехвата хэндлера PostContentContainer/init как будто бы нереально сделать, поэтому, в post_attaches.js*/
 		
 	}
 	catch(error) {
@@ -10365,6 +10579,20 @@ function getPostData(elem) {
     )
       break;
   return t.fiber.memoizedState.element.props;
+}
+
+function getPostDataNew(elem) {
+  const t = {};
+  let n = 0;
+  for (const o of Object.keys(elem))
+    if (
+      (o.startsWith("__reactFiber")
+        ? ((t.fiber = elem[o]), ++n)
+        : o.startsWith("__reactProps") && ((t.props = elem[o]), ++n),
+      2 === n)
+    )
+      break;
+  return t.fiber.memoizedProps.children.props;
 }
 ///КОНЕЦ СТАРОГО ДИЗАЙНА ЛЕНТЫ///
 ///КОНЕЦ ЗНАЧКОВ В ПРОФИЛЯХ///
@@ -11601,8 +11829,8 @@ document.arrive(".BurgerMenu__actionsMenu", { existing: true }, function (e) {
   changeDesign.classList.add("ActionsMenuAction");
   changeDesign.classList.add("ActionsMenuAction--secondary");
   changeDesign.classList.add("ActionsMenuAction--size-regular");
-  //changeDesign.style.display = "none";
-  //localStorage.setItem("isCentralDesign", false);
+  changeDesign.style.display = "none";
+  localStorage.setItem("isCentralDesign", false);
   const isCentralDesign = localStorage.getItem("isCentralDesign") || "false";
   const newInterfaceSVG =
     '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" d="M4.01 2.53C4.66 2.18 5.31 2 7.08 2h5.84c1.77 0 2.42.18 3.07.53.64.34 1.14.84 1.48 1.48.35.65.53 1.3.53 3.07v5.84c0 1.77-.18 2.42-.53 3.07A3.57 3.57 0 0116 17.47c-.65.35-1.3.53-3.07.53H7.08c-1.77 0-2.42-.18-3.07-.53A3.57 3.57 0 012.53 16c-.35-.65-.53-1.3-.53-3.07V7.08c0-1.77.18-2.42.53-3.07.34-.64.84-1.14 1.48-1.48zm11.27 13.62c-.34.18-.7.35-2.36.35H9v-13h3.92c1.66 0 2.02.17 2.36.35.38.2.67.5.87.87.18.34.35.7.35 2.36v5.84c0 1.66-.17 2.02-.35 2.36-.2.38-.5.67-.87.87zM7.08 3.5c-1.66 0-2.02.17-2.36.35-.38.2-.67.5-.87.87-.18.34-.35.7-.35 2.36v5.84c0 1.66.17 2.02.35 2.36.2.38.5.67.87.87.34.18.7.35 2.36.35h.42v-13h-.42z"/></svg>';
@@ -11647,7 +11875,7 @@ document.arrive(".BurgerMenu__actionsMenu", { existing: true }, function (e) {
   ///КОНЕЦ СПАМА///
   const spamSeparator = burgerim.querySelector(".ActionsMenuAction__separator");
   burgerim.insertBefore(spamButton, spamSeparator);
-  burgerim.appendChild(changeDesign);
+  //burgerim.appendChild(changeDesign);
   /*if(isCentralDesign == "true") {
   document.querySelector('.ActionsMenuAction:has(>i>svg.vkuiIcon--gear_outline_20)').addEventListener("click", function () {
     window.location.href = '/im/settings';
@@ -11729,7 +11957,7 @@ async function getAllChatTabs(lang) {
 
 //console.log(localStorage.getItem("isCentralDesign"));
 ///НАЧАЛО ЦЕНТРАЛЬНОГО ДИЗАЙНА///
-if (!im.test(window.location.href)) {
+if (true) {
   let styleElement = fromId("rightBarClassicRemove");
   if (!styleElement) {
     styleElement = document.createElement("style");
@@ -11982,7 +12210,7 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
     container.appendChild(nestedDiv);
     nestedDiv.appendChild(section);
 
-    vkuiRoot.appendChild(container);
+    //vkuiRoot.appendChild(container);
 
     let simplebarContentDiv = document.querySelector(".simplebar-content");
     let history = getLocalValue("convo_history") ?? [];
@@ -12061,6 +12289,7 @@ if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
 deferredCallback(
   () => {
     if (
+	  false &&
       getLocalValue("isCentralDesign") &&
       getLocalValue("isVKMReforgedDesign")
     ) {
@@ -12386,7 +12615,7 @@ deferredCallback(
           nestedDiv.appendChild(section);
 
           // Добавляем созданный элемент в DOM
-          vkuiRoot.appendChild(container);
+          //vkuiRoot.appendChild(container);
 
           let simplebarContentDiv = document.querySelector(
             ".simplebar-content"
@@ -12505,7 +12734,7 @@ deferredCallback(
   (_vk) => {
     nav.subscribeOnModuleEvaluated(() => {
       window.dispatchEvent(new CustomEvent("vkNav"));
-      if (!im.test(window.location.href)) {
+      if (true) {
         let styleElement = fromId("rightBarClassicRemove");
         if (!styleElement) {
           styleElement = document.createElement("style");
@@ -12541,8 +12770,7 @@ deferredCallback(
       }
       checkPickerOfIm();
       if (
-        currentPageURL.includes("/im/settings") &&
-        localStorage.getItem("isCentralDesign") == "true"
+        true
       ) {
         let styleElement = fromId("settingsRightRoot");
         if (!styleElement) {

@@ -9,13 +9,13 @@ deferredCallback(
             const wrappedCallback = function (event) {
                 if (event.payload.data && event.payload.data.item && event.payload.data.item.attachments) {
                     event.payload.data.item.attachments.forEach(function(music) {
-                        if(music.type === "audio" && music.style === "on_media") {
-                            const newSecondaryAttach = music.audio,
-                                thumb = newSecondaryAttach.thumb;
+                        if(music.type === "audio_playlist" && music.style === "on_media") {
+                            const newSecondaryAttach = music.audio_playlist,
+                                thumb = newSecondaryAttach.photo;
                             music.style = "compact";
                             music.compact = {
                                 icons: [{
-                                    name: "song_outline",
+                                    name: "playlist_outline",
                                     sizes: []
                                 }],
                                 title: {
@@ -25,7 +25,7 @@ deferredCallback(
                                 },
                                 description: {
                                     text: {
-                                        text: newSecondaryAttach.artist
+                                        text: newSecondaryAttach.description
                                     }
                                 }
                             };
