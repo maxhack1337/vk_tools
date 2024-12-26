@@ -1,5 +1,4 @@
 console.log("VK Tools content script is running!");
-injectScript("js/post_attaches.js");
 
 function CheckToken() {
   if (window.location.href.indexOf('https://oauth.vk.com/blank.html') === -1) {

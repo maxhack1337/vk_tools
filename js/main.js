@@ -9351,11 +9351,16 @@ document.arrive(selectorsDocs, { existing: true }, async function (docus) {
 		}
 
 			let allDocs = docus;
+			let count = 0;
 			dataAttachments.item.attachments.forEach(async function (docu) {
 			if(docu.doc) {
 			let documentCurrent = docu.doc;
 			let secondaryAttachDoc = document.createElement('div');
 			secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
+			if(count == 0) {
+				secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttachFirst');
+				count += 1;
+			}
 			secondaryAttachDoc.style.padding = "0px 8px";
 			secondaryAttachDoc.innerHTML = `
 			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
@@ -9401,6 +9406,156 @@ document.arrive(selectorsDocs, { existing: true }, async function (docus) {
 			}
 			allDocs.closest('[class^="PostContentContainer__contentContainer"]').appendChild(secondaryAttachDoc);
 			}});
+		}
+});
+
+let selectorsLinks = [`.postponed.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://"]:not([class*="vkitLink__secondary"])`,`.suggest.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://"]:not([class*="vkitLink__secondary"])`]
+document.arrive(selectorsLinks, { existing: true }, async function (docus) {
+		let closestCheck = docus.closest('.vkEnhancerPostponedPost');
+		if(!closestCheck) {
+		let dataAttachments;
+		let dataRepostAttachments;
+		let postAppendClass = docus.closest('.Post--redesignV3');
+		postAppendClass.classList.add('vkEnhancerPostponedPost');
+		try {
+			dataAttachments = getPostAttaches(docus.closest('[class^="PostContentContainer__contentContainer"]'));
+		} catch(error) {
+			console.log(error);
+		}
+		try {
+			dataRepostAttachments = getPostAttaches(docus.closest('.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"]'));
+		} catch(error) {
+			
+		}
+
+			let allLinks = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="https://"]:not([class*="vkitLink__secondary"])');
+			let count = 0;
+			dataAttachments.item.attachments.forEach(async function (linkChip) {
+			if(linkChip.link) {
+			let linkCurrent = linkChip.link;
+			//console.log(linkCurrent);
+			let secondaryAttachDoc = document.createElement('div');
+			secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
+			if(count == 0) {
+				secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttachFirst');
+				count += 1;
+			}
+			secondaryAttachDoc.style.padding = "0px 8px";
+			secondaryAttachDoc.innerHTML = `
+			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
+  <a href="`+linkCurrent.url+`" target="_blank" style="text-decoration:none;" class="vkitSecondaryAttachmentList__root vkitSecondaryAttachmentList__rootRedesign">
+    <div class="vkitSecondaryAttachment__root vkitSecondaryAttachment__rootNoHorizontalPadding vkitSecondaryAttachment__rootVerticalPaddingRedesign vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" role="button" tabindex="0" data-testid="secondaryattachment">
+      <div data-testid="secondaryattachment-before" class="vkitSecondaryAttachment__before">
+        <div class="vkuiInternalImage vkuiImage vkuiImageBase vkuiClickable__host vkuiRootComponent" style="width: 40px; height: 40px; --vkui_internal--Image_border_radius: 8px;">
+          <div class="vkuiImageBase__fallback">
+            <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-24 vkuiIcon--h-24 vkEnhancer--document_outline_24" width="24" height="24" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+              <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M5.146 3.634c.762-.407 1.512-.534 3.082-.534H10.1a.9.9 0 1 1 0 1.8H8.228c-1.487 0-1.87.128-2.233.322q-.504.27-.773.773c-.194.362-.322.746-.322 2.233v7.544c0 1.487.128 1.87.322 2.233q.27.504.773.774c.362.193.746.321 2.233.321h7.544c1.487 0 1.87-.128 2.233-.321q.504-.27.774-.774c.193-.362.321-.746.321-2.233V13.9a.9.9 0 1 1 1.8 0v1.872c0 1.57-.127 2.32-.534 3.082a3.65 3.65 0 0 1-1.512 1.512c-.763.407-1.512.534-3.082.534H8.228c-1.57 0-2.32-.127-3.082-.534a3.65 3.65 0 0 1-1.512-1.512c-.407-.762-.534-1.512-.534-3.082V8.228c0-1.57.127-2.32.534-3.082a3.65 3.65 0 0 1 1.512-1.512"></path><path d="M14 4a.9.9 0 0 1 .9-.9H20a.9.9 0 0 1 .9.9v5.1a.9.9 0 1 1-1.8 0V6.173l-6.564 6.563a.9.9 0 1 1-1.272-1.272L17.827 4.9H14.9A.9.9 0 0 1 14 4"></path></g>
+            </svg>
+          </div>
+          <div class="vkuiImageBase__children"></div>
+        </div>
+      </div>
+      <div class="vkitSecondaryAttachment__content">
+        <div class="vkitSecondaryAttachment__title vkuiFlex vkuiFlex--wrap vkuiFlex--align-center vkuiRootComponent" data-testid="secondaryattachment-title">
+          <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__titleText vkuiHeadline--sizeY-compact vkuiHeadline--level-1 vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiRootComponent" style="--vkui_internal--textclamp-lines: 1;">`+linkCurrent.title+`</div>
+        </div>
+        <div class="linkDescr vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__description vkuiFootnote vkuiTypography vkuiTypography--normalize vkuiRootComponent" data-testid="secondaryattachment-description" style="--vkui_internal--textclamp-lines: 1;">`+linkCurrent.description+`</div>
+        <div class="vkitSecondaryAttachment__progressBarContent">
+          <div class="vkitSecondaryAttachment__progressBar"></div>
+        </div>
+      </div>
+      <div class="vkitSecondaryAttachment__after vkuiButtonGroup vkuiButtonGroup--mode-horizontal vkuiButtonGroup--gap-s vkuiButtonGroup--align-left vkuiRootComponent" role="group" data-testid="secondaryattachment-after">
+        <div class="vkitSecondaryAction__root">
+          <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--chevron_right_outline_20 vkitSecondaryAction__chevron" width="20" height="20" viewBox="0 0 20 20" style="width: 20px; height: 20px;">
+            <path fill="currentColor" fill-rule="evenodd" d="M7.47 4.217a.75.75 0 0 0 0 1.06L12.185 10l-4.716 4.72a.75.75 0 1 0 1.062 1.06l5.245-5.25a.75.75 0 0 0 0-1.061L8.531 4.218a.75.75 0 0 0-1.061-.001" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+			`;
+			if(!linkCurrent.description) {
+				secondaryAttachDoc.querySelector('.linkDescr').textContent = linkCurrent.url;
+			}
+			if(linkCurrent.photo) {
+				let fallBack = secondaryAttachDoc.querySelector('.vkuiInternalImage');
+				fallBack.querySelector('.vkuiImageBase__fallback').remove();
+				fallBack.style.background = "url("+linkCurrent.photo.sizes[0].url+")";
+				fallBack.style.backgroundSize = "cover";
+			} else {
+				
+			}
+			allLinks.closest('[class^="PostContentContainer__contentContainer"]').appendChild(secondaryAttachDoc);
+			}});
+		}
+});
+
+let selectorsArticle = [`.postponed.Post--redesignV3 [class^="vkitSnippetAttachment__root"]`,`.suggest.Post--redesignV3 [class^="vkitSnippetAttachment__root"]`]
+document.arrive(selectorsArticle, { existing: true }, async function (docus) {
+		let closestCheck = docus.closest('.vkEnhancerPostponedPost');
+		if(!closestCheck) {
+		let dataAttachments;
+		let dataRepostAttachments;
+		let postAppendClass = docus.closest('.Post--redesignV3');
+		postAppendClass.classList.add('vkEnhancerPostponedPost');
+		try {
+			dataAttachments = getPostAttaches(docus.closest('[class^="PostContentContainer__contentContainer"]'));
+		} catch(error) {
+			console.log(error);
+		}
+		try {
+			dataRepostAttachments = getPostAttaches(docus.closest('.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"]'));
+		} catch(error) {
+			
+		}
+			let articleSetClosest = postAppendClass.querySelector('.vkuiDiv [class^="vkitSnippetAttachment__root"]');
+			let getArticle = articleSetClosest.parentElement;
+			let swapArticle = articleSetClosest.firstChild;
+			let f = getArticleInfo(getArticle);
+			try {
+			if(f.attachment.type == "article") {
+				let articleInfo = f.attachment.article;
+				let articleUrlShort = articleInfo.url.slice(14)
+				let newArticlePreset = document.createElement('a');
+				newArticlePreset.classList.add('vk_enhancer_article_snippet','article_snippet','clear_fix')
+				newArticlePreset.setAttribute('onclick',`return nav.go('${articleInfo.url}', event);`);
+				newArticlePreset.setAttribute('onmouseenter',`articlePrepare('${articleUrlShort}', { ref: '' })`);
+				newArticlePreset.setAttribute('data-article-raw-id',articleInfo.owner_id+'_'+articleInfo.id);
+				newArticlePreset.setAttribute('data-post-id','');
+				newArticlePreset.innerHTML = `
+				<div class="article_snippet__image_wrap">
+    <div class="article_snippet__image"></div>
+  </div>
+  <div class="article_snippet__fade"></div>
+  <div class="article_snippet__info">
+
+    <div class="article_snippet__deleted_text">Статья удалена</div>
+    <div class="article_snippet__title">${articleInfo.title}</div>
+    <div class="article_snippet__author">${articleInfo.owner_name}<span class=""></span></div>
+    <button style="display:none;" class="PageSnippetFaveButton PageSnippetFaveButton--white" data-state="" data-add="${getLang('fave_add')}" data-remove="${getLang('fave_delete')}" onmouseover="bookmarkTooltip(this)" onclick="bookmarkArticle(event, this, ${articleInfo.owner_id}, ${articleInfo.id}, 'article', '${articleInfo.access_key}', false, true)">
+      <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <path clip-rule="evenodd" d="M11.08 3h1.84c1.05 0 1.9 0 2.59.06.7.05 1.31.17 1.88.46.9.46 1.63 1.2 2.09 2.1.29.56.4 1.17.46 1.87.06.69.06 1.54.06 2.6v7.6c0 .78 0 1.42-.05 1.92-.04.5-.14 1.03-.48 1.46-.46.58-1.15.92-1.9.93-.54 0-1.02-.24-1.44-.5-.42-.27-.93-.66-1.55-1.13l-1.61-1.24c-.61-.47-.72-.53-.8-.55a.66.66 0 0 0-.34 0c-.08.02-.19.08-.8.55l-1.61 1.24c-.62.47-1.13.86-1.55 1.13-.42.26-.9.5-1.45.5a2.46 2.46 0 0 1-1.9-.93 2.68 2.68 0 0 1-.47-1.46C4 19.11 4 18.47 4 17.7v-7.62c0-1.05 0-1.9.06-2.59.05-.7.17-1.31.46-1.88.46-.9 1.2-1.63 2.1-2.09.56-.29 1.17-.4 1.87-.46C9.18 3 10.03 3 11.1 3zM8.64 4.85c-.6.05-.94.14-1.2.28-.57.28-1.03.74-1.31 1.3-.14.27-.23.62-.28 1.21-.05.6-.05 1.38-.05 2.48v7.53c0 .83 0 1.4.04 1.8.04.41.1.5.1.5.12.16.3.25.5.25 0 0 .12 0 .47-.22.34-.22.79-.56 1.45-1.07l1.58-1.2.1-.09c.44-.33.85-.65 1.32-.78.42-.1.86-.1 1.28 0 .47.13.88.45 1.32.78l.1.08 1.58 1.21c.66.5 1.1.85 1.45 1.07.35.22.46.22.46.22.2 0 .39-.1.5-.25 0 0 .07-.09.11-.5.04-.4.04-.97.04-1.8v-7.53c0-1.1 0-1.88-.05-2.48-.05-.6-.14-.94-.28-1.2a2.99 2.99 0 0 0-1.3-1.31 3.17 3.17 0 0 0-1.21-.28 33.8 33.8 0 0 0-2.48-.05h-1.76c-1.1 0-1.88 0-2.48.05z" fill="currentColor" fill-rule="evenodd"></path>
+      </svg>
+    </button>
+    <div class="article_snippet__buttons">
+      <button class="article_snippet__action_btn article_snippet__action_btn--read flat_button">
+        <div class="article_snippet__action_btn_icon article_snippet__action_btn_icon--read"></div>
+        <div class="article_snippet__action_btn_text">Читать</div>
+      </button>
+    </div>
+  </div>
+				`;
+				if(articleInfo.photo) {
+					newArticlePreset.querySelector('.article_snippet__image').style.backgroundImage = `url(${articleInfo.photo.orig_photo.url})`;
+				}
+				swapArticle.remove();
+				articleSetClosest.appendChild(newArticlePreset);
+			}
+			} catch(error) {
+				console.log(error);
+			}
+			
 		}
 });
 /*Обычные посты*/
@@ -9601,6 +9756,10 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		.PostCopyQuote--redesignV3 .PostHeader__coauthorAvatarWrapper {
 			margin-left: 12px;
 		}
+		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_situational_theme"], .Post--redesignV3 [data-testid="feed_action_button_situational_theme"] {
+			margin: 8px 20px;
+			border-radius: 8px;
+		}
 		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_open_url"], .Post--redesignV3 [data-testid="feed_action_button_open_url"] {
 			margin: 8px 20px;
 			border-radius: 8px;
@@ -9723,6 +9882,9 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		.Post--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"]) {
 			display:none;
 		}
+		.Post--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://"]:not([class*="vkitLink__secondary"])) {
+			display:none;
+		}
 		.Post--redesignV3 [class^="vkitShowMoreText__text"]:has(> [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]) .vkuiSpacing--m:not(:first-child) {
 			display:none;
 		}
@@ -9731,6 +9893,33 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		}
 		.Post--redesignV3 [class^="vkitMusicOverlayAttachment__attachment"],.Post--redesignV3 [class^="OnMediaAttachmentOverlay__attachment"] {
 			display:none;
+		}
+		.vkEnhancerSecondaryAttachFirst {
+			padding:8px 8px 0px 8px!important;
+		}
+		.Post--redesignV3 .vk_enhancer_article_snippet {
+			margin-top:0!important;
+		}
+		.vkitSecondaryAttachment__after {
+			margin-left: 8px;
+		}
+		.vkitSecondaryAction__root {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.vkitSecondaryAction__iconButtonCircle {
+			color: var(--vkui--color_icon_medium);
+			background: var(--vkui--color_background_secondary_alpha);
+		}	
+		.vkitSecondaryAction__iconButton {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 36px;
+			height: 36px;
+			color: var(--vkui--color_icon_secondary);
+			border-radius: 50%;
 		}
 	`;
 	try {
@@ -10042,11 +10231,16 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		}
 		if(e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"])') && dataAttachments.item.attachments) {
 			let allDocs = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]');
+			let count = 0;
 			dataAttachments.item.attachments.forEach(async function (docu) {
 			if(docu.doc) {
 			let documentCurrent = docu.doc;
 			let secondaryAttachDoc = document.createElement('div');
 			secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
+			if(count == 0) {
+				secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttachFirst');
+				count += 1;
+			}
 			secondaryAttachDoc.style.padding = "0px 8px";
 			secondaryAttachDoc.innerHTML = `
 			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
@@ -10074,7 +10268,7 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
       <div class="vkitSecondaryAttachment__after vkuiButtonGroup vkuiButtonGroup--mode-horizontal vkuiButtonGroup--gap-s vkuiButtonGroup--align-left vkuiRootComponent" role="group" data-testid="secondaryattachment-after">
         <div class="vkitSecondaryAction__root">
           <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--chevron_right_outline_20 vkitSecondaryAction__chevron" width="20" height="20" viewBox="0 0 20 20" style="width: 20px; height: 20px;">
-            <use xlink:href="#chevron_right_outline_20" style="fill: currentcolor;"></use>
+            <path fill="currentColor" fill-rule="evenodd" d="M7.47 4.217a.75.75 0 0 0 0 1.06L12.185 10l-4.716 4.72a.75.75 0 1 0 1.062 1.06l5.245-5.25a.75.75 0 0 0 0-1.061L8.531 4.218a.75.75 0 0 0-1.061-.001" clip-rule="evenodd"></path>
           </svg>
         </div>
       </div>
@@ -10096,11 +10290,16 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		
 		if(e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"])') && dataRepostAttachments.item.attachments) {
 			let allDocs = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]');
+			let count = 0;
 			dataRepostAttachments.item.attachments.forEach(async function (docu) {
 			if(docu.doc) {
 			let documentCurrent = docu.doc;
 			let secondaryAttachDoc = document.createElement('div');
 			secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
+			if(count == 0) {
+				secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttachFirst');
+				count += 1;
+			}
 			secondaryAttachDoc.style.padding = "0px 8px";
 			secondaryAttachDoc.innerHTML = `
 			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
@@ -10128,7 +10327,7 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
       <div class="vkitSecondaryAttachment__after vkuiButtonGroup vkuiButtonGroup--mode-horizontal vkuiButtonGroup--gap-s vkuiButtonGroup--align-left vkuiRootComponent" role="group" data-testid="secondaryattachment-after">
         <div class="vkitSecondaryAction__root">
           <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--chevron_right_outline_20 vkitSecondaryAction__chevron" width="20" height="20" viewBox="0 0 20 20" style="width: 20px; height: 20px;">
-            <use xlink:href="#chevron_right_outline_20" style="fill: currentcolor;"></use>
+            <path fill="currentColor" fill-rule="evenodd" d="M7.47 4.217a.75.75 0 0 0 0 1.06L12.185 10l-4.716 4.72a.75.75 0 1 0 1.062 1.06l5.245-5.25a.75.75 0 0 0 0-1.061L8.531 4.218a.75.75 0 0 0-1.061-.001" clip-rule="evenodd"></path>
           </svg>
         </div>
       </div>
@@ -10342,7 +10541,311 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
                 }
 		}
 		/*Плейлист на фото*/
-		/*Без перехвата хэндлера PostContentContainer/init как будто бы нереально сделать, поэтому, в post_attaches.js*/
+		if(e.querySelector('[class^="vkitMusicPlaylistOverlayBadge__root"]')) {
+			let x = e.querySelector('[class^="vkitMusicPlaylistOverlayBadge__root"]');
+			if (dataAttachments && dataAttachments.item && dataAttachments.item.attachments) {
+                    dataAttachments.item.attachments.forEach(function(music) {
+                        if(music.type === "audio_playlist" && music.style === "on_media") {
+							let pListInfo = music.audio_playlist;
+                            let secondaryAttachPlist = document.createElement('div');
+			secondaryAttachPlist.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
+			secondaryAttachPlist.classList.add('vkEnhancerSecondaryAttachFirst');
+			secondaryAttachPlist.style.padding = "0px 8px";
+			secondaryAttachPlist.innerHTML = `
+			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
+			<div onclick="return AudioUtils.showAudioPlaylist(${pListInfo.owner_id}, ${pListInfo.id}, '', 'group_wall', event);" class="vkitSecondaryAttachmentList__root vkitSecondaryAttachmentList__rootRedesign">
+  <div class="vkitSecondaryAttachment__root vkitSecondaryAttachment__rootNoHorizontalPadding vkitSecondaryAttachment__rootVerticalPaddingRedesign vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" role="button" tabindex="0" data-testid="secondaryattachment">
+    <div data-testid="secondaryattachment-before" class="vkitSecondaryAttachment__before">
+      <div class="vkuiInternalImage vkuiImage vkuiImageBase vkuiClickable__host vkuiRootComponent" style="width: 40px; height: 40px; --vkui_internal--Image_border_radius: 8px;">
+	    <div class="vkuiImageBase__fallback">
+    <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-24 vkuiIcon--h-24 vkuiIcon--playlist_outline_24" width="24" height="24" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+      <g fill="currentColor"><path d="M11.295 19.247c1.87 1.896 5.505.02 5.505-3.548v-5.054l2.399-.697A2.74 2.74 0 0 0 21 7.364l-.01-1.72a.75.75 0 0 0-.906-.623l-.267.061c-.941.215-1.886.431-2.807.721-1.332.45-2.03 1.614-2.01 3.077V14c-3.887.196-5.639 3.286-3.705 5.247M3.9 5.1a.9.9 0 1 0 0 1.8h8.197a.9.9 0 1 0 0-1.8zM3.9 10.1a.9.9 0 1 0 0 1.8h7.196a.9.9 0 1 0 0-1.8zM3 16a.9.9 0 0 1 .9-.9h4.183a.9.9 0 0 1 0 1.8H3.9A.9.9 0 0 1 3 16"></path></g>
+    </svg>
+  </div>
+        <div class="vkuiImageBase__children"></div>
+        <div aria-hidden="true" class="vkuiImageBase__border"></div>
+      </div>
+    </div>
+    <div class="vkitSecondaryAttachment__content">
+      <div class="vkitSecondaryAttachment__title vkuiFlex vkuiFlex--wrap vkuiFlex--align-center vkuiRootComponent" data-testid="secondaryattachment-title">
+        <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__titleText vkuiHeadline--sizeY-compact vkuiHeadline--level-1 vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiRootComponent" style="--vkui_internal--textclamp-lines: 1;">
+		${pListInfo.title}
+		</div>
+      </div>
+      <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__description vkuiFootnote vkuiTypography vkuiTypography--normalize vkuiRootComponent" data-testid="secondaryattachment-description" style="--vkui_internal--textclamp-lines: 1;">
+	  ${pListInfo.description}
+	  </div>
+      <div class="vkitSecondaryAttachment__progressBarContent">
+        <div class="vkitSecondaryAttachment__progressBar"></div>
+      </div>
+    </div>
+    <div onclick="event.preventDefault(); event.stopPropagation(); getAudioPlayer().playPlaylist(${pListInfo.owner_id}, ${pListInfo.id}, '', 'group_wall')" class="vkitSecondaryAttachment__after vkuiButtonGroup vkuiButtonGroup--mode-horizontal vkuiButtonGroup--gap-s vkuiButtonGroup--align-left vkuiRootComponent" role="group" data-testid="secondaryattachment-after">
+      <div class="vkitSecondaryAction__root">
+        <div class="vkitSecondaryAction__iconButton vkitSecondaryAction__iconButtonCircle vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" role="button" tabindex="0">
+          <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-24 vkuiIcon--h-24 vkuiIcon--play_24" width="24" height="24" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+            <path fill="currentColor" d="M18.5 11.134a1 1 0 0 1 0 1.732l-9 5.196a1 1 0 0 1-1.5-.866V6.804a1 1 0 0 1 1.5-.866z"></path>
+          </svg><span aria-hidden="true" class="vkuiTappable__stateLayer"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>`;
+			if(pListInfo.photo) {
+				let fallBack = secondaryAttachPlist.querySelector('.vkuiInternalImage');
+				fallBack.querySelector('.vkuiImageBase__fallback').remove();
+				fallBack.style.background = "url("+pListInfo.photo.photo_270+")";
+				fallBack.style.backgroundSize = "cover";
+			} else {
+				
+			}
+              x.closest('[class^="PostContentContainer__contentContainer"]').appendChild(secondaryAttachPlist);
+                        }
+                    });
+                }
+		}
+		
+		if(e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitMusicPlaylistOverlayBadge__root"]')) {
+			let x = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitMusicPlaylistOverlayBadge__root"]');
+			if (dataRepostAttachments && dataRepostAttachments.item && dataRepostAttachments.item.attachments) {
+                    dataRepostAttachments.item.attachments.forEach(function(music) {
+                        if(music.type === "audio_playlist" && music.style === "on_media") {
+							let pListInfo = music.audio_playlist;
+                            let secondaryAttachPlist = document.createElement('div');
+			secondaryAttachPlist.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
+			secondaryAttachPlist.classList.add('vkEnhancerSecondaryAttachFirst');
+			secondaryAttachPlist.style.padding = "0px 8px";
+			secondaryAttachPlist.innerHTML = `
+			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
+			<div onclick="return AudioUtils.showAudioPlaylist(${pListInfo.owner_id}, ${pListInfo.id}, '', 'group_wall', event);" class="vkitSecondaryAttachmentList__root vkitSecondaryAttachmentList__rootRedesign">
+  <div class="vkitSecondaryAttachment__root vkitSecondaryAttachment__rootNoHorizontalPadding vkitSecondaryAttachment__rootVerticalPaddingRedesign vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" role="button" tabindex="0" data-testid="secondaryattachment">
+    <div data-testid="secondaryattachment-before" class="vkitSecondaryAttachment__before">
+      <div class="vkuiInternalImage vkuiImage vkuiImageBase vkuiClickable__host vkuiRootComponent" style="width: 40px; height: 40px; --vkui_internal--Image_border_radius: 8px;">
+	    <div class="vkuiImageBase__fallback">
+    <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-24 vkuiIcon--h-24 vkuiIcon--playlist_outline_24" width="24" height="24" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+      <g fill="currentColor"><path d="M11.295 19.247c1.87 1.896 5.505.02 5.505-3.548v-5.054l2.399-.697A2.74 2.74 0 0 0 21 7.364l-.01-1.72a.75.75 0 0 0-.906-.623l-.267.061c-.941.215-1.886.431-2.807.721-1.332.45-2.03 1.614-2.01 3.077V14c-3.887.196-5.639 3.286-3.705 5.247M3.9 5.1a.9.9 0 1 0 0 1.8h8.197a.9.9 0 1 0 0-1.8zM3.9 10.1a.9.9 0 1 0 0 1.8h7.196a.9.9 0 1 0 0-1.8zM3 16a.9.9 0 0 1 .9-.9h4.183a.9.9 0 0 1 0 1.8H3.9A.9.9 0 0 1 3 16"></path></g>
+    </svg>
+  </div>
+        <div class="vkuiImageBase__children"></div>
+        <div aria-hidden="true" class="vkuiImageBase__border"></div>
+      </div>
+    </div>
+    <div class="vkitSecondaryAttachment__content">
+      <div class="vkitSecondaryAttachment__title vkuiFlex vkuiFlex--wrap vkuiFlex--align-center vkuiRootComponent" data-testid="secondaryattachment-title">
+        <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__titleText vkuiHeadline--sizeY-compact vkuiHeadline--level-1 vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiRootComponent" style="--vkui_internal--textclamp-lines: 1;">
+		${pListInfo.title}
+		</div>
+      </div>
+      <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__description vkuiFootnote vkuiTypography vkuiTypography--normalize vkuiRootComponent" data-testid="secondaryattachment-description" style="--vkui_internal--textclamp-lines: 1;">
+	  ${pListInfo.description}
+	  </div>
+      <div class="vkitSecondaryAttachment__progressBarContent">
+        <div class="vkitSecondaryAttachment__progressBar"></div>
+      </div>
+    </div>
+    <div onclick="event.preventDefault(); event.stopPropagation(); getAudioPlayer().playPlaylist(${pListInfo.owner_id}, ${pListInfo.id}, '', 'group_wall')" class="vkitSecondaryAttachment__after vkuiButtonGroup vkuiButtonGroup--mode-horizontal vkuiButtonGroup--gap-s vkuiButtonGroup--align-left vkuiRootComponent" role="group" data-testid="secondaryattachment-after">
+      <div class="vkitSecondaryAction__root">
+        <div class="vkitSecondaryAction__iconButton vkitSecondaryAction__iconButtonCircle vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" role="button" tabindex="0">
+          <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-24 vkuiIcon--h-24 vkuiIcon--play_24" width="24" height="24" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+            <path fill="currentColor" d="M18.5 11.134a1 1 0 0 1 0 1.732l-9 5.196a1 1 0 0 1-1.5-.866V6.804a1 1 0 0 1 1.5-.866z"></path>
+          </svg><span aria-hidden="true" class="vkuiTappable__stateLayer"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>`;
+			if(pListInfo.photo) {
+				let fallBack = secondaryAttachPlist.querySelector('.vkuiInternalImage');
+				fallBack.querySelector('.vkuiImageBase__fallback').remove();
+				fallBack.style.background = "url("+pListInfo.photo.photo_270+")";
+				fallBack.style.backgroundSize = "cover";
+			} else {
+				
+			}
+              x.closest('[class^="PostContentContainer__contentContainer"]').appendChild(secondaryAttachPlist);
+                        }
+                    });
+                }
+		}
+		
+		/*Аттач-чипс - ссылки*/
+		if(e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="https://"]:not([class*="vkitLink__secondary"]))') && dataAttachments.item.attachments) {
+			let allLinks = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="https://"]:not([class*="vkitLink__secondary"])');
+			let count = 0;
+			dataAttachments.item.attachments.forEach(async function (linkChip) {
+			if(linkChip.link) {
+			let linkCurrent = linkChip.link;
+			//console.log(linkCurrent);
+			let secondaryAttachDoc = document.createElement('div');
+			secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
+			if(count == 0) {
+				secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttachFirst');
+				count += 1;
+			}
+			secondaryAttachDoc.style.padding = "0px 8px";
+			secondaryAttachDoc.innerHTML = `
+			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
+  <a href="`+linkCurrent.url+`" target="_blank" style="text-decoration:none;" class="vkitSecondaryAttachmentList__root vkitSecondaryAttachmentList__rootRedesign">
+    <div class="vkitSecondaryAttachment__root vkitSecondaryAttachment__rootNoHorizontalPadding vkitSecondaryAttachment__rootVerticalPaddingRedesign vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" role="button" tabindex="0" data-testid="secondaryattachment">
+      <div data-testid="secondaryattachment-before" class="vkitSecondaryAttachment__before">
+        <div class="vkuiInternalImage vkuiImage vkuiImageBase vkuiClickable__host vkuiRootComponent" style="width: 40px; height: 40px; --vkui_internal--Image_border_radius: 8px;">
+          <div class="vkuiImageBase__fallback">
+            <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-24 vkuiIcon--h-24 vkEnhancer--document_outline_24" width="24" height="24" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+              <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M5.146 3.634c.762-.407 1.512-.534 3.082-.534H10.1a.9.9 0 1 1 0 1.8H8.228c-1.487 0-1.87.128-2.233.322q-.504.27-.773.773c-.194.362-.322.746-.322 2.233v7.544c0 1.487.128 1.87.322 2.233q.27.504.773.774c.362.193.746.321 2.233.321h7.544c1.487 0 1.87-.128 2.233-.321q.504-.27.774-.774c.193-.362.321-.746.321-2.233V13.9a.9.9 0 1 1 1.8 0v1.872c0 1.57-.127 2.32-.534 3.082a3.65 3.65 0 0 1-1.512 1.512c-.763.407-1.512.534-3.082.534H8.228c-1.57 0-2.32-.127-3.082-.534a3.65 3.65 0 0 1-1.512-1.512c-.407-.762-.534-1.512-.534-3.082V8.228c0-1.57.127-2.32.534-3.082a3.65 3.65 0 0 1 1.512-1.512"></path><path d="M14 4a.9.9 0 0 1 .9-.9H20a.9.9 0 0 1 .9.9v5.1a.9.9 0 1 1-1.8 0V6.173l-6.564 6.563a.9.9 0 1 1-1.272-1.272L17.827 4.9H14.9A.9.9 0 0 1 14 4"></path></g>
+            </svg>
+          </div>
+          <div class="vkuiImageBase__children"></div>
+        </div>
+      </div>
+      <div class="vkitSecondaryAttachment__content">
+        <div class="vkitSecondaryAttachment__title vkuiFlex vkuiFlex--wrap vkuiFlex--align-center vkuiRootComponent" data-testid="secondaryattachment-title">
+          <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__titleText vkuiHeadline--sizeY-compact vkuiHeadline--level-1 vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiRootComponent" style="--vkui_internal--textclamp-lines: 1;">`+linkCurrent.title+`</div>
+        </div>
+        <div class="linkDescr vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__description vkuiFootnote vkuiTypography vkuiTypography--normalize vkuiRootComponent" data-testid="secondaryattachment-description" style="--vkui_internal--textclamp-lines: 1;">`+linkCurrent.description+`</div>
+        <div class="vkitSecondaryAttachment__progressBarContent">
+          <div class="vkitSecondaryAttachment__progressBar"></div>
+        </div>
+      </div>
+      <div class="vkitSecondaryAttachment__after vkuiButtonGroup vkuiButtonGroup--mode-horizontal vkuiButtonGroup--gap-s vkuiButtonGroup--align-left vkuiRootComponent" role="group" data-testid="secondaryattachment-after">
+        <div class="vkitSecondaryAction__root">
+          <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--chevron_right_outline_20 vkitSecondaryAction__chevron" width="20" height="20" viewBox="0 0 20 20" style="width: 20px; height: 20px;">
+            <path fill="currentColor" fill-rule="evenodd" d="M7.47 4.217a.75.75 0 0 0 0 1.06L12.185 10l-4.716 4.72a.75.75 0 1 0 1.062 1.06l5.245-5.25a.75.75 0 0 0 0-1.061L8.531 4.218a.75.75 0 0 0-1.061-.001" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+			`;
+			if(!linkCurrent.description) {
+				secondaryAttachDoc.querySelector('.linkDescr').textContent = linkCurrent.url;
+			}
+			if(linkCurrent.photo) {
+				let fallBack = secondaryAttachDoc.querySelector('.vkuiInternalImage');
+				fallBack.querySelector('.vkuiImageBase__fallback').remove();
+				fallBack.style.background = "url("+linkCurrent.photo.sizes[0].url+")";
+				fallBack.style.backgroundSize = "cover";
+			} else {
+				
+			}
+			allLinks.closest('[class^="PostContentContainer__contentContainer"]').appendChild(secondaryAttachDoc);
+			allLinks.closest('[class^="vkitChipAttachment__root"]').remove();
+			}});
+		}
+		
+		if(e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://"]:not([class*="vkitLink__secondary"]))') && dataRepostAttachments.item.attachments) {
+			let allLinks = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://"]:not([class*="vkitLink__secondary"])');
+			let count = 0;
+			dataRepostAttachments.item.attachments.forEach(async function (linkChip) {
+			if(linkChip.link) {
+			let linkCurrent = linkChip.link;
+			//console.log(linkCurrent);
+			let secondaryAttachDoc = document.createElement('div');
+			secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
+			if(count == 0) {
+				secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttachFirst');
+				count += 1;
+			}
+			secondaryAttachDoc.style.padding = "0px 8px";
+			secondaryAttachDoc.innerHTML = `
+			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
+  <a href="`+linkCurrent.url+`" target="_blank" style="text-decoration:none;" class="vkitSecondaryAttachmentList__root vkitSecondaryAttachmentList__rootRedesign">
+    <div class="vkitSecondaryAttachment__root vkitSecondaryAttachment__rootNoHorizontalPadding vkitSecondaryAttachment__rootVerticalPaddingRedesign vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" role="button" tabindex="0" data-testid="secondaryattachment">
+      <div data-testid="secondaryattachment-before" class="vkitSecondaryAttachment__before">
+        <div class="vkuiInternalImage vkuiImage vkuiImageBase vkuiClickable__host vkuiRootComponent" style="width: 40px; height: 40px; --vkui_internal--Image_border_radius: 8px;">
+          <div class="vkuiImageBase__fallback">
+            <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-24 vkuiIcon--h-24 vkEnhancer--document_outline_24" width="24" height="24" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+              <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M5.146 3.634c.762-.407 1.512-.534 3.082-.534H10.1a.9.9 0 1 1 0 1.8H8.228c-1.487 0-1.87.128-2.233.322q-.504.27-.773.773c-.194.362-.322.746-.322 2.233v7.544c0 1.487.128 1.87.322 2.233q.27.504.773.774c.362.193.746.321 2.233.321h7.544c1.487 0 1.87-.128 2.233-.321q.504-.27.774-.774c.193-.362.321-.746.321-2.233V13.9a.9.9 0 1 1 1.8 0v1.872c0 1.57-.127 2.32-.534 3.082a3.65 3.65 0 0 1-1.512 1.512c-.763.407-1.512.534-3.082.534H8.228c-1.57 0-2.32-.127-3.082-.534a3.65 3.65 0 0 1-1.512-1.512c-.407-.762-.534-1.512-.534-3.082V8.228c0-1.57.127-2.32.534-3.082a3.65 3.65 0 0 1 1.512-1.512"></path><path d="M14 4a.9.9 0 0 1 .9-.9H20a.9.9 0 0 1 .9.9v5.1a.9.9 0 1 1-1.8 0V6.173l-6.564 6.563a.9.9 0 1 1-1.272-1.272L17.827 4.9H14.9A.9.9 0 0 1 14 4"></path></g>
+            </svg>
+          </div>
+          <div class="vkuiImageBase__children"></div>
+        </div>
+      </div>
+      <div class="vkitSecondaryAttachment__content">
+        <div class="vkitSecondaryAttachment__title vkuiFlex vkuiFlex--wrap vkuiFlex--align-center vkuiRootComponent" data-testid="secondaryattachment-title">
+          <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__titleText vkuiHeadline--sizeY-compact vkuiHeadline--level-1 vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiRootComponent" style="--vkui_internal--textclamp-lines: 1;">`+linkCurrent.title+`</div>
+        </div>
+        <div class="linkDescr vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__description vkuiFootnote vkuiTypography vkuiTypography--normalize vkuiRootComponent" data-testid="secondaryattachment-description" style="--vkui_internal--textclamp-lines: 1;">`+linkCurrent.description+`</div>
+        <div class="vkitSecondaryAttachment__progressBarContent">
+          <div class="vkitSecondaryAttachment__progressBar"></div>
+        </div>
+      </div>
+      <div class="vkitSecondaryAttachment__after vkuiButtonGroup vkuiButtonGroup--mode-horizontal vkuiButtonGroup--gap-s vkuiButtonGroup--align-left vkuiRootComponent" role="group" data-testid="secondaryattachment-after">
+        <div class="vkitSecondaryAction__root">
+          <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--chevron_right_outline_20 vkitSecondaryAction__chevron" width="20" height="20" viewBox="0 0 20 20" style="width: 20px; height: 20px;">
+            <path fill="currentColor" fill-rule="evenodd" d="M7.47 4.217a.75.75 0 0 0 0 1.06L12.185 10l-4.716 4.72a.75.75 0 1 0 1.062 1.06l5.245-5.25a.75.75 0 0 0 0-1.061L8.531 4.218a.75.75 0 0 0-1.061-.001" clip-rule="evenodd"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+			`;
+			if(!linkCurrent.description) {
+				secondaryAttachDoc.querySelector('.linkDescr').textContent = linkCurrent.url;
+			}
+			if(linkCurrent.photo) {
+				let fallBack = secondaryAttachDoc.querySelector('.vkuiInternalImage');
+				fallBack.querySelector('.vkuiImageBase__fallback').remove();
+				fallBack.style.background = "url("+linkCurrent.photo.sizes[0].url+")";
+				fallBack.style.backgroundSize = "cover";
+			} else {
+				
+			}
+			allLinks.closest('[class^="PostContentContainer__contentContainer"]').appendChild(secondaryAttachDoc);
+			allLinks.closest('[class^="vkitChipAttachment__root"]').remove();
+			}});
+		}
+		
+		/*Статьи*/
+		if(e.querySelector('[class^="vkitSnippetAttachment__root"]:not(:has(.vkuiIcon--delete_outline_56))') && dataAttachments.item.attachments) {
+			let articleSetClosest = e.querySelector('.vkuiDiv [class^="vkitSnippetAttachment__root"]');
+			let getArticle = articleSetClosest.parentElement;
+			let swapArticle = articleSetClosest.firstChild;
+			let f = getArticleInfo(getArticle);
+			try {
+			if(f.attachment.type == "article") {
+				let articleInfo = f.attachment.article;
+				let articleUrlShort = articleInfo.url.slice(14)
+				let newArticlePreset = document.createElement('a');
+				newArticlePreset.classList.add('vk_enhancer_article_snippet','article_snippet','clear_fix')
+				newArticlePreset.setAttribute('onclick',`return nav.go('${articleInfo.url}', event);`);
+				newArticlePreset.setAttribute('onmouseenter',`articlePrepare('${articleUrlShort}', { ref: '' })`);
+				newArticlePreset.setAttribute('data-article-raw-id',articleInfo.owner_id+'_'+articleInfo.id);
+				newArticlePreset.setAttribute('data-post-id','');
+				newArticlePreset.innerHTML = `
+				<div class="article_snippet__image_wrap">
+    <div class="article_snippet__image"></div>
+  </div>
+  <div class="article_snippet__fade"></div>
+  <div class="article_snippet__info">
+
+    <div class="article_snippet__deleted_text">Статья удалена</div>
+    <div class="article_snippet__title">${articleInfo.title}</div>
+    <div class="article_snippet__author">${articleInfo.owner_name}<span class=""></span></div>
+    <button style="display:none;" class="PageSnippetFaveButton PageSnippetFaveButton--white" data-state="" data-add="${getLang('fave_add')}" data-remove="${getLang('fave_delete')}" onmouseover="bookmarkTooltip(this)" onclick="bookmarkArticle(event, this, ${articleInfo.owner_id}, ${articleInfo.id}, 'article', '${articleInfo.access_key}', false, true)">
+      <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+        <path clip-rule="evenodd" d="M11.08 3h1.84c1.05 0 1.9 0 2.59.06.7.05 1.31.17 1.88.46.9.46 1.63 1.2 2.09 2.1.29.56.4 1.17.46 1.87.06.69.06 1.54.06 2.6v7.6c0 .78 0 1.42-.05 1.92-.04.5-.14 1.03-.48 1.46-.46.58-1.15.92-1.9.93-.54 0-1.02-.24-1.44-.5-.42-.27-.93-.66-1.55-1.13l-1.61-1.24c-.61-.47-.72-.53-.8-.55a.66.66 0 0 0-.34 0c-.08.02-.19.08-.8.55l-1.61 1.24c-.62.47-1.13.86-1.55 1.13-.42.26-.9.5-1.45.5a2.46 2.46 0 0 1-1.9-.93 2.68 2.68 0 0 1-.47-1.46C4 19.11 4 18.47 4 17.7v-7.62c0-1.05 0-1.9.06-2.59.05-.7.17-1.31.46-1.88.46-.9 1.2-1.63 2.1-2.09.56-.29 1.17-.4 1.87-.46C9.18 3 10.03 3 11.1 3zM8.64 4.85c-.6.05-.94.14-1.2.28-.57.28-1.03.74-1.31 1.3-.14.27-.23.62-.28 1.21-.05.6-.05 1.38-.05 2.48v7.53c0 .83 0 1.4.04 1.8.04.41.1.5.1.5.12.16.3.25.5.25 0 0 .12 0 .47-.22.34-.22.79-.56 1.45-1.07l1.58-1.2.1-.09c.44-.33.85-.65 1.32-.78.42-.1.86-.1 1.28 0 .47.13.88.45 1.32.78l.1.08 1.58 1.21c.66.5 1.1.85 1.45 1.07.35.22.46.22.46.22.2 0 .39-.1.5-.25 0 0 .07-.09.11-.5.04-.4.04-.97.04-1.8v-7.53c0-1.1 0-1.88-.05-2.48-.05-.6-.14-.94-.28-1.2a2.99 2.99 0 0 0-1.3-1.31 3.17 3.17 0 0 0-1.21-.28 33.8 33.8 0 0 0-2.48-.05h-1.76c-1.1 0-1.88 0-2.48.05z" fill="currentColor" fill-rule="evenodd"></path>
+      </svg>
+    </button>
+    <div class="article_snippet__buttons">
+      <button class="article_snippet__action_btn article_snippet__action_btn--read flat_button">
+        <div class="article_snippet__action_btn_icon article_snippet__action_btn_icon--read"></div>
+        <div class="article_snippet__action_btn_text">Читать</div>
+      </button>
+    </div>
+  </div>
+				`;
+				if(articleInfo.photo) {
+					newArticlePreset.querySelector('.article_snippet__image').style.backgroundImage = `url(${articleInfo.photo.orig_photo.url})`;
+				}
+				swapArticle.remove();
+				articleSetClosest.appendChild(newArticlePreset);
+			}
+			} catch(error) {
+				console.log(error);
+			}
+		}
+		
 		
 	}
 	catch(error) {
@@ -10350,6 +10853,20 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 	}
 });
 }
+}
+
+function getArticleInfo(elem) {
+  const t = {};
+  let n = 0;
+  for (const o of Object.keys(elem))
+    if (
+      (o.startsWith("__reactFiber")
+        ? ((t.fiber = elem[o]), ++n)
+        : o.startsWith("__reactProps") && ((t.props = elem[o]), ++n),
+      2 === n)
+    )
+      break;
+  return t.fiber.memoizedProps.children.props;
 }
 
 function getPostFiber(elem) {
@@ -10465,7 +10982,7 @@ function getPostDataText(elem) {
         let longAgo = getLang("global_short_date_time", "raw");
 		let longAgoYear = getLang("global_short_date_year_time", "raw");
 
-        if (secondsAgo == 0) {
+        if (secondsAgo <= 0) {
           return justNow;
         } else if (secondsAgo < 60) {
           let secString = getLangTimeSuper(secondsAgo, secsAgo);
@@ -10596,33 +11113,23 @@ function getPostDataNew(elem) {
 }
 ///КОНЕЦ СТАРОГО ДИЗАЙНА ЛЕНТЫ///
 ///КОНЕЦ ЗНАЧКОВ В ПРОФИЛЯХ///
-///СТАРЫЙ РЕДАКТОР ИСТОРИЙ///
+///КНОПКА ОБНОВЛЕНИЯ СТЕНЫ///
 if (localStorage.getItem("intMediaValue") == "true") {
-  const storySelectors = [
-    'div[class^="vkitGridItem__root"]:has([class*="vkitStoryCard__root"] svg.vkuiIcon--add_20)',
+  const tabsSelectors = [
+    '#wall_tabs.ui_tabs .ui_tabs_right_section',
   ];
-  document.arrive(storySelectors, { existing: true }, function (e) {
-	e.addEventListener('click', function (s) {
-		s.preventDefault();
-		s.stopPropagation();
-		window.stManager.add([window.jsc("web/story_publisher.js")]).then(( () => {
-                    initStoryPublisher({
-                        entrypoint: "stories_feed",
-                        layerZIndex: 800
-                    })}));
-	})
-	function initStoryPublisher(e) {
-                window.StoryPublisher && window.StoryPublisher.init(e, (() => {}), ( (e, t) => {
-                    if (t && t.story) {
-                        const {owner_id: e, id: a} = t.story;
-                        return
-                    }
-                }
-                ))
-            }
+  document.arrive(tabsSelectors, { existing: true }, function (e) {
+	let updateBtn = document.createElement('div');
+	updateBtn.classList.add('ui_tab_search_wrap','ui_tab_item');
+	updateBtn.innerHTML = `
+	<a class="ui_tab_plain ui_tab_plain_new ui_tab_search" onclick="cur.wallNextFrom = 0; Wall.showMore(0);"><span class="ui_tab_search_icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22" fill="currentColor"><path d="M11.7422 3.21838C10.1412 2.65442 8.40531 2.59833 6.77131 3.05777C5.66909 3.36769 4.64943 3.902 3.7732 4.62084H4.87502C5.49634 4.62084 6.00002 5.12452 6.00002 5.74584C6.00002 6.36716 5.49634 6.87084 4.87502 6.87084L1.70519 6.87085C1.61913 6.87091 1.49731 6.871 1.38711 6.86199C1.25501 6.8512 1.04417 6.82206 0.819035 6.70735C0.536792 6.56354 0.307321 6.33407 0.163511 6.05182C0.0487986 5.82669 0.0196589 5.61585 0.00886567 5.48375C-0.000138422 5.37354 -5.10709e-05 5.25173 1.07093e-05 5.16567L2.03652e-05 2C2.03652e-05 1.37868 0.5037 0.875 1.12502 0.875C1.74634 0.875 2.25002 1.37868 2.25002 2V2.96111C3.38657 2.00587 4.71877 1.29764 6.16229 0.891762C8.24222 0.306941 10.4519 0.378336 12.4897 1.0962C14.5276 1.81406 16.2943 3.1434 17.5489 4.90275C18.8034 6.6621 19.4847 8.76577 19.4998 10.9267C19.5149 13.0876 18.863 15.2006 17.6331 16.9773C16.4033 18.754 14.6553 20.1079 12.6276 20.8541C10.6 21.6004 8.39155 21.7026 6.30367 21.1469C4.6601 20.7095 3.11556 19.8787 1.86301 18.7255C1.40593 18.3047 1.37655 17.5929 1.79739 17.1359C2.21824 16.6788 2.92994 16.6494 3.38703 17.0702C4.36132 17.9673 5.57811 18.6255 6.88238 18.9726C8.52263 19.4092 10.2576 19.3289 11.8505 18.7426C13.4435 18.1563 14.8168 17.0927 15.7831 15.6967C16.7495 14.3007 17.2617 12.6404 17.2498 10.9424C17.238 9.24439 16.7026 7.59142 15.7169 6.20907C14.7312 4.82672 13.3431 3.78234 11.7422 3.21838Z"></path></svg></span></a>
+	`;
+	updateBtn.style.scale = '0.75';
+	updateBtn.style.marginLeft = '16px';
+	e.appendChild(updateBtn);
   });
 }
-///КОНЕЦ СТАРОГО РЕДАКТОРА ИСТОРИЙ///
+///КОНЕЦ КНОПКИ ОБНОВЛЕНИЯ СТЕНЫ///
 ///УБРАТЬ AWAY.PHP///
 if (localStorage.getItem("removeAway") == "true") {
   const awayHrefs = [
