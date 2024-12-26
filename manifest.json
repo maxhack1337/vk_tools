@@ -5,7 +5,7 @@
     "default_title": "Настройки VK Tools"
   },
   "name": "VK Tools - улучшение ВКонтакте",
-  "version": "4.4",
+  "version": "4.5",
   "icons": {
     "128": "assets/icon128.png",
     "16": "assets/icon16.png",
@@ -70,7 +70,6 @@
   "web_accessible_resources": [
     {
       "resources": [
-	    "js/post_attaches.js",
         "js/main.js",
 		"js/jszip.min.js",
         "js/modules/arrive.js",
