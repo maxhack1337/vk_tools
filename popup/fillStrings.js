@@ -25,8 +25,7 @@ function fillStrings() {
     document.querySelector('#GroupsRecent > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.hideRecentCommunities);
     document.querySelector('#ScrollBar > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.alternativeScrollbar);
     document.querySelector('#ReconnectInd > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.disableReconnectIndicator);
-    document.querySelector('#MediaViewer > div > div > .vkenhancerChoosePickerText1').innerHTML = `<span class="newFunctionSpan"><img class="newFire" src="assets/new_function_text.svg"></span>`+getLocalizedString(strings.newMediaViewer);
-    document.querySelector('#MediaViewer > div > div > .vkenhancerStandartWarning').innerHTML = getLocalizedString(strings.newMediaViewerDescription);
+    document.querySelector('#MediaViewer > div > div > .vkenhancerChoosePickerText1').innerHTML = getLocalizedString(strings.newMediaViewer);
 	document.querySelector('#ReloadVKE > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.reloadFunctionsButton);
     document.querySelector('#SaveSettings > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.saveSettingsToFile);
     document.querySelector('#LoadSettings > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.loadSettingsFromFile);

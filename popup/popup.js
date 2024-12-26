@@ -1,4 +1,4 @@
-console.log('Версия 4.4 Release');
+console.log('Версия 4.5 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
