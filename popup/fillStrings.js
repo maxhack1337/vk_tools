@@ -38,6 +38,8 @@ function fillStrings() {
 	document.querySelector('#TabletMenu > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.tabletMenu);
 	document.querySelector('#OldBadge > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.oldMessagesBadge);
 	document.querySelector('#MessageCounter > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.disableMessageCounter);
+	document.querySelector('#MessageHideFooter > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.hideMessageFooter);
+	document.querySelector('#WideFeed > div > div > .vkenhancerChoosePickerText1').textContent = getLocalizedString(strings.doWideFeed);
     document.querySelector('#NewProfiles > div > div > .vkenhancerChoosePickerText1').innerHTML = '<span class="newSpan"><img class="newFire" src="assets/new.png"></span>' + getLocalizedString(strings.classicProfileInterface);
     document.querySelector('#GraffityFromFile > div > div > .vkenhancerChoosePickerText1').innerHTML = getLocalizedString(strings.newMessengerDesign);
 	document.querySelector('#GarlandDisable > div > div > .vkenhancerChoosePickerText1').innerHTML = getLocalizedString(strings.garlandDisable);
