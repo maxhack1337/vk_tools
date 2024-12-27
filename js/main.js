@@ -747,8 +747,12 @@ document.arrive('.faq_tabs:not(:has([href="support?act=new"]))', { existing: tru
 	let support = document.createElement('a');
 	support.id = "new_link";
 	support.classList.add('vkEnhancerSupportLink');
+	try {
 	support.innerText = getLang('support_ask_question');
-	support.href = "https://vk.com/support?act=new&from=h";
+	} catch(error) {
+	support.innerText = 'Задать вопрос';	
+	}
+	support.href = "https://vk.com/support?act=new&from=pass_faq";
 	support.style = "float:right;padding-bottom:0px;padding-left:10px;padding-right:10px;padding-top:16px;text-decoration-line:none;text-decoration-style:solid;text-decoration-thickness:auto;";
 	e.appendChild(support);
   }
@@ -9952,6 +9956,25 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 				let postHeader = e.querySelector('[class^="PostHeaderTitle"]');
 				let postDate = document.createElement('div');
 				postDate.classList.add("PostHeaderSubtitle","PostHeaderSubtitle--layoutDefault","vk_enhancer_post_subhead");
+				let xDataPost = '';
+				if(postData.author != null) {
+					xDataPost += `<b style="font-weight:500">${getLang('wall_post_author_data_author_title')}</b><br><a class="vkuiLink vkitLink__link--WXYoI vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__resetLinkStyle vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" href="${postData.author.url}">${postData.author.username}</a>`;
+				}
+				if(postData.publisher != null) {
+					let sex = postData.publisher.sex = postData.publisher.sex === 1 ? 2 : 1; 
+					xDataPost += `<br><span style="height:6px; display:block;"></span><b style="font-weight:500">${getLang('wall_post_author_data_published_by_title',sex)}</b><br><a class="vkuiLink vkitLink__link--WXYoI vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__resetLinkStyle vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" href="${postData.publisher.url}">${postData.publisher.username}</a>`;
+				}
+				if(postData.editInfo != null) {
+					xDataPost += `<br><span style="height:6px; display:block;"></span><b style="font-weight:500">${getLang('wall_post_author_data_editor_title')}</b><br><div style="display:flex"><a class="vkuiLink vkitLink__link--WXYoI vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__resetLinkStyle vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" href="${postData.editInfo.url}">${postData.editInfo.username}</a><div style="color: var(--vkui--color_text_secondary);">​ ​${postData.editInfo.time}</div></div>`;
+				}
+				postDate.setAttribute('onmouseover',`showHint(this, { 
+				text: '${xDataPost}',
+				shift: [5, 7],
+				hasover: 1,
+				width: !1,
+				toup: !0,
+				forcetodown: !0
+				})`);
 				postDate.innerHTML = `
 				<a class="vkEnhancerPostDate PostHeaderSubtitle__link" href="/wall`+postData.postRaw+`" onclick="return showWiki({w: 'wall`+postData.postRaw+`'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
 					<time class="PostHeaderSubtitle__item">`+getFormattedPostDate(postData.date)+`</time>

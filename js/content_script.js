@@ -131,7 +131,9 @@ function createReloadButton() {
     reloadButton.classList.add("vkEnhancerRebootLoading");
     chrome.storage.local.get(
       [ "garlandState",
+	    "wideFeedState",
 		"customLeftMenuObject",
+		"messageFooterState",
 		"messageCounterState",
 	    "fixMenuState",
 	    "oldBadgeState",
@@ -205,7 +207,9 @@ function createReloadButton() {
 		fixMenuState,
 		messageCounterState,
 		customLeftMenuObject,
-		garlandState
+		garlandState,
+		messageFooterState,
+		wideFeedState
       }) =>
         applyStyles(
           checkboxState,
@@ -244,7 +248,9 @@ function createReloadButton() {
 		  fixMenuState,
 		  messageCounterState,
 		  customLeftMenuObject,
-		  garlandState
+		  garlandState,
+		  messageFooterState,
+		  wideFeedState
         )
     );
     setTimeout(() => reloadButton.classList.remove("vkEnhancerRebootLoading"), 250);
@@ -889,6 +895,23 @@ function enableCounter() {
     customStyle.remove();
   }
 }
+//Скрыть футер с непрочитанными//
+function disableFooter() {
+  let styleElement = fromId("removeMsgFooter");
+  if (!styleElement) {
+    styleElement = create("style", {}, { id: "removeMsgFooter" });
+    document.head.appendChild(styleElement);
+  }
+  styleElement.innerHTML =
+    `.ConvoList__footer{display:none;}`;
+}
+
+function enableFooter() {
+  const customStyle = fromId("removeMsgFooter");
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
 //Граффити можем или нет//
 function stopLoadGraffity() {
   let styleElement = fromId("removeGraffitiInput");
@@ -954,6 +977,26 @@ function garlandBack() {
     customStyle.remove();
   }
 }
+//Широкий стиль стены//
+function wideFeedEnable() {
+  let styleElement = fromId("wideFeedEnabler");
+  if (!styleElement) {
+    styleElement = create("style", {}, { id: "wideFeedEnabler" });
+    document.head.appendChild(styleElement);
+  }
+  styleElement.innerHTML =
+    `.wide_column_left:has(#ui_rmenu_news)
+    {
+        --narrow-column-width:160px!important
+    }`;
+}
+
+function wideFeedRemove() {
+  const customStyle = fromId("wideFeedEnabler");
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
 // Функция для добавления стилей
 function applyStyles(
   isOldAccentChecked,
@@ -992,7 +1035,9 @@ function applyStyles(
   fixMenuChecked,
   messageCounterСhecked,
   customLeftMenuValue,
-  garlandChecked
+  garlandChecked,
+  messageFooterСhecked,
+  wideFeedChecked
 ) {
   if (isOldAccentChecked) {
     hideNFT_Avatars();
@@ -1297,6 +1342,19 @@ function applyStyles(
   else {
 	 enableCounter();  
   }
+  
+  if(messageFooterСhecked) {
+	 disableFooter();  
+  }
+  else {
+	 enableFooter();  
+  }
+  
+  if(wideFeedChecked) {
+	  wideFeedEnable();
+  } else {
+	  wideFeedRemove();
+  }
 
   if (customLeftMenuValue) {
     window.postMessage(
@@ -1309,7 +1367,9 @@ function applyStyles(
 function applySavedStyles() {
   chrome.storage.local.get(
     [
+	  "messageFooterState",
 	  "garlandState",
+	  "wideFeedState",
 	  "customLeftMenuObject",
 	  "messageCounterState",
 	  "fixMenuState",
@@ -1383,8 +1443,10 @@ function applySavedStyles() {
 	  const oldBadgeChecked = items.oldBadgeState;
 	  const fixMenuChecked = items.fixMenuState;
 	  const messageCounterСhecked = items.messageCounterState;
+	  const messageFooterСhecked = items.messageFooterState;
 	  const customLeftMenuValue = items.customLeftMenuObject;
 	  const garlandChecked = items.garlandState;
+	  const wideFeedChecked = items.wideFeedState;
       applyStyles(
         isOldAccentChecked,
         isMsgReactionsChecked,
@@ -1422,7 +1484,9 @@ function applySavedStyles() {
 		fixMenuChecked,
 		messageCounterСhecked,
 		customLeftMenuValue,
-		garlandChecked
+		garlandChecked,
+		messageFooterСhecked,
+		wideFeedChecked
       );
     }
   );
@@ -1467,8 +1531,10 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     message.type === "toggleOldBadge" || 
 	message.type === "toggleFixMenu" || 
 	message.type === "toggleMessageCounter" ||
+	message.type === "toggleMessageFooter" ||
 	message.type === "toggleLeftMenuLabels" || 
-	message.type === "toggleGarland"
+	message.type === "toggleGarland" || 
+	message.type === "toggleWideFeed"
   ) {
     applySavedStyles();
   }
