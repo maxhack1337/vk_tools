@@ -4,6 +4,8 @@
 ## Функции расширения
 ```
  * Возможность вернуть старый дизайн ленты
+ * Возможность расширить ленту
+ * Возможность убрать переключатель непрочитанных в мессенджере
  * Переименование разделов левого меню
  * Возможность открытия видео в модальном окне
  * Возможность активации классического интерфейса профиля
@@ -99,7 +101,7 @@
 </p>
 </details>
 <p align="center"><strong>Установить расширение</strong></br></br>
-<a href="https://github.com/maxhack1337/vk_enhancer/releases/download/v4.5/VK.Enhancer.zip">
+<a href="https://github.com/maxhack1337/vk_enhancer/releases/download/v4.6/VK.Enhancer.zip">
   <img src="https://vkenhancer.ru/install.png" width="202" height="54">
 </a></p>
 <div>
