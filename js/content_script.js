@@ -29,7 +29,6 @@ var isSecretEnabled = false;
 var muteCallsBool = false;
 var isCallsMuted = false;
 var newDesignBool = false;
-//NEW
 
 const query = document.querySelector.bind(document);
 const queryAll = document.querySelectorAll.bind(document);
@@ -50,30 +49,7 @@ const fromId = document.getElementById.bind(document);
     },
     "*"
   );
-  // Новый дизайн мессенджера
-  chrome.storage.local.get(["newDesignState"], async ({ newDesignState }) => {
-    if (newDesignState) {
-      //console.log("Новый дизайн мессенджера");
-      window.postMessage({ action: "vkNewDesign" }, "*");
-    } else {
-      //console.log("Старый дизайн мессенджера");
-      window.postMessage({ action: "vkNewDesignOff" }, "*");
-    }
-  });
 })();
-
-window.addEventListener("vkNav", async (e) => {
-  //console.log(e);
-  chrome.storage.local.get(["newDesignState"], async ({ newDesignState }) => {
-    if (newDesignState) {
-      //console.log("Новый дизайн мессенджера");
-      window.postMessage({ action: "vkNewDesign" }, "*");
-    } else {
-      //console.log("Старый дизайн мессенджера");
-      window.postMessage({ action: "vkNewDesignOff" }, "*");
-    }
-  });
-});
 
 function injectScript(src) {
   return new Promise((resolve, reject) => {
@@ -101,7 +77,6 @@ function create(name, styles, options) {
   return tmp;
 }
 
-//NEW
 
 // Кнопка релоад функций
 function createReloadButton() {
@@ -282,27 +257,20 @@ function HotBarAppear(cHotBarValue) {
   }
   hotbarb.innerHTML =
     ".ConvoMain__composer{padding-bottom:8px!important;display:flex;flex-direction: column;align-items: center;}";
-  //const chatInputContainer = document.getElementsByClassName("im-chat-input--textarea fl_l _im_text_input _emoji_field_wrap");
   const chatInputContainer = document.getElementsByClassName(
     "ConvoMain__composer"
   );
-  // Проверяем, есть ли уже хотбар на странице
+
   const existingHotbar = fromId("vkenhancerEmojiHotbarID");
   cHotBarValue = cHotBarValue.filter(function (item) {
     return item !== "" && item !== null && item !== undefined;
   });
-  if (
-    false /*existingHotbar && old_smile + 1 != Number(document.getElementsByClassName("page_progress_preview media_preview clear_fix")[0].id.replace(/\D+/g, ""))*/
-  ) {
-    existingHotbar.remove();
-    /*console.log('HotBar removed')*/
-  }
+
   if (!existingHotbar && cHotBarValue.length > 0) {
     const hotbarDiv = document.createElement("div");
     hotbarDiv.className = "vkenhancerEmojiHotbar";
     hotbarDiv.id = "vkenhancerEmojiHotbarID";
-    hotbarDiv.style.marginTop = "6px"; //-10px
-    //hotbarDiv.style.marginBottom = '7px';
+    hotbarDiv.style.marginTop = "6px"; 
     hotbarDiv.style.marginLeft = "9px";
     hotbarDiv.style.color = "#dee1e6";
     hotbarDiv.style.textAlign = "center";
@@ -331,29 +299,9 @@ function HotBarAppear(cHotBarValue) {
         aElement.style.background = "none";
         aElement.style.borderRadius = "0";
       });
-      /*var prev = document.getElementsByClassName("page_progress_preview media_preview clear_fix");
-            var v1 = 0;
-            for (j = 0; j <= prev.length - 1; j++) {
-                var last_id = prev[j].id;
-                var last = Number(last_id.replace(/\D+/g, ""));
-                if (last > v1) {
-                    v1 = last;
-                }
-            }
-            var v_smile = v1 - 1;
-            old_smile = v_smile;*/
-      /*console.log(v_smile + " v_smile");*/
-      //aElement.setAttribute('onclick', `Emoji.addEmoji(${v_smile}, '${emojiCode}', this); return cancelEvent(event);`);
-      /*aElement.addEventListener('click', function() {
-                const textmoji = aElement.getAttribute('textmoji');
-                const composerInput = document.querySelector('.ComposerInput__input.ConvoComposer__input');
-    
-                if (composerInput) {
-                    composerInput.textContent = textmoji;
-                }
-            });*/ //старая добавлялка
+
       aElement.addEventListener("click", function () {
-        const emojiCodeAdd = emojiCode; // Ваш emojiCode
+        const emojiCodeAdd = emojiCode; 
         const textmoji = aElement.getAttribute("textmoji");
         const imgElement = document.createElement("img");
         imgElement.className = "Emoji @" + emojiCodeAdd;
@@ -450,22 +398,8 @@ function HotBarAppear(cHotBarValue) {
     } catch (error) { }
   }
 }
-// Функция для получения ID эмодзи
-function getEmojiId(emoji) {
-  return emoji.codePointAt(0).toString(16);
-}
 
-document.addEventListener("DOMContentLoaded", function () {
-  const stylusInstalled = document.querySelector("style.stylus") !== null;
-  chrome.storage.local.set(
-    {
-      stylusInstalled,
-    },
-    function () {
-      /*console.log('Stylus installation status saved to cache.');*/
-    }
-  );
-});
+
 // Режим "не беспокоить"
 function applyStyleAndMuteSpecificAudio() {
   window.postMessage({ action: "muteCalls" }, "*");
@@ -567,7 +501,7 @@ function removeMessageReactions() {
     document.head.appendChild(styleElement);
   }
   styleElement.innerHTML =
-    ".DropdownReforged:has(.ReactionChip), .ConvoListItem__icon:not([aria-label]),.HopNavigationButton:has(.vkuiIcon--stars_20),.ConvoMessageWithoutBubble__reactions,.MessageActionsContent__reactions,.MessageReactionsPanel,.im-mess--reaction,.MessageReactions,MessageReactionsModalButton,.im-mess_reactions:hover .MessageReactionsModalButton,.im-mess .im-mess--reactions,.nim-dialog .nim-dialog--unread-badge_reaction,button.im-navigation.im-navigation--to-reaction._im_to_reaction.im-navigation_shown { display: none!important; }";
+    "[class^='MessageReactionPicker'],.DropdownReforged:has(.ReactionChip), .ConvoListItem__icon:not([aria-label]),.HopNavigationButton:has(.vkuiIcon--stars_20),.ConvoMessageWithoutBubble__reactions,.MessageActionsContent__reactions,.MessageReactionsPanel,.im-mess--reaction,.MessageReactions,MessageReactionsModalButton,.im-mess_reactions:hover .MessageReactionsModalButton,.im-mess .im-mess--reactions,.nim-dialog .nim-dialog--unread-badge_reaction,button.im-navigation.im-navigation--to-reaction._im_to_reaction.im-navigation_shown { display: none!important; }";
 }
 
 function backMessageReactions() {
@@ -576,20 +510,7 @@ function backMessageReactions() {
     customStyle.remove();
   }
 }
-//Дополнительные функции VK Enhancer
-function secretFunctionsEnabled() {
-  isSecretEnabled = true;
-  setTimeout(() => {
-    loadScripts();
-  }, "5000");
-}
 
-function secretFunctionsDisabled() {
-  isSecretEnabled = false;
-  /*console.log(
-    "Secret functions are disabled. If you want to enable them - push checkbox and reload page"
-  );*/
-}
 //Реакции к постам
 function removePostReactions() {
   let styleElement = fromId("postReactions");
@@ -632,7 +553,7 @@ function removeBlur() {
     customStyle.remove();
   }
 }
-//Скрыть кнопку VK Enhancer
+//Скрыть кнопку перезагрузки функций VK Tools
 function hideEnButton() {
   let styleElement = fromId("enbutton");
   if (!styleElement) {
@@ -650,7 +571,6 @@ function backEnButton() {
 }
 //Кастомный акцент
 function addCAccent(cAccentValue) {
-  /*console.log("Caccent executed");*/
   let styleElement = fromId("CAccentID");
   if (!styleElement) {
     styleElement = create("style", {}, { id: "CAccentID" });
@@ -662,16 +582,14 @@ function addCAccent(cAccentValue) {
     "!important; --vkui--color_text_link: var(--accent) !important; --vkui--color_text_link: var(--accent) !important; --vkui--color_icon_accent_themed: var(--accent) !important;  --blue_400: var(--accent) !important;    --action_sheet_action_foreground: var(--accent) !important;    --attach_picker_tab_active_background: var(--accent) !important;    --attach_picker_tab_active_text: var(--accent) !important;    --cell_button_foreground: var(--accent) !important;    --control_foreground: var(--accent) !important;    --counter_primary_background: var(--accent) !important;    --header_alternate_tab_active_indicator: var(--accent) !important;    --header_tab_active_indicator: var(--accent) !important;    --header_tint: var(--accent) !important;    --header_tint_alternate: var(--accent) !important;    --im_attach_tint: var(--accent) !important;    --im_reply_sender_text: var(--accent) !important;    --im_reply_separator: var(--accent) !important;    --landing_login_button_background: var(--accent) !important;    --landing_primary_button_background: var(--accent) !important;    --landing_tertiary_button_foreground: var(--accent) !important;    --landing_text_title: var(--accent) !important;    --landing_secondary_button_foreground: var(--accent) !important;    --link_alternate: var(--accent) !important;    --loader_track_value_fill: var(--accent) !important;    --feed_recommended_friend_promo_background: var(--accent) !important;    --tabbar_active_icon: var(--accent) !important;    --tabbar_tablet_active_icon: var(--accent) !important;    --text_link: var(--accent) !important;    --text_name: var(--accent) !important;    --writebar_icon: var(--accent) !important;    --dynamic_blue: var(--accent) !important;    --text_link_hightlighted_background: var(--accent) !important;    --im_text_name: var(--accent) !important;    --button-background-color: var(--accent) !important;    --sky_100: var(--accent) !important;    --sky_200: var(--accent) !important;    --light_blue_700: var(--accent) !important;    --blue_bright: var(--accent) !important;    --vkui--color_icon_accent: var(--accent) !important;    --vkui--color_background_accent_themed: var(--accent) !important;    --vkui--color_background_accent: var(--accent) !important;    --vkui--color_background_accent--hover: var(--accent) !important;    --vkui--color_background_accent--active: var(--accent) !important;    --vkui--color_background_accent_themed--hover: var(--accent) !important;    --vkui--color_background_accent_themed--active: var(--accent) !important;    --vkui--color_background_accent_tint--hover: var(--accent) !important;    --vkui--color_background_accent_tint--active: var(--accent) !important;    --vkui--color_background_accent_alternative: var(--accent) !important;    --vkui--color_background_accent_alternative--hover: var(--accent) !important;    --vkui--color_background_accent_alternative--active: var(--accent) !important;    --vkui--color_text_accent: var(--accent) !important;    --vkui--color_text_accent--hover: var(--accent) !important;    --vkui--color_text_accent--active: var(--accent) !important;    --vkui--color_text_accent_themed: var(--accent) !important;    --vkui--color_text_accent_themed--hover: var(--accent) !important;    --vkui--color_text_accent_themed--active: var(--accent) !important;    --vkui--color_text_link: var(--accent) !important;    --vkui--color_text_link--hover: var(--accent) !important;    --vkui--color_text_link--active: var(--accent) !important;    --vkui--color_text_link_themed: var(--accent) !important;    --vkui--color_text_link_themed--hover: var(--accent) !important;    --vkui--color_text_link_themed--active: var(--accent) !important;    --vkui--color_text_link_visited--hover: var(--accent) !important;    --vkui--color_text_link_visited--active: var(--accent) !important;    --blue_a400: var(--accent) !important;    --blue_400_alpha20: var(--accent),0.2 !important;    --blue_400_alpha48: var(--accent),0.48 !important;    --blue_420: var(--accent) !important;    --blue_550: var(--accent) !important;    --blue_600: var(--accent) !important;    --blue_640: var(--accent) !important;    --blue_800: var(--accent) !important;    #top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > svg > g > g > path:nth-child(2), #top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > span > svg > path:nth-child(1){        fill: " +
     cAccentValue +
     " !important;    }}";
-  // Получаем элемент SVG
   try {
     const svgElement1 = document.querySelector(
       "#top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > svg"
     );
     const pathElement1 = svgElement1.querySelector("g > g > path:nth-child(2)");
     pathElement1.setAttribute("fill", cAccentValue);
-    /*console.log("logo accepted " + svgElement1);*/
   } catch (error) {
-    /*console.log('logo not accepted. Trying to use DOM');*/
+
   }
   document.addEventListener("DOMContentLoaded", function () {
     const svgElement = document.querySelector(
@@ -679,7 +597,6 @@ function addCAccent(cAccentValue) {
     );
     const pathElement = svgElement.querySelector("g > g > path:nth-child(2)");
     pathElement.setAttribute("fill", cAccentValue);
-    /*console.log("logo accepted reload" + svgElement);*/
   });
 }
 
@@ -803,7 +720,7 @@ function addOpacity(sliderValueCount) {
       ")!important;} .ConvoMain__rightPanelContainer,.MEApp{background-color:rgba(237,238,240," +
       opacity +
       ")!important;} .TopNavBtn .TopNavBtn__notifyCount{border:2px solid rgb(255,255,255)!important;} .UnreadCounter.UnreadCounter--muted{color:rgb(255,255,255)!important}";
-    //rule = `.im-page .im-page--history-new-bar,.im-page_classic.im-page .im-page--header::before,.im-page_classic.im-page .im-page--dialogs,GamesCatalogNav,.audio_page_layout .audio_search_wrapper,.GamesCatalogHalfBlock .GamesCatalogCardsBlock__header{background:transparent!important} .im-page_classic.im-page .im-page--chat-body-wrap-inner,.im-page.im-page_classic.im-page_group .im-group-online .im-group-online--inner,.im-page_classic.im-page .im-page--dcontent,.PageBlock,.MarketplaceCatalogBlockListFiltersLayout__block,.MarketplaceCatalogHeaderMenu,.GamesCatalogProfileBlock__header,.GamesCatalogProfileBlock__content,.GamesCatalogSearchMainContent,.page_block_header,.ui_tabs_new.ui_tabs_header,.CatalogBlock--divided,.ui_search.ui_search_old,.im-page .im-page--dialogs-footer,.im-page .im-page--header, .im-page .im-page--search-header,.redesigned-group-info,.ProfileHeader, .page_block, .vkuiGroup--mode-card,.wall_module .reply_box{background: rgba(255, 255, 255, ${opacity})!important;}`;
+
   } else {
     rule =
       ".vkui--vkBase--dark,[scheme=vkcom_dark]{ --vkui--color_background_content: rgba(34, 34, 34, " +
@@ -813,8 +730,7 @@ function addOpacity(sliderValueCount) {
       ")!important;} .ConvoMain__rightPanelContainer,.MEApp{background-color:rgba(20,20,20," +
       opacity +
       ")!important; .TopNavBtn .TopNavBtn__notifyCount{border:2px solid rgb(25,25,26)!important;}} .UnreadCounter.UnreadCounter--muted{color:rgb(25,25,26)!important}";
-    //rule = `.im-page .im-page--history-new-bar,.im-page_classic.im-page .im-page--header::before,.im-page_classic.im-page .im-page--dialogs,GamesCatalogNav,.audio_page_layout .audio_search_wrapper,.GamesCatalogHalfBlock .GamesCatalogCardsBlock__header{background:transparent!important} .im-page_classic.im-page .im-page--chat-body-wrap-inner,.im-page.im-page_classic.im-page_group .im-group-online .im-group-online--inner,.im-page_classic.im-page .im-page--dcontent,.PageBlock,.MarketplaceCatalogBlockListFiltersLayout__block,.MarketplaceCatalogHeaderMenu,.GamesCatalogProfileBlock__header,.GamesCatalogProfileBlock__content,.GamesCatalogSearchMainContent,.page_block_header,.ui_tabs_new.ui_tabs_header,.CatalogBlock--divided,.ui_search.ui_search_old,.im-page .im-page--dialogs-footer,.im-page .im-page--header, .im-page .im-page--search-header,.redesigned-group-info,.ProfileHeader, .page_block, .vkuiGroup--mode-card,.wall_module .reply_box{background: rgba(25, 25, 26, ${opacity})!important;}`;
-  }
+    }
   const existingStyle = fromId("custom-opacity-style");
   if (existingStyle) {
     existingStyle.remove();
@@ -825,7 +741,6 @@ function addOpacity(sliderValueCount) {
     { id: "custom-opacity-style", innerHTML: rule, type: "text/css" }
   );
   document.head.appendChild(styleElement);
-  /*console.log("Opacity changed to " + opacity);*/
 }
 //Индикатор реконнекта
 function removeReconnectIndicator() {
@@ -997,7 +912,6 @@ function wideFeedRemove() {
     customStyle.remove();
   }
 }
-// Функция для добавления стилей
 function applyStyles(
   isOldAccentChecked,
   isMsgReactionsChecked,
@@ -1064,18 +978,15 @@ function applyStyles(
     if (customStyle) {
       customStyle.remove();
     }
-    fixname1();
+    appendTopName();
   } else {
     removeNameAva();
   }
   if (isSecretChecked) {
-    window.postMessage({ action: "secretFunctionsEnabled" }, "*");
-    secretFunctionsEnabled();
+    window.postMessage({ action: "videoModalEnabled" }, "*");
   } else {
-    window.postMessage({ action: "secretFunctionsDisabled" }, "*");
-    secretFunctionsDisabled();
+    window.postMessage({ action: "videoModalDisabled" }, "*");
   }
-  /*console.log("isHiderChecked now " + isHiderChecked)*/
   if (isHiderChecked) {
     addBlur();
   } else {
@@ -1138,7 +1049,6 @@ function applyStyles(
     );
   }
   if (addStickerChecked) {
-    //runStickerAdder();
     removeReconnectIndicator();
   } else {
     backReconnectIndicator();
@@ -1190,55 +1100,47 @@ function applyStyles(
 	stopLoadGraffity();
   }
   if (integrationMediaChecked) {
-    //console.log("New int");
     window.postMessage(
       { action: "integrationMedia", value: integrationMediaChecked },
       "*"
     );
   } else {
-    //console.log("Old int");
     window.postMessage(
       { action: "integrationMedia", value: integrationMediaChecked },
       "*"
     );
   }
   if (nechitalkaChecked) {
-    //console.log("Nechitalka true");
     window.postMessage(
       { action: "nechitalka", value: nechitalkaChecked },
       "*"
     );
   }
   else {
-    //console.log("Nechitalka false");
     window.postMessage(
       { action: "nechitalka", value: nechitalkaChecked },
       "*"
     );
   }
   if (nepisalkaChecked) {
-    //console.log("Nepisalka true");
     window.postMessage(
       { action: "nepisalka", value: nepisalkaChecked },
       "*"
     );
   }
   else {
-    //console.log("Nepisalka false");
     window.postMessage(
       { action: "nepisalka", value: nepisalkaChecked },
       "*"
     );
   }
   if (pollResultsChecked) {
-    //console.log("Polls true");
     window.postMessage(
       { action: "pollResults", value: pollResultsChecked },
       "*"
     );
   }
   else {
-    //console.log("Polls false");
     window.postMessage(
       { action: "pollResults", value: pollResultsChecked },
       "*"
@@ -1363,7 +1265,6 @@ function applyStyles(
     );
   }
 }
-// Функция для получения состояния чекбоксов из локального хранилища и применения стилей
 function applySavedStyles() {
   chrome.storage.local.get(
     [
@@ -1491,9 +1392,7 @@ function applySavedStyles() {
     }
   );
 }
-// При загрузке страницы применяем сохраненные стили
 document.addEventListener("DOMContentLoaded", applySavedStyles);
-// Обработчик сообщений от background.js
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (
     message.type === "nameAva" ||
@@ -1551,7 +1450,6 @@ function checkId() {
     username = username.split("?")[0];
   }
   var objectId;
-  /*console.log("Username:" + username);*/
   const url1 = `https://vkenhancer-api.vercel.app/getId?username=${username}`;
   fetch(url1)
     .then((response) => response.json())
@@ -1565,138 +1463,7 @@ function checkId() {
       console.error("Ошибка:", error);
     });
 }
-//Добавление стикера во вложения ВК(старый мессенджер, в новом не работает)
-function runStickerAdder() {
-  const existingStickerLink = document.querySelector(".ms_item_sticker");
-  if (existingStickerLink) {
-    return;
-  }
-  let styleElement = fromId("vken_box_sticker");
-  if (!styleElement) {
-    styleElement = document.createElement("style");
-    styleElement.id = "vken_box_sticker";
-    document.head.appendChild(styleElement);
-  }
-  styleElement.id = "vken_box_sticker";
-  styleElement.innerHTML = `#vken_box_layer_bg {    top: 0;    left: 0;    width: 100%;    overflow: hidden;}#vken_box_layer_bg > div > div:nth-child(3) > svg{    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' aria-hidden='true' display='block' class='vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20' viewBox='0 0 20 20' width='20' height='20' style='width: 20px; height: 20px;'%3E%3Cpath fill='%23e1e3e6' fill-rule='evenodd' d='M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E") no-repeat;}#vken_box_layer_bg > div > div:nth-child(3){    right:-40px!important;    background-color:rgba(0, 0, 0, 0.44);    border-radius:999px;    padding:4px;    cursor:pointer;}#vken_box_layer_bg > div > button{    color:var(--vkui--color_text_contrast_themed);    background-color:var(--vkui--color_background_accent_themed);    border:0px;    border-radius:5px;    padding:6px 12px 6px 12px;    cursor:pointer;}#vken_box_layer_bg > div > button:hover{    background-color:var(--vkui--color_background_accent_themed--hover);}#vken_box_layer_bg > div > input[type=text]{    background: 0 0;    padding: 8px 4px 8px 4px;    color: var(--vkui--color_text_primary);        font-size: var(--vkui--font_text--font_size--compact);    font-family: var(--palette-vk-font, -apple-system,BlinkMacSystemFont,'Roboto','Helvetica Neue',Geneva,"Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai",arial,Tahoma,verdana,sans-serif);    outline: 0;    box-shadow: none;    border: 1px solid var(--vkui--vkontakte_color_input_border);    border-radius: 6px;    overflow: hidden;    position: relative;}#vken_box_layer_bg > div > div.box_title{    padding-left:0px!important;    font-size: 14px;    color: var(--vkui--color_text_primary);    line-height: 32px;    height:32px;    margin-bottom:8px;    overflow: hidden;    text-overflow: ellipsis;    white-space: nowrap;}`;
-  const moreItemsContainer = document.querySelector(
-    ".ms_items_more._more_items"
-  );
-  if (!moreItemsContainer) {
-    /*console.error('Контейнер не найден');*/
-    return;
-  }
-  const stickerLink = document.createElement("a");
-  stickerLink.classList.add("ms_item", "ms_item_sticker", "_type_sticker");
-  stickerLink.tabIndex = "0";
-  stickerLink.innerHTML =
-    '<span class="MediaSelector__mediaIcon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M8.44 14.3a.9.9 0 0 1 1.26.13c.01.02.2.22.53.43.38.24.97.49 1.77.49a3.3 3.3 0 0 0 1.77-.49c.2-.12.39-.26.53-.43a.9.9 0 0 1 1.4 1.13 4.04 4.04 0 0 1-.97.83 5.1 5.1 0 0 1-2.73.76 5.1 5.1 0 0 1-2.73-.76 3.99 3.99 0 0 1-.97-.83.9.9 0 0 1 .14-1.26Zm1.81-4.05a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0ZM15 11.5A1.25 1.25 0 1 0 15 9a1.25 1.25 0 0 0 0 2.5Zm-3-9.4a9.9 9.9 0 1 0 0 19.8 9.9 9.9 0 0 0 0-19.8ZM3.9 12a8.1 8.1 0 1 1 16.2 0 8.1 8.1 0 0 1-16.2 0Z" clip-rule="evenodd"></path></svg></span>Стикер';
-  moreItemsContainer.appendChild(stickerLink);
-  stickerLink.addEventListener("click", function () {
-    const overlay = create(
-      "div",
-      {
-        height: "100vh",
-        zIndex: "9999",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        opacity: "1",
-        background: "#000000B3",
-      },
-      { id: "vken_box_layer_bg", className: "fixed" }
-    );
-    const popupContainer = create(
-      "div",
-      {
-        width: "400px",
-        backgroundColor: "var(--vkui--color_background_modal)",
-        padding: "20px",
-        borderRadius: "8px",
-        boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-        position: "relative",
-      },
-      { className: "popup_box_container", tabIndex: "0" }
-    );
-    const title = create(
-      "div",
-      {},
-      { className: "box_title", textContent: "Прикрепление стикера" }
-    );
-    const textBox = create(
-      "input",
-      { width: "100%", marginBottom: "10px" },
-      { type: "text", placeholder: "Введите ID стикера", pattern: "d*" }
-    );
-    textBox.addEventListener("input", function () {
-      const existingButton = document.querySelector(".add-button");
-      if (existingButton) {
-        existingButton.remove();
-      }
-      createAddButton();
-    });
 
-    function createAddButton() {
-      const stickerId = textBox.value;
-      const addButton = document.createElement("button");
-      addButton.textContent = "Добавить";
-      const command = `cur.chooseMedia('sticker', '${stickerId}', {performer: '${stickerId}', title: '${stickerId}', info: ${stickerId}, duration: '${stickerId}'});`;
-      addButton.setAttribute("onclick", command);
-      addButton.classList.add("add-button");
-      popupContainer.appendChild(addButton);
-      addButton.addEventListener("click", function () {
-        overlay.remove();
-      });
-    }
-    const closeButton = create(
-      "div",
-      { position: "absolute", top: "10px", right: "10px" },
-      {}
-    );
-    closeButton.addEventListener("click", function () {
-      overlay.remove();
-    });
-    const closeIcon = create(
-      "svg",
-      { width: "20px", height: "20px", display: "block" },
-      {}
-    );
-    closeIcon.setAttribute("aria-hidden", "true");
-    closeIcon.classList.add(
-      "vkuiIcon",
-      "vkuiIcon--20",
-      "vkuiIcon--w-20",
-      "vkuiIcon--h-20",
-      "vkuiIcon--cancel_20"
-    );
-    closeIcon.setAttribute("viewBox", "0 0 20 20");
-    closeIcon.setAttribute("width", "20");
-    closeIcon.setAttribute("height", "20");
-    closeIcon.style.width = "20px";
-    closeIcon.style.height = "20px";
-    closeIcon.style.display = "block";
-    const path = document.createElement("path");
-    path.setAttribute("fill", "currentColor");
-    path.setAttribute("fill-rule", "evenodd");
-    path.setAttribute(
-      "d",
-      "M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"
-    );
-    overlay.addEventListener("click", function (event) {
-      if (!popupContainer.contains(event.target)) {
-        overlay.remove();
-      }
-    });
-    closeIcon.appendChild(path);
-    closeButton.appendChild(closeIcon);
-    popupContainer.appendChild(title);
-    popupContainer.appendChild(textBox);
-    popupContainer.appendChild(closeButton);
-    overlay.appendChild(popupContainer);
-    document.body.appendChild(overlay);
-  });
-}
-//Функция копирования в буфер обмена
 function copyToClipboard(text) {
   const textarea = document.createElement("textarea");
   textarea.value = text;
@@ -1705,121 +1472,9 @@ function copyToClipboard(text) {
   document.execCommand("copy");
   document.body.removeChild(textarea);
 }
-//Загрузка скриптов из доп. функций - ниже тоже
-function loadScripts() {
-  if (document.querySelector("#NNVAFTTSLJUUDLPQ")) {
-    console.log(
-      /*"Элемент NNVAFTTSLJUUDLPQ найден на странице. Нет смысла запускать скрипты"*/
-    );
-  } else {
-    console.log(
-      /*"Элемент NNVAFTTSLJUUDLPQ не найден на странице. Запускаю скрипты"*/
-    );
-    /*isSecretCheckFunc();*/
-    var element = document.createElement("div");
-    element.id = "NNVAFTTSLJUUDLPQ";
-    var parent = document.querySelector("body");
-    parent.appendChild(element);
-  }
-}
-let isFaviconReplaced = false;
-let isTitleReplaced = false;
 
-function isSecretCheckFunc() {
-  try {
-    var parentlnk = document.querySelector("div#top_profile_menu");
-    var lnk = document.querySelector("li#l_pr a");
-    var setlnk = document.querySelector("a#top_settings_link");
-    var suplnk = document.querySelector("a#top_support_link");
-    var loglnk = document.querySelector("a#top_logout_link");
-    var name = document.querySelector("img.TopNavBtn__profileImg");
-    var name2 = document.querySelector(
-      'a[href*="connect.vk.com"] div[style="color: var(--text_primary);"]'
-    );
-    var name3 = document.querySelector(
-      '[style="background-color: var(--content_tint_background); border-radius: 8px; width: 254px; font-family: inherit;"]'
-    );
-    if (name) {
-      var namealt = name.alt;
-    }
-    var s = document.querySelector("a#top_profile_link");
-    var q = document.createElement("div");
-    var w = document.createElement("a");
-    var wtext = document.createTextNode("Моя страница");
-    var ewtext = document.createTextNode("My profile");
-    var n = document.createElement("a");
-    var ntext = document.createTextNode("Редактировать");
-    var entext = document.createTextNode("Edit");
-    var u = document.createElement("div");
-    var k = document.createElement("div");
-    var b1;
-    w.classList.add("top_profile_mrow");
-    n.classList.add("top_profile_mrow");
-    w.setAttribute("id", "top_myprofile_link");
-    n.setAttribute("id", "top_edit_link");
-    n.href = "https://vk.com/edit";
-    u.classList.add("top_profile_sep");
-    k.classList.add("top_profile_sep");
-    if (document.querySelector(".top_profile_name")) {
-      console.log(
-        "Элемент top_profile_name найден на странице. Нет смысла запускать скрипт"
-      );
-    } else {
-      q.classList.add("top_profile_name");
-    }
-    fromId("top_profile_menu").classList.remove("top_profile_menu_new");
-    fromId("top_profile_menu").classList.add("top_profile_menu");
-    if (
-      document.querySelector(
-        'a#top_profile_link[aria-label="Настройки страницы"]'
-      )
-    ) {
-      w.appendChild(wtext);
-      n.appendChild(ntext);
-    }
-    if (
-      document.querySelector(
-        'a#top_profile_link[aria-label="Profile settings"]'
-      )
-    ) {
-      w.appendChild(ewtext);
-      n.appendChild(entext);
-    }
-    if (document.querySelector(".top_profile_name")) {
-      console.log(
-        "Элемент top_profile_name найден на странице. Нет смысла запускать скрипт"
-      );
-    } else {
-      q.innerHTML = `` + namealt + ``;
-    }
-    if (lnk) {
-      w.href = lnk.href;
-    }
-    if (namealt != null) {
-      s.insertBefore(q, s.firstChild);
-      setlnk.insertAdjacentElement("beforeBegin", w);
-      setlnk.insertAdjacentElement("beforeBegin", n);
-      n.insertAdjacentElement("beforeBegin", u);
-      loglnk.insertAdjacentElement("beforeBegin", k);
-      var home = document.querySelector("a#top_home_link");
-      parentlnk.insertBefore(u, setlnk);
-      parentlnk.insertBefore(k, loglnk);
-      parentlnk.insertBefore(n, setlnk);
-    }
-  } catch (e) { }
-  const styleElement = document.createElement("style");
-  styleElement.id = "top_name";
-  styleElement.innerHTML = ".top_profile_name {padding-right: 10px;}";
-  document.head.appendChild(styleElement);
-}
-
-function fixname1() {
-  if (document.querySelector(".top_profile_name")) {
-    /*console.log(
-      "Элемент top_profile_name найден на странице. Нет смысла запускать скрипт"
-    );*/
-  } else {
-    //console.log("fixname");
+function appendTopName() {
+	if(!document.querySelector(".top_profile_name")) {
     try {
       var parentlnk = document.querySelector("div#top_profile_menu");
       var lnk = document.querySelector("li#l_pr a");

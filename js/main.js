@@ -46,14 +46,12 @@ const fromId = document.getElementById.bind(document);
 
 let intMedia = false;
 try {
-  /*intMedia = JSON.parse(localStorage.getItem("intMediaValue"));*/
   intMedia = false;
 } catch (error) {}
 var pollResultsValue = false;
 var nechitalkaValue = false;
 var nepisalkaValue = false;
 var removePostReactions = false;
-var secretFunctions = false;
 let ajax_replaced = null;
 window.urls = null;
 
@@ -328,7 +326,6 @@ function XHRListener() {
   const { send } = XMLHttpRequest.prototype;
 
   XMLHttpRequest.prototype.send = function (data) {
-    //console.log(data)
     if (/type=typing/.test(data) && getLocalValue("nepisalkaValue")) {
       return this.abort();
     }
@@ -370,25 +367,6 @@ deferredCallback(
   { variable: "vkApi" }
 );
 
-/*deferredCallback(
-    () => {
-        MECommonContext.then((e) => {
-            if (e.store.featureFlags) {
-                newDesignFunctions.forEach((flag) => {
-                    e.store.dispatch({
-                        type: "UserChangedBubblesTheme",
-                        value: "disabled"
-                    });
-                });
-                console.log("UserChangedBubblesTheme is set to true");
-            } else {
-                console.error("Dispatch is not available");
-            }
-        });
-    }, {
-        variable: "MECommonContext"
-});*/
-
 deferredCallback(
   () => {
     MECommonContext.then((e) => {
@@ -420,64 +398,17 @@ window.addEventListener("message", async (event) => {
     }
     case "nechitalka": {
       localStorage.setItem("nechitalkaValue", event.data.value);
-      //console.log("Нечиталка " + nechitalkaValue);
       break;
     }
     case "nepisalka": {
       localStorage.setItem("nepisalkaValue", event.data.value);
-      //console.log("Неписалка " + nepisalkaValue);
       break;
     }
     case "pollResults": {
       localStorage.setItem("pollResultsValue", event.data.value);
       break;
     }
-    case "vkNewDesign": {
-      // Замена функции ajax.post
-		
-      break;
-    }
-    case "vkNewDesignOff": {
-      // Замена функции ajax.post
-      /*deferredCallback(
-        () => {
-          let orig_ajax = ajax.post;
-          ajax.post = function (...e) {
-            if (
-              "al_profileEdit.php" === e[0] &&
-              "a_save_general" === e[1].act
-            ) {
-              if (e[1].nickname) {
-                e[1].nick_name = e[1].nickname;
-                delete e[1].nickname;
-              } else if (!e[1].nick_name) {
-                e[1].nick_name = "";
-              }
-            }
-            if ((newDesign(), "al_im.php" === e[0] && "im" === e[1]?.__query)) {
-              const t = e[2].onDone;
-              e[2].onDone = function (...e) {
-                const n = t.apply(this, e);
-                return (
-                  n instanceof Promise
-                    ? n.finally(() => newDesign())
-                    : newDesign().catch(console.error),
-                  n
-                );
-              };
-            }
-            const t = orig_ajax.apply(this, e);
-
-            return newDesign, t;
-          };
-          ajax_replaced = true;
-        },
-        { variable: "ajax" }
-      );*/
-      break;
-    }
     case "muteCalls": {
-      //console.log("Calls muted");
       deferredCallback(
         () => {
           Calls.isIncomingModalHidden = true;
@@ -504,7 +435,6 @@ window.addEventListener("message", async (event) => {
     case "removePostReactions": {
       localStorage.setItem("removePostReactions", true);
       try {
-        updateMarginLeft();
 		updateReactState();
       } catch (error) {
 		  console.log(error);
@@ -513,23 +443,14 @@ window.addEventListener("message", async (event) => {
     }
     case "backPostReactions": {
       localStorage.setItem("removePostReactions", false);
-      try {
-        backPostReactionsFunc();
-      } catch (error) {}
       break;
     }
-    case "secretFunctionsEnabled": {
-      localStorage.setItem("secretFunctions", true);
-      try {
-        updateMarginLeft();
-      } catch (error) {}
+    case "videoModalEnabled": {
+      localStorage.setItem("videoModal", true);
       break;
     }
-    case "secretFunctionsDisabled": {
-      localStorage.setItem("secretFunctions", false);
-      try {
-        backPostReactionsFunc();
-      } catch (error) {}
+    case "videoModalDisabled": {
+      localStorage.setItem("videoModal", false);
       break;
     }
     case "removeAway": {
@@ -833,91 +754,9 @@ function golos() {
 
 golos();
 ///КОНЕЦ ГОЛОСОВОГО ВВОДА///
-///СТАРЫЙ ДИЗАЙН///
-async function appendSecondaryStyles(loc) {
-  if (loc.includes("/album")) {
-    getSecondaryStyle("album");
-  } else {
-    removeSecondaryStyle("album");
-  }
-  if (loc.includes("/badbrowser")) {
-    getSecondaryStyle("badbrowser");
-  } else {
-    removeSecondaryStyle("badbrowser");
-  }
-  if (loc.includes("/docs")) {
-    getSecondaryStyle("docs");
-  } else {
-    removeSecondaryStyle("docs");
-  }
-  if (loc.includes("/edit")) {
-    getSecondaryStyle("edit");
-  } else {
-    removeSecondaryStyle("edit");
-  }
-  if (loc.includes("/gim")) {
-    getSecondaryStyle("gim");
-  } else {
-    removeSecondaryStyle("gim");
-  }
-  if (loc.includes("/playlist")) {
-    getSecondaryStyle("playlists");
-  } else {
-    removeSecondaryStyle("playlists");
-  }
-  if (loc.includes("/settings")) {
-    getSecondaryStyle("settings");
-  } else {
-    removeSecondaryStyle("settings");
-  }
-  if (loc.includes("/sticker")) {
-    getSecondaryStyle("stickers");
-  } else {
-    removeSecondaryStyle("stickers");
-  }
-  if (loc.includes("/video")) {
-    getSecondaryStyle("video");
-    getSecondaryStyle("video2");
-  } else {
-    removeSecondaryStyle("video");
-    removeSecondaryStyle("video2");
-  }
-  if (loc.includes("/wall")) {
-    getSecondaryStyle("wall");
-  } else {
-    removeSecondaryStyle("wall");
-  }
-}
-
-async function getSecondaryStyle(linkstyle) {
-  try {
-    const url1 =
-      `https://vkenhancer.ru/vkold_${linkstyle}.css` +
-      "?_cacheOverride" +
-      new Date().valueOf();
-    const response = await fetch(url1);
-    const oldStyle = await response.text();
-    let styleOld = oldStyle;
-    let styleElement = fromId(linkstyle);
-    if (!styleElement) {
-      styleElement = create("style", {}, { id: linkstyle });
-      document.querySelector("html").appendChild(styleElement);
-    }
-    styleElement.innerHTML = styleOld;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function removeSecondaryStyle(linkstyle) {
-  const customStyle = fromId(linkstyle);
-  if (customStyle) {
-    customStyle.remove();
-  }
-}
 ///СТАРЫЕ ВИДОСЫ///
 
-if (getLocalValue("secretFunctions")) {
+if (getLocalValue("videoModal")) {
 	document.arrive(`body:not(:has(#video_choose_box)) ._video_item`,{existing:true}, async function(e) {
 	e.setAttribute('onclick',`
 	event.preventDefault();
@@ -1031,157 +870,6 @@ function extractPlaylistPart(href) {
  
   return playlistPart;
 }
-	/*
-  window.onload = async function getOldStyle() {
-    try {
-      const url1 =
-        "https://vkenhancer.ru/vkold.css" +
-        "?_cacheOverride" +
-        new Date().valueOf();
-      const response = await fetch(url1);
-      const oldStyle = await response.text();
-      let styleOld = oldStyle;
-      let styleElement = fromId("oldDes");
-      if (!styleElement) {
-        styleElement = create("style", {}, { id: "oldDes" });
-        document.querySelector("html").appendChild(styleElement);
-      }
-      styleElement.innerHTML = styleOld;
-    } catch (error) {
-      console.error(error);
-    }
-    appendSecondaryStyles(window.location.pathname);
-  };
-  document.arrive(`#ui_rmenu_mr`,{existing:true}, async function(e) {
-     let s = e.cloneNode(true);
-	 s.setAttribute('onclick','showTabbedBox("al_im.php", {act: "a_important", offset: "0", gid: 0}, {params: {width: 638}})');
-	 s.removeAttribute('href');
-	 s.id = 'ui_rmenu_important';
-	 s.setAttribute('search_global_tab_mr','');
-	 s.querySelector('.ui_rmenu_label-text').textContent = `Важные сообщения`;
-	 document.querySelector('._im_right_menu').insertBefore(s, document.querySelector('._im_ui_peers_list'));
-  });
-  document.arrive(`#l_vid > a`, { existing: true }, async function (e) {
-    e.href = `/video/@id${vk.id}`;
-  });
-  document.arrive(
-    `#l_msg [data-testid="leftmenuitem-text"]`,
-    { existing: true },
-    async function (e) {
-      e.textContent = getLang("mail_search_messages");
-    }
-  );
-  document.arrive(
-    `#l_gr [data-testid="leftmenuitem-text"]`,
-    { existing: true },
-    async function (e) {
-      e.textContent = "Группы";
-    }
-  );
-  document.arrive(
-    `#l_doc [data-testid="leftmenuitem-text"]`,
-    { existing: true },
-    async function (e) {
-      e.textContent = "Документы";
-    }
-  );
-  document.arrive(
-    `div[class^="HeaderLayout-module__container"] [class^="TextClamp-module__root"]`,
-    { existing: true },
-    async function (e) {
-      if(e.textContent == getLang('me_files_title')) {
-		e.textContent = 'Документы';
-	  }
-    }
-  );
-  document.arrive(
-    `.page_block_header_extra:has(>.VideoShowcaseMyHeaderActions)`,
-    { existing: true },
-    async function (e) {
-      let vid = document.createElement("div");
-      vid.classList.add("VideoActions");
-      vid.innerHTML = `
-  <div class="VideoActions__item" data-task-click="VideoShowcase/upload_video" data-owner-id="368066032" data-task-mouseover="VideoShowcase/show_main_action_tooltip" data-task-mouseout="VideoShowcase/hide_tooltip" data-text="${getLang(
-    "video_add_video_btn"
-  )}" aria-label="${getLang(
-        "video_add_video_btn"
-      )}" style="font-size: 13px;">${getLang("video_add_video_btn")}</div>
-  <div class="VideoActions__item VideoActions__item--secondary" data-task-click="VideoShowcase/create_live" data-owner-id="368066032" data-task-mouseover="VideoShowcase/show_main_action_tooltip" data-task-mouseout="VideoShowcase/hide_tooltip" data-text="Создать трансляцию" aria-label="Создать трансляцию" style="font-size: 13px;">Создать трансляцию</div>
-  <div class="VideoActions__item VideoActions__item--secondary" data-task-click="VideoShowcase/create_playlist" data-owner-id="185853506" data-task-mouseover="VideoShowcase/show_main_action_tooltip" data-task-mouseout="VideoShowcase/hide_tooltip" data-text="${getLang(
-    "photos_albums_create_album"
-  )}" aria-label="${getLang(
-        "photos_albums_create_album"
-      )}" style="font-size: 13px;">${getLang(
-        "photos_albums_create_album"
-      )}</div>
-  <div class="tt_w tt_black tt_up tocenter" style="position: absolute; opacity: 0; top: 38px; left: 43.4766px; pointer-events: auto; display: none;">
-    <div class="wrapped">
-      <div class="tt_text">Создать трансляцию</div>
-    </div>
-  </div>
-  <div class="tt_w tt_black tt_up tocenter" style="position: absolute; opacity: 1; top: 38px; left: 220.031px; pointer-events: auto; display: none;">
-    <div class="wrapped">
-      <div class="tt_text">${getLang("video_add_video_btn")}</div>
-    </div>
-  </div>
-  <div class="tt_w tt_black tt_up tocenter" style="position: absolute; opacity: 1; top: 38px; left: -104.867px; pointer-events: auto; display: none;">
-    <div class="wrapped">
-      <div class="tt_text">${getLang("photos_albums_create_album")}</div>
-    </div>
-  </div>
-  `;
-      e.appendChild(vid);
-    }
-  );
-  document.arrive(
-    `[class^="VideoModalInfoActions-module__container"]`,
-    { existing: true },
-    async function (e) {
-      let data1 = e.querySelector(".vkuiSimpleCell__subtitle");
-      data1.textContent = getPropsOfVid(
-        document.querySelector("div#mv_main_info")
-      ).container.memoizedState.element.props.date;
-      let views = document.querySelector(
-        '[class*="VideoModalInfoTitle-module__info"]'
-      );
-      views.textContent = getPropsOfVid(
-        document.querySelector("div#mv_main_info")
-      ).container.memoizedState.element.props.views;
-    }
-  );
-  document.arrive(
-    `#mv_main_info .vkuiTappable:has(.vkuiIcon--like_outline_24) > .vkuiTypography,#mv_main_info .vkuiTappable:has(.vkuiIcon--like_circle_fill_red_28) > .vkuiTypography`,
-    { existing: true },
-    async function (e) {
-      let data1 = e.querySelector(".vkuiSimpleCell__subtitle");
-      let idvid = getPropsOfVid(document.querySelector("div#mv_main_info"))
-        .container.memoizedState.element.props.id;
-      let oidvid = getPropsOfVid(document.querySelector("div#mv_main_info"))
-        .container.memoizedState.element.props.owner.id;
-      e.setAttribute(
-        "onmouseover",
-        `Likes.showLikes(this, 'video${oidvid}_${idvid}')`
-      );
-    }
-  );
-  document.arrive(
-    `[aria-label^="Перейти к непрочитанным сообщениям"]`,
-    { existing: true },
-    async function (e) {
-      e.innerHTML += `<span class='story_end'>Перейти в конец истории</span>`;
-    }
-  );
-  function getPropsOfVid(elem) {
-    const t = {};
-    if (!elem) return t;
-    for (const n of Object.keys(elem)) {
-      n.startsWith("__reactFiber") && (t.fiber = elem[n]);
-      n.startsWith("__reactProps") && (t.props = elem[n]);
-      n.startsWith("__reactContainer") && (t.container = elem[n]);
-    }
-    return t;
-  }
-  */
 }
 
 ///КОНЕЦ СТАРЫХ ВИДОСОВ///
@@ -1333,30 +1021,6 @@ document.arrive(
     let iconn = countermsg.querySelector(".vkEnIconWatn");
     let counterColor = countermsg.querySelector(".vkEnIconWatnCount");
     counterColor.style.backgroundColor = "var(--vkui--color_icon_secondary)";
-    const tooltipText = create(
-      "span",
-      {
-        display: "none",
-        position: "absolute",
-        backgroundColor: "var(--black_alpha72)",
-        borderRadius: "3px",
-        padding: "5px",
-        top: "-28.4219px",
-        left: "50%",
-        transform: "translate(-50%, 0)",
-        whiteSpace: "nowrap",
-        color: "#fff",
-        fontSize: "12.5px",
-        fontWeight: "400",
-        boxShadow: "0 1px 3px var(--transparent_black)",
-        zIndex: "11",
-        cursor: "default",
-        transition: "0.3s display",
-        fontFamily:
-          'var(--palette-vk-font,-apple-system,BlinkMacSystemFont,"Roboto","Helvetica Neue",Geneva,"Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai",arial,Tahoma,verdana,sans-serif)',
-      },
-      { innerText: "Обновить хотбар" }
-    );
     if (idMess < 10000000) {
       iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M13.2803 8.78033C13.5732 8.48744 13.5732 8.01256 13.2803 7.71967C12.9874 7.42678 12.5126 7.42678 12.2197 7.71967L9 10.9393L7.78033 9.71967C7.48744 9.42678 7.01256 9.42678 6.71967 9.71967C6.42678 10.0126 6.42678 10.4874 6.71967 10.7803L8.46967 12.5303C8.76256 12.8232 9.23744 12.8232 9.53033 12.5303L13.2803 8.78033Z" fill="#219653"/>
@@ -1932,8 +1596,6 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
 ) {
   let upToButton = document.createElement("button");
   upToButton.classList.add("ConvoHeader__action");
-  /* upToButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
- <path fill="currentColor" fill-rule="evenodd" d="M14.95 3.801a2.72 2.72 0 0 0-3.857 0L5.56 9.35a4.49 4.49 0 0 0 0 6.338 4.46 4.46 0 0 0 6.317 0l.002-.002 2.88-2.86a.75.75 0 0 1 1.057 1.064l-2.877 2.857-.002.002a5.96 5.96 0 0 1-8.439-.001 5.99 5.99 0 0 1 0-8.458l5.534-5.548a4.22 4.22 0 0 1 5.981 0 4.244 4.244 0 0 1 0 5.991l-5.534 5.548a2.486 2.486 0 0 1-3.521 0 2.497 2.497 0 0 1 0-3.525l.002-.002 3.102-3.083a.75.75 0 0 1 1.058 1.064l-3.1 3.08-.001.002a.997.997 0 0 0 0 1.405.986.986 0 0 0 1.398 0l5.534-5.548a2.744 2.744 0 0 0 0-3.873" clip-rule="evenodd"></path></svg>`;*/
   upToButton.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.2156 12.0544C15.2156 13.8258 13.7764 15.2618 12.001 15.2618C10.2256 15.2618 8.78632 13.8258 8.78632 12.0544C8.78632 10.283 10.2256 8.84698 12.001 8.84698C13.7764 8.84698 15.2156 10.283 15.2156 12.0544ZM12.001 14.1926C13.1846 14.1926 14.1441 13.2353 14.1441 12.0544C14.1441 10.8734 13.1846 9.91611 12.001 9.91611C10.8174 9.91611 9.85787 10.8734 9.85787 12.0544C9.85787 13.2353 10.8174 14.1926 12.001 14.1926Z" fill="currentColor"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M12.4516 3.43023C12.1667 3.43017 11.881 3.43628 11.5961 3.42957C11.4497 3.42613 10.9359 3.41402 10.504 3.75935C10.0803 4.09817 9.92244 4.61563 9.82732 4.99591C9.77042 5.22341 9.66028 5.51469 9.51138 5.79361C9.21102 5.91293 8.92139 6.05313 8.64429 6.21236C8.343 6.15214 8.0578 6.05703 7.85155 5.96106C7.49587 5.79556 6.9931 5.59199 6.46192 5.70814C5.92151 5.8263 5.60785 6.23276 5.51857 6.34845C5.35397 6.56175 5.18343 6.77214 5.00895 6.97747C4.91403 7.08917 4.58233 7.47952 4.57906 8.03068C4.57584 8.57215 4.87853 9.02021 5.11465 9.33381C5.25992 9.52675 5.4219 9.80562 5.54639 10.106C5.45667 10.4029 5.38692 10.7084 5.33867 11.0208C5.09846 11.2312 4.83626 11.4064 4.62525 11.514C4.2754 11.6925 3.80622 11.9629 3.57137 12.4515C3.33255 12.9484 3.45945 13.4443 3.49575 13.5862C3.56253 13.8472 3.6235 14.111 3.67792 14.3748C3.70745 14.518 3.81096 15.0199 4.24413 15.3623C4.67023 15.6992 5.21122 15.7366 5.60377 15.7437C5.83588 15.7479 6.14113 15.7889 6.44388 15.8698C6.62622 16.1346 6.82698 16.3856 7.0443 16.6211C7.05447 16.9324 7.02578 17.2368 6.97791 17.4625C6.89657 17.8462 6.81165 18.38 7.04357 18.8695C7.27988 19.3683 7.74628 19.5823 7.87951 19.6434C8.12445 19.7557 8.36795 19.8744 8.60731 19.9982C8.73719 20.0653 9.19384 20.3015 9.73392 20.1802C10.2642 20.0612 10.6335 19.6646 10.8857 19.3645C11.0397 19.1813 11.2723 18.9631 11.5342 18.7755C11.8429 18.7967 12.159 18.7967 12.4677 18.7755C12.7296 18.9631 12.9622 19.1813 13.1162 19.3645C13.3685 19.6646 13.7377 20.0612 14.268 20.1802C14.8081 20.3015 15.2647 20.0653 15.3946 19.9982C15.634 19.8744 15.8775 19.7558 16.1224 19.6434C16.2557 19.5823 16.7221 19.3683 16.9584 18.8695C17.1903 18.38 17.1054 17.8462 17.024 17.4625C16.9762 17.2368 16.9475 16.9324 16.9576 16.6211C17.1749 16.3856 17.3757 16.1346 17.558 15.8698C17.8608 15.7889 18.166 15.7479 18.3982 15.7437C18.7907 15.7366 19.3317 15.6992 19.7578 15.3623C20.191 15.0199 20.2945 14.5181 20.324 14.3748C20.3784 14.111 20.4394 13.8472 20.5062 13.5862C20.5425 13.4443 20.6694 12.9484 20.4306 12.4515C20.1957 11.9629 19.7265 11.6925 19.3767 11.514C19.1657 11.4064 18.9035 11.2312 18.6633 11.0208C18.615 10.7084 18.5453 10.4029 18.4555 10.106C18.58 9.80562 18.742 9.52675 18.8873 9.33381C19.1234 9.02021 19.4261 8.57215 19.4229 8.03068C19.4196 7.47952 19.0879 7.08917 18.993 6.97746C18.8185 6.77213 18.6479 6.56175 18.4834 6.34845C18.3941 6.23276 18.0804 5.8263 17.54 5.70814C17.0088 5.59199 16.5061 5.79556 16.1504 5.96106C15.9441 6.05703 15.6589 6.15214 15.3576 6.21236C15.0805 6.05313 14.7909 5.91293 14.4905 5.79361C14.3417 5.51469 14.2315 5.22341 14.1746 4.99591C14.0832 4.63046 13.937 4.15753 13.5737 3.82428C13.148 3.43376 12.6467 3.43123 12.4672 3.43032L12.4516 3.43023ZM15.6276 18.6942L14.9481 19.0254C14.6084 19.191 14.4385 19.2738 13.9372 18.6775C13.6562 18.3431 13.2162 17.9541 12.7349 17.6753C12.2544 17.7374 11.7476 17.7374 11.2671 17.6753C10.7858 17.9541 10.3458 18.3431 10.0647 18.6775C9.56342 19.2738 9.39355 19.191 9.05382 19.0254L8.37434 18.6942C8.0346 18.5285 7.86473 18.4457 8.02627 17.6838C8.11524 17.2641 8.15142 16.6911 8.08009 16.1489C7.71605 15.8005 7.3984 15.404 7.13733 14.9697C6.62333 14.7768 6.05396 14.6825 5.62318 14.6747C4.84406 14.6606 4.80154 14.4766 4.71651 14.1084L4.54645 13.3722C4.46142 13.0041 4.41891 12.82 5.113 12.466C5.5005 12.2683 5.97627 11.9295 6.35549 11.5258C6.40173 11.027 6.51264 10.547 6.67976 10.0941C6.51655 9.56053 6.23511 9.04193 5.97138 8.69166C5.50281 8.06933 5.62175 7.92253 5.85963 7.62892L6.33539 7.0417C6.57327 6.74809 6.69221 6.60129 7.39866 6.93C7.78581 7.11015 8.33263 7.27352 8.87449 7.32688C9.29254 7.05018 9.74942 6.82739 10.2352 6.66841C10.5407 6.21002 10.7621 5.6742 10.867 5.25479C11.056 4.49918 11.245 4.49918 11.623 4.49918L12.4437 4.49933C12.7792 4.50179 12.9571 4.54363 13.1349 5.25479C13.2398 5.6742 13.4612 6.21002 13.7667 6.66841C14.2525 6.82739 14.7094 7.05018 15.1274 7.32688C15.6693 7.27352 16.2161 7.11015 16.6033 6.93C17.3097 6.60129 17.4287 6.74809 17.6665 7.0417L18.1423 7.62892C18.3802 7.92253 18.4991 8.06933 18.0305 8.69166C17.7668 9.04193 17.4854 9.56053 17.3222 10.0941C17.4893 10.547 17.6002 11.027 17.6464 11.5258C18.0257 11.9295 18.5014 12.2683 18.8889 12.466C19.583 12.82 19.5405 13.0041 19.4555 13.3722L19.2854 14.1084C19.2004 14.4766 19.1579 14.6606 18.3787 14.6747C17.948 14.6825 17.3786 14.7768 16.8646 14.9697C16.6035 15.404 16.2859 15.8005 15.9218 16.1489C15.8505 16.6911 15.8867 17.2641 15.9757 17.6838C16.1372 18.4457 15.9673 18.5285 15.6276 18.6942Z" fill="currentColor"/>
@@ -2066,7 +1728,6 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
     }
   );
   let cmid;
-  //console.log(memoizedPeer);
   try {
     let reoo = await vkApi.api("messages.getHistory", {
       count: 1,
@@ -2148,7 +1809,6 @@ async function VKEnhancerOnineBox(onlineArr) {
   </div>
 </div>`;
   let peerList = boxG.querySelector(".vkenPeerList");
-  //console.log(onlineArr);
   for (const user of onlineArr) {
     let peer = document.createElement(`a`);
     peer.title = user[0];
@@ -2213,31 +1873,6 @@ document.arrive(".ms_items_more._more_items", { existing: true }, function (e) {
   e.appendChild(grafelem);
 });
 ///КОНЕЦ РЕДАКТОРА ГРАФФИТИ В КОММЕНТАХ///
-///ПЕРЕХОД К ПЕРВОМУ СООБЩ БЕСЕДЫ - СТАРОЕ///
-/*
-document.arrive(".ConvoHeader__controls", { existing: true }, async function (e) {
-  let upToButton = document.createElement('button');
-  upToButton.classList.add('ConvoHeader__action');
-  upToButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-<path d="M13 19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19L11 7.41421L6.70711 11.7071C6.31658 12.0976 5.68342 12.0976 5.29289 11.7071C4.90237 11.3166 4.90237 10.6834 5.29289 10.2929L11.2929 4.29289C11.6834 3.90237 12.3166 3.90237 12.7071 4.29289L18.7071 10.2929C19.0976 10.6834 19.0976 11.3166 18.7071 11.7071C18.3166 12.0976 17.6834 12.0976 17.2929 11.7071L13 7.41421L13 19Z" fill="currentColor"/>
-</svg>`;
-  let cmid;
-  try {
-    let ThisUrl = new URL(window.location.href);
-	let match1 = ThisUrl.pathname.match(/\/(\d+)$/);
-	let reoo = await vkApi.api('messages.getHistory',{count:1,peer_id:match1[1],rev:1});
-	cmid = reoo.items[0].conversation_message_id;
-  }
-  catch(error) {
-	cmid = 1;  
-  }
-  upToButton.setAttribute('onclick',`nav.go("${window.location.href}?cmid=${cmid}")`);
-  try{
-  e.prepend(upToButton); }
-  catch(error){}
-});
-*/
-///КОНЕЦ ПЕРЕХОДА К ПЕРВОМУ СООБЩ БЕСЕДЫ - СТАРОЕ///
 ///ПОСТЕРЫ///
 /*document.arrive("#page_add_media > .media_selector", { existing: true }, function (e) {
   let posters = document.createElement('a');
@@ -2624,7 +2259,6 @@ document.arrive("vk-video-player", { existing: true }, function (e) {
     files = getVideoProps(document.querySelector(".MediaViewerVideo")).video
       .files;
   } catch (error) {
-    //props = Object.keys(getVideoProps(document.querySelector('.AttachVideos__base')).video.files);
     props = Object.keys(
       getVideoProps(e.closest(".AttachVideos__base")).video.files
     );
@@ -3547,7 +3181,6 @@ async function parseAlbum() {
         });
       counterProgress = 0;
     }
-    //console.log(albumsRes);
   }
 }
 
@@ -3615,13 +3248,11 @@ async function handleUpdatePhoto() {
   await sendUpdatePhoto(file);
 }
 async function sendUpdatePhoto(fileNameOutput) {
-  /** Получаем URL для загрузки */
   const uploadUrl1 = await vkApi.api("photos.getPhotoEditorUploadServer", {});
   const uploadUrl = uploadUrl1["upload_url"];
 
-  /** Загружаем файл */
   let file = await uploadUpdatePhoto(uploadUrl, fileNameOutput);
-  /** Сохраняем */
+  
   const data = JSON.parse(file);
   let photoId = cur.pvCurPhoto.id;
   let doc = await vkApi.api("photos.savePhotoEditor", {
@@ -3741,9 +3372,6 @@ if (getLocalValue("isMiddleName")) {
   }
 }
 ///КОНЕЦ ДОБАВЛЕНИЯ ОТЧЕСТВА///
-///НАЧАЛО ДОБАВЛЕНИЯ СТИКЕРА ВО ВЛОЖЕНИЯ///
-
-///КОНЕЦ ДОБАВЛЕНИЯ СТИКЕРА ВО ВЛОЖЕНИЯ///
 ///НАЧАЛО КЛАССИЧЕСКОГО ДИЗАЙНА ГРУПП///
 /*
 document.arrive("#page_group_info_block", { existing: true }, async function (e) {
@@ -4209,7 +3837,6 @@ deferredCallback(
         </div>
         <div class="vkuiSpacing" style="height: 4px; padding: 2px 0px;"></div>
     `;
-            //friendsSection.style.marginBottom = "16px";
             friendsSection.style.padding = "0px";
             const friendsContainer = friendsSection.querySelector(
               ".ProfileGroupHorizontalCells"
@@ -4696,7 +4323,6 @@ deferredCallback(
                 commonDiv.appendChild(innerText);
                 commonDiv.appendChild(inner);
                 moreItemsLoaded.appendChild(commonDiv);
-                // Создаем массив промисов для каждой работы
                 var jobPromises = career.map(async (job) => {
                   var careerDiv = document.createElement("div");
                   careerDiv.classList.add("label", "fl_l");
@@ -5238,7 +4864,7 @@ deferredCallback(
               voinInfo.classList.add("voin_info");
 			  voinInfo.style.display = "flex";
 			  voinInfo.style.flexWrap = "wrap";
-              // Школа
+              // Воинская часть
               if (voin.unit) {
                 var voinDiv = document.createElement("div");
                 voinDiv.classList.add("label", "fl_l");
@@ -5260,7 +4886,7 @@ deferredCallback(
                 voinInfo.appendChild(voinLink);
               }
 
-              // Годы обучения и класс
+              // Воинская часть годы службы
               if (voin.from && voin.until) {
                 var voinClassDiv = document.createElement("div");
                 voinClassDiv.classList.add("voinClassDiv");
@@ -6154,7 +5780,6 @@ deferredCallback(
       }
 
       function getCounterLabel(counterType, value) {
-        //console.log(vk.lang,cur.options.wall_counts);
         switch (counterType) {
           case "photos": {
             return getLangBottom(
@@ -7036,11 +6661,9 @@ function getPhotoTagText(lang) {
       }
 
       function buttonrun() {
-        //console.log("buttonrun executed");
         var count = 0;
         var interval = setInterval(function () {
           if (count >= 1) {
-            //console.log(count + " passed");
             clearInterval(interval);
             return;
           }
@@ -7077,7 +6700,7 @@ function getPhotoTagText(lang) {
           var theFirstChild = headerButtons.firstChild;
           headerButtons.insertBefore(newElement, theFirstChild);
           count++;
-        }, 1); // 10 секунд
+        }, 1);
       }
       function FuckName(relation, sex, user) {
         switch (relation) {
@@ -7696,7 +7319,6 @@ function getPhotoTagText(lang) {
               : null;
             var formatted_name = FuckName(relation, sex, partnerData);
           }
-          //console.log(formatted_name)
           switch (relation) {
             case 1:
               relationText =
@@ -7831,7 +7453,7 @@ function getPhotoTagText(lang) {
       }
 
       function getTimeString(onlineInfo) {
-        let currentTime = Math.floor(Date.now() / 1000); // Текущее время в секундах
+        let currentTime = Math.floor(Date.now() / 1000); 
         let secondsAgo = currentTime - onlineInfo.last_seen;
         let justNow = getLang("global_just_now");
         let secsAgo = getLang("global_secs_ago", "raw");
@@ -7889,7 +7511,7 @@ function getPhotoTagText(lang) {
 
           if (dateString.includes("{am_pm}")) {
             let am_pm = hour >= 12 ? "PM" : "AM";
-            let newHour = hour % 12 || 12; // Преобразуем часы в формат 12-часового времени
+            let newHour = hour % 12 || 12; 
             dateString = dateString
               .replace(hour, newHour)
               .replace("{am_pm}", am_pm);
@@ -8086,16 +7708,6 @@ function getPhotoTagText(lang) {
               } catch (error) {}
             }
           }
-          /*let styleElement = fromId("vken_box_online_classic");
-          if (!styleElement) {
-            styleElement = document.createElement("style");
-            styleElement.id = "vken_box_online_classic";
-            document.head.appendChild(styleElement);
-          }
-          styleElement.id = "vken_box_online_classic";
-          let wasInSetb = getLang("profile_last_seen","raw");
-          let newLangArray = wasInSetb.map(item => item.replace(/%s/, ""));
-          styleElement.innerHTML = `.ProfileIndicatorBadge__badgeLastSeen::before {content:"`+newLangArray[response.sex === 2 ? 1 : 2]+`​ ​"}`;*/
           return response;
         } catch (error) {
           console.error(error);
@@ -8110,7 +7722,6 @@ function getPhotoTagText(lang) {
             fields:
               "quotes, games, movies, music, photo_400_orig, universities, activities, about, books, bdate, can_see_audio, can_write_private_message, career, city, connections, contacts, counters, country, crop_photo, education, has_photo, home_town, interests, military, nickname, occupation, online, personal, quotes, relatives, relation, schools, sex, site, tv, id,first_name,first_name_gen,first_name_acc,last_name,last_name_gen,last_name_acc,sex,has_photo,photo_id,photo_50,photo_100,photo_200,contact_name,occupation,bdate,city,screen_name,online_info,verified,blacklisted,blacklisted_by_me,can_call,can_write_private_message,can_send_friend_request,can_invite_to_chats,friend_status,followers_count,profile_type,contacts,employee_mark,employee_working_state,is_service_account,image_status,name,type,members_count,member_status,is_closed,can_message,deactivated,activity,ban_info,is_messages_blocked,can_post_donut,site,reposts_disabled,description,action_button,menu,role,first_name_nom,first_name_gen,first_name_dat,first_name_acc,first_name_ins,last_name_gen,last_name_dat,last_name_acc,last_name_ins,nickname,maiden_name,screen_name,first_name,last_name",
           });
-          //console.log("[VK ENH] Profile fetched" + response);
           return response[0];
         } catch (error) {
           console.error(error);
@@ -8300,7 +7911,6 @@ function getStoryText(lang) {
 }
 
       async function replaceTabsWithPhotosModule() {
-        // Найти элемент section с классом vkuiInternalGroup
         let section = document.querySelector(
           "section.vkuiInternalGroup:has(>.OwnerContentTabs)"
         );
@@ -8310,7 +7920,6 @@ function getStoryText(lang) {
           return;
         }
 
-        // Найти элемент с классом OwnerContentTabs внутри section
         let tabs = section.querySelector(".OwnerContentTabs");
 
         if (!tabs) {
@@ -8318,10 +7927,8 @@ function getStoryText(lang) {
           return;
         }
 
-        // Удалить элемент OwnerContentTabs
         tabs.remove();
 
-        // Создать новый элемент для модуля фотографий
         let photosModule = document.createElement("div");
         let ownerId = await getId();
         photosModule.classList.add("module", "clear", "photos_module");
@@ -8687,8 +8294,8 @@ function getStoryText(lang) {
             );
             audioResponse.items.slice(0, 6).forEach(async (audioItem) => {
               let audioElement = document.createElement("div");
-			  let titleAud = audioItem.title.replace('"',"'");
-			  let artistAud = audioItem.artist.replace('"',"'");
+			  let titleAud = audioItem.title.replaceAll('"',"'");
+			  let artistAud = audioItem.artist.replaceAll('"',"'");
               audioElement.innerHTML = `<div tabindex="0" class="audio_row audio_row_with_cover _audio_row _audio_row_${
                 audioItem.owner_id
               }_${
@@ -8849,7 +8456,6 @@ function getStoryText(lang) {
                       ".page_status_input"
                     );
                     statusInput.setAttribute("contenteditable", false);
-                    //console.log("Event listener added");
                     saveButtonStatus.addEventListener(
                       "click",
                       changeBroadcastState
@@ -8859,7 +8465,6 @@ function getStoryText(lang) {
                       ".page_status_input"
                     );
                     statusInput.setAttribute("contenteditable", true);
-                    //console.log("Event listener removed");
                     saveButtonStatus.removeEventListener(
                       "click",
                       changeBroadcastState
@@ -8880,7 +8485,6 @@ function getStoryText(lang) {
           }
           if (vk.id == objectId) {
             let pHeaderAva = document.querySelectorAll(".OwnerPageAvatar")[1];
-            //console.log(pHeaderAva);
             pHeaderAva.remove();
             let pHeaderAva1 = document.querySelectorAll(
               ".ProfileHeader__ava"
@@ -9437,7 +9041,6 @@ document.arrive(selectorsLinks, { existing: true }, async function (docus) {
 			dataAttachments.item.attachments.forEach(async function (linkChip) {
 			if(linkChip.link) {
 			let linkCurrent = linkChip.link;
-			//console.log(linkCurrent);
 			let secondaryAttachDoc = document.createElement('div');
 			secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
 			if(count == 0) {
@@ -9559,6 +9162,122 @@ document.arrive(selectorsArticle, { existing: true }, async function (docus) {
 			} catch(error) {
 				console.log(error);
 			}
+			
+		}
+});
+
+let selectorsMusic = [`.postponed.Post--redesignV3 [class^="vkitMusicTrackOverlayBadge__root"]`,`.suggest.Post--redesignV3 [class^="vkitMusicTrackOverlayBadge__root"]`]
+document.arrive(selectorsMusic, { existing: true }, async function (docus) {
+		let closestCheck = docus.closest('.vkEnhancerPostponedPost');
+		if(!closestCheck) {
+		let dataAttachments;
+		let dataRepostAttachments;
+		let postAppendClass = docus.closest('.Post--redesignV3');
+		postAppendClass.classList.add('vkEnhancerPostponedPost');
+		try {
+			dataAttachments = getPostAttaches(docus.closest('[class^="PostContentContainer__contentContainer"]'));
+		} catch(error) {
+			console.log(error);
+		}
+		try {
+			dataRepostAttachments = getPostAttaches(docus.closest('.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"]'));
+		} catch(error) {
+			
+		}
+			if (dataAttachments && dataAttachments.item && dataAttachments.item.attachments) {
+                    dataAttachments.item.attachments.forEach(function(music) {
+                        if(music.type === "audio" && music.style === "on_media") {
+                            let audioElement = document.createElement("div");
+			  let titleAud = music.audio.title.replaceAll('"',"'");
+			  let artistAud = music.audio.artist.replaceAll('"',"'");
+              audioElement.innerHTML = `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row audio_row_with_cover _audio_row _audio_row_${
+                music.audio.owner_id
+              }_${
+                music.audio.id
+              } audio_can_add audio_lpb audio_row2 audio_row_playable audio_new_lyrics" data-full-id="${
+                music.audio.owner_id
+              }_${
+                music.audio.id
+              }" onclick="return getAudioPlayer().toggleAudio(this, event)" data-audio="[${
+                music.audio.id
+              },${music.audio.owner_id},&quot;&quot;,&quot;${
+                titleAud
+              }&quot;,&quot;${
+                artistAud
+              }&quot;,157,0,0,&quot;&quot;,0,34,&quot;module:${
+                music.audio.owner_id
+              }&quot;,&quot;[]&quot;,&quot;62efa83eaf32d46ab7\/\/e3727249bcd60c36ee\/\/\/bca050eaeb2ae61a22\/&quot;,&quot;&quot;,{&quot;duration&quot;:${
+                music.audio.ads.duration
+              },&quot;content_id&quot;:&quot;${music.audio.owner_id}_${
+                music.audio.id
+              }&quot;,&quot;puid22&quot;:${
+                music.audio.ads.puid22
+              },&quot;account_age_type&quot;:${
+                music.audio.ads.account_age_type
+              },&quot;_SITEID&quot;:276,&quot;vk_id&quot;:${
+                vk.id
+              },&quot;ver&quot;:251116},&quot;&quot;,&quot;&quot;,&quot;&quot;,false,&quot;9c91d4359kPPl-j5wiDD-N-q4xNYySV8d1i8YjJXvg6StjuAn436s3dh-U5Vim743w&quot;,0,0,true,&quot;${
+                music.audio.access_key
+              }&quot;,false,&quot;&quot;,false]" onmouseover="window.AudioUtils &amp;&amp; window.AudioUtils.onRowOver(this, event, false, '', '${
+                music.audio.access_key
+              }')" onmouseleave="window.AudioUtils &amp;&amp; window.AudioUtils.onRowLeave(this, event)">
+  <div class="audio_row_content _audio_row_content vkEnAudioRow">
+    <button class="blind_label _audio_row__play_btn" aria-label="Воспроизвести " data-testid="audio_row_play_pause_button" onclick="getAudioPlayer().toggleAudio(this, event); return cancelEvent(event)"></button>
+    <div class="audio_row__cover audio_row__without_cover"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="song_24__Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="song_24__song_24"><path id="song_24__Bounds" d="M0 0h24v24H0z"></path><path d="M13 11.48v5.65c0 4.52-.87 5.39-4.37 5.85C6.96 23.19 5 22.44 5 19.8c0-1.28.8-2.5 2.46-2.81 1.27-.25-.09.02 2.78-.52.7-.13.77-.37.77-.9V3.97c0-1.24.67-1.69 2.66-2.09l4.68-.87c.37-.07.65.07.65.49v4.05c0 .42-.17.6-.59.68l-4.86.86c-.38.1-.55.36-.55.74v3.64Z" id="song_24__Mask" fill="currentColor"></path></g></g></svg></div>
+    <div class="audio_row__cover_back _audio_row__cover_back"></div>
+    <div class="audio_row__cover_icon _audio_row__cover_icon">
+      <div class="audio_row__play_btn_icon--pause"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6.6c0-.56 0-.84.1-1.05a1 1 0 0 1 .45-.44C6.76 5 7.04 5 7.6 5h.8c.56 0 .84 0 1.05.1a1 1 0 0 1 .44.45c.11.21.11.49.11 1.05v10.8c0 .56 0 .84-.1 1.05a1 1 0 0 1-.45.44c-.21.11-.49.11-1.05.11h-.8c-.56 0-.84 0-1.05-.1a1 1 0 0 1-.44-.45C6 18.24 6 17.96 6 17.4V6.6Zm8 0c0-.56 0-.84.1-1.05a1 1 0 0 1 .45-.44C14.76 5 15.04 5 15.6 5h.8c.56 0 .84 0 1.05.1a1 1 0 0 1 .44.45c.11.21.11.49.11 1.05v10.8c0 .56 0 .84-.1 1.05a1 1 0 0 1-.45.44c-.21.11-.49.11-1.05.11h-.8c-.56 0-.84 0-1.05-.1a1 1 0 0 1-.44-.45c-.11-.21-.11-.49-.11-1.05V6.6Z"></path></svg></div>
+      <div class="audio_row__play_btn_icon--play"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M18.5 11.13a1 1 0 0 1 0 1.74l-9 5.2A1 1 0 0 1 8 17.2V6.8a1 1 0 0 1 1.5-.86l9 5.2Z"></path></svg></div>
+    </div>
+    <div class="audio_row__counter"></div>
+    <div class="audio_row__play_btn">
+      <div class="audio_row__play_btn_icon--pause"><svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12 24a12 12 0 1 0 0-24 12 12 0 0 0 0 24zM10.6 7.1c-.14-.06-.27-.1-.63-.1h-.94c-.36 0-.49.04-.62.1a.73.73 0 0 0-.3.3c-.07.14-.11.27-.11.63v7.94c0 .36.04.49.1.62.08.13.18.23.3.3.14.07.27.11.63.11h.94c.36 0 .49-.04.62-.1a.73.73 0 0 0 .3-.3c.07-.14.11-.27.11-.63V8.03c0-.36-.04-.49-.1-.62a.73.73 0 0 0-.3-.3zm5 0c-.14-.06-.27-.1-.63-.1h-.94c-.36 0-.49.04-.62.1a.73.73 0 0 0-.3.3c-.07.14-.11.27-.11.63v7.94c0 .36.04.49.1.62.08.13.18.23.3.3.14.07.27.11.63.11h.94c.36 0 .49-.04.62-.1a.73.73 0 0 0 .3-.3c.07-.14.11-.27.11-.63V8.03c0-.36-.04-.49-.1-.62a.73.73 0 0 0-.3-.3z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
+      <div class="audio_row__play_btn_icon--play"><svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M12 24a12 12 0 1 0 0-24 12 12 0 0 0 0 24zm5.02-11.13c.64-.39.64-1.36 0-1.74l-6.6-4C9.77 6.75 9 7.23 9 8v8c0 .76.78 1.25 1.41.87z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
+    </div>
+
+    <div class="audio_row__inner">
+      <div class="audio_row__chart_info">
+        
+        
+      </div>
+      <div class="audio_row__performer_title">
+        <div onmouseover="setTitle(this)" class="audio_row__performers" data-testid="audio_row_performers"><a href="/audio?performer=1&amp;q=${
+          music.audio.artist
+        }">${music.audio.artist}</a></div>
+        <div class="audio_row__title _audio_row__title" onmouseover="setTitle(this)">
+          <a href="" class="audio_row__title_inner _audio_row__title_inner" data-testid="audio_row_title">${
+            music.audio.title
+          }</a>
+          <span class="audio_row__title_inner_subtitle _audio_row__title_inner_subtitle"></span>
+          
+        </div>
+      </div>
+      <div class="audio_row__info _audio_row__info"><div class="audio_row__duration audio_row__duration-s _audio_row__duration" style="visibility: visible;">${splitDuration(
+        music.audio.duration
+      )}</div></div>
+    </div>
+
+    <div class="audio_player__place _audio_player__place"></div>
+  </div>
+</div>`;
+              function splitDuration(dura) {
+                let hours = Math.floor(dura / 3600);
+                let minutes = Math.floor((dura % 3600) / 60);
+                let seconds = dura % 60;
+
+                if (hours === 0) {
+                  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+                } else {
+                  return `${hours}:${minutes
+                    .toString()
+                    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+                }
+              }
+              docus.closest('[class^="PostContentContainer__contentContainer"]').appendChild(audioElement);
+                        }
+                    });
+                }
+		
 			
 		}
 });
@@ -9938,7 +9657,6 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		} catch(error) {
 		postData = getPostDataNew(postBottom.querySelector('div'));
 		}
-		//console.log(postData);
 		/*Просмотры*/
 		let isViews;
 		if(postData.viewsCount && postData.viewsCount != null && !e.querySelector('.vkEnhancerPostViews')) {
@@ -10043,10 +9761,6 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 					repostData = await vkApi.api('wall.getById',{'posts':repostID});	
 				}
 				catch(error) {
-					/*
-					repostID = '-221416961_165';
-					repostData = {items:[{date:''}]};
-					*/
 					try {
 						let x = await vkApi.api('wall.getById',{posts:postData.postRaw,extended:1});
 						let postInner = x.items[0].copy_history[0];
@@ -10376,8 +10090,8 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
                     dataAttachments.item.attachments.forEach(function(music) {
                         if(music.type === "audio" && music.style === "on_media") {
                             let audioElement = document.createElement("div");
-			  let titleAud = music.audio.title.replace('"',"'");
-			  let artistAud = music.audio.artist.replace('"',"'");
+			  let titleAud = music.audio.title.replaceAll('"',"'");
+			  let artistAud = music.audio.artist.replaceAll('"',"'");
               audioElement.innerHTML = `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row audio_row_with_cover _audio_row _audio_row_${
                 music.audio.owner_id
               }_${
@@ -10473,8 +10187,8 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
                     dataRepostAttachments.item.attachments.forEach(function(music) {
                         if(music.type === "audio" && music.style === "on_media") {
                             let audioElement = document.createElement("div");
-							let titleAud = music.audio.title.replace('"',"'");
-			  let artistAud = music.audio.artist.replace('"',"'");
+							let titleAud = music.audio.title.replaceAll('"',"'");
+			  let artistAud = music.audio.artist.replaceAll('"',"'");
               audioElement.innerHTML = `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row audio_row_with_cover _audio_row _audio_row_${
                 music.audio.owner_id
               }_${
@@ -10761,7 +10475,6 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 			dataRepostAttachments.item.attachments.forEach(async function (linkChip) {
 			if(linkChip.link) {
 			let linkCurrent = linkChip.link;
-			//console.log(linkCurrent);
 			let secondaryAttachDoc = document.createElement('div');
 			secondaryAttachDoc.classList.add('vkuiDiv','vkuiRootComponent','vkEnhancerSecondaryAttach');
 			if(count == 0) {
@@ -10991,7 +10704,7 @@ function getPostDataText(elem) {
       }
 
       function getFormattedPostDate(onlineInfo) {
-        let currentTime = Math.floor(Date.now() / 1000); // Текущее время в секундах
+        let currentTime = Math.floor(Date.now() / 1000);
         let secondsAgo = currentTime - onlineInfo;
         let justNow = getLang("global_just_now");
         let secsAgo = getLang("global_secs_ago", "raw");
@@ -11063,7 +10776,7 @@ function getPostDataText(elem) {
 
           if (dateString.includes("{am_pm}")) {
             let am_pm = hour >= 12 ? "PM" : "AM";
-            let newHour = hour % 12 || 12; // Преобразуем часы в формат 12-часового времени
+            let newHour = hour % 12 || 12; 
             dateString = dateString
               .replace(hour, newHour)
               .replace("{am_pm}", am_pm);
@@ -11182,40 +10895,6 @@ function removeAway(str) {
 ///ДЛЯ НОВОГО ДИЗАЙНА ССЫЛКИ В ЛС ИЗ ПРОФИЛЯ///
 deferredCallback(
   () => {
-    if (
-      localStorage.getItem("isNewDesign") === "true" ||
-      vk.pe.vkm_reforged_in_vkcom == 1
-    ) {
-      const imHrefs = [
-        'a[href^="/im?sel="]',
-        'a[href^="https://vk.com/im?sel="]',
-      ];
-      document.arrive(imHrefs, { existing: true }, function (e) {
-        const links = document.querySelectorAll(imHrefs.join(", "));
-        links.forEach((link) => {
-          const href = link.href;
-          let newHref = href;
-          if (href.includes("https://vk.com")) {
-            newHref = href.replace("https://vk.com", "");
-          }
-          newHref = newHref.replace(/\/im\?sel=(-?\d+)/, "/im/convo/$1");
-          link.href = newHref;
-          const onclickValue = link.getAttribute("onclick");
-          if (
-            onclickValue &&
-            onclickValue.startsWith("return WriteBox.toFull")
-          ) {
-            link.removeAttribute("onclick");
-          }
-        });
-      });
-    }
-  },
-  { variable: "vk" }
-);
-
-deferredCallback(
-  () => {
     document.body.innerHTML = `<div id="vk_ui--layer" style="
     position: relative;
     z-index: 9999;
@@ -11253,89 +10932,7 @@ deferredCallback(
   { variable: "vknext" }
 );
 ///КОНЕЦ ДЛЯ НОВОГО ДИЗАЙНА ССЫЛКИ В ЛС ИЗ ПРОФИЛЯ///
-function backPostReactionsFunc() {
-  if (localStorage.getItem("removePostReactions") != "true") {
-    const likeBtns = document.querySelectorAll(
-      ".PostBottomActionLikeBtns--withBgButtons .like_btns>.PostBottomAction:first-child, .PostBottomActionLikeBtns--withBgButtons .like_btns>.PostBottomActionContainer:first-child"
-    );
-    likeBtns.forEach(function (element) {
-      if (!element.closest("#profile_redesigned")) {
-        element.style.paddingRight = `0px`;
-      }
-    });
-    const isDonate = document.querySelector(".PostActionStatusBar__rightInner");
-    if (isDonate) {
-      const likeTop = document.querySelectorAll(
-        ".ReactionsPreview--isInActionStatusBar"
-      );
-      likeTop.forEach(function (element) {
-        if (!element.closest("#profile_redesigned")) {
-          element.style.marginTop = `0px`;
-        }
-      });
-    }
-    const customStyle = fromId("postReactionsMargin24");
-    if (customStyle) {
-      customStyle.remove();
-    }
-  }
-}
 
-///ОТПРАВКА ФОТО И ВИДЕО///
-/*
-document.arrive(".ConvoComposer__inputPanel", { existing: true }, function (e) {
-var clmno = document.createElement("a");
-clmno.innerHTML = '<div class="PhotoMenuPopper onmouseover="showTooltip(this, { text: '+'Прикрепить фото или видео'+', black: true, shift: [4, 5] });""><div class="PhotoMenuPopper__trigger"><button class="ConvoComposer__button" aria-label="Прикрепить фото или видео"><i role="img" class="ConvoComposer__buttonIcon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.46 3h3.08c.29 0 .53 0 .76.03.7.1 1.35.47 1.8 1.03.25.3.4.64.62.96.2.28.5.46.85.48.3.02.58-.01.88.02a3.9 3.9 0 0 1 3.53 3.53c.02.18.02.37.02.65v4.04c0 1.09 0 1.96-.06 2.66a5.03 5.03 0 0 1-.47 1.92 4.9 4.9 0 0 1-2.15 2.15c-.57.29-1.2.41-1.92.47-.7.06-1.57.06-2.66.06H9.26c-1.09 0-1.96 0-2.66-.06a5.03 5.03 0 0 1-1.92-.47 4.9 4.9 0 0 1-2.15-2.15 5.07 5.07 0 0 1-.47-1.92C2 15.7 2 14.83 2 13.74V9.7c0-.28 0-.47.02-.65a3.9 3.9 0 0 1 3.53-3.53c.3-.03.59 0 .88-.02.34-.02.65-.2.85-.48.21-.32.37-.67.61-.96A2.9 2.9 0 0 1 9.7 3.03c.23-.03.47-.03.76-.03Zm0 1.8-.49.01a1.1 1.1 0 0 0-.69.4c-.2.24-.33.56-.52.82A2.9 2.9 0 0 1 6.54 7.3c-.28.01-.55-.02-.83 0a2.1 2.1 0 0 0-1.9 1.91l-.01.53v3.96c0 1.14 0 1.93.05 2.55.05.62.15.98.29 1.26.3.58.77 1.05 1.35 1.35.28.14.64.24 1.26.29.62.05 1.42.05 2.55.05h5.4c1.13 0 1.93 0 2.55-.05.62-.05.98-.15 1.26-.29a3.1 3.1 0 0 0 1.35-1.35c.14-.28.24-.64.29-1.26.05-.62.05-1.41.05-2.55V9.21a2.1 2.1 0 0 0-1.91-1.9c-.28-.03-.55 0-.83-.01a2.9 2.9 0 0 1-2.22-1.27c-.19-.26-.32-.58-.52-.83a1.1 1.1 0 0 0-.69-.39 3.92 3.92 0 0 0-.49-.01h-3.08Z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12 9.8a2.7 2.7 0 1 0 0 5.4 2.7 2.7 0 0 0 0-5.4Zm-4.5 2.7a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0Z" fill="currentColor"></path></svg></i></button></div></div><input aria-label="Прикрепить фото или видео" style="display:none!important;" tabindex="0" id="im_full_upload" class="im-chat-input--attach-file" type="file" size="28" multiple="true" accept="image/jpeg,image/png,image/gif,video/*" name="media"> ';
-e.appendChild(clmno);
-var inputPhoto = document.getElementById('im_full_upload');
-clmno.addEventListener('click', function() {
-        inputPhoto.click();
-});
-inputPhoto.addEventListener('change', function() {
-    if (inputPhoto.files.length > 0) {
-handleUpload();          
-    }
-  });
-
-async function handleUpload() {
-  const audioFileInput = document.getElementById('im_full_upload');
-  const file = audioFileInput.files[0];
-  await sendPhotoMessage(file);
-}
-async function sendPhotoMessage (fileNameOutput) {
-  if(fileNameOutput.type.includes('image'))
-  {
-
-  }
-  if(fileNameOutput.type.includes('video')) {
-	
-  }
-}
-
-async function uploadFile(uploadUrl, fileNameOutput) {
-    const formData = new FormData();
-    formData.append('file', fileNameOutput);
-    const xhr = new XMLHttpRequest();
-    return new Promise((resolve, reject) => {
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                resolve(xhr.responseText);
-            } else {
-                reject(new Error('Upload failed. Status: ' + xhr.status));
-            }
-        };
-
-        xhr.onerror = function() {
-            reject(new Error('Upload failed. Network error'));
-        };
-
-        xhr.open('POST', uploadUrl);
-        xhr.send(formData);
-    });
-}
-});
-*/
-///КОНЕЦ ОТПРАВКИ ФОТО И ВИДЕО///
 ///СКАЧИВАНИЕ ГС///
 document.arrive(
   ".AttachVoice",
@@ -11563,233 +11160,7 @@ document.arrive(
       });
       eventListenerSet1 = true;
     }
-    async function VKEnhancerStickerBox() {
-      let boxG = document.createElement("div");
-      boxG.classList.add("vkEnhancerGraffityMainBox");
-      boxG.innerHTML =
-        `<div class="vkEnhancerModalPage__in-wrap" style="opacity: 1;">
-                        <div class="vkEnhancerModalPage__in">
-                            <div class="vkEnhancerModalPage__header">
-                                <div class="vkEnhancerModalPageHeader vkEnhancerModalPageHeader--withGaps vkEnhancerModalPageHeader--desktop">
-                                    <div class="vkEnhancerPanelHeader">
-                                        <div class="vkEnhancerPanelHeader__in" data-onboarding-tooltip-container="fixed">
-                                            <div class="vkEnhancerPanelHeader__content">
-                                                <h2 class="vkEnhancerPanelHeader__content-in" id=":r1:-label">${getLang(
-                                                  "mail_added_sticker"
-                                                )}</h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="vkEnhancerSeparator">
-                                        <hr class="vkEnhancerSeparator__in">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="vkEnhancerModalPage__content-wrap">
-                                <div class="vkEnhancerModalPage__content">
-                                    <div class="vkEnhancerModalPage__content-in">
-                                        <div class="vkEnhancerDiv">
-										<div class="vkEnGroupInput">
-											<div class="vkEnText">` +
-        getLang("mail_added_sticker") +
-        `</div>
-                                            <input type="text" id="stickerInput" placeholder="` +
-        getAddStickerText(vk.lang)[0] +
-        `">
-                                            <br>
-										</div>
-										<div class="vkEnGroupInput">
-											<div class="vkEnText">` +
-        getLang("me_convo_attaches_app") +
-        `</div>
-                                            <input type="text" id="attachmentInput" placeholder="` +
-        getAddStickerText(vk.lang)[1] +
-        `">
-                                            <br>
-										</div>
-                                            <button id="okButton">` +
-        getLang("mail_send2") +
-        `</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="vkEnhancerCloseButton" role="button" tabindex="0">
-                                <span class="vkEnhancerVisuallyHidden">Закрыть</span>
-                                <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;">
-                                    <path fill="currentColor" fill-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>`;
 
-      let boxLayer = document.getElementById("box_layer");
-      boxG.style.top = "0px";
-      boxG.style.zIndex = "999999";
-      boxG.style.backgroundColor = "#000000B3";
-      document.body.appendChild(boxG);
-
-      let closeButton = document.querySelector(".vkEnhancerCloseButton");
-      closeButton.addEventListener("click", onClose);
-
-      boxG.addEventListener("click", function (event) {
-        if (!event.target.closest(".vkEnhancerModalPage__in-wrap")) {
-          onClose();
-        }
-      });
-
-      // Добавляем обработчик для кнопки OK
-      let okButton = document.getElementById("okButton");
-      okButton.addEventListener("click", function () {
-        let commonAttach = document.getElementById("attachmentInput").value;
-        let res = splitString(commonAttach);
-        let type1 = res.type;
-        let second1 = res.secondary_attach;
-        let imURL = new URL(window.location.href);
-        let imId = imURL.href.split("/").at(-1);
-        let stickerId = document.getElementById("stickerInput").value;
-        runStickerAdder(imId, stickerId, getImSendHash(imId), type1, second1);
-        onClose();
-      });
-    }
-
-    function getAddStickerText(lang) {
-      switch (lang) {
-        case 0:
-          return [
-            "Введите ID стикера",
-            "Доп. вложение в формате типID_IDВЛОЖЕНИЯ",
-          ];
-          break;
-        case 1:
-          return [
-            "Введіть ID стікера",
-            "Дод. вкладення у форматі типID_IDВЛОЖЕННЯ",
-          ];
-          break;
-        case 454:
-          return [
-            "Введіть ID стікера",
-            "Дод. вкладення у форматі типID_IDВЛОЖЕННЯ",
-          ];
-          break;
-        case 114:
-          return [
-            "Увядзіце ID стыкера",
-            "Дад. ўкладанне ў фармаце тыпID_IDУКЛАДАННЯ",
-          ];
-          break;
-        case 2:
-          return [
-            "Увядзіце ID стыкера",
-            "Дад. ўкладанне ў фармаце тыпID_IDУКЛАДАННЯ",
-          ];
-          break;
-        case 777:
-          return [
-            "Введите ID марки",
-            "Доп. компромат в формате типID_IDКОМПРОМАТА",
-          ];
-          break;
-        case 97:
-          return [
-            "Стикер идентификаторын енгізіңіз",
-            "қосу. typeID_IDATTACHMENT пішіміндегі тіркеме",
-          ];
-          break;
-        case 100:
-          return [
-            "Ввѣдитѣ ID стикѣра",
-            "Допъ. вложѣнiя въ форматѣ типID_IDВЛОЖЕНИЯ",
-          ];
-          break;
-        default:
-          return [
-            "Enter sticker ID",
-            "Add. attachment in the format typeID_ID ATTACHMENTS",
-          ];
-          break;
-      }
-    }
-
-    function splitString(str) {
-      const match = str.match(/^([a-zA-Z]+)(-?\d+_\d+)$/);
-      if (match) {
-        const type = match[1];
-        const secondary_attach = match[2];
-        return { type, secondary_attach };
-      } else {
-        return null;
-      }
-    }
-
-    function runStickerAdder(id, sticker_id, hash, type, second_attach) {
-      fetch("https://vk.com/al_im.php?act=a_send", {
-        headers: {
-          accept: "*/*",
-          "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
-          "cache-control": "no-cache",
-          "content-type": "application/x-www-form-urlencoded",
-          pragma: "no-cache",
-          "sec-ch-ua":
-            '"Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-          "sec-ch-ua-mobile": "?0",
-          "sec-ch-ua-platform": '"Windows"',
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "cors",
-          "sec-fetch-site": "same-origin",
-          "x-requested-with": "XMLHttpRequest",
-        },
-        referrer: "https://vk.com/im?sel=" + id,
-        referrerPolicy: "strict-origin-when-cross-origin",
-        body:
-          "act=a_send&al=1&cancelled_shares[0]=sticker%2C" +
-          sticker_id +
-          "&entrypoint=list_all&gid=0&guid=" +
-          Math.floor(Math.random() * 2147483647) +
-          "&hash=" +
-          hash +
-          "&im_v=3&media=sticker%3A" +
-          sticker_id +
-          "%3Aundefined%2C" +
-          type +
-          "%3A" +
-          second_attach +
-          "%3Aundefined&module=im&msg=&random_id=" +
-          Math.floor(Math.random() * 2147483647) +
-          "&to=" +
-          id,
-        method: "POST",
-        mode: "cors",
-        credentials: "include",
-      });
-    }
-
-    function getImSendHash(id) {
-      let script = Array.from(document.querySelectorAll("script")).find((e) =>
-        e.innerHTML.includes("IM.init")
-      );
-      let scriptContent;
-      try {
-        scriptContent = script.innerHTML;
-      } catch (error) {
-        return "error";
-      }
-      let startIndex = scriptContent.indexOf('"' + id + '":{');
-      let endIndex;
-      if (id > 2000000000) {
-        endIndex = scriptContent.indexOf('","sex":', startIndex) + 1;
-      } else {
-        endIndex = scriptContent.indexOf('","online":', startIndex) + 1;
-      }
-      let hashesString = scriptContent.substring(startIndex, endIndex);
-      let braceIndex = hashesString.indexOf("{");
-      hashesString = hashesString.substring(braceIndex) + "}";
-      //console.log(hashesString);
-      let hashesObject = JSON.parse(hashesString);
-      let avatarEditHash = hashesObject.hash;
-      return avatarEditHash;
-    }
     async function VKEnhancerGraffitiBox() {
       let boxG = document.createElement("div");
       boxG.classList.add("vkEnhancerGraffityMainBox");
@@ -11879,7 +11250,6 @@ document.arrive(
       await sendGraffity(file);
     }
     async function sendGraffity(fileNameOutput) {
-      /** Получаем URL для загрузки */
       const url1 =
         "https://api.vk.com/method/docs.getMessagesUploadServer?v=5.231&client_id=5776857&access_token=" +
         localStorage.getItem("vk_enhancer_access_token") +
@@ -11889,19 +11259,15 @@ document.arrive(
         .then((response) => response.json())
         .then(async (data) => {
           const uploadUrlGraf = data.response.upload_url;
-          //console.log("I got upload url: " + uploadUrlGraf);
 
-          /** Загружаем файл */
           let file = await uploadFile123(uploadUrlGraf, fileNameOutput);
 
-          /** Сохраняем */
           const parsedData = JSON.parse(file);
           console.info("[VK ENH] File uploaded");
           console.log(parsedData["file"]);
           let doc = await vkApi.api("docs.save", { file: parsedData["file"] });
           doc = doc.graffiti;
 
-          /** Отправляем */
           var peerId = new URL(window.location.href).pathname.split("/").at(-1);
           await vkApi.api("messages.send", {
             peer_id: peerId,
@@ -11995,23 +11361,20 @@ document.arrive(
       await sendAudioMessage(file);
     }
     async function sendAudioMessage(fileNameOutput) {
-      /** Получаем URL для загрузки */
       const uploadUrl1 = await vkApi.api("docs.getMessagesUploadServer", {
         peer_id: vk.id,
         type: "audio_message",
       });
       const uploadUrl = uploadUrl1["upload_url"];
 
-      /** Загружаем файл */
       let file = await uploadFile(uploadUrl, fileNameOutput);
-      /** Сохраняем */
+
       const data = JSON.parse(file);
       console.info("[VK ENH] File uploaded");
       console.log(data["file"]);
       let doc = await vkApi.api("docs.save", { file: data["file"] });
       doc = doc.audio_message;
 
-      /** Отправляем */
       var peerId = new URL(window.location.href).pathname.split("/").at(-1);
       await vkApi.api("messages.send", {
         peer_id: peerId,
@@ -12116,57 +11479,6 @@ function updateReactState() {
 	}
 	catch(error) {console.info('[VKENH] Post opened');}
   }
-}
-
-function updateMarginLeft() {
-	/*
-  if (
-    window.location.href.includes("wall") &&
-    localStorage.getItem("removePostReactions") == "true"
-  ) {
-    const reactionsPreviewCount = document.querySelector(
-      '.ReactionsPreview__count[data-section-ref="like-button-count"]'
-    );
-    //console.log(reactionsPreviewCount);
-    if (reactionsPreviewCount) {
-      const textLength = reactionsPreviewCount.textContent.length;
-      const newMarginLeft = 12 + (textLength - 1) * 4;
-      const likeBtns = document.querySelectorAll(
-        ".PostBottomActionLikeBtns--withBgButtons .like_btns>.PostBottomAction:first-child, .PostBottomActionLikeBtns--withBgButtons .like_btns>.PostBottomActionContainer:first-child, .PostBottomActionLikeBtns--withTransparentButtons .like_btns>.PostBottomActionContainer:first-child"
-      );
-	  var thatsNew = false;
-      likeBtns.forEach(function (element) {
-        if (!element.closest("#profile_redesigned")) {
-          element.style.paddingRight = `${newMarginLeft}px`;
-		  if (element.querySelector('.PostBottomAction--transparent')) {
-			element.querySelector('.PostBottomAction--transparent').removeAttribute('onmouseenter');
-			thatsNew = true;
-		  }
-        }
-      });
-      let styleElement = fromId("postReactionsMargin24");
-      if (!styleElement) {
-        styleElement = create("style", {}, { id: "postReactionsMargin24" });
-        document.head.appendChild(styleElement);
-      }
-      styleElement.innerHTML = ".ReactionsPreview{margin-left:24px!important;}";
-    }
-    const isDonate = document.querySelector(".PostActionStatusBar__rightInner");
-    if (isDonate) {
-      const likeTop = document.querySelectorAll(
-        ".ReactionsPreview--isInActionStatusBar"
-      );
-      likeTop.forEach(function (element) {
-        if (!element.closest("#profile_redesigned") && !thatsNew) {
-          element.style.marginTop = `25px`;
-        }
-		else if (!element.closest("#profile_redesigned") && thatsNew) {
-          element.style.marginTop = `-45px`;
-        }
-      });
-    }
-  }
-  */
 }
 ///КОНЕЦ МАРГИНА ДЛЯ ЛАЙКОВ ПРИ ВЫКЛЮЧЕННЫХ РЕАКЦИЯХ///
 ///РЕЗУЛЬТАТЫ ОПРОСА БЕЗ ГОЛОСОВАНИЯ///
@@ -12351,29 +11663,12 @@ if (getLocalValue("isOldHover")) {
   });
 }
 ///КОНЕЦ ХОВЕРА НА ТЕГ В НОВОМ ДИЗАЙНЕ///
+///СПАМ///
 document.arrive(".BurgerMenu__actionsMenu", { existing: true }, function (e) {
   var burgerim = document.querySelector(
     ".BurgerMenu__actionsMenu > div > div > div"
   );
-  const changeDesign = document.createElement("button");
-  changeDesign.classList.add("ActionsMenuAction");
-  changeDesign.classList.add("ActionsMenuAction--secondary");
-  changeDesign.classList.add("ActionsMenuAction--size-regular");
-  changeDesign.style.display = "none";
-  localStorage.setItem("isCentralDesign", false);
-  const isCentralDesign = localStorage.getItem("isCentralDesign") || "false";
-  const newInterfaceSVG =
-    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"><path fill-rule="evenodd" d="M4.01 2.53C4.66 2.18 5.31 2 7.08 2h5.84c1.77 0 2.42.18 3.07.53.64.34 1.14.84 1.48 1.48.35.65.53 1.3.53 3.07v5.84c0 1.77-.18 2.42-.53 3.07A3.57 3.57 0 0116 17.47c-.65.35-1.3.53-3.07.53H7.08c-1.77 0-2.42-.18-3.07-.53A3.57 3.57 0 012.53 16c-.35-.65-.53-1.3-.53-3.07V7.08c0-1.77.18-2.42.53-3.07.34-.64.84-1.14 1.48-1.48zm11.27 13.62c-.34.18-.7.35-2.36.35H9v-13h3.92c1.66 0 2.02.17 2.36.35.38.2.67.5.87.87.18.34.35.7.35 2.36v5.84c0 1.66-.17 2.02-.35 2.36-.2.38-.5.67-.87.87zM7.08 3.5c-1.66 0-2.02.17-2.36.35-.38.2-.67.5-.87.87-.18.34-.35.7-.35 2.36v5.84c0 1.66.17 2.02.35 2.36.2.38.5.67.87.87.34.18.7.35 2.36.35h.42v-13h-.42z"/></svg>';
-  const classicInterfaceSVG =
-    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"><path d="M7.08 3.5c-1.66 0-2.02.17-2.36.35-.38.2-.67.5-.87.87-.18.34-.35.7-.35 2.36v5.84c0 1.66.17 2.02.35 2.36.2.38.5.67.87.87.34.18.7.35 2.36.35h5.84c1.66 0 2.02-.17 2.36-.35.38-.2.67-.5.87-.87.18-.34.35-.7.35-2.36V7.08c0-1.66-.17-2.02-.35-2.36-.2-.38-.5-.67-.87-.87-.34-.18-.7-.35-2.36-.35H7.08zm-3.07-.97C4.66 2.18 5.31 2 7.08 2h5.84c1.77 0 2.42.18 3.07.53.64.34 1.14.84 1.48 1.48.35.65.53 1.3.53 3.07v5.84c0 1.77-.18 2.42-.53 3.07A3.57 3.57 0 0116 17.47c-.65.35-1.3.53-3.07.53H7.08c-1.77 0-2.42-.18-3.07-.53A3.57 3.57 0 012.53 16c-.35-.65-.53-1.3-.53-3.07V7.08c0-1.77.18-2.42.53-3.07.34-.64.84-1.14 1.48-1.48z"/><path d="M13.5 11.55a2.15 2.15 0 01-.85 1.8c-.3.23-.64.4-1 .5-.37.1-.83.15-1.4.15H7V6h2.87c.6 0 1.05.02 1.35.07.31.04.6.14.87.28.3.15.51.36.65.62.15.25.22.55.22.89 0 .39-.1.74-.3 1.04-.2.3-.47.53-.82.67v.05c.5.1.9.31 1.2.64.3.31.46.75.46 1.29zm-2.61-3.29a.88.88 0 00-.1-.4.6.6 0 00-.32-.3c-.13-.05-.3-.08-.48-.08l-.82-.01h-.14v1.69h.26l.73-.01c.14 0 .29-.05.43-.11a.65.65 0 00.34-.32c.06-.13.1-.28.1-.46zm.5 3.25a.97.97 0 00-.14-.58.93.93 0 00-.46-.31c-.13-.05-.3-.08-.52-.08l-.86-.01h-.38v2H10.24c.2-.01.41-.06.62-.15a.8.8 0 00.4-.35c.1-.15.14-.32.14-.52z"/></svg>';
-  const designText =
-    isCentralDesign === "true"
-      ? getSwitchInterface(vk.lang)[0]
-      : getSwitchInterface(vk.lang)[1];
-  const designSVG =
-    isCentralDesign === "true" ? newInterfaceSVG : classicInterfaceSVG;
-  changeDesign.innerHTML = `<i class="ActionsMenuAction__icon">${designSVG}</i><span class="ActionsMenuAction__title">${designText}</span>`;
-  ///СПАМ///
+
   const spamButton = document.createElement("button");
   spamButton.classList.add("ActionsMenuAction");
   spamButton.classList.add("ActionsMenuAction--secondary");
@@ -12405,835 +11700,12 @@ document.arrive(".BurgerMenu__actionsMenu", { existing: true }, function (e) {
   ///КОНЕЦ СПАМА///
   const spamSeparator = burgerim.querySelector(".ActionsMenuAction__separator");
   burgerim.insertBefore(spamButton, spamSeparator);
-  //burgerim.appendChild(changeDesign);
-  /*if(isCentralDesign == "true") {
-  document.querySelector('.ActionsMenuAction:has(>i>svg.vkuiIcon--gear_outline_20)').addEventListener("click", function () {
-    window.location.href = '/im/settings';
-  });
-  }*/
-  changeDesign.addEventListener("click", function () {
-    const currentValue = localStorage.getItem("isCentralDesign") === "true";
-    localStorage.setItem("isCentralDesign", currentValue ? "false" : "true");
-    location.reload();
-  });
 });
 
-function getSwitchInterface(lang) {
-  switch (lang) {
-    case 0:
-      return ["Новый интерфейс", "Классический интерфейс"];
-      break;
-    case 1:
-      return ["Новий інтерфейс", "Класичний інтерфейс"];
-      break;
-    case 454:
-      return ["Новий інтерфейс", "Класичний інтерфейс"];
-      break;
-    case 114:
-      return ["Новы інтэрфейс", "Класічны інтэрфейс"];
-      break;
-    case 2:
-      return ["Новы інтэрфейс", "Класічны інтэрфейс"];
-      break;
-    case 777:
-      return ["Новый телеграф", "Классический телеграф"];
-      break;
-    case 97:
-      return ["Жаңа интерфейс", "Классикалық интерфейс"];
-      break;
-    case 100:
-      return ["Новый интѣрфейс", "Классическiй интѣрфейс"];
-      break;
-    default:
-      return ["New interface", "Classic interface"];
-      break;
-  }
-}
-
-async function getAllChatTabs(lang) {
-  switch (lang) {
-    case 0:
-      return "Все чаты";
-      break;
-    case 1:
-      return "Усі чати";
-      break;
-    case 454:
-      return "Усі чати";
-      break;
-    case 114:
-      return "Усе гутаркі";
-      break;
-    case 2:
-      return "Усе гутаркі";
-      break;
-    case 777:
-      return "Все телеграммы";
-      break;
-    case 97:
-      return "Барлық чат";
-      break;
-    case 100:
-      return "Всѣ бесѣды";
-      break;
-    case 3:
-      return "All chats";
-      break;
-    default:
-      return "Все чаты";
-      break;
-  }
-}
-
-//console.log(localStorage.getItem("isCentralDesign"));
-///НАЧАЛО ЦЕНТРАЛЬНОГО ДИЗАЙНА///
-if (true) {
-  let styleElement = fromId("rightBarClassicRemove");
-  if (!styleElement) {
-    styleElement = document.createElement("style");
-    styleElement.id = "rightBarClassicRemove";
-    document.head.appendChild(styleElement);
-  }
-  styleElement.innerHTML = ".MainRightRoot{display:none;}";
-} else {
-  const customStyle = fromId("rightBarClassicRemove");
-  if (customStyle) {
-    customStyle.remove();
-  }
-}
-
-if (im.test(window.location.href) && getLocalValue("isVKMReforgedDesign")) {
-  function getNewMessengerError(lang) {
-    switch (lang) {
-      case 0:
-        return [
-          "Не удалось загрузить новый дизайн мессенджера<br><br>Нажмите, чтобы попробовать ещё раз",
-          "Выполняется загрузка модуля... Ожидайте",
-          "Не удалось загрузить модуль. Перезагрузите страницу",
-        ];
-        break;
-      case 1:
-        return [
-          "Не вдалося завантажити новий дизайн месенджера<br><br>Натисніть, щоб спробувати ще раз",
-          "Завантаження модуля... Очікуйте",
-          "Не вдалося завантажити модуль. Перезавантажте сторінку",
-        ];
-        break;
-      case 454:
-        return [
-          "Не вдалося завантажити новий дизайн месенджера<br><br>Натисніть, щоб спробувати ще раз",
-          "Завантаження модуля... Очікуйте",
-          "Не вдалося завантажити модуль. Перезавантажте сторінку",
-        ];
-        break;
-      case 114:
-        return [
-          "Не атрымалася загрузіць новы дызайн мэсэнджара<br><br>Націсніце, каб паспрабаваць яшчэ раз",
-          "Выконваецца загрузка модуля... Чакайце",
-          "Немагчыма загрузіць модуль. Перазагрузіце старонку",
-        ];
-        break;
-      case 2:
-        return [
-          "Не атрымалася загрузіць новы дызайн мэсэнджара<br><br>Націсніце, каб паспрабаваць яшчэ раз",
-          "Выконваецца загрузка модуля... Чакайце",
-          "Немагчыма загрузіць модуль. Перазагрузіце старонку",
-        ];
-        break;
-      case 777:
-        return [
-          "Возникла оказия при загрузке новой конструкции телеграфа!<br><br>Нажмите, чтобы попробовать ещё раз, товарищ!",
-          "Партия загружает модуль... Ожидайте, гражданин!",
-          "Произошла непредвиденная оказия. Следует перезагрузить страницу",
-        ];
-        break;
-      case 97:
-        return [
-          "Жаңа мессенджер дизайнын жүктеу мүмкін болмады<br><br>Қайталап көру үшін басыңыз",
-          "Модуль жүктелуде... Күте тұрыңыз",
-          "Модуль жүктелмеді. Бетті қайта жүктеңіз",
-        ];
-        break;
-      case 100:
-        return [
-          "Нѣ удалось загрузить новый дизайнъ бесѣдки<br><br>Нажмитѣ, чтобъ попробовать ещё раз",
-          "Выполняется загрузка модуля... Ожидайтѣ",
-          "Нѣ удалось загрузить модуль. Пѣрѣзагрузите странiцу",
-        ];
-        break;
-      default:
-        return [
-          "Failed to load new messenger design<br><br>Click to try again",
-          "Module loading... Please wait",
-          "Failed to load module. Please, reload the page",
-        ];
-        break;
-    }
-  }
-
-  let arriveTimer;
-
-  document.arrive(
-    "#spa_root > .vkui__root:not(:has( > .VKCOMMessenger__reforgedRoot))",
-    { existing: true },
-    function (e) {
-      vk.pe.vkm_theme_styles_settings = 1;
-      let spaRoot = e;
-    }
-  );
-
-  document.arrive(
-    ".VKCOMMessenger__reforgedRoot",
-    { existing: true },
-    function (e) {
-      clearTimeout(arriveTimer);
-      let rebootDivDisplay = document.querySelector(".vkEnhancerRebootDiv");
-      if (rebootDivDisplay) {
-        rebootDivDisplay.style.display = "none";
-      }
-    }
-  );
-
-  function addConvoItem(title, href, primary, unread, muted) {
-    let newElement = document.createElement("div");
-
-    if (!primary) {
-      newElement.innerHTML = `<a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa" data-muted="${muted}" data-unread="${
-        unread ? true : false
-      }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a>`;
-    } else {
-      newElement.innerHTML = `<div data-simplebar="init" style="max-height: 749.5px;" class=""><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;"><div class="simplebar-content" style="padding: 0px;"><div role="separator" class="F2l1IgGrOaY823Rc"></div><a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa " data-muted="${muted}" data-unread="${
-        unread ? true : false
-      }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a></div></div></div></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; display: none;"></div></div></div>`;
-    }
-
-    return newElement;
-  }
-
-  function removeFromConvoHistory(href) {
-    const convoHistory = getLocalValue("convo_history") || [];
-    const index = convoHistory.findIndex((item) => item.href === href);
-    if (index !== -1) {
-      convoHistory.splice(index, 1);
-      localStorage.setItem("convo_history", JSON.stringify(convoHistory));
-    }
-  }
-
-  function closeButtons() {
-    const cancelButtons = document.querySelectorAll(".cancelButton");
-    cancelButtons.forEach(function (cancelButton) {
-      cancelButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        const parentLink = cancelButton.closest("a");
-        const href = parentLink.getAttribute("href");
-        const simplebarContent = document.querySelector(".simplebar-content");
-        if (parentLink) {
-          parentLink.removeAttribute("href");
-          parentLink.remove();
-          removeFromConvoHistory(href);
-        }
-        if (simplebarContent) {
-          const remainingItems = document.querySelectorAll(".ARightRoot6");
-          if (remainingItems.length === 0) {
-            simplebarContent.remove();
-          }
-        }
-        if (window.location.href.includes(href)) {
-          window.nav.go({ ...window.nav.objLoc, 0: "im" });
-        }
-      });
-    });
-  }
-
-  async function mainRightRootComeback() {
-    var currentPageURL12 = window.location.href;
-    if (currentPageURL12.includes("/convo/")) {
-      let styleElement = fromId("MEApp__mainPanel1234");
-      if (!styleElement) {
-        styleElement = create("style", {}, { id: "MEApp__mainPanel1234" });
-        document.head.appendChild(styleElement);
-      }
-      styleElement.innerHTML = ".MEApp__mainPanel {display:none;}";
-    }
-
-    const vkuiRoot = document.querySelector(
-      "#spa_root > .vkui__root:not(.VKCOMMessenger__reforgedRoot--settingsScreen)"
-    );
-
-    const currentURL = window.location.href;
-    const container = document.createElement("div");
-    container.classList.add("MainRightRoot");
-    container.classList.add("vkui__root");
-    container.classList.add("vkui__root--embedded");
-    container.classList.add("vkui--vkIOS--light");
-    container.classList.add("vkui--sizeX-none");
-    container.classList.add("vkui--sizeY-none");
-    const nestedDiv = document.createElement("div");
-    nestedDiv.classList.add("SecondaryRightRoot");
-    nestedDiv.classList.add("vkuiAppRoot--wGiqT");
-    nestedDiv.classList.add("vkuiAppRoot--pointer-none--qVNj5");
-    nestedDiv.classList.add("SecondaryRightRoot1");
-    const section = document.createElement("section");
-    section.classList.add("vkuiInternalGroup");
-    section.classList.add("vkuiGroup--H9z2H");
-    section.classList.add("vkuiGroup--sizeX-none--N5LBL");
-    section.classList.add("vkuiInternalGroup--sizeX-none");
-    section.classList.add("vkuiGroup--mode-none--grX74");
-    section.classList.add("vkuiInternalGroup--mode-none");
-    section.classList.add("vkuiGroup--padding-m--JoaTI");
-    section.classList.add("vkenhancer--right-section");
-    const linkAllChats = document.createElement("a");
-    linkAllChats.classList.add("ARightRoot1");
-    linkAllChats.classList.add("ARightRoot2");
-    linkAllChats.classList.add("ARightRoot3");
-    linkAllChats.classList.add("ARightRoot4");
-    linkAllChats.classList.add("ARightRoot5");
-    linkAllChats.href = "/im/?tab=all";
-
-    const spanAllChats = document.createElement("span");
-    spanAllChats.classList.add("SpanTextRightRoot");
-    spanAllChats.textContent = await getAllChatTabs(vk.lang);
-
-    linkAllChats.appendChild(spanAllChats);
-    section.appendChild(linkAllChats);
-
-    const linkUnread = document.createElement("a");
-    linkUnread.classList.add("ARightRoot1");
-    linkUnread.classList.add("ARightRoot2");
-    linkUnread.classList.add("ARightRoot3");
-    linkUnread.classList.add("ARightRoot4");
-    linkUnread.classList.add("ARightRoot5");
-    linkUnread.href = "/im/?tab=unread";
-
-    const spanUnreadChats = document.createElement("span");
-    spanUnreadChats.classList.add("SpanTextRightRoot");
-	try {
-		spanUnreadChats.textContent = getLang("me_fc_unread_chats").split(" ")[0];
-	}
-	catch(error) {
-		spanUnreadChats.textContent = "Непрочитанные";
-	}
-
-    linkUnread.appendChild(spanUnreadChats);
-
-    section.appendChild(linkUnread);
-
-    const linkArchive = document.createElement("a");
-    linkArchive.classList.add("ARightRoot1");
-    linkArchive.classList.add("ARightRoot2");
-    linkArchive.classList.add("ARightRoot3");
-    linkArchive.classList.add("ARightRoot4");
-    linkArchive.classList.add("ARightRoot5");
-    linkArchive.href = "/im/?tab=archive";
-
-    const spanArchiveChats = document.createElement("span");
-    spanArchiveChats.classList.add("SpanTextRightRoot");
-	try { 
-    spanArchiveChats.textContent = getLang("me_archive_title");
-	}
-	catch(error) {spanArchiveChats.textContent = "Архив";}
-
-    linkArchive.appendChild(spanArchiveChats);
-
-    section.appendChild(linkArchive);
-
-    container.appendChild(nestedDiv);
-    nestedDiv.appendChild(section);
-
-    //vkuiRoot.appendChild(container);
-
-    let simplebarContentDiv = document.querySelector(".simplebar-content");
-    let history = getLocalValue("convo_history") ?? [];
-    let ids = "";
-    history.forEach((e) => {
-      const id = e.href.split("/").at(-1);
-      if (id != vk.id) {
-        ids += id + ",";
-      }
-    });
-    ids = ids.slice(0, -1);
-    let obj = ids
-      ? await vkApi.api("messages.getConversationsById", {
-          peer_ids: ids,
-        })
-      : null;
-    deferredCallback(
-      () => {
-        MECommonContext.then((e) => {
-          e.store.subscribe((e) => {
-            history = getLocalValue("convo_history") ?? [];
-            let allhistory = e.convos;
-            for (let item of history) {
-              let id = Number(item.href.split("/").at(-1));
-              let user = allhistory.get(id);
-              if (user) {
-                let elem = Array.from(
-                  document.querySelectorAll("a.ARightRoot1")
-                ).find((e) => e.href.indexOf(id) !== -1);
-                if (!elem) return;
-                let user_elem = elem.querySelector("i > span");
-                user_elem.dataset.muted = user.push.mode !== "everything";
-                user_elem.dataset.unread = user.unreadCount > 0 ? true : false;
-                user_elem.innerText = user.unreadCount;
-              }
-            }
-          });
-        });
-      },
-      { variable: "MECommonContext" }
-    );
-
-    for (let item of history) {
-      let id = item.href.split("/").at(-1);
-      let user = obj.items.find((e) => e.peer.id == id);
-      let unread;
-      try {
-        unread = user.unread_count ? user.unread_count : 0;
-      } catch (error) {
-        unread = 0;
-      }
-      let muted = user?.push_settings?.no_sound ? true : false;
-      simplebarContentDiv = document.querySelector(".simplebar-content");
-      if (!simplebarContentDiv) {
-        // Если элемент .simplebar-content не существует, добавляем новый элемент внутрь элемента section с классом vkenhancer--right-section
-        var sectionElement = document.querySelector(
-          "section.vkenhancer--right-section"
-        );
-
-        sectionElement.appendChild(
-          addConvoItem(item.name, item.href, true, unread, muted)
-        );
-        closeButtons();
-        checkPickerOfIm();
-      } else {
-        simplebarContentDiv.appendChild(
-          addConvoItem(item.name, item.href, false, unread, muted)
-        );
-        closeButtons();
-        checkPickerOfIm();
-      }
-    }
-  }
-}
-
-deferredCallback(
-  () => {
-    if (
-	  false &&
-      getLocalValue("isCentralDesign") &&
-      getLocalValue("isVKMReforgedDesign")
-    ) {
-      //console.log("Classical design activated");
-      const cssLink = document.createElement("link");
-      cssLink.rel = "stylesheet";
-      cssLink.type = "text/css";
-      cssLink.href = urls["im_css"];
-
-      document.head.appendChild(cssLink);
-      function addConvoItem(title, href, primary, unread, muted) {
-        let newElement = document.createElement("div");
-
-        if (!primary) {
-          newElement.innerHTML = `<a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa" data-muted="${muted}" data-unread="${
-            unread ? true : false
-          }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a>`;
-        } else {
-          newElement.innerHTML = `<div data-simplebar="init" style="max-height: 749.5px;" class=""><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;"><div class="simplebar-content" style="padding: 0px;"><div role="separator" class="F2l1IgGrOaY823Rc"></div><a class="ARightRoot1 ARightRoot2 ARightRoot3 ARightRoot4 ARightRoot5 ARightRoot6" href="${href}"><span class="SpanTextRightRoot"><span class="spanPseudoText"><span class="spanPseudoText1 vkenhancerInternalCasper__text">${title}</span><div></div></span></span><i class="Y8xaRbiBmSsC_Tpc"><span class="vkEnhTypography vkuiTypography--normalize--vH74W vkuiInternalCounter vkuiCounter--OFQXo vkuiCounter--mode-secondary--NgDxW vkuiCounter--size-s--bEhhU unreadRightCounter vkuiCaption--level-1--Wnyxa " data-muted="${muted}" data-unread="${
-            unread ? true : false
-          }">${unread}</span><svg aria-hidden="true" display="block" color="var(--vkui--color_icon_secondary)" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--cancel_20 cancelButton" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.72 4.72a.75.75 0 0 1 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06"></path></svg></i></a></div></div></div></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track jDJiKDg_3kqgM68F simplebar-vertical" style="visibility: hidden;"><div class="simplebar-scrollbar" style="height: 0px; display: none;"></div></div></div>`;
-        }
-
-        return newElement;
-      }
-
-      function removeFromConvoHistory(href) {
-        const convoHistory = getLocalValue("convo_history") || [];
-        const index = convoHistory.findIndex((item) => item.href === href);
-        if (index !== -1) {
-          convoHistory.splice(index, 1);
-          localStorage.setItem("convo_history", JSON.stringify(convoHistory));
-        }
-      }
-
-      function closeButtons() {
-        const cancelButtons = document.querySelectorAll(".cancelButton");
-        cancelButtons.forEach(function (cancelButton) {
-          cancelButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            const parentLink = cancelButton.closest("a");
-            const href = parentLink.getAttribute("href");
-            const simplebarContent = document.querySelector(
-              ".simplebar-content"
-            );
-            if (parentLink) {
-              parentLink.removeAttribute("href");
-              parentLink.remove();
-              removeFromConvoHistory(href);
-            }
-            if (simplebarContent) {
-              const remainingItems = document.querySelectorAll(".ARightRoot6");
-              if (remainingItems.length === 0) {
-                simplebarContent.remove();
-              }
-            }
-            if (window.location.href.includes(href)) {
-              window.nav.go({ ...window.nav.objLoc, 0: "im" });
-            }
-          });
-        });
-      }
-
-      document.arrive(
-        ".ConvoHeader__infoContainer",
-        { existing: true },
-        async function (e) {
-          try {
-            // Проверяем, существует ли элемент div с классом simplebar-content
-            var simplebarContentDiv = document.querySelector(
-              ".simplebar-content"
-            );
-            var ConvoTitle__title = document.querySelector(
-              ".ConvoHeader__infoContainer >.ConvoTitle > .ConvoTitle__title"
-            ).textContent;
-            var ConvoUrl = new URL(window.location.href);
-            var ConvoHref = ConvoUrl.pathname;
-
-            // Создаем новый элемент
-
-            let history = getLocalValue("convo_history") ?? [];
-            let convo = { name: ConvoTitle__title, href: ConvoHref };
-            if (ConvoHref.startsWith("/im/convo/")) {
-              history.find((e) => e.href === ConvoHref)
-                ? null
-                : (history.push(convo),
-                  localStorage.setItem(
-                    "convo_history",
-                    JSON.stringify(history)
-                  ));
-            }
-            let convo_other = Array.from(
-              document.querySelectorAll("a.ARightRoot1")
-            ).find((e) => e.href === ConvoUrl.href);
-            let ids = "";
-            history.forEach((e) => {
-              const id = e.href.split("/").at(-1);
-              if (id != vk.id) {
-                ids += id + ",";
-              }
-            });
-            ids = ids.slice(0, -1);
-            let obj = ids
-              ? await vkApi.api("messages.getConversationsById", {
-                  peer_ids: ids,
-                })
-              : null;
-            let id = ConvoUrl.href.split("/").at(-1);
-            if (id.includes("?")) {
-              var match = ConvoUrl.pathname.match(/\/(\d+)$/);
-              id = match[1];
-              convo_other = Array.from(
-                document.querySelectorAll("a.ARightRoot1")
-              ).find((e) => e.href === `https://vk.com/im/convo/${id}`);
-            }
-            let user = obj.items.find((e) => e.peer.id == id);
-            let unread;
-            try {
-              unread = user.unread_count ? user.unread_count : 0;
-            } catch (error) {
-              unread = 0;
-            }
-            let muted = user?.push_settings?.no_sound ? true : false;
-            if (!convo_other) {
-              if (!simplebarContentDiv) {
-                // Если элемент .simplebar-content не существует, добавляем новый элемент внутрь элемента section с классом vkenhancer--right-section
-                var sectionElement = document.querySelector(
-                  "section.vkenhancer--right-section"
-                );
-                try {
-                  if (ConvoHref.startsWith("/im/convo/")) {
-                    sectionElement.appendChild(
-                      addConvoItem(
-                        ConvoTitle__title,
-                        ConvoHref,
-                        true,
-                        unread,
-                        muted
-                      )
-                    );
-                  }
-                } catch (error) {
-                  location.reload;
-                }
-                closeButtons();
-                checkPickerOfIm();
-              } else {
-                if (ConvoHref.startsWith("/im/convo/")) {
-                  simplebarContentDiv.appendChild(
-                    addConvoItem(
-                      ConvoTitle__title,
-                      ConvoHref,
-                      false,
-                      unread,
-                      muted
-                    )
-                  );
-                }
-                closeButtons();
-                checkPickerOfIm();
-              }
-            }
-            deferredCallback(
-              () => {
-                MECommonContext.then((e) => {
-                  e.store.subscribe((e) => {
-                    history = getLocalValue("convo_history") ?? [];
-                    let allhistory = e.convos;
-                    for (let item of history) {
-                      let id = Number(item.href.split("/").at(-1));
-                      let user = allhistory.get(id);
-                      if (user) {
-                        let elem = Array.from(
-                          document.querySelectorAll("a.ARightRoot1")
-                        ).find((e) => e.href.indexOf(id) !== -1);
-                        if (!elem) return;
-                        let user_elem = elem.querySelector("i > span");
-                        user_elem.dataset.muted =
-                          user.push.mode !== "everything";
-                        user_elem.dataset.unread =
-                          user.unreadCount > 0 ? true : false;
-                        user_elem.innerText = user.unreadCount;
-                      }
-                    }
-                  });
-                });
-              },
-              { variable: "MECommonContext" }
-            );
-          } catch (error) {}
-          const convoHeader = document.querySelector(".ConvoHeader");
-          // Создаем элемент div
-          const backButtonDiv = document.createElement("a");
-          backButtonDiv.classList.add("iconBackChats");
-          backButtonDiv.classList.add("ConvoHeader__back");
-          backButtonDiv.setAttribute("aria-describedby", ":r0:");
-          backButtonDiv.href = "/im";
-          // Создаем элемент SVG
-          const svgElement = document.createElement("svg");
-          svgElement.innerHTML =
-            '<svg aria-hidden="true" display="block" aria-label="Назад" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-16 vkuiIcon--h-24 vkuiIcon--chevron_compact_left_24" viewBox="0 0 16 24" width="16" height="24" style="width: 16px; height: 24px;"><path fill="currentColor" d="M11.293 7.706a1 1 0 0 0 0-1.412l-.088-.088a.997.997 0 0 0-1.414.002l-5.084 5.084a1 1 0 0 0 0 1.416l5.084 5.084c.39.391 1.026.39 1.414.002l.088-.088a.995.995 0 0 0 0-1.412L7 12z"></path></svg>';
-
-          // Добавляем SVG-элемент в div с классом backButtonDiv
-          backButtonDiv.appendChild(svgElement);
-
-          // Добавляем SVG-элемент в div с классом ConvoHeader
-          convoHeader.prepend(backButtonDiv);
-          convoHeader.classList.add("ConvoHeader__backButtonAvailable");
-        }
-      );
-
-      document.arrive(
-        "#spa_root > .vkui__root:not(.VKCOMMessenger__reforgedRoot--settingsScreen)",
-        { existing: true },
-        async function (e) {
-          var currentPageURL12 = window.location.href;
-
-          // Проверяем, содержит ли текущий адрес страницы '/convo/'
-          if (currentPageURL12.includes("/convo/")) {
-            let styleElement = fromId("MEApp__mainPanel1234");
-            if (!styleElement) {
-              styleElement = create(
-                "style",
-                {},
-                { id: "MEApp__mainPanel1234" }
-              );
-              document.head.appendChild(styleElement);
-            }
-            styleElement.innerHTML =
-              ".CollapsibleContainer:has(.MEApp__mainPanel) {display:none;}";
-          }
-
-          const vkuiRoot = e;
-
-          const currentURL = window.location.href;
-          // Создаем элемент div
-          const container = document.createElement("div");
-
-          // Добавляем классы к элементу
-          container.classList.add("MainRightRoot");
-          container.classList.add("vkui__root");
-          container.classList.add("vkui__root--embedded");
-          container.classList.add("vkui--vkIOS--light");
-          container.classList.add("vkui--sizeX-none");
-          container.classList.add("vkui--sizeY-none");
-
-          // Создаем вложенный div
-          const nestedDiv = document.createElement("div");
-          nestedDiv.classList.add("SecondaryRightRoot");
-          nestedDiv.classList.add("vkuiAppRoot--wGiqT");
-          nestedDiv.classList.add("vkuiAppRoot--pointer-none--qVNj5");
-          nestedDiv.classList.add("SecondaryRightRoot1");
-
-          // Создаем секцию
-          const section = document.createElement("section");
-          section.classList.add("vkuiInternalGroup");
-          section.classList.add("vkuiGroup--H9z2H");
-          section.classList.add("vkuiGroup--sizeX-none--N5LBL");
-          section.classList.add("vkuiInternalGroup--sizeX-none");
-          section.classList.add("vkuiGroup--mode-none--grX74");
-          section.classList.add("vkuiInternalGroup--mode-none");
-          section.classList.add("vkuiGroup--padding-m--JoaTI");
-          section.classList.add("vkenhancer--right-section");
-          // Создаем ссылки
-          const linkAllChats = document.createElement("a");
-          linkAllChats.classList.add("ARightRoot1");
-          linkAllChats.classList.add("ARightRoot2");
-          linkAllChats.classList.add("ARightRoot3");
-          linkAllChats.classList.add("ARightRoot4");
-          //linkAllChats.classList.add('isChosen');
-          linkAllChats.classList.add("ARightRoot5");
-          linkAllChats.href = "/im/?tab=all";
-
-          const spanAllChats = document.createElement("span");
-          spanAllChats.classList.add("SpanTextRightRoot");
-          spanAllChats.textContent = await getAllChatTabs(vk.lang);
-
-          // Добавляем элементы в DOM
-          linkAllChats.appendChild(spanAllChats);
-          section.appendChild(linkAllChats);
-
-          const linkUnread = document.createElement("a");
-          linkUnread.classList.add("ARightRoot1");
-          linkUnread.classList.add("ARightRoot2");
-          linkUnread.classList.add("ARightRoot3");
-          linkUnread.classList.add("ARightRoot4");
-          linkUnread.classList.add("ARightRoot5");
-          linkUnread.href = "/im/?tab=unread";
-
-          const spanUnreadChats = document.createElement("span");
-          spanUnreadChats.classList.add("SpanTextRightRoot");
-          try {
-			spanUnreadChats.textContent = getLang("me_fc_unread_chats").split(" ")[0];
-			}
-			catch(error) {
-			spanUnreadChats.textContent = "Непрочитанные";
-			}
-
-          linkUnread.appendChild(spanUnreadChats);
-
-          section.appendChild(linkUnread);
-
-          const linkArchive = document.createElement("a");
-          linkArchive.classList.add("ARightRoot1");
-          linkArchive.classList.add("ARightRoot2");
-          linkArchive.classList.add("ARightRoot3");
-          linkArchive.classList.add("ARightRoot4");
-          linkArchive.classList.add("ARightRoot5");
-          linkArchive.href = "/im/?tab=archive";
-
-          const spanArchiveChats = document.createElement("span");
-          spanArchiveChats.classList.add("SpanTextRightRoot");
-          try { 
-    spanArchiveChats.textContent = getLang("me_archive_title");
-	}
-	catch(error) {spanArchiveChats.textContent = "Архив";}
-
-          linkArchive.appendChild(spanArchiveChats);
-
-          section.appendChild(linkArchive);
-
-          container.appendChild(nestedDiv);
-          nestedDiv.appendChild(section);
-
-          // Добавляем созданный элемент в DOM
-          //vkuiRoot.appendChild(container);
-
-          let simplebarContentDiv = document.querySelector(
-            ".simplebar-content"
-          );
-          let history = getLocalValue("convo_history") ?? [];
-          let ids = "";
-          history.forEach((e) => {
-            const id = e.href.split("/").at(-1);
-            if (id != vk.id) {
-              ids += id + ",";
-            }
-          });
-          ids = ids.slice(0, -1);
-          let obj = ids
-            ? await vkApi.api("messages.getConversationsById", {
-                peer_ids: ids,
-              })
-            : null;
-          deferredCallback(
-            () => {
-              MECommonContext.then((e) => {
-                e.store.subscribe((e) => {
-                  history = getLocalValue("convo_history") ?? [];
-                  let allhistory = e.convos;
-                  for (let item of history) {
-                    let id = Number(item.href.split("/").at(-1));
-                    let user = allhistory.get(id);
-                    if (user) {
-                      let elem = Array.from(
-                        document.querySelectorAll("a.ARightRoot1")
-                      ).find((e) => e.href.indexOf(id) !== -1);
-                      if (!elem) return;
-                      let user_elem = elem.querySelector("i > span");
-                      user_elem.dataset.muted = user.push.mode !== "everything";
-                      user_elem.dataset.unread =
-                        user.unreadCount > 0 ? true : false;
-                      user_elem.innerText = user.unreadCount;
-                    }
-                  }
-                });
-              });
-            },
-            { variable: "MECommonContext" }
-          );
-
-          for (let item of history) {
-            let id = item.href.split("/").at(-1);
-            let user = obj.items.find((e) => e.peer.id == id);
-            let unread;
-            try {
-              unread = user.unread_count ? user.unread_count : 0;
-            } catch (error) {
-              unread = 0;
-            }
-            let muted = user?.push_settings?.no_sound ? true : false;
-            simplebarContentDiv = document.querySelector(".simplebar-content");
-            if (!simplebarContentDiv) {
-              // Если элемент .simplebar-content не существует, добавляем новый элемент внутрь элемента section с классом vkenhancer--right-section
-              var sectionElement = document.querySelector(
-                "section.vkenhancer--right-section"
-              );
-
-              sectionElement.appendChild(
-                addConvoItem(item.name, item.href, true, unread, muted)
-              );
-              closeButtons();
-              checkPickerOfIm();
-            } else {
-              simplebarContentDiv.appendChild(
-                addConvoItem(item.name, item.href, false, unread, muted)
-              );
-              closeButtons();
-              checkPickerOfIm();
-            }
-          }
-        }
-      );
-    } else {
-      localStorage.setItem("isCentralDesign", "false");
-    }
-  },
-  { variable: "urls" }
-);
-/// КОНЕЦ ЦЕНТРАЛЬНОГО ДИЗАЙНА///
+///ЭМОДЗИ-ХОТБАР///
 document.arrive(".ConvoComposer__inputWrapper", { existing: true }, function (
   e
 ) {
-  //console.log(globalThis.HotBarAppearVAL);
   const container = document.querySelector(".ConvoMain__composer");
   if (container && document.getElementById("vkenhancerEmojiHotbarID")) {
     const emojiHotbar = document.getElementById("vkenhancerEmojiHotbarID");
@@ -13260,99 +11732,7 @@ document.arrive(
     }
   }
 );
-deferredCallback(
-  (_vk) => {
-    nav.subscribeOnModuleEvaluated(() => {
-      window.dispatchEvent(new CustomEvent("vkNav"));
-      if (true) {
-        let styleElement = fromId("rightBarClassicRemove");
-        if (!styleElement) {
-          styleElement = document.createElement("style");
-          styleElement.id = "rightBarClassicRemove";
-          document.head.appendChild(styleElement);
-        }
-        styleElement.innerHTML = ".MainRightRoot{display:none;}";
-      } else {
-        const customStyle = fromId("rightBarClassicRemove");
-        if (customStyle) {
-          customStyle.remove();
-        }
-      }
-      var currentPageURL = window.location.href;
 
-      // Проверяем, содержит ли текущий адрес страницы '/convo/'
-      if (
-        currentPageURL.includes("/convo/") &&
-        localStorage.getItem("isCentralDesign") == "true"
-      ) {
-        let styleElement = fromId("MEApp__mainPanel1234");
-        if (!styleElement) {
-          styleElement = create("style", {}, { id: "MEApp__mainPanel1234" });
-          document.head.appendChild(styleElement);
-        }
-        styleElement.innerHTML =
-          ".CollapsibleContainer:has(.MEApp__mainPanel) {display:none;}";
-      } else {
-        const customStyle = fromId("MEApp__mainPanel1234");
-        if (customStyle) {
-          customStyle.remove();
-        }
-      }
-      checkPickerOfIm();
-      if (
-        true
-      ) {
-        let styleElement = fromId("settingsRightRoot");
-        if (!styleElement) {
-          styleElement = document.createElement("style");
-          styleElement.id = "settingsRightRoot";
-          document.head.appendChild(styleElement);
-        }
-        styleElement.innerHTML = ".MainRightRoot{display:none;}";
-      } else {
-        const customStyle = fromId("settingsRightRoot");
-        if (customStyle) {
-          customStyle.remove();
-        }
-      }
-      //updateUsers();
-      //updateMarginLeft();
-	  if (getLocalValue("secretFunctions")) {
-		/*appendSecondaryStyles(window.location.pathname);*/
-	  }
-    });
-    // nav.addNavigationStartListener(function (e) {
-    //   appendSecondaryStyles(window.location.pathname);
-    // });
-  },
-  { variable: "nav" }
-);
-
-function checkPickerOfIm() {
-  const currentPath = window.location.href;
-  const links = document.querySelectorAll("a.ARightRoot5");
-  let styleElement = fromId("aHoverRightRoot");
-  if (!styleElement) {
-    styleElement = document.createElement("style");
-    styleElement.id = "aHoverRightRoot";
-    document.head.appendChild(styleElement);
-  }
-  styleElement.innerHTML =
-    "a.ARightRoot1:hover{background-color:var(--vkui--vkontakte_background_hover_alpha)!important;}";
-
-  links.forEach((link) => {
-    const href = link.getAttribute("href");
-    if (currentPath.includes(href)) {
-      link.style.backgroundColor =
-        "var(--vkui--vkontakte_background_hover_alpha)";
-    } else {
-      link.style.backgroundColor = "transparent";
-    }
-    if (currentPath != "https://vk.com/im") {
-      links[0].style.backgroundColor = "transparent";
-    }
-  });
-}
 
 function newDesign() {
   localStorage.setItem("isNewDesign", true);
@@ -13361,7 +11741,6 @@ function newDesign() {
     newDesignFunctions.forEach((flag) => {
       window.vk.pe[flag] = 1;
     });
-    window.vk.pe.vkm_integration_media_viewer = intMedia ? 1 : 0;
     window.vk.pe.vkm_hide_forward_author = 1;
     window.vk.pe.vkm_theme_styles_settings = 1;
     window.vk.pe.vkm_reactions || (window.vk.pe.vkm_reactions = 20);
@@ -13378,26 +11757,9 @@ function newDesign() {
               
             }
           } catch (error) {}
-          try {
-            if (localStorage.getItem("isOldBadge") == "false") {
-              e.store.featureFlags["vkm_new_read_indicator"] = true;
-              e.store.featureFlags["me_new_read_indicator"] = true;
-            } else if (localStorage.getItem("isOldBadge") == "undefined") {
-              e.store.featureFlags["vkm_new_read_indicator"] = true;
-              e.store.featureFlags["me_new_read_indicator"] = true;
-            } else if (localStorage.getItem("isOldBadge") == "true") {
-              e.store.featureFlags["vkm_new_read_indicator"] = false;
-              e.store.featureFlags["me_new_read_indicator"] = false;
-            }
-          } catch (error) {
-            e.store.featureFlags["vkm_new_read_indicator"] = true;
-            e.store.featureFlags["me_new_read_indicator"] = true;
-          }
           e.store.featureFlags["vkm_reactions"] = 20;
           e.store.featureFlags["me_reactions"] = 20;
-          e.store.featureFlags["vkm_integration_media_viewer"] = intMedia;
           resolve(true);
-          //console.info("[VK ENH] Messenger injection completed.");
         } else {
           console.error("Feature flags object is not available");
         }
@@ -13430,27 +11792,18 @@ function HotBarAppear(cHotBarValue) {
   }
   hotbarb.innerHTML =
     ".ConvoMain__composer{padding-bottom:8px!important;display:flex;flex-direction: column;align-items: center;}";
-  //const chatInputContainer = document.getElementsByClassName("im-chat-input--textarea fl_l _im_text_input _emoji_field_wrap");
   const chatInputContainer = document.getElementsByClassName(
     "ConvoMain__composer"
   );
-  // Проверяем, есть ли уже хотбар на странице
   const existingHotbar = fromId("vkenhancerEmojiHotbarID");
   cHotBarValue = cHotBarValue.filter(function (item) {
     return item !== "" && item !== null && item !== undefined;
   });
-  if (
-    false /*existingHotbar && old_smile + 1 != Number(document.getElementsByClassName("page_progress_preview media_preview clear_fix")[0].id.replace(/\D+/g, ""))*/
-  ) {
-    existingHotbar.remove();
-    /*console.log('HotBar removed')*/
-  }
   if (!existingHotbar && cHotBarValue.length > 0) {
     const hotbarDiv = document.createElement("div");
     hotbarDiv.className = "vkenhancerEmojiHotbar";
     hotbarDiv.id = "vkenhancerEmojiHotbarID";
-    hotbarDiv.style.marginTop = "6px"; //-10px
-    //hotbarDiv.style.marginBottom = '7px';
+    hotbarDiv.style.marginTop = "6px";
     hotbarDiv.style.marginLeft = "9px";
     hotbarDiv.style.color = "#dee1e6";
     hotbarDiv.style.textAlign = "center";
@@ -13478,31 +11831,11 @@ function HotBarAppear(cHotBarValue) {
       aElement.addEventListener("mouseout", () => {
         aElement.style.background = "none";
         aElement.style.borderRadius = "0";
-      }); //старая добавлялка
-      /*var prev = document.getElementsByClassName("page_progress_preview media_preview clear_fix");
-            var v1 = 0;
-            for (j = 0; j <= prev.length - 1; j++) {
-                var last_id = prev[j].id;
-                var last = Number(last_id.replace(/\D+/g, ""));
-                if (last > v1) {
-                    v1 = last;
-                }
-            }
-            var v_smile = v1 - 1;
-            old_smile = v_smile;*/
-      /*console.log(v_smile + " v_smile");*/
-      //aElement.setAttribute('onclick', `Emoji.addEmoji(${v_smile}, '${emojiCode}', this); return cancelEvent(event);`);
-      /*aElement.addEventListener('click', function() {
-                const textmoji = aElement.getAttribute('textmoji');
-                const composerInput = document.querySelector('.ComposerInput__input.ConvoComposer__input');
-    
-                if (composerInput) {
-                    composerInput.textContent = textmoji;
-                }
-            });*/ aElement.addEventListener(
+      }); 
+	  aElement.addEventListener(
         "click",
         function () {
-          const emojiCodeAdd = emojiCode; // Ваш emojiCode
+          const emojiCodeAdd = emojiCode; 
           const textmoji = aElement.getAttribute("textmoji");
           const imgElement = document.createElement("img");
           imgElement.className = "Emoji @" + emojiCodeAdd;
@@ -13597,69 +11930,6 @@ function HotBarAppear(cHotBarValue) {
       chatInputContainer[0].appendChild(hotbarDiv);
     } catch (error) {}
   }
-}
-function OldDesign() {
-  localStorage.setItem("isNewDesign", false);
-  deferredCallback(
-    (_vk) => {
-      newDesignFunctions.forEach((flag) => {
-        _vk.pe[flag] = 0;
-        1;
-      });
-      _vk.pe.vkm_reforged_in_vkcom = 0;
-      _vk.pe.me_vkcom_api_feature_flags = 0;
-      _vk.pe.vkm_integration_media_viewer = 0;
-      _vk.pe.vkm_hide_forward_author = 0;
-      _vk.pe.vkm_integration_media_viewer = 0;
-      _vk.pe.vkm_theme_styles_settings = 0;
-      localStorage.setItem("isVKMReforgedDesign", false);
-      //console.log("Injection completed. vk.pe flags are set to 0");
-    },
-    { variable: "vk" }
-  );
-  deferredCallback(
-    (_MECommonContext) => {
-      _MECommonContext
-        .then((e) => {
-          if (e.store.featureFlags) {
-            newDesignFunctions.forEach((flag) => {
-              e.store.featureFlags[flag] = false;
-            });
-            try {
-              if (localStorage.getItem("isDefaultTheme") == "true") {
-                
-              }
-            } catch (error) {}
-            try {
-              if (localStorage.getItem("isOldBadge") == "false") {
-                e.store.featureFlags["vkm_new_read_indicator"] = true;
-                e.store.featureFlags["me_new_read_indicator"] = true;
-              } else if (localStorage.getItem("isOldBadge") == "undefined") {
-                e.store.featureFlags["vkm_new_read_indicator"] = true;
-                e.store.featureFlags["me_new_read_indicator"] = true;
-              } else if (localStorage.getItem("isOldBadge") == "true") {
-                e.store.featureFlags["vkm_new_read_indicator"] = false;
-                e.store.featureFlags["me_new_read_indicator"] = false;
-              }
-            } catch (error) {
-              e.store.featureFlags["vkm_new_read_indicator"] = true;
-              e.store.featureFlags["me_new_read_indicator"] = true;
-            }
-            e.store.featureFlags["vkm_reactions"] = 20;
-            e.store.featureFlags["me_reactions"] = 20;
-            e.store.featureFlags["vkm_integration_media_viewer"] = false;
-            e.store.featureFlags["me_theme_styles_settings"] = true;
-            e.store.featureFlags["vkm_chat_list_collapse"] = true;
-          } else {
-            console.error("Feature flags object is not available");
-          }
-        })
-        .catch((error) => {
-          console.error("Error while setting feature flags:", error);
-        });
-    },
-    { variable: "MECommonContext" }
-  );
 }
 function MuteCalls() {
   Calls.isIncomingModalHidden = true;
