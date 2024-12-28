@@ -5,7 +5,7 @@
     "default_title": "Настройки VK Tools"
   },
   "name": "VK Tools - улучшение ВКонтакте",
-  "version": "4.6",
+  "version": "4.6.1",
   "icons": {
     "128": "assets/icon128.png",
     "16": "assets/icon16.png",
@@ -74,8 +74,6 @@
 		"js/jszip.min.js",
         "js/modules/arrive.js",
         "js/modules/hls.js",
-        "js/vkm_reforged_in_vkcom.js",
-        "js/legacy_in_vkcom.js",
         "css/im-page-open.css",
         "css/classical-profile-view.css"
       ],
