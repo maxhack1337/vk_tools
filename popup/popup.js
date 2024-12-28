@@ -1,4 +1,4 @@
-console.log('Версия 4.6 Release');
+console.log('Версия 4.6.1 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
@@ -774,13 +774,7 @@ addhotbar.addEventListener('click', (event) => {
         });
     });
 });
-document.addEventListener('DOMContentLoaded', function () {
-    chrome.storage.local.get(['stylusInstalled'], function (result) {
-        const stylusInstalled = result.stylusInstalled;
-        const labelElement = document.querySelector('.vkenhancerOldLabel');
-        const warningElement = document.querySelector('.vkenhancerOldWarning');
-    });
-});
+
 document.addEventListener('DOMContentLoaded', function () {
     const slider = document.getElementById('slider');
     const sliderValue = document.getElementById('slider-value');

@@ -81,7 +81,7 @@ const strings = {
 	pseudoTab1: ['Кастомизация акцентов', 'Accents customization', 'Кастомізація акцентів'],
 	pseudoTab2: ['Новый мессенджер', 'New messenger', 'Новий месенджер'],
 	pseudoTab3: ['Настройки', 'Settings', 'Налаштування'],
-	versionNumber: ['Версия 4.6 Release', 'v. 4.6 Release', 'Версія 4.6 Release'],
+	versionNumber: ['Версия 4.6.1 Release', 'v. 4.6.1 Release', 'Версія 4.6.1 Release'],
 	hideMessageFooter: ['Скрыть переключатель непрочитанных сообщений','Hide unread messages switcher','Приховати перемикач непрочитаних повідомлень'],
 	doWideFeed: ['Широкая лента','Wide feed','Широка стрічка'],
 	errorUpdating: ['Не обновляется расширение? Нажмите Alt+Shift+R в любом месте браузера и расширение перезагрузится, при этом, обновившись до новейшей версии', 'Extension not updating? Press Alt+Shift+R anywhere in the browser and the extension will reload, updating to the latest version', 'Чи не оновлюється розширення? Натисніть Alt+Shift+R будь-де браузера і розширення перезавантажиться, при цьому, оновившись до новітньої версії'],
