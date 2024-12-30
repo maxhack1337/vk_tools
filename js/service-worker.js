@@ -12,7 +12,16 @@ chrome.runtime.onInstalled.addListener(function(details) {
     if (details.reason === 'install') {
         chrome.tabs.create({ url: 'install.html' });
     } else if (details.reason === 'update') {
-        chrome.tabs.create({ url: 'update.html' });
+        chrome.action.setBadgeText({ text: '!' });
+        chrome.action.setBadgeBackgroundColor({ color: '#FF0000' });
+        chrome.storage.local.set({ popupOpened: false });
+    }
+});
+
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message.type === 'popupOpened') {
+        chrome.action.setBadgeText({ text: '' });
+        chrome.storage.local.set({ popupOpened: true });
     }
 });
 

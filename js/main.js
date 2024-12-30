@@ -9608,7 +9608,7 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		.Post--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://"]:not([class*="vkitLink__secondary"])) {
 			display:none;
 		}
-		.Post--redesignV3 [class^="vkitShowMoreText__text"]:has(> [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]) .vkuiSpacing--m:not(:first-child) {
+		.Post--redesignV3 [class^="vkitChipAttachment__root"] + .vkuiSpacing--m:not(:first-child) {
 			display:none;
 		}
 		.Post--redesignV3 .vk_enhancer_in_post_audio {
