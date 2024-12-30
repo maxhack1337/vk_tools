@@ -1,4 +1,4 @@
-console.log('Версия 4.6.1 Release');
+console.log('Версия 4.6.2 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
@@ -169,6 +169,11 @@ chrome.storage.local.get(['defaultTab'], function (result) {
         defaultTab1();
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    chrome.runtime.sendMessage({ type: 'popupOpened' });
+});
+
 
 function defaultTab0() {
     if (document.getElementById("tabs1")) {

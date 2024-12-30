@@ -49,6 +49,9 @@ function fillStrings() {
 	document.querySelector('#FeedDefaultTheme > div > div > .vkenhancerStandartWarning').innerHTML = getLocalizedString(strings.feedOldThemeDescription);
     document.querySelector('#SliderBlock > div > label').textContent = getLocalizedString(strings.blockTransparency);
 	
+	document.querySelector('.actualVersion').setAttribute('href',strings.actualVersion);
+	document.querySelector('.actualVersion > h4').textContent = getLocalizedString(strings.whatsNew);
+	
 	document.querySelector('#scrollableBlock > div.customLeftMenu > h3').textContent = getLocalizedString(strings.leftMenuSettingsHeader);
 	
 	document.querySelector('#scrollableBlock > div.customLeftMenu > div:nth-child(2) > h5').textContent = getLocalizedString(strings.profile);
