@@ -81,8 +81,8 @@ const strings = {
 	pseudoTab1: ['Кастомизация акцентов', 'Accents customization', 'Кастомізація акцентів'],
 	pseudoTab2: ['Новый мессенджер', 'New messenger', 'Новий месенджер'],
 	pseudoTab3: ['Настройки', 'Settings', 'Налаштування'],
-	versionNumber: ['Версия 4.6.2 Release', 'v. 4.6.2 Release', 'Версія 4.6.2 Release'],
-	actualVersion: "https://vk.com/wall-221416961_358",
+	versionNumber: ['Версия 4.7 Release', 'v. 4.7 Release', 'Версія 4.7 Release'],
+	actualVersion: "https://vk.com/wall-221416961_383",
 	whatsNew: ['Что нового?', "What's new?", 'Що нового?'],
 	hideMessageFooter: ['Скрыть переключатель непрочитанных сообщений','Hide unread messages switcher','Приховати перемикач непрочитаних повідомлень'],
 	doWideFeed: ['Широкая лента','Wide feed','Широка стрічка'],
@@ -115,7 +115,9 @@ const strings = {
 	faq: ['Помощь', 'Help', 'Допомога'],
 	save: ['Сохранить', 'Save', 'Зберегти'],
 	feedOldTheme: ['Старый дизайн ленты и постов', 'Old feed and posts design', 'Старий дизайн стрічки та постів'],
-	feedOldThemeDescription: ['Максимально приближённый к старому дизайн ленты и постов', 'The design of the feed and posts is as close to the old as possible', 'Максимально наближений до старого дизайн стрічки та постів']
+	feedOldThemeDescription: ['Максимально приближённый к старому дизайн ленты и постов', 'The design of the feed and posts is as close to the old as possible', 'Максимально наближений до старого дизайн стрічки та постів'],
+	oldPosting: ['Старый редактор постов', 'Old post publisher', 'Старий редактор постів'],
+	oldPostingDescription: ['Старый редактор постов, удалённый ВК в начале декабря 2024', 'Old post publisher, removed by VK in early December 2024', 'Старий редактор постів, видалений ВК на початку грудня 2024 року']
 };
 
 export default strings;

@@ -48,6 +48,8 @@ function fillStrings() {
 	document.querySelector('#FeedDefaultTheme > div > div > .vkenhancerChoosePickerText1').innerHTML =  `<span class="newFunctionSpan"><img class="newFire" src="assets/new_function_text.svg"></span>`+`<span class="newSpan"><img class="newFire" src="assets/new.png"></span>`+getLocalizedString(strings.feedOldTheme);
 	document.querySelector('#FeedDefaultTheme > div > div > .vkenhancerStandartWarning').innerHTML = getLocalizedString(strings.feedOldThemeDescription);
     document.querySelector('#SliderBlock > div > label').textContent = getLocalizedString(strings.blockTransparency);
+	document.querySelector('#OldPosting > div > div > .vkenhancerChoosePickerText1').innerHTML =  `<span class="newFunctionSpan"><img class="newFire" src="assets/new_function_text.svg"></span>`+`<span class="newSpan"><img class="newFire" src="assets/new.png"></span>`+getLocalizedString(strings.oldPosting);
+	document.querySelector('#OldPosting > div > div > .vkenhancerStandartWarning').innerHTML = getLocalizedString(strings.oldPostingDescription);
 	
 	document.querySelector('.actualVersion').setAttribute('href',strings.actualVersion);
 	document.querySelector('.actualVersion > h4').textContent = getLocalizedString(strings.whatsNew);

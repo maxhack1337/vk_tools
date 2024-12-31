@@ -1,4 +1,4 @@
-console.log('Версия 4.6.2 Release');
+console.log('Версия 4.7 Release');
 var accentC = document.getElementById('oldaccent');
 var msgreact = document.getElementById('messagereactions');
 var recentgroups = document.getElementById('recentgroups');
@@ -58,6 +58,8 @@ var garland = document.getElementById('garland');
 var widefeed = document.getElementById('widefeed');
 var messagecounter = document.getElementById('messagecounter');
 var messagefooter = document.getElementById('messagefooter');
+var oldposting = document.getElementById('oldposting');
+
 var tab0 = document.getElementById('tab0');
 var tab1 = document.getElementById('tab1');
 var tab2 = document.getElementById('tab2');
@@ -194,7 +196,7 @@ function defaultTab0() {
         styleElement.id = "tabs0";
         document.head.appendChild(styleElement);
     }
-    styleElement.innerHTML = '#tab0,#tab0>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important} .vkEnhancerHeaderRatio6,#FeedDefaultTheme,#SecretOldDesign,#MiddleName,#MediaViewer,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{display:flex!important;}';
+    styleElement.innerHTML = '#tab0,#tab0>div>.vkuiTabbarItem__icon{color:var(--vkenhancer--chosen_tab)!important} .vkEnhancerHeaderRatio6,#OldPosting,#FeedDefaultTheme,#SecretOldDesign,#MiddleName,#MediaViewer,#NewProfiles,#idName,#postR,#GroupsRecent,#Photo,#NFT,#Emoji,.vkEnhancerHeaderRatio1{display:flex!important;}';
     chrome.storage.local.set({
         defaultTab: "0",
     });
@@ -446,7 +448,7 @@ function arrayBufferToBase64(buffer) {
 saveSettings.addEventListener('click', (event) => {
     var jsonData = null;
     var JSONSettings = {};
-    chrome.storage.local.get(["customLeftMenuObject","messageFooterState","messageCounterState","fixMenuState", "garlandState", "wideFeedState", "oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
+    chrome.storage.local.get(["customLeftMenuObject","messageFooterState","oldPostingState","messageCounterState","fixMenuState", "garlandState", "wideFeedState", "oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
         console.log(items);
         jsonData = JSON.stringify(items);
         console.log(jsonData);
@@ -461,7 +463,7 @@ saveSettings.addEventListener('click', (event) => {
 });
 
 clearSettings.addEventListener('click', async function () {
-    var result = { "customLeftMenuObject": {},"addstickerState": false, "altSBState": false, "cameraPhotoState": false, "checkboxState": false, "checkboxState1": false, "checkboxStateAva": false, "colorPicker": "#3291ff", "colorPickerText": "#ffffff", "customAccent": "#ffffff", "customBg": "undefined", "customFont": "undefined", "customHotbar": [], "customLogo": "undefined", "emojiStatusState": false, "hideButtonState": false, "hiderState": false, "integrationMediaState": false, "issThemeChanged": false, "muteCallsState": false, "nechitalkaState": false, "nepisalkaState": false, "newDesignState": false, "pollResultsState": false, "postReactionsState": false, "recentGroupsState": false, "removeAwayState": false, "newProfilesState": false, "middleNameState": false, "oldHoverState": false, "tabletMenuState": false, "defaultThemeState": false, "oldBadgeState": false, "fixMenuState":false, "garlandState":false, "wideFeedState":false, "messageCounterState":false, "messageFooterState":false, "secretFuncState": false, "sliderValue": "100" };
+    var result = { "customLeftMenuObject": {},"addstickerState": false, "altSBState": false, "cameraPhotoState": false, "checkboxState": false, "checkboxState1": false, "checkboxStateAva": false, "colorPicker": "#3291ff", "colorPickerText": "#ffffff", "customAccent": "#ffffff", "customBg": "undefined", "customFont": "undefined", "customHotbar": [], "customLogo": "undefined", "emojiStatusState": false, "hideButtonState": false, "hiderState": false, "integrationMediaState": false, "issThemeChanged": false, "muteCallsState": false, "nechitalkaState": false, "nepisalkaState": false, "newDesignState": false, "pollResultsState": false, "postReactionsState": false, "recentGroupsState": false, "removeAwayState": false, "newProfilesState": false, "middleNameState": false, "oldHoverState": false, "tabletMenuState": false, "defaultThemeState": false, "oldBadgeState": false, "fixMenuState":false, "garlandState":false, "wideFeedState":false, "messageCounterState":false, "messageFooterState":false, "oldPostingState":false,"secretFuncState": false, "sliderValue": "100" };
     for (item of Object.keys(result)) {
         let item123 = {};
         item123[item] = result[item];
@@ -521,6 +523,24 @@ messagefooter.addEventListener('change', (event) => {
             type: "toggleMessageFooter",
             isChecked: checked
         });
+    });
+});
+
+oldposting.addEventListener('change', (event) => {
+    const checked = event.target.checked;
+    chrome.storage.local.set({
+        oldPostingState: checked
+    });
+    chrome.tabs.query({
+        active: true,
+        currentWindow: true
+    }, function (tabs) {
+        const activeTabId = tabs[0].id;
+        chrome.tabs.sendMessage(activeTabId, {
+            type: "toggleOldPosting",
+            isChecked: checked
+        });
+		chrome.tabs.reload(activeTabId);
     });
 });
 
@@ -606,6 +626,7 @@ defaulttheme.addEventListener('change', (event) => {
             type: "toggleDefaultTheme",
             isChecked: checked
         });
+		chrome.tabs.reload(activeTabId);
     });
 });
 
@@ -1435,7 +1456,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadSavedCheckBoxes() {
     // Получение состояния из Local Storage
-    chrome.storage.local.get(["customLeftMenuObject","messageFooterState","messageCounterState","garlandState","wideFeedState","fixMenuState","oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
+    chrome.storage.local.get(["customLeftMenuObject","oldPostingState","messageFooterState","messageCounterState","garlandState","wideFeedState","fixMenuState","oldBadgeState", "defaultThemeState", "tabletMenuState", "oldHoverState", "middleNameState", "newProfilesState", "removeAwayState", "sliderValue", "pollResultsState", "nepisalkaState", "nechitalkaState", "integrationMediaState", "newDesignState", "hideButtonState", "cameraPhotoState", "addstickerState", "issThemeChanged", "checkboxStateAva", "checkboxState", "checkboxState1", "secretFuncState", "postReactionsState", "hiderState", "customAccent", "colorPicker", "colorPickerText", "customLogo", "customBg", "customFont", "emojiStatusState", "recentGroupsState", "altSBState", "muteCallsState", "customHotbar"], function (items) {
         accentC.checked = items.checkboxState;
         msgreact.checked = items.checkboxState1;
         recentgroups.checked = items.recentGroupsState;
@@ -1461,6 +1482,7 @@ function loadSavedCheckBoxes() {
 		widefeed.checked = items.wideFeedState;
 		messagecounter.checked = items.messageCounterState;
 		messagefooter.checked = items.messageFooterState;
+		oldposting.checked = items.oldPostingState;
         slider.value = items.sliderValue;
         const sliderValue = document.getElementById('slider-value');
         sliderValue.textContent = slider.value + "%";
@@ -1550,6 +1572,10 @@ function loadSavedCheckBoxes() {
             chrome.tabs.sendMessage(activeTabId, {
                 type: "toggleNewDesign",
                 isChecked: items.newDesignState
+            });
+			chrome.tabs.sendMessage(activeTabId, {
+                type: "toggleOldPosting",
+                isChecked: items.oldPostingState
             });
 			chrome.tabs.sendMessage(activeTabId, {
                 type: "toggleMessageFooter",
