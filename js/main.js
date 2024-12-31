@@ -477,6 +477,10 @@ window.addEventListener("message", async (event) => {
       localStorage.setItem("isOldBadge", event.data.value);
       break;
     }
+	case "oldPosting": {
+      localStorage.setItem("old_post_design", event.data.value);
+      break;
+    }
 	case "customLeftMenu": {
       localStorage.setItem("customLeftMenuLabels", JSON.stringify(event.data.value));
       break;
@@ -7585,7 +7589,7 @@ function getPhotoTagText(lang) {
             return t;
           }
           var response = pizda.store.getState().owner;
-          console.info("[VK ENH] Profile fetched");
+          console.info("[VKENH] Profile fetched");
           console.log(response);
           if (!response.hidden) {
             let wasInSetb = getLang("profile_last_seen", "raw");
@@ -10090,6 +10094,11 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
                     dataAttachments.item.attachments.forEach(function(music) {
                         if(music.type === "audio" && music.style === "on_media") {
                             let audioElement = document.createElement("div");
+							let isAvailableTrack = music.audio.is_licensed;
+							if(!isAvailableTrack) {
+								audioElement.style.pointerEvents = 'none';
+								audioElement.style.opacity = '.5';
+							}
 			  let titleAud = music.audio.title.replaceAll('"',"'");
 			  let artistAud = music.audio.artist.replaceAll('"',"'");
               audioElement.innerHTML = `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row audio_row_with_cover _audio_row _audio_row_${
@@ -11263,7 +11272,7 @@ document.arrive(
           let file = await uploadFile123(uploadUrlGraf, fileNameOutput);
 
           const parsedData = JSON.parse(file);
-          console.info("[VK ENH] File uploaded");
+          console.info("[VKENH] File uploaded");
           console.log(parsedData["file"]);
           let doc = await vkApi.api("docs.save", { file: parsedData["file"] });
           doc = doc.graffiti;
@@ -11370,7 +11379,7 @@ document.arrive(
       let file = await uploadFile(uploadUrl, fileNameOutput);
 
       const data = JSON.parse(file);
-      console.info("[VK ENH] File uploaded");
+      console.info("[VKENH] File uploaded");
       console.log(data["file"]);
       let doc = await vkApi.api("docs.save", { file: data["file"] });
       doc = doc.audio_message;

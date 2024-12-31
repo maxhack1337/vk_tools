@@ -1,5 +1,6 @@
 console.log("VK Tools content script is running!");
-
+injectScript("js/modules/oldPosting.js");
+  
 function CheckToken() {
   if (window.location.href.indexOf('https://oauth.vk.com/blank.html') === -1) {
     location.href = 'https://oauth.vk.com/authorize?client_id=6121396&scope=196608&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1';
@@ -105,7 +106,8 @@ function createReloadButton() {
   reloadButton.addEventListener("click", (event) => {
     reloadButton.classList.add("vkEnhancerRebootLoading");
     chrome.storage.local.get(
-      [ "garlandState",
+      [ "oldPostingState",
+		"garlandState",
 	    "wideFeedState",
 		"customLeftMenuObject",
 		"messageFooterState",
@@ -184,7 +186,8 @@ function createReloadButton() {
 		customLeftMenuObject,
 		garlandState,
 		messageFooterState,
-		wideFeedState
+		wideFeedState,
+		oldPostingState
       }) =>
         applyStyles(
           checkboxState,
@@ -225,7 +228,8 @@ function createReloadButton() {
 		  customLeftMenuObject,
 		  garlandState,
 		  messageFooterState,
-		  wideFeedState
+		  wideFeedState,
+		  oldPostingState
         )
     );
     setTimeout(() => reloadButton.classList.remove("vkEnhancerRebootLoading"), 250);
@@ -951,7 +955,8 @@ function applyStyles(
   customLeftMenuValue,
   garlandChecked,
   messageFooterСhecked,
-  wideFeedChecked
+  wideFeedChecked,
+  oldPostingChecked
 ) {
   if (isOldAccentChecked) {
     hideNFT_Avatars();
@@ -1257,6 +1262,18 @@ function applyStyles(
   } else {
 	  wideFeedRemove();
   }
+  
+  if(oldPostingChecked) {
+	  window.postMessage(
+      { action: "oldPosting", value: oldPostingChecked },
+      "*"
+    );
+  } else {
+	  window.postMessage(
+      { action: "oldPosting", value: oldPostingChecked },
+      "*"
+    );
+  }
 
   if (customLeftMenuValue) {
     window.postMessage(
@@ -1268,6 +1285,7 @@ function applyStyles(
 function applySavedStyles() {
   chrome.storage.local.get(
     [
+	  "oldPostingState",
 	  "messageFooterState",
 	  "garlandState",
 	  "wideFeedState",
@@ -1348,6 +1366,7 @@ function applySavedStyles() {
 	  const customLeftMenuValue = items.customLeftMenuObject;
 	  const garlandChecked = items.garlandState;
 	  const wideFeedChecked = items.wideFeedState;
+	  const oldPostingChecked = items.oldPostingState;
       applyStyles(
         isOldAccentChecked,
         isMsgReactionsChecked,
@@ -1387,7 +1406,8 @@ function applySavedStyles() {
 		customLeftMenuValue,
 		garlandChecked,
 		messageFooterСhecked,
-		wideFeedChecked
+		wideFeedChecked,
+		oldPostingChecked
       );
     }
   );
@@ -1433,7 +1453,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	message.type === "toggleMessageFooter" ||
 	message.type === "toggleLeftMenuLabels" || 
 	message.type === "toggleGarland" || 
-	message.type === "toggleWideFeed"
+	message.type === "toggleWideFeed" ||
+	message.type === "toggleOldPosting"
   ) {
     applySavedStyles();
   }
