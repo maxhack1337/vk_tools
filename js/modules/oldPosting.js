@@ -1,4 +1,5 @@
 const fromId = document.getElementById.bind(document);
+var times = 0;
 
 function deferredCallback(callback, opt) {
   let { variable, element } = opt;
@@ -15,31 +16,31 @@ function deferredCallback(callback, opt) {
 function refreshButtonTextLang(lang) {
   switch (lang) {
     case 0:
-      return ['Не удалось включить старый редактор постов','Попробуйте нажать на кнопку "Подгрузить старый постинг"','Подгрузить старый постинг'];
+      return ['Не удалось включить старый редактор постов','Попробуйте нажать на кнопку "Подгрузить старый постинг"','Подгрузить старый постинг','Попытка включения...'];
       break;
     case 1:
-      return ['Не вдалося включити старий редактор постів','Спробуйте натиснути кнопку "Підвантажити старий постінг"','Підвантажити старий постінг'];
+      return ['Не вдалося включити старий редактор постів','Спробуйте натиснути кнопку "Підвантажити старий постінг"','Підвантажити старий постінг','Спроба включення...'];
       break;
     case 454:
-      return ['Не вдалося включити старий редактор постів','Спробуйте натиснути кнопку "Підвантажити старий постінг"','Підвантажити старий постінг'];
+      return ['Не вдалося включити старий редактор постів','Спробуйте натиснути кнопку "Підвантажити старий постінг"','Підвантажити старий постінг','Спроба включення...'];
       break;
     case 114:
-      return ['Не атрымалася ўлучыць стары рэдактар ​​пастоў','Паспрабуйце націснуць на кнопку "Падгрузіць стары постынга"','Падгрузіць стары постынга'];
+      return ['Не атрымалася ўлучыць стары рэдактар ​​пастоў','Паспрабуйце націснуць на кнопку "Падгрузіць стары постынга"','Падгрузіць стары постынга','Спроба ўключэння...'];
       break;
     case 2:
-      return ['Не атрымалася ўлучыць стары рэдактар ​​пастоў','Паспрабуйце націснуць на кнопку "Падгрузіць стары постынга"','Падгрузіць стары постынга'];
+      return ['Не атрымалася ўлучыць стары рэдактар ​​пастоў','Паспрабуйце націснуць на кнопку "Падгрузіць стары постынга"','Падгрузіць стары постынга','Спроба ўключэння...'];
       break;
     case 777:
-      return ['Не удалось включить старый редактор постов','Попробуйте нажать на кнопку "Подгрузить старый постинг"','Подгрузить старый постинг'];
+      return ['Не удалось включить старый редактор постов','Попробуйте нажать на кнопку "Подгрузить старый постинг"','Подгрузить старый постинг','Попытка включения...'];
       break;
     case 97:
-      return ['Ескі хабарлама өңдегішін қосу мүмкін болмады','"Ескі хабарламаны жүктеу" түймесін басып көріңіз','Ескі хабарламаны жүктеу'];
+      return ['Ескі хабарлама өңдегішін қосу мүмкін болмады','"Ескі хабарламаны жүктеу" түймесін басып көріңіз','Ескі хабарламаны жүктеу','Қосу әрекеті...'];
       break;
     case 100:
-      return ['Не удалось включить старый редакторъ постовъ','Попробуйте нажать на кнопку "​Подгрузить​ старый ​постингъ​"','​Подгрузить​ старый ​постингъ​']; 
+      return ['Не удалось включить старый редакторъ постовъ','Попробуйте нажать на кнопку "​Подгрузить​ старый ​постингъ​"','​Подгрузить​ старый ​постингъ​','Попытка включенія...' ]; 
       break;
     default:
-      return ['Failed to enable old post editor','Try clicking on the "Load old posting" button','Load old posting'];
+      return ['Failed to enable old post editor','Try clicking on the "Load old posting" button','Load old posting','Attempt to turn on...'];
       break;
   }
 }
@@ -47,12 +48,23 @@ function refreshButtonTextLang(lang) {
 window.addEventListener('load', (e) => {
 	if(localStorage.getItem('old_post_design') == 'false') return;
 	if(document.querySelector('.PostingReactBlock__root')) {
+		if(times < 1) {
+			console.info('[VKENH] Failed to enable old post editor. Attempt to turn on (1/1)');
+			nav.reload();
+			window.Notifier.showEvent({
+				title: refreshButtonTextLang(vk.lang)[0],
+				text: refreshButtonTextLang(vk.lang)[3]
+			});
+			return;
+		}
+		console.info('[VKENH] Failed to enable old post editor. Forcing button');
 		window.Notifier.showEvent({
 			title: refreshButtonTextLang(vk.lang)[0],
 			text: refreshButtonTextLang(vk.lang)[1]
 		});
 		let append = document.querySelector('.PostingReactBlock__root');
 		if(append) append.appendChild(appendRefreshButton());
+		times = 0;
 	}
 });
 
@@ -60,6 +72,7 @@ function appendRefreshButton() {
 	const div = document.createElement('div');
 	div.classList.add('flat_button','secondary','vkEnhancerReloadWallBtn','_ui_load_more_btn','with_arrow');
 	div.style.width = "100%";
+	
 	const span = document.createElement('span');
 	span.classList.add('ui_load_more_btn_label');
 	span.textContent = refreshButtonTextLang(vk.lang)[2];
@@ -68,6 +81,9 @@ function appendRefreshButton() {
 		
 	div.addEventListener('click', () => {
 		nav.reload();
+		window.Notifier.showEvent({
+			title: getLang?.('box_loading') || "Загрузка..."
+		});
 	});
 	return div;
 }
