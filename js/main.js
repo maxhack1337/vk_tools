@@ -9021,7 +9021,7 @@ document.arrive(selectorsDocs, { existing: true }, async function (docus) {
 		}
 });
 
-let selectorsLinks = [`.postponed.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://"]:not([class*="vkitLink__secondary"])`,`.suggest.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://"]:not([class*="vkitLink__secondary"])`]
+let selectorsLinks = [`.suggest.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="/away"]:not([class*="vkitLink__secondary"])`,`.postponed.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="/away"]:not([class*="vkitLink__secondary"])`,`.postponed.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="http"]:not([class*="vkitLink__secondary"])`,`.suggest.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="http"]:not([class*="vkitLink__secondary"])`]
 document.arrive(selectorsLinks, { existing: true }, async function (docus) {
 		let closestCheck = docus.closest('.vkEnhancerPostponedPost');
 		if(!closestCheck) {
@@ -9040,7 +9040,7 @@ document.arrive(selectorsLinks, { existing: true }, async function (docus) {
 			
 		}
 
-			let allLinks = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="https://"]:not([class*="vkitLink__secondary"])');
+			let allLinks = docus;
 			let count = 0;
 			dataAttachments.item.attachments.forEach(async function (linkChip) {
 			if(linkChip.link) {
@@ -9194,7 +9194,13 @@ document.arrive(selectorsMusic, { existing: true }, async function (docus) {
                             let audioElement = document.createElement("div");
 			  let titleAud = music.audio.title.replaceAll('"',"'");
 			  let artistAud = music.audio.artist.replaceAll('"',"'");
-              audioElement.innerHTML = `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row audio_row_with_cover _audio_row _audio_row_${
+			  let isRestrickted = '';
+			  let isAvailableTrack = music.audio.content_restricted?.valueOf() > 0;
+			  if(isAvailableTrack?.valueOf() == true) {
+								isRestrickted = 'audio_claimed';
+			  }
+			  
+              audioElement.innerHTML = `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row ${isRestrickted} audio_row_with_cover _audio_row _audio_row_${
                 music.audio.owner_id
               }_${
                 music.audio.id
@@ -9609,7 +9615,7 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		.Post--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"]) {
 			display:none;
 		}
-		.Post--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://"]:not([class*="vkitLink__secondary"])) {
+		.Post--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="http"]:not([class*="vkitLink__secondary"])),.Post--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="/away"]:not([class*="vkitLink__secondary"])) {
 			display:none;
 		}
 		.Post--redesignV3 [class^="vkitChipAttachment__root"] + .vkuiSpacing--m:not(:first-child) {
@@ -10447,8 +10453,12 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 		}
 		
 		/*Аттач-чипс - ссылки*/
-		if(e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="https://"]:not([class*="vkitLink__secondary"]))') && dataAttachments.item.attachments) {
-			let allLinks = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="https://"]:not([class*="vkitLink__secondary"])');
+		
+		if((e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="http"]:not([class*="vkitLink__secondary"]))') || e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="/away"]:not([class*="vkitLink__secondary"]))')) && dataAttachments.item.attachments) {
+			let allLinks = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="http"]:not([class*="vkitLink__secondary"])');
+			if(!allLinks) {
+				allLinks = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="/away"]:not([class*="vkitLink__secondary"])')
+			}
 			let count = 0;
 			dataAttachments.item.attachments.forEach(async function (linkChip) {
 			if(linkChip.link) {
@@ -10511,8 +10521,11 @@ document.arrive(wallSelectors, { existing: true }, async function (s) {
 			}});
 		}
 		
-		if(e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://"]:not([class*="vkitLink__secondary"]))') && dataRepostAttachments.item.attachments) {
-			let allLinks = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://"]:not([class*="vkitLink__secondary"])');
+		if((e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="http"]:not([class*="vkitLink__secondary"]))') || e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="/away"]:not([class*="vkitLink__secondary"]))')) && dataRepostAttachments.item.attachments) {
+			let allLinks = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="http"]:not([class*="vkitLink__secondary"])');
+			if(!allLinks) {
+				allLinks = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="/away"]:not([class*="vkitLink__secondary"])')
+			}
 			let count = 0;
 			dataRepostAttachments.item.attachments.forEach(async function (linkChip) {
 			if(linkChip.link) {
