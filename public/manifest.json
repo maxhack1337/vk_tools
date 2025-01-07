@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Настройки VK Tools"
+  },
+  "name": "VK Tools Reforged",
+  "version": "5.0",
+  "icons": {
+    "128": "assets/icon128.png",
+    "16": "assets/icon16.png",
+    "24": "assets/icon24.png",
+    "300": "assets/icon300.png",
+    "32": "assets/icon32.png",
+    "36": "assets/icon36.png",
+    "48": "assets/icon48.png"
+  },
+  "description": "Расширение, делающее времяпрепровождение в VK удобнее и приятнее!",
+  "host_permissions": [
+    "*://vk.com/*",
+    "*://vk.ru/*",
+    "*://oauth.vk.com/*",
+	"*://vkvideo.ru/*",
+	"*://*.vk.com/*"
+  ],
+  "permissions": [
+    "browsingData",
+    "unlimitedStorage",
+    "storage",
+    "declarativeNetRequestWithHostAccess",
+    "activeTab",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+	"commands"
+  ],
+  "commands": {
+    "reload-extension": {
+      "suggested_key": {
+        "default": "Alt+Shift+R",
+        "mac": "Command+M"
+      },
+      "description": "Reload extension button"
+    }
+  }
+}
