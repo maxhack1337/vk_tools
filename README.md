@@ -1,46 +1,120 @@
-# Getting Started with Create React App
+# VK Tools
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Наслаждайтесь VK по полной!
 
-## Available Scripts
+<a href="https://vkenhancer.ru/"><img style="border-radius:8px;" src="https://vkenhancer.ru/tulz.png"></a>
 
-In the project directory, you can run:
+## Функции расширения
 
-### `npm start`
+```
+ * Возможность вернуть старый дизайн ленты
+ * Возможность вернуть старый блок постинга
+ * Возможность расширить ленту
+ * Возможность убрать переключатель непрочитанных в мессенджере
+ * Переименование разделов левого меню
+ * Возможность открытия видео в модальном окне
+ * Возможность активации классического интерфейса профиля
+ * Возвращена старая поддержка(vk.com/support -> Задать вопрос)
+ * Отображение количества сообщений
+ * Возможность убрать гирлянду
+ * Возможность просмотра онлайн-участников беседы
+ * Возможность переключения раскладки выделенного текста(CTRL + ])
+ * Возможность фиксации левого меню
+ * Отображение даты регистрации профиля
+ * Отображение знака зодиака и возраста профиля
+ * Возможность просмотра удалённых сообщений
+ * Возможность просмотра оригинала отредактированного сообщения
+ * Возможность скачивания музыки, видео, альбомов
+ * Возможность подмены фотографии без потери лайков
+ * Возможность удаления граффити
+ * Возможность изменения вида левого меню на "планшетоподобное"
+ * Возможность прикрепления граффити во вложения
+ * Возможность возвращения стандартного взаимодействия с тегом в новом мессенджере
+ * Возможность вернуть и изменить отчество
+ * Возможность отключения «проверщика ссылок» vk.com/away.php
+ * Возможность скачивания голосовых сообщений
+ * Просмотр результатов опроса без голосования
+ * Отправка аудио, как голосовых сообщений
+ * Возможность не помечать сообщения как прочитанные
+ * Возможность не отображать набор текста
+ * Возможность убрать реакции к сообщениям и постам
+ * Возможность скрывать имена и аватарки
+ * Добавление имени рядом с аватаркой VK ID
+ * Парсинг ID пользователя/группы
+ * Хотбар эмодзи в сообщениях
+ * Возможность отключения входящих звонков
+ * Возможность возвращения старого вида профилей без аватарки("фотоаппарат)
+ * Блокировка всей рекламы ВК
+ * Очистка кеша браузера
+ * А так же функции кастомизации - сделайте VK таким, как считаете нужным!
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<details>
+<summary><h2>Как установить?</h2></summary>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+Для установки пролистайте в самый низ страницы и нажмите на кнопку "Установить"
+```
 
-### `npm test`
+<p align="center">
+  <img src="https://sun9-41.userapi.com/impg/M5khrsIji2bZ8-CdKqJSa3NTXjBpYtGZpqiiVQ/Va-70lpfJFQ.jpg?size=487x284&quality=95&sign=9a5717468fa5e91c2abd50ab1a176528&type=album">
+</p>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+После того, как вы скачали архив, распакуйте его, нажав «Извлечь в VK.Enhancer\»
+```
 
-### `npm run build`
+<p align="center">
+  <img src="https://sun9-57.userapi.com/impg/xAxJRlsYFR2X6YmjY9pnnDMNK2X7d2bPNUt_Pw/PmNV0MJfbc8.jpg?size=472x44&quality=95&sign=9768bbcee7c3e4d45c901923d74d318a&type=album">
+</p>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+Далее заходим в Ваш браузер и в адресную строку вписываем chrome://extensions/ в адресную
+строку
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<p align="center">
+  <img src="https://sun9-76.userapi.com/impg/wbWdDIqtPB6rTVcKVtFDJyZQsuQ1corXKlXovg/bWzuCGNUCvQ.jpg?size=264x62&quality=95&sign=260fc5a2351257e9c6e8ceb55e66ba9d&type=album">
+</p>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+Далее нам необходимо активировать режим разработчика, чтобы мы смогли установить расширение
+```
 
-### `npm run eject`
+<p align="center">
+  <img src="https://sun9-8.userapi.com/impg/LSTo15RUaE7L81qtQ3PGdzrHJKpilFEtKiY82w/Fk1lBOGKfmU.jpg?size=374x63&quality=95&sign=bcea85bf91ac7dbf1860c40cfebc372d&type=album">
+</p>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+После того, как вы активировали режим разработчика, нужно нажать на кнопку «Загрузить
+распакованное расширение», затем, выбрать папку с расширением и нажать «Выбор папки»
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<p align="center">
+  <img src="https://sun9-64.userapi.com/impg/P4l_FTHNxj9G_1Qfi6YbtGWzq-wn8WIXuuDBZw/mgdrYtFZPvo.jpg?size=1372x734&quality=95&sign=1af82560b386af74752f9b039609fe90&type=album">
+</p>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+И выбираем папку расширения так, чтобы внизу было написано VK Enhancer - вторая папка в
+архиве
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Готово! Расширение установлено!
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<p align="center">
+  <img src="https://sun9-60.userapi.com/impf/EHplda42_iWeykS1iEsz_FdztB-GTRpoUYHzYw/kTGoPh-5c1U.jpg?quality=95&as=32x35,48x53,72x79,108x118,160x175,240x263,360x394,480x525,540x591,640x701,686x751&sign=6cb87420a1030cdf2f0fbeaf5b19ec10&from=bu&u=x6qg5rhd9Yfq7-m2btX57HcRSwZN32iSOO_4iDKx6uE&cs=686x751">
+</p>
+<p align="center">
+  <strong>P.S. Не забудьте закрепить расширение для более удобного доступа 😉</strong>
+  </br>
+  </br>
+  <img src="https://sun9-19.userapi.com/impf/aN1sqXYMcU_84Z3RP3PGqHFL6T_jdugAA-cJ2Q/Cu_FNyQfpvU.jpg?quality=95&as=32x19,48x28,72x42,108x63,160x94,240x141,360x211,480x282,540x317,543x319&sign=fd5af419d60913d4582143eb256002a7&from=bu&u=DLQQ5AvOY25SfHewouNVYsCROzRBJbDzQd0x-2Jsl78&cs=543x319">
+</p>
+</details>
+<p align="center"><strong>Установить расширение</strong></br></br>
+<a href="https://github.com/maxhack1337/vk_enhancer/releases/download/v4.7.3/VK.Enhancer.zip">
+  <img src="https://vkenhancer.ru/install.png" width="202" height="54">
+</a></p>
+<div>
+  
+<div>
