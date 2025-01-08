@@ -1,12 +1,16 @@
 import React from "react";
 import "./App.css";
-import Header from "./modules/popup/Header/Header";
+import Root from "./modules/popup/Root";
+import SimpleBar from "simplebar-react";
+import "simplebar-react/dist/simplebar.min.css";
 
 function App() {
   return (
-    <div className="App">
-      <Header></Header>
-    </div>
+    <SimpleBar style={{ maxHeight: 600 }}>
+      <div className="App">
+        <Root />
+      </div>
+    </SimpleBar>
   );
 }
 
