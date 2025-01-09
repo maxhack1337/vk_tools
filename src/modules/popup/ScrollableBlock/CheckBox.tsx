@@ -1,13 +1,17 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from "react";
 
 interface CheckBoxProps {
-  id?: string;
+  id: string;
   type: string;
   description?: string;
   label: string;
+  isNew?: boolean;
+  isFire?: boolean;
+  shouldReload?: boolean;
 }
 
-const CheckBox = ({ id, type, description, label }: CheckBoxProps) => {
+const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }: CheckBoxProps) => {
   if (type !== "checkBox") {
     return null;
   }
@@ -17,6 +21,16 @@ const CheckBox = ({ id, type, description, label }: CheckBoxProps) => {
       <div className="vkToolsCheckBox__Label">
         {label && (
           <div className="vkToolsCheckBox__PrimaryText">
+            {isNew && (
+              <span className="newFunctionSpan">
+                <img className="newFire" src="assets/new_function_text.svg" />
+              </span>
+            )}
+            {isFire && (
+              <span className="newSpan">
+                <img className="newFire" src="assets/new.png" />
+              </span>
+            )}
             <span className="vkToolsCheckBox__PrimaryTextSpan">{label}</span>
           </div>
         )}

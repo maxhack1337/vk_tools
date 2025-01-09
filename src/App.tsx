@@ -1,16 +1,15 @@
 import React from "react";
 import "./App.css";
 import Root from "./modules/popup/Root";
-import SimpleBar from "simplebar-react";
-import "simplebar-react/dist/simplebar.min.css";
+import { LocalizationProvider } from "./Localization/LocalizationContext";
 
 function App() {
   return (
-    <SimpleBar style={{ maxHeight: 600 }}>
+    <LocalizationProvider>
       <div className="App">
         <Root />
       </div>
-    </SimpleBar>
+    </LocalizationProvider>
   );
 }
 

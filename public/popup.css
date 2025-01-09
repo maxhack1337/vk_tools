@@ -1,5 +1,5 @@
 :root {
-    --vkenhancer--chosen_tab: #fff;
+    --vktools--chosen_tab: #fff;
     --vkui--gradient_tint: rgba(32, 32, 33, 0) 0%, rgba(32, 32, 33, 0.036) 13%, rgba(32, 32, 33, 0.15) 27%, rgba(32, 32, 33, 0.79) 68%, rgba(32, 32, 33, 0.95) 84%, #202021 100%;
     --vkui--colors_scheme: dark;
     --vkui--color_background_accent_tint--hover: #61a2ff;
@@ -261,6 +261,7 @@
 }
 
 #root {
+    overflow: hidden;
     height: 600px;
     width: 550px;
 }
@@ -279,7 +280,8 @@
 }
 
 .vkToolsHeader {
-    width: 95%;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--vkui--color_separator_primary_alpha);
 }
 
 .vkToolsHeaderButtons {
@@ -302,6 +304,7 @@
     height: 32px;
     border: none;
     background: none;
+    cursor: pointer;
 }
 
 .vkenhancerThemeChanger svg {
@@ -334,7 +337,7 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     white-space: normal;
     color: var(--vkui--color_text_primary);
-    padding: 10px 12px;
+    padding: 0px 12px;
     margin: 0 12px;
 }
 
@@ -467,6 +470,297 @@
     --vkui_internal--focus_visible_thin: 2px;
 }
 
+.vkToolsScrollable {
+    height:486px;
+}
 
+.vkToolsInternalTabbar {
+    border-top: 1px solid var(--vkui--color_separator_primary_alpha);
+    background: var(--vkui--color_background_tertiary);
+    box-sizing: initial;
+    display: flex !important;
+    overflow: hidden;
+    width: 100%;
+    z-index: 99999;
+}
+
+.vkToolsTabbarItem {
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 0;
+    max-width: 100%;
+    min-width: 0;
+    background: 0 0;
+    border: 0;
+    position: relative;
+    text-decoration: none;
+    cursor: pointer;
+    color: #76787a;
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    overflow: hidden;
+    padding: 4px 2px 2px;
+    width: 100%;
+    flex-direction: column;
+}
+
+.vkToolsTabbarItem.active {
+    color: var(--vktools--chosen_tab) !important;
+}
+
+.vkToolsTabbarItem__label {
+    font-weight: 500;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: -apple-system, system-ui, "Helvetica Neue", Roboto, sans-serif;
+    font-size: 10px;
+}
+
+#selectLanguage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system,
+        system-ui,
+        "Helvetica Neue",
+        Roboto,
+        sans-serif;
+    padding-bottom: 12px;
+}
+
+#langName {
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 8px;
+    margin-bottom: 1px;
+    color: var(--vkui--color_text_primary);
+}
+
+#languageSelect {
+    padding: 2px;
+    font-size: 13px;
+    border: 1px solid var(--vkui--color_separator_primary);
+    border-radius: 8px;
+    background-color: var(--vkui--color_background_secondary);
+    outline: none;
+    font-weight: 600;
+    color: var(--vkui--color_text_primary);
+}
+
+#languageSelect option {
+    padding: 10px;
+    color: var(--vkui--color_text_primary);
+}
+
+.newFunctionSpan img {
+    width: 26px;
+    height: 10px;
+    padding-right: 8px;
+}
+
+.newSpan img {
+    width: 14px;
+    height: 14px;
+    padding-right: 8px;
+}
+
+.simplebar-content {
+    padding: 8px 0!important;
+}
+
+.simplebar-track.simplebar-vertical {
+    width: 16px;
+}
+
+.simplebar-track.simplebar-horizontal {
+    display:none;
+}
+
+.simplebar-track.simplebar-vertical {
+    background-color: transparent;
+}
+
+.simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
+    background-color: var(--vkui--color_icon_accent_themed);
+    border-radius: 16px;
+}
+
+.vkToolsPseudoHeader {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    color: #fff;
+    line-height: 26px;
+    font-weight: 500;
+    -webkit-font-smoothing: subpixel-antialiased;
+    margin-left: 10px;
+    margin-right: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--vkui--color_separator_primary);
+    background: var(--vkui--color_background_secondary);
+    margin-top: 0px;
+    margin-bottom: 10px;
+    font-size: 16px 
+}
+
+.vkToolsBlockLabel {
+    padding: 12px;
+}
+
+.vkToolsBlockLabelText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--vkui--color_text_subhead);
+    padding: 0px 12px 6px;
+    text-align: start;
+    font-weight: 400;
+    font-family: -apple-system,
+        system-ui,
+        "Helvetica Neue",
+        Roboto,
+        sans-serif;
+    font-size: 13px;
+    line-height: 16px;
+    margin: 0;
+}
+
+.vkToolsInput {
+    margin-left: 12px;
+    color: var(--vkui--color_text_primary);
+    word-wrap: break-word;
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    font-family: -apple-system,
+        system-ui,
+        "Helvetica Neue",
+        Roboto,
+        sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    isolation: isolate;
+    border-radius: 10px;
+}
+
+.vkToolsInput input {
+    height: 36px;
+    font-size: 15px;
+    line-height: 20px;
+    width:98%;
+    border-radius: inherit;
+    z-index: 1;
+    margin: 0;
+    box-sizing: border-box;
+    box-shadow: none;
+    border: none;
+    appearance: none;
+    font-family: inherit;
+    font-weight: 400;
+    color: var(--vkui--color_text_primary);
+    padding: 0 12px;
+    position: relative;
+    background: transparent;
+    border: 1px solid var(--vkui--color_field_border_alpha);
+    transition: border .1s ease;
+}
+
+.vkToolsInput input:focus {
+    border: 1px solid var(--vkui--color_stroke_accent) !important;
+    outline: none;
+}
+
+.ButtonInstallpreload {
+    margin-top: 8px;
+    height: 28px;
+    background-color: #e1e3e6;
+    border-radius: 10px;
+    cursor: pointer;
+    isolation: isolate;
+    position: relative;
+    transition: background-color .15s ease-out, opacity .15s ease-out;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    display: inline-block;
+    box-sizing: border-box;
+    text-decoration: none !important;
+    border: none;
+    padding: 0;
+    user-select: none;
+    max-width: 100%;
+}
+
+.ButtonInstall {
+    margin-top: 4px;
+    justify-content: flex-start;
+    text-align: left;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: inherit;
+    text-align: center;
+    box-sizing: border-box;
+    font-family: -apple-system, system-ui, "Helvetica Neue", Roboto, sans-serif;
+}
+
+.vkToolsPresentation {
+    padding-left: 12px;
+    color: black;
+}
+
+.vkToolsPresentation:not(:last-child)+.vkToolsButtonText__in {
+    margin-left: 6px;
+}
+
+.vkToolsButtonText__in {
+    margin-left: 6px;
+    padding-right: 16px;
+    font-size: 12px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: 500;
+    color: black;
+}
+
+.vkToolsHiddenInput {
+    position: absolute !important;
+    height: 1px;
+    white-space: nowrap;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    opacity: 0;
+}
+
+.config-reset-icon {
+    cursor: pointer;
+    margin-top: 12px;
+    width: 20px;
+    height: 20px;
+}
+
+.config-reset-icon>svg {
+    scale: .75;
+    opacity: .6;
+    color: #e1e3e6;
+}
+
+.vkToolsBlockFooter {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0 12px;
+}
+
+.vkToolsBlockFooter .ButtonInstallpreload:not(:has(svg)) {
+    margin-right: 8px;
+}
 
 

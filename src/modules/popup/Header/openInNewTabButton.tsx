@@ -1,9 +1,11 @@
 import React from "react";
+import { useLocalization } from "../../../Localization/LocalizationContext";
 
 export default function OpenInNewTabButton() {
+  const { t } = useLocalization();
   return (
     <div id="openInNewTab" className="vkenhancerThemeChanger">
-      <button id="openinnewtab" title="Открыть расширение в новом окне" type="button" className="vkEnhancerButtonHeader">
+      <button id="openinnewtab" title={t("openExtension")} type="button" className="vkEnhancerButtonHeader">
         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
           <g fill="currentColor">
             <rect className="fil0" x="0.65" y="3.95" width="2.16" height="19.37" rx="1.08" ry="1.11" />
