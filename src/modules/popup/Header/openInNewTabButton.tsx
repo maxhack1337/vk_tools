@@ -2,7 +2,7 @@ import React from "react";
 import { useLocalization } from "../../../Localization/LocalizationContext";
 
 export default function OpenInNewTabButton() {
-  const { t } = useLocalization();
+  const { getLang: t } = useLocalization();
   return (
     <div id="openInNewTab" className="vkenhancerThemeChanger">
       <button id="openinnewtab" title={t("openExtension")} type="button" className="vkEnhancerButtonHeader">

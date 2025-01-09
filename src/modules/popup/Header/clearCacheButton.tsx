@@ -2,7 +2,7 @@ import React from "react";
 import { useLocalization } from "../../../Localization/LocalizationContext";
 
 export default function ClearCacheButton() {
-  const { t } = useLocalization();
+  const { getLang: t } = useLocalization();
   return (
     <div id="openCache" className="vkenhancerThemeChanger">
       <button title={t("clearCache")} id="openDialog" type="button" className="vkenhancerButtonHeader">

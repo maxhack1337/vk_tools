@@ -3,7 +3,7 @@ import { useLocalization } from "../../../../Localization/LocalizationContext";
 
 const LanguageSelector = () => {
   const { currentLanguage, setLanguage } = useLocalization();
-  const { t } = useLocalization();
+  const { getLang: t } = useLocalization();
 
   return (
     <div id="selectLanguage" style={{ textAlign: "center" }}>

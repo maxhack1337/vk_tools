@@ -6,7 +6,12 @@ type Language = "ru" | "en" | "ua";
 interface LocalizationContextProps {
   currentLanguage: Language;
   setLanguage: (language: Language) => void;
-  t: (key: keyof typeof strings) => string;
+  /**
+   * Получение языка по ключу компонента в @member {stringLibrary}
+   * @param key
+   * @returns
+   */
+  getLang: (key: keyof typeof strings) => string;
 }
 
 const LocalizationContext = createContext<LocalizationContextProps | undefined>(undefined);
@@ -20,7 +25,7 @@ export const LocalizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return translations[languageIndex];
   };
 
-  return <LocalizationContext.Provider value={{ currentLanguage, setLanguage: setCurrentLanguage, t }}>{children}</LocalizationContext.Provider>;
+  return <LocalizationContext.Provider value={{ currentLanguage, setLanguage: setCurrentLanguage, getLang: t }}>{children}</LocalizationContext.Provider>;
 };
 
 export const useLocalization = () => {
