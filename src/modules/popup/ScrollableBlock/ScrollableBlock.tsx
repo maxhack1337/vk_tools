@@ -31,7 +31,6 @@ export default function ScrollableBlock() {
   return (
     <div className="vkToolsScrollable">
       <SimpleBar style={{ maxHeight: 486 }}>
-        ///Первая страница
         <HeaderPseudo label={getLang("appearance")} />
         {checkBoxes.map((checkBox) => (
           <CheckBox key={checkBox.id} type={"checkBox"} label={checkBox.label} isNew={false} isFire={false} id={checkBox.id} shouldReload={false} />
@@ -44,7 +43,6 @@ export default function ScrollableBlock() {
         <ColorPickers />
         <HeaderPseudo label={getLang("leftMenuSettingsHeader")} />
         <LeftMenuItems />
-        ///Вторая страница
         <LanguageSelector />
       </SimpleBar>
     </div>

@@ -877,3 +877,47 @@ input[type="color"] {
 .vkToolsLeftMenuItem {
     padding-bottom: 8px;
 }
+
+@media screen and (min-width: 1200px) {
+    body {
+        display: flex;
+        background: var(--vkui--color_background_content);
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+    }
+    #openInNewTab {
+        display:none;
+    }
+
+    #openCache {
+        margin-left: auto;
+        margin-right: 16px;
+    }
+
+    .vkToolsHeaderButtons {
+        justify-content: flex-start;
+    }
+
+    #root {
+        margin: 0 24px;
+        width: 100%!important;
+        height: 100% !important;
+    }
+
+    .vkToolsLogoClickable {
+        margin-left: -24px;
+    }
+
+    :root {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #leftmenusave {
+        width: auto;
+        margin-left: 0px;
+    }
+}
