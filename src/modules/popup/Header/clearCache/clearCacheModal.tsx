@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { useLocalization } from "../../../Localization/LocalizationContext";
+import { useLocalization } from "../../../../Localization/LocalizationContext";
 
 interface ClearCacheModalProps {
   onClose: () => void;

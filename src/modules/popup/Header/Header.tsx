@@ -1,8 +1,8 @@
 import React from "react";
 import VKToolsSVG from "./VKToolsSVG";
-import ClearCacheButton from "./clearCacheButton";
+import ClearCacheButton from "./clearCache/clearCacheButton";
 import OpenInNewTabButton from "./openInNewTabButton";
-import ThemeChangeButton from "./themeChangeButton";
+import ThemeChangeButton from "./changeTheme/themeChangeButton";
 
 export default function Header() {
   return (

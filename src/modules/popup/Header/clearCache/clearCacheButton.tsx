@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocalization } from "../../../Localization/LocalizationContext";
+import { useLocalization } from "../../../../Localization/LocalizationContext";
 import ClearCacheModal from "./clearCacheModal";
 
 export default function ClearCacheButton() {
