@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React from "react";
 import CheckBox from "./CheckBox";
 import HeaderPseudo from "./HeaderPseudo";
@@ -6,6 +7,9 @@ import { useLocalization } from "../../../Localization/LocalizationContext";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import BlockWithInput from "./BlockWithInput";
+import SliderBlock from "./SliderBlock";
+import ColorPickers from "./ColorPickers/ColorPickers";
+import LeftMenuItems from "./LeftMenuItems/LeftMenuItems";
 
 export default function ScrollableBlock() {
   const { getLang } = useLocalization();
@@ -27,6 +31,7 @@ export default function ScrollableBlock() {
   return (
     <div className="vkToolsScrollable">
       <SimpleBar style={{ maxHeight: 486 }}>
+        ///Первая страница
         <HeaderPseudo label={getLang("appearance")} />
         {checkBoxes.map((checkBox) => (
           <CheckBox key={checkBox.id} type={"checkBox"} label={checkBox.label} isNew={false} isFire={false} id={checkBox.id} shouldReload={false} />
@@ -34,6 +39,12 @@ export default function ScrollableBlock() {
         {blockWithInputs.map((blockWithInput) => (
           <BlockWithInput key={blockWithInput.option} label={blockWithInput.label} placeholder={blockWithInput.placeholder} buttonLabel={blockWithInput.buttonLabel} canLink={blockWithInput.canLink} isTextBoxAvailable={blockWithInput.isTextBoxAvailable} option={blockWithInput.option} />
         ))}
+        <SliderBlock label={getLang("blockTransparency")} rangeMin={0} rangeMax={100} id={"SliderBlock"} />
+        <HeaderPseudo label={getLang("pseudoTab1")} />
+        <ColorPickers />
+        <HeaderPseudo label={getLang("leftMenuSettingsHeader")} />
+        <LeftMenuItems />
+        ///Вторая страница
         <LanguageSelector />
       </SimpleBar>
     </div>

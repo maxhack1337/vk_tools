@@ -649,6 +649,7 @@
 }
 
 .vkToolsInput input {
+    background-color: var(--vkui--color_field_background);
     height: 36px;
     font-size: 15px;
     line-height: 20px;
@@ -665,7 +666,6 @@
     color: var(--vkui--color_text_primary);
     padding: 0 12px;
     position: relative;
-    background: transparent;
     border: 1px solid var(--vkui--color_field_border_alpha);
     transition: border .1s ease;
 }
@@ -747,6 +747,10 @@
     height: 20px;
 }
 
+.vkToolsColorBlock--in .config-reset-icon {
+    margin-top: 0px!important;
+}
+
 .config-reset-icon>svg {
     scale: .75;
     opacity: .6;
@@ -763,4 +767,113 @@
     margin-right: 8px;
 }
 
+.slider-container {
+    font-size: 13px;
+    line-height: 16px;
+    color: var(--vkui--color_text_subhead);
+    margin-left: 24px;
+    width: 96%;
+    margin-bottom: 20px;
+}
 
+.slider-value-container {
+    display: flex;
+    align-items: center;
+    padding-bottom: 8px;
+    padding-top: 8px;
+}
+
+.slider-value-container label {
+    margin-right: 10px;
+}
+
+#slider-value {
+    margin: 0;
+}
+
+.custom-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 96%;
+    border: none;
+    height: 3px;
+    border-radius: 3px;
+    outline: none;
+    position: relative;
+    margin-left: -18px;
+}
+
+.custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    position: relative;
+    z-index: 1;
+    transition: box-shadow 0.5s;
+    cursor: pointer;
+}
+
+.vkToolsColorBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.vkToolsColorBlock--in {
+    display: flex;
+    align-items: center;
+}
+
+.vkToolsAccentsBlock {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px 18px;
+}
+
+input[type="color"] {
+    border: 0 !important;
+    border-radius: 3px;
+    background: none;
+    inline-size: 80px;
+    block-size: 36px;
+    cursor: pointer !important;
+}
+
+.vkToolsLowText--in {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 400;
+    font-family: -apple-system,
+        system-ui,
+        "Helvetica Neue",
+        Roboto,
+        sans-serif;
+    padding-top: 2px;
+    padding-bottom: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--vkui--color_text_subhead);
+    margin: 0;
+}
+
+.flstart {
+    text-align: left;
+    padding-left: 14px;
+}
+
+.vkToolsLeftMenuBlock {
+    padding: 0 12px;
+}
+
+#leftmenusave {
+    width: 96%;
+    margin-left: 3px;
+}
+
+.vkToolsLeftMenuItem {
+    padding-bottom: 8px;
+}
