@@ -921,3 +921,115 @@ input[type="color"] {
         margin-left: 0px;
     }
 }
+
+        .vkToolsModal {
+            background-color: #222;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+            width: 350px;
+            height: 100px;
+            z-index: 9999;
+            animation: modal-fade-in 0.3s ease;
+        }
+
+        @keyframes modal-fade-in {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+        
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .vkToolsModal.hidden {
+            animation: modal-fade-out 0.3s ease;
+        }
+        
+        @keyframes modal-fade-out {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+        
+            to {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+        }
+
+        .vkToolsModal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .vkToolsModal.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+    
+        .vkToolsModalHeader {
+            color: #fff;
+            font-family: -apple-system, system-ui, "Helvetica Neue", Roboto, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+        }
+    
+        .vkToolsModalButton {
+            border-radius: 10px;
+            color: var(--vkui--color_text_contrast_themed);
+            background-color: var(--vkui--color_background_accent_themed);
+            cursor: pointer;
+            transition: background-color .15s ease-out, opacity .15s ease-out;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            display: inline-block;
+            box-sizing: border-box;
+            text-decoration: none !important;
+            border: none;
+            min-height: 28px;
+            margin: 0 8px;
+            padding: 0;
+            user-select: none;
+            max-width: 100%;
+            min-width: 80px;
+            font-family: -apple-system, system-ui, "Helvetica Neue", Roboto, sans-serif;
+        }
+    
+        .vkToolsButtonText {
+            z-index: 1;
+        }
+
+        .vkToolsModalBG {
+            z-index: 99999;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+            height: 100%;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            top: 0px;
+            left: 0px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .vkToolsModalBG.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .vkToolsModalBG.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .vkToolsModalButtons .vkToolsButtonText__in {
+            margin-left: 0px;
+            padding: 0 16px;
+        }
