@@ -25,7 +25,7 @@ body.light-theme {
             fill: black !important
         }
     
-        .vkToolsPseudoHeader {
+        .vkToolsPseudoHeader,.vkToolsSecondaryHeaderPseudo {
             color: #99A2AD !important
         }
     
@@ -151,6 +151,10 @@ body.light-theme {
         .vkToolsFuncDescription {
             background-color: #f5f5f5;
             color: #6d7885;
+        }
+
+        .vkToolsCardLink:hover {
+            background-color: #00103d1f;
         }
 }
 

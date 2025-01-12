@@ -341,6 +341,10 @@
     margin: 0 12px;
 }
 
+.vkToolsCheckBoxWithDescription {
+    padding: 12px;
+}
+
 .vkToolsCheckBox__Label {
     max-width: 100%;
     flex-grow: 1;
@@ -606,6 +610,22 @@
     margin-top: 0px;
     margin-bottom: 10px;
     font-size: 16px 
+}
+
+.vkToolsSecondaryHeaderPseudo {
+    display:flex;
+    text-align: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.vkToolsSecondaryHeaderPseudoLittle {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    color: var(--vkui--color_text_subhead);
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .vkToolsBlockLabel {
@@ -879,6 +899,9 @@ input[type="color"] {
 }
 
 @media screen and (min-width: 1200px) {
+    .vkToolsFuncDescription {
+        width: 95%!important;
+    }
     body {
         display: flex;
         background: var(--vkui--color_background_content);
@@ -1032,4 +1055,137 @@ input[type="color"] {
         .vkToolsModalButtons .vkToolsButtonText__in {
             margin-left: 0px;
             padding: 0 16px;
+        }
+
+        .vkToolsFuncDescription {
+            margin-left: 12px;
+            margin-bottom: 8px;
+            display: block;
+            text-align: start;
+            color: var(--vkui--color_text_subhead);
+            background-color: var(--vkui--color_background_content--active);
+            border-radius: 3px;
+            padding: 8px;
+            width: 92%;
+        }
+
+        .vkToolsInput__after {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            color: var(--vkui--color_icon_accent);
+            border-radius: inherit;
+            z-index: 1;
+            cursor: pointer;
+            transition: background-color .15s ease-out, opacity .15s ease-out;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            isolation: isolate;
+            position: relative;
+            height: 44px;
+            appearance: none;
+            background: none;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .vkToolsInput__after--button {
+            border: none;
+            color: var(--vkui--color_icon_accent);
+            cursor: pointer;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            background: none;
+            position: absolute;
+            right: -8px;
+        }
+
+        .vkToolsInput__after svg {
+            padding: 10px;
+        }
+
+        #vkToolsInputSettings {
+            display: none;
+        }
+
+        .vkToolsPseudoHeaderTransparent {
+            font-size: 18px;
+            line-height: 26px;
+            font-weight: 500;
+            -webkit-font-smoothing: subpixel-antialiased;
+            color: var(--vkui--color_text_subhead);
+            text-align: center;
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+
+        .vkToolsCardLink {
+            display: block;
+            margin: 20px;
+            background: var(--vkui--color_background_secondary);
+            border-radius: 20px;
+            position: relative;
+            text-align: left;
+            padding: 20px;
+            overflow: hidden;
+            transition: background-color .15s ease-out;
+            text-decoration: none;
+        }
+
+        .vkToolsCardLink:hover {
+            background-color: var(--vkui--color_background_secondary--active);
+        }
+
+        .vkToolsCardLink__title {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+            line-height: 22px;
+            font-weight: 500;
+            -webkit-font-smoothing: subpixel-antialiased;
+            -moz-osx-font-smoothing: auto;
+            color: var(--vkui--color_text_primary);
+            margin: 0 0 4px;
+        }
+        
+        .vkToolsCardLink__description {
+            padding-right: 25px;
+            display: block;
+            font-size: 16px;
+            line-height: 26px;
+            color: var(--vkui--color_text_link);
+            margin-bottom: 16px;
+        }
+
+        .vkToolsCardLink svg {
+            position: absolute;
+            color: var(--vkui--color_icon_secondary);
+            right: 5px;
+            bottom: 5px;
+        }
+
+        .vkToolsActualVersion {
+            padding: 8px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .vkToolsActualVersion__title {
+            font-size: 18px;
+        }
+
+        .vkToolsVersionDescription {
+            font-size: 13px;
+            font-weight: 400;
+            font-family:-apple-system,
+                system-ui,
+                "Helvetica Neue",
+                Roboto,
+                sans-serif;
+            line-height: 16px;
+            padding-top: 2px;
+            padding-bottom: 18px;
+            color: var(--vkui--color_text_subhead);
         }

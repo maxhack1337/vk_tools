@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
 import React from "react";
-import { useLocalization } from "../../../../Localization/LocalizationContext";
+import { useLocalization } from "../../../../../Localization/LocalizationContext";
 import ColorPicker from "./ColorPicker";
 
 export default function ColorPickers() {

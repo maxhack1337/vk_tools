@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
-import { useLocalization } from "../../../Localization/LocalizationContext";
+import React, { useEffect, useState } from "react";
+import { useLocalization } from "../../../../Localization/LocalizationContext";
 
 interface BlockWithInputProps {
   label: string;
@@ -15,21 +15,89 @@ interface BlockWithInputProps {
 const BlockWithInput: React.FC<BlockWithInputProps> = ({ label, placeholder, buttonLabel, canLink, inputTypes, isTextBoxAvailable, option }) => {
   const [textInputValue, setTextInputValue] = useState("");
 
+  const { getLang: t } = useLocalization();
+
+  useEffect(() => {
+    chrome.storage.local.get([`${option}State`], (result) => {
+      if (result[`${option}State`]) {
+        setTextInputValue(result[`${option}State`].substring(0, 100));
+      }
+    });
+  }, [option]);
+
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextInputValue(e.target.value);
   };
-  const { getLang: t } = useLocalization();
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const result = event.target?.result as string;
+        setTextInputValue(result.substring(0, 100));
+
+        chrome.storage.local.set({
+          [`${option}State`]: result,
+        });
+
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+          const activeTabId = tabs[0].id;
+          if (activeTabId !== undefined)
+            chrome.tabs.sendMessage(activeTabId, {
+              type: `${option}Toggle`,
+              value: result,
+            });
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleLinkClick = (event: React.MouseEvent<HTMLLabelElement>) => {
+    event.preventDefault();
+    chrome.storage.local.set({
+      [`${option}State`]: textInputValue,
+    });
+
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const activeTabId = tabs[0].id;
+      if (activeTabId !== undefined)
+        chrome.tabs.sendMessage(activeTabId, {
+          type: `${option}Toggle`,
+          value: textInputValue,
+        });
+    });
+  };
+
+  const handleResetClick = () => {
+    setTextInputValue("");
+    chrome.storage.local.set({
+      [`${option}State`]: "",
+    });
+
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const activeTabId = tabs[0].id;
+      if (activeTabId !== undefined)
+        chrome.tabs.sendMessage(activeTabId, {
+          type: `${option}Toggle`,
+          value: "",
+        });
+    });
+  };
+
   return (
     <div className="vkToolsBlockLabel">
       <h5 className="vkToolsBlockLabelText">{label}</h5>
 
       <span className="vkToolsInput">
-        <input id={option + "__tb__"} placeholder={placeholder} type="text" className="vkToolsInput__placeholder" value={textInputValue} onChange={handleTextChange} disabled={!isTextBoxAvailable} />
+        <input id={`${option}__tb__`} placeholder={placeholder} type="text" className="vkToolsInput__placeholder" value={textInputValue} onChange={handleTextChange} disabled={!isTextBoxAvailable} />
         <span aria-hidden="true" className="vkToolsInput__placeholder-empty"></span>
       </span>
+
       <div className="vkToolsBlockFooter">
         {canLink && (
-          <label className="ButtonInstallpreload" id={option + "__link__"}>
+          <label className="ButtonInstallpreload" id={`${option}__link__`} onClick={handleLinkClick}>
             <span className="ButtonInstall">
               <span className="vkToolsPresentation" role="presentation"></span>
               <span className="vkToolsButtonText__in">{buttonLabel}</span>
@@ -38,7 +106,7 @@ const BlockWithInput: React.FC<BlockWithInputProps> = ({ label, placeholder, but
         )}
 
         {canLink && (
-          <label className="ButtonInstallpreload" id={option + "__file__"}>
+          <label className="ButtonInstallpreload" id={`${option}__file__`}>
             <span className="ButtonInstall">
               <span className="vkToolsPresentation" role="presentation"></span>
               <span className="vkToolsButtonText__in">
@@ -51,12 +119,12 @@ const BlockWithInput: React.FC<BlockWithInputProps> = ({ label, placeholder, but
                 </svg>
               </span>
             </span>
-            <input accept={inputTypes} type="file" className="vkToolsHiddenInput" />
+            <input accept={inputTypes} type="file" className="vkToolsHiddenInput" onChange={handleFileChange} />
           </label>
         )}
 
         {!canLink && (
-          <label className="ButtonInstallpreload" id={option + "__not-file__"}>
+          <label className="ButtonInstallpreload" id={`${option}__not-file__`}>
             <span className="ButtonInstall">
               <span className="vkToolsPresentation" role="presentation"></span>
               <span style={{ display: "flex", paddingRight: "22px" }} className="vkToolsButtonText__in">
@@ -70,11 +138,11 @@ const BlockWithInput: React.FC<BlockWithInputProps> = ({ label, placeholder, but
                 {buttonLabel}
               </span>
             </span>
-            <input accept={inputTypes} type="file" className="vkToolsHiddenInput" />
+            <input accept={inputTypes} type="file" className="vkToolsHiddenInput" onChange={handleFileChange} />
           </label>
         )}
 
-        <a tabIndex={0} className="config-reset-icon" id="resetlogo" style={{ marginTop: "12px!important" }}>
+        <a tabIndex={0} className="config-reset-icon" id="resetlogo" onClick={handleResetClick}>
           <svg viewBox="0 0 20 20" fill="currentColor" className="svg-icon">
             <title>{t("resetFast")}</title>
             <polygon points="16.2,5.5 14.5,3.8 10,8.3 5.5,3.8 3.8,5.5 8.3,10 3.8,14.5 5.5,16.2 10,11.7 14.5,16.2 16.2,14.5 11.7,10"></polygon>

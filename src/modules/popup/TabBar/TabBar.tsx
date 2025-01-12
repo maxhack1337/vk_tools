@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import { useLocalization } from "../../../Localization/LocalizationContext";
 import React from "react";
 
@@ -7,9 +8,31 @@ const svg28Style: React.CSSProperties = {
   height: "28px",
 };
 
-const TabBar = () => {
+interface TabBarProps {
+  onTabChange: (id: string) => void;
+}
+
+const TabBar = ({ onTabChange }: TabBarProps) => {
+  useEffect(() => {
+    chrome.storage.local.get(["defaultTab"], function (result) {
+      const storedValue = result.defaultTab;
+      handleTabChange(storedValue);
+      if (!storedValue) {
+        handleTabChange("tab1");
+      }
+    });
+  }, []);
+
   const { getLang: t } = useLocalization();
   const [activeTab, setActiveTab] = useState("tab1");
+
+  const handleTabChange = (id: string) => {
+    setActiveTab(id);
+    onTabChange(id);
+    chrome.storage.local.set({
+      defaultTab: id,
+    });
+  };
 
   const tabs = [
     {
@@ -85,7 +108,12 @@ const TabBar = () => {
   return (
     <div className="vkToolsInternalTabbar">
       {tabs.map(({ id, label, icon }) => (
-        <button key={id} className={`vkToolsTabbarItem ${activeTab === id ? "active" : ""}`} onClick={() => setActiveTab(id)}>
+        <button
+          key={id}
+          className={`vkToolsTabbarItem ${activeTab === id ? "active" : ""}`}
+          onClick={() => {
+            handleTabChange(id);
+          }}>
           <div className="vkToolsTabbarItem__icon">{icon}</div>
           <div className="vkToolsTabbarItem__label">{label}</div>
         </button>

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface CheckBoxProps {
   id: string;
@@ -12,12 +12,40 @@ interface CheckBoxProps {
 }
 
 const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }: CheckBoxProps) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  useEffect(() => {
+    chrome.storage.local.get([`${id}State`], (result) => {
+      if (result[`${id}State`] !== undefined) {
+        setIsChecked(result[`${id}State`]);
+      }
+    });
+  }, [id]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = event.target.checked;
+    setIsChecked(checked);
+
+    chrome.storage.local.set({
+      [`${id}State`]: checked,
+    });
+
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const activeTabId = tabs[0].id;
+      if (activeTabId !== undefined)
+        chrome.tabs.sendMessage(activeTabId, {
+          type: `${id}Toggle`,
+          isChecked: checked,
+        });
+    });
+  };
+
   if (type !== "checkBox") {
     return null;
   }
 
   return (
-    <label id={id} className="vkToolsCheckBox">
+    <label id={id} className={`vkToolsCheckBox ${description ? "vkToolsCheckBoxWithDescription" : ""}`}>
       <div className="vkToolsCheckBox__Label">
         {label && (
           <div className="vkToolsCheckBox__PrimaryText">
@@ -42,7 +70,7 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }:
       </div>
       <div className="vkToolsCheckBox__Check">
         <label className="vkToolsCheckBox__Check--label">
-          <input id={id} type="checkbox" className="vkToolsCheckBox__Check--label-input" />
+          <input id={id} type="checkbox" className="vkToolsCheckBox__Check--label-input" checked={isChecked} onChange={handleChange} />
           <span aria-hidden="true" className="vkToolsCheckBox__Check--label-span"></span>
           <span aria-hidden="true" className="vkToolsCheckBox__Check--label-spanHidden"></span>
         </label>
