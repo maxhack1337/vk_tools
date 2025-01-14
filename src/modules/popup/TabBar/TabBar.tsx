@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 import { useLocalization } from "../../../Localization/LocalizationContext";
 import React from "react";
 
+document.addEventListener("DOMContentLoaded", function () {
+  chrome.runtime.sendMessage({ type: "popupOpened" });
+});
+
 const svg28Style: React.CSSProperties = {
   width: "28px",
   height: "28px",

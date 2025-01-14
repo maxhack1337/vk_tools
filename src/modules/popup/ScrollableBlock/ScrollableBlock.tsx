@@ -43,8 +43,26 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
   ];
   switch (id) {
     case "tab1":
+      currentTab = [];
+      currentTab = [
+        <HeaderPseudo label={getLang("appearance")} />,
+        <CheckBox type={"checkBox"} label={getLang("alternativeScrollbar")} isNew={false} isFire={false} id={"alternativeScrollbar"} shouldReload={false} />,
+        <CheckBox type={"checkBox"} label={getLang("fixLeftMenu")} isNew={false} isFire={false} id={"fixLeftMenu"} shouldReload={false} />,
+        <CheckBox type={"checkBox"} label={getLang("tabletMenu")} isNew={false} isFire={false} id={"tabletMenu"} shouldReload={false} />,
+        <CheckBox type={"checkBox"} label={getLang("doWideFeed")} isNew={false} isFire={false} id={"doWideFeed"} shouldReload={false} />,
+        <CheckBox type={"checkBox"} label={getLang("garlandDisable")} isNew={false} isFire={false} id={"garlandDisable"} shouldReload={false} />,
+        <BlockWithInput inputTypes={"image/jpeg,image/png,image/gif,image/webp,image/svg+xml"} label={getLang("customLogoHeader")} placeholder={getLang("addLink")} buttonLabel={getLang("set")} canLink={true} isTextBoxAvailable={true} option={"customlogo"} />,
+        <BlockWithInput inputTypes={"image/jpeg,image/png,image/gif,image/webp,image/svg+xml"} label={getLang("customBackground")} placeholder={getLang("addLink")} buttonLabel={getLang("set")} canLink={true} isTextBoxAvailable={true} option={"custombg"} />,
+        <BlockWithInput inputTypes={".otf,.ttf,.woff,.woff2"} label={getLang("useCustomFont")} placeholder={getLang("enterFontName")} buttonLabel={getLang("set")} canLink={false} isTextBoxAvailable={false} option={"customfont"} />,
+        <SliderBlock label={getLang("blockTransparency")} rangeMin={0} rangeMax={100} id={"SliderBlock"} />,
+        <HeaderPseudo label={getLang("pseudoTab1")} />,
+        <ColorPickers />,
+        <HeaderPseudo label={getLang("leftMenuSettingsHeader")} />,
+        <LeftMenuItems />,
+      ];
       break;
     case "tab2":
+      currentTab = [];
       currentTab = [
         <HeaderPseudo label={getLang("oldDTab")} />,
         <SecondaryHeaderPseudo label={getLang("someAfterReboot")} />,
@@ -63,6 +81,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
       ];
       break;
     case "tab3":
+      currentTab = [];
       currentTab = [
         <HeaderPseudo label={getLang("messenger")} />,
         <SecondaryHeaderPseudo label={getLang("someAfterReboot")} />,
@@ -79,6 +98,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
       ];
       break;
     case "tab4":
+      currentTab = [];
       currentTab = [
         <HeaderPseudo label={getLang("other")} />,
         <SecondaryHeaderPseudo label={getLang("someAfterReboot")} />,
@@ -96,6 +116,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
       break;
 
     case "tab5":
+      currentTab = [];
       currentTab = [
         <HeaderPseudoTransparent label={getLang("usefulLinks")} />,
         <CardWithLink label={getLang("vkEnhancerGitHub")} description={getLang("vkEnhancerGitHubDescription")} icon={"github"} href={"https://github.com/maxhack1337/vk_tools"} />,

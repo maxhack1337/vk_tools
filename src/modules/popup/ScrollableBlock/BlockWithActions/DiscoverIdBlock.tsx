@@ -14,6 +14,17 @@ const DiscoverIdBlock: React.FC<DiscoverIdBlockProps> = ({ label, placeholder, b
   const [textInputValue, setTextInputValue] = useState("");
   const { getLang } = useLocalization();
 
+  chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message.greeting) {
+      const inputElement = document.getElementById(`${option}__tb__`) as HTMLInputElement;
+      console.log("Greetings " + message.greeting);
+      if (message.greeting === "undefined") {
+        inputElement.value = getLang("notGroupOrUserId");
+      }
+      inputElement.value = message.greeting;
+    }
+  });
+
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTextInputValue(e.target.value);
   };

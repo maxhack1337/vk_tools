@@ -41,5 +41,19 @@
       },
       "description": "Reload extension button"
     }
-  }
+  },
+    "background": {
+    "service_worker": "src/sw.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://vk.com/*","*://vk.ru/*","*://oauth.vk.com/*","*://vkvideo.ru/*","*://*.vk.com/*"
+      ],
+      "js": [
+	    "src/content_script.js"
+      ],
+      "run_at": "document_start"
+    }
+  ]
 }

@@ -15,7 +15,6 @@ export default function LeftMenuItems() {
   useEffect(() => {
     chrome.storage.local.get("leftMenuState", (result) => {
       if (result.leftMenuState) {
-        console.log(result.leftMenuState);
         setInputValues(result.leftMenuState);
       }
     });

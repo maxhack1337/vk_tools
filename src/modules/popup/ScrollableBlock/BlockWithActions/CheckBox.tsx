@@ -18,6 +18,8 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }:
     chrome.storage.local.get([`${id}State`], (result) => {
       if (result[`${id}State`] !== undefined) {
         setIsChecked(result[`${id}State`]);
+      } else {
+        setIsChecked(false);
       }
     });
   }, [id]);
@@ -32,11 +34,13 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }:
 
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const activeTabId = tabs[0].id;
-      if (activeTabId !== undefined)
+      if (activeTabId !== undefined) {
         chrome.tabs.sendMessage(activeTabId, {
           type: `${id}Toggle`,
           isChecked: checked,
         });
+        if (shouldReload) chrome.tabs.reload(activeTabId);
+      }
     });
   };
 

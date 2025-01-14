@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "archiver": "^7.0.1",
     "cra-template-typescript": "1.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -11,7 +12,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && webpack --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -34,9 +35,14 @@
     ]
   },
   "devDependencies": {
+    "@types/archiver": "^6.0.3",
     "@types/chrome": "^0.0.293",
     "@types/react": "^19.0.3",
     "@types/react-dom": "^19.0.2",
-    "typescript": "^4.9.5"
+    "css-loader": "^7.1.2",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^4.9.5",
+    "webpack-cli": "^6.0.1"
   }
 }
