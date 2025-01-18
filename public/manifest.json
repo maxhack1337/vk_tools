@@ -55,5 +55,15 @@
       ],
       "run_at": "document_start"
     }
+  ],
+    "web_accessible_resources": [
+    {
+      "resources": [
+        "src/main.js"
+      ],
+      "matches": [
+        "*://vk.com/*","*://vk.ru/*","*://oauth.vk.com/*","*://vkvideo.ru/*","*://*.vk.com/*"
+      ]
+    }
   ]
 }

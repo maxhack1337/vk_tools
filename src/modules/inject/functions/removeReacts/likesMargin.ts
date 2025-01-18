@@ -1,0 +1,39 @@
+const likesMargin = () => {
+    if (
+        localStorage.getItem("removePostReactions") === "true"
+    ) {
+        const wallSel = [".PostActionStatusBar--inPost"];
+        document.arrive(wallSel[0], { existing: true }, function (e) {
+            try {
+                let likesInWl = e.querySelector('.ReactionsPreview--isInActionStatusBar') || document;
+                let appendHereLikes = e?.closest('.wl_post_actions_wrap')?.querySelector('.like_btns .PostButtonReactionsContainer');
+                if(!appendHereLikes) appendHereLikes = e?.closest('.post_info')?.querySelector('.like_btns .PostButtonReactionsContainer');
+                appendHereLikes?.appendChild(likesInWl);
+            } catch (error) {
+                console.log(error);
+            }
+        });
+        document.arrive(
+            ".post--withPostBottomAction:not(.post--withActionStatusBar)",
+            { existing: true },
+            function (e) {
+                var postId = e.getAttribute("id");
+                var postButton = e.querySelector(
+                    ".PostBottomAction.PostBottomAction--withBg.PostButtonReactions.PostButtonReactions--post"
+                );
+                if (postButton) {
+                    postButton.removeAttribute("onmouseenter");
+                    postButton.removeAttribute("onkeydown");
+                    postButton.setAttribute(
+                        "onmouseover",
+                        "Likes.showLikes(this, '" +
+                        postId?.replace("post", "wall") +
+                        "', {isFromReactionsPreview:1})"
+                    );
+                }
+            }
+        );
+    }
+}
+
+export default likesMargin;

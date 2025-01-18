@@ -98,7 +98,7 @@ const strings = {
   pseudoTab1: ["Кастомизация акцентов", "Accents customization", "Кастомізація акцентів"],
   pseudoTab2: ["Новый мессенджер", "New messenger", "Новий месенджер"],
   pseudoTab3: ["Настройки", "Settings", "Налаштування"],
-  versionNumber: ["Версия 4.7.3 Release", "v. 4.7.3 Release", "Версія 4.7.3 Release"],
+  versionNumber: ["Версия 5.0 Release", "v. 5.0 Release", "Версія 5.0 Release"],
   actualVersion: ["https://vk.com/wall-221416961_427", "https://vk.com/wall-221416961_427", "https://vk.com/wall-221416961_427"],
   whatsNew: ["Что нового?", "What's new?", "Що нового?"],
   hideMessageFooter: ["Скрыть переключатель непрочитанных сообщений", "Hide unread messages switcher", "Приховати перемикач непрочитаних повідомлень"],

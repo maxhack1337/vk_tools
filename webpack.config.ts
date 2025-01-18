@@ -1,15 +1,20 @@
+var BomPlugin = require('webpack-utf8-bom');
 const path = require('path');
 
 module.exports = {
   entry: {
     sw: './src/modules/bg/sw.ts',
-    content_script: './src/modules/content/content_script.ts'
+    content_script: './src/modules/content/content_script.ts',
+    main: './src/modules/inject/main.ts'
   },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'build/src'),
     clean: true,
   },
+  plugins: [
+    new BomPlugin(true)
+  ],
   module: {
     rules: [{
         test: /\.css$/,

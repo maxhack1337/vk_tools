@@ -5,8 +5,11 @@ import create from "./create";
 import fromId from "./fromId";
 import HotBarAppear from "./HotBarAppear";
 import customMessage from "./postMessage";
+import injectScript from "../inject/inject";
 console.log("VK Tools content script is running!");
-  
+
+injectScript(chrome.runtime.getURL('src/main.js'));
+
 function CheckToken() {
   if (window.location.href.indexOf('https://oauth.vk.com/blank.html') === -1) {
     window.location.href = 'https://oauth.vk.com/authorize?client_id=6121396&scope=196608&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1';
@@ -173,14 +176,14 @@ const applySavedStyles = () => {
 }
 
 function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; hideRecentComm: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; }) {
-  if (styles.removeNFT) { 
+  if (styles.removeNFT) {
     hideNFT_Avatars();
   }
   else {
     backNFT_Avatars();
   }
 
-  if (styles.sliderValue) { 
+  if (styles.sliderValue) {
     addOpacity(styles.sliderValue);
   }
 
@@ -191,8 +194,10 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
   }
   if (styles.removePostReacts) {
     customMessage("removePostReactions");
+    removePostReactions();
   } else {
     customMessage("backPostReactions");
+    backPostReactions();
   }
   
   if (styles.avatarNearName) {
@@ -293,31 +298,31 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
   }
 
   if (styles.isGraffity) {
-	canLoadGraffity();
-	chrome.storage.local.get(['vkenAccessToken'], function (result) {
-		try {
-		vkenAccessToken1 = result.vkenAccessToken;
-    if (vkenAccessToken1 && vkenAccessToken1 !== '') {
-      customMessage("vkEnhancerAccessToken", vkenAccessToken1);
-		}
-		else {
-      CheckToken();
-		}
-		}
-		catch(e) {console.error(e)}
-	});
-	window.addEventListener("message", async (event) => {
-		switch (event.data.action) {
-			case "tokenRemove": {
-				chrome.runtime.sendMessage({
-					type: 'vken_access_token_remove'
-				});
-				break;
-			}
-		}
-	});
+    canLoadGraffity();
+    chrome.storage.local.get(['vkenAccessToken'], function (result) {
+      try {
+        vkenAccessToken1 = result.vkenAccessToken;
+        if (vkenAccessToken1 && vkenAccessToken1 !== '') {
+          customMessage("vkEnhancerAccessToken", vkenAccessToken1);
+        }
+        else {
+          CheckToken();
+        }
+      }
+      catch (e) { console.error(e) }
+    });
+    window.addEventListener("message", async (event) => {
+      switch (event.data.action) {
+        case "tokenRemove": {
+          chrome.runtime.sendMessage({
+            type: 'vken_access_token_remove'
+          });
+          break;
+        }
+      }
+    });
   } else {
-	stopLoadGraffity();
+    stopLoadGraffity();
   }
 
   if (styles.refreshFeed) {
@@ -334,22 +339,32 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
 
   if (styles.showPollResults) {
     customMessage("pollResults", styles.showPollResults);
+  } else {
+    customMessage("pollResults", "false");
   }
 
   if (styles.disableAway) {
     customMessage("removeAway", styles.disableAway);
+  } else {
+    customMessage("removeAway", "false");
   }
 
   if (styles.classicProfile) {
     customMessage("newProfiles", styles.classicProfile);
+  } else {
+    customMessage("newProfiles", "false");
   }
 
   if (styles.showPatronymic) {
     customMessage("middleName", styles.showPatronymic);
+  } else {
+    customMessage("middleName", "false");
   }
 
   if (styles.tagInteraction) {
     customMessage("oldHover", styles.tagInteraction);
+  } else {
+    customMessage("oldHover", "false");
   }
 
   if (styles.tabletMenu) {
@@ -359,8 +374,10 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
     closeTabletMenu();
   }
 
-  if (styles.oldPostStyle) { 
+  if (styles.oldPostStyle) {
     customMessage("defaultThemeFeed", styles.oldPostStyle);
+  } else {
+    customMessage("defaultThemeFeed", "false");
   }
 
   if (styles.oldBadge) {
@@ -401,12 +418,16 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
 	  wideFeedRemove();
   }
 
-  if (styles.oldPosting) { 
-    customMessage("oldPosting",styles.oldPosting)
+  if (styles.oldPosting) {
+    customMessage("oldPosting", styles.oldPosting)
+  } else {
+    customMessage("oldPosting", "false")
   }
 
-  if (styles.leftMenu) { 
-    customMessage("customLeftMenu",styles.leftMenu)
+  if (styles.leftMenu) {
+    customMessage("customLeftMenu", styles.leftMenu)
+  } else {
+    customMessage("customLeftMenu", "false")
   }
 }
 
@@ -415,7 +436,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.type === "checkId") {
     checkId();
   } else {
-    console.log("[VKENH] Message received", message);
     applySavedStyles();
   }
 });
@@ -902,6 +922,30 @@ function wideFeedEnable() {
 
 function wideFeedRemove() {
   const customStyle = fromId("wideFeedEnabler");
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
+
+//Реакции к постам
+function removePostReactions() {
+  let styleElement = fromId("postReactions");
+  if (!styleElement) {
+    styleElement = create("style", {}, { id: "postReactions" });
+    document.head.appendChild(styleElement);
+  }
+  const imageUrl =
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 0 24 24' width='24'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M0 0h24v24H0z'/%3E%3Cpath xmlns='http://www.w3.org/2000/svg' fill-rule='nonzero' fill='%23e64646' d='M11.95 4.83l-0.09 -0.09c-1.27,-1.23 -2.96,-1.93 -4.73,-1.94 0,0 0,0 0,0 -3.62,0 -6.55,2.93 -6.56,6.54 0,3.52 1.3,5.2 7.07,9.76l3.07 2.4c0.37,0.29 0.8,0.44 1.24,0.45l0 0c0.44,-0.01 0.88,-0.16 1.24,-0.45l3.07 -2.4c5.78,-4.56 7.07,-6.24 7.07,-9.76 -0.01,-3.61 -2.94,-6.54 -6.55,-6.54 0,0 0,0 0,0 -1.77,0.01 -3.47,0.71 -4.73,1.94l-0.1 0.09z'/%3E%3C/g%3E%3C/svg%3E";
+  styleElement.innerHTML =
+    '.PostBottomAction.PostButtonReactions.PostButtonReactions--post {z-index:10; padding-right:0px!important;} .PostButtonReactionsContainer {display:flex} .PostBottomAction--withBg{padding:4px 6px!important;}.PostButtonReactions__iconAnimation{display:none!important;}.PostButtonReactions__icon.PostButtonReactions__icon--custom{background: url("' +
+    imageUrl +
+    '")!important;         scale:.85;} .ReactionsMenuPopperTransition-appear-done, .ReactionsMenuPopperTransition-enter-done {          display: none!important;      }                        .ReactionsMenu,    .ReactionsMenu--extraHoverArea,    .ReactionsMenu--extraHoverAreaToTop,    div.ReactionsPreview__items,.PostButtonReactions--post .PostButtonReactions__title--textual,.like_tt_reacted-count,.fans_fanph_reaction,li#likes_tab_reactions_0,    li#likes_tab_reactions_1,    li#likes_tab_reactions_2,    li#likes_tab_reactions_3,    li#likes_tab_reactions_4,    li#likes_tab_reactions_5,.ui_tab.ui_tab_group:not(.ui_tab_group_new),.like_tt_reaction {        display: none !important;    }    .PostBottomAction {        --post-bottom-action-background-color: transparent !important;    }    div.ReactionsPreview.ReactionsPreview--active .ReactionsPreview__count._counter_anim_container {        color: #e64646 !important;    }   .ReactionsPreview--isInActionStatusBar .ReactionsPreview__count{color:var(--vkui--color_text_secondary);} [dir] .ReactionsPreview {  margin-left: -6px; z-index: 9;    }    .ReactionsPreview--isInActionStatusBar .ReactionsPreview__count {    font-size: 14px!important;    line-height: 16px;    font-weight: 500;    }    .PostButtonReactionsContainer {        width: auto !important;    }    .PostButtonReactions__iconAnimation svg    {        background: url("' +
+    imageUrl +
+    '") no-repeat!important;        margin-top:3px;        margin-left:3px;        scale:.85;    }    .PostButtonReactions__iconAnimation svg g    {        display:none;    }        [dir] .PostActionStatusBar--inPost {        padding-top: 0px !important;        padding-bottom: 0px !important;    }    div.like_cont.PostBottomActionLikeBtns {        border-top: 1px solid transparent !important;    }    .PostButtonReactionsContainer {        width: auto !important;    }        [dir=ltr] .post--withPostBottomAction .PostBottomActionLikeBtns .like_btns {        margin-top: 5px !important;    }    [dir] .PostBottomAction::before {        background-image: none!important;    }    [dir] .like_cont {           }    [dir] .PostBottomActionLikeBtns.like_cont {  padding-bottom:10px!important;   }';
+}
+
+function backPostReactions() {
+  const customStyle = fromId("postReactions");
   if (customStyle) {
     customStyle.remove();
   }

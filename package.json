@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "archiver": "^7.0.1",
+    "arrive": "^2.5.2",
     "cra-template-typescript": "1.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@types/archiver": "^6.0.3",
+    "@types/arrive": "^2.4.4",
     "@types/chrome": "^0.0.293",
     "@types/react": "^19.0.3",
     "@types/react-dom": "^19.0.2",
@@ -43,6 +45,7 @@
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.2",
     "typescript": "^4.9.5",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^6.0.1",
+    "webpack-utf8-bom": "^1.4.0"
   }
 }
