@@ -5,7 +5,12 @@ import restoreOrig from "./restoreOriginalPhoto";
 const restorePhoto = () => {
     document.arrive(".pv_more_acts", { existing: true }, function (e) {
         let i = document.createElement("button");
-        i.textContent = getLang?.("me_attach_action_restore") || 'Восстановить оригинал';
+        const langResult = getLang?.("me_attach_action_restore") || 'Восстановить оригинал';
+        if (Array.isArray(langResult)) {
+    i.textContent = langResult.join(", ");
+} else {
+    i.textContent = langResult; 
+}
         i.classList.add("pv_more_act_item");
         i.id = "pv_more_act_orig";
         i.addEventListener("click", async function () {

@@ -19,6 +19,7 @@ import voiceEnter from "./functions/voiceEnter/voiceEnter";
 import modalVideo from "./functions/modalVideo/modalVideo";
 import messageCounter from "./functions/messageCounter/messageCounter";
 import middleName from "./functions/middleName/middleName";
+import classicalProfile from "./functions/classicalProfile/classicalProfile";
 
 console.log('[VK Tools] Injected main intance');
 const adsSelector = [
@@ -259,6 +260,8 @@ deferredCallback(
         restorePhoto();
         //Возвращение поддержки
         backSupport();
+        //Классик профиль
+        if (getLocalValue("isClassicalProfileDesign")) classicalProfile();
   },
   { variable: "getLang" }
 );

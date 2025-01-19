@@ -6,6 +6,10 @@ interface URL {
     urls: any;
 }
 
+interface Page {
+    audioStatusUpdate: any;
+}
+
 interface navGoLoc {
 	0?: string;
 	section?: string;
@@ -14,6 +18,7 @@ interface navGoLoc {
 
 interface Ajax {
     post: (url: string, data: Record<string, any>, options?: any) => Promise<any>;
+    promisifiedPost: (url:string, data: Record<string, any>, options?: any) => Promise<any>;
 }
 
 interface AjaxPostArgs {
@@ -85,6 +90,8 @@ export interface VK {
 	id: number;
     pe: Record<string, any>;
     lang: number;
+    ip_h: string;
+    statusExportHash: string;
 }
 
 export interface VKAPI {
@@ -158,16 +165,17 @@ declare global {
 	var jsc: (module: string) => string;
 	var Notifier: Notifier;
     var HotBarAppearVAL: string[];
-	var getLang: null | ((key: string, type?: string | number) => string);
+	var getLang: null | ((key: string, type?: string | number) => string | string[]);
 	var langDate: (timestamp: number, text: string, mode?: string | number, months?: string | string[]) => string;
     var langNumeric: (n: number, s: string | string[]) => string;
     var webkitSpeechRecognition: typeof SpeechRecognition;
     var showPhoto: null | ((id: string, oid: number, pid: number) => void);
-
+    var langConfig: any;
     var MessageBox: new () => MessageBox;
     var Calls: Calls;
     var MECommonContext: Promise<MECommonContextType>;
-    
+    var page: Page;
+    var ap: any;
     var ajax: Ajax;
 
 	namespace NodeJS {

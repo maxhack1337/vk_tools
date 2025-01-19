@@ -6,7 +6,8 @@ const backSupport = () => {
             support.id = "new_link";
             support.classList.add('vkEnhancerSupportLink');
             try {
-                support.innerText = getLang?.('support_ask_question') || 'Задать вопрос';
+                const langValue = getLang?.('support_ask_question');
+                support.innerText = Array.isArray(langValue) ? langValue.join(", ") : langValue || 'Задать вопрос';
             } catch (error) {
                 support.innerText = 'Задать вопрос';
             }

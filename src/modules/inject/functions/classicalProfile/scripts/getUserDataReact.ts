@@ -20,12 +20,12 @@ interface ReactProps {
     container?: any;
 }
 
-const getUserMiddleName = async (objectId: number) => {
+const getUserDataReact = async () => {
     try {
         const rootProfileElement = document.getElementById("react_rootprofile");
         const rootProfile = _o(rootProfileElement).container;
         if (rootProfile?.memoizedState?.element?.props?.store?.getState) { 
-            const response = rootProfile.memoizedState.element.props.store.getState().owner.nickname;
+            const response = rootProfile.memoizedState.element.props.store.getState().owner;
             return response;
         } else {
             throw new Error("Invalid structure of rootProfile");
@@ -59,4 +59,4 @@ function _o(e: HTMLElement | null): ReactProps {
     return t;
 }
 
-export default getUserMiddleName;
+export default getUserDataReact;
