@@ -41,11 +41,6 @@ const adsSelector = [
   ".MarketItemsPortlet"
 ];
 
-const query = document.querySelector.bind(document);
-const queryAll = document.querySelectorAll.bind(document);
-const createElement = document.createElement.bind(document);
-const createTextNode = document.createTextNode.bind(document);
-
 window.urls = null;
 if (!window.vkenh) {
     window.vkenh = {};
@@ -132,7 +127,14 @@ deferredCallback(
 );
 
 window.addEventListener("message", async (event) => {
-  switch (event.data.action.messageAction) {
+  let messageAct;
+  try {
+    messageAct = event.data.action.messageAction;
+  }
+  catch (error) {
+    messageAct = '';
+  }
+  switch (messageAct) {
     case "integrationMedia": {
       localStorage.setItem("intMediaValue", event.data.value.messageValue);
       break;

@@ -4,8 +4,7 @@
           clearFix.classList.add("clear_fix", "profile_info_row");
           var labelDiv = document.createElement("div");
           labelDiv.classList.add("label", "fl_l");
-          const labelValue = getLang?.('support_ask_question'); 
-          const labelText = Array.isArray(labelValue) ? labelValue.join(", ") : labelValue || 'Задать вопрос';
+          const labelText = `${label}`;
           labelDiv.textContent = labelText; 
           var labeledDiv = document.createElement("div");
           labeledDiv.classList.add("labeled");

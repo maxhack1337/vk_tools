@@ -169,7 +169,7 @@ declare global {
 	var langDate: (timestamp: number, text: string, mode?: string | number, months?: string | string[]) => string;
     var langNumeric: (n: number, s: string | string[]) => string;
     var webkitSpeechRecognition: typeof SpeechRecognition;
-    var showPhoto: null | ((id: string, oid: number, pid: number) => void);
+    var showPhoto: null | ((id: string, oid: number | string, pid: any) => void);
     var langConfig: any;
     var MessageBox: new () => MessageBox;
     var Calls: Calls;
@@ -177,6 +177,10 @@ declare global {
     var page: Page;
     var ap: any;
     var ajax: Ajax;
+    var addLangKeys: any;
+    var friendsSection: string | null | HTMLElement;
+    var aHrefSectionFrens: any;
+    var imReady: any;
 
 	namespace NodeJS {
 		interface ProcessEnv {

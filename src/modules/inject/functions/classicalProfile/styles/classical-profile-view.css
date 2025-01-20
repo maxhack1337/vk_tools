@@ -1,3 +1,4 @@
+body.classicProfile {
 #profile_story:after {
 	filter: blur(5px);
 	content: '.';
@@ -950,13 +951,17 @@ div.ProfileHeader.ProfileHeader--noCover.ProfileHeader--withSnowballs > div > di
     color: var(--vkui--color_text_secondary);
 }
 #profile_redesigned > div > div > div > div.ProfileHeader > div.ProfileHeader__in > div.ProfileHeader__wrapper > div > div.ProfileHeader__actions > div > div > div.ProfileHeaderActions__info {
-    left: 0px;
+    left: 12px;
     position: absolute;
     top: 300px;
     width: 63.5%;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    min-width: 209px;
 }
     #profile_redesigned > div > div > div > div.ProfileHeader:has(> div.ProfileHeader__in > div.ProfileHeader__wrapper > div > div.ProfileHeader__actions > div > div > div.ProfileHeaderActions__info)
     {
         height:340px;
     }
+}

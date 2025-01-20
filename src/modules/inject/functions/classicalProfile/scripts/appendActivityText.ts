@@ -5,6 +5,7 @@ import changeBroadcastState from "./changeBroadcastState";
 import getIdAntiAsync from "./getIdAntiAsync";
 import getPhotoEditHash from "./getPhotoEditHash";
 import getUserDataPhoto from "./getUserDataPhoto";
+import refreshLocForMini from "./refreshLocForMini";
 
       const appendActivityText = (activityText: string | null) => {
         getIdAntiAsync().then((objectId) => {
@@ -202,7 +203,7 @@ import getUserDataPhoto from "./getUserDataPhoto";
                   }
                   if (!getPhotoEditHash()) {
                     console.info(
-                      "[VKENH] Failed to parse PhotoEditHash. Location will be rebooted if you try to edit photo"
+                      "[VK Tools] Failed to parse PhotoEditHash. Location will be rebooted if you try to edit photo"
                     );
                     try {
                       let rebootThis = jopa.querySelector(
@@ -210,7 +211,7 @@ import getUserDataPhoto from "./getUserDataPhoto";
                       );
                       rebootThis?.setAttribute(
                         "onclick",
-                        "window.location.reload()"
+                        `window.Notifier.showEvent({title: '${getLang?.('global_error_occured')}',	text: '${refreshLocForMini(vk.lang)}'}); window.location.reload();`
                       );
                     } catch (error) {}
                   }

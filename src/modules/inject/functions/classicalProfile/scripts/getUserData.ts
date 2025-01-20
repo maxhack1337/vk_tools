@@ -4,8 +4,7 @@ import getUserDataReact from "./getUserDataReact";
 const getUserData = async (objectId: number) => {
         try {
           let response = await getUserDataReact();
-          console.info("[VKENH] Profile fetched");
-          console.log(response);
+          console.log("[VK Tools] Profile fetched",response);
           if (!response.hidden) {
             let wasInSetb = getLang?.("profile_last_seen", "raw");
             let newLangArray = Array.isArray(wasInSetb) ? wasInSetb.map((item) => item.replace(/%s/, "")) : wasInSetb ? [wasInSetb.replace(/%s/, "")] : []; 
