@@ -153,7 +153,7 @@ div:has(.ProfileIndicatorBadgeBadgeTT__text) {
 .vkEnhancerFriend:hover {
 	background-color:var(--vkui--color_transparent--hover);
 }
-section:has(>[class^="ClosedProfileBlock-module__container"]) {
+section:has(>[class^="ClosedProfileBlock__container"]) {
 	width: 536px;
     float: right;
 }

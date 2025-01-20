@@ -66,9 +66,14 @@ import getZodiacIndex from "./getZodiacIndex";
           let regDateDate = formatRegister(regDateValue1?.[0] || '');
           regDateDate += " " + regDateValue1?.[1];
           let registrationRow = createProfileInfoRow(regDateText, regDateDate);
-          if (registrationRow) {
-            profileShort.appendChild(registrationRow);
-          }
+            if (registrationRow && !regDateDate?.includes('null')) {
+                profileShort.appendChild(registrationRow);
+            } else {
+                console.error(
+                "[VK Tools Error]: There is no registration date for user " +
+                userData.id
+                 );
+            }
         } catch (error) {
           console.error(
             "[VK Tools Error]: There is no registration date for user " +
