@@ -128,37 +128,39 @@ const profileGroup = () => {
           });
         }
         ///ДЛЯ ВИДЕО///
-        try {
-          let videos = document.querySelector(".ProfileVideos")?.innerHTML;
-          let popec = document.querySelector(".ProfileVideos");
-          popec?.remove();
-          let newElem = document.createElement("section");
-          newElem.classList.add(
-    "vkuiInternalGroup",
-    "vkuiGroup",
-    "vkuiGroup--mode-card",
-    "vkuiInternalGroup--mode-card",
-    "vkuiGroup--padding-m",
-    "Group-module__group--lRMIn",
-    "Group-module__groupPaddingM",
-    "Group-module__groupModeCard",
-    "vkuiInternalGroupCard",
-    "ProfileGroupEnhancer",
-    "ProfileVideosEnhancer"
-            );
-            newElem.innerHTML = videos || '';
-          scrollSticky?.appendChild(newElem); //ДОБАВЛЕНИЕ БЛОКА ВИДЕО
-          let allVideos = document.querySelectorAll(".OwnerVideosListItem");
-          allVideos.forEach((videoItem) => {
-            let href = videoItem.querySelector("a")?.getAttribute("href");
-            let videoId = href?.split("/")?.pop()?.replace("video", "");
+          try {
+              let videos = document.querySelector(".ProfileVideos")?.innerHTML;
+              if (videos) {
+                  let popec = document.querySelector(".ProfileVideos");
+                  popec?.remove();
+                  let newElem = document.createElement("section");
+                  newElem.classList.add(
+                      "vkuiInternalGroup",
+                      "vkuiGroup",
+                      "vkuiGroup--mode-card",
+                      "vkuiInternalGroup--mode-card",
+                      "vkuiGroup--padding-m",
+                      "Group-module__group--lRMIn",
+                      "Group-module__groupPaddingM",
+                      "Group-module__groupModeCard",
+                      "vkuiInternalGroupCard",
+                      "ProfileGroupEnhancer",
+                      "ProfileVideosEnhancer"
+                  );
+                  newElem.innerHTML = videos;
+                  scrollSticky?.appendChild(newElem); //ДОБАВЛЕНИЕ БЛОКА ВИДЕО
+                  let allVideos = document.querySelectorAll(".OwnerVideosListItem");
+                  allVideos.forEach((videoItem) => {
+                      let href = videoItem.querySelector("a")?.getAttribute("href");
+                      let videoId = href?.split("/")?.pop()?.replace("video", "");
 
-            videoItem.setAttribute(
-              "onclick",
-              `event.preventDefault(); event.stopPropagation(); window.showVideo('${videoId}','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);`
-            );
-          });
-        } catch (error) {}
+                      videoItem.setAttribute(
+                          "onclick",
+                          `event.preventDefault(); event.stopPropagation(); window.showVideo('${videoId}','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);`
+                      );
+                  });
+              }
+          } catch (error) {}
         let audioResponse;
         try {
           audioResponse = await vkApi.api("audio.get", {
