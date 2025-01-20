@@ -6,6 +6,7 @@
     "archiver": "^7.0.1",
     "arrive": "^2.5.2",
     "cra-template-typescript": "1.2.0",
+    "jszip": "^3.10.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "^5.0.1",

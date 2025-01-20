@@ -20,6 +20,17 @@ import modalVideo from "./functions/modalVideo/modalVideo";
 import messageCounter from "./functions/messageCounter/messageCounter";
 import middleName from "./functions/middleName/middleName";
 import classicalProfile from "./functions/classicalProfile/classicalProfile";
+import refreshFeed from "./functions/refreshFeed/refreshFeed";
+import convoButtons from "./functions/convoButtons/convoButtons";
+import commentsGraffity from "./functions/commentsGraffity/commentsGraffity";
+import removedMessages from "./functions/removedMessages/removedMessages";
+import editMessages from "./functions/editMessages/editMessages";
+import regDate from "./functions/regDate/regDate";
+import downloadVideo from "./functions/downloadVideo/downloadVideo";
+import downloadAlbum from "./functions/downloadAlbum/downloadAlbum";
+import swapPhoto from "./functions/swapPhoto/swapPhoto";
+import downloadAudioMessage from "./functions/downloadAudioMessage/downloadAudioMessage";
+import graffityVoice from "./functions/graffityVoice/graffityVoice";
 
 console.log('[VK Tools] Injected main intance');
 const adsSelector = [
@@ -135,8 +146,8 @@ window.addEventListener("message", async (event) => {
     messageAct = '';
   }
   switch (messageAct) {
-    case "integrationMedia": {
-      localStorage.setItem("intMediaValue", event.data.value.messageValue);
+    case "refreshFeed": {
+      localStorage.setItem("refreshFeed", event.data.value.messageValue);
       break;
     }
     case "nechitalka": {
@@ -258,12 +269,32 @@ deferredCallback(
     async (_vk: any) => {
         //Дополнительные кнопки для мессенджера
         spamButton();
+        convoButtons();
         //Восстановить фото
         restorePhoto();
         //Возвращение поддержки
         backSupport();
         //Классик профиль
         if (getLocalValue("isClassicalProfileDesign")) classicalProfile();
+        //Граффити в комментах
+        commentsGraffity();
+        //Удалённые сообщения
+        removedMessages();
+        //Редактированные сообщения
+        editMessages();
+        //Дата регистрации в новом профиле
+        regDate();
+        //Скачивание видео
+        downloadVideo();
+        //Скачивание альбома
+        downloadAlbum();
+        //Подмена фото
+        swapPhoto();
+        //Скачивание гс
+        downloadAudioMessage();
+        //Кнопки гс и граффити в мессенджере
+        graffityVoice();
+        
   },
   { variable: "getLang" }
 );
@@ -273,7 +304,7 @@ hotBar();
       deferredCallback(
         () => {
           let orig_ajax = ajax.post;
-          ajax.post = function (...e) {
+          ajax.post = function (...e: any) {
             if (
               "al_profileEdit.php" === e[0] &&
               "a_save_general" === e[1].act
@@ -320,3 +351,29 @@ modalVideo();
 messageCounter();
 //Отчество
 middleName();
+//Кнопка обновления стены
+refreshFeed();
+//Удалить кеш удалёнок и редактированных
+window.addEventListener("beforeunload", () => {
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith("convoMessage") || key.startsWith("deletedMSG")) {
+      localStorage.removeItem(key);
+    }
+  });
+});
+//Удалить away.php
+if (localStorage.getItem("removeAway") === "true") {
+  const awayHrefs = [
+    'a[href^="https://vk.com/away.php"]',
+    'a[href^="/away.php"]',
+  ];
+  document.arrive(awayHrefs.join(', '), { existing: true }, function (link) {
+    const hrefable = link as HTMLAnchorElement;
+    const url = new URL(hrefable.href);
+    const toParam = url.searchParams.get("to");
+    if (toParam) {
+      const decodedUrl = decodeURIComponent(toParam);
+      hrefable.href = decodedUrl;
+    }
+  });
+}

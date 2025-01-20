@@ -327,14 +327,20 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
 
   if (styles.refreshFeed) {
     customMessage("refreshFeed", styles.refreshFeed);
+  } else {
+    customMessage("refreshFeed", "false");
   }
 
   if (styles.hideTextEntry) {
     customMessage("nechitalka", styles.hideTextEntry);
+  } else {
+    customMessage("nechitalka", 'false');
   }
 
   if (styles.disableReadingMessages) {
     customMessage("nepisalka", styles.disableReadingMessages);
+  } else {
+    customMessage("nepisalka", 'false');
   }
 
   if (styles.showPollResults) {
