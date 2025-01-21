@@ -828,8 +828,8 @@ div.ProfileHeader.ProfileHeader--noCover.ProfileHeader--withSnowballs > div > di
     margin-left:165px;
 	line-height:12px!important;
 }
-.RedesignedPageBlockContainer:has(a[href^="/bugs"]),.RedesignedPageBlockContainer:has(path[d="M13 17a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2h9Zm7-6a1 1 0 1 1 0 2H4a1 1 0 1 1 0-2h16Zm0-6a1 1 0 1 1 0 2H4a1 1 0 0 1 0-2h16Z"]) {
-	margin-top:15px;
+.ScrollStickyWrapper>div:has(>.vkEnhancerProfileFriends)>aside {
+    padding-top: 15px;
 }
 .vkEnhancerAdditionalJob > div {
     color: black; 

@@ -6,71 +6,6 @@ interface URL {
     urls: any;
 }
 
-export interface AudioObject {
-	hashes?: string;
-	id: number;
-	owner_id: number;
-	ownerId: number;
-	fullId: string;
-	title: string;
-	subTitle: string;
-	performer: string;
-	mainArtists: Pick<AudioArtist, 'id' | 'name'>[] | string;
-
-	featArtists: string;
-	authorLink: string;
-	duration: number;
-	lyrics: 1 | 0;
-	url: string;
-	context: string;
-	extra: string;
-	accessKey: string;
-	addHash: string;
-	editHash: string;
-	actionHash: string;
-	deleteHash: string;
-	replaceHash: string;
-	urlHash: string;
-	restoreHash: string;
-	canEdit: boolean;
-	canDelete: boolean;
-	flags: number;
-	isOriginalSound: boolean;
-	hasLyrics: boolean;
-	isLongPerformer: boolean;
-	isClaimed: boolean;
-	isFromQueue: boolean;
-	isExplicit: boolean;
-	isUMA: boolean;
-	isReplaceable: boolean;
-	canAdd: boolean;
-	showInfo: boolean;
-	coverUrl_s: string;
-	coverUrl_p: string;
-	coverUrl_l: string;
-	hasTrackPage: boolean;
-	trackPageId: string;
-	ads: {
-		duration: number;
-		content_id: string;
-		puid22: number;
-		account_age_type: number;
-		_SITEID: number;
-		vk_id: number;
-		ver: number;
-	};
-	album: [number, number, string];
-	albumId: number;
-	albumPart: number;
-	trackCode: string;
-	restrictionStatus: number;
-	chartInfo: boolean;
-	adminUrl: string;
-	umaQueryUrl: string;
-
-	[key: string]: any;
-}
-
 interface Page {
     audioStatusUpdate: any;
 }
@@ -242,32 +177,11 @@ declare global {
     var showWiki: any;
     var imReady: any;
     var mvcur: any;
-    var _r: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN0PQRSTUVWXYZO123456789+/=";
     var each: any;
     
-var _s = (t, e) => {
-  var i = t.length,
-    o = [];
-  if (i) {
-    var a = i;
-    for (e = Math.abs(e); a--; ) {
-      e = ((i * (a + 1)) ^ (e + a)) % i; 
-      o[a] = e; 
-    }
-  }
-  return o;
-};
-
-
-
 	namespace NodeJS {
 		interface ProcessEnv {
 			NODE_ENV: 'development' | 'production';
 		}
 	}
-}
-
-export interface ObservedHTMLElement extends HTMLElement {
-	_vcf_mbs?: MutationObserver;
-	_vcf_ibs?: IntersectionObserver;
 }
