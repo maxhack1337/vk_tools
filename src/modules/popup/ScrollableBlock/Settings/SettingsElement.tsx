@@ -116,6 +116,10 @@ const SettingsElement = ({ id, label, canFile }: SettingsElementProps) => {
         });
 
         reader.readAsText(loadSettingsInput.files[0]);
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+          const activeTabId = tabs[0].id;
+          chrome.tabs.reload(activeTabId!);
+        });
       }
     }
   };
@@ -142,6 +146,10 @@ const SettingsElement = ({ id, label, canFile }: SettingsElementProps) => {
         await chrome.storage.local.set(item123);
       }
       window.location.reload();
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        const activeTabId = tabs[0].id;
+        chrome.tabs.reload(activeTabId!);
+      });
     }
   };
 
