@@ -1,23 +1,23 @@
 const getCounterLang = (lang:number) => {
   switch (lang) {
     case 0:
-      return "Всего сообщений";
+      return "Информация о чатах";
     case 1:
-      return "Всього повідомлень";
+      return "Інформація про чати";
     case 454:
-      return "Всього повідомлень";
+      return "Інформація про чати";
     case 114:
-      return "Усяго паведамленняў";
+      return "Інфармацыя аб чатах";
     case 2:
-      return "Усяго паведамленняў";
+      return "Інфармацыя аб чатах";
     case 777:
-      return "Всего телеграмм";
+      return "Доклад о телеграммах";
     case 97:
-      return "Жалпы хабарлар";
+      return "Чат туралы ақпарат";
     case 100:
-      return "Всѣго писем";
+      return "Информация о чатахѣ";
     default:
-      return "Total messages";
+      return "Chats information";
   }
 }
 

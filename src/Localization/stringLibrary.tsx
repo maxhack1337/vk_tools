@@ -38,7 +38,7 @@ const strings = {
   ],
   enterEmojiCodes: ["Введите строку с кодами эмодзи...", "Enter emoji codes...", "Введіть рядок з кодами емодзі..."],
   updateHotbar: ["Обновить хотбар", "Update hotbar", "Оновити хотбар"],
-  disableMessageCounter: ["Убрать счётчик сообщений", "Remove message counter", "Прибрати лічильник повідомлень"],
+  disableMessageCounter: ["Убрать блок информации о чатах", "Remove chat information block", "Прибрати блок інформації про чати"],
   fixLeftMenu: ["Зафиксировать левое меню", "Fix left menu", "Зафіксувати ліве меню"],
   enterProfileGroupID: ["ID пользователя/группы", "User profile/group ID", "ID користувача/групи"],
   enterProfileGroupIDDescription: ['Перейдите в профиль пользователя/в группу и нажмите кнопку "Узнать ID"', 'Go to the user profile/group and click the "Find out ID" button', 'Перейдіть у профіль користувача/у групу та натисніть кнопку "Дізнатися ID"'],

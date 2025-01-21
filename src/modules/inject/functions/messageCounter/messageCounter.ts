@@ -1,3 +1,5 @@
+import getAllChatsMsg from "./getAllChatsMsg";
+import getAllMsgLang from "./getAllMsgLang";
 import getCounterLang from "./getCounterLang";
 import getTextTTNum from "./getTextTTNum";
 
@@ -16,21 +18,19 @@ const messageCounter = () => {
             } catch (error) {
                 idMess = 0;
             }
+            let chats = await vkApi.api('messages.getConversations', {});
+            let chatsCount = chats.count;
             countermsg.innerHTML = `<div role="button" tabindex="0" class="ConvoListFilter">
   <div class="ConvoListFilter__icons">
   <i role="img" style="height:20px;" class="vkEnIconWatn ConvoListFilter__icon">
-  <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--work_outline_20" viewBox="0 0 20 20" width="20" height="20" style="width: 20px; height: 20px;">
-  <use xlink:href="#null" style="fill: currentcolor;">
-  </use>
-  </svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+<path d="M9.99989 1.42859C14.7338 1.42859 18.5713 5.26615 18.5713 10C18.5713 14.7339 14.7338 18.5714 9.99989 18.5714C5.26603 18.5714 1.42847 14.7339 1.42847 10C1.42847 5.26615 5.26603 1.42859 9.99989 1.42859ZM9.99989 2.85716C6.055 2.85716 2.85704 6.05513 2.85704 10C2.85704 13.9449 6.055 17.1429 9.99989 17.1429C13.9448 17.1429 17.1428 13.9449 17.1428 10C17.1428 6.05513 13.9448 2.85716 9.99989 2.85716ZM10.0525 8.57145C10.2222 8.57145 10.3287 8.59797 10.4219 8.64777C10.515 8.69757 10.5881 8.77065 10.6379 8.86378C10.6877 8.9569 10.7142 9.06343 10.7142 9.23315V13.624C10.7142 13.7937 10.6877 13.9003 10.6379 13.9934C10.5881 14.0865 10.515 14.1596 10.4219 14.2094C10.3287 14.2592 10.2222 14.2857 10.0525 14.2857H9.94731C9.7776 14.2857 9.67106 14.2592 9.57794 14.2094C9.48482 14.1596 9.41174 14.0865 9.36193 13.9934C9.31213 13.9003 9.28561 13.7937 9.28561 13.624V9.23315C9.28561 9.06343 9.31213 8.9569 9.36193 8.86378C9.41174 8.77065 9.48482 8.69757 9.57794 8.64777C9.67106 8.59797 9.7776 8.57145 9.94731 8.57145H10.0525ZM9.99989 5.42859C10.5522 5.42859 10.9999 5.8763 10.9999 6.42859C10.9999 6.98087 10.5522 7.42859 9.99989 7.42859C9.44761 7.42859 8.9999 6.98087 8.9999 6.42859C8.9999 5.8763 9.44761 5.42859 9.99989 5.42859Z" fill="#2688EB"/>
+</svg>
   </i>
   </div>
   <span class="ConvoListFilter__text">
   ${getCounterLang(vk.lang)}
   </span>
-  <div role="img" class="vkEnIconWatnCount ConvoListFilter__counter UnreadCounter UnreadCounter--size-18">
-  ${idMess}
-  </div>
   <div id="vkEnhancerRebootMessageCounter" style="
     scale: .85;
     margin-left: 8px;
@@ -48,54 +48,34 @@ const messageCounter = () => {
 </div>
   </div>`;
 
-            let iconn = countermsg.querySelector(".vkEnIconWatn");
-            let counterColor = countermsg.querySelector(".vkEnIconWatnCount") as HTMLElement;;
-            if (counterColor) counterColor.style.backgroundColor = "var(--vkui--color_icon_secondary)";
             if (idMess < 10000000) {
-                if (iconn) iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.2803 8.78033C13.5732 8.48744 13.5732 8.01256 13.2803 7.71967C12.9874 7.42678 12.5126 7.42678 12.2197 7.71967L9 10.9393L7.78033 9.71967C7.48744 9.42678 7.01256 9.42678 6.71967 9.71967C6.42678 10.0126 6.42678 10.4874 6.71967 10.7803L8.46967 12.5303C8.76256 12.8232 9.23744 12.8232 9.53033 12.5303L13.2803 8.78033Z" fill="#219653"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M18.5 10C18.5 14.6944 14.6944 18.5 10 18.5C5.30558 18.5 1.5 14.6944 1.5 10C1.5 5.30558 5.30558 1.5 10 1.5C14.6944 1.5 18.5 5.30558 18.5 10ZM17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" fill="#219653"/>
-</svg>
-`;
                 if (countermsg) {
                     const convoListFilter = countermsg.querySelector(".ConvoListFilter");
                     if (convoListFilter) {
                         convoListFilter.setAttribute(
                             `onclick`,
-                            `showFastBox(getLang("me_convo_profile_info"), "${getTextTTNum(vk.lang)[0]}", getLang("global_close"));`
+                            `showFastBox(getLang("me_convo_profile_info"), "${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[0]}", getLang("global_close"));`
                         );
                     }
                 }
             } else if (idMess < 14000000) {
-                if (iconn) iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14Z" fill="#F2994A"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M12.3757 3.36327C12.2181 3.09234 11.4897 2.00101 9.99924 2.00101C8.50879 2.00101 7.79028 3.07794 7.62431 3.36327L1.52311 13.8521C1.11213 14.5586 1.03548 15.4106 1.31378 16.179C1.70981 17.2725 2.74912 18.001 3.91316 18.001H16.0868C17.2509 18.001 18.2902 17.2725 18.6862 16.179C18.9645 15.4106 18.8879 14.5586 18.4769 13.8521L12.3757 3.36327ZM16.0868 16.5025C16.6192 16.5025 17.0946 16.1693 17.2757 15.6692C17.403 15.3178 17.3679 14.9281 17.18 14.6049L11.0788 4.11615C11.0788 4.11615 10.7499 3.49487 9.99921 3.49487C9.24848 3.49487 8.92124 4.11615 8.92124 4.11615L2.82003 14.6049C2.63207 14.9281 2.59701 15.3178 2.72429 15.6692C2.90543 16.1693 3.38077 16.5025 3.91316 16.5025H16.0868Z" fill="#F2994A"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M9.99994 6.00003C10.4142 6.00003 10.7499 6.33582 10.7499 6.75003V11.25C10.7499 11.6642 10.4142 12 9.99994 12C9.58573 12 9.24994 11.6642 9.24994 11.25V6.75003C9.24994 6.33582 9.58573 6.00003 9.99994 6.00003Z" fill="#F2994A"/>
-</svg>
-`;
                 if (countermsg) {
                     const convoListFilter = countermsg.querySelector(".ConvoListFilter");
                     if (convoListFilter) {
                         convoListFilter.setAttribute(
                             `onclick`,
-                            `showFastBox(getLang("global_warning"), "${getTextTTNum(vk.lang)[1]
+                            `showFastBox(getLang("global_warning"), "${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[1]
                             }", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`
                         );
                     }
                 }
             } else if (idMess < 15000000) {
-                if (iconn) iconn.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M11 14C11 14.5523 10.5523 15 10 15C9.44772 15 9 14.5523 9 14C9 13.4477 9.44772 13 10 13C10.5523 13 11 13.4477 11 14Z" fill="#EB5757"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M12.3757 3.36327C12.2181 3.09234 11.4897 2.00101 9.99924 2.00101C8.50879 2.00101 7.79028 3.07794 7.62431 3.36327L1.52311 13.8521C1.11213 14.5586 1.03548 15.4106 1.31378 16.179C1.70981 17.2725 2.74912 18.001 3.91316 18.001H16.0868C17.2509 18.001 18.2902 17.2725 18.6862 16.179C18.9645 15.4106 18.8879 14.5586 18.4769 13.8521L12.3757 3.36327ZM16.0868 16.5025C16.6192 16.5025 17.0946 16.1693 17.2757 15.6692C17.403 15.3178 17.3679 14.9281 17.18 14.6049L11.0788 4.11615C11.0788 4.11615 10.7499 3.49487 9.99921 3.49487C9.24848 3.49487 8.92124 4.11615 8.92124 4.11615L2.82003 14.6049C2.63207 14.9281 2.59701 15.3178 2.72429 15.6692C2.90543 16.1693 3.38077 16.5025 3.91316 16.5025H16.0868Z" fill="#EB5757"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M9.99994 6.00003C10.4142 6.00003 10.7499 6.33582 10.7499 6.75003V11.25C10.7499 11.6642 10.4142 12 9.99994 12C9.58573 12 9.24994 11.6642 9.24994 11.25V6.75003C9.24994 6.33582 9.58573 6.00003 9.99994 6.00003Z" fill="#EB5757"/>
-</svg>
-`;
                 if (countermsg) {
                     const convoListFilter = countermsg.querySelector(".ConvoListFilter");
                     if (convoListFilter) {
                         convoListFilter.setAttribute(
                             `onclick`,
-                            `showFastBox(getLang("global_warning"), "${getTextTTNum(vk.lang)[2]
+                            `showFastBox(getLang("global_warning"), "${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[2]
                             }", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`
                         );
                     }
