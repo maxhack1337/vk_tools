@@ -75,7 +75,7 @@ const strings = {
   ],
   messagesDefaultTheme: ["Сохранение внешнего вида сообщений", "Preserving the appearance of messages", "Збереження зовнішнього вигляду повідомлень"],
   messagesDefaultThemeDescription: ['Внимание!<br>Не активируйте эту функцию, если вы используете вид сообщений "блоки"', 'Attention!<br>Do not activate this feature if you are using the "blocks" message view', 'Увага!<br>Не активуйте цю функцію, якщо ви використовуєте вигляд повідомлень "блоки"'],
-  reloadFunctionsButton: ["Кнопка перезагрузки функций", "Reload button", "Кнопка перезавантаження функцій"],
+  reloadFunctionsButton: ["Стандартный размер стикеров", "Standard size of stickers", "Стандартний розмір стікерів"],
   saveSettingsToFile: ["Сохранить настройки в файл", "Save settings", "Зберегти налаштування в файл"],
   loadSettingsFromFile: ["Загрузить настройки из файла", "Load settings from file", "Завантажити налаштування з файлу"],
   resetSettings: ["Сбросить настройки", "Reset settings", "Скинути налаштування"],

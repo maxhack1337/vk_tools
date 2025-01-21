@@ -59,17 +59,17 @@ let x = new showFastBox();
 
     x.content(`  <div class="container">
     <div class="content">
-      <h1 class="ui_rmenu_label-text">Расширение установлено!</h1>
-      <h2 class="ui_rmenu_label-text">Для быстрого доступа к настройкам расширения вам нужно закрепить его</h2>
+      <h1 class="ui_rmenu_label-text">${installBoxTitle(vk.lang)[0]}</h1>
+      <h2 class="ui_rmenu_label-text">${installBoxTitle(vk.lang)[1]}</h2>
 	  <ol style="height:80px">
-        <li class="fl_l">Нажмите на иконку пазлов</li>
-        <li class="fl_l">Найдите VK Tools в списке расширений</li>
-        <li class="fl_l">Нажмите на "булавку"</li>
+        <li class="fl_l">${installBoxTitle(vk.lang)[2]}</li>
+        <li class="fl_l">${installBoxTitle(vk.lang)[3]}</li>
+        <li class="fl_l">${installBoxTitle(vk.lang)[4]}</li>
 		</ol>
 		<div class="images" style="padding:12px;display:flex;flex-wrap: wrap;justify-content: center;"><img style="margin:8px;border-radius:8px;width:90%;height:90%" src="https://vkenhancer.ru/installed1.png"><img style="margin:8px;border-radius:8px;width:90%;height:90%" src="https://vkenhancer.ru/installed2.png"></div>
 	  </ol>
 	 <h2 class="questions">
-	<div class="ui_rmenu_label-text">Остались вопросы? <a class="vkuiLink" href="https://vk.me/vkenhancer" target="_blank">Напишите нам<span aria-hidden="true" class="vkuiTappable__stateLayer--OFlce"></span></a> и мы постараемся решить их!</div>
+	<div class="ui_rmenu_label-text">${installBoxTitle(vk.lang)[5]} <a class="vkuiLink" href="https://vk.me/vkenhancer" target="_blank">${installBoxTitle(vk.lang)[6]}<span aria-hidden="true" class="vkuiTappable__stateLayer--OFlce"></span></a> ${installBoxTitle(vk.lang)[7]}</div>
 	</div>
 	  <a>
   </h2>

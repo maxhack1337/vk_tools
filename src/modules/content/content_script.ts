@@ -293,9 +293,9 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
   }
 
   if (styles.reloadButton) {
-    backToolsButton();
+    lessStickerAdd();
   } else {
-    hideToolsButton();
+    lessStickerRemove();
   }
 
   if (styles.isGraffity) {
@@ -758,18 +758,18 @@ function cameraPhotoDel() {
   }
 }
 
-//Скрыть кнопку перезагрузки функций VK Tools
-function hideToolsButton() {
-  let styleElement = fromId("enbutton");
+//Размер стикеров
+function lessStickerAdd() {
+  let styleElement = fromId("lesssticker");
   if (!styleElement) {
-    styleElement = create("style", {}, { id: "enbutton" });
+    styleElement = create("style", {}, { id: "lesssticker" });
     document.head.appendChild(styleElement);
   }
-  styleElement.innerHTML = "#vkEnhancerReboot {display:none;}";
+  styleElement.innerHTML = "[class^='Sticker__sticker'].AttachSticker[style^='--sticker-size: 168px;'] {width: 128px!important; height: 128px! important; --sticker-size: 128px!important}";
 }
 
-function backToolsButton() {
-  const customStyle = fromId("enbutton");
+function lessStickerRemove() {
+  const customStyle = fromId("lesssticker");
   if (customStyle) {
     customStyle.remove();
   }

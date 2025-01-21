@@ -94,6 +94,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
         <CheckBox type={"checkBox"} label={getLang("oldMessagesBadge")} isNew={false} isFire={false} id={"oldMessagesBadge"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("disableMessageCounter")} isNew={false} isFire={false} id={"disableMessageCounter"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("hideMessageFooter")} isNew={false} isFire={false} id={"hideMessageFooter"} shouldReload={false} />,
+        <CheckBox type={"checkBox"} label={getLang("reloadFunctionsButton")} isNew={true} isFire={false} id={"reloadFunctionsButton"} shouldReload={false} />,
         <EmojiHotBarBlock label={getLang("emojiHotbar")} placeholder={getLang("enterEmojiCodes")} buttonLabel={getLang("updateHotbar")} description={getLang("emojiHotbarDescription")} option={"emojiHotbar"} />,
         <CheckBox type={"checkBox"} label={getLang("newMessengerDesign")} isNew={false} isFire={true} id={"newMessengerDesign"} shouldReload={true} description={getLang("newMessengerDesignDescription")} />,
       ];
@@ -108,7 +109,6 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
         <CheckBox type={"checkBox"} label={getLang("showPollResults")} isNew={false} isFire={false} id={"showPollResults"} shouldReload={true} description={getLang("defaultPollHidden")} />,
         <CheckBox type={"checkBox"} label={getLang("doNotDisturb")} isNew={false} isFire={false} id={"doNotDisturb"} shouldReload={true} description={getLang("doNotDisturbDescription")} />,
         <DiscoverIdBlock label={getLang("enterProfileGroupID")} placeholder={getLang("notUserOrGroup")} buttonLabel={getLang("knowID")} description={getLang("enterProfileGroupIDDescription")} option={"discoverID"} />,
-        <CheckBox type={"checkBox"} label={getLang("reloadFunctionsButton")} isNew={false} isFire={false} id={"reloadFunctionsButton"} shouldReload={false} />,
         <HeaderPseudo label={getLang("pseudoTab3")} />,
         <SettingsElement id={"saveSettingsToFile"} label={getLang("saveSettingsToFile")} canFile={false} />,
         <SettingsElement id={"loadSettingsFromFile"} label={getLang("loadSettingsFromFile")} canFile={true} />,
