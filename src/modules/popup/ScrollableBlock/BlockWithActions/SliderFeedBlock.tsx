@@ -1,53 +1,52 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 
-interface SliderBlockProps {
+interface SliderFeedBlockProps {
   label: string;
-  rangeMin: number;
-  rangeMax: number;
+  rangeMinFeed: number;
+  rangeMaxFeed: number;
   id: string;
 }
 
-const SliderBlock = ({ label, rangeMin, rangeMax, id }: SliderBlockProps) => {
+const SliderFeedBlock = ({ label, rangeMinFeed, rangeMaxFeed, id }: SliderFeedBlockProps) => {
   if (label === "") {
     return null;
   }
 
-  const [value, setValue] = useState(rangeMax);
+  const [valueFeed, setValueFeed] = useState(rangeMinFeed);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    chrome.storage.local.get(["sliderValue"], (result) => {
-      const storedValue = result.sliderValue;
+    chrome.storage.local.get(["feedValue"], (result) => {
+      const storedValue = result.feedValue;
       if (storedValue !== undefined) {
-        setValue(storedValue);
+        setValueFeed(storedValue);
       } else {
-        setValue(rangeMax);
+        setValueFeed(rangeMinFeed);
       }
       setIsLoaded(true);
     });
-  }, [rangeMax]);
+  }, [rangeMinFeed]);
 
   useEffect(() => {
     if (isLoaded) {
-      const sliderElement = document.getElementById("slider") as HTMLInputElement;
+      const sliderElement = document.getElementById("slider-feed") as HTMLInputElement;
       if (sliderElement) {
-        sliderElement.value = value.toString();
-        updateSliderColor(value);
-        saveSliderValue(value);
+        sliderElement.value = valueFeed.toString();
+        updateSliderColor(valueFeed);
+        saveSliderValue(valueFeed);
       }
     }
-  }, [value, isLoaded]);
+  }, [valueFeed, isLoaded]);
 
   const updateSliderColor = (value: number) => {
-    const sliderValueElement = document.getElementById("slider-value") as HTMLElement;
+    const sliderValueElement = document.getElementById("slider-value-feed") as HTMLElement;
     if (sliderValueElement) {
-      sliderValueElement.textContent = `${value}%`;
+      sliderValueElement.textContent = `${value}px`;
     }
-    const sliderElement = document.getElementById("slider") as HTMLInputElement;
+    const sliderElement = document.getElementById("slider-feed") as HTMLInputElement;
     if (sliderElement) {
-      const percentage = value;
+      const percentage = ((value - rangeMinFeed) / (rangeMaxFeed - rangeMinFeed)) * 100;
       const colorBefore = `linear-gradient(to right, #397dcc ${percentage}%, #ffffff ${percentage}%)`;
       sliderElement.style.background = colorBefore;
     }
@@ -55,18 +54,18 @@ const SliderBlock = ({ label, rangeMin, rangeMax, id }: SliderBlockProps) => {
 
   const saveSliderValue = (value: number) => {
     chrome.storage.local.set({
-      sliderValue: value,
+      feedValue: value,
     });
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value, 10);
-    setValue(newValue);
+    setValueFeed(newValue);
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const activeTab = tabs[0];
       if (activeTab && activeTab.id !== undefined) {
         chrome.tabs.sendMessage(activeTab.id, {
-          type: "sliderValue",
+          type: "feedValue",
           value: newValue,
         });
       }
@@ -77,22 +76,22 @@ const SliderBlock = ({ label, rangeMin, rangeMax, id }: SliderBlockProps) => {
     <div id={id} className="slider-container">
       <div className="slider-value-container">
         <label htmlFor="slider">{label}</label>
-        <p id="slider-value">{value}%</p>
+        <p id="slider-value-feed">{valueFeed}px</p>
       </div>
       <input
         type="range"
-        id="slider"
-        min={rangeMin}
-        max={rangeMax}
-        value={value}
+        id="slider-feed"
+        min={rangeMinFeed}
+        max={rangeMaxFeed}
+        value={valueFeed}
         onChange={handleInputChange}
         className="custom-slider"
         style={{
-          background: `linear-gradient(to right, #397dcc ${value}%, #ffffff ${value}%)`,
+          background: `linear-gradient(to right, #397dcc ${((valueFeed - rangeMinFeed) / (rangeMaxFeed - rangeMinFeed)) * 100}%, #ffffff ${((valueFeed - rangeMinFeed) / (rangeMaxFeed - rangeMinFeed)) * 100}%)`,
         }}
       />
     </div>
   );
 };
 
-export default SliderBlock;
+export default SliderFeedBlock;

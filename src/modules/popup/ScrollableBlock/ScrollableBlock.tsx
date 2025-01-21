@@ -18,6 +18,7 @@ import SettingsElement from "./Settings/SettingsElement";
 import HeaderPseudoTransparent from "./HeaderPseudo/HeaderPseudoTransparent";
 import CardWithLink from "./CardWithLink";
 import SecondaryHeaderPseudoLittle from "./SecondaryHeaderPseudo/SecondaryHeaderPseudoLittle";
+import SliderFeedBlock from "./BlockWithActions/SliderFeedBlock";
 interface ScrollableBlockProps {
   id: string;
 }
@@ -30,7 +31,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
     <CheckBox type={"checkBox"} label={getLang("alternativeScrollbar")} isNew={false} isFire={false} id={"alternativeScrollbar"} shouldReload={false} />,
     <CheckBox type={"checkBox"} label={getLang("fixLeftMenu")} isNew={false} isFire={false} id={"fixLeftMenu"} shouldReload={false} />,
     <CheckBox type={"checkBox"} label={getLang("tabletMenu")} isNew={false} isFire={false} id={"tabletMenu"} shouldReload={false} />,
-    <CheckBox type={"checkBox"} label={getLang("doWideFeed")} isNew={false} isFire={false} id={"doWideFeed"} shouldReload={false} />,
+    <SliderFeedBlock label={getLang("doWideFeed")} rangeMinFeed={550} rangeMaxFeed={895} id={"doWideFeed"} />,
     <CheckBox type={"checkBox"} label={getLang("garlandDisable")} isNew={false} isFire={false} id={"garlandDisable"} shouldReload={false} />,
     <BlockWithInput inputTypes={"image/jpeg,image/png,image/gif,image/webp,image/svg+xml"} label={getLang("customLogoHeader")} placeholder={getLang("addLink")} buttonLabel={getLang("set")} canLink={true} isTextBoxAvailable={true} option={"customlogo"} />,
     <BlockWithInput inputTypes={"image/jpeg,image/png,image/gif,image/webp,image/svg+xml"} label={getLang("customBackground")} placeholder={getLang("addLink")} buttonLabel={getLang("set")} canLink={true} isTextBoxAvailable={true} option={"custombg"} />,
@@ -49,7 +50,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
         <CheckBox type={"checkBox"} label={getLang("alternativeScrollbar")} isNew={false} isFire={false} id={"alternativeScrollbar"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("fixLeftMenu")} isNew={false} isFire={false} id={"fixLeftMenu"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("tabletMenu")} isNew={false} isFire={false} id={"tabletMenu"} shouldReload={false} />,
-        <CheckBox type={"checkBox"} label={getLang("doWideFeed")} isNew={false} isFire={false} id={"doWideFeed"} shouldReload={false} />,
+        <SliderFeedBlock label={getLang("doWideFeed")} rangeMinFeed={550} rangeMaxFeed={895} id={"doWideFeed"} />,
         <CheckBox type={"checkBox"} label={getLang("garlandDisable")} isNew={false} isFire={false} id={"garlandDisable"} shouldReload={false} />,
         <BlockWithInput inputTypes={"image/jpeg,image/png,image/gif,image/webp,image/svg+xml"} label={getLang("customLogoHeader")} placeholder={getLang("addLink")} buttonLabel={getLang("set")} canLink={true} isTextBoxAvailable={true} option={"customlogo"} />,
         <BlockWithInput inputTypes={"image/jpeg,image/png,image/gif,image/webp,image/svg+xml"} label={getLang("customBackground")} placeholder={getLang("addLink")} buttonLabel={getLang("set")} canLink={true} isTextBoxAvailable={true} option={"custombg"} />,

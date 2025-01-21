@@ -3,9 +3,6 @@ import fromId from "./fromId";
 
 const addOpacity = (sliderValueCount: number) => {
   const opacity = sliderValueCount / 100;
-  const alphaHex = Math.floor(opacity * 255)
-    .toString(16)
-    .padStart(2, "0");
   let rule;
   if (document.querySelector("[scheme=vkcom_light]")) {
     rule =

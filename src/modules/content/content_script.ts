@@ -84,7 +84,8 @@ const functions = [
   "disableReadingMessagesState",
   "showPollResultsState",
   "showPatronymicState",
-  "hideMessageFooterState"
+  "hideMessageFooterState",
+  "feedValue"
 ]
 
 const applySavedStyles = () => {
@@ -130,6 +131,7 @@ const applySavedStyles = () => {
     const showPollResults = items.showPollResultsState;
     const showPatronymic = items.showPatronymicState;
     const hideMessageFooter = items.hideMessageFooterState;
+    const feedValue = items.feedValue;
     applyStyles({
       isVideoModal,
       altScroll,
@@ -170,12 +172,13 @@ const applySavedStyles = () => {
       disableReadingMessages,
       showPollResults,
       showPatronymic,
-      hideMessageFooter
+      hideMessageFooter,
+      feedValue
     })
   });
 }
 
-function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; hideRecentComm: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; }) {
+function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; hideRecentComm: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; feedValue: any; }) {
   if (styles.removeNFT) {
     hideNFT_Avatars();
   }
@@ -183,9 +186,7 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
     backNFT_Avatars();
   }
 
-  if (styles.sliderValue) {
     addOpacity(styles.sliderValue);
-  }
 
   if (styles.removeMessageReacts) {
     removeMessageReactions();
@@ -418,10 +419,8 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
 	 enableFooter();  
   }
 
-  if (styles.wideFeed) {
-	  wideFeedEnable();
-  } else {
-	  wideFeedRemove();
+  if (styles.feedValue) {
+    addValue(styles.feedValue);
   }
 
   if (styles.oldPosting) {
@@ -917,7 +916,7 @@ function enableFooter() {
 }
 
 //Широкий стиль стены//
-function wideFeedEnable() {
+function addValue(value:number) {
   let styleElement = fromId("wideFeedEnabler");
   if (!styleElement) {
     styleElement = create("style", {}, { id: "wideFeedEnabler" });
@@ -926,15 +925,8 @@ function wideFeedEnable() {
   styleElement.innerHTML =
     `.wide_column_left:has(#ui_rmenu_news)
     {
-        --narrow-column-width:160px!important
+        --narrow-column-width:${895-value}px!important
     }`;
-}
-
-function wideFeedRemove() {
-  const customStyle = fromId("wideFeedEnabler");
-  if (customStyle) {
-    customStyle.remove();
-  }
 }
 
 //Реакции к постам
