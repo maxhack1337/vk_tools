@@ -54,6 +54,7 @@ const allStates = [
   "showPollResultsState",
   "doNotDisturbState",
   "reloadFunctionsButtonState",
+  "messageTextUpState",
 ];
 
 const clearAllStates: { [key: string]: any } = {
@@ -98,6 +99,7 @@ const clearAllStates: { [key: string]: any } = {
   showPollResultsState: false,
   doNotDisturbState: false,
   reloadFunctionsButtonState: false,
+  messageTextUpState: false,
 };
 
 const SettingsElement = ({ id, label, canFile }: SettingsElementProps) => {

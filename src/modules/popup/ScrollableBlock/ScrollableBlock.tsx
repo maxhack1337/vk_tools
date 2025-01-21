@@ -94,6 +94,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
         <CheckBox type={"checkBox"} label={getLang("oldMessagesBadge")} isNew={false} isFire={false} id={"oldMessagesBadge"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("disableMessageCounter")} isNew={false} isFire={false} id={"disableMessageCounter"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("hideMessageFooter")} isNew={false} isFire={false} id={"hideMessageFooter"} shouldReload={false} />,
+        <CheckBox type={"checkBox"} label={getLang("messageTextUp")} isNew={true} isFire={false} id={"messageTextUp"} shouldReload={true} />,
         <CheckBox type={"checkBox"} label={getLang("reloadFunctionsButton")} isNew={true} isFire={false} id={"reloadFunctionsButton"} shouldReload={false} />,
         <EmojiHotBarBlock label={getLang("emojiHotbar")} placeholder={getLang("enterEmojiCodes")} buttonLabel={getLang("updateHotbar")} description={getLang("emojiHotbarDescription")} option={"emojiHotbar"} />,
         <CheckBox type={"checkBox"} label={getLang("newMessengerDesign")} isNew={false} isFire={true} id={"newMessengerDesign"} shouldReload={true} description={getLang("newMessengerDesignDescription")} />,

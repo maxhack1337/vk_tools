@@ -139,6 +139,7 @@ const strings = {
   feedOldThemeDescription: ["Максимально приближённый к старому дизайн ленты и постов", "The design of the feed and posts is as close to the old as possible", "Максимально наближений до старого дизайн стрічки та постів"],
   oldPosting: ["Старый редактор постов", "Old post publisher", "Старий редактор постів"],
   oldPostingDescription: ["Старый редактор постов, удалённый ВК в начале декабря 2024", "Old post publisher, removed by VK in early December 2024", "Старий редактор постів, видалений ВК на початку грудня 2024 року"],
+  messageTextUp: ["Отображать текст перед вложениями", "Show text before attachments", "Відображати текст перед вкладеннями"],
 };
 
 export default strings;

@@ -32,6 +32,7 @@ import swapPhoto from "./functions/swapPhoto/swapPhoto";
 import downloadAudioMessage from "./functions/downloadAudioMessage/downloadAudioMessage";
 import graffityVoice from "./functions/graffityVoice/graffityVoice";
 import resetFunctionsOnInstall from "./install/resetFunctionsOnInstall";
+import messageTextUp from "./functions/messageTextUp/messageTextUp";
 
 console.log('[VK Tools] Injected');
 const adsSelector = [
@@ -147,6 +148,14 @@ window.addEventListener("message", async (event) => {
     messageAct = '';
   }
   switch (messageAct) {
+    case "messageTextUpEnabled": {
+      localStorage.setItem("isMessageTextUp", 'true');
+      break;
+    }
+    case "messageTextUpDisabled": {
+      localStorage.setItem("isMessageTextUp", 'false');
+      break;
+    }
     case "resetFunctions": {
       resetFunctionsOnInstall();
       break;
@@ -382,3 +391,5 @@ if (localStorage.getItem("removeAway") === "true") {
     }
   });
 }
+//Текст сверху сообщения
+messageTextUp();
