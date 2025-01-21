@@ -439,9 +439,13 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
 
 document.addEventListener("DOMContentLoaded", applySavedStyles);
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  if (message.type === "checkId") {
-    checkId();
-  } else {
+    if (message.type === "checkId") {
+      checkId();
+    } else if (message.type === "resetFunctions") {
+      customMessage("resetFunctions", 'true');
+    } else if (message.type === 'checkIfLoaded') {
+      sendResponse({ loaded: true });
+    } else {
     applySavedStyles();
   }
 });

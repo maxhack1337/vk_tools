@@ -10,8 +10,28 @@ chrome.commands.onCommand.addListener((shortcut) => {
 
 chrome.runtime.onInstalled.addListener(function(details) {
     if (details.reason === 'install') {
-        chrome.tabs.create({ url: 'install.html' });
-    } else if (details.reason === 'update') {
+    chrome.tabs.create({ url: 'https://vk.com' }, function(tab) {
+        chrome.tabs.onUpdated.addListener(function listener(tabId, changeInfo) {
+            if (tabId === tab.id && changeInfo.status === 'complete') {
+                chrome.tabs.onUpdated.removeListener(listener);
+                chrome.tabs.sendMessage(tabId, { type: 'checkIfLoaded' }, function(response) {
+                    if (chrome.runtime.lastError) {
+                        console.error("Error sending message:", chrome.runtime.lastError);
+                    } else if (response && response.loaded) {
+                        let message = {
+                            type: 'resetFunctions',
+                            value: true,
+                        };
+                        sendMessageToContentScript(tabId, message);
+                    } else {
+                        console.warn("Content script not loaded.");
+                    }
+                });
+            }
+        });
+    });
+}
+ else if (details.reason === 'update') {
         chrome.action.setBadgeText({ text: '!' });
         chrome.action.setBadgeBackgroundColor({ color: '#FF0000' });
         chrome.storage.local.set({ popupOpened: false });
@@ -26,7 +46,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 });
 
 function sendMessageToContentScript(tabId: number, message: any) {
-  chrome.tabs.sendMessage(tabId, message);
+    chrome.tabs.sendMessage(tabId, message);
 }
 
 

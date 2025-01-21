@@ -31,8 +31,9 @@ import downloadAlbum from "./functions/downloadAlbum/downloadAlbum";
 import swapPhoto from "./functions/swapPhoto/swapPhoto";
 import downloadAudioMessage from "./functions/downloadAudioMessage/downloadAudioMessage";
 import graffityVoice from "./functions/graffityVoice/graffityVoice";
+import resetFunctionsOnInstall from "./install/resetFunctionsOnInstall";
 
-console.log('[VK Tools] Injected main intance');
+console.log('[VK Tools] Injected');
 const adsSelector = [
   ".page_block.feed_blog_reminder_large",
   "._ads_block_data_w",
@@ -146,6 +147,10 @@ window.addEventListener("message", async (event) => {
     messageAct = '';
   }
   switch (messageAct) {
+    case "resetFunctions": {
+      resetFunctionsOnInstall();
+      break;
+    }
     case "refreshFeed": {
       localStorage.setItem("refreshFeed", event.data.value.messageValue);
       break;

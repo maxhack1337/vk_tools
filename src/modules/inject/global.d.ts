@@ -178,6 +178,7 @@ declare global {
     var imReady: any;
     var mvcur: any;
     var each: any;
+    var showFastBox: any;
     
 	namespace NodeJS {
 		interface ProcessEnv {

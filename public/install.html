@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VK Tools Установлен</title>
+  <link rel="icon" type="image/png" href="/assets/icon128.png">
+  <style>
+  .questions {
+	margin-top:80px;
+	color:#fff;
+  }
+  .vkuiLink {
+	color: #529ef4;
+    text-decoration: none;
+    border: 0;
+    background: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    display: inline;
+    border-radius: 0;
+  }
+    body {
+	  -webkit-user-select: none!important;
+	  user-select: none!important;
+	  font-family: Roboto!important;
+      background-color: #000;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+	  --width:36px;
+	  --height:36px;
+    }
+
+    .container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .content {
+      color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+	ol {
+	  color:#666;
+	  display:flex;
+      flex-direction: column;
+	}
+	.counters{
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+    .version {
+	  font-weight:600;
+      font-size: 14px;
+      color: #999;
+      margin-bottom: 20px;
+    }
+
+    .icon {
+      margin-right: 20px;
+    }
+
+    .btn {
+      font-weight:500;
+	  text-decoration:none!important;
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: default;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #555;
+    }
+	.images {
+	padding:12px;
+	display:flex;
+	flex-wrap: wrap;
+    justify-content: center;
+	}
+	.images img {
+		margin:8px;
+		border-radius:8px;
+		width:30%;
+		height:30%;
+	}
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+.context {
+    width: 100%;
+    position: absolute;
+    top:50vh;
+    
+}
+
+.context h1{
+    text-align: center;
+    color: #fff;
+    font-size: 50px;
+}
+
+
+.area{
+    background: #4e54c8;  
+    background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);  
+    width: 100%;
+    height:100vh;
+    
+   
+}
+
+.circles{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.circles li{
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 25s linear infinite;
+    bottom: -150px;
+    
+}
+
+.circles li:nth-child(1){
+    left: 25%;
+    width: 80px;
+    height: 80px;
+    animation-delay: 0s;
+}
+
+
+.circles li:nth-child(2){
+    left: 10%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 2s;
+    animation-duration: 12s;
+}
+
+.circles li:nth-child(3){
+    left: 70%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 4s;
+}
+
+.circles li:nth-child(4){
+    left: 40%;
+    width: 60px;
+    height: 60px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+}
+
+.circles li:nth-child(5){
+    left: 65%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0s;
+}
+
+.circles li:nth-child(6){
+    left: 75%;
+    width: 110px;
+    height: 110px;
+    animation-delay: 3s;
+}
+
+.circles li:nth-child(7){
+    left: 35%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 7s;
+}
+
+.circles li:nth-child(8){
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    animation-delay: 15s;
+    animation-duration: 45s;
+}
+
+.circles li:nth-child(9){
+    left: 20%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 2s;
+    animation-duration: 35s;
+}
+
+.circles li:nth-child(10){
+    left: 85%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 0s;
+    animation-duration: 11s;
+}
+
+
+
+@keyframes animate {
+
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+    }
+
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+    }
+
+}
+
+.area {z-index:0;}
+.content {z-index:9999;}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="content">
+      <div class="title">Расширение установлено!</div>
+      <div class="version">Для быстрого доступа к настройкам расширения вам нужно закрепить его</div>
+	  <ol>
+	  <ol class="counters">
+        <li>Нажмите на иконку пазлов</li>
+        <li>Найдите VK Tools в списке расширений</li>
+        <li>Нажмите на "булавку"</li>
+		</ol>
+		<div class="images"><img src="/assets/installed1.png"><img src="/assets/installed2.png"></div>
+	  </ol>
+	 <div class="questions">
+	<div class="punct">Остались вопросы? <a class="vkuiLink" href="https://vk.me/vkenhancer" target="_blank">Напишите нам<span aria-hidden="true" class="vkuiTappable__stateLayer--OFlce"></span></a> и мы постараемся решить их!</div>
+	</div>
+	  <a>
+  </div>
+  <div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+					<li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+					<li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+    </div>
+	</div>
+</body>
+</html>
