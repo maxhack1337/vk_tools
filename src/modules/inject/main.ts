@@ -33,6 +33,7 @@ import downloadAudioMessage from "./functions/downloadAudioMessage/downloadAudio
 import graffityVoice from "./functions/graffityVoice/graffityVoice";
 import resetFunctionsOnInstall from "./install/resetFunctionsOnInstall";
 import messageTextUp from "./functions/messageTextUp/messageTextUp";
+import oldFeed from "./functions/oldFeed/oldFeed";
 
 console.log('[VK Tools] Injected');
 const adsSelector = [
@@ -148,6 +149,14 @@ window.addEventListener("message", async (event) => {
     messageAct = '';
   }
   switch (messageAct) {
+    case "feedOldThemeEnabled": {
+      localStorage.setItem("feedOldPosts", 'true');
+      break;
+    }
+    case "feedOldThemeDisabled": {
+      localStorage.setItem("feedOldPosts", 'false');
+      break;
+    }
     case "messageTextUpEnabled": {
       localStorage.setItem("isMessageTextUp", 'true');
       break;
@@ -308,6 +317,8 @@ deferredCallback(
         downloadAudioMessage();
         //Кнопки гс и граффити в мессенджере
         graffityVoice();
+        //Старый дизайн ленты и постов
+        oldFeed();
         
   },
   { variable: "getLang" }

@@ -307,6 +307,12 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
     customMessage("messageTextUpDisabled");
   }
 
+  if (styles.oldPostStyle) {
+    customMessage("feedOldThemeEnabled");
+  } else {
+    customMessage("feedOldThemeDisabled");
+  }
+
   if (styles.isGraffity) {
     canLoadGraffity();
     chrome.storage.local.get(['vkenAccessToken'], function (result) {

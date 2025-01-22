@@ -18,7 +18,8 @@ const keys = [
     "customLeftMenuLabels",
     "vk_enhancer_access_token",
     "secretFunctions",
-    "isMessageTextUp"
+    "isMessageTextUp",
+    "feedOldPosts"
 ];
 
 const resetFunctionsOnInstall = () => {
