@@ -179,6 +179,7 @@ declare global {
     var mvcur: any;
     var each: any;
     var showFastBox: any;
+    var Stories: any;
 
 
     

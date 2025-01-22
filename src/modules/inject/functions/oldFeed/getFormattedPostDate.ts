@@ -4,16 +4,16 @@ import getMonthNamePost from "./getMonthNamePost";
       const getFormattedPostDate = (onlineInfo: number) => {
         let currentTime = Math.floor(Date.now() / 1000);
         let secondsAgo = currentTime - onlineInfo;
-        let justNow = getLang?.("global_just_now").toString();
-        let secsAgo = getLang?.("global_secs_ago", "raw").toString();
-        let minsAgo = getLang?.("global_mins_ago", "raw").toString();
-        let hours12345 = getLang?.("global_word_hours_ago", "raw").toString();
+        let justNow = getLang?.("global_just_now");
+        let secsAgo = getLang?.("global_secs_ago", "raw");
+        let minsAgo = getLang?.("global_mins_ago", "raw");
+        let hours12345 = getLang?.("global_word_hours_ago", "raw");
         let minutes12345 = getLang?.(
           "mobile_profile_status_word_mins_ago",
           "raw"
-        ).toString();
-        let longAgo = getLang?.("global_short_date_time", "raw").toString();
-		let longAgoYear = getLang?.("global_short_date_year_time", "raw").toString();
+        );
+        let longAgo = getLang?.("global_short_date_time", "raw");
+		let longAgoYear = getLang?.("global_short_date_year_time", "raw");
 
         if (secondsAgo <= 0) {
           return justNow;
