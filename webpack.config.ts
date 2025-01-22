@@ -32,5 +32,8 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.css'],
+    alias: {
+        'hls.js': path.resolve(__dirname, 'node_modules/hls.js'),
+    },
   },
 };

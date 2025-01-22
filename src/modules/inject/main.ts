@@ -34,6 +34,7 @@ import graffityVoice from "./functions/graffityVoice/graffityVoice";
 import resetFunctionsOnInstall from "./install/resetFunctionsOnInstall";
 import messageTextUp from "./functions/messageTextUp/messageTextUp";
 import oldFeed from "./functions/oldFeed/oldFeed";
+import downloadMusic from "./functions/downloadMusic/downloadMusic";
 
 console.log('[VK Tools] Injected');
 const adsSelector = [
@@ -319,6 +320,8 @@ deferredCallback(
         graffityVoice();
         //Старый дизайн ленты и постов
         oldFeed();
+        //Скачивание музыки
+        downloadMusic();
         
   },
   { variable: "getLang" }
