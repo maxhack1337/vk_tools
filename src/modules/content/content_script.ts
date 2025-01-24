@@ -62,7 +62,7 @@ const functions = [
   "feedOldThemeState",
   "fixLeftMenuState",
   "garlandDisableState",
-  "hideRecentCommunitiesState",
+  "stickerPopupHideState",
   "leftMenuState",
   "newMediaViewerState",
   "newMessengerDesignState",
@@ -107,7 +107,7 @@ const applySavedStyles = () => {
     const oldPostStyle = items.feedOldThemeState;
     const fixLeftMenu = items.fixLeftMenuState;
     const garland = items.garlandDisableState;
-    const hideRecentComm = items.hideRecentCommunitiesState;
+    const stickerPopupHide = items.stickerPopupHideState;
     const leftMenu = items.leftMenuState;
     const refreshFeed = items.newMediaViewerState;
     const oldPosting = items.oldPostingState;
@@ -150,7 +150,7 @@ const applySavedStyles = () => {
       oldPostStyle,
       fixLeftMenu,
       garland,
-      hideRecentComm,
+      stickerPopupHide,
       leftMenu,
       refreshFeed,
       oldPosting,
@@ -181,7 +181,7 @@ const applySavedStyles = () => {
   });
 }
 
-function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; hideRecentComm: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; feedValue: any; messageTextUp: any; }) {
+function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; stickerPopupHide: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; feedValue: any; messageTextUp: any; }) {
   if (styles.removeNFT) {
     hideNFT_Avatars();
   }
@@ -260,10 +260,10 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
     emojiBack();
   }
 
-  if (styles.hideRecentComm) {
-    recentRemove();
+  if (styles.stickerPopupHide) {
+    stickersRemove();
   } else {
-    recentBack();
+    stickersBack();
   }
 
   if (styles.altScroll) {
@@ -701,19 +701,39 @@ function emojiBack() {
   }
 }
 
-//Недавно посещенные в группах
-function recentRemove() {
-  let styleElement = fromId("removeRecent");
+//Скрыть всплывающие стикеры
+function stickersRemove() {
+  let styleElement = fromId("removePopupStickers");
   if (!styleElement) {
-    styleElement = create("style", {}, { id: "removeRecent" });
+    styleElement = create("style", {}, { id: "removePopupStickers" });
     document.head.appendChild(styleElement);
   }
   styleElement.innerHTML =
-    "#react_rootRecentGroups {display: none !important;}";
+    `#popup-sticker-convo-main-history-container [class^="PlayBackArea__wrapper"] {
+        display:none;
+    }
+    [class^="PlayBackArea__wrapper"]:has(canvas),[class^="PlayBackArea__wrapper"]:has([class^="GradientLayer__wrapperWithLinearGradient"]) {
+        display:none;
+    }
+        
+    .popupStickerIcon, .AttachSticker__iconClass {
+        display: none!important;
+    }
+        
+    [class^="PopupWrapper__stickerAnimationIsPlaying"], .popupStickerWrapperAnimationIsPlaying .popupSticker {
+      opacity: 1!important;
+      scale: 1!important;
+    }
+      
+    #popup-sticker-emoji-keyboard-container > [class^="PlayBackArea__wrapper"], [class*="StickersKeyboardRow__stickerRichIcon"], [class^="StickersKeyboardGroupItem__in"] > [class^="Icon__in"] {
+      display:none!important;
+    }`
+    
+    ;
 }
 
-function recentBack() {
-  const customStyle = fromId("removeRecent");
+function stickersBack() {
+  const customStyle = fromId("removePopupStickers");
   if (customStyle) {
     customStyle.remove();
   }

@@ -18,7 +18,7 @@ const strings = {
   showPollResults: ["Показывать результаты опросов", "Show poll results", "Показувати результати опитувань"],
   defaultPollHidden: ["По умолчанию результаты опроса скрыты до выбора ответа", "Default poll hidden", "За замовчуванням результати опитування приховані до вибору відповіді"],
   avatarNameNear: ["Имя возле аватарки VK ID", "Name next to VK ID avatar", "Ім'я біля аватарки VK ID"],
-  hideRecentCommunities: ['Скрыть "недавно посещали" в сообществах', "Hide recent communities", 'Приховати "недавно відвідані" в спільнотах'],
+  stickerPopupHide: ["Скрывать всплывающие стикеры", "Hide pop-up stickers", "Приховувати спливаючі стікери"],
   doNotDisturb: ['Режим "не беспокоить"', "Do not disturb", 'Режим "не турбувати"'],
   doNotDisturbDescription: [
     "Данная функция отключает входящие звонки. Звонящий не будет знать, что вы отключили звонки",

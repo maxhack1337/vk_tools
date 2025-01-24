@@ -83,7 +83,9 @@ import getUserStoriesReact from "./getUserStoriesReact";
               photoElement.classList.add("page_square_photo", "crisp_image");
               photoElement.dataset.photoId = photoId;
               photoElement.href = `/photo${photoId}?all=1`;
-              photoElement.onclick = () => {
+              photoElement.onclick = (event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
                   if (showPhoto)
                   showPhoto(photoId, `photos(${oid})`, {
                       temp: {

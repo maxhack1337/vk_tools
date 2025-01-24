@@ -27,7 +27,8 @@ const oldFeed = () => {
             let e = s.closest('._post.Post--redesignV3') as HTMLElement;
 	        if(!e) {
 		        e = s.closest('.wl_post.Post--redesignV3') as HTMLElement;
-	        }
+            }
+            if (!e) return
             createStyle('postStyleOld', innerStyleGet());
             let postBottom = e.querySelector('[class^="PostDateBlock__root"]') as HTMLElement;
             if (postBottom) {
