@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import uploadUpdatePhoto from "./uploadUpdatePhoto";
 
 const sendUpdatePhoto = async(fileNameOutput: string | Blob) => {

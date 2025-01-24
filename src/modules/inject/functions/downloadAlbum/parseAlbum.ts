@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-loop-func */
 import fromId from "../../../content/fromId";
 import getPhoto from "./getPhoto";

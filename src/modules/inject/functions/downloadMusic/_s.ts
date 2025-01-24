@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 const _s = (t: any, e: number) => {
   var i = t.length,

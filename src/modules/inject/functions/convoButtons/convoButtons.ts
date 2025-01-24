@@ -1,6 +1,7 @@
 import fromId from "../../../content/fromId";
 import getBeginChat from "./getBeginChat";
 import getPeerProps from "./getPeerProps";
+import handleClickOutsideBox from "./handleClickOutsideBox";
 import vkToolsOnlineBox from "./vkToolsOnlineBox";
 
 interface OnlineUser {
@@ -45,16 +46,28 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
   )}</span></button>
   </div>`;
   ActionEnhancerMenu.style.position = "absolute";
-  ActionEnhancerMenu.style.display = "none";
-  ActionEnhancerMenu.style.marginTop = "40px";
+  ActionEnhancerMenu.style.top = "40px";
   ActionEnhancerMenu.style.right = "20px";
   ActionEnhancerMenu.style.padding = "4px";
-  upToButton.addEventListener("click", function () {
-    if (ActionEnhancerMenu.style.display === "none")
-      ActionEnhancerMenu.style.display = "flex";
-    else ActionEnhancerMenu.style.display = "none";
+  ActionEnhancerMenu.style.opacity = "0";
+  ActionEnhancerMenu.style.pointerEvents = "none";
+  ActionEnhancerMenu.style.transition = "opacity 0.3s ease";
+
+  upToButton.addEventListener("mouseover", function () {
+      if (ActionEnhancerMenu.style.opacity === "0") {
+          ActionEnhancerMenu.style.pointerEvents = "auto";
+          ActionEnhancerMenu.style.opacity = "1";
+      }
   });
-  e.prepend(ActionEnhancerMenu);
+    
+  upToButton.addEventListener("mouseout", function () {
+      if (ActionEnhancerMenu.style.opacity === "1") {
+          ActionEnhancerMenu.style.pointerEvents = "none";
+          ActionEnhancerMenu.style.opacity = "0";
+      }
+  });
+
+  upToButton.prepend(ActionEnhancerMenu);
   let onlineArr:OnlineUser[] = [];
   try {
     let onlineUsersOf = getPeerProps(e.parentElement!).convo.peerId;
@@ -141,7 +154,10 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
     "click",
     function () {
       window.showWiki({ w: `history${memoizedPeer}_photo` }, null, {});
-      ActionEnhancerMenu.style.display = "none";
+      if (ActionEnhancerMenu.style.opacity === "1") {
+          ActionEnhancerMenu.style.pointerEvents = "none";
+          ActionEnhancerMenu.style.opacity = "0";
+      }
     }
   );
   let cmid = 1;
@@ -164,7 +180,10 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
       } else {
         nav.go(`${urlS1}?cmid=${cmid}`);
       }
-      ActionEnhancerMenu.style.display = "none";
+      if (ActionEnhancerMenu.style.opacity === "1") {
+          ActionEnhancerMenu.style.pointerEvents = "none";
+          ActionEnhancerMenu.style.opacity = "0";
+      }
     }
   );
   try {

@@ -15,7 +15,6 @@ const newDesignFunctions = [
   "vkm_delete_chat",
   "vkm_admin_can_delete_message",
   "vkm_stickers_animation_setting",
-  "vkm_gifs_autoplay",
   "vkm_show_inviter",
   "vkm_video_chat",
   "vkm_up_drafted_convos_in_list"

@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 import fromId from "../../../content/fromId";
 import create from "../../create";
 import deferredCallback from "../../defferedCallback";
@@ -81,6 +82,7 @@ deferredCallback(
           const [n] = e;
           switch (n) {
             case 10002: {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               const [, t, n, o] = e;
               if (n > 10000) {
                 document

@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 const _r = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN0PQRSTUVWXYZO123456789+/=';
 
 const _a = (t: string) => {
