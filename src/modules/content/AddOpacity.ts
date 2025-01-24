@@ -2,7 +2,8 @@ import create from "./create";
 import fromId from "./fromId";
 
 const addOpacity = (sliderValueCount: number) => {
-  const opacity = sliderValueCount / 100;
+  let opacity = sliderValueCount / 100;
+  if (!opacity) opacity = 100;
   let rule;
   if (document.querySelector("[scheme=vkcom_light]")) {
     rule =
