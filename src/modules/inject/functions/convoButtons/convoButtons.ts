@@ -1,7 +1,6 @@
 import fromId from "../../../content/fromId";
 import getBeginChat from "./getBeginChat";
 import getPeerProps from "./getPeerProps";
-import handleClickOutsideBox from "./handleClickOutsideBox";
 import vkToolsOnlineBox from "./vkToolsOnlineBox";
 
 interface OnlineUser {

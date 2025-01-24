@@ -35,6 +35,7 @@ import resetFunctionsOnInstall from "./install/resetFunctionsOnInstall";
 import messageTextUp from "./functions/messageTextUp/messageTextUp";
 import oldFeed from "./functions/oldFeed/oldFeed";
 import downloadMusic from "./functions/downloadMusic/downloadMusic";
+import feedReorder from "./functions/feedReorder/feedReorder";
 
 console.log('[VK Tools] Injected');
 const adsSelector = [
@@ -77,7 +78,7 @@ deferredCallback(
 function XHRListener() {
      const originalSend = XMLHttpRequest.prototype.send;
 
-    XMLHttpRequest.prototype.send = function (data) {
+    XMLHttpRequest.prototype.send = async function (data) {
     const dataString = data === null ? '' : String(data);
     if (/type=typing/.test(dataString) && getLocalValue("nepisalkaValue")) {
       return this.abort();
@@ -92,11 +93,31 @@ function XHRListener() {
     if (/act=a_mard_listened/.test(dataString) && getLocalValue("nechitalkaValue")) {
       return this.abort();
     }
+      
+    if (/subsection=recent/.test(dataString)) {
+      localStorage.setItem('feedValue', 'recent');
+      await feedReorder();
+    }
+      
+    if (/subsection=top/.test(dataString)) {
+      localStorage.setItem('feedValue', 'top');
+      await feedReorder();
+    }
     return originalSend.call(this, data);
   };
 }
 
 XHRListener();
+
+deferredCallback(
+  () => {
+    nav.subscribeOnModuleEvaluated(async () => {
+      await feedReorder();
+    });
+  },
+  { variable: "nav" }
+);
+
 
 deferredCallback(
   () => {
