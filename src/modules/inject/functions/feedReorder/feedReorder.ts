@@ -21,7 +21,12 @@ const feedReorder = async () => {
 
         uiTogglerWrap.addEventListener('click', async function (event) {
             let onOffReverse = onOff === 'top' ? 'recent' : 'top';
-            if (onOffReverse === 'top') uiToggler.classList.remove('on');
+            localStorage.setItem('feedValue',onOffReverse);
+            if (onOffReverse === 'top') {
+                uiToggler.classList.remove('on');
+            } else {
+                uiToggler.classList.add('on');
+            }
             await vkApi.api('newsfeed.setFeedType', { type: onOffReverse, section: 'news' });
             nav.reload();
         });

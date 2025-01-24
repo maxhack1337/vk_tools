@@ -36,6 +36,7 @@ import messageTextUp from "./functions/messageTextUp/messageTextUp";
 import oldFeed from "./functions/oldFeed/oldFeed";
 import downloadMusic from "./functions/downloadMusic/downloadMusic";
 import feedReorder from "./functions/feedReorder/feedReorder";
+import feedReorderRemove from "./functions/feedReorder/feedReorderRemove";
 
 console.log('[VK Tools] Injected');
 const adsSelector = [
@@ -101,6 +102,11 @@ function XHRListener() {
       
     if (/subsection=top/.test(dataString)) {
       localStorage.setItem('feedValue', 'top');
+      await feedReorder();
+    }
+      
+    if (/loaded_from=navigation/.test(dataString)) {
+      feedReorderRemove();
       await feedReorder();
     }
     return originalSend.call(this, data);
@@ -322,7 +328,7 @@ deferredCallback(
         //Классик профиль
         if (getLocalValue("isClassicalProfileDesign")) classicalProfile();
         //Граффити в комментах
-        commentsGraffity();
+        //commentsGraffity();
         //Удалённые сообщения
         removedMessages();
         //Редактированные сообщения
