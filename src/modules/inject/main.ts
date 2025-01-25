@@ -22,7 +22,6 @@ import middleName from "./functions/middleName/middleName";
 import classicalProfile from "./functions/classicalProfile/classicalProfile";
 import refreshFeed from "./functions/refreshFeed/refreshFeed";
 import convoButtons from "./functions/convoButtons/convoButtons";
-import commentsGraffity from "./functions/commentsGraffity/commentsGraffity";
 import removedMessages from "./functions/removedMessages/removedMessages";
 import editMessages from "./functions/editMessages/editMessages";
 import regDate from "./functions/regDate/regDate";
@@ -38,8 +37,11 @@ import downloadMusic from "./functions/downloadMusic/downloadMusic";
 import feedReorder from "./functions/feedReorder/feedReorder";
 import feedReorderRemove from "./functions/feedReorder/feedReorderRemove";
 import oldGroupsPage from "./functions/oldGroupsPage/oldGroupsPage";
+import oldPosting from "./functions/oldPosting/oldPosting";
 
 console.log('[VK Tools] Injected');
+//Старый редактор постов
+oldPosting();
 const adsSelector = [
   ".page_block.feed_blog_reminder_large",
   "._ads_block_data_w",
