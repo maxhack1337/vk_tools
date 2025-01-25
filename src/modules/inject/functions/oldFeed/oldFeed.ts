@@ -75,24 +75,8 @@ const oldFeed = () => {
                         console.log(error);
                     }
                 }
-                //Текст поста   
-                if (!e.querySelector('.PostCopyQuote--redesignV3')) {
-                    try {
-                        let postText = e.querySelector('[class^="vkitPostText__root"]')?.parentElement as HTMLElement;
-                        let postTextElem = e.querySelector('[class^="vkitPostText__root"]') as HTMLElement;
-                        let postContent = e.querySelector('[class^="PostContentContainer__contentContainer"]');
-                        postText.style.padding = "0px 20px";
-                        postTextElem.style.fontSize = "13px";
-                        postTextElem.style.lineHeight = "1.462";
-                        postContent?.prepend(postText);
-                    } catch (error) {
-                        /*console.log(error);*/
-                    }
-                }
                 //Репост поста
-                else {
-                    await postRepost(e, postData);
-                }
+                if(e.querySelector('.PostCopyQuote--redesignV3')) await postRepost(e, postData);
                 //Сабтайтл поста
                 if (e.querySelector('.PostHeaderInfo > .PostHeaderSubtitle .PostHeaderSubtitle__item')) {
                     try {

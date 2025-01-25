@@ -3,39 +3,7 @@ import getFormattedPostDate from "./getFormattedPostDate";
 const postRepost = async (e: Element, postData: { postRaw: any; } | undefined) => {
 			try {
 			let postType = "post";
-			let postText;
 			let isCase = '';
-			if(e.querySelector(':not(.PostCopyQuote--redesignV3) > .PostContentContainer__root [class^="vkitPostText__root"]')) {
-				try {
-					let postText = e.querySelector(':not(.PostCopyQuote--redesignV3) > .PostContentContainer__root [class^="vkitPostText__root"]')?.parentElement as HTMLElement;
-					let postContent = e.querySelector(':not(.PostCopyQuote--redesignV3) > .PostContentContainer__root [class^="PostContentContainer__contentContainer"]');
-					let postTextElem = e.querySelector(':not(.PostCopyQuote--redesignV3) > .PostContentContainer__root [class^="vkitPostText__root"]') as HTMLElement;
-                    postText.style.padding = "0px 20px";
-					postTextElem.style.fontSize = "13px";
-					postTextElem.style.lineHeight = "1.462";
-					postContent?.prepend(postText);
-				}
-				catch(error) {
-					/*console.log(error);*/
-				}
-			}
-			try {
-                postText = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPostText__root"]')?.parentElement as HTMLElement;
-                let postTextElem = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPostText__root"]') as HTMLElement;
-				postText.style.padding = "0px 20px";
-				postTextElem.style.fontSize = "13px";
-				postTextElem.style.lineHeight = "1.462";
-			}
-			catch(error) {
-				postText = document.createElement('div');
-			}
-			let postContent = e.querySelector('.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"]');
-			try {
-				postContent?.prepend(postText);
-			}
-			catch(error) {
-				console.log(error);
-			}
 			/*Дата репоста*/
 			let repost = e.querySelector('.PostCopyQuote--redesignV3');
 			if(!repost?.querySelector('.vkEnhancerPostDate')) {

@@ -3,6 +3,7 @@ import removeStyle from "../classicalProfile/scripts/removeStyle";
 import createRightMenuItem from "./createRightMenuItem";
 import getEventsLabel from "./getEventsLabel";
 import getPopularLabel from "./getPopularLabel";
+import getSubText from "./getSubText";
 import redirectIfNeeded from "./redirectIfNeeded";
 
 const oldGroupsPage = () => {
@@ -31,6 +32,26 @@ const oldGroupsPage = () => {
                 [class^="vkitRichCell__root"] > [class^="vkitRichCell__action"] {
                     margin-top: -42px;
                 }
+
+                body:has([id^="catalog-action"]) {
+                    .vkui__root:has(.vkuiInternalSearch) {
+                            [class^="vkitGroup__group"]:has( > .vkuiInternalSearch) {
+                                position: absolute;
+                                z-index:1;
+                                width:507px;
+                                top:60px;
+                                padding:2px;
+                                left: 20px;
+                            }
+                            [data-testid="list"] [class=""]{
+                                margin-top:48px;
+                            }
+        
+                            [class^="vkitTwoColumnLayoutMain__root"] > .vkuiGroup__separator-sibling {
+                                display:none;
+                            }
+                        }
+                    }
             `;
 
     if (localStorage.getItem("oldClubs") === "true") {
@@ -64,6 +85,12 @@ const oldGroupsPage = () => {
                         tabs?.appendChild(buttonDiv);
                     }
                 }
+            });
+            
+            document.arrive('.vkuiRichCell__bottom', { existing: true }, function (s) {
+                let subText = s.querySelector('[class^="vkitgetColorClass__colorTextSecondary"]');
+                if (subText) subText.textContent = getSubText(s as HTMLElement).toString();
+                else return;
             });
 
             let rightMenu = document.querySelector('[class^="vkitRightMenu__container"]');

@@ -10,7 +10,7 @@ const viewsCount = (postData: { postRaw: string; viewsCount: number; }, postBott
 			<span class="_views" data-count="`+postData.viewsCount+`">`+getFormattedViews(postData.viewsCount)+`</span>
 			</div>
 		`;
-		postParentBottom?.appendChild(postBottomNew);
+		if(postData.viewsCount !== 0) postParentBottom?.appendChild(postBottomNew);
 }
 
 export default viewsCount;
