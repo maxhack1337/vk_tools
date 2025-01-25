@@ -1,7 +1,6 @@
 import getInterestingLang from "./getInterestingLang";
 
 const feedReorder = async () => {
-    if (cur.module === 'feed') {
         let onOff = localStorage.getItem('feedValue') || 'recent';
 
         let filters = document.getElementById('feed_filters');
@@ -38,7 +37,6 @@ const feedReorder = async () => {
         } else {
             document.querySelector('.vkToolsFeedFilter .ui_toggler')!.className = `_ui_toggler ui_toggler ${onOff === 'top' ? 'on' : 'vkToolsOff'}`;
         }
-    }
 }
 
 export default feedReorder;

@@ -55,6 +55,7 @@ const allStates = [
   "doNotDisturbState",
   "reloadFunctionsButtonState",
   "messageTextUpState",
+  "oldClubState",
 ];
 
 const clearAllStates: { [key: string]: any } = {
@@ -100,6 +101,7 @@ const clearAllStates: { [key: string]: any } = {
   doNotDisturbState: false,
   reloadFunctionsButtonState: false,
   messageTextUpState: false,
+  oldClubState: false,
 };
 
 const SettingsElement = ({ id, label, canFile }: SettingsElementProps) => {

@@ -19,7 +19,8 @@ const keys = [
     "vk_enhancer_access_token",
     "secretFunctions",
     "isMessageTextUp",
-    "feedOldPosts"
+    "feedOldPosts",
+    "oldClubs"
 ];
 
 const resetFunctionsOnInstall = () => {

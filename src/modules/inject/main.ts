@@ -37,6 +37,7 @@ import oldFeed from "./functions/oldFeed/oldFeed";
 import downloadMusic from "./functions/downloadMusic/downloadMusic";
 import feedReorder from "./functions/feedReorder/feedReorder";
 import feedReorderRemove from "./functions/feedReorder/feedReorderRemove";
+import oldGroupsPage from "./functions/oldGroupsPage/oldGroupsPage";
 
 console.log('[VK Tools] Injected');
 const adsSelector = [
@@ -177,6 +178,14 @@ window.addEventListener("message", async (event) => {
     messageAct = '';
   }
   switch (messageAct) {
+    case "oldClubEnabled": {
+      localStorage.setItem("oldClubs", 'true');
+      break;
+    }
+    case "oldClubDisabled": {
+      localStorage.setItem("oldClubs", 'false');
+      break;
+    }
     case "feedOldThemeEnabled": {
       localStorage.setItem("feedOldPosts", 'true');
       break;
@@ -349,6 +358,8 @@ deferredCallback(
         oldFeed();
         //Скачивание музыки
         downloadMusic();
+        //Старый дизайн страницы сообществ
+        oldGroupsPage();
         
   },
   { variable: "getLang" }

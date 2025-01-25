@@ -19,6 +19,8 @@ const strings = {
   defaultPollHidden: ["По умолчанию результаты опроса скрыты до выбора ответа", "Default poll hidden", "За замовчуванням результати опитування приховані до вибору відповіді"],
   avatarNameNear: ["Имя возле аватарки VK ID", "Name next to VK ID avatar", "Ім'я біля аватарки VK ID"],
   stickerPopupHide: ["Скрывать всплывающие стикеры", "Hide pop-up stickers", "Приховувати спливаючі стікери"],
+  oldClub: ["Старый дизайн страницы сообществ", "Old community page design", "Старий дизайн сторінки спільнот"],
+  oldClubDescription: ["Возвращает старый дизайн страницы сообществ, изменённый ВК в январе 2025", "Returns the old design of the communities page, changed by VK in January 2025", "Повертає старий дизайн сторінки спільнот, змінений ВК у січні 2025"],
   doNotDisturb: ['Режим "не беспокоить"', "Do not disturb", 'Режим "не турбувати"'],
   doNotDisturbDescription: [
     "Данная функция отключает входящие звонки. Звонящий не будет знать, что вы отключили звонки",

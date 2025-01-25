@@ -86,7 +86,8 @@ const functions = [
   "showPatronymicState",
   "hideMessageFooterState",
   "feedValue",
-  "messageTextUpState"
+  "messageTextUpState",
+  "oldClubState"
 ]
 
 const applySavedStyles = () => {
@@ -134,6 +135,7 @@ const applySavedStyles = () => {
     const hideMessageFooter = items.hideMessageFooterState;
     const feedValue = items.feedValue;
     const messageTextUp = items.messageTextUpState;
+    const oldClub = items.oldClubState;
     applyStyles({
       isVideoModal,
       altScroll,
@@ -176,12 +178,13 @@ const applySavedStyles = () => {
       showPatronymic,
       hideMessageFooter,
       feedValue,
-      messageTextUp
+      messageTextUp,
+      oldClub
     })
   });
 }
 
-function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; stickerPopupHide: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; feedValue: any; messageTextUp: any; }) {
+function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; stickerPopupHide: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; feedValue: any; messageTextUp: any; oldClub:any }) {
   if (styles.removeNFT) {
     hideNFT_Avatars();
   }
@@ -311,6 +314,12 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
     customMessage("feedOldThemeEnabled");
   } else {
     customMessage("feedOldThemeDisabled");
+  }
+
+  if (styles.oldClub) {
+    customMessage("oldClubEnabled");
+  } else {
+    customMessage("oldClubDisabled");
   }
 
   if (styles.isGraffity) {
