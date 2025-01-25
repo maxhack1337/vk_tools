@@ -4,7 +4,7 @@
     "default_popup": "index.html",
     "default_title": "Настройки VK Tools"
   },
-  "name": "VK Tools Reforged",
+  "name": "VK Tools",
   "version": "5.0",
   "icons": {
     "128": "assets/icon128.png",
