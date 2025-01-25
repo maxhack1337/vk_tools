@@ -948,7 +948,7 @@ function disableFooter() {
     document.head.appendChild(styleElement);
   }
   styleElement.innerHTML =
-    `.ConvoList__footer{display:none;}`;
+    `.ConvoList__footer{display:none!important;}`;
 }
 
 function enableFooter() {
