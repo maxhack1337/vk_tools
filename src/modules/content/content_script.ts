@@ -92,7 +92,6 @@ const functions = [
 
 const applySavedStyles = () => {
   chrome.storage.local.get(functions, function (items) {
-    console.log(items);
     const isVideoModal = items.additionalVKEnhancerFunctionsState;
     const altScroll = items.alternativeScrollbarState;
     const avatarNearName = items.avatarNameNearState;
@@ -357,15 +356,15 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
   }
 
   if (styles.hideTextEntry) {
-    customMessage("nechitalka", styles.hideTextEntry);
+    customMessage("nepisalka", styles.hideTextEntry);
   } else {
-    customMessage("nechitalka", 'false');
+    customMessage("nepisalka", 'false');
   }
 
   if (styles.disableReadingMessages) {
-    customMessage("nepisalka", styles.disableReadingMessages);
+    customMessage("nechitalka", styles.disableReadingMessages);
   } else {
-    customMessage("nepisalka", 'false');
+    customMessage("nechitalka", 'false');
   }
 
   if (styles.showPollResults) {

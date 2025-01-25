@@ -18,6 +18,7 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }:
     chrome.storage.local.get([`${id}State`], (result) => {
       if (result[`${id}State`] !== undefined) {
         setIsChecked(result[`${id}State`]);
+        console.log(result[`${id}State`]);
       } else {
         setIsChecked(false);
       }
@@ -27,7 +28,7 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }:
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
     setIsChecked(checked);
-
+    console.log(id, checked);
     chrome.storage.local.set({
       [`${id}State`]: checked,
     });
