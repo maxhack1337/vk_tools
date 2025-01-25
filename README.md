@@ -61,11 +61,11 @@
 ```
 
 <p align="center">
-  <img src="https://sun9-41.userapi.com/impg/M5khrsIji2bZ8-CdKqJSa3NTXjBpYtGZpqiiVQ/Va-70lpfJFQ.jpg?size=487x284&quality=95&sign=9a5717468fa5e91c2abd50ab1a176528&type=album">
+  <img src="https://sun9-51.userapi.com/impg/oxGwlCX0EEaJdMMBVmv4W2U9Bth5Dj4fizT5Gw/jZhftZhwBhk.jpg?size=1029x205&quality=95&sign=fc9da331fc38589b033f0d4333588f18&type=album">
 </p>
 
 ```
-После того, как вы скачали архив, распакуйте его, нажав «Извлечь в VK.Enhancer\»
+После того, как вы скачали архив, распакуйте его, нажав «Извлечь в VK.Tools\»
 ```
 
 <p align="center">
@@ -95,11 +95,11 @@
 ```
 
 <p align="center">
-  <img src="https://sun9-64.userapi.com/impg/P4l_FTHNxj9G_1Qfi6YbtGWzq-wn8WIXuuDBZw/mgdrYtFZPvo.jpg?size=1372x734&quality=95&sign=1af82560b386af74752f9b039609fe90&type=album">
+  <img src="https://sun9-37.userapi.com/impg/IlyLl0v6u9DnrcdGOpixa0gqihqgr3zdae541A/FYGZxonJxRw.jpg?size=1491x1306&quality=95&sign=ef14eef5202ea5250886637510d7313d&type=album">
 </p>
 
 ```
-И выбираем папку расширения так, чтобы внизу было написано VK Enhancer - вторая папка в
+И выбираем папку расширения так, чтобы внизу было написано build - вторая папка в
 архиве
 ```
 
@@ -116,7 +116,7 @@
 </p>
 </details>
 <p align="center"><strong>Установить расширение</strong></br></br>
-<a href="https://github.com/maxhack1337/vk_enhancer/releases/download/v5.0/VK.Enhancer.zip">
+<a href="https://github.com/maxhack1337/vk_tools/releases/download/v5.0/VK.Tools.zip">
   <img src="https://vkenhancer.ru/install.png" width="202" height="54">
 </a></p>
 <div>
