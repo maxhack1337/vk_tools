@@ -44,25 +44,25 @@ document.arrive('[class^="vkitLeftMenuItem__container"]', { existing: true }, fu
 				savedString = leftTabs.marketLeft;
 				break;
 			case "l_mini_apps":
-				savedString = leftTabs.appsLeft;
+				savedString = leftTabs.servicesLeft;
 				break;
 			case "l_vkp":
-				savedString = leftTabs.vkPayLeft;
+				savedString = leftTabs.vkpayLeft;
 				break;
 			case "l_fav":
-				savedString = leftTabs.bookLeft;
+				savedString = leftTabs.bookmarksLeft;
 				break;
 			case "l_doc":
-				savedString = leftTabs.docsLeft;
+				savedString = leftTabs.filesLeft;
 				break;
 			case "l_ads":
 				savedString = leftTabs.adsLeft;
 				break;
 			case "l_apm":
-				savedString = leftTabs.manageLeft;
+				savedString = leftTabs.appmngLeft;
 				break;
 			case "l_faq":
-				savedString = leftTabs.helpLeft;
+				savedString = leftTabs.faqLeft;
 				break;
 				
         }
