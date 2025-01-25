@@ -140,8 +140,12 @@ const innerStyleGet = () => {
 			padding: 0 20px;
 		}
 		.Post--redesignV3 [class^="PostContentContainer__contentContainer"] .vkuiDiv:has([class^="vkitPostText__root"]) [class*="vkitSpacing__root"] {
-			--spacing-gap-size: 6px!important;
+			--spacing-gap-size: 16px!important;
 		}
+		.Post--redesignV3 .vkuiDiv > [style="--spacing-gap-size: 12px;"] {
+       		padding:0px;
+        	height: 8px;
+    	}
 		.vkEnhancerGeoTip .PostHeaderSubtitle--withGeo {
 			display: flex;
 			align-items: center;
