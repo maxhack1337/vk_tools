@@ -5,26 +5,27 @@ const innerStyleGet = () => {
 		}
 
 		[class*='PostContentContainer__contentContainer'] {
-			display: flex;
-			flex-direction: column;
-			
-			& > .vkuiDiv:has([class*='PostText__root']) {
-				display: contents !important;
-
-				& > .vkuiDiv:has([class*='PostText__root']) {
-					order: -1 !important;
-				}
-
-				& > .vkuiDiv[style*='padding: 0px 12px'] {
-					padding: 0px 20px !important;
-				}
-
-				& > .vkuiDiv > [class*='PostText__root'] {
-					font-size: 13px;
-					line-height: 1.462;
-				}
-			}
+    		display: flex;
+    		flex-direction: column;
 		}
+
+		[class*='PostContentContainer__contentContainer'] > .vkuiDiv:has([class*='PostText__root']) {
+    		display: contents !important;
+		}
+
+		[class*='PostContentContainer__contentContainer'] > .vkuiDiv:has([class*='PostText__root']) > .vkuiDiv:has([class*='PostText__root']) {
+    		order: -1 !important;
+		}
+
+		[class*='PostContentContainer__contentContainer'] > .vkuiDiv:has([class*='PostText__root']) > .vkuiDiv[style*='padding: 0px 12px'] {
+    		padding: 0px 20px !important;
+		}
+
+		[class*='PostContentContainer__contentContainer'] > .vkuiDiv:has([class*='PostText__root']) > .vkuiDiv > [class*='PostText__root'] {
+    		font-size: 13px;
+    		line-height: 1.462;
+		}
+
 	    ._post.Post--redesignV3, ._post.topic_comment, ._post.video_post, #feed_rows .fave_photos_page_block, ._post.photo_post  {
 			background-color:var(--vkui--color_background_content)!important;
 			border-radius:var(--vkui--size_border_radius_paper--regular)!important;
