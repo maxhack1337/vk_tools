@@ -15,10 +15,11 @@ import refreshLocForMini from "./refreshLocForMini";
               let activitySpan = document.createElement("span");
               activitySpan.classList.add("page_current_info");
               activitySpan.classList.add("current_text");
+              activitySpan.classList.add("vkToolsActivityText");
               activitySpan.textContent = activityText;
 
               let ownerPageName = document.getElementById("owner_page_name");
-              ownerPageName?.insertAdjacentElement("afterend", activitySpan);
+              if(!document.querySelector(".vkToolsActivityText")) ownerPageName?.insertAdjacentElement("afterend", activitySpan);
             } else {
               let ip_h = vk.ip_h;
               let activitySpan = document.createElement("div");
@@ -108,14 +109,14 @@ import refreshLocForMini from "./refreshLocForMini";
             pHeaderAva1.style.position = "relative";
             pHeaderAva1.style.left = "-200px";
             let pHeaderIn = document.querySelectorAll(".ProfileHeader__in")[1];
-            let jopa = document.createElement("div");
-            jopa.classList.add("owner_photo_wrap");
-            jopa.classList.add("actions_with_effects");
-            jopa.style.zIndex = "10";
-            jopa.style.position = "relative";
-            jopa.style.left = "-8px";
-            jopa.style.top = "-5px";
-            jopa.id = "owner_photo_wrap";
+            let ownerPhotoWrap = document.createElement("div");
+            ownerPhotoWrap.classList.add("owner_photo_wrap");
+            ownerPhotoWrap.classList.add("actions_with_effects");
+            ownerPhotoWrap.style.zIndex = "10";
+            ownerPhotoWrap.style.position = "relative";
+            ownerPhotoWrap.style.left = "-8px";
+            ownerPhotoWrap.style.top = "-5px";
+            ownerPhotoWrap.id = "owner_photo_wrap";
             let userDataOwner: { photo_id: string; photo_200: any; } | null = null;
             getUserDataPhoto(vk.id).then((e) => {
               userDataOwner = e;
@@ -124,7 +125,7 @@ import refreshLocForMini from "./refreshLocForMini";
               deferredCallback(
                 () => {
                   try {
-                    jopa.innerHTML =
+                    ownerPhotoWrap.innerHTML =
                       `<div class="owner_photo_top_bubble_wrap"> <div class="owner_photo_top_bubble"> <div class="ui_thumb_x_button" onclick="showFastBox(getLang('global_warning'), getLang('profile_really_delete_photo'), getLang('global_delete'),()=>{ vkApi.api('users.get',{fields:'photo_id'}).then(e=>{ vkApi.api('photos.delete',{owner_id:` +
                       vk.id +
                       `,photo_id:` +
@@ -177,7 +178,7 @@ import refreshLocForMini from "./refreshLocForMini";
                       getLang?.("profile_photo_action_effects") +
                       `</span> </div> </div> </div>`;
                   } catch (error) {
-                    jopa.innerHTML =
+                    ownerPhotoWrap.innerHTML =
                       `<div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"> <a id="profile_photo_link"><img class="page_avatar_img" src="` +
                       photo200 +
                       `"></a> </div> </aside> </div> <a class="owner_photo_bubble_action owner_photo_bubble_action_update owner_photo_no_ava" data-task-click="Page/owner_new_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` +
@@ -206,7 +207,7 @@ import refreshLocForMini from "./refreshLocForMini";
                       "[VK Tools] Failed to parse PhotoEditHash. Location will be rebooted if you try to edit photo"
                     );
                     try {
-                      let rebootThis = jopa.querySelector(
+                      let rebootThis = ownerPhotoWrap.querySelector(
                         '[data-task-click="Page/owner_edit_photo"]'
                       );
                       rebootThis?.setAttribute(
@@ -218,7 +219,7 @@ import refreshLocForMini from "./refreshLocForMini";
                 },
                 { variable: "MECommonContext" }
               );
-              pHeaderIn.prepend(jopa);
+              pHeaderIn.prepend(ownerPhotoWrap);
             });
           }
           appearVariable();
