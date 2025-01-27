@@ -58,7 +58,8 @@ const adsSelector = [
   ".apps_feedRightAppsBlock_new_apps",
   ".NewMiniAppsRightBlock__root",
   "#achievement_game",
-  ".MarketItemsPortlet"
+  ".MarketItemsPortlet",
+  ".feed_row:has([id^='postad'])"
 ];
 
 window.urls = null;

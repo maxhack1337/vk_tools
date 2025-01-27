@@ -808,7 +808,21 @@ function lessStickerAdd() {
     styleElement = create("style", {}, { id: "lesssticker" });
     document.head.appendChild(styleElement);
   }
-  styleElement.innerHTML = "[class^='Sticker__sticker'].AttachSticker[style^='--sticker-size: 168px;'] {width: 128px!important; height: 128px! important; --sticker-size: 128px!important}";
+  styleElement.innerHTML = `
+  [class^='Sticker__sticker'].AttachSticker[style^='--sticker-size: 168px;'] {
+    width: 128px!important;
+    height: 128px! important;
+    --sticker - size: 128px!important
+  }
+
+  [class^='Sticker__sticker'].AttachSticker[style^='--sticker-size: 168px;'] > [class^="Sticker__in"] {
+    height: 128px!important;
+  }
+  
+  [class^='Sticker__sticker'].AttachSticker[style^='--sticker-size: 168px;'] canvas[style^="width: 168px"] {
+    width: 128px!important;
+    height: 128px! important;
+  }`;
 }
 
 function lessStickerRemove() {
