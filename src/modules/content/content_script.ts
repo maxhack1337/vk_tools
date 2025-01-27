@@ -892,7 +892,7 @@ function fixLeftMenu() {
     document.head.appendChild(styleElement);
   }
   styleElement.innerHTML =
-    `#side_bar:has([data-testid="leftmenu"]){position:fixed!important; top:0px!important;}`;
+    `#side_bar:has([data-testid="leftmenu"]){position:sticky!important; top:0px!important;}`;
 }
 
 function unFixLeftMenu() {
