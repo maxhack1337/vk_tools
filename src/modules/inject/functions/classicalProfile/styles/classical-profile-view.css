@@ -65,6 +65,10 @@ body.classicProfile {
 	content: '.';
 }
 
+[class^="vkitGroup__group"][class*="vkitRecommendationBlock__blockWrap"] {
+    display:none;
+}
+
 [data-testid="profile-avatar"] .vkuiImageBase__img {
 	border-radius:0px!important;
 }
