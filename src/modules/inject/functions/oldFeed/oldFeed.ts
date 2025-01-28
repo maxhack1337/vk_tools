@@ -94,6 +94,22 @@ const oldFeed = () => {
                         console.log(error);
                     }
                 }
+                if (e.querySelector('.PostHeaderInfo > .PostHeaderSubtitle .wall_fixed_label')) {
+                    try {
+                        let sub = e.querySelector('.PostHeaderInfo > .PostHeaderSubtitle .wall_fixed_label');
+                        let removeThis = e.querySelector('.PostHeaderInfo > .PostHeaderSubtitle');
+                        let appHere = e.querySelector('.vk_enhancer_post_subhead');
+                        let separatorInPost = document.createElement('span');
+                        separatorInPost.classList.add('PostHeaderSubtitle__separator');
+                        separatorInPost.setAttribute('aria-hidden', 'true');
+                        separatorInPost.textContent = '·';
+                        appHere?.appendChild(separatorInPost);
+                        appHere?.appendChild(sub!);
+                        removeThis?.remove();
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
                 if (e.querySelector('.PostHeaderSubtitle:has(.PostHeaderSubtitle--withGeo):not(.vkEnhancerGeoTip)')) {
                     try {
                         let sub = e.querySelector('.PostHeaderSubtitle:has(.PostHeaderSubtitle--withGeo)');
