@@ -218,6 +218,10 @@ const innerStyleGet = () => {
 			margin: 8px 20px;
 			border-radius: 8px;
 		}
+		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_donut_support"], .Post--redesignV3 [data-testid="feed_action_button_donut_support"] {
+			margin: 8px 20px;
+			border-radius: 8px;
+		}
 		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_donut_link"], .Post--redesignV3 [data-testid="feed_action_button_donut_link"] {
 			margin: 8px 20px;
 			border-radius: 8px;
