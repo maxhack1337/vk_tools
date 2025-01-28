@@ -289,6 +289,7 @@ import nextExpander from "./nextExpander";
                     positionLink.href = `/search/people?c[name]=0&c[position]=${job.position}`;
                     positionLink.style.position = `absolute`;
                     positionLink.style.marginTop = `16px`;
+                    positionLink.style.width = "50%";
                     positionLink.innerHTML = job.position + " ";
                     positionLink.classList.add(
                       "vkuiLink",
