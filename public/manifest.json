@@ -27,11 +27,8 @@
     "browsingData",
     "unlimitedStorage",
     "storage",
-    "declarativeNetRequestWithHostAccess",
     "activeTab",
-    "declarativeNetRequest",
-    "declarativeNetRequestFeedback",
-	"commands"
+	  "commands"
   ],
   "commands": {
     "reload-extension": {

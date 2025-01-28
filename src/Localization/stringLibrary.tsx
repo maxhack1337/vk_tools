@@ -101,7 +101,7 @@ const strings = {
   pseudoTab2: ["Новый мессенджер", "New messenger", "Новий месенджер"],
   pseudoTab3: ["Настройки", "Settings", "Налаштування"],
   versionNumber: ["Версия 5.1 Release", "v. 5.1 Release", "Версія 5.1 Release"],
-  actualVersion: ["https://vk.com/wall-221416961_469", "https://vk.com/wall-221416961_469", "https://vk.com/wall-221416961_469"],
+  actualVersion: ["https://vk.com/wall-221416961_506", "https://vk.com/wall-221416961_506", "https://vk.com/wall-221416961_506"],
   whatsNew: ["Что нового?", "What's new?", "Що нового?"],
   hideMessageFooter: ["Скрыть переключатель непрочитанных сообщений", "Hide unread messages switcher", "Приховати перемикач непрочитаних повідомлень"],
   doWideFeed: ["Ширина ленты", "Feed width", "Ширина стрічки"],
