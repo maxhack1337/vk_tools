@@ -13,6 +13,7 @@ interface CheckBoxProps {
 
 const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }: CheckBoxProps) => {
   const [isChecked, setIsChecked] = useState(false);
+  const [rippleStyle, setRippleStyle] = useState<{ display: string; top: string; left: string; width: string; height: string }>({ display: "none", top: "0", left: "0", width: "0", height: "0" });
 
   useEffect(() => {
     chrome.storage.local.get([`${id}State`], (result) => {
@@ -43,12 +44,31 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }:
     });
   };
 
+  const handleRippleEffect = (event: React.MouseEvent<HTMLLabelElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = event.clientX - rect.left - size / 2;
+    const y = event.clientY - rect.top - size / 2;
+
+    setRippleStyle({
+      display: "block",
+      top: `${y}px`,
+      left: `${x}px`,
+      width: `${size}px`,
+      height: `${size}px`,
+    });
+
+    setTimeout(() => {
+      setRippleStyle({ ...rippleStyle, display: "none" });
+    }, 600);
+  };
+
   if (type !== "checkBox") {
     return null;
   }
 
   return (
-    <label id={id} className={`vkToolsCheckBox ${description ? "vkToolsCheckBoxWithDescription" : ""}`}>
+    <label id={id} className={`vkToolsCheckBox ${description ? "vkToolsCheckBoxWithDescription" : ""}`} onClick={handleRippleEffect}>
       <div className="vkToolsCheckBox__Label">
         {label && (
           <div className="vkToolsCheckBox__PrimaryText">
@@ -78,6 +98,7 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }:
           <span aria-hidden="true" className="vkToolsCheckBox__Check--label-spanHidden"></span>
         </label>
       </div>
+      <span className="ripple" style={{ ...rippleStyle }}></span>
     </label>
   );
 };

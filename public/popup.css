@@ -339,6 +339,22 @@
     color: var(--vkui--color_text_primary);
     padding: 0px 12px;
     margin: 0 12px;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: gray;
+    transform: scale(0);
+    animation: ripple-animation 250ms linear;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(1);
+        opacity: 0;
+    }
 }
 
 .vkToolsCheckBoxWithDescription {
