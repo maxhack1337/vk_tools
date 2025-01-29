@@ -1,4 +1,4 @@
-import _o from "./_o"
+import processUrl from "./processUrl"
 import DownloadStream from "./DownloadStream"
 import getDownloadName from "./getDownloadName"
 import getDownloadName1 from "./getDownloadName1"
@@ -29,7 +29,7 @@ const handleDownloadButton = (e:any) =>{
     })
         .then(e => e.json())
         .then(e => {
-            let url = _o(e.payload[1][0][0][2]).toString()
+            let url = processUrl(e.payload[1][0][0][2]).toString()
             console.log(DownloadStream(url, Cyr1 + ' - ' + Cyr, bar))
         })
 }

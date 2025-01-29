@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-sequences */
 import Hls from 'hls.js'
 import fromId from '../../../content/fromId'
-import _o from './_o'
 import downloadBlob from './downloadBlob'
 
 const DownloadStream = (url: string, name: string, elem: any) => {
@@ -138,10 +139,6 @@ const DownloadStream = (url: string, name: string, elem: any) => {
                     downloadBlob(new Blob(blob_data), name + '.mp3')
             }
         })
-        // hls.on(
-        //     Hls.Events.BUFFER_CODECS,
-        //     (e, t) => (_o = t.audio && 'audio/mp4' === t.audio.container)
-        // )
         hls.on(Hls.Events.BUFFER_APPENDING, (e, a) => (audio_data = a.data))
         hls.on(Hls.Events.MANIFEST_PARSED, (e, t: any) => {
             // eslint-disable-next-line @typescript-eslint/no-unused-expressions
