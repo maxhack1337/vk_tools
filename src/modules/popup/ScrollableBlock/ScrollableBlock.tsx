@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CheckBox from "./BlockWithActions/CheckBox";
 import HeaderPseudo from "./HeaderPseudo/HeaderPseudo";
 import LanguageSelector from "./Language/LanguageSelector";
@@ -19,12 +19,23 @@ import HeaderPseudoTransparent from "./HeaderPseudo/HeaderPseudoTransparent";
 import CardWithLink from "./CardWithLink";
 import SecondaryHeaderPseudoLittle from "./SecondaryHeaderPseudo/SecondaryHeaderPseudoLittle";
 import SliderFeedBlock from "./BlockWithActions/SliderFeedBlock";
+import getUpdateUrl from "./getUpdateUrl";
 interface ScrollableBlockProps {
   id: string;
 }
 
 const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
   const { getLang } = useLocalization();
+  const [updateUrl, setUpdateUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUpdateUrl = async () => {
+      const url = await getUpdateUrl();
+      setUpdateUrl(url); // Устанавливаем полученную ссылку в состояние
+    };
+
+    fetchUpdateUrl(); // Вызываем функцию для получения ссылки
+  }, []); // Пустой массив зависимостей означает, что эффект сработает только один раз при монтировании
 
   let currentTab = [
     <HeaderPseudo label={getLang("appearance")} />,
@@ -127,7 +138,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
         <CardWithLink label={getLang("vkEnhancerGroup")} description={getLang("vkEnhancerGroupDescription")} icon={"vk"} href={"https://vk.com/vkenhancer"} />,
         <CardWithLink label={getLang("vkEnhancerChat")} description={getLang("vkEnhancerChatDescription")} icon={"chat"} href={"https://vk.me/join/AZQ1d7gWwQOl_caHw_zw472D"} />,
         <SecondaryHeaderPseudoLittle label={getLang("versionNumber")} />,
-        <a className="vkToolsCardLink vkToolsActualVersion" target="_blank" href={getLang("actualVersion")}>
+        <a className="vkToolsCardLink vkToolsActualVersion" target="_blank" href={updateUrl || "#"}>
           <h4 className="vkToolsCardLink__title vkToolsActualVersion__title">{getLang("whatsNew")}</h4>
         </a>,
         <h5 className="vkToolsVersionDescription">{getLang("errorUpdating")}</h5>,
