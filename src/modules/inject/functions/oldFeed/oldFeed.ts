@@ -16,6 +16,7 @@ import videoDescription from "./videoDescription";
 import viewsCount from "./viewsCount";
 import oldStoryBlock from "./oldStoryBlock/olsStoryBlock";
 import postponedSuggestedPosts from "./postponedSuggestedPosts/postponedSuggestedPosts";
+import getOldPostAttaches from "./getOldPostAttaches";
 const oldFeed = () => {
     if (localStorage.getItem("feedOldPosts") === "true") {
         oldStoryBlock();
@@ -200,11 +201,25 @@ const oldFeed = () => {
                 let dataAttachments;
                 let dataRepostAttachments;
                 try {
-                    dataAttachments = getPostAttaches(e.querySelector('[class^="PostContentContainer__contentContainer"]') !);
-                } catch (error) {}
+                    dataAttachments = getOldPostAttaches(e.querySelector('[class^="PostContentContainer__contentContainer"]')!);
+                } catch (error) {
+                    try {
+                        dataAttachments = getPostAttaches(e.querySelector('[class^="PostContentContainer__contentContainer"]')!);
+                    }
+                    catch (error) {
+
+                    }
+                }
                 try {
-                    dataRepostAttachments = getPostAttaches(e.querySelector('.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"]') !);
-                } catch (error) {}
+                    dataRepostAttachments = getOldPostAttaches(e.querySelector('.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"]') !);
+                } catch (error) {
+                    try {
+                        dataRepostAttachments = getPostAttaches(e.querySelector('.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"]')!);
+                    }
+                    catch (error) {
+                        
+                    }
+                }
                 if (e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"])') && dataAttachments.item.attachments) {
                     let allDocs = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]');
                     let count = 0;

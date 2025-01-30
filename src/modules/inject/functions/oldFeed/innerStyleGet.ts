@@ -7,6 +7,7 @@ const innerStyleGet = () => {
 		[class*='PostContentContainer__contentContainer'] {
     		display: flex;
     		flex-direction: column;
+			padding-top: 6px;
 		}
 
 		[class*='PostContentContainer__contentContainer'] > .vkuiDiv:has([class*='PostText__root']) {
@@ -364,7 +365,7 @@ const innerStyleGet = () => {
 			display:none;
 		}
 		.vkEnhancerSecondaryAttachFirst {
-			padding:8px 8px 0px 8px!important;
+			/*padding:8px 8px 0px 8px!important;*/
 		}
 		.Post--redesignV3 .vk_enhancer_article_snippet {
 			margin-top:0!important;
