@@ -17,6 +17,7 @@ import viewsCount from "./viewsCount";
 import oldStoryBlock from "./oldStoryBlock/olsStoryBlock";
 import postponedSuggestedPosts from "./postponedSuggestedPosts/postponedSuggestedPosts";
 import getOldPostAttaches from "./getOldPostAttaches";
+import miniAppAttachment from "./attachments/miniAppAttachment";
 const oldFeed = () => {
     if (localStorage.getItem("feedOldPosts") === "true") {
         oldStoryBlock();
@@ -217,13 +218,39 @@ const oldFeed = () => {
                         dataRepostAttachments = getPostAttaches(e.querySelector('.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"]')!);
                     }
                     catch (error) {
-                        
+
                     }
                 }
+                //Документы
                 if (e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"])') && dataAttachments.item.attachments) {
                     let allDocs = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]');
                     let count = 0;
                     dataAttachments.item.attachments.forEach(async function(docu: any) {
+                        if (docu.doc) {
+                            let documentCurrent = docu.doc;
+                            let secondaryAttachDoc = document.createElement('div');
+                            secondaryAttachDoc.classList.add('vkuiDiv', 'vkuiRootComponent', 'vkEnhancerSecondaryAttach');
+                            if (count === 0) {
+                                secondaryAttachDoc.classList.add('vkuiDiv', 'vkuiRootComponent', 'vkEnhancerSecondaryAttachFirst');
+                                count += 1;
+                            }
+                            secondaryAttachDoc.style.padding = "0px 8px";
+                            secondaryAttachDoc.innerHTML = documentAttachment(documentCurrent);
+                            if (documentCurrent.preview) {
+                                let fallBack = secondaryAttachDoc.querySelector('.vkuiInternalImage') as HTMLElement;
+                                fallBack.querySelector('.vkuiImageBase__fallback')?.remove();
+                                fallBack.style.background = "url(" + documentCurrent.preview.photo.sizes[0].src + ")";
+                                fallBack.style.backgroundSize = "cover";
+                            }
+                            allDocs?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(secondaryAttachDoc);
+                        }
+                    });
+                }
+
+                if (e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"])') && dataRepostAttachments.item.attachments) {
+                    let allDocs = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]');
+                    let count = 0;
+                    dataRepostAttachments.item.attachments.forEach(async function(docu: any) {
                         if (docu.doc) {
                             let documentCurrent = docu.doc;
                             let secondaryAttachDoc = document.createElement('div');
@@ -475,6 +502,36 @@ const oldFeed = () => {
                                 fallBack.style.backgroundImage = "url(" + narrativeCurrent.cover?.cropped_sizes?.at(-1).url + ")";
                             } else {}
                             allDocs?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(secondaryAttachNarrative);
+                        }
+                    });
+                }
+
+
+                //Аттач-миниапп
+                if (e.querySelector('[class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/app"]') && dataAttachments.item.attachments) {
+                    let allDocs = e.querySelector('[class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/app"]');
+                    dataAttachments.item.attachments.forEach(async function(miniapp: any) {
+                        if (miniapp.mini_app) {
+                            let primaryAttachMiniApp = document.createElement('div');
+                            primaryAttachMiniApp.classList.add('vkuiDiv', 'vkuiRootComponent');
+                            primaryAttachMiniApp.style.padding = "0px 20px";
+                            let miniAppCurrent = miniAppAttachment(miniapp.mini_app);
+                            primaryAttachMiniApp.appendChild(miniAppCurrent)
+                            allDocs?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(primaryAttachMiniApp);
+                        }
+                    });
+                }
+
+                if (e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/app"]') && dataRepostAttachments.item.attachments) {
+                    let allDocs = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/app"]');
+                    dataRepostAttachments.item.attachments.forEach(async function(miniapp: any) {
+                        if (miniapp.mini_app) {
+                            let primaryAttachMiniApp = document.createElement('div');
+                            primaryAttachMiniApp.classList.add('vkuiDiv', 'vkuiRootComponent');
+                            primaryAttachMiniApp.style.padding = "0px 20px";
+                            let miniAppCurrent = miniAppAttachment(miniapp.mini_app);
+                            primaryAttachMiniApp.appendChild(miniAppCurrent)
+                            allDocs?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(primaryAttachMiniApp);
                         }
                     });
                 }

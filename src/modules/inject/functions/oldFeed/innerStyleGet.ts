@@ -4,6 +4,12 @@ const innerStyleGet = () => {
 			box-shadow: 0 0 0 0 transparent;
 		}
 
+		.Post--redesignV3 .MiniAppsSnippet::after {
+			border-radius: 4px!important;
+			box-shadow: 0 0 0 1px var(--vkui--vkontakte_color_snippet_border_alpha) inset!important;
+			margin-top: 0px!important;
+		}
+
 		[class*='PostContentContainer__contentContainer'] {
     		display: flex;
     		flex-direction: column;
@@ -96,6 +102,11 @@ const innerStyleGet = () => {
 		{
 			width: 510px!important;
 		}
+
+		[class^="PostContentContainer__contentContainer"] div:has( > [class^="PrimaryAttachment"]:not([class^="vkitPrimaryAttachment__root"])) [class^=VideoPrimaryAttachment] .inline_video_wrap {
+			width: 510px!important;
+		}
+
 		.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"] div:has( > [class^="PrimaryAttachment"]:not([class^="vkitPrimaryAttachment__root"])) [class^=VideoPrimaryAttachment]
 		{
 			width: 490px!important;
@@ -266,6 +277,10 @@ const innerStyleGet = () => {
 		.Post--redesignV3 .PostDateBlock__root {
 			display:none;
 		}
+		.Post--redesignV3 .vkuiDiv:has(>[class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/app"]) {
+			display:none;
+		}
+
 		.post_photos.Post--redesignV3 .vkEnhancerPostDate,.post_photos.Post--redesignV3 .PostHeaderSubtitle__separator {
 			display:none;
 		}
