@@ -4,6 +4,11 @@ const innerStyleGet = () => {
 			box-shadow: 0 0 0 0 transparent;
 		}
 
+		.media_link__media {
+			border: 1px solid var(--vkui--vkontakte_color_snippet_border_alpha)!important;
+    		border-radius: 2px 2px 0 0!important;
+		}
+
 		.Post--redesignV3 .MiniAppsSnippet::after {
 			border-radius: 4px!important;
 			box-shadow: 0 0 0 1px var(--vkui--vkontakte_color_snippet_border_alpha) inset!important;

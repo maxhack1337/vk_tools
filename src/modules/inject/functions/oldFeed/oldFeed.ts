@@ -19,6 +19,7 @@ import getOldPostAttaches from "./getOldPostAttaches";
 import miniAppAttachment from "./attachments/miniAppAttachment";
 import linkAttachmentWithImage from "./attachments/linkAttachmentWithImage";
 import linkAttachmentWithoutImage from "./attachments/linkAttachmentWithoutImage";
+import linkPrimatyAttachmentWithImage from "./attachments/linkPrimatyAttachmentWithImage";
 const oldFeed = () => {
     if (localStorage.getItem("feedOldPosts") === "true") {
         oldStoryBlock();
@@ -356,7 +357,7 @@ const oldFeed = () => {
                         });
                     }
                 }
-                //Аттач-чипс - ссылки
+                //Ссылки
                 if ((e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="http"]:not([class*="vkitLink__secondary"]))') || e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="/away"]:not([class*="vkitLink__secondary"]))')) && dataAttachments.item.attachments) {
                     let allLinks = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="http"]:not([class*="vkitLink__secondary"])');
                     if (!allLinks) {
@@ -408,6 +409,26 @@ const oldFeed = () => {
                             }
                             allLinks?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(secondaryAttachDoc);
                             allLinks?.closest('[class^="vkitChipAttachment__root"]')?.remove();
+                        }
+                    });
+                }
+                //Примари-ссылка
+                if ((e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"][target="_blank"]') || e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"][target="_blank"]')) && dataAttachments.item.attachments) {
+                    let allLinks = e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"][target="_blank"]');
+                    if (!allLinks) {
+                        allLinks = e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"][target="_blank"]');
+                    }
+                    dataAttachments.item.attachments.forEach(async function(linkFull: any) {
+                        if (linkFull.link && linkFull.style === "full") {
+                            let linkCurrent = linkFull.link;
+                            let primaryAttachLink = document.createElement('div');
+                            primaryAttachLink.classList.add('vkuiDiv', 'vkuiRootComponent');
+                            if (linkCurrent.photo) {
+                                primaryAttachLink.style.padding = "0px 20px";
+                                primaryAttachLink.append(linkPrimatyAttachmentWithImage(linkCurrent));
+                            }
+                            allLinks?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(primaryAttachLink);
+                            allLinks?.closest('[class^="vkitSnippetAttachment__root"]')?.remove();
                         }
                     });
                 }
