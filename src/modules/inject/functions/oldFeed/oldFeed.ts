@@ -8,7 +8,6 @@ import getPostAttaches from "./getPostAttaches";
 import getPostData from "./getPostData";
 import getPostDataNew from "./getPostDataNew";
 import innerStyleGet from "./innerStyleGet";
-import linkAttachment from "./attachments/linkAttachment";
 import narrativeAttachment from "./attachments/narrativeAttachment";
 import playlistAttachment from "./attachments/playlistAttachment";
 import postRepost from "./postRepost";
@@ -18,6 +17,8 @@ import oldStoryBlock from "./oldStoryBlock/olsStoryBlock";
 import postponedSuggestedPosts from "./postponedSuggestedPosts/postponedSuggestedPosts";
 import getOldPostAttaches from "./getOldPostAttaches";
 import miniAppAttachment from "./attachments/miniAppAttachment";
+import linkAttachmentWithImage from "./attachments/linkAttachmentWithImage";
+import linkAttachmentWithoutImage from "./attachments/linkAttachmentWithoutImage";
 const oldFeed = () => {
     if (localStorage.getItem("feedOldPosts") === "true") {
         oldStoryBlock();
@@ -366,22 +367,18 @@ const oldFeed = () => {
                         if (linkChip.link) {
                             let linkCurrent = linkChip.link;
                             let secondaryAttachDoc = document.createElement('div');
-                            secondaryAttachDoc.classList.add('vkuiDiv', 'vkuiRootComponent', 'vkEnhancerSecondaryAttach');
+                            secondaryAttachDoc.classList.add('vkuiDiv', 'vkuiRootComponent');
                             if (count === 0) {
                                 secondaryAttachDoc.classList.add('vkuiDiv', 'vkuiRootComponent', 'vkEnhancerSecondaryAttachFirst');
                                 count += 1;
                             }
-                            secondaryAttachDoc.style.padding = "0px 8px";
-                            secondaryAttachDoc.innerHTML = linkAttachment(linkCurrent);
-                            if (!linkCurrent.description) {
-                                secondaryAttachDoc.querySelector('.linkDescr') !.textContent = linkCurrent.url;
-                            }
                             if (linkCurrent.photo) {
-                                let fallBack = secondaryAttachDoc.querySelector('.vkuiInternalImage') !as HTMLElement;
-                                fallBack.querySelector('.vkuiImageBase__fallback')?.remove();
-                                fallBack.style.background = "url(" + linkCurrent.photo.sizes[0].url + ")";
-                                fallBack.style.backgroundSize = "cover";
-                            } else {}
+                                secondaryAttachDoc.style.padding = "0px 20px";
+                                secondaryAttachDoc.append(linkAttachmentWithImage(linkCurrent));
+                            } else {
+                                secondaryAttachDoc.style.padding = "0px 0px";
+                                secondaryAttachDoc.append(linkAttachmentWithoutImage(linkCurrent));
+                            }
                             allLinks?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(secondaryAttachDoc);
                             allLinks?.closest('[class^="vkitChipAttachment__root"]')?.remove();
                         }
@@ -397,22 +394,18 @@ const oldFeed = () => {
                         if (linkChip.link) {
                             let linkCurrent = linkChip.link;
                             let secondaryAttachDoc = document.createElement('div');
-                            secondaryAttachDoc.classList.add('vkuiDiv', 'vkuiRootComponent', 'vkEnhancerSecondaryAttach');
+                            secondaryAttachDoc.classList.add('vkuiDiv', 'vkuiRootComponent');
                             if (count === 0) {
                                 secondaryAttachDoc.classList.add('vkuiDiv', 'vkuiRootComponent', 'vkEnhancerSecondaryAttachFirst');
                                 count += 1;
                             }
-                            secondaryAttachDoc.style.padding = "0px 8px";
-                            secondaryAttachDoc.innerHTML = linkAttachment(linkCurrent);
-                            if (!linkCurrent.description) {
-                                secondaryAttachDoc.querySelector('.linkDescr') !.textContent = linkCurrent.url;
-                            }
                             if (linkCurrent.photo) {
-                                let fallBack = secondaryAttachDoc.querySelector('.vkuiInternalImage') as HTMLElement;
-                                fallBack.querySelector('.vkuiImageBase__fallback')?.remove();
-                                fallBack.style.background = "url(" + linkCurrent.photo.sizes[0].url + ")";
-                                fallBack.style.backgroundSize = "cover";
-                            } else {}
+                                secondaryAttachDoc.style.padding = "0px 20px";
+                                secondaryAttachDoc.append(linkAttachmentWithImage(linkCurrent));
+                            } else {
+                                secondaryAttachDoc.style.padding = "0px 0px";
+                                secondaryAttachDoc.append(linkAttachmentWithoutImage(linkCurrent));
+                            }
                             allLinks?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(secondaryAttachDoc);
                             allLinks?.closest('[class^="vkitChipAttachment__root"]')?.remove();
                         }
