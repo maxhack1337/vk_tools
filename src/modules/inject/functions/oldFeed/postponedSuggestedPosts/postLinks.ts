@@ -31,7 +31,10 @@ document.arrive(selectorsLinks.join(', '), { existing: true }, async function (d
                     secondaryAttachDoc.style.padding = "0px 20px";
                     secondaryAttachDoc.append(linkAttachmentWithImage(linkCurrent));
                 } else {
-                    secondaryAttachDoc.style.padding = "0px 0px";
+                    secondaryAttachDoc.style.padding = "0px 20px";
+                    if (!allLinks?.closest('.wk_content_redesign_v3')) { 
+                        secondaryAttachDoc.style.padding = "0px 0px";
+                    }
                     secondaryAttachDoc.append(linkAttachmentWithoutImage(linkCurrent));
                 }
                 allLinks?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(secondaryAttachDoc);
