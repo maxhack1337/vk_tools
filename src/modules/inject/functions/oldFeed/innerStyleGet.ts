@@ -116,6 +116,11 @@ const innerStyleGet = () => {
 		{
 			width: 490px!important;
 		}
+
+		.PostCopyQuote--redesignV3 [class^="PostContentContainer__contentContainer"] div:has( > [class^="PrimaryAttachment"]:not([class^="vkitPrimaryAttachment__root"])) [class^=VideoPrimaryAttachment] .inline_video_wrap
+		{
+			width: 490px!important;
+		}
 		.PostHeader--redesignV3 .PostHeader--hasSubtitle {
 			justify-content: center;
 		}
