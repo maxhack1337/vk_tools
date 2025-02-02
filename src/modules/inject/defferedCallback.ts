@@ -1,4 +1,4 @@
-const deferredCallback = (callback: any, opt: { variable: any; element?: any; }) => {
+const deferredCallback = (callback: any, opt: { variable?: any; element?: any; }) => {
   let { variable, element } = opt;
   let updated = variable ? window[variable] : document.querySelector(element);
   if (!updated) {

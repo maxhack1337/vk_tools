@@ -130,7 +130,7 @@ export interface Wall {
 }
 
 export interface stManager {
-	add(statics: string | string[]): Promise<void>;
+	add(statics: string | string[], funct?: any): Promise<void>;
 }
 
 export interface Notifier {
@@ -181,6 +181,8 @@ declare global {
     var showFastBox: any;
 	var Stories: any;
 	var wbopen: any;
+	var AudioPage: any;
+	var getEventListeners: any;
 
 
     

@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-escape */
+import deferredCallback from "../../defferedCallback";
 import carouselGridKeys from "./carouselGridKeys";
 import postingBlock from "./postingBlock";
 
@@ -64,6 +65,28 @@ const exportVars = async(wall_oid:number,public_link:string,loc:string,owner:{id
 		let newWallPostingBlock = document.querySelector('.PostingReactBlock__root');
 		if (newWallPostingBlock) newWallPostingBlock.remove();
 	}
+		deferredCallback(
+			async () => {
+				if (wall_oid !== (ownerId || profileId) && (oid < 0) && wallData.suggesting) {
+					let audioPostSuggest = document.querySelector('#submit_post .ms_item_audio');
+					if (audioPostSuggest) {
+  						const newElement = audioPostSuggest.cloneNode(true) as HTMLElement;
+						audioPostSuggest.parentNode?.replaceChild(newElement, audioPostSuggest);
+						newElement.setAttribute('onmouseover', `showTooltip(this, { text: "${getLang?.('mail_added_audios', 'raw')[1]}", black: 1, shift: [10, 9] })`);
+						newElement?.addEventListener('click', (event) => {
+							event.preventDefault();
+  							event.stopPropagation();
+							window.stManager.add([window.jsc("web/audio.js"), window.jsc("web/indexer.js"), window.jsc("web/auto_list.js"), window.jsc("web/grid_sorter.js"), "audio.css"], function () {
+								AudioPage.showAttachBox(vk.id, {
+									canPlaylistAttach: false
+								})
+							});
+						});
+					}
+				}
+			},
+            { element: "#submit_post .ms_item_audio" }
+        );
 }
 
 export default exportVars;
