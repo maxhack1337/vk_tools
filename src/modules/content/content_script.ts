@@ -876,7 +876,7 @@ function oldBadgeEnable() {
     document.head.appendChild(styleElement);
   }
   styleElement.innerHTML =
-    `    .ConvoListItem__outStatusIcon:has(.vkuiIcon--check_double_outline_16) {
+    `.ConvoListItem__outStatusIcon:has(.vkuiIcon--check_double_outline_16) {
         display:none;
     }
     .ConvoListItem__outStatusIcon .vkuiIcon--check_outline_16 {
@@ -888,6 +888,18 @@ function oldBadgeEnable() {
     }
     .ConvoListItem__outStatusIcon .vkuiIcon--check_outline_16 use {
         display:none;
+    }
+    .ConvoHistory__messageWrapper--withoutBubbles:has(.vkuiIcon--check_outline_16) {
+        background-color:var(--vkui--color_background_secondary);
+    }
+    .ConvoHistory__messageBlock--withoutBubbles {
+        padding: 0 22px;
+    }
+    .ConvoHistory__messageWrapper--withoutBubbles .vkuiIcon--check_outline_16,.ConvoHistory__messageWrapper--withoutBubbles .vkuiIcon--check_double_outline_16 {
+        display:none;
+    }
+    .ConvoMessageWithoutBubble:hover {
+        background:transparent;
     }`;
 }
 

@@ -67,7 +67,8 @@ const strings = {
   highlightColor: ["Цвет выделения", "Highlight color", "Колір виділення"],
   selectedTextColor: ["Цвет выделенного текста", "Selected text color", "Колір виділеного тексту"],
   newMessengerDesign: ["Загрузка граффити", "Graffiti loader", "Завантаження графіті"],
-  oldMessagesBadge: ["Старый значок исходящих непрочитанных сообщений", "Old outgoing unread messages icon", "Старий значок вихідних непрочитаних повідомлень"],
+  oldMessagesBadge: ["Старый дизайн исходящих непрочитанных сообщений", "Old design of outgoing unread messages", "Старий дизайн вихідних непрочитаних повідомлень"],
+  oldMessagesBadgeDescription: [`Работает только с внешним видом "Строки"`, `Works only with the "Row" appearance.`, `Працює тільки із зовнішнім виглядом "Рядки"`],
   afterReboot: ["Данные функции будут применены только после перезагрузки страницы", "These features will only be applied after the page is reloaded", "Ці функції будуть застосовані лише після перезавантаження сторінки"],
   someAfterReboot: ["Некоторые функции будут применены только после перезагрузки страницы", "Some features will only be applied after the page is reloaded", "Деякі функції будуть застосовані лише після перезавантаження сторінки"],
   newMessengerDesignDescription: [

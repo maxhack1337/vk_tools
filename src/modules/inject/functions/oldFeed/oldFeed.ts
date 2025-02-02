@@ -419,10 +419,10 @@ const oldFeed = () => {
                     });
                 }
                 //Примари-ссылка
-                if ((e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"][target="_blank"]') || e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"][target="_blank"]')) && dataAttachments.item.attachments) {
-                    let allLinks = e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"][target="_blank"]');
+                if ((e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]') || e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]')) && dataAttachments.item.attachments) {
+                    let allLinks = e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]');
                     if (!allLinks) {
-                        allLinks = e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"][target="_blank"]');
+                        allLinks = e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]');
                     }
                     dataAttachments.item.attachments.forEach(async function(linkFull: any) {
                         if (linkFull.link && linkFull.style === "full") {
