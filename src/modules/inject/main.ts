@@ -53,7 +53,6 @@ const adsSelector = [
   ".page_block.apps_feedRightAppsBlock.apps_feedRightAppsBlock_single_app--",
   ".ads_ad_box.ver.repeat_ver.size_site.adaptive_ad",
   ".profile_rate_warning",
-  ".post_marked_as_ads",
   ".post[data-ad-block-uid]",
   ".apps_feedRightAppsBlock__row",
   ".apps_feedRightAppsBlock",

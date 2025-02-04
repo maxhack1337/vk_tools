@@ -184,6 +184,7 @@ declare global {
 	var AudioPage: any;
 	var getEventListeners: any;
 	var showTabbedBox: any;
+	var IMLang: any;
 
 
     

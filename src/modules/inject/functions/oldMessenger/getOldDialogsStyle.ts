@@ -2,7 +2,7 @@ const getOldDialogsStyle = () => {
     return `
         .VKCOMMessenger__reforgedRightColumn
         {
-            border-radius: 0px;
+            border-radius: 0px!important;
             [class^="vkitGroup__group"]:has(>[class^="vkitRightMenu__container"]) {
                 border-radius:0px;
                 padding:0px!important;
@@ -37,10 +37,10 @@ const getOldDialogsStyle = () => {
 
 
     .VKCOMMessenger__reforgedRoot {
-        border-radius:0px;
-        box-shadow:0 1px 0 0 var(--vkui--color_separator_primary), 0 0 0 1px var(--vkui--color_separator_primary);
+        border-radius:0px!important;
+        box-shadow:0 1px 0 0 var(--vkui--color_separator_primary), 0 0 0 1px var(--vkui--color_separator_primary)!important;
             .VKCOMMessenger__reforgedRightColumn {
-        border-radius: 0px;
+        border-radius: 0px!important;
     }
     .ConvoMessageInfoWithoutBubbles__date {
         display: none;

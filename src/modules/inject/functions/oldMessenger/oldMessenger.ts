@@ -36,6 +36,22 @@ const oldMessenger = () => {
             header?.append(avatar);
     });
 
+    document.arrive('.ConvoListItem__date', { existing: true }, async function (e) {
+        let span = e.querySelector('span') as HTMLSpanElement;
+        if(span.textContent) span.textContent = span.textContent.slice(1);
+    });
+
+    document.arrive('#archive[class^="vkitRightMenuItem"]', { existing: true }, async function (e) {
+        let div = e.querySelector('[class^="vkitRightMenuItem__content"]');
+        if (div?.textContent) div.textContent = IMLang.keys.me_convo_list_important_messages || 'Важные сообщения';
+        div?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.stManager.add(["im.css", "page.css", "post.css", window.jsc("web/imn.js"), window.jsc("web/sorter.js")])
+            showTabbedBox("al_im.php", {act: "a_important", offset: "0", gid: 0}, {params: {width: 638}})
+        });
+    })
+
     document.arrive('.ConvoList__topMenu', { existing: true }, async function (e) {
         let topMenu = e;
 
