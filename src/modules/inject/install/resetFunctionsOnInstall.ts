@@ -20,7 +20,8 @@ const keys = [
     "secretFunctions",
     "isMessageTextUp",
     "feedOldPosts",
-    "oldClubs"
+    "oldClubs",
+    "oldMessengerDes"
 ];
 
 const resetFunctionsOnInstall = () => {

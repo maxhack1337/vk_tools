@@ -1,14 +1,33 @@
+import getEndStoryLang from "./getEndStoryLang";
+
 const getOldDialogsStyle = () => {
     return `
-        .VKCOMMessenger__reforgedRightColumn
+        .vkToolsBack {
+            display: flex;
+            color: var(--steel_gray_400);
+            align-items: center;
+        }
+        .ConvoMessageHeader__sentFromInfo {
+            flex-direction: row!important;
+        }
+        .BurgerMenu__actionsMenu .ActionsMenuAction:has(.vkuiIcon--user_square_outline_20),
+        .BurgerMenu__actionsMenu .ActionsMenuAction:has(.vkuiIcon--favorite_outline_20)
+        {
+            display: none!important;
+        }
+        .VKCOMMessenger__reforgedRightColumn:has(#unread[class^="vkitRightMenuItem__container"])
         {
             border-radius: 0px!important;
             [class^="vkitGroup__group"]:has(>[class^="vkitRightMenu__container"]) {
                 border-radius:0px;
                 padding:0px!important;
                 border: 1px solid var(--vkui--color_separator_primary);
+                [class^="vkitRightMenu__container"] {
+                    padding: 6px 0;
+                }
                 [class^="vkitRightMenuItem__container"] {
                     border-radius:0px;
+                    padding: 0 20px;
                 }
         
                 [class^="vkitRightMenuItem__content"] {
@@ -39,7 +58,82 @@ const getOldDialogsStyle = () => {
     .VKCOMMessenger__reforgedRoot {
         border-radius:0px!important;
         box-shadow:0 1px 0 0 var(--vkui--color_separator_primary), 0 0 0 1px var(--vkui--color_separator_primary)!important;
-            .VKCOMMessenger__reforgedRightColumn {
+        .ForwardedMessagesList--withoutBubbles {
+            border-left: 2px solid var(--vkui--vkontakte_color_im_forward_line_alpha);
+            padding-left: 12px;
+        }
+    
+        .ForwardedMessagesList__info {
+            display: none;
+        }
+        .NestedForwardedMessageButton::before {
+            background: transparent;
+        }
+        .NestedForwardedMessageButton {
+            border-left: 2px solid var(--vkui--vkontakte_color_im_forward_line_alpha);
+        }
+        .HopNavigationButton:has(.vkuiIcon--dropdown_20) {
+        --arrow-down-mxh: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAAEH5aXCAAABN2lDQ1BBZG9iZSBSR0IgKDE5OTgpAAAokZWPv0rDUBSHvxtFxaFWCOLgcCdRUGzVwYxJW4ogWKtDkq1JQ5ViEm6uf/oQjm4dXNx9AidHwUHxCXwDxamDQ4QMBYvf9J3fORzOAaNi152GUYbzWKt205Gu58vZF2aYAoBOmKV2q3UAECdxxBjf7wiA10277jTG+38yH6ZKAyNguxtlIYgK0L/SqQYxBMygn2oQD4CpTto1EE9AqZf7G1AKcv8ASsr1fBBfgNlzPR+MOcAMcl8BTB1da4Bakg7UWe9Uy6plWdLuJkEkjweZjs4zuR+HiUoT1dFRF8jvA2AxH2w3HblWtay99X/+PRHX82Vun0cIQCw9F1lBeKEuf1UYO5PrYsdwGQ7vYXpUZLs3cLcBC7dFtlqF8hY8Dn8AwMZP/fNTP8gAAAAJcEhZcwAACxMAAAsTAQCanBgAAAZvaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjYtYzE0NSA3OS4xNjM0OTksIDIwMTgvMDgvMTMtMTY6NDA6MjIgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0RXZ0PSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VFdmVudCMiIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE5IChXaW5kb3dzKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjMtMDYtMDZUMTY6MjM6MzMrMDM6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMjMtMDYtMDZUMTY6MjM6MzMrMDM6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDIzLTA2LTA2VDE2OjIzOjMzKzAzOjAwIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOmE3ZDk3NDVlLTgwYjYtYjk0NC04MTU0LTMzYWUzOTMwMGFmYiIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjdiNDY4MzNkLTFkMmYtYzk0Mi1iYjNkLTE3NjlmNmU0ZTVkZiIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOmIxMmFlMzA5LTUzMGUtMTc0Yy04MTE0LTYyOGNlNjUxNzg5OSIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjcmVhdGVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOmIxMmFlMzA5LTUzMGUtMTc0Yy04MTE0LTYyOGNlNjUxNzg5OSIgc3RFdnQ6d2hlbj0iMjAyMy0wNi0wNlQxNjoyMzozMyswMzowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDphN2Q5NzQ1ZS04MGI2LWI5NDQtODE1NC0zM2FlMzkzMDBhZmIiIHN0RXZ0OndoZW49IjIwMjMtMDYtMDZUMTY6MjM6MzMrMDM6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE5IChXaW5kb3dzKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1w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);
+        .HopNavigationButton__icon {
+            display: none;
+        }
+        background: var(--vkui--color_background_modal) var(--arrow-down-mxh) left 14px no-repeat;
+        background-position: top 8px left 12px;
+        background-size: 6.5%;
+        width: 210px;
+        border-radius: 40px;
+        height: 30px;
+        left: 180px;
+        position: absolute;
+        bottom: 0px;
+    }
+    .HopNavigationButton:has(.vkuiIcon--dropdown_20):hover {
+        background: var(--vkui--color_background_modal--hover) var(--arrow-down-mxh) left 14px no-repeat;
+        background-position: top 8px left 12px;
+        background-size: 6.5%;
+    }
+    .HopNavigationButton:has(.vkuiIcon--dropdown_20):after {
+        content: "${getEndStoryLang(vk.lang)}";
+        font-weight: 500;
+        text-align: center;
+        color: var(--blue_420) !important;
+        line-height: 30px;
+    }
+    .ConvoListItem__outStatusIcon:has(.vkuiIcon--check_double_outline_16) {
+        display:none;
+    }
+    .ConvoListItem__outStatusIcon .vkuiIcon--check_outline_16 {
+        background-color: var(--vkui--color_background_accent_themed);
+        border-radius:100px;
+        width:7px!important;
+        height:7px!important;
+        scale: 1.143;
+    }
+    .ConvoListItem__outStatusIcon .vkuiIcon--check_outline_16 use {
+        display:none;
+    }
+    .ConvoHistory__messageWrapper--withoutBubbles:has(.vkuiIcon--check_outline_16) {
+        background-color:var(--vkui--color_background_secondary);
+    }
+    .ConvoHistory__messageBlock--withoutBubbles {
+        padding: 0 22px;
+    }
+    .ConvoHistory__messageWrapper--withoutBubbles .vkuiIcon--check_outline_16,.ConvoHistory__messageWrapper--withoutBubbles .vkuiIcon--check_double_outline_16 {
+        display:none;
+    }
+    .ConvoMessageWithoutBubble:hover {
+        background:transparent;
+    }
+        
+    .ConvoHistory__messageWrapper--withoutBubbles {
+        cursor:pointer;
+    }
+
+    .ConvoHeader__action.ConvoHeader__back:hover {
+        background: linear-gradient(to right, var(--vkui--vkontakte_background_hover_alpha) 50%, transparent);
+        text-decoration: none;
+    }
+    .VKCOMMessenger__reforgedRightColumn {
         border-radius: 0px!important;
     }
     .ConvoMessageInfoWithoutBubbles__date {
@@ -60,10 +154,6 @@ const getOldDialogsStyle = () => {
     
     .ConvoMessageInfoWithoutBubbles__date {
         font-size: 12px;
-    }
-
-    .ConvoMessageHeader__sentFromInfo {
-        flex-direction: row!important;
     }
 
     .ConvoMessage__actions--withoutBubbles {
@@ -153,11 +243,12 @@ const getOldDialogsStyle = () => {
     .ConvoListItem--selected .ConvoTitle__author, .ConvoListItem--selected .MessagePreview, .ConvoListItem--selected .ConvoListItem__author, .ConvoListItem--selected .ConvoListItem__typing, .ConvoListItem--selected .ConvoListItem__text, .ConvoListItem--selected .ConvoListItem__typingIndicator,.ConvoListItem--selected .MessagePreview__attach {
         color:var(--vkui--color_icon_contrast_themed);
     }
-    .ConvoListItem--selected .UnreadCounter,.ConvoListItem--selected .ConvoListItem--muted .ConvoListItem__icon--unmute {
+    .ConvoListItem--selected .UnreadCounter,.ConvoListItem--selected.ConvoListItem--muted .ConvoListItem__icon--unmute, .ConvoListItem--selected.ConvoListItem--muted .ConvoListItem__icon {
         color: var(--vkui--color_background_accent_themed)!important;
         background: var(--vkui--color_icon_contrast_themed);
     }
     .ConvoListItem--selected .ConvoListItem__outStatusIcon svg {
+        border-radius: 100px;
         background-color:var(--vkui--color_icon_contrast_themed)!important;
     }
     .ConvoListItem--selected .ConvoListItem__outStatusIcon:has(.vkuiIcon--check_outline_16):before {
@@ -224,15 +315,20 @@ const getOldDialogsStyle = () => {
         background-color:transparent;
     }
 
-    .BurgerMenu__actionsMenu .ActionsMenuAction:has(.vkuiIcon--user_square_outline_20),
-    .BurgerMenu__actionsMenu .ActionsMenuAction:has(.vkuiIcon--favorite_outline_20)
-    {
-        display: none;
-    }
     .ConvoHeader__infoContainer {
         flex-flow: row;
     }
-    .ConvoListItem .ConvoTitle__title{
+    .Reply::after {
+        background: var(--vkui--vkontakte_im_reply_separator);
+        opacity: .16;
+    }
+    .Reply--clickable:not(.Reply--withoutBubble):hover::before {
+        background: transparent;
+    }
+    .Reply--clickable:not(.Reply--withoutBubble):hover::after {
+        opacity: .4;
+    }
+    .MEApp__route:not(:has(> .MEApp__oneColumn)) .ConvoListItem .ConvoTitle__title{
         max-width: 134px;
     }
     .ConvoHeader__status {
@@ -240,7 +336,7 @@ const getOldDialogsStyle = () => {
     }
     .MEApp__route:not(:has(> .MEApp__oneColumn)) .MEApp__content .ConvoHeader__action.ConvoHeader__back {
         visibility: hidden;
-        width: 8px;
+        width: 8px!important;
     }
     div:has(> .ConvoList__search){
         position:absolute;

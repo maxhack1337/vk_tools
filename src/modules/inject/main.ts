@@ -60,7 +60,8 @@ const adsSelector = [
   ".NewMiniAppsRightBlock__root",
   "#achievement_game",
   ".MarketItemsPortlet",
-  ".feed_row:has([id^='postad'])"
+  ".feed_row:has([id^='postad'])",
+  "[id^='post'][data-ad-block-uid]"
 ];
 
 window.urls = null;
@@ -209,6 +210,10 @@ window.addEventListener("message", async (event) => {
     }
     case "resetFunctions": {
       resetFunctionsOnInstall();
+      break;
+    }
+    case "oldMessengerDesign": {
+      localStorage.setItem("oldMessengerDes", event.data.value.messageValue);
       break;
     }
     case "refreshFeed": {
@@ -450,9 +455,6 @@ if (localStorage.getItem("removeAway") === "true") {
 }
 //Текст сверху сообщения
 messageTextUp();
-//Разработка старого интерфейса сообщений
-getTestGroup().then((e) => {
-if (e.includes(vk.id)) {
-  oldMessenger();
-}
-});
+//Старый дизайн мессенджера
+oldMessenger();
+
