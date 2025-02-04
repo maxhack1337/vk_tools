@@ -20,6 +20,22 @@ const oldMessenger = () => {
         footer?.append(e);
     });
 
+    document.arrive('.ConvoHeader__avatar', { existing: true }, function (e) {
+            let header = e.closest('.ConvoHeader');
+            let avatar = e as HTMLDivElement;
+
+            let convoHeaderInfo = document.querySelector('.ConvoHeader__info') as HTMLAnchorElement;
+            if (convoHeaderInfo.href)
+            avatar.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(convoHeaderInfo.href);
+            })
+            avatar.style.paddingLeft = "16px";
+            avatar.style.cursor = "pointer";
+            header?.append(avatar);
+    });
+
     document.arrive('.ConvoList__topMenu', { existing: true }, async function (e) {
         let topMenu = e;
 

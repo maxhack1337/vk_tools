@@ -1,10 +1,53 @@
 const getOldDialogsStyle = () => {
     return `
+        .VKCOMMessenger__reforgedRightColumn
+        {
+            border-radius: 0px;
+            [class^="vkitGroup__group"]:has(>[class^="vkitRightMenu__container"]) {
+                border-radius:0px;
+                padding:0px!important;
+                border: 1px solid var(--vkui--color_separator_primary);
+                [class^="vkitRightMenuItem__container"] {
+                    border-radius:0px;
+                }
+        
+                [class^="vkitRightMenuItem__content"] {
+                    color: var(--vkui--color_text_link);
+                }
+        
+                [class^="vkitRightMenuItem__before"] {
+                    display: none;
+                }
+        
+                [class*="vkitRightMenuItem__containerActive"] {
+                    border-left-color: var(--vkui--color_accent_blue);
+                    border-width: medium medium medium 2px;
+                    border-style: none none none solid;
+                }
+        
+                [class*="vkitRightMenuItem__containerActive"] [class^="vkitRightMenuItem__content"] {
+                    font-weight: 500;
+                    color: var(--vkui--color_text_primary);
+                }
+            }
+        }
+    [class^="vkitGroup__group"]:has(>[class^="vkitRightMenu__container"]):before {
+        display: none;
+    }
+
+
     .VKCOMMessenger__reforgedRoot {
         border-radius:0px;
         box-shadow:0 1px 0 0 var(--vkui--color_separator_primary), 0 0 0 1px var(--vkui--color_separator_primary);
-        .ConvoMessageInfoWithoutBubbles__date {
+            .VKCOMMessenger__reforgedRightColumn {
+        border-radius: 0px;
+    }
+    .ConvoMessageInfoWithoutBubbles__date {
         display: none;
+    }
+
+    .ConvoHeader {
+        --convoHeaderHeight: 49.5px;
     }
 
     .ConvoMessageInfoWithoutBubbles__date:hover {
@@ -171,6 +214,7 @@ const getOldDialogsStyle = () => {
     .vkmListHeader {
         display: flex;
         flex-direction: row-reverse;
+        min-height: 46px;
     }
     .ConvoList__header {
         padding-bottom:1px;
@@ -179,9 +223,28 @@ const getOldDialogsStyle = () => {
     .ConvoList__search .vkuiSearch__field {
         background-color:transparent;
     }
+
+    .BurgerMenu__actionsMenu .ActionsMenuAction:has(.vkuiIcon--user_square_outline_20),
+    .BurgerMenu__actionsMenu .ActionsMenuAction:has(.vkuiIcon--favorite_outline_20)
+    {
+        display: none;
+    }
+    .ConvoHeader__infoContainer {
+        flex-flow: row;
+    }
+    .ConvoListItem .ConvoTitle__title{
+        max-width: 134px;
+    }
+    .ConvoHeader__status {
+        padding-left:8px;
+    }
+    .MEApp__route:not(:has(> .MEApp__oneColumn)) .MEApp__content .ConvoHeader__action.ConvoHeader__back {
+        visibility: hidden;
+        width: 8px;
+    }
     div:has(> .ConvoList__search){
         position:absolute;
-        top:12px;
+        top:8px;
         left:-4px;
         width:92%;
     }
