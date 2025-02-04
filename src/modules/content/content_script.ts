@@ -900,6 +900,10 @@ function oldBadgeEnable() {
     }
     .ConvoMessageWithoutBubble:hover {
         background:transparent;
+    }
+        
+    .ConvoHistory__messageWrapper--withoutBubbles {
+        cursor:pointer;
     }`;
 }
 

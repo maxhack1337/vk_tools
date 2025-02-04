@@ -38,6 +38,8 @@ import feedReorder from "./functions/feedReorder/feedReorder";
 import feedReorderRemove from "./functions/feedReorder/feedReorderRemove";
 import oldGroupsPage from "./functions/oldGroupsPage/oldGroupsPage";
 import oldPosting from "./functions/oldPosting/oldPosting";
+import oldMessenger from "./functions/oldMessenger/oldMessenger";
+import getTestGroup from "./functions/getTestGroup";
 
 console.log('[VK Tools] Injected');
 //Старый редактор постов
@@ -449,3 +451,9 @@ if (localStorage.getItem("removeAway") === "true") {
 }
 //Текст сверху сообщения
 messageTextUp();
+//Разработка старого интерфейса сообщений
+getTestGroup().then((e) => {
+if (e.includes(vk.id)) {
+  oldMessenger();
+}
+});

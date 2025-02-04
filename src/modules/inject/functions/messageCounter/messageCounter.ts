@@ -12,7 +12,7 @@ const messageCounter = () => {
             countermsg.classList.add("ConvoList__topFiltersWrap");
             countermsg.classList.add("vkEnhancerCounterOfMessages");
             let lastMessage = await vkApi.api("messages.search", { q: "#", count: 1 });
-            let idMess;
+            let idMess = 0;
             try {
                 idMess = lastMessage.items[0].id;
             } catch (error) {
@@ -52,32 +52,33 @@ const messageCounter = () => {
                 if (countermsg) {
                     const convoListFilter = countermsg.querySelector(".ConvoListFilter");
                     if (convoListFilter) {
-                        convoListFilter.setAttribute(
-                            `onclick`,
-                            `showFastBox(getLang("me_convo_profile_info"), "${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[0]}", getLang("global_close"));`
-                        );
+                        convoListFilter.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            showFastBox(getLang?.("me_convo_profile_info"), `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[0]}`, getLang?.("global_close"));
+                        });
                     }
                 }
             } else if (idMess < 14000000) {
                 if (countermsg) {
                     const convoListFilter = countermsg.querySelector(".ConvoListFilter");
                     if (convoListFilter) {
-                        convoListFilter.setAttribute(
-                            `onclick`,
-                            `showFastBox(getLang("global_warning"), "${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[1]
-                            }", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`
-                        );
+                        convoListFilter.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            showFastBox(getLang?.("global_warning"), `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[1]}`, getLang?.("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang?.("box_cancel"));
+                        });
                     }
                 }
             } else if (idMess < 15000000) {
                 if (countermsg) {
                     const convoListFilter = countermsg.querySelector(".ConvoListFilter");
                     if (convoListFilter) {
-                        convoListFilter.setAttribute(
-                            `onclick`,
-                            `showFastBox(getLang("global_warning"), "${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[2]
-                            }", getLang("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang("box_cancel"));`
-                        );
+                        convoListFilter.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            showFastBox(getLang?.("global_warning"), `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[2]}`, getLang?.("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang?.("box_cancel"));
+                        });
                     }
                 }
             }

@@ -183,6 +183,7 @@ declare global {
 	var wbopen: any;
 	var AudioPage: any;
 	var getEventListeners: any;
+	var showTabbedBox: any;
 
 
     
