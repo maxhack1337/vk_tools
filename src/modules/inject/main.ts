@@ -39,7 +39,6 @@ import feedReorderRemove from "./functions/feedReorder/feedReorderRemove";
 import oldGroupsPage from "./functions/oldGroupsPage/oldGroupsPage";
 import oldPosting from "./functions/oldPosting/oldPosting";
 import oldMessenger from "./functions/oldMessenger/oldMessenger";
-import getTestGroup from "./functions/getTestGroup";
 
 console.log('[VK Tools] Injected');
 //Старый редактор постов
@@ -61,7 +60,8 @@ const adsSelector = [
   "#achievement_game",
   ".MarketItemsPortlet",
   ".feed_row:has([id^='postad'])",
-  "[id^='post'][data-ad-block-uid]"
+  "[id^='post'][data-ad-block-uid]",
+  "#feed_rows > [class]:has(.post:not([onclick^='wall.postClick']))"
 ];
 
 window.urls = null;
