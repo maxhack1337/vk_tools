@@ -70,6 +70,9 @@ createStyle('antiAds', `
 }
 `);
 
+window.MotionKit = {}
+Object.freeze(window.MotionKit)
+
 window.urls = null;
 if (!window.vkenh) {
     window.vkenh = {};

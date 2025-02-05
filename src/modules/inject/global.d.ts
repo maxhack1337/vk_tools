@@ -185,6 +185,7 @@ declare global {
 	var getEventListeners: any;
 	var showTabbedBox: any;
 	var IMLang: any;
+  	var MotionKit:any
 
 
     
