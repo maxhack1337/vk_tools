@@ -39,10 +39,10 @@ const oldMessenger = () => {
             header?.append(avatar);
         });
 
-        document.arrive('.ConvoListItem__date', { existing: true }, async function (e) {
+        /*document.arrive('.ConvoListItem__date', { existing: true }, async function (e) {
             let span = e.querySelector('span') as HTMLSpanElement;
             if (span.textContent) span.textContent = span.textContent.slice(1);
-        });
+        });*/
 
         document.arrive(".ConvoHeader__action.ConvoHeader__back", { existing: true }, function (e) {
             let inner = e as HTMLButtonElement;

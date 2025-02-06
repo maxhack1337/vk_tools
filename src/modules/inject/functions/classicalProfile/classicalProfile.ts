@@ -79,6 +79,11 @@ const classicalProfile = () => {
           e.textContent = `${getLang?.("global_edit")}`;
         }
   );
+
+  document.arrive(`[class^="vkitgetColorClass__colorTextSubhead"]`, { existing: true }, (e) => {
+    let cont = e as HTMLElement;
+    cont.textContent === getLang?.('profile_dead_page_label') ? cont.style.paddingLeft = "26px" : cont = cont;
+  })
       window.friendsSection = null;
       window.aHrefSectionFrens = null;
       window.imReady = null;

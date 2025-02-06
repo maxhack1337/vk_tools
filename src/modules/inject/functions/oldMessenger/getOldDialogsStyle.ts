@@ -17,6 +17,7 @@ const getOldDialogsStyle = () => {
         }
         .VKCOMMessenger__reforgedRightColumn:has(#unread[class^="vkitRightMenuItem__container"])
         {
+            width: 230px !important;
             border-radius: 0px!important;
             [class^="vkitGroup__group"]:has(>[class^="vkitRightMenu__container"]) {
                 border-radius:0px;
@@ -53,11 +54,54 @@ const getOldDialogsStyle = () => {
     [class^="vkitGroup__group"]:has(>[class^="vkitRightMenu__container"]):before {
         display: none;
     }
+    body:has(.VKCOMMessenger__reforgedRightColumn) {
+        .ConvoHeader__infoContainer {
+            flex-flow: column;
+            align-items: center;
+        }
+        .ConvoHeader__status {
+            padding-left: 0px;
+        }
+        header#page_header {
+            width: 970px;
+        }
+        div#page_layout {
+            left: 50px;
+        }
+    }
 
+    .vkui__root:has(.VKCOMMessenger__skeletonWrapper) {
+        display: none;
+    }
 
     .VKCOMMessenger__reforgedRoot {
         border-radius:0px!important;
         box-shadow:0 1px 0 0 var(--vkui--color_separator_primary), 0 0 0 1px var(--vkui--color_separator_primary)!important;
+        .ConvoListItem:not(.ConvoListItem--selected)::after {
+            content: '';
+            border-bottom: 1px solid var(--vkui--color_separator_primary);
+            margin-left: 60px;
+            width: 800%
+        }
+        .ConvoListItem {
+            height: 71px!important;
+            padding: 3px 0 0 18px;
+        }
+        .ConvoListItem__header {
+            padding-top: 10px;
+        }
+        .ConvoList__item .ConvoListItem__message {
+            padding-top: 2px;
+        }
+        .ConvoListItem__header, .ConvoListItem__icons{
+            padding-right: 18px!important;
+        }
+        .ConvoListItem__avatar {
+            scale: 1.0418;
+        }
+        .ConvoList__organiserSection {
+            padding: 5px 0;
+        }
         .ForwardedMessagesList--withoutBubbles {
             border-left: 2px solid var(--vkui--vkontakte_color_im_forward_line_alpha);
             padding-left: 12px;
@@ -222,8 +266,8 @@ const getOldDialogsStyle = () => {
     }
     .ConvoListItem__date {    
         position: absolute;
-        top: 12px;
-        right: 12px;
+        top: 15px;
+        right: 20px;
     }
     .ConvoList__item:hover .ConvoListItem__date {
         display:none;
