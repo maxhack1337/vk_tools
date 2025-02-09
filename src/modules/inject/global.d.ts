@@ -53,7 +53,8 @@ interface Store {
 interface MECommonContextType {
     browserEnv: BrowserEnv;
     store: Store;
-    engine: any;
+	engine: any;
+	channelWSEngine: any;
 }
 
 export interface Nav {

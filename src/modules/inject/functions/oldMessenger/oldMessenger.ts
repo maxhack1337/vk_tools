@@ -77,7 +77,10 @@ const oldMessenger = () => {
 
         document.arrive('#archive[class^="vkitRightMenuItem"]', { existing: true }, async function (e) {
             let div = e.querySelector('[class^="vkitRightMenuItem__content"]');
-            if (div?.textContent) div.textContent = IMLang.keys.me_convo_list_important_messages || 'Важные сообщения';
+            if (div?.textContent) {
+                if (IMLang) div.textContent = IMLang.keys.me_convo_list_important_messages;
+                else div.textContent = 'Важные сообщения'
+            }
             div?.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
