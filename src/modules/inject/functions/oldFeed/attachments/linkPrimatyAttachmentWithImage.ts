@@ -1,3 +1,5 @@
+import getLinkImageMaxSizeUrl from "./getLinkImageMaxSizeUrl";
+
 const linkPrimatyAttachmentWithImage = (linkCurrent: any) => {
     let mediaLinkWide = document.createElement('div');
     mediaLinkWide.classList.add('media_link', 'media_link--sized', 'media_link--photo', 'media_link--wide');
@@ -9,10 +11,13 @@ const linkPrimatyAttachmentWithImage = (linkCurrent: any) => {
     mediaLinkMedia.rel = 'nofollow noopener';
     mediaLinkMedia.target = '_blank';
     mediaLinkMedia.style.paddingTop = '0px';
+    mediaLinkMedia.style.maxHeight = '210px';
 
     let mediaLinkPhoto = document.createElement('img');
-    mediaLinkPhoto.src = linkCurrent.photo.sizes.at(-1).url;
+    mediaLinkPhoto.src = getLinkImageMaxSizeUrl(linkCurrent.photo.sizes);
     mediaLinkPhoto.alt = linkCurrent.title;
+    mediaLinkPhoto.style.width = '100%';
+    mediaLinkPhoto.style.height = '100%';
 
     mediaLinkMedia.append(mediaLinkPhoto);
 
