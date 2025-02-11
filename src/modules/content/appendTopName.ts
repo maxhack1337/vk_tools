@@ -17,7 +17,7 @@ const appendTopName = () => {
     } catch (e) { }
     const styleElement = document.createElement("style");
     styleElement.id = "top_name";
-    styleElement.innerHTML = ".top_profile_name {padding-right: 10px;}";
+    styleElement.innerHTML = ".top_profile_name {padding-right: 10px!important;}";
     document.head.appendChild(styleElement);
   }
 }
