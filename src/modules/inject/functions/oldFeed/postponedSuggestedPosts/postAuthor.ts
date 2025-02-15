@@ -6,7 +6,7 @@ document.arrive(selectorsAuthor.join(', '), { existing: true }, async function (
 
 				let wallSigned = document.createElement('div');
 				wallSigned.classList.add('wall_signed');
-				wallSigned.style.paddingLeft = '0px';
+				wallSigned.style.paddingLeft = '20px';
 
 				let wallSignedBy = document.createElement('a');
 				wallSignedBy.href = anchor.href;
@@ -17,7 +17,7 @@ document.arrive(selectorsAuthor.join(', '), { existing: true }, async function (
 
 				e.replaceWith(wallSigned);
                         
-                let contentContainer = e.querySelector('[class^="PostContentContainer__contentContainer"]');
+                let contentContainer = wallSigned.closest('[class^="PostContentContainer__contentContainer"]');
                 contentContainer?.append(wallSigned);
 			}
 			catch(error) {

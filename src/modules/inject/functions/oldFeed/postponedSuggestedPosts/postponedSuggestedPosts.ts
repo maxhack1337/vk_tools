@@ -6,11 +6,11 @@ import postMusic from "./postMusic";
 
 const postponedSuggestedPosts = () => {
     //postSubtitle();
-    postAuthor();
     postDocs();
     postLinks();
     postArticle();
     postMusic();
+    postAuthor();
 }
 
 export default postponedSuggestedPosts;
