@@ -48,6 +48,9 @@ const innerStyleGet = () => {
 			box-shadow:var(--page-block-shadow)!important;
 			border-radius:var(--vkui--size_border_radius_paper--regular)!important;
 		}
+		.suggest .PostHeader--redesignV3 .PostHeaderTitle, .postponed .PostHeader--redesignV3 .PostHeaderTitle {
+			height: 16px!important;
+		}
 		.PostHeader--redesignV3 .PostHeaderTitle {
 			display:flex;
 			height: 34px;
@@ -158,6 +161,10 @@ const innerStyleGet = () => {
 		.Post--redesignV3 [class^="vkitPrimaryAttachment__root"]:not(:has([href^="/video"])),.Post--redesignV3 [class^="vkitMediaGrid__root"] {
 			border-radius:8px;
 			box-shadow: 0 0 0 1px var(--vkui--color_separator_secondary);
+		}
+		.Post--redesignV3 [class^="vkitPrimaryAttachment__root"]:not(:has([href^="/video"]))[style^="--photo-primary-ratio"] {
+			padding-top: min(100%,var(--photo-primary-height, 100%));
+			max-width: calc(var(--photo-primary-ratio)*100%);
 		}
 		#wl_post.Post--redesignV3:not(:has(.PostCopyQuote--redesignV3)) [class^="PostContentContainer__contentContainer"] {
 			margin-left:-18px;

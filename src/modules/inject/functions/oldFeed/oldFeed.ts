@@ -134,19 +134,21 @@ const oldFeed = () => {
                             isRepost = '.PostCopyQuote--redesignV3 ';
                         }
                         let sub = e.querySelector(isRepost + '[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]');
-                        sub?.classList.add('vkEnhancerPostAuthorTip');
-                        let appHere;
-                        if (isRepost === '') {
-                            appHere = e.querySelector('.vk_enhancer_post_subhead');
-                        } else {
-                            appHere = e.querySelector('.vk_enhancer_copy_post_subhead');
-                        }
-                        let separatorInPost = document.createElement('span');
-                        separatorInPost.classList.add('PostHeaderSubtitle__separator');
-                        separatorInPost.setAttribute('aria-hidden', 'true');
-                        separatorInPost.textContent = '·';
-                        appHere?.appendChild(separatorInPost);
-                        appHere?.appendChild(sub!);
+                        
+                        let anchor = sub as HTMLAnchorElement;
+
+				        let wallSigned = document.createElement('div');
+				        wallSigned.classList.add('wall_signed');
+				        wallSigned.style.paddingLeft = '0px';
+
+				        let wallSignedBy = document.createElement('a');
+				        wallSignedBy.href = anchor.href;
+				        wallSignedBy.textContent = anchor.textContent;
+				        wallSignedBy.classList.add('wall_signed_by');
+
+				        wallSigned.append(wallSignedBy);
+
+				        sub?.replaceWith(wallSigned);
                     } catch (error) {
                         console.log(error);
                     }
