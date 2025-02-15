@@ -12,8 +12,10 @@ const exportVars = async(wall_oid:number,public_link:string,loc:string,owner:{id
 	let isFeedBlock = document.querySelector('#main_feed');
 	let isWallModule = cur.module === 'wall';
 	let isElseProfile = document.querySelector('.ui_tabs_right_section > .PostingReactBlock__root');
+	let isBeginBlock = document.querySelector('#page_block_submit_post:has(> .gtop_complex_message)');
+
 	if (document.querySelector('#submit_post_field')) return;
-	if (!isFeedBlock && !newPostingBlock && !isElseProfile && !isWallModule) return;
+	if (!isFeedBlock && !newPostingBlock && !isElseProfile && !isWallModule && !isBeginBlock) return;
 
 	const [ownerId, ownerPhoto, ownerHref, ownerName] = wallData?.ownerData || [];
 	const [profileId, profilePhoto, profileHref] = wallData?.profileData || [];
@@ -47,7 +49,7 @@ const exportVars = async(wall_oid:number,public_link:string,loc:string,owner:{id
 		onlyOfficial: wallData.only_official?.valueOf(),
 		isMyWall
 	});
-	replacePostingBlock(submitPostBlock, newPostingBlock, isFeedBlock, isElseProfile, isWallModule);
+	replacePostingBlock(submitPostBlock, newPostingBlock, isFeedBlock, isElseProfile, isWallModule, isBeginBlock);
 		deferredCallback(
 			async () => {
 				if (wall_oid !== (ownerId || profileId) && (oid < 0) && wallData.suggesting) {

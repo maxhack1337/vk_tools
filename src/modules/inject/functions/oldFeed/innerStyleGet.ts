@@ -76,6 +76,9 @@ const innerStyleGet = () => {
 		[class^="PostContentContainer__contentContainer"] > div:has( > [class^="vkitPrimaryAttachment__root"]) {
 			padding: 6px 20px 0px!important;
 		}
+		[class^="PostContentContainer__contentContainer"] > div:has( > [class^="VideoSnippet"]) {
+			padding: 6px 20px 0px!important;
+		}
 		[class^="PostContentContainer__contentContainer"] > div:has( > [class^="vkitSnippetAttachment__root"]) {
 			padding: 12px 20px 0px!important;
 		}
@@ -259,6 +262,7 @@ const innerStyleGet = () => {
 		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_mini_app"], .Post--redesignV3 [data-testid="feed_action_button_mini_app"] {
 			margin: 8px 20px;
 			border-radius: 8px;
+			display: none;
 		}
 		.PostCopyQuote--redesignV3 .vkuiDiv > .vkuiLink[class*="vkitLink__link"].vkuiTappable.vkuiTappable--hasPointer-none.vkuiClickable__resetLinkStyle[href^="http"] > .vkuiSimpleCell, .Post--redesignV3 .vkuiDiv > .vkuiLink[class*="vkitLink__link"].vkuiTappable.vkuiTappable--hasPointer-none.vkuiClickable__resetLinkStyle[href^="http"] > .vkuiSimpleCell {
 			margin: 8px 0px;

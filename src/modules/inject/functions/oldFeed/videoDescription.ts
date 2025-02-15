@@ -1,3 +1,5 @@
+import escapeHtml from "../../escapeHtml";
+
 const videoDescription = (videoID:string,videoList:string,postData:any,videoDur:string,videoName:string,videoViews:any) => {
 return `
 				<a class="lnk" id="post_media_lnk" onclick="return showVideo('`+videoID+`',
@@ -9,10 +11,10 @@ return `
 				data-video="`+videoID+`"
 				data-list="`+videoList+`"
 				data-duration="`+videoDur+`"
-				aria-label="`+videoName+`"
+				aria-label="`+escapeHtml(videoName)+`"
 				>
 				<div class="a post_video_title">
-				`+videoName+`
+				`+escapeHtml(videoName)+`
 				</div>
 				<div class="post_video_views_count">`+getLang?.('video_showcase_N_viewers',videoViews)+`</div>
 				</a>

@@ -1,28 +1,24 @@
-const miniAppAttachment = (miniApp:any) => {
+const miniAppAttachmentSecondary = (miniApp: any) => {
     let app = miniApp.app;
     let images = miniApp.images;
     let title = miniApp.title;
     let description = miniApp.description;
 
-    let miniAppAnchor = document.createElement('a');
-    miniAppAnchor.href = app.share_url;
-    miniAppAnchor.target = "_blank";
-    miniAppAnchor.style.textDecoration = "none";
+    const miniAppsSnippet = document.createElement('div');
+    miniAppsSnippet.classList.add('MiniAppsSnippet', 'MiniAppsSnippet--small', 'PostNoBottomSpaceAttach');
 
-    let miniAppObject = document.createElement('object');
+    const miniAppsSnippetAnchor = document.createElement('a');
+    miniAppsSnippetAnchor.target = "_blank";
+    miniAppsSnippetAnchor.href = app.share_url;
 
-    let miniAppSnippet = document.createElement('div');
-    miniAppSnippet.classList.add('MiniAppsSnippet', 'MiniAppsSnippet--big', 'PostNoBottomSpaceAttach');
-    if (images[0]) miniAppSnippet.style.backgroundImage = `url(${images[0].url})`;
-    miniAppSnippet.style.marginTop = "0px";
-    miniAppSnippet.style.borderRadius = "4px";
-    miniAppSnippet.style.boxShadow = "0 0 0 1px var(--vkui--vkontakte_color_snippet_border_alpha) inset";
+    const miniAppsSnippetCover = document.createElement('div');
+    miniAppsSnippetCover.classList.add('MiniAppsSnippetCover');
+    if (images[0]) miniAppsSnippetCover.style.backgroundImage = `url(${images[0].url})`;
+    
+    miniAppsSnippetAnchor.append(miniAppsSnippetCover);
 
-    let miniAppSnippetBottom = document.createElement('div');
-    miniAppSnippetBottom.classList.add('MiniAppsSnippetBottom');
-
-    let miniAppSnippetBottomFields = document.createElement('div');
-    miniAppSnippetBottomFields.classList.add('MiniAppsSnippetBottomFields');
+    const miniAppsSnippetFields = document.createElement('div');
+    miniAppsSnippetFields.classList.add('MiniAppsSnippetFields');
 
     let miniAppSnippetBottomFieldsTitle = document.createElement('a');
     miniAppSnippetBottomFieldsTitle.href = app.share_url;
@@ -43,9 +39,13 @@ const miniAppAttachment = (miniApp:any) => {
     h6.textContent = description;
     
     miniAppSnippetBottomFieldsDescription.append(h6);
-    miniAppSnippetBottomFields.append(miniAppSnippetBottomFieldsTitle, miniAppSnippetBottomFieldsDescription);
-    miniAppSnippetBottom.append(miniAppSnippetBottomFields);
-    
+
+    let miniAppSnippetBottomFieldsTypeDescription = document.createElement('a');
+    miniAppSnippetBottomFieldsTypeDescription.target = 'blank';
+    miniAppSnippetBottomFieldsTypeDescription.href = app.share_url;
+    miniAppSnippetBottomFieldsTypeDescription.classList.add('MiniAppsSnippetBottomFields__type_description');
+
+    miniAppsSnippetFields.append(miniAppSnippetBottomFieldsTitle, miniAppSnippetBottomFieldsDescription, miniAppSnippetBottomFieldsTypeDescription);
 
     if (miniApp.button_text) {
         let miniAppSnippetBottomButton = document.createElement('a');
@@ -67,13 +67,11 @@ const miniAppAttachment = (miniApp:any) => {
 
         miniAppSnippetBottomButtonIn.append(miniAppSnippetBottomButtonInBefore, miniAppSnippetBottomButtonInContent);
         miniAppSnippetBottomButton.append(miniAppSnippetBottomButtonIn);
-        miniAppSnippetBottom.append(miniAppSnippetBottomButton);
+        miniAppsSnippetFields.append(miniAppSnippetBottomButton);
     }
-    miniAppSnippet.append(miniAppSnippetBottom);
-    miniAppObject.append(miniAppSnippet);
-    miniAppAnchor.append(miniAppObject);
 
-    return miniAppAnchor;
+    miniAppsSnippet.append(miniAppsSnippetAnchor, miniAppsSnippetFields);
+    return miniAppsSnippet;
 }
 
-export default miniAppAttachment;
+export default miniAppAttachmentSecondary;

@@ -20,6 +20,7 @@ import miniAppAttachment from "./attachments/miniAppAttachment";
 import linkAttachmentWithImage from "./attachments/linkAttachmentWithImage";
 import linkAttachmentWithoutImage from "./attachments/linkAttachmentWithoutImage";
 import linkPrimatyAttachmentWithImage from "./attachments/linkPrimatyAttachmentWithImage";
+import miniAppAttachmentSecondary from "./attachments/miniAppAttachmentSecondary";
 const oldFeed = () => {
     if (localStorage.getItem("feedOldPosts") === "true") {
         oldStoryBlock();
@@ -527,7 +528,7 @@ const oldFeed = () => {
                 }
 
 
-                //Аттач-миниапп
+                //Аттач-миниапп примари
                 if (e.querySelector('[class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/app"]') && dataAttachments.item.attachments) {
                     let allDocs = e.querySelector('[class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/app"]');
                     dataAttachments.item.attachments.forEach(async function(miniapp: any) {
@@ -552,6 +553,35 @@ const oldFeed = () => {
                             let miniAppCurrent = miniAppAttachment(miniapp.mini_app);
                             primaryAttachMiniApp.appendChild(miniAppCurrent)
                             allDocs?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(primaryAttachMiniApp);
+                        }
+                    });
+                }
+
+                //Аттач миниапп секондари
+                if (e.querySelector('[data-testid="feed_action_button_mini_app"]') && dataAttachments.item.attachments) {
+                    let allDocs = e.querySelector('[data-testid="feed_action_button_mini_app"]');
+                    dataAttachments.item.attachments.forEach(async function(miniapp: any) {
+                        if (miniapp.mini_app) {
+                            let secondaryAttachMiniApp = document.createElement('div');
+                            secondaryAttachMiniApp.classList.add('vkuiDiv', 'vkuiRootComponent');
+                            secondaryAttachMiniApp.style.padding = "0px 20px";
+                            let miniAppCurrent = miniAppAttachmentSecondary(miniapp.mini_app);
+                            secondaryAttachMiniApp.appendChild(miniAppCurrent)
+                            allDocs?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(secondaryAttachMiniApp);
+                        }
+                    });
+                }
+
+                if (e.querySelector('.PostCopyQuote--redesignV3 [data-testid="feed_action_button_mini_app"]') && dataRepostAttachments.item.attachments) {
+                    let allDocs = e.querySelector('.PostCopyQuote--redesignV3 [data-testid="feed_action_button_mini_app"]');
+                    dataRepostAttachments.item.attachments.forEach(async function(miniapp: any) {
+                        if (miniapp.mini_app) {
+                            let secondaryAttachMiniApp = document.createElement('div');
+                            secondaryAttachMiniApp.classList.add('vkuiDiv', 'vkuiRootComponent');
+                            secondaryAttachMiniApp.style.padding = "0px 20px";
+                            let miniAppCurrent = miniAppAttachmentSecondary(miniapp.mini_app);
+                            secondaryAttachMiniApp.appendChild(miniAppCurrent)
+                            allDocs?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(secondaryAttachMiniApp);
                         }
                     });
                 }
