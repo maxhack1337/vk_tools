@@ -33,7 +33,7 @@ const feedReorder = async () => {
         pageBlock.append(uiTogglerWrap);
 
         if (!document.querySelector('.vkToolsFeedFilter')) {
-            filters?.appendChild(pageBlock);
+            filters?.prepend(pageBlock);
         } else {
             document.querySelector('.vkToolsFeedFilter .ui_toggler')!.className = `_ui_toggler ui_toggler ${onOff === 'top' ? 'on' : 'vkToolsOff'}`;
         }
