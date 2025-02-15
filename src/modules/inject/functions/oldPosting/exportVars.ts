@@ -2,6 +2,7 @@
 import deferredCallback from "../../defferedCallback";
 import carouselGridKeys from "./carouselGridKeys";
 import postingBlock from "./postingBlock";
+import replacePostingBlock from "./replacePostingBlock";
 
 const exportVars = async(wall_oid:number,public_link:string,loc:string,owner:{id: number;name: string;photo: string;},wall_tpl:{profileData: [profileId: number, photo: string, href: string, name: string];ownerData: [ownerId: number, photo: string, href: string, name: string];},wallData:any) => {
 	if(localStorage.getItem('old_post_design') === 'false') return;
@@ -46,25 +47,7 @@ const exportVars = async(wall_oid:number,public_link:string,loc:string,owner:{id
 		onlyOfficial: wallData.only_official?.valueOf(),
 		isMyWall
 	});
-	if (newPostingBlock) {
-		newPostingBlock.parentElement?.insertBefore(submitPostBlock, newPostingBlock);
-		newPostingBlock.remove();
-	}
-	if (isFeedBlock) {
-		isFeedBlock.parentElement?.prepend(submitPostBlock);
-		let newFeedPostingBlock = document.querySelector('.PostingReactBlock__root');
-		if (newFeedPostingBlock) newFeedPostingBlock.remove();
-	}
-	if (isElseProfile) {
-		isElseProfile.closest('.WallLegacy')?.prepend(submitPostBlock);
-		let newElsePostingBlock = document.querySelector('.PostingReactBlock__root');
-		if (newElsePostingBlock) newElsePostingBlock.remove();
-	}
-	if (isWallModule) {
-		document.querySelector('.PostingReactBlock__root')?.parentElement?.prepend(submitPostBlock);
-		let newWallPostingBlock = document.querySelector('.PostingReactBlock__root');
-		if (newWallPostingBlock) newWallPostingBlock.remove();
-	}
+	replacePostingBlock(submitPostBlock, newPostingBlock, isFeedBlock, isElseProfile, isWallModule);
 		deferredCallback(
 			async () => {
 				if (wall_oid !== (ownerId || profileId) && (oid < 0) && wallData.suggesting) {

@@ -127,7 +127,7 @@ export interface Wall {
 		focus?: boolean,
 		onInited?: () => void
 	) => void;
-	_cvf_hooked?: boolean;
+	isAlreadyOld?: boolean;
 }
 
 export interface stManager {
