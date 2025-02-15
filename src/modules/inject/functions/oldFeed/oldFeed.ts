@@ -125,34 +125,6 @@ const oldFeed = () => {
                         console.log(error);
                     }
                 }
-                if (e.querySelector('[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]:not(.vkEnhancerPostAuthorTip)')) {
-                    try {
-                        let isRepost;
-                        if (!e.querySelector('[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]:not(.vkEnhancerPostAuthorTip)')?.closest('.PostCopyQuote--redesignV3')) {
-                            isRepost = '';
-                        } else {
-                            isRepost = '.PostCopyQuote--redesignV3 ';
-                        }
-                        let sub = e.querySelector(isRepost + '[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]');
-                        
-                        let anchor = sub as HTMLAnchorElement;
-
-				        let wallSigned = document.createElement('div');
-				        wallSigned.classList.add('wall_signed');
-				        wallSigned.style.paddingLeft = '0px';
-
-				        let wallSignedBy = document.createElement('a');
-				        wallSignedBy.href = anchor.href;
-				        wallSignedBy.textContent = anchor.textContent;
-				        wallSignedBy.classList.add('wall_signed_by');
-
-				        wallSigned.append(wallSignedBy);
-
-				        sub?.replaceWith(wallSigned);
-                    } catch (error) {
-                        console.log(error);
-                    }
-                }
                 /*Пост в репосте*/
                 if (e.querySelector('.published_sec_quote.PostCopyQuote--redesignV3 .CopyPost__authorLink')) {
                     try {
@@ -586,6 +558,38 @@ const oldFeed = () => {
                             allDocs?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(secondaryAttachMiniApp);
                         }
                     });
+                }
+                /*Автор поста*/
+                if (e.querySelector('[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]:not(.vkEnhancerPostAuthorTip)')) {
+                    try {
+                        let isRepost;
+                        if (!e.querySelector('[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]:not(.vkEnhancerPostAuthorTip)')?.closest('.PostCopyQuote--redesignV3')) {
+                            isRepost = '';
+                        } else {
+                            isRepost = '.PostCopyQuote--redesignV3 ';
+                        }
+                        let sub = e.querySelector(isRepost + '[class^="vkitShowMoreText__text"] a[class^="vkitTextClamp__root"][href^="/"]');
+                        
+                        let anchor = sub as HTMLAnchorElement;
+
+				        let wallSigned = document.createElement('div');
+				        wallSigned.classList.add('wall_signed');
+                        wallSigned.style.paddingLeft = '20px';
+                        
+				        let wallSignedBy = document.createElement('a');
+				        wallSignedBy.href = anchor.href;
+				        wallSignedBy.textContent = anchor.textContent;
+				        wallSignedBy.classList.add('wall_signed_by');
+
+				        wallSigned.append(wallSignedBy);
+
+                        sub?.replaceWith(wallSigned);
+                        
+                        let contentContainer = e.querySelector(isRepost + '[class^="PostContentContainer__contentContainer"]');
+                        contentContainer?.append(wallSigned);
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }
             }
         });

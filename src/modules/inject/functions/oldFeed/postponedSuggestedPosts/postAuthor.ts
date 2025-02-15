@@ -16,6 +16,9 @@ document.arrive(selectorsAuthor.join(', '), { existing: true }, async function (
 				wallSigned.append(wallSignedBy);
 
 				e.replaceWith(wallSigned);
+                        
+                let contentContainer = e.querySelector('[class^="PostContentContainer__contentContainer"]');
+                contentContainer?.append(wallSigned);
 			}
 			catch(error) {
 				console.log(error);
