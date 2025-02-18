@@ -2,6 +2,7 @@
 import deferredCallback from "../../defferedCallback";
 import appendRefreshButton from "./appendRefreshButton";
 import exportVars from "./exportVars";
+import listenVK from "./listenVK";
 import listenWall from "./listenWall";
 import refreshButtonTextLang from "./refreshButtonTextLang";
 import styleForEditPost from "./styleForEditPost";
@@ -37,24 +38,18 @@ const oldPosting = () => {
             async (_wall: any) => {
 	            if(localStorage.getItem('old_post_design') === 'false') return;
                 window.vk?.pe && (delete window.vk.pe.posting_web_react_form, delete window.vk.pe.posting_hide_copyright_button_web);
+                console.info('[VK Tools] Toggles removed');
 	            styleForEditPost();
             },
             { variable: "vk" }
         );
 
-        deferredCallback(
-            (_vk: any) => {
-                nav.subscribeOnModuleEvaluated(() => {
-                    window.dispatchEvent(new CustomEvent("vkNav"));
-                    if(localStorage.getItem('old_post_design') === 'false') return;
-                    window.vk?.pe && (delete window.vk.pe.posting_web_react_form,
-                    delete window.vk.pe.posting_hide_copyright_button_web);
-	                styleForEditPost();
-                    console.info('[VK Tools] Navigation event intercepted. Toggles removed');
-                });
-            },
-            { variable: "nav" }
-        );
+        listenVK(() => {
+            window.vk?.pe && (delete window.vk.pe.posting_web_react_form,
+            delete window.vk.pe.posting_hide_copyright_button_web);
+	        styleForEditPost();
+            console.info('[VK Tools] Navigation event intercepted. Toggles removed');
+        })
 
         deferredCallback(
             async (_wall: any) => {

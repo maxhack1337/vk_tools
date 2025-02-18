@@ -1,3 +1,6 @@
+import waitMECommon from "../listeners/waitMECommon";
+import listenVK from "../oldPosting/listenVK";
+
 const newDesignFunctions = [
   "vkm_chat_big_stickers",
   "vkm_mention_highlight_tertiary",
@@ -22,36 +25,33 @@ const newDesignFunctions = [
 
 const newDesign = () => {
   localStorage.setItem("isNewDesign", 'true');
-  return new Promise((resolve, reject) => {
+  listenVK(() => {
+    if (!window.vk?.pe) return;
     newDesignFunctions.forEach((flag) => {
       window.vk.pe[flag] = 1;
     });
     window.vk.pe.vkm_hide_forward_author = 1;
     window.vk.pe.vkm_theme_styles_settings = 1;
     window.vk.pe.vkm_reactions || (window.vk.pe.vkm_reactions = 20);
-    localStorage.setItem("isVKMReforgedDesign", 'true');
+  });
 
-    window.MECommonContext &&
+    waitMECommon().then(() => {
+         window.MECommonContext &&
       window.MECommonContext.then((e) => {
         if (e.store.featureFlags) {
           newDesignFunctions.forEach((flag) => {
             e.store.featureFlags[flag] = true;
           });
-          try {
-            if (localStorage.getItem("isDefaultTheme") === "true") {
-              
-            }
-          } catch (error) {}
           e.store.featureFlags["vkm_reactions"] = 20;
           e.store.featureFlags["me_reactions"] = 20;
-          resolve(true);
         } else {
           console.error("Feature flags object is not available");
         }
       }).catch((error) => {
         console.error("Error while setting feature flags:", error);
       });
-  });
+   })
+
 }
 
 export default newDesign;

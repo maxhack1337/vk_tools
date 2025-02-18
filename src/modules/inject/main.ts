@@ -401,25 +401,14 @@ hotBar();
                 e[1].nick_name = "";
               }
             }
-            if ((newDesign(), "al_im.php" === e[0] && "im" === e[1]?.__query)) {
-              const t = e[2].onDone;
-              e[2].onDone = function (...e: any) {
-                const n = t.apply(this, e);
-                return (
-                  n instanceof Promise
-                    ? n.finally(() => newDesign())
-                    : newDesign().catch(console.error),
-                  n
-                );
-              };
-            }
             const t = orig_ajax.apply(this, e);
-            newDesign();
             return t;
           };
         },
         { variable: "ajax" }
 );
+//Тогглы в новом дизайне мессенджера
+newDesign();
 //Реклама
 document.arrive(adsSelector.join(","), { existing: true }, function (e) {
   e.remove();

@@ -151,7 +151,7 @@ declare global {
 	var addEvent: (elem: HTMLElement, event: string, handler: EventListenerOrEventListenerObject) => void;
 	var removeEvent: (elem: HTMLElement, event: string) => void;
 	var Video: Record<string, any>;
-	var vk: VK;
+	var vk: any;
     var vkApi: VKAPI;
 	var Wall: Wall;
 	var templates: Record<string, string>;
