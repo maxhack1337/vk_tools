@@ -64,11 +64,11 @@ const adsSelector = [
   "[id^='post'][data-ad-block-uid]"
 ];
 
-createStyle('antiAds', `
+/*Стиль ломает раздел фотографии и комментарии createStyle('antiAds', `
 #feed_rows > [class]:has(.post:not([onclick^='wall.postClick'])) {
   display: none;
 }
-`);
+`);*/
 
 window.MotionKit = {}
 Object.freeze(window.MotionKit)
