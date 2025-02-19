@@ -65,6 +65,11 @@ body.classicProfile {
 	content: '.';
 }
 
+.ProfileModalInfoLink {
+    max-width: 335px;
+    word-wrap: break-word;
+}
+
 [class^="vkitGroup__group"][class*="vkitRecommendationBlock__blockWrap"] {
     display:none;
 }
