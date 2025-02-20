@@ -1,8 +1,8 @@
-const DOMContentLoaded = (onload: () => unknown): void => {
+const DOMContentLoaded = (callback: () => unknown): void => {
 	if (document.readyState !== 'loading') {
-		onload();
+		callback();
 	} else {
-		document.addEventListener('DOMContentLoaded', onload, { once: true });
+		document.addEventListener('DOMContentLoaded', callback, { once: true });
 	}
 };
 

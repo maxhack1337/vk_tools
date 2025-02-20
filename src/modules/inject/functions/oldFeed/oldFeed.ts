@@ -21,6 +21,7 @@ import linkAttachmentWithImage from "./attachments/linkAttachmentWithImage";
 import linkAttachmentWithoutImage from "./attachments/linkAttachmentWithoutImage";
 import linkPrimatyAttachmentWithImage from "./attachments/linkPrimatyAttachmentWithImage";
 import miniAppAttachmentSecondary from "./attachments/miniAppAttachmentSecondary";
+import linkAttachmentWithoutTitle from "./attachments/linkAttachmentWithoutTitle";
 const oldFeed = () => {
     if (localStorage.getItem("feedOldPosts") === "true") {
         oldStoryBlock();
@@ -348,7 +349,14 @@ const oldFeed = () => {
                                 secondaryAttachDoc.classList.add('vkuiDiv', 'vkuiRootComponent', 'vkEnhancerSecondaryAttachFirst');
                                 count += 1;
                             }
-                            if (linkCurrent.photo) {
+                            if (!linkCurrent.title) {
+                                secondaryAttachDoc.style.padding = "0px 20px";
+                                if (!allLinks?.closest('.wk_content_redesign_v3')) { 
+                                    secondaryAttachDoc.style.padding = "0px 0px";
+                                }
+                                secondaryAttachDoc.append(linkAttachmentWithoutTitle(linkCurrent));
+                            } 
+                            else if (linkCurrent.photo) {
                                 secondaryAttachDoc.style.padding = "0px 20px";
                                 secondaryAttachDoc.append(linkAttachmentWithImage(linkCurrent));
                             } else {
@@ -378,7 +386,14 @@ const oldFeed = () => {
                                 secondaryAttachDoc.classList.add('vkuiDiv', 'vkuiRootComponent', 'vkEnhancerSecondaryAttachFirst');
                                 count += 1;
                             }
-                            if (linkCurrent.photo) {
+                            if (!linkCurrent.title) {
+                                secondaryAttachDoc.style.padding = "0px 20px";
+                                if (!allLinks?.closest('.wk_content_redesign_v3')) { 
+                                    secondaryAttachDoc.style.padding = "0px 0px";
+                                }
+                                secondaryAttachDoc.append(linkAttachmentWithoutTitle(linkCurrent));
+                            } 
+                            else if (linkCurrent.photo) {
                                 secondaryAttachDoc.style.padding = "0px 20px";
                                 secondaryAttachDoc.append(linkAttachmentWithImage(linkCurrent));
                             } else {
