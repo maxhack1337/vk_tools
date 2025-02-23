@@ -40,6 +40,7 @@ import oldGroupsPage from "./functions/oldGroupsPage/oldGroupsPage";
 import oldPosting from "./functions/oldPosting/oldPosting";
 import oldMessenger from "./functions/oldMessenger/oldMessenger";
 import createStyle from "./functions/classicalProfile/scripts/createStyle";
+import arriveComposerEmoji from "./functions/newDesign/arriveComposerEmoji";
 
 console.log('[VK Tools] Injected');
 //Старый редактор постов
@@ -455,4 +456,6 @@ if (localStorage.getItem("removeAway") === "true") {
 messageTextUp();
 //Старый дизайн мессенджера
 oldMessenger();
+//Эмодзи текст в картинки
+arriveComposerEmoji();
 
