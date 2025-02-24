@@ -153,7 +153,7 @@ const innerStyleGet = () => {
 			padding: 0 20px;
 		}
 		[class^="PostContentContainer__contentContainer"]:not(.feed_wall--no-islands [class^="PostContentContainer__contentContainer"]) {
-			margin: 0;
+			margin: 0!important;
 		}
 		.Post--redesignV3 .wl_post_body_wrap:has(.PostCopyQuote--redesignV3) {
 			padding:0;

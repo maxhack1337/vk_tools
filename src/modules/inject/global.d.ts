@@ -136,6 +136,7 @@ export interface stManager {
 
 export interface Notifier {
 	showEvent: (props: { title?: string; text?: string }) => void;
+	hideEvent: any;
 }
 
 declare global {
@@ -187,7 +188,12 @@ declare global {
 	var showTabbedBox: any;
 	var IMLang: any;
   	var MotionKit:any
-
+	var _message_boxes: Array;
+	var boxQueue: any;
+	var __bq: any;
+	var curBox: any;
+	var _message_box_guid: Number; 
+	var boxLayerBG: any;
 
     
 	namespace NodeJS {
