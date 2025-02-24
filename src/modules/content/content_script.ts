@@ -307,9 +307,9 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
   }
 
   if (styles.messageTextUp) {
-    customMessage("messageTextUpEnabled");
+    textUp();
   } else {
-    customMessage("messageTextUpDisabled");
+    textDown();
   }
 
   if (styles.oldPostStyle) {
@@ -1184,6 +1184,109 @@ function removePostReactions() {
 
 function backPostReactions() {
   const customStyle = fromId("postReactions");
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
+//Текст сверху сообщения
+function textUp() {
+  let styleElement = fromId("textUpStyleUp");
+  if (!styleElement) {
+    styleElement = create("style", {}, { id: "textUpStyleUp" });
+    document.head.appendChild(styleElement);
+  }
+  styleElement.innerHTML =
+    `.ConvoMessage__content:has(.ConvoMessage__mediaAttachments):has(.ConvoMessage__text) {
+        display: flex;
+        flex-direction: column;
+
+        .ConvoMessageHeader {
+            order: -4 !important;
+        }
+        
+        .ConvoMessage__reply {
+            order: -3 !important;
+            max-height: 42px;
+        }
+        
+        .ConvoMessage__text {
+            order: -2 !important;
+            margin-top: 0px;
+            margin-bottom: 12px;
+        }
+
+        .ConvoMessage__mediaAttachments {
+            order: -1 !important;
+        }
+
+        .ConvoMessageBottomInfo {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+
+
+    .ConvoMessageWithoutBubble__content:has(.ConvoMessageWithoutBubble__mediaAttachments):has(.ConvoMessageWithoutBubble__text) {
+        display: flex;
+        flex-direction: column;
+
+        .ConvoMessageHeader {
+            order: -4 !important;
+        }
+        
+        .ConvoMessageWithoutBubble__reply {
+            order: -3 !important;
+        }
+        
+        .ConvoMessageWithoutBubble__text {
+            order: -2 !important;
+            margin-top: 0px;
+            margin-bottom: 4px;
+        }
+
+        .ConvoMessageWithoutBubble__mediaAttachments {
+            order: -1 !important;
+        }
+    }
+
+    .ForwardedMessageNew__content {
+        display: flex;
+        flex-direction: column;
+
+        .ForwardedMessageNew__text {
+            order: -1 !important;
+        }
+        
+        .Reply {
+            order: -2 !important;
+            max-height: 42px;
+        }
+    }
+
+    .AttachWallNew__content {
+        display: flex;
+        flex-direction: column;
+
+        .AttachWallNew__WallReply {
+            order: -4 !important;
+        }
+        
+        .AttachWallNew__header {
+            order: -3 !important;
+        }
+        
+        .AttachWallNew__message {
+            order: -2 !important;
+        }
+        
+        .AttachWallNew__attaches {
+            order: -1 !important;
+        }
+    }`;
+}
+
+function textDown() {
+  const customStyle = fromId("textUpStyleUp");
   if (customStyle) {
     customStyle.remove();
   }

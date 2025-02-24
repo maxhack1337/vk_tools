@@ -31,7 +31,6 @@ import swapPhoto from "./functions/swapPhoto/swapPhoto";
 import downloadAudioMessage from "./functions/downloadAudioMessage/downloadAudioMessage";
 import graffityVoice from "./functions/graffityVoice/graffityVoice";
 import resetFunctionsOnInstall from "./install/resetFunctionsOnInstall";
-import messageTextUp from "./functions/messageTextUp/messageTextUp";
 import oldFeed from "./functions/oldFeed/oldFeed";
 import downloadMusic from "./functions/downloadMusic/downloadMusic";
 import feedReorder from "./functions/feedReorder/feedReorder";
@@ -210,14 +209,6 @@ window.addEventListener("message", async (event) => {
     }
     case "feedOldThemeDisabled": {
       localStorage.setItem("feedOldPosts", 'false');
-      break;
-    }
-    case "messageTextUpEnabled": {
-      localStorage.setItem("isMessageTextUp", 'true');
-      break;
-    }
-    case "messageTextUpDisabled": {
-      localStorage.setItem("isMessageTextUp", 'false');
       break;
     }
     case "resetFunctions": {
@@ -454,8 +445,6 @@ if (localStorage.getItem("removeAway") === "true") {
     }
   });
 }
-//Текст сверху сообщения
-messageTextUp();
 //Старый дизайн мессенджера
 oldMessenger();
 
