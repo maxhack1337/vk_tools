@@ -39,8 +39,7 @@ import feedReorderRemove from "./functions/feedReorder/feedReorderRemove";
 import oldGroupsPage from "./functions/oldGroupsPage/oldGroupsPage";
 import oldPosting from "./functions/oldPosting/oldPosting";
 import oldMessenger from "./functions/oldMessenger/oldMessenger";
-import createStyle from "./functions/classicalProfile/scripts/createStyle";
-import arriveComposerEmoji from "./functions/newDesign/arriveComposerEmoji";
+import replaceEmojisWithImages from "./functions/newDesign/replaceEmojisWithImages";
 
 console.log('[VK Tools] Injected');
 //Старый редактор постов
@@ -96,7 +95,7 @@ function XHRListener() {
      const originalSend = XMLHttpRequest.prototype.send;
 
     XMLHttpRequest.prototype.send = async function (data) {
-    const dataString = data === null ? '' : String(data);
+      const dataString = data === null ? '' : String(data);
     if (/type=typing/.test(dataString) && getLocalValue("nepisalkaValue")) {
       return this.abort();
     }
@@ -166,6 +165,9 @@ deferredCallback(
       let j = e.browserEnv.api.fetch;
 
       e.browserEnv.api.fetch = function (method: string, params: any, ...args: any[]) {
+        if (method === "messages.send") {
+          params.message = replaceEmojisWithImages(params.message);
+        }
         if (
           method === "execute" &&
           params.code &&
@@ -456,6 +458,4 @@ if (localStorage.getItem("removeAway") === "true") {
 messageTextUp();
 //Старый дизайн мессенджера
 oldMessenger();
-//Эмодзи текст в картинки
-arriveComposerEmoji();
 
