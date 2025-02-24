@@ -194,6 +194,7 @@ declare global {
 	var curBox: any;
 	var _message_box_guid: Number; 
 	var boxLayerBG: any;
+	var showTooltip: any;
 
     
 	namespace NodeJS {

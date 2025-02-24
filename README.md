@@ -118,7 +118,7 @@
 </p>
 </details>
 <p align="center"><strong>Установить расширение</strong></br></br>
-<a href="https://github.com/maxhack1337/vk_tools/releases/download/v5.5/VK.Tools.zip">
+<a href="https://github.com/maxhack1337/vk_tools/releases/download/v5.6/VK.Tools.zip">
   <img src="https://vkenhancer.ru/install.png" width="202" height="54">
 </a></p>
 <div>
