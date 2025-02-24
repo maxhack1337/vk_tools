@@ -7,9 +7,10 @@ const downloadMusic = () => {
         '[class^="vkitAudioRow__rootHasHover"]',
         { existing: true },
         async function (e) {
-            let x: any = getSuperAudioPropsMin(e.parentElement!);
-            let key = x.fiber.alternate.key;
-            let subKey = key.substring(4, key.length);
+            let x: any = getSuperAudioPropsMin(e.querySelector('[class^="vkitAudioRow__actions"] > div')!);
+            let key = x.props.children.props.track.myMusic.identity;
+            let access = key.accessKey ? '_' + key.accessKey : '';
+            let subKey = key.ownerId + '_' + key.id + access;
             let pListID;
             let getPlistID = ajax.post('al_audio.php?act=reload_audios', {
                 audio_ids: subKey,
