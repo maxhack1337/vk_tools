@@ -1,5 +1,6 @@
 interface VKEnh {
-    setEnglishMusic?: number;
+	setEnglishMusic?: number;
+	showSnackbar?: any;
 }
 
 interface URL {
@@ -137,6 +138,7 @@ export interface stManager {
 export interface Notifier {
 	showEvent: (props: { title?: string; text?: string }) => void;
 	hideEvent: any;
+	pushEvent: any;
 }
 
 declare global {
@@ -195,6 +197,7 @@ declare global {
 	var _message_box_guid: Number; 
 	var boxLayerBG: any;
 	var showTooltip: any;
+	var curNotifier: any;
 
     
 	namespace NodeJS {

@@ -39,6 +39,7 @@ import oldGroupsPage from "./functions/oldGroupsPage/oldGroupsPage";
 import oldPosting from "./functions/oldPosting/oldPosting";
 import oldMessenger from "./functions/oldMessenger/oldMessenger";
 import replaceEmojisWithImages from "./functions/newDesign/replaceEmojisWithImages";
+import showSnackbar from "./components/snackbar/snackbar";
 
 console.log('[VK Tools] Injected');
 //Старый редактор постов
@@ -76,6 +77,7 @@ window.urls = null;
 if (!window.vkenh) {
     window.vkenh = {};
 }
+window.vkenh.showSnackbar = showSnackbar;
 window.vkenh.setEnglishMusic = 0;
 
 convert(document);
