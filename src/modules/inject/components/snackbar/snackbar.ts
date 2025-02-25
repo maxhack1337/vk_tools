@@ -6,6 +6,7 @@ import { getIcon24ErrorCircleOutline } from "../icons/getIcon24ErrorCircleOutlin
 import { getIcon24WarningTriangleOutline } from "../icons/getIcon24WarningTriangleOutline";
 import { getIcon28CheckCircleOutline } from "../icons/getIcon28CheckCircleOutline";
 import { getIcon28LoudspeakerSlashOutline } from "../icons/getIcon28LoudspeakerSlashOutline";
+import { getIcon24VkTools } from "../icons/getIcon24VkTools";
 
 const snackbarTypeIconMap: { [key: string]: string } = {
     ok: getIcon24CheckCircleOutline().icon,
@@ -13,7 +14,8 @@ const snackbarTypeIconMap: { [key: string]: string } = {
     error: getIcon24ErrorCircleOutline().icon,
     clock: getIcon24ClockOutline().icon,
     ok28: getIcon28CheckCircleOutline().icon,
-    loudspeaker28: getIcon28LoudspeakerSlashOutline().icon
+    loudspeaker28: getIcon28LoudspeakerSlashOutline().icon,
+    vktools: getIcon24VkTools().icon
 };
 
 const snackbarAlignModifiersMap: { [key: string]: string } = {
@@ -28,7 +30,8 @@ const snackbarTypeModifiersMap: { [key: string]: string } = {
     error: 'notifier_snackbar_type_error',
     ok28: 'notifier_snackbar_type_ok',
     loudspeaker28: 'notifier_snackbar_type_loudspeaker',
-    clock: 'notifier_snackbar_type_clock'
+    clock: 'notifier_snackbar_type_clock',
+    vktools: 'notifier_snackbar_type_clock'
 };
 
 interface Snackbar {
