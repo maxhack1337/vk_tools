@@ -29,6 +29,10 @@ const innerStyleGet = () => {
     		order: -1 !important;
 		}
 
+		.Post--redesignV3 .wl_post_body_wrap {
+			padding: 0 6px !important;
+		}
+		
 		[class*='PostContentContainer__contentContainer'] > .vkuiDiv:has([class*='PostText__root']) > .vkuiDiv[style*='padding: 0px 12px'] {
     		padding: 0px 20px !important;
 		}

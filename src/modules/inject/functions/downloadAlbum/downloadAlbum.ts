@@ -81,7 +81,7 @@ const downloadAlbum = () => {
       let isArr = Array.isArray(nazva) ? nazva[0] : nazva || 'Альбом';
       updateButton.style.marginTop = "12px";
       updateButton.innerHTML = `<span class="photos_album_info"><a>${getLang?.(
-        "calls_qr_code_modal_download"
+        "video_download_video_from_modal"
       ) + " " + isArr.toLowerCase()}</a></span>`;
       e.querySelector(".photos_album_intro_info")?.appendChild(updateButton);
       updateButton.addEventListener("click", async function () {
