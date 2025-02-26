@@ -8,7 +8,7 @@ const snackbarTypeIconMap: { [key: string]: string } = {
     music: getIcon24SongOutline().icon
 };
 
-const progressSnack = (text = '', icon: string) => {
+const progressSnack = (text = '', icon: string, imgurl?: string) => {
     createStyle('progressSnack', progressSnackStyle());
 
     let snackBar = document.createElement("div");
@@ -22,7 +22,11 @@ const progressSnack = (text = '', icon: string) => {
 
     let snackBefore = document.createElement("div");
     snackBefore.classList.add("vkToolsSnackbar__before")
-    snackBefore.innerHTML = snackbarTypeIconMap[icon] ? snackbarTypeIconMap[icon] : '';
+    if (icon === "custom" && imgurl) {
+        snackBefore.innerHTML = `<img class="vkToolsImageSnack" src=${imgurl}>`;
+    } else {
+        snackBefore.innerHTML = snackbarTypeIconMap[icon] ? snackbarTypeIconMap[icon] : '';
+    }
 
     let snackContent = document.createElement('div');
     snackContent.classList.add("vkToolsSnackbar__content");

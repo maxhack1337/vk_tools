@@ -29,8 +29,9 @@ const handleDownloadButton = (e:any) =>{
     })
         .then(e => e.json())
         .then(e => {
+            let imgurl = e.payload[1][0][0][14];
             let url = processUrl(e.payload[1][0][0][2]).toString()
-            console.log(DownloadStream(url, Cyr1 + ' - ' + Cyr, bar))
+            console.log(DownloadStream(url, Cyr1 + ' - ' + Cyr, bar, imgurl))
         })
 }
 export default handleDownloadButton

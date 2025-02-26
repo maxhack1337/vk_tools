@@ -4,7 +4,7 @@ import Hls from 'hls.js'
 import downloadBlob from './downloadBlob'
 import progressSnack from '../../components/progressSnack/progressSnack'
 
-const DownloadStream = (url: string, name: string, elem: any) => {
+const DownloadStream = (url: string, name: string, elem: any, imgurl = '') => {
     let hls = new Hls()
     let audio_data: Uint8Array,
         blob_data: Uint8Array[] = [],
@@ -12,7 +12,11 @@ const DownloadStream = (url: string, name: string, elem: any) => {
         frag_length: number
     let temp_audio = document.createElement('audio')
     let downloadInProgress = document.createElement('div')
-    downloadInProgress.append(progressSnack('', 'music'));
+    if (imgurl === '') {
+        downloadInProgress.append(progressSnack(getLang?.("me_download_waiting") + "...", 'music'));
+    } else {
+        downloadInProgress.append(progressSnack(getLang?.("me_download_waiting") + "...", 'custom', imgurl));
+    }
 
     let progrText = downloadInProgress.querySelector(
         '.vkToolsSnackbar__content-text'

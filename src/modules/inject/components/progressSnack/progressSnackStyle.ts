@@ -1,8 +1,14 @@
 const progressSnackStyle = () => {
-    return `
+	return `
+  .vkToolsImageSnack {
+	border-radius: 8px;
+	width: 42px;
+	height: 42px;
+  }
   .vkToolsSnackbar__before {
 	color:var(--vkui--color_icon_accent);
 	padding-right:12px;
+	display: flex;
   }
   .vkToolsSnackbar{
 	margin:12px;
