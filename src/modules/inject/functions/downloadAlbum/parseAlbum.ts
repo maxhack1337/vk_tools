@@ -17,7 +17,7 @@ const parseAlbum = async() => {
     showSnackbar({
         text: isNotAlbumLang(vk.lang),
         timeout: 4000,
-        icon: 'vktools28'
+        icon: 'error'
     });
   }
   if (albumString !== "") {
