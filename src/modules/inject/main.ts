@@ -41,6 +41,8 @@ import oldMessenger from "./functions/oldMessenger/oldMessenger";
 import replaceEmojisWithImages from "./functions/newDesign/replaceEmojisWithImages";
 import showSnackbar from "./components/snackbar/snackbar";
 
+let debugMode = false;
+
 console.log("[VK Tools] Injected");
 //Старый редактор постов
 oldPosting();
@@ -73,19 +75,21 @@ const adsSelector = [
 window.MotionKit = {};
 Object.freeze(window.MotionKit);
 
-const protectedConsole = new Proxy(console, {
-	set(target, property, value, receiver) {
-		return true;
-	},
-	deleteProperty(target, property) {
-		return false;
-	},
-	defineProperty(target, property, descriptor) {
-		return true;
-	}
-});
+if (debugMode) {
+	const protectedConsole = new Proxy(console, {
+		set(target, property, value, receiver) {
+			return true;
+		},
+		deleteProperty(target, property) {
+			return false;
+		},
+		defineProperty(target, property, descriptor) {
+			return true;
+		}
+	});
 
-window.console = protectedConsole;
+	window.console = protectedConsole;
+}
 
 window.urls = null;
 if (!window.vkenh) {
