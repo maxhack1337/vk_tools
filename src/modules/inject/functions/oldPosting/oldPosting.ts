@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
+import showSnackbar from "../../components/snackbar/snackbar";
 import deferredCallback from "../../defferedCallback";
 import appendRefreshButton from "./appendRefreshButton";
 import exportVars from "./exportVars";
@@ -15,19 +16,28 @@ const oldPosting = () => {
             if (localStorage.getItem('old_post_design') === 'false') return;
             if (document.querySelector('.PostingReactBlock__root')) {
                 if (times < 1) {
+                    times++;
                     console.info('[VK Tools] Failed to enable old post editor. Attempt to turn on (1/1)');
                     nav.reload();
-                    window.Notifier.showEvent({
-                        title: refreshButtonTextLang(vk.lang)[0],
-                        text: refreshButtonTextLang(vk.lang)[3]
-                    });
+                    showSnackbar(
+                        {
+                            text: refreshButtonTextLang(vk.lang)[0],
+                            subtitle: refreshButtonTextLang(vk.lang)[3],
+                            timeout: 4000,
+                            icon: "warning"
+                        }
+                    );
                     return;
                 }
                 console.info('[VK Tools] Failed to enable old post editor. Forcing button');
-                window.Notifier.showEvent({
-                    title: refreshButtonTextLang(vk.lang)[0],
-                    text: refreshButtonTextLang(vk.lang)[1]
-                });
+                showSnackbar(
+                    {
+                        text: refreshButtonTextLang(vk.lang)[0],
+                        subtitle: refreshButtonTextLang(vk.lang)[1],
+                        timeout: 4000,
+                        icon: "error"
+                    }
+                );
                 let append = document.querySelector('.PostingReactBlock__root');
                 if (append) append.appendChild(appendRefreshButton());
                 times = 0;
