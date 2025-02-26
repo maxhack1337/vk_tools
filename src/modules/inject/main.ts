@@ -91,6 +91,73 @@ if (debugMode) {
 	window.console = protectedConsole;
 }
 
+const statsVars = [
+	"send_user_info_stats",
+	"force_send_user_info",
+	"send_user_info_on_localhost",
+	"send_navigation_stats_in_spa",
+	"log_send_user_info_errors",
+	"web_mytracker_collect_post_stats",
+	"web_stats_device_id",
+	"web_stats_reduce_debounce",
+	"web_stats_send_beacon",
+	"web_stats_send_on_events_limit",
+	"web_stats_transport_story_view",
+	"sentry_js_web_request_timeouts_feature",
+	"sentry_js_web_request_timeouts_forwarding",
+	"sentry_js_web_timeouts_forwarding",
+	"sentry_js_web_verbose",
+	"sentry_log_network_errors",
+	"ads_app_form_link_redirect",
+	"ads_autopromotion_web_geo",
+	"ads_easy_promote_goods_new_create_api",
+	"ads_light_methods_protection",
+	"ads_market_autopromotion_bookmarks_stats",
+	"ads_use_vk_community_video_portrait_4_5",
+	"clips_web_my_tracker",
+	"feed_post_track_code_client_web",
+	"games_send_track_visitor_activity",
+	"js_errors_no_write_uncaught_errors",
+	"tgb_adblock_protection",
+	"post_adblock_protection_promo",
+	"eager_error_monitoring",
+	"mini_apps_performance_close_app_empty_event",
+	"mini_apps_performance_iframe_errors",
+	"mini_apps_performance_web",
+	"mini_apps_send_my_tracker_activity",
+	"post_click_analytics_int_ext_link_click_web",
+	"posting_track_event_count",
+	"unique_adblock_users",
+	"audio_my_tracker_web",
+	"mini_apps_send_stat_arguments_bridge_events_sdk",
+	"ajax_request_parse_html_error",
+	"js_errors_no_write_uncaught_errors",
+	"tns_track_sections",
+	"tns_track_hosts",
+	"geminus_counter",
+	"ads_pixels_track_new_events_web_mvk",
+	"web_navigation_handlers",
+	"measure_module_navigation_stats",
+	"group_join_track_event_count",
+	"feed_content_events_open_post_event_web",
+	"feed_posts_duration_stats_fix",
+	"collect_unsupported_user_info_stats",
+	"log_fetch_requests",
+	"log_fetch_requests_get",
+	"post_adguard_protection_promo",
+	"extended_ajax_logging",
+	"messenger_mediascope_stats_collect",
+	"audio_player_stats_web"
+];
+deferredCallback(
+	async (_vk: any) => {
+		statsVars.forEach((varName) => {
+			delete window.vk.pe[varName];
+		});
+	},
+	{ variable: "vk" }
+);
+
 window.urls = null;
 if (!window.vkenh) {
 	window.vkenh = {};
@@ -444,7 +511,7 @@ window.addEventListener("beforeunload", () => {
 });
 //Удалить away.php
 if (localStorage.getItem("removeAway") === "true") {
-	const awayHrefs = ['a[href^="https://vk.com/away.php"]', 'a[href^="/away.php"]'];
+	const awayHrefs = ["a[href*='away.php']"];
 	document.arrive(awayHrefs.join(", "), { existing: true }, function (link) {
 		const hrefable = link as HTMLAnchorElement;
 		const url = new URL(hrefable.href);
@@ -456,4 +523,4 @@ if (localStorage.getItem("removeAway") === "true") {
 	});
 }
 //Старый дизайн мессенджера
-oldMessenger();
+deferredCallback(() => oldMessenger(), { variable: "vk" });
