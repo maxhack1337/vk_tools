@@ -1,3 +1,4 @@
+import showSnackbar from "../../components/snackbar/snackbar";
 import refreshButtonTextLang from "./refreshButtonTextLang";
 
 const appendRefreshButton = () => {
@@ -13,9 +14,13 @@ const appendRefreshButton = () => {
 		
 	div.addEventListener('click', () => {
 		nav.reload();
-		window.Notifier.showEvent({
-			title: getLang?.('box_loading').toString() || "Загрузка..."
-		});
+		showSnackbar(
+        	{
+                text: getLang?.('box_loading').toString() || "Загрузка...",
+                timeout: 4000,
+                icon: "spinner"
+            }
+        )
 	});
 	return div;
 }

@@ -1,4 +1,5 @@
 import fromId from "../../../../content/fromId";
+import showSnackbar from "../../../components/snackbar/snackbar";
 import deferredCallback from "../../../defferedCallback";
 import appearVariable from "./appearVariable";
 import changeBroadcastState from "./changeBroadcastState";
@@ -210,9 +211,16 @@ import refreshLocForMini from "./refreshLocForMini";
                       let rebootThis = ownerPhotoWrap.querySelector(
                         '[data-task-click="Page/owner_edit_photo"]'
                       );
-                      rebootThis?.setAttribute(
-                        "onclick",
-                        `window.Notifier.showEvent({title: '${getLang?.('global_error_occured')}',	text: '${refreshLocForMini(vk.lang)}'}); window.location.reload();`
+                      rebootThis?.addEventListener('click', () => {
+                        showSnackbar(
+                          {
+                            text: getLang?.('global_error_occured').toString() || 'Произошла ошибка',
+                            subtitle: refreshLocForMini(vk.lang),
+                            timeout: 4000,
+                            icon: 'error'
+                          });
+                        window.location.reload();
+                      }
                       );
                     } catch (error) {}
                   }
