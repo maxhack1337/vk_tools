@@ -1,3 +1,4 @@
+import antiDeferredCallback from '../../antiDefferedCallback';
 import getId from '../middleName/getId';
 import addCounters from './scripts/addCounters';
 import addPlaceholder from './scripts/addPlaceholder';
@@ -120,6 +121,16 @@ const classicalProfile = () => {
           }
         });
       });
+  
+  document.arrive('#react_rootprofile > .vkuiAppRoot', { existing: true }, () => {
+    antiDeferredCallback(
+      () => {
+        console.info('[VK Tools] State changed. Reloading');
+        nav.reload();
+      },
+      { element: "#react_rootprofile > .vkuiAppRoot" }
+      );
+  });
   
         document.arrive(
         ".imReadyForShowingFriends",
