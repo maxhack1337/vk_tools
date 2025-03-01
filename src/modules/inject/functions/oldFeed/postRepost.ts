@@ -41,26 +41,34 @@ const postRepost = async (e: Element, postData: { postRaw: any; } | undefined) =
 				let postDuoHeader = repost?.querySelector('[class="CopyPost__author"]')?.parentElement;
 				let postDate = document.createElement('div');
 				postDate.classList.add("copy_post_date","vk_enhancer_copy_post_subhead");
-				if(isCase === '' || isCase === 'post') {
-				try {
-				postDate.innerHTML = `
-				<a class="vkEnhancerPostDate published_by_date" href="/wall`+repostID+`" onclick="return showWiki({w: 'wall`+repostID+`'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
-					`+getFormattedPostDate(repostData.items[0].date)+`
-				</a>
-				`;}
-				catch(error) {
-					let copyPostQuery = await vkApi.api('wall.getById',{posts:postData?.postRaw,extended:1});
-					let copyItem = copyPostQuery.items[0].copy_history[0];
-					postDate.innerHTML = `
-				<a class="vkEnhancerPostDate published_by_date" href="/wall`+copyItem.owner_id+`_`+copyItem.id+`" onclick="return showWiki({w: 'wall`+copyItem.owner_id+`_`+copyItem.id+`'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
-					`+getFormattedPostDate(copyItem.date)+`
+				if (isCase === '' || isCase === 'post') {
+					try {
+						postDate.innerHTML = `
+				<a class="vkEnhancerPostDate published_by_date" href="/wall`+ repostID + `" onclick="return showWiki({w: 'wall` + repostID + `'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
+					`+ getFormattedPostDate(repostData.items[0].date) + `
 				</a>
 				`;
+					}
+					catch (error) {
+						let copyPostQuery = await vkApi.api('wall.getById', { posts: postData?.postRaw, extended: 1 });
+						let copyItem = copyPostQuery.items[0].copy_history[0];
+						postDate.innerHTML = `
+				<a class="vkEnhancerPostDate published_by_date" href="/wall`+ copyItem.owner_id + `_` + copyItem.id + `" onclick="return showWiki({w: 'wall` + copyItem.owner_id + `_` + copyItem.id + `'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
+					`+ getFormattedPostDate(copyItem.date) + `
+				</a>
+				`;
+					}
+				} else if (isCase === 'video') {
+					postDate.innerHTML = `
+				<a class="vkEnhancerPostDate published_by_date" href="/`+ postType + repostID + `" onclick="event.preventDefault(); event.stopPropagation(); window.showVideo('` + repostID + `','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);">
+					`+ getFormattedPostDate(repostData.items[0].date) + `
+				</a>
+			`;
 				}
-				} else {
-				postDate.innerHTML = `
-				<a class="vkEnhancerPostDate published_by_date" href="/`+postType+repostID+`" onclick="event.preventDefault(); event.stopPropagation(); window.showVideo('` + repostID + `','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);">
-					`+getFormattedPostDate(repostData.items[0].date)+`
+				else {
+					postDate.innerHTML = `
+				<a class="vkEnhancerPostDate published_by_date" href="/`+ postType + repostID + `" onclick="event.preventDefault(); event.stopPropagation(); window.showPhoto('` + repostID + `');">
+					`+ getFormattedPostDate(repostData.items[0].date) + `
 				</a>
 			`;
 				}
