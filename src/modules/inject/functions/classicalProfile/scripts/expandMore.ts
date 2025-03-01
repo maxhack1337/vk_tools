@@ -36,7 +36,7 @@ import nextExpander from "./nextExpander";
                 let hometown = userData.home_town;
                 if (hometown) {
                   let hometownLink = document.createElement("a");
-                  hometownLink.href = `/search/people?c[name]=0&c[hometown]=${hometown}`;
+                  hometownLink.href = `/search/people?c[name]=0&c[hometown]=${encodeURIComponent(hometown)}`;
                   hometownLink.classList.add(
                     "vkuiLink",
                     "Link-module__link--V7bkY",

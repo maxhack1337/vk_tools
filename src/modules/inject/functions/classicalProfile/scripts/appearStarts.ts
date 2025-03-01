@@ -93,7 +93,7 @@ import getZodiacIndex from "./getZodiacIndex";
         let cityRow = createProfileInfoRow(
           getLang?.("Town"),
           userData.city
-            ? `<a href="https://vk.com/search?c[name]=0&c[section]=people&c[country]=1&c[city]=${userData.city.id}">${userData.city.title}</a>`
+            ? `<a href="https://vk.com/search/people?city_id=${userData.city.id}">${userData.city.title}</a>`
             : null
         );
         if (cityRow) {
@@ -107,7 +107,7 @@ import getZodiacIndex from "./getZodiacIndex";
           let comid = occupation.id;
           let companyLink = comid
             ? `https://vk.com/club${comid}`
-            : `https://vk.com/search/people?c[company]=${company}&c[name]=0`;
+            : `https://vk.com/search/people?company=${encodeURIComponent(company)}`;
           let additionalsV = "";
           if (comid) {
             additionalsV = `mention_id="club${comid}" onmouseover="mentionOver(this)"`;
@@ -121,15 +121,9 @@ import getZodiacIndex from "./getZodiacIndex";
           let company = occupation.name;
           let comid = occupation.id;
           let graduate = "";
-          let companyLink = `/search/people?c[name]=10&c[uni_country]=${occupation.country_id}&c[uni_city]=${occupation.city_id}&c[university]=${comid}`;
+          let companyLink = `/search/people?education_city_id=${occupation.city_id}&university=${comid}`;
           if (occupation.graduate_year) {
-            graduate = `<a href="/search/people?c[name]=20&c[uni_country]=${
-              occupation.country_id
-            }&c[uni_city]=${
-              occupation.city_id
-            }&c[university]=${comid}&c[uni_year]=${
-              occupation.graduate_year
-            }">'${occupation.graduate_year.toString().slice(-2)}</a>`;
+            graduate = `<a href="/search/people?education_city_id=${occupation.city_id}&university=${comid}&university_year=${occupation.graduate_year}">'${occupation.graduate_year.toString().slice(-2)}</a>`;
           }
           companyRow = createProfileInfoRow(
             `${getLang?.("profile_education")}`,
