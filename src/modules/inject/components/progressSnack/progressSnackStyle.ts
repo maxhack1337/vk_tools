@@ -1,5 +1,35 @@
 const progressSnackStyle = () => {
 	return `
+
+   .vkToolsSnackbar__content {
+	    display: flex;
+    	align-items: end;
+   }
+
+  .vkToolsSnackbar__calcel-button {
+    margin-bottom: -5px;
+  	color: var(--vkui--color_text_accent_themed);
+    align-items: center;
+  	justify-content: center;
+    display: flex;
+	width: 74px;
+	height: 24px;
+    margin-left: 10px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+	padding: 4px 12px;
+	cursor: pointer;
+  }
+
+  .vkToolsSnackbar__calcel-button:hover {
+	background: var(--vkui--color_background_tertiary_alpha);
+  }
+
+  .vkToolsSnackbar__calcel-button--span {
+    font-weight: 600;
+    color: var(--vkui--color_text_accent_themed);
+  }
   .vkToolsImageSnack {
 	border-radius: 8px;
 	width: 42px;

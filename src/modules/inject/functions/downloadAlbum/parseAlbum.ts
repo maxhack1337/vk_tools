@@ -46,7 +46,9 @@ const parseAlbum = async() => {
       let albumCount = albumsRes.items[0].size;
       let offset = 0;
       let progressBar = document.createElement("div");
-      progressBar.append(progressSnack(getLang?.("me_download_waiting") + "...", "album"));
+      progressBar.append(progressSnack(getLang?.("me_download_waiting") + "...", "album", '', true));
+      let cancelButton = progressBar.querySelector('.vkToolsSnackbar__calcel-button') as HTMLButtonElement;
+      cancelButton.style.display = "none";
       document.body.appendChild(progressBar);
       let counterProgress = 0;
       while (albumCount > 0) {
@@ -131,6 +133,15 @@ const parseAlbum = async() => {
               counterProgress +
               "/" +
               albumsRes.items[0].size;
+              cancelButton.style.display = "flex";
+              if (localStorage.getItem('abortTask') === 'true') {
+                localStorage.setItem('abortTask', 'false');
+                progressBar.querySelector(".vkToolsSnackbar__in")?.classList.add("vkToolsRemovebar");
+                progressBar.querySelector(".vkToolsSnackbar__in")?.addEventListener("animationend", () => {
+                  progressBar.remove();
+                });
+                return Promise.reject('Скачивание отменено');
+              }
           } catch (error) {
             console.log("Failed ", maxSizeUrl);
           }
