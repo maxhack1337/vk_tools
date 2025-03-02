@@ -17,6 +17,8 @@ export interface Banner {
     color: string;
     customTopMargin?: string;
     customLeftMargin?: string;
+    buttonDirection?: string;
+    mirror?: boolean
 }
 
 const bannerTypeIconMap: { [key: string]: string } = {
@@ -27,7 +29,7 @@ const bannerTypeIconMap: { [key: string]: string } = {
     message: getIconGraffityMessage().icon
 };
 
-const banner = ({ id, text = '', canClose = true, buttonText, buttonHref, buttonOnclick, icon, color, customTopMargin = '0px', customLeftMargin = '16px'}: Banner) => {
+const banner = ({ id, text = '', canClose = true, buttonText, buttonHref, buttonOnclick, icon, color, customTopMargin = '0px', customLeftMargin = '16px', buttonDirection = 'flex-start', mirror = false}: Banner) => {
     
     createStyle('bannerComponent', bannerStyle());
 
@@ -68,6 +70,7 @@ const banner = ({ id, text = '', canClose = true, buttonText, buttonHref, button
 
     let onboardingBannerActions = document.createElement('div');
     onboardingBannerActions.classList.add('vkToolsOnboardingBannerActions');
+    onboardingBannerActions.style.justifyContent = buttonDirection;
 
     let onboardingBannerActionsWrap = document.createElement('div');
     onboardingBannerActionsWrap.classList.add('vkToolsOnboardingBannerActionsWrap');
@@ -77,6 +80,7 @@ const banner = ({ id, text = '', canClose = true, buttonText, buttonHref, button
     svg!.style.marginTop = customTopMargin;
     svg!.style.marginLeft = customLeftMargin;
     svg!.style.color = color;
+    if (mirror) svg!.style.transform = "scaleX(-1)";
         
     if (buttonText) {
         let onboardingBannerActionsButton = document.createElement('button');
