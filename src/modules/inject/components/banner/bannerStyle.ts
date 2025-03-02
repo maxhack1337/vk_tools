@@ -1,4 +1,4 @@
-const bannerStyle = (color: string, customTopMargin: string) => {
+const bannerStyle = () => {
     return `
     .vkToolsBannerRoot {
     padding: 8px;
@@ -114,10 +114,7 @@ const bannerStyle = (color: string, customTopMargin: string) => {
 .vkToolsOnboardingBannerActionsWrap svg {
     display: inline-block;
     position: absolute;
-    margin-top: ${customTopMargin};
-    margin-left: 16px;
     pointer-events: none;
-    color: ${color};
 }
 
 .vkToolsOnboardingBannerAside {

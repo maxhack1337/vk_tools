@@ -96,16 +96,24 @@ const classicalProfile = () => {
         const includesLang = (key: string) => {
             const langValue = getLang?.(key);
             return Array.isArray(langValue) ? content?.includes(langValue.join(", ")) : content?.includes(langValue || '') || false;
-        };
-
+      };
+      
         if (
             includesLang("profile_followers") ||
             includesLang("profile_common_friends") ||
-            includesLang("profile_friends") ||
-            includesLang("profile_closed_profile_banner_closed_btn") ||
-            includesLang("profile_narratives")
+            includesLang("profile_friends")
         ) {
-            profileGroup.remove();
+            let pGroup = profileGroup as HTMLElement;
+            pGroup.style.display = "none";
+            let separatorSibling = pGroup.nextSibling as HTMLElement;
+            if (separatorSibling?.className === "vkuiGroup__separator-sibling") {
+                separatorSibling.style.display = "none";
+            }
+        }
+
+        if (includesLang("profile_closed_profile_banner_closed_btn") ||
+        includesLang("profile_narratives")) {
+          profileGroup.remove();
         }
     });
     });

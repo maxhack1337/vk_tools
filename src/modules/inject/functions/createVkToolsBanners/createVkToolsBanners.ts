@@ -6,7 +6,7 @@ const VK_TOOLS_GROUP_ID = -221416961;
 
 const createVkToolsBanners = () => {
     listenCur(() => {
-        if (!document.getElementById('vkToolsMessageToUsBanner') && cur.oid &&cur.oid === VK_TOOLS_GROUP_ID) {
+        if (!document.getElementById('vkToolsMessageToUsBanner') && cur.oid && cur.oid === VK_TOOLS_GROUP_ID) {
             let narrow = document.querySelector('.narrow_column.narrow_redesign.group-redesigned-narrow');
             let bannerSite = banner({
                 id: "vkToolsMessageToUsBanner",
@@ -14,6 +14,7 @@ const createVkToolsBanners = () => {
                 canClose: false,
                 buttonText: getSiteBannerLang(vk.lang)[1],
                 customTopMargin: '-26px',
+                customLeftMargin: '16px',
                 buttonOnclick: `showBox("al_im.php", {act: "a_write_box", to: ${VK_TOOLS_GROUP_ID}})`,
                 icon: "message",
                 color: "var(--vkui--color_icon_accent)"

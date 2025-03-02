@@ -30,9 +30,9 @@ const appearFriends = () => {
               });
             } catch (error) {}
           }
+          let frensBlock = document.querySelector(".ProfileFriends") as HTMLElement;
           if (
-            frenCount.count > 0 &&
-            !document.querySelector(".ProfileFriends")
+            (frenCount.count > 0 && frensBlock?.style.display === "none") || (frenCount.count > 0 && !frensBlock)
           ) {
             friendsSection = document.createElement("section");
             friendsSection.classList.add(
