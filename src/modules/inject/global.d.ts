@@ -1,6 +1,7 @@
 interface VKEnh {
 	setEnglishMusic?: number;
 	showSnackbar?: any;
+	createBanner?: any;
 }
 
 interface URL {
@@ -74,13 +75,6 @@ export interface Nav {
     reload: () => void;
 }
 
-export interface Cur {
-    module: string;
-    pvCurPhoto: any;
-    pvPhoto: any;
-    videoInlinePlayer: any;
-}
-
 export interface VK {
 	id: number;
     pe: Record<string, any>;
@@ -147,7 +141,7 @@ declare global {
     var vkenh: VKEnh;
 	var Feed: Feed;
 	var nav: Nav;
-    var cur: Cur;
+    var cur: any;
     var urls: URL | null;
 	var ge: (id: string) => HTMLElement;
 	var data: (elem: HTMLElement, prop: string, value: string) => void;

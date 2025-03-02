@@ -3,9 +3,18 @@ import { getIcon24SongOutline } from "../icons/getIcon24SongOutline";
 import createStyle from "../../functions/classicalProfile/scripts/createStyle";
 import progressSnackStyle from "./progressSnackStyle";
 import { getIcon14SpinnerAnimated } from "../icons/getIcon14SpinnerAnimated";
+import { getIcon28AlbumAnimatedOutline } from "../icons/getIcon28AlbumAnimatedOutline";
+
+/**
+ * Тест анимации
+ * Иконки доступны тут:
+ * @see https://github.com/maxhack1337/vktools_icons
+ * Выключить, если не понравится
+ */
+const animate = false;
 
 const snackbarTypeIconMap: { [key: string]: string } = {
-    album: getIcon28AlbumOutline().icon,
+    album: animate ? getIcon28AlbumAnimatedOutline().icon : getIcon28AlbumOutline().icon,
     music: getIcon24SongOutline().icon
 };
 

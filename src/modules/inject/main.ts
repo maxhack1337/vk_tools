@@ -42,6 +42,8 @@ import replaceEmojisWithImages from "./functions/newDesign/replaceEmojisWithImag
 import showSnackbar from "./components/snackbar/snackbar";
 import createStyle from "./functions/classicalProfile/scripts/createStyle";
 import innerNoticeStyle from "./innerNoticeStyle";
+import banner from "./components/banner/banner";
+import createVkToolsBanners from "./functions/createVkToolsBanners/createVkToolsBanners";
 
 let debugMode = false;
 
@@ -165,6 +167,7 @@ if (!window.vkenh) {
 	window.vkenh = {};
 }
 window.vkenh.showSnackbar = showSnackbar;
+window.vkenh.createBanner = banner;
 window.vkenh.setEnglishMusic = 0;
 
 convert(document);
@@ -174,6 +177,9 @@ document.arrive(".ComposerInput__input", { existing: true }, function (e) {
 
 deferredCallback(
 	async (_vk: any) => {
+		//Баннеры в сообществе VK Tools
+		createVkToolsBanners();
+		//Получаем фотку юзера из стореджа
 		await getUserDataLocalStoragePhoto(vk.id);
 	},
 	{ variable: "vkApi" }
@@ -527,4 +533,5 @@ if (localStorage.getItem("removeAway") === "true") {
 //Старый дизайн мессенджера
 deferredCallback(() => oldMessenger(), { variable: "vk" });
 //Стиль для старой иконки нотиса аудио 18+
-createStyle('audioNoticeIcon',innerNoticeStyle())
+createStyle('audioNoticeIcon', innerNoticeStyle())
+
