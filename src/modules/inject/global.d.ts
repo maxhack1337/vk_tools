@@ -123,6 +123,7 @@ export interface Wall {
 		onInited?: () => void
 	) => void;
 	isAlreadyOld?: boolean;
+	initPosterEditor: any;
 }
 
 export interface stManager {

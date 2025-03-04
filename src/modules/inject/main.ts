@@ -44,6 +44,8 @@ import createStyle from "./functions/classicalProfile/scripts/createStyle";
 import innerNoticeStyle from "./innerNoticeStyle";
 import banner from "./components/banner/banner";
 import createVkToolsBanners from "./functions/createVkToolsBanners/createVkToolsBanners";
+import posters from "./functions/posters/posters";
+import listenWall from "./functions/oldPosting/listenWall";
 
 let debugMode = false;
 
@@ -534,4 +536,8 @@ if (localStorage.getItem("removeAway") === "true") {
 deferredCallback(() => oldMessenger(), { variable: "vk" });
 //Стиль для старой иконки нотиса аудио 18+
 createStyle('audioNoticeIcon', innerNoticeStyle())
+//Постеры
+listenWall((_wall) => {
+	posters();
+});
 
