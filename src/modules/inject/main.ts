@@ -520,18 +520,29 @@ window.addEventListener("beforeunload", () => {
 	});
 });
 //Удалить away.php
-if (localStorage.getItem("removeAway") === "true") {
-	const awayHrefs = ["a[href*='away.php']"];
-	document.arrive(awayHrefs.join(", "), { existing: true }, function (link) {
-		const hrefable = link as HTMLAnchorElement;
-		const url = new URL(hrefable.href);
-		const toParam = url.searchParams.get("to");
-		if (toParam) {
-			const decodedUrl = decodeURIComponent(toParam);
-			hrefable.href = decodedUrl;
-		}
-	});
+function decodeURL(url: string, win1251: TextDecoder): string | null {
+  let tempurl = url.replace(/(?:%[0-9A-F]{2})+/g, (s) => {
+    const byteArray = new Uint8Array(s.match(/%[0-9A-F]{2}/g)!.map((hex) => parseInt(hex.slice(1), 16)));
+    return win1251.decode(byteArray);
+  });
+  let URLObjParamsWindows1251 = new URL(tempurl).searchParams;
+  let URLObjParamsUTF8 = new URL(url).searchParams;
+  const decoded = URLObjParamsUTF8.get("utf") === "1" ? URLObjParamsUTF8.get("to") : URLObjParamsWindows1251.get("to");
+  return decoded;
 }
+if (localStorage.getItem("removeAway") === "true") {
+  const win1251 = new TextDecoder("windows-1251");
+  document.arrive("a[href*='away.php']", { existing: true }, function (link) {
+    const hrefable = link as HTMLAnchorElement;
+    const url = new URL(hrefable.href);
+    const toParam = url.searchParams.get("to");
+    if (toParam) {
+      const decodedUrl = decodeURL(hrefable.href, win1251);
+      hrefable.href = decodedUrl!;
+    }
+  });
+}
+
 //Старый дизайн мессенджера
 deferredCallback(() => oldMessenger(), { variable: "vk" });
 //Стиль для старой иконки нотиса аудио 18+

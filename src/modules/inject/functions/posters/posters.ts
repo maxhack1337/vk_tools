@@ -17,15 +17,7 @@ const posters = () => {
         if (!e.querySelector('.poster__placeholder')) e.append(ph);
     });
     document.arrive("#page_add_media > .media_selector", { existing: true }, async function (e) {
-        createStyle('poster', `
-            .poster__slider-item_emoji {
-                background-size: 500% !important;
-                background-position: top 2px right -47px!important;
-                position: relative;
-                border-radius: 100px;
-                background-color: #fff !important;
-            }
-                
+        createStyle('poster', `               
             .poster__btns-wrapper, .feed_post_field_wrap {
                 display: block !important;
             }

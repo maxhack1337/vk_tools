@@ -1,3 +1,5 @@
+import getLinkImageMaxSizeUrl from "./getLinkImageMaxSizeUrl";
+
 const linkAttachmentWithImage = (linkCurrent: any) => {
     let thumbedLink = document.createElement('div');
     thumbedLink.classList.add('thumbed_link', 'page_media_wrap');
@@ -7,7 +9,7 @@ const linkAttachmentWithImage = (linkCurrent: any) => {
     thumbedLinkThumb.href = linkCurrent.url;
     thumbedLinkThumb.target = "_blank";
     thumbedLinkThumb.rel = "nofollow noopener";
-    thumbedLinkThumb.style.backgroundImage = `url(${linkCurrent.photo.sizes[0].url})`;
+    thumbedLinkThumb.style.backgroundImage = `url(${getLinkImageMaxSizeUrl(linkCurrent.photo.sizes)})`;
 
     let thumbedLinkLabel = document.createElement('div');
     thumbedLinkLabel.classList.add('thumbed_link__label');
