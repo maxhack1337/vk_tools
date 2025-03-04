@@ -1,4 +1,4 @@
-const nameIds: { [key: string]: [string, number[], string[], string[]] }  = {
+const nameIds: { [key: string]: [string, number[], string[], string[]] } = {
     picture: [
         'Картинки',
         [49, 46, 65, 61, 13, 16, 34, 11, 20, 63, 15, 19, 48, 14, 18, 33, 47, 17, 69, 12, 37, 31, 51, 66],

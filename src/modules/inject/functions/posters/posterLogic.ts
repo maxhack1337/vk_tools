@@ -9,7 +9,7 @@ const posterLogic = async () => {
             'events_hash': '',
             'uploadBkgsEnabled': true,
             'custom_enabled': true,
-            'custom_layer_placeholder': 'Напишите что-нибудь',
+            'custom_layer_placeholder': 'VK Tools',
             'categories': getCategories(),
             'bkgs': [{ id: '0_34' }]
         }

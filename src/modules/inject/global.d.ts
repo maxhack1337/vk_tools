@@ -125,6 +125,7 @@ export interface Wall {
 	isAlreadyOld?: boolean;
 	initPosterEditor: any;
 	openPosterEditor: any;
+	closeFancyTooltipsInPost: any;
 }
 
 export interface stManager {

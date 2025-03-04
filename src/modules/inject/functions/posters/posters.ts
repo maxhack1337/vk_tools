@@ -1,7 +1,14 @@
 import createStyle from "../classicalProfile/scripts/createStyle";
+import postingFooterLangWhatsNew from "../oldPosting/postingFooterLangWhatsNew";
 import posterLogic from "./posterLogic";
 
 const posters = () => {
+    document.arrive('.poster__view', { existing: true }, function (e) {
+        let ph = document.createElement('div');
+        ph.classList.add('poster__placeholder');
+        ph.textContent = postingFooterLangWhatsNew(vk.lang);
+        e.append(ph)
+    });
     document.arrive("#page_add_media > .media_selector", { existing: true }, async function (e) {
         createStyle('poster', `
             .poster__slider-item_emoji {
@@ -12,8 +19,12 @@ const posters = () => {
                 background-color: #fff !important;
             }
                 
-            .poster__btns-wrapper {
+            .poster__btns-wrapper, .feed_post_field_wrap {
                 display: block !important;
+            }
+                
+            .poster__input-msg:not(:empty) ~ .poster__placeholder {
+                opacity: 0;
             }`);
         await posterLogic();
 
@@ -40,6 +51,7 @@ const posters = () => {
         let posterOpenBtn = document.createElement('div');
         posterOpenBtn.classList.add('poster__open-btn', 'poster');
         posterOpenBtn.addEventListener('click', () => {
+            Wall.closeFancyTooltipsInPost();
             Wall.openPosterEditor();
         });
 
