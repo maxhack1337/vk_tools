@@ -124,6 +124,7 @@ export interface Wall {
 	) => void;
 	isAlreadyOld?: boolean;
 	initPosterEditor: any;
+	openPosterEditor: any;
 }
 
 export interface stManager {

@@ -40,7 +40,7 @@ const posters = () => {
         let posterOpenBtn = document.createElement('div');
         posterOpenBtn.classList.add('poster__open-btn', 'poster');
         posterOpenBtn.addEventListener('click', () => {
-            cur.poster.openEditor();
+            Wall.openPosterEditor();
         });
 
         posterOpenBtn.setAttribute('onmouseenter',`showTooltip(this, { text: getLang('wall_poster_open_tt'), black: 1, shift: [10, 9] })`)
