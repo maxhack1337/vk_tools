@@ -195,6 +195,8 @@ declare global {
 	var boxLayerBG: any;
 	var showTooltip: any;
 	var curNotifier: any;
+	var post_field: any;
+	var shuffle: any;
 
     
 	namespace NodeJS {

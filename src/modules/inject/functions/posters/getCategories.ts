@@ -1,8 +1,8 @@
 const nameIds: { [key: string]: [string, number[], string[], string[]] } = {
     picture: [
         'Картинки',
-        [49, 46, 65, 61, 13, 16, 34, 11, 20, 63, 15, 19, 48, 14, 18, 33, 47, 17, 69, 12, 37, 31, 51, 66],
-        ['FFFFFF', '777BB4', 'FFFFFF', '464390', '000000', 'FFFFFF', '575A6D', 'FFFFFF', 'FFFFFF', 'FFFFFF', '2A3535', 'FFFFFF', 'FFFFFF', 'FFFFFF', '390722', '4F5970', 'FFFFFF', '591100', 'FFFFFF', 'FFFFFF', 'E1C1A2', 'FFFFFF', 'FFFFFF', '19191A'],
+        [49, 46, 65, 61, 13, 16, 34, 11, 20, 63, 15, 19, 48, 14, 18, 33, 47, 17, 69, 12, 37, 31, 51, 66, 64, 60],
+        ['FFFFFF', '777BB4', 'FFFFFF', '464390', '000000', 'FFFFFF', '575A6D', 'FFFFFF', 'FFFFFF', 'FFFFFF', '2A3535', 'FFFFFF', 'FFFFFF', 'FFFFFF', '390722', '4F5970', 'FFFFFF', '591100', 'FFFFFF', 'FFFFFF', 'E1C1A2', 'FFFFFF', 'FFFFFF', '19191A', '3B4052', 'DB3755'],
         [
             'https://sun1-91.userapi.com/5CVgm8QxpQsDRbqvjVlQxjWSOMSRNaNHYqKHlA/4AVehkT1yro.jpg',
             'https://sun1-23.userapi.com/tnoDFDBcWD9wMgW49b5KjR7poTzG-UcYrKiipg/3JafunFFIEI.jpg',
@@ -27,7 +27,9 @@ const nameIds: { [key: string]: [string, number[], string[], string[]] } = {
             'https://sun1-83.userapi.com/kkP7Md0rHfpsTy1Ex7Y7FLrsturiJjWq1H7zAA/ylqGxeTItes.jpg',
             'https://sun1-22.userapi.com/BFJoA8DzWkpRdMXfHP1D4FftTiAIVLVKmRp6Dw/uLBsr4KA6BU.jpg',
             'https://sun1-19.userapi.com/-WpB4n1f9CfkVDg1_cVnb5bavzcs-Md_gN5Eaw/qwwNq72gyxI.jpg',
-            'https://sun1-14.userapi.com/d9to5zk0qZ2-hW47g6WDgmNmYTFm6HzR_ivEZA/yn-Ij1Z9cOg.jpg'
+            'https://sun1-14.userapi.com/d9to5zk0qZ2-hW47g6WDgmNmYTFm6HzR_ivEZA/yn-Ij1Z9cOg.jpg',
+            'https://sun1-83.userapi.com/-8tgG4LHM6NkP72NCEE6yGHvObGythO4xQfGFg/udeAPKYAfsc.jpg',
+            'https://sun1-23.userapi.com/gYq7oM4RdQYoP418kXzh5eW_kunSjfptYN_Z7Q/c8z61G6sSsk.jpg'
         ]
     ],
     emoji: [
@@ -105,7 +107,7 @@ const getCategories = () => {
         });
         
         let caregoryObj = {
-            'bkgs': bkgsObj,
+            'bkgs': shuffle(bkgsObj),
             'id': categoryId,
             'name': categoryName
         };

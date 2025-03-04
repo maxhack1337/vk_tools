@@ -1,13 +1,20 @@
 import createStyle from "../classicalProfile/scripts/createStyle";
-import postingFooterLangWhatsNew from "../oldPosting/postingFooterLangWhatsNew";
+import listenCurPoster from "./listenCurPoster";
 import posterLogic from "./posterLogic";
 
 const posters = () => {
     document.arrive('.poster__view', { existing: true }, function (e) {
         let ph = document.createElement('div');
         ph.classList.add('poster__placeholder');
-        ph.textContent = postingFooterLangWhatsNew(vk.lang);
-        e.append(ph)
+
+        let fieldMessage = e.querySelector('#poster-field-msg') as HTMLElement;
+        ph.textContent = post_field.getAttribute('aria-label');
+        listenCurPoster(() => {
+            setTimeout(() => {
+                ph.style.color = fieldMessage?.style.color ? fieldMessage?.style.color : '#000';
+            }, 100);
+        });
+        if (!e.querySelector('.poster__placeholder')) e.append(ph);
     });
     document.arrive("#page_add_media > .media_selector", { existing: true }, async function (e) {
         createStyle('poster', `
@@ -61,7 +68,7 @@ const posters = () => {
         posterBtnLayout.append(posterOpenBtn);
         posterOpenBtnWrapper.append(posterBtnLayout);
         posters.append(posterOpenBtnWrapper);
-        e.appendChild(posters);
+        if(!e.querySelector('.poster__open-btn-wrapper')) e.appendChild(posters);
     });
 }
 
