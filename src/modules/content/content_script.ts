@@ -88,7 +88,8 @@ const functions = [
   "feedValue",
   "messageTextUpState",
   "oldClubState",
-  "oldMessengerDesignState"
+  "oldMessengerDesignState",
+  "compactPhotosState"
 ]
 
 const applySavedStyles = () => {
@@ -137,6 +138,7 @@ const applySavedStyles = () => {
     const messageTextUp = items.messageTextUpState;
     const oldClub = items.oldClubState;
     const oldMessengerDesign = items.oldMessengerDesignState;
+    const compactPhotos = items.compactPhotosState;
     applyStyles({
       isVideoModal,
       altScroll,
@@ -181,12 +183,13 @@ const applySavedStyles = () => {
       feedValue,
       messageTextUp,
       oldClub,
-      oldMessengerDesign
+      oldMessengerDesign,
+      compactPhotos
     })
   });
 }
 
-function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; stickerPopupHide: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; feedValue: any; messageTextUp: any; oldClub: any;  oldMessengerDesign: any}) {
+function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; stickerPopupHide: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; feedValue: any; messageTextUp: any; oldClub: any; oldMessengerDesign: any; compactPhotos: any}) {
   if (styles.removeNFT) {
     hideNFT_Avatars();
   }
@@ -465,6 +468,12 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
     customMessage("oldMessengerDesign", styles.oldMessengerDesign)
   } else {
     customMessage("oldMessengerDesign", "false")
+  }
+
+  if (styles.compactPhotos) {
+    initCompactPhotos();
+  } else {
+    removeCompactPhotos();
   }
 }
 
@@ -1287,6 +1296,27 @@ function textUp() {
 
 function textDown() {
   const customStyle = fromId("textUpStyleUp");
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
+
+//Компактный размер фото в посте//
+function initCompactPhotos() {
+  let styleElement = fromId("compactPhotoPost");
+  if (!styleElement) {
+    styleElement = create("style", {}, { id: "compactPhotoPost" });
+    document.head.appendChild(styleElement);
+  }
+  styleElement.innerHTML =
+    `.Post--redesignV3 [class^="vkitPrimaryAttachment__root"]:not(:has([href^="/video"]))[style^="--photo-primary-ratio"] {
+			padding-top: min(100%,var(--photo-primary-height, 100%));
+			max-width: calc(var(--photo-primary-ratio)*100%);
+		}`;
+}
+
+function removeCompactPhotos() {
+  const customStyle = fromId("compactPhotoPost");
   if (customStyle) {
     customStyle.remove();
   }

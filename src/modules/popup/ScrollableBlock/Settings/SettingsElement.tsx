@@ -57,6 +57,7 @@ const allStates = [
   "messageTextUpState",
   "oldClubState",
   "oldMessengerDesignState",
+  "compactPhotosState",
 ];
 
 const clearAllStates: { [key: string]: any } = {
@@ -104,6 +105,7 @@ const clearAllStates: { [key: string]: any } = {
   messageTextUpState: false,
   oldClubState: false,
   oldMessengerDesignState: false,
+  compactPhotosState: false,
 };
 
 const SettingsElement = ({ id, label, canFile }: SettingsElementProps) => {

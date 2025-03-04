@@ -4,6 +4,14 @@ const innerStyleGet = () => {
 			box-shadow: 0 0 0 0 transparent;
 		}
 
+		.wl_post_body_wrap .poster__wrap {
+			margin: 0 -6px !important;
+		}
+
+		.wl_post_body_wrap .poster__layer {
+			padding-top: 12px !important;
+		}
+
 		.media_link__media {
 			border: 1px solid var(--vkui--vkontakte_color_snippet_border_alpha)!important;
     		border-radius: 2px 2px 0 0!important;
@@ -166,10 +174,7 @@ const innerStyleGet = () => {
 			border-radius:8px;
 			box-shadow: 0 0 0 1px var(--vkui--color_separator_secondary);
 		}
-		.Post--redesignV3 [class^="vkitPrimaryAttachment__root"]:not(:has([href^="/video"]))[style^="--photo-primary-ratio"] {
-			padding-top: min(100%,var(--photo-primary-height, 100%));
-			max-width: calc(var(--photo-primary-ratio)*100%);
-		}
+
 		#wl_post.Post--redesignV3:not(:has(.PostCopyQuote--redesignV3)) [class^="PostContentContainer__contentContainer"] {
 			margin-left:-18px;
 		}
