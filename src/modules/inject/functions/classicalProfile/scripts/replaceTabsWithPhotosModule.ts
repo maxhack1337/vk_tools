@@ -1,5 +1,6 @@
 import fromId from "../../../../content/fromId";
 import getId from "../../middleName/getId";
+import { IS_SPA } from "./constants";
 import getLangTime from "./getLangTime";
 import getMyPhotoText from "./getMyPhotoText";
 import getPhotoMapText from "./getPhotoMapText";
@@ -7,6 +8,8 @@ import getStoryText from "./getStoryText";
 import getUserDataPhoto from "./getUserDataPhoto";
 import getUserDataReact from "./getUserDataReact";
 import getUserStoriesReact from "./getUserStoriesReact";
+import getUserDataReactSpa from "./spa/getUserDataReactSpa";
+import getUserStoriesReactSpa from "./spa/getUserStoriesReactSpa";
 
       const replaceTabsWithPhotosModule = async() => {
         let section = document.querySelector(
@@ -87,19 +90,7 @@ import getUserStoriesReact from "./getUserStoriesReact";
                   event.preventDefault();
                   event.stopPropagation();
                   if (showPhoto)
-                  showPhoto(photoId, `photos(${oid})`, {
-                      temp: {
-                          x: photoLink,
-                          y: photoLink,
-                          z: photoLink,
-                          w: photoLink,
-                          x_: [photoLink, 604, 340],
-                          y_: [photoLink, 807, 454],
-                          z_: [photoLink, 1280, 720],
-                          w_: [photoLink, 1920, 1080],
-                          base: "",
-                      },
-                  });
+                    showPhoto(photoId, `photos(${oid})`, {});
           }
 
           photoElement.style.backgroundImage = `url(${photoLink})`;
@@ -111,8 +102,8 @@ import getUserStoriesReact from "./getUserStoriesReact";
         });
         ///ИСТОРИИ В КЛАССИК ПРОФИЛЕ///
 		
-        let ownerStory = await getUserDataReact();
-        let stories = await getUserStoriesReact();
+        let ownerStory = IS_SPA ? await getUserDataReactSpa() : await getUserDataReact();
+        let stories = IS_SPA ? await getUserStoriesReactSpa() : await getUserStoriesReact();
         if (stories.count > 0) {
           let storyElement = document.createElement("a");
           storyElement.setAttribute(

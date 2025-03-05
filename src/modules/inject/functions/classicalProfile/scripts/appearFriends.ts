@@ -1,6 +1,8 @@
 import getId from "../../middleName/getId";
+import { IS_SPA } from "./constants";
 import getUserDataReact from "./getUserDataReact";
 import getUserDataWithoutOnline from "./getUserDataWithoutOnline";
+import getUserDataReactSpa from "./spa/getUserDataReactSpa";
 
 const appearFriends = () => {
       document.arrive(
@@ -10,7 +12,7 @@ const appearFriends = () => {
           imReady = false;
           let objectId1 = await getId();
           let userdata = await getUserDataWithoutOnline(objectId1);
-          let userdata1 = await getUserDataReact();
+          let userdata1 = IS_SPA ? await getUserDataReactSpa() : await getUserDataReact();
           let friends;
           let frenCount = { count: 0 };
           if (

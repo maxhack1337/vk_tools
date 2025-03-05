@@ -7,12 +7,14 @@ import appearStarts from './scripts/appearStarts';
 import appearVariable from './scripts/appearVariable';
 import appendActivityText from './scripts/appendActivityText';
 import buttonRun from './scripts/buttonRun';
+import { IS_SPA } from './scripts/constants';
 import createStyle from './scripts/createStyle';
 import expandMore from './scripts/expandMore';
 import getUserData from './scripts/getUserData';
 import profileGroup from './scripts/profileGroups';
 import removeStyle from './scripts/removeStyle';
 import replaceTabsWithPhotosModule from './scripts/replaceTabsWithPhotosModule';
+import getUserDataSpa from './scripts/spa/getUserDataSpa';
 import './styles/classical-profile-view.css';
 import classicButtons from './styles/classicButtons';
 
@@ -26,7 +28,7 @@ const classicalProfile = () => {
           document.body.classList.add('classicProfile');
           classicButtons();
           let objectId1 = await getId();
-          let userData = await getUserData(objectId1);
+          let userData = IS_SPA ? await getUserDataSpa(objectId1) : await getUserData(objectId1);
           let activityText = userData.activity;
           appendActivityText(activityText);
           await appearStarts(userData);

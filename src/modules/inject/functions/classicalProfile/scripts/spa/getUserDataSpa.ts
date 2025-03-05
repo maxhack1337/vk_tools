@@ -1,11 +1,9 @@
-import { IS_SPA } from "./constants";
-import getTimeString from "./getTimeString";
-import getUserDataReact from "./getUserDataReact";
-import getUserDataReactSpa from "./spa/getUserDataReactSpa";
+import getTimeString from "../getTimeString";
+import getUserDataReactSpa from "./getUserDataReactSpa";
 
-const getUserData = async (objectId: number) => {
+const getUserDataSpa = async (objectId: number) => {
         try {
-          let response = IS_SPA ? await getUserDataReactSpa() : await getUserDataReact();
+          let response = await getUserDataReactSpa();
           console.log("[VK Tools] Profile fetched",response);
           if (!response.hidden) {
             let wasInSetb = getLang?.("profile_last_seen", "raw");
@@ -151,4 +149,4 @@ const getUserData = async (objectId: number) => {
         }
 }
       
-export default getUserData;
+export default getUserDataSpa;

@@ -1,9 +1,11 @@
+import { IS_SPA } from "../classicalProfile/scripts/constants";
 import formatRegister from "../classicalProfile/scripts/formatRegister";
 import getLangTime from "../classicalProfile/scripts/getLangTime";
 import getRegDateLabel from "../classicalProfile/scripts/getRegDateLabel";
 import getRegDateValue from "../classicalProfile/scripts/getRegDateValue";
 import getUserDataReact from "../classicalProfile/scripts/getUserDataReact";
 import getZodiacIndex from "../classicalProfile/scripts/getZodiacIndex";
+import getUserDataReactSpa from "../classicalProfile/scripts/spa/getUserDataReactSpa";
 import getIdAntiAsync1 from "./getIdAntiAsync1";
 
 const regDate = () => {
@@ -52,7 +54,7 @@ const regDate = () => {
   `.ProfileModalMiniInfoCell:has(.vkuiIcon--gift_outline_20)`,
   { existing: true },
   async function (e) {
-    let respsp = await getUserDataReact();
+    let respsp = IS_SPA ? await getUserDataReactSpa() : await getUserDataReact();;
     let birthday = respsp.bdate;
     var ageAndZodiac = "";
 

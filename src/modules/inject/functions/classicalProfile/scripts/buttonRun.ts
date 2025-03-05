@@ -1,4 +1,6 @@
+import { IS_SPA } from "./constants";
 import getUserDataReact from "./getUserDataReact";
+import getUserDataReactSpa from "./spa/getUserDataReactSpa";
 
       const buttonRun = () => {
         let count = 0;
@@ -7,7 +9,7 @@ import getUserDataReact from "./getUserDataReact";
             clearInterval(interval);
             return;
           }
-          let response = await getUserDataReact();
+          let response = IS_SPA ? await getUserDataReactSpa() : await getUserDataReact();
           let objectId = response.id;
 
           let newElement = document.createElement("div");

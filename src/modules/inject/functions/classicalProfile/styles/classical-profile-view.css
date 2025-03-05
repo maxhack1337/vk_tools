@@ -195,7 +195,7 @@ section:has(>[class^="ClosedProfileBlock__container"]) {
 }
 
 /*Левая колонка*/
-.ProfileWrapper .vkuiSplitLayout__inner, .ProfileSkeleton__layout
+#react_rootprofile .vkuiSplitLayout__inner, .ProfileSkeleton__layout
 {
     flex-direction:row-reverse;
 }
@@ -205,7 +205,7 @@ section:has(>[class^="ClosedProfileBlock__container"]) {
     flex-wrap: wrap;
     --max-cell-width: 80px;
 }
-.ProfileWrapper .ScrollStickyWrapper, .ProfileSkeleton__column + .ProfileSkeleton__column
+#react_rootprofile .ScrollStickyWrapper, .ProfileSkeleton__column + .ProfileSkeleton__column
 {
     margin-right:15px;
     margin-left:0px;
@@ -219,7 +219,7 @@ div[class*="RichAvatar-module__rootNft"][style="width: 150px; height: 150px;"] >
 .page_current_info:empty {
 	padding-bottom:16px!important;
 }
-.ProfileWrapper .ScrollStickyWrapper > div
+#react_rootprofile .ScrollStickyWrapper > div
 {
     width:230px!important;
 }
@@ -349,7 +349,7 @@ div[class*="RichAvatar-module__rootNft"][style="width: 150px; height: 150px;"] >
 	padding-bottom:8px;
 }
 
-.ProfileWrapper .ScrollStickyWrapper .vkuiSpacing {
+#react_rootprofile .ScrollStickyWrapper .vkuiSpacing {
     display:none;
 }
 
