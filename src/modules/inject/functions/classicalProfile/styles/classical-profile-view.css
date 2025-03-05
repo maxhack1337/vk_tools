@@ -194,6 +194,10 @@ section:has(>[class^="ClosedProfileBlock__container"]) {
     margin-top:calc(var(--vkenhancer-info-height) - 320px);
 }
 
+.ProfileSkeleton {
+    display: none !important;
+}
+
 /*Левая колонка*/
 #react_rootprofile .vkuiSplitLayout__inner, .ProfileSkeleton__layout
 {
