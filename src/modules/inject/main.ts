@@ -551,4 +551,12 @@ createStyle('audioNoticeIcon', innerNoticeStyle())
 listenWall((_wall) => {
 	posters();
 });
+//Удаляем скелетоны в классик профиле
+if (getLocalValue("isClassicalProfileDesign")) {
+	createStyle('removeSkeletonClassic', `
+      #profile_skeleton, .ProfileSkeleton {
+	      display:none!important;
+      }
+    `);
+}
 
