@@ -22,6 +22,7 @@ import linkAttachmentWithoutImage from "./attachments/linkAttachmentWithoutImage
 import linkPrimatyAttachmentWithImage from "./attachments/linkPrimatyAttachmentWithImage";
 import miniAppAttachmentSecondary from "./attachments/miniAppAttachmentSecondary";
 import linkAttachmentWithoutTitle from "./attachments/linkAttachmentWithoutTitle";
+import { escapeHtml } from "../../escapeHtml";
 const oldFeed = () => {
     if (localStorage.getItem("feedOldPosts") === "true") {
         oldStoryBlock();
@@ -261,8 +262,8 @@ const oldFeed = () => {
                                 if (isAvailableTrack?.valueOf() === true) {
                                     isRestrickted = 'audio_claimed';
                                 }
-                                let titleAud = music.audio.title.replaceAll('"', "'");
-                                let artistAud = music.audio.artist.replaceAll('"', "'");
+                                let titleAud = escapeHtml(music.audio.title)
+                                let artistAud = escapeHtml(music.audio.artist)
                                 audioElement.innerHTML = audioAttachment(isRestrickted, music, titleAud, artistAud);
                                 x?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(audioElement);
                             }
@@ -275,8 +276,8 @@ const oldFeed = () => {
                         dataRepostAttachments.item.attachments.forEach(function(music: any) {
                             if (music.type === "audio" && music.style === "on_media") {
                                 let audioElement = document.createElement("div");
-                                let titleAud = music.audio.title.replaceAll('"', "'");
-                                let artistAud = music.audio.artist.replaceAll('"', "'");
+                                let titleAud = escapeHtml(music.audio.title)
+                                let artistAud = escapeHtml(music.audio.artist)
                                 let isAvailableTrack = music.audio.content_restricted?.valueOf() > 0;
                                 let isRestrickted = '';
                                 if (isAvailableTrack?.valueOf() === true) {

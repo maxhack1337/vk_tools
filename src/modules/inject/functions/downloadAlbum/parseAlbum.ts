@@ -5,6 +5,7 @@ import showSnackbar from "../../components/snackbar/snackbar";
 import getPhoto from "./getPhoto";
 import JSZip from 'jszip';
 import isNotAlbumLang from "./isNotAlbumLang";
+import { escapeHtmlDownloadTrack } from "../../escapeHtml";
 
 const parseAlbum = async() => {
   const url = window.location.href;
@@ -129,7 +130,7 @@ const parseAlbum = async() => {
               if(pBar) pBar.innerHTML =
               getLang?.("box_loading") +
               "<br><br>" +
-              `${albumsRes.items[0].title}${currentZipIndex}.zip ` +
+              `${escapeHtmlDownloadTrack(albumsRes.items[0].title)}${currentZipIndex}.zip ` +
               counterProgress +
               "/" +
               albumsRes.items[0].size;

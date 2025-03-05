@@ -1,11 +1,11 @@
-import escapeHtml from "../../../escapeHtml";
+import { escapeHtml, escapeUrl } from "../../../escapeHtml";
 
 const linkAttachmentWithoutTitle = (linkCurrent: any) => {
     const mediaDesc = document.createElement('div');
     mediaDesc.classList.add('media_desc', 'media_desc__');
 
     const lnk = document.createElement('a');
-    lnk.href = linkCurrent.url;
+    lnk.href = escapeUrl(linkCurrent.url);
     lnk.target = "_blank";
     lnk.rel = "nofollow noopener";
 

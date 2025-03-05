@@ -1,4 +1,4 @@
-import escapeHtml from "../../escapeHtml";
+import { escapeHtml } from "../../escapeHtml";
 
 const videoDescription = (videoID:string,videoList:string,postData:any,videoDur:string,videoName:string,videoViews:any) => {
 return `

@@ -1,3 +1,4 @@
+import { escapeHtml } from "../../../escapeHtml";
 import addRelatives from "./addRelatives";
 import appearVariable from "./appearVariable";
 import nextExpander from "./nextExpander";
@@ -72,7 +73,7 @@ import nextExpander from "./nextExpander";
                     let langsText = langsFull
                       .map(
                         (lang: { id: any; native_name: any; }) =>
-                          `<a href="/search/people?c[name]=0&c[lang]=${lang.id}" class="vkuiLink Link-module__link--V7bkY ProfileModalInfoLink vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">${lang.native_name}</a>`
+                          `<a href="/search/people?c[name]=0&c[lang]=${lang.id}" class="vkuiLink Link-module__link--V7bkY ProfileModalInfoLink vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">${escapeHtml(lang.native_name)}</a>`
                       )
                       .join(", ");
                     let langsDiv = document.createElement("div");
@@ -226,7 +227,8 @@ import nextExpander from "./nextExpander";
                       "vkuiTappable",
                       "vkuiInternalTappable",
                       "vkuiTappable--hasActive",
-                      "vkui-focus-visible"
+                      "vkui-focus-visible",
+                      "profileJobLink"
                     );
                   } else if (job.company) {
                     groupLink = document.createElement("a");
@@ -239,7 +241,8 @@ import nextExpander from "./nextExpander";
                       "vkuiTappable",
                       "vkuiInternalTappable",
                       "vkuiTappable--hasActive",
-                      "vkui-focus-visible"
+                      "vkui-focus-visible",
+                      "profileJobLink"
                     );
                   }
 
@@ -290,7 +293,10 @@ import nextExpander from "./nextExpander";
                     positionLink.style.position = `absolute`;
                     positionLink.style.marginTop = `16px`;
                     positionLink.style.width = "50%";
-                    positionLink.innerHTML = job.position + " ";
+                    positionLink.style.wordWrap = 'normal';
+                    positionLink.style.overflow = 'hidden';
+                    positionLink.style.textOverflow = 'ellipsis';
+                    positionLink.innerHTML = escapeHtml(job.position) + " ";
                     positionLink.classList.add(
                       "vkuiLink",
                       "Link-module__link--V7bkY",

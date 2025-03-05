@@ -1,3 +1,4 @@
+import { escapeHtml, escapeUrl } from "../../../escapeHtml";
 import createProfileInfoRow from "./createProfileInfoRow";
 import formatBirthday from "./formatBirthday";
 import formatRegister from "./formatRegister";
@@ -114,7 +115,7 @@ import getZodiacIndex from "./getZodiacIndex";
           }
           companyRow = createProfileInfoRow(
             `${getLang?.("Work_place")}:`,
-            `<a href="${companyLink}" ${additionalsV}>${company}</a>`
+            `<a href="${companyLink}" ${additionalsV}>${escapeHtml(company)}</a>`
           );
         }
         if (occupation && occupation.type === "university") {
@@ -152,7 +153,7 @@ import getZodiacIndex from "./getZodiacIndex";
           }
           siteRow = createProfileInfoRow(
             getLang?.("Contact_site"),
-            `<a href="${site}" target="_blank">${siteText}</a>`
+            `<a href="${escapeUrl(site)}" target="_blank">${escapeHtml(siteText)}</a>`
           );
         }
         if (siteRow) {

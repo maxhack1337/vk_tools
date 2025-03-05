@@ -1,3 +1,4 @@
+import { escapeHtml } from "../../../escapeHtml";
 import getLangTime from "../../classicalProfile/scripts/getLangTime";
 import getStoryText from "../../classicalProfile/scripts/getStoryText";
 
@@ -9,8 +10,8 @@ return `
       <div class="NarrativeSnippet__image" style=""></div>
     </div>
     <div class="NarrativeSnippet__info">
-      <div class="NarrativeSnippet__title">${narrativeCurrent.title}</div>
-      <span class="NarrativeSnippet__author">${ownerNarrative}</span>
+      <div class="NarrativeSnippet__title">${escapeHtml(narrativeCurrent.title)}</div>
+      <span class="NarrativeSnippet__author">${escapeHtml(ownerNarrative)}</span>
       <span class="NarrativeSnippet__description">${getLang?.('global_type_narrative')} · ${narrativeCurrent.story_ids?.length || 0} ${getLangTime(narrativeCurrent.story_ids?.length || 0, getStoryText(vk.lang))}</span>
     </div>
   </div>

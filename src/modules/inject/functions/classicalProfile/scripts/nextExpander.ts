@@ -1,3 +1,5 @@
+import { escapeHtml,escapeUrl } from "../../../escapeHtml";
+
       const nextExpander = async(userData: { universities: any; schools: any; military: string | any[]; personal: { alcohol?: any; life_main?: any; people_main?: any; smoking?: any; inspired_by?: any; religion?: any; political?: any; langs_full?: any}; activities: string; interests: string; music: string; movies: string; tv: string; books: string; games: string; quotes: string; about: string; }, moreItemsLoaded: { appendChild: (arg0: HTMLDivElement) => void; }, educationInner: any) => {
         let education = userData.universities;
         let educationDiv = document.createElement("div");
@@ -166,6 +168,10 @@
               schoolInfo.appendChild(schoolDiv);
 
               let schoolLink = document.createElement("a");
+              schoolLink.style.width = '335px';
+              schoolLink.style.maxWidth = '335px';
+              schoolLink.style.wordBreak = 'break-word';
+              schoolLink.style.display = 'inline-block';
               schoolLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}`;
               schoolLink.textContent = school.name;
               schoolLink.classList.add(
@@ -318,6 +324,7 @@
                 "vkuiTappable--hasActive",
                 "vkui-focus-visible"
               );
+              specialityLink.style.display = 'inline-block';
               schoolInfo.appendChild(specialityLink);
             }
 
@@ -351,7 +358,9 @@
                 voinInfo.appendChild(voinDiv);
 
                 let voinLink = document.createElement("a");
-				voinLink.style.width = '335px';
+                voinLink.style.width = '335px';
+                voinLink.style.maxWidth = '335px';
+                voinLink.style.wordBreak = 'break-word';
                 voinLink.href = `/search/people?c[name]=0&c[mil_country]=${voin.country_id}&c[mil_unit]=${voin.unit_id}`;
                 voinLink.textContent = voin.unit;
                 voinLink.classList.add(
@@ -1018,8 +1027,12 @@
             quotesLabel.classList.add("label", "fl_l");
             quotesDiv.appendChild(quotesLabel);
 
-            let quotesText = quotes.replace(/\n/g, "<br>");
+            let quotesText = escapeHtml(quotes).replace(/\n/g, "<br>");
             let quotesSpan = document.createElement("span");
+            quotesSpan.style.display = 'inline-block';
+            quotesSpan.style.maxWidth = '335px';
+            quotesSpan.style.width = '335px';
+            quotesSpan.style.wordWrap = 'break-word';
             quotesSpan.innerHTML = quotesText;
 
             quotesDiv.appendChild(quotesSpan);
@@ -1035,9 +1048,12 @@
             aboutLabel.textContent = `${getLang?.("Aboutme")}`;
             aboutLabel.classList.add("label", "fl_l");
             aboutDiv.appendChild(aboutLabel);
-
-            let aboutText = about.replace(/\n/g, "<br>");
+            let aboutText = escapeHtml(about).replace(/\n/g, "<br>");
             let aboutSpan = document.createElement("span");
+            aboutSpan.style.display = 'inline-block';
+            aboutSpan.style.maxWidth = '335px';
+            aboutSpan.style.width = '335px';
+            aboutSpan.style.wordWrap = 'break-word';
 
             let regex = /(?:https?:\/\/|www\.)\S+/g;
             let match;
@@ -1052,7 +1068,7 @@
               let beforeText = aboutText.substring(lastIndex, match.index);
               lastIndex = match.index + link.length;
               aboutSpan.innerHTML += beforeText;
-              aboutSpan.innerHTML += `<a href="${link}">${linkText}</a>`;
+              aboutSpan.innerHTML += `<a href="${escapeUrl(link)}">${escapeHtml(linkText)}</a>`;
             }
             aboutSpan.innerHTML += aboutText.substring(lastIndex);
 

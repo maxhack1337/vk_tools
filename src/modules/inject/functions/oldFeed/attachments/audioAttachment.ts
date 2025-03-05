@@ -1,8 +1,12 @@
 /* eslint-disable no-useless-escape */
+import { escapeHtml, escapeUrl } from "../../../escapeHtml";
 import splitDuration from "../splitDuration";
 
-const audioAttachment = (isRestrickted:string, music:any, titleAud: string, artistAud: string) => {
-return `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row ${isRestrickted} audio_row_with_cover _audio_row _audio_row_${
+const audioAttachment = (isRestrickted: string, music: any, titleAud: string, artistAud: string) => {
+  let audioElement = document.createElement('div');
+  let audioItem = music.audio;
+  const audioData = `[${audioItem.id},${audioItem.owner_id},"","${escapeHtml(titleAud)}","${escapeHtml(artistAud)}",157,0,0,"",0,34,"module:${audioItem.owner_id}","[]","62efa83eaf32d46ab7//e3727249bcd60c36ee///bca050eaeb2ae61a22/","",{"duration": ${audioItem.ads.duration},"content_id": "${audioItem.owner_id}_${audioItem.id}","puid22": ${audioItem.ads.puid22},"account_age_type": ${audioItem.ads.account_age_type},"_SITEID": 276,"vk_id": ${vk.id},"ver": 251116},"","","",false,"9c91d4359kPPl-j5wiDD-N-q4xNYySV8d1i8YjJXvg6StjuAn436s3dh-U5Vim743w",0,0,true,"${audioItem.access_key}",false,"",false]`;                      
+  audioElement.innerHTML = `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row ${isRestrickted} audio_row_with_cover _audio_row _audio_row_${
                 music.audio.owner_id
               }_${
                 music.audio.id
@@ -10,25 +14,8 @@ return `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row ${isRestric
                 music.audio.owner_id
               }_${
                 music.audio.id
-              }" onclick="return getAudioPlayer().toggleAudio(this, event)" data-audio="[${
-                music.audio.id
-              },${music.audio.owner_id},&quot;&quot;,&quot;${
-                titleAud
-              }&quot;,&quot;${
-                artistAud
-              }&quot;,157,0,0,&quot;&quot;,0,34,&quot;my:my_audios&quot;,&quot;[]&quot;,&quot;3e8cdfd5a11f7bb4a5\/8aaf2d333742261dd0\/c475d689c9416c918c\/461c9aa17f026bb20c\/\/0e75de100e99ef17ec\/3e835a4ecc5ff99a2a&quot;,&quot;&quot;,{&quot;duration&quot;:${
-                music.audio.ads.duration
-              },&quot;content_id&quot;:&quot;${music.audio.owner_id}_${
-                music.audio.id
-              }&quot;,&quot;puid22&quot;:${
-                music.audio.ads.puid22?.valueOf() || 11
-              },&quot;account_age_type&quot;:${
-                music.audio.ads.account_age_type
-              },&quot;_SITEID&quot;:276,&quot;vk_id&quot;:${
-                vk.id
-              },&quot;ver&quot;:251116},&quot;&quot;,&quot;&quot;,&quot;&quot;,false,&quot;e4cff92eZml8iFLTMTK-fJ2P469iWcmgLIP03FFV2E6sfIYHm7xfWzPLQtJmMrpuhZesiXJXx7Y2m_-QaYwIryRPtjG3lx4FdZQJiiR160y_tQM8nyMnVdJ4z-1p&quot;,0,0,true,&quot;${
-                music.audio.access_key
-              }&quot;,false,&quot;&quot;,false,&quot;&quot;,&quot;&quot;,0]" onmouseover="window.AudioUtils &amp;&amp; window.AudioUtils.onRowOver(this, event, false, '', '${
+              }" onclick="return getAudioPlayer().toggleAudio(this, event)" data-audio="[]"
+              onmouseover="window.AudioUtils &amp;&amp; window.AudioUtils.onRowOver(this, event, false, '', '${
                 music.audio.access_key
               }')" onmouseleave="window.AudioUtils &amp;&amp; window.AudioUtils.onRowLeave(this, event)">
   <div class="audio_row_content _audio_row_content vkEnAudioRow">
@@ -75,15 +62,13 @@ return `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row ${isRestric
 
       </div>
       <div class="audio_row__performer_title">
-        <div onmouseover="setTitle(this)" class="audio_row__performers" data-testid="audio_row_performers"><a href="/audio?performer=1&amp;q=${
-          music.audio.artist
-        }">${music.audio.artist}</a></div>
+        <div onmouseover="setTitle(this)" class="audio_row__performers" data-testid="audio_row_performers"><a href="${escapeUrl(`/audio?performer=1&amp;q=${music.audio.artist}`)}">${escapeHtml(music.audio.artist)}</a></div>
         <div class="audio_row__title _audio_row__title" onmouseover="setTitle(this)" title="${
-            music.audio.title
+            escapeHtml(music.audio.title)
           }">
           <span class="audio_row__title_inner_icon"></span>
           <a href="" class="audio_row__title_inner _audio_row__title_inner" data-testid="audio_row_title">${
-            music.audio.title
+            escapeHtml(music.audio.title)
           }</a>
           <span class="audio_row__title_inner_subtitle _audio_row__title_inner_subtitle"></span>
 
@@ -99,6 +84,8 @@ return `<div tabindex="0" class="vk_enhancer_in_post_audio audio_row ${isRestric
     <div class="audio_player__place _audio_player__place"></div>
   </div>
 </div>`
+audioElement.querySelector('.audio_row_with_cover')?.setAttribute('data-audio', audioData);
+  return audioElement.innerHTML;
 }
 
 export default audioAttachment;

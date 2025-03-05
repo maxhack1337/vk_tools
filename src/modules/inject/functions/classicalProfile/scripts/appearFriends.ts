@@ -1,3 +1,4 @@
+import { escapeHtml } from "../../../escapeHtml";
 import getId from "../../middleName/getId";
 import { IS_SPA } from "./constants";
 import getUserDataReact from "./getUserDataReact";
@@ -120,7 +121,7 @@ const appearFriends = () => {
                 </div>
                 <div class="vkuiHorizontalCell__content">
                     <span class="vkuiTypography vkuiTypography--normalize vkuiCaption--level-1"><div class="TextClamp-module__singleLine--mRCrF">${
-                      friend.first_name
+                      escapeHtml(friend.first_name)
                     }</div></span>
                 </div>
             </a>
@@ -218,7 +219,7 @@ const appearFriends = () => {
                         <div class="vkuiImageBase vkuiImageBase--loaded vkuiAvatar" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${onlineFriend.photo_100}"></div>
                     </div>
                     <div class="vkuiHorizontalCell__content">
-                        <span class="vkuiTypography vkuiTypography--normalize vkuiCaption--level-1"><div class="TextClamp-module__singleLine--mRCrF">${onlineFriend.first_name}</div></span>
+                        <span class="vkuiTypography vkuiTypography--normalize vkuiCaption--level-1"><div class="TextClamp-module__singleLine--mRCrF">${escapeHtml(onlineFriend.first_name)}</div></span>
                     </div>
                 </a>
             `;
@@ -327,7 +328,7 @@ const appearFriends = () => {
                     <div class="vkuiImageBase vkuiImageBase--loaded vkuiAvatar" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${commonFriend.photo_100}"><div aria-hidden="true" class="vkuiImageBase__border"></div></div>
                 </div>
                 <div class="vkuiHorizontalCell__content">
-                    <span class="vkuiTypography vkuiTypography--normalize vkuiCaption--level-1"><div class="TextClamp-module__singleLine--mRCrF">${commonFriend.first_name}</div></span>
+                    <span class="vkuiTypography vkuiTypography--normalize vkuiCaption--level-1"><div class="TextClamp-module__singleLine--mRCrF">${escapeHtml(commonFriend.first_name)}</div></span>
                 </div>
             </a>
         `;

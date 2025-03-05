@@ -1,3 +1,4 @@
+import { escapeHtml } from "../../escapeHtml";
 import onClose from "./onClose";
 
 const vkToolsOnlineBox = async(onlineArr: string | any[]) => {
@@ -60,7 +61,7 @@ const vkToolsOnlineBox = async(onlineArr: string | any[]) => {
 ">
       <figure class="MEAvatar MEAvatar--size-40" style="margin: 0;width: 40px;height: 40px;">
         <div class="MEAvatar__imgWrapper" style="clip-path: url(&quot;#mePeerFrameOffline40Mask265672157&quot;);">
-          <div class="BasicAvatar BasicAvatar--size-40"><img class="BasicAvatar__img" alt="${user[0]}" src="${user[2]}"></div>
+          <div class="BasicAvatar BasicAvatar--size-40"><img class="BasicAvatar__img" alt="${escapeHtml(user[0])}" src="${user[2]}"></div>
         </div>
         <svg class="MEAvatar__svg">
           <clipPath id="mePeerFrameOffline40Mask265672157">

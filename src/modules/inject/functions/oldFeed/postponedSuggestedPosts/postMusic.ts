@@ -1,3 +1,4 @@
+import { escapeHtml } from "../../../escapeHtml";
 import audioAttachment from "../attachments/audioAttachment";
 import getPostAttaches from "../getPostAttaches";
 
@@ -18,8 +19,8 @@ document.arrive(selectorsMusic.join(', '), { existing: true }, async function (d
                     dataAttachments.item.attachments.forEach(function(music:any) {
                         if(music.type === "audio" && music.style === "on_media") {
                             let audioElement = document.createElement("div");
-			  let titleAud = music.audio.title.replaceAll('"',"'");
-			  let artistAud = music.audio.artist.replaceAll('"',"'");
+			  let titleAud = escapeHtml(music.audio.title)
+              let artistAud = escapeHtml(music.audio.artist)
 			  let isRestrickted = '';
 			  let isAvailableTrack = music.audio.content_restricted?.valueOf() > 0;
 			  if(isAvailableTrack?.valueOf() === true) {

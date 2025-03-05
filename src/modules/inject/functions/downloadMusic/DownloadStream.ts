@@ -3,6 +3,7 @@
 import Hls from 'hls.js'
 import downloadBlob from './downloadBlob'
 import progressSnack from '../../components/progressSnack/progressSnack'
+import { escapeHtmlDownloadTrack } from '../../escapeHtml'
 
 const DownloadStream = (url: string, name: string, elem: any, imgurl = '') => {
     let hls = new Hls()
@@ -31,7 +32,7 @@ const DownloadStream = (url: string, name: string, elem: any, imgurl = '') => {
             progrText!.innerHTML =
                 getLang?.('box_loading') +
                 '<br><br>' +
-                name +
+                escapeHtmlDownloadTrack(name) +
                 '.mp3 ' +
                 ''.repeat((jijijijij / 1e3) % 4) +
                 '' +

@@ -1,4 +1,5 @@
 import fromId from "../../../../content/fromId";
+import { escapeHtml } from "../../../escapeHtml";
 import getId from "../../middleName/getId";
 import { IS_SPA } from "./constants";
 import getLangTime from "./getLangTime";
@@ -47,7 +48,7 @@ import getUserStoriesReactSpa from "./spa/getUserStoriesReactSpa";
             <div class="header_top clear_fix">
                 <span class="header_label fl_l">${getLang?.(
                   "me_convo_attaches_type_photo"
-                )} ${userNamePi}</span>
+                )} ${escapeHtml(userNamePi)}</span>
                 <span class="header_count fl_l">${photodata.count}</span>
             </div>
         </a>

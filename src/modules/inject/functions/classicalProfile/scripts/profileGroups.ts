@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-escape */
+import { escapeHtml } from "../../../escapeHtml";
 import getId from "../../middleName/getId";
 import getUserDataWithoutOnline from "./getUserDataWithoutOnline";
 import splitDuration from "./splitDuration";
@@ -101,7 +102,7 @@ const profileGroup = () => {
         <div class="photos_album_title_wrap vkenh">
           <div class="clear_fix">
             <div class="photos_album_counter vkenh fl_r">${item.size}</div>
-            <div class="photos_album_title ge_photos_album vkenh" title="${item.title}">${item.title}</div>
+            <div class="photos_album_title ge_photos_album vkenh" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</div>
           </div>
           <div class="photos_album_description_wrap"><div class="photos_album_description description"></div></div>
         </div>
@@ -116,7 +117,7 @@ const profileGroup = () => {
         <div class="photos_album_title_wrap vkenh">
           <div class="clear_fix">
             <div class="photos_album_counter vkenh fl_r">${item.size}</div>
-            <div class="photos_album_title ge_photos_album vkenh" title="${item.title}">${item.title}</div>
+            <div class="photos_album_title ge_photos_album vkenh" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</div>
           </div>
           <div class="photos_album_description_wrap"><div class="photos_album_description description"></div></div>
         </div>
@@ -183,7 +184,8 @@ const profileGroup = () => {
     "vkuiInternalGroupCard",
     "ProfileGroupEnhancer",
     "ProfileAlbumsEnhancer"
-              );
+            );
+            
               newAudioElement.innerHTML = ` <div class="vkuiGroup__header">
 				<a href="/audios${userIDHereWeGoAgain}?section=all" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
 					<div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
@@ -218,9 +220,13 @@ const profileGroup = () => {
               ".OwnerAudiosList__items"
             );
             audioResponse.items.slice(0, 6).forEach(async (audioItem: { title: { replaceAll: (arg0: string, arg1: string) => any; }; artist: { replaceAll: (arg0: string, arg1: string) => any; }; owner_id: any; id: any; ads: { duration: any; puid22: any; account_age_type: any; }; access_key: any; duration: any; }) => {
+              
               let audioElement = document.createElement("div");
-			  let titleAud = audioItem.title.replaceAll('"',"'");
-			  let artistAud = audioItem.artist.replaceAll('"',"'");
+			        let titleAud = audioItem.title;
+              let artistAud = audioItem.artist;
+              let escaped = escapeHtml(artistAud);
+              const audioData = `[${audioItem.id},${audioItem.owner_id},"","${escapeHtml(titleAud)}","${escapeHtml(artistAud)}",157,0,0,"",0,34,"module:${audioItem.owner_id}","[]","62efa83eaf32d46ab7//e3727249bcd60c36ee///bca050eaeb2ae61a22/","",{"duration": ${audioItem.ads.duration},"content_id": "${audioItem.owner_id}_${audioItem.id}","puid22": ${audioItem.ads.puid22},"account_age_type": ${audioItem.ads.account_age_type},"_SITEID": 276,"vk_id": ${vk.id},"ver": 251116},"","","",false,"9c91d4359kPPl-j5wiDD-N-q4xNYySV8d1i8YjJXvg6StjuAn436s3dh-U5Vim743w",0,0,true,"${audioItem.access_key}",false,"",false]`;              
+              
               audioElement.innerHTML = `<div tabindex="0" class="audio_row audio_row_with_cover _audio_row _audio_row_${
                 audioItem.owner_id
               }_${
@@ -229,27 +235,7 @@ const profileGroup = () => {
                 audioItem.owner_id
               }_${
                 audioItem.id
-              }" onclick="return getAudioPlayer().toggleAudio(this, event)" data-audio="[${
-                audioItem.id
-              },${audioItem.owner_id},&quot;&quot;,&quot;${
-                titleAud
-              }&quot;,&quot;${
-                artistAud
-              }&quot;,157,0,0,&quot;&quot;,0,34,&quot;module:${
-                audioItem.owner_id
-              }&quot;,&quot;[]&quot;,&quot;62efa83eaf32d46ab7\/\/e3727249bcd60c36ee\/\/\/bca050eaeb2ae61a22\/&quot;,&quot;&quot;,{&quot;duration&quot;:${
-                audioItem.ads.duration
-              },&quot;content_id&quot;:&quot;${audioItem.owner_id}_${
-                audioItem.id
-              }&quot;,&quot;puid22&quot;:${
-                audioItem.ads.puid22
-              },&quot;account_age_type&quot;:${
-                audioItem.ads.account_age_type
-              },&quot;_SITEID&quot;:276,&quot;vk_id&quot;:${
-                vk.id
-              },&quot;ver&quot;:251116},&quot;&quot;,&quot;&quot;,&quot;&quot;,false,&quot;9c91d4359kPPl-j5wiDD-N-q4xNYySV8d1i8YjJXvg6StjuAn436s3dh-U5Vim743w&quot;,0,0,true,&quot;${
-                audioItem.access_key
-              }&quot;,false,&quot;&quot;,false]" onmouseover="window.AudioUtils &amp;&amp; window.AudioUtils.onRowOver(this, event, false, '', '${
+              }" onclick="return getAudioPlayer().toggleAudio(this, event)" onmouseover="window.AudioUtils &amp;&amp; window.AudioUtils.onRowOver(this, event, false, '', '${
                 audioItem.access_key
               }')" onmouseleave="window.AudioUtils &amp;&amp; window.AudioUtils.onRowLeave(this, event)">
   <div class="audio_row_content _audio_row_content vkEnAudioRow">
@@ -272,12 +258,10 @@ const profileGroup = () => {
         
       </div>
       <div class="audio_row__performer_title">
-        <div onmouseover="setTitle(this)" class="audio_row__performers" data-testid="audio_row_performers"><a href="/audio?performer=1&amp;q=${
-          audioItem.artist
-        }">${audioItem.artist}</a></div>
+        <div onmouseover="setTitle(this)" class="audio_row__performers" data-testid="audio_row_performers"><a href="/audio?performer=1&amp;q=${escaped}">${escaped}</a></div>
         <div class="audio_row__title _audio_row__title" onmouseover="setTitle(this)">
           <a href="" class="audio_row__title_inner _audio_row__title_inner" data-testid="audio_row_title">${
-            audioItem.title
+            escapeHtml(audioItem.title)
           }</a>
           <span class="audio_row__title_inner_subtitle _audio_row__title_inner_subtitle"></span>
           
@@ -291,6 +275,7 @@ const profileGroup = () => {
     <div class="audio_player__place _audio_player__place"></div>
   </div>
 </div>`;
+              audioElement.querySelector('.audio_row_with_cover')?.setAttribute('data-audio', audioData);
               appendHereAudio?.appendChild(audioElement);
             });
           }

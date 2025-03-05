@@ -1,3 +1,5 @@
+import { escapeHtml } from "../../../escapeHtml";
+
 const playlistAttachment = (pListInfo: any) => {
 return `
 			<div class="vkuiDiv vkuiRootComponent" style="padding: 0px 12px;">
@@ -17,11 +19,11 @@ return `
     <div class="vkitSecondaryAttachment__content">
       <div class="vkitSecondaryAttachment__title vkuiFlex vkuiFlex--wrap vkuiFlex--align-center vkuiRootComponent" data-testid="secondaryattachment-title">
         <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__titleText vkuiHeadline--sizeY-compact vkuiHeadline--level-1 vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiRootComponent" style="--vkui_internal--textclamp-lines: 1;">
-		${pListInfo.title}
+		${escapeHtml(pListInfo.title)}
 		</div>
       </div>
       <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__description vkuiFootnote vkuiTypography vkuiTypography--normalize vkuiRootComponent" data-testid="secondaryattachment-description" style="--vkui_internal--textclamp-lines: 1;">
-	  ${pListInfo.description}
+	  ${escapeHtml(pListInfo.description)}
 	  </div>
       <div class="vkitSecondaryAttachment__progressBarContent">
         <div class="vkitSecondaryAttachment__progressBar"></div>

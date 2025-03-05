@@ -68,6 +68,11 @@ body.classicProfile {
 .ProfileModalInfoLink {
     max-width: 335px;
     word-wrap: break-word;
+    display: inline-block;
+}
+
+.profileJobLink {
+    max-width: 280px!important;
 }
 
 [class^="vkitGroup__group"][class*="vkitRecommendationBlock__blockWrap"] {
