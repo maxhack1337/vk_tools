@@ -124,7 +124,7 @@ import getZodiacIndex from "./getZodiacIndex";
           let graduate = "";
           let companyLink = `/search/people?education_city_id=${occupation.city_id}&university=${comid}`;
           if (occupation.graduate_year) {
-            graduate = `<a href="/search/people?education_city_id=${occupation.city_id}&university=${comid}&university_year=${occupation.graduate_year}">'${occupation.graduate_year.toString().slice(-2)}</a>`;
+            graduate = `<a href="/search/people?education_city_id=${occupation.city_id}&university=${comid}&university_year=${occupation.graduate_year}">​ '${occupation.graduate_year.toString().slice(-2)}</a>`;
           }
           companyRow = createProfileInfoRow(
             `${getLang?.("profile_education")}`,

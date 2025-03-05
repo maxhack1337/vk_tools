@@ -12,6 +12,7 @@ import { escapeHtml,escapeUrl } from "../../../escapeHtml";
             let chairInfo = document.createElement("div");
             let educationFormInfo = document.createElement("div");
             let statusInfo = document.createElement("div");
+            let eduRowInner = document.createElement('div');
             if (edu.name) {
               let universityLink = document.createElement("a");
               universityLink.href = `/search/people?c[name]=0&c[uni_country]=${edu.country}&c[uni_city]=${edu.city}&c[university]=${edu.id}`;
@@ -28,7 +29,7 @@ import { escapeHtml,escapeUrl } from "../../../escapeHtml";
 
               let graduationYearText = "";
               if (edu.graduation && edu.graduation !== 0) {
-                graduationYearText = `'${edu.graduation.toString().slice(-2)}`;
+                graduationYearText = `​ '${edu.graduation.toString().slice(-2)}`;
               }
 
               let graduationLink = document.createElement("a");
@@ -49,15 +50,18 @@ import { escapeHtml,escapeUrl } from "../../../escapeHtml";
               universityDiv.textContent = `${getLang?.("Univ")}`;
               universityInfo.classList.add("education_row");
               universityInfo.appendChild(universityDiv);
-              universityInfo.appendChild(universityLink);
+              eduRowInner.classList.add("education_row_inner");
+              universityLink.style.display = "inline";
+              eduRowInner.append(universityLink);
               if (graduationYearText !== "") {
-                universityInfo.appendChild(graduationLink);
+                eduRowInner.append(graduationLink);
               }
+              universityInfo.append(eduRowInner);
             }
             // Факультет
             if (edu.faculty_name) {
               let facultyLink = document.createElement("a");
-              facultyLink.href = `/search/people?c[name]=0&c[uni_country]=1&c[uni_city]=153&c[university]=${edu.university}&c[faculty]=${edu.faculty}`;
+              facultyLink.href = `/search/people?c[name]=0&c[uni_country]=${edu.country}&c[uni_city]=${edu.city}&c[university]=${edu.id}&c[faculty]=${edu.faculty}`;
               facultyLink.textContent = edu.faculty_name;
               facultyLink.classList.add(
                 "vkuiLink",
