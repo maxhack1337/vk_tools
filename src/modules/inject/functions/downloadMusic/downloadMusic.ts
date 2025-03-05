@@ -8,7 +8,7 @@ const downloadMusic = () => {
         { existing: true },
         async function (e) {
             let x: any = getSuperAudioPropsMin(e.querySelector('[class^="vkitAudioRow__actions"] > div')!);
-            let key = x.props.children.props.track.myMusic.identity;
+            let key = x;
             let access = key.accessKey ? '_' + key.accessKey : '';
             let subKey = key.ownerId + '_' + key.id + access;
             let pListID;
