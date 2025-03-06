@@ -106,8 +106,18 @@ const getOldAttachStyle = () => {
         color: var(--vkui--vkontakte_color_text_name);
     }
 
+    .im_msg_audiomsg:has(.audio-msg-track--transcript_on) .im_msg_audiomsg--transcript {
+        display:block !important;
+    }
+    .audio-msg-track {
+        display: flex;
+        height: 36px;
+    }
+
+    .audio-msg-track--transcriptToggle {
+        margin: 2px 6px 2px -14px;
+    }
     .post_author .page_verified {
-        display: block !important;
         background: url(data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D%220%200%2012%2012%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22m2.25%206.75%202.25%202.25%205.25-5.25%22%20fill%3D%22none%22%20stroke%3D%22%235c9ce6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E)no-repeat 0 center;
         margin-right: 2px;
     }

@@ -8,12 +8,20 @@ const oldAttaches = () => {
     if (getLocalValue("oldMessengerAttaches") === true) {
         createStyle('oldAttachesMessengerStyle', getOldAttachStyle());
 
+        document.arrive('.audio-msg-track--transcriptToggle', { existing: true }, (e) => {
+            let el = e as HTMLElement;
+            el.addEventListener('click', (m: MouseEvent) => {
+                m.stopPropagation();
+                m.preventDefault();
+            })
+        });
+
         document.arrive('.ConvoStack__content .VirtualScrollItem[data-itemkey]', { existing: true }, async (e) => {
             let attaches = e.querySelector('.Attachments') as HTMLElement;
             let gift = e.querySelector('.AttachGift') as HTMLElement;
             let fwd = e.querySelector('.ForwardedMessagesList') as HTMLElement;
             if (gift || attaches || fwd) {
-                await stManager.add(['page.css', 'post.css', 'im.css', 'common.css', window.jsc("web/imn.js")]);
+                await stManager.add(['page.css', 'post.css', 'im.css', 'common.css', 'notifier.css', window.jsc("web/imn.js")]);
                 let memoizedPeer = getPeerProps(document.querySelector('.ConvoHeader')!).peer.id;
                 let getMessageByCmid = await vkApi.api('messages.getById', { cmids: e.getAttribute('data-itemkey'), peer_id: memoizedPeer });
                 let msgId = getMessageByCmid.items[0].id;
