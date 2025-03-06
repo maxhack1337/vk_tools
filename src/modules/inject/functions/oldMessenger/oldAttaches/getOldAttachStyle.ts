@@ -2,6 +2,15 @@ const getOldAttachStyle = () => {
     return `
         
 .VKCOMMessenger__integrationRoot {
+    .media_desc:has(>a[onclick^="return showWiki({w: 'wall"]) {
+        padding-top: 0px!important;
+    }
+    .media_desc.im-mess--inline-fwd {
+        padding-top: 8px;
+    }
+    .media_desc:not(.im-mess--inline-fwd) {
+        padding-top: 14px; 
+    }
     .Attachments {
         margin-bottom: 12px;
     }
@@ -160,7 +169,7 @@ const getOldAttachStyle = () => {
         margin: 0 5px 5px 0;
     }
 
-    .im_msg_media_wall {
+    .im_msg_media_wall:has(>.post) {
         border-left: 2px solid var(--vkui--vkontakte_color_im_forward_line_alpha);
     }
 
