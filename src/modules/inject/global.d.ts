@@ -3,6 +3,7 @@ interface VKEnh {
 	showSnackbar?: any;
 	createBanner?: any;
 	createTT?: any;
+	profileHashes?: any;
 }
 
 interface URL {

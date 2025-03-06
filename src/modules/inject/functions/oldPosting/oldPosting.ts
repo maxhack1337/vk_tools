@@ -63,7 +63,8 @@ const oldPosting = () => {
 
         deferredCallback(
             async (_wall: any) => {
-	            let module = "web/page.js";
+                let module = "web/page.js";
+                if(!vk.stExcludedMasks) vk.stExcludedMasks = ["loader_nav", "lang", "sw/"];
                 await window.stManager.add([window.jsc(module)]);
             },
             { variable: "stManager" }

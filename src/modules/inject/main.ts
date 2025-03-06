@@ -49,6 +49,7 @@ import listenWall from "./functions/oldPosting/listenWall";
 import tooltip from "./components/tooltip/tooltip";
 import showForwardBox from "./showForwardBox";
 import oldAttaches from "./functions/oldMessenger/oldAttaches/oldAttaches";
+import searchHashes from "./searchHashes";
 
 let debugMode = false;
 
@@ -171,6 +172,7 @@ window.urls = null;
 if (!window.vkenh) {
 	window.vkenh = {};
 }
+window.vkenh.profileHashes = {}
 window.vkenh.showSnackbar = showSnackbar;
 window.vkenh.createBanner = banner;
 window.vkenh.createTT = tooltip;
@@ -497,6 +499,12 @@ deferredCallback(
 			const t = orig_ajax.apply(this, e);
 			return t;
 		};
+		let orig_ajax2 = ajax.frame.finalize;
+		ajax.frame.finalize = function (...e: any) {
+			window.vkenh.profileHashes = searchHashes(e[0]);
+			const t = orig_ajax2.apply(this, e);
+			return t;
+		}
 	},
 	{ variable: "ajax" }
 );

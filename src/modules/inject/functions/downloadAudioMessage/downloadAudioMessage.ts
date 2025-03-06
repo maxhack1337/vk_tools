@@ -1,5 +1,6 @@
 import fromId from "../../../content/fromId";
 import create from "../../create";
+import createStyle from "../classicalProfile/scripts/createStyle";
 import getAudioId from "./getAudioId";
 import getLink from "./getLink";
 
@@ -7,9 +8,13 @@ const downloadAudioMessage = () => {
 
   document.arrive('.audio-msg-track', { existing: true }, (e) => {
     let link = e.hasAttribute('data-mp3') ? e.getAttribute('data-mp3') : e.getAttribute('data-ogg');
-
+    createStyle('downloadBHover', `
+      .audio-msg-track--download:hover {
+        background: rgba(143,173,200,.5) !important;
+      }
+    `);
     let downloadButton = document.createElement('button');
-    downloadButton.classList.add('.audio-msg-track--download');
+    downloadButton.classList.add('audio-msg-track--download');
     downloadButton.style.cssText = `
           display: flex;
           flex-shrink: 0;

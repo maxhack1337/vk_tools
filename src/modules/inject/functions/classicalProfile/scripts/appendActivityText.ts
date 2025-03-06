@@ -11,6 +11,7 @@ import refreshLocForMini from "./refreshLocForMini";
 
       const appendActivityText = (activityText: string | null) => {
         getIdAntiAsync().then((objectId) => {
+          let photoHashEdit = false;
           let broadcast = document.querySelector(".ProfileInfo__broadcast");
           if (!broadcast) {
             if (vk.id !== objectId) {
@@ -127,6 +128,8 @@ import refreshLocForMini from "./refreshLocForMini";
               deferredCallback(
                 () => {
                   try {
+                    photoHashEdit = getPhotoEditHash();
+                    if(!photoHashEdit) photoHashEdit = vkenh.profileHashes ? vkenh.profileHashes.avatarEdit : false
                     ownerPhotoWrap.innerHTML =
                       `<div class="owner_photo_top_bubble_wrap"> <div class="owner_photo_top_bubble"> <div class="ui_thumb_x_button" onclick="showFastBox(getLang('global_warning'), getLang('profile_really_delete_photo'), getLang('global_delete'),()=>{ vkApi.api('users.get',{fields:'photo_id'}).then(e=>{ vkApi.api('photos.delete',{owner_id:` +
                       vk.id +
@@ -169,7 +172,7 @@ import refreshLocForMini from "./refreshLocForMini";
                       `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" data-task-click="Page/owner_edit_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` +
                       vk.id +
                       `,&quot;hash&quot;:&quot;` +
-                      getPhotoEditHash() +
+                      photoHashEdit +
                       `&quot;}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` +
                       getLang?.("profile_edit_small_copy") +
                       `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_effects" onclick="Page.ownerPhotoEffects('` +
@@ -204,7 +207,7 @@ import refreshLocForMini from "./refreshLocForMini";
                     styleElement.id = "vkenNoAva";
                     styleElement.innerHTML = `.owner_photo_bubble_wrap:has(>.owner_photo_bubble>.owner_photo_no_ava){margin-top:-35px;height:36px;}`;
                   }
-                  if (!getPhotoEditHash()) {
+                  if (!photoHashEdit) {
                     console.info(
                       "[VK Tools] Failed to parse PhotoEditHash. Location will be rebooted if you try to edit photo"
                     );
