@@ -21,7 +21,8 @@ const keys = [
     "isMessageTextUp",
     "feedOldPosts",
     "oldClubs",
-    "oldMessengerDes"
+    "oldMessengerDes",
+    "oldMessengerAttaches"
 ];
 
 const resetFunctionsOnInstall = () => {

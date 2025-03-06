@@ -314,7 +314,7 @@ const getOldDialogsStyle = () => {
         box-shadow: none;
         border: 1px solid var(--vkui--color_field_border_alpha);
         width: 88%;
-        margin-left: 32px;
+        margin-left: 0px;
     }
     .DropdownReforged:has(.ConvoComposer__buttonIcon--submit),
     .DropdownReforged:has(.ConvoComposer__buttonIcon--postponed),

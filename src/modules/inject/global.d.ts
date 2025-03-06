@@ -199,6 +199,8 @@ declare global {
 	var post_field: any;
 	var shuffle: any;
 	var colorScheme: any;
+	var showForwardBox: any;
+	var showBox: any;
 
     
 	namespace NodeJS {
