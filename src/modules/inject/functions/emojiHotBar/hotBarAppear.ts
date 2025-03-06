@@ -1,5 +1,15 @@
 import fromId from "../../../content/fromId";
+import tooltip from "../../components/tooltip/tooltip";
 import create from "../../create";
+import hotBarRebootLang from "./hotBarRebootLang";
+
+let rebootText = ''
+if (typeof vk !== 'undefined') {
+  rebootText = hotBarRebootLang(vk?.lang || 0);
+} else {
+  rebootText = hotBarRebootLang(0);
+}
+
 
 const hotBarAppear = (cHotBarValue: string[]) => {
   if (!cHotBarValue) return;
@@ -64,11 +74,11 @@ const hotBarAppear = (cHotBarValue: string[]) => {
       aElement.addEventListener("mouseout", () => {
         aElement.style.background = "none";
         aElement.style.borderRadius = "0";
-      }); 
-	  aElement.addEventListener(
+      });
+      aElement.addEventListener(
         "click",
         function () {
-          const emojiCodeAdd = emojiCode; 
+          const emojiCodeAdd = emojiCode;
           const textmoji = aElement.getAttribute("textmoji");
           const imgElement = document.createElement("img");
           imgElement.className = "Emoji @" + emojiCodeAdd;
@@ -95,11 +105,12 @@ const hotBarAppear = (cHotBarValue: string[]) => {
       aElement.appendChild(imgElement);
       hotbarDiv.appendChild(aElement);
     }
+
     const rebootHotbar = create(
       "a",
       {
         display: "inline-block",
-        position: "absolute",
+        position: "relative",
         padding: "5px 8px",
         marginRight: "1px",
         cursor: "pointer",
@@ -108,41 +119,7 @@ const hotBarAppear = (cHotBarValue: string[]) => {
       },
       { className: "emoji_id" }
     );
-    const tooltip = create(
-      "span",
-      {
-        display: "none",
-        position: "absolute",
-        backgroundColor: "var(--black_alpha72)",
-        borderRadius: "3px",
-        padding: "5px",
-        top: "-28.4219px",
-        left: "50%",
-        transform: "translate(-50%, 0)",
-        whiteSpace: "nowrap",
-        color: "#fff",
-        fontSize: "12.5px",
-        fontWeight: "400",
-        boxShadow: "0 1px 3px var(--transparent_black)",
-        zIndex: "11",
-        cursor: "default",
-        transition: "0.3s display",
-        fontFamily:
-          'var(--palette-vk-font,-apple-system,BlinkMacSystemFont,"Roboto","Helvetica Neue",Geneva,"Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai",arial,Tahoma,verdana,sans-serif)',
-      },
-      { innerText: "Обновить хотбар" }
-    );
-    rebootHotbar.appendChild(tooltip);
-    rebootHotbar.addEventListener("mouseover", () => {
-      rebootHotbar.style.background = "var(--vkui--color_transparent--active)";
-      rebootHotbar.style.borderRadius = "3px";
-      tooltip.style.display = "block";
-    });
-    rebootHotbar.addEventListener("mouseout", () => {
-      rebootHotbar.style.background = "none";
-      rebootHotbar.style.borderRadius = "0";
-      tooltip.style.display = "none";
-    });
+
     const imgElementReboot = create(
       "img",
       { scale: "0.75" },
@@ -153,16 +130,54 @@ const hotBarAppear = (cHotBarValue: string[]) => {
       }
     );
     rebootHotbar.appendChild(imgElementReboot);
+
     hotbarDiv.appendChild(rebootHotbar);
+
     rebootHotbar.addEventListener("click", function () {
       fromId("vkenhancerEmojiHotbarID")?.remove();
+      const tooltipElement = document.querySelector('.vkToolsTooltipBase') as HTMLElement;
+      tooltipElement?.remove();
       hotBarAppear(globalThis.HotBarAppearVAL);
       return;
     });
+
     try {
       chatInputContainer[0].appendChild(hotbarDiv);
-    } catch (error) {}
+
+      rebootHotbar.addEventListener("mouseenter", () => {
+        const tooltipText = rebootText;
+        const tooltipElement = tooltip({
+          style: 'black',
+          elem: rebootHotbar,
+          text: tooltipText,
+        });
+        document.body.appendChild(tooltipElement);
+        rebootHotbar.style.background = "var(--vkui--color_transparent--active)";
+        rebootHotbar.style.borderRadius = "3px";
+        tooltipElement.style.transform = "scale(0)";
+        tooltipElement.style.opacity = "0";
+        tooltipElement.style.visibility = "visible";
+        setTimeout(() => {
+          tooltipElement.style.transform = "scale(1)";
+          tooltipElement.style.opacity = "1";
+        }, 10);
+      });
+
+      rebootHotbar.addEventListener("mouseleave", () => {
+        rebootHotbar.style.background = "none";
+        rebootHotbar.style.borderRadius = "0";
+        const tooltipElement = document.querySelector('.vkToolsTooltipBase') as HTMLElement;
+        tooltipElement.style.transform = "scale(0)";
+        tooltipElement.style.opacity = "0";
+        setTimeout(() => {
+          if (document.querySelector('.vkToolsTooltipBase')) {
+            document.querySelector('.vkToolsTooltipBase')?.remove();
+          }
+        }, 100);
+      });
+    } catch (error) { }
   }
 }
+
 
 export default hotBarAppear;

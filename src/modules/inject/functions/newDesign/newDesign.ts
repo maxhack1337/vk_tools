@@ -1,3 +1,4 @@
+import createStyle from "../classicalProfile/scripts/createStyle";
 import waitMECommon from "../listeners/waitMECommon";
 import listenVK from "../oldPosting/listenVK";
 
@@ -24,6 +25,15 @@ const newDesignFunctions = [
 ];
 
 const newDesign = () => {
+  createStyle('ActionHover', `
+    .VKCOMMessenger__reforgedModalRoot .ActionsMenuAction:not(:disabled):hover {
+        background-color: var(--vkui--color_transparent--hover)!important;
+    }
+    .VKCOMMessenger__reforgedModalRoot .ActionsMenuAction--focused:not(:disabled) {
+        background-color: var(--vkui--color_background_content);
+    }
+}  
+  `);
   localStorage.setItem("isNewDesign", 'true');
   listenVK(() => {
     if (!window.vk?.pe) return;

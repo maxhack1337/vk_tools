@@ -2,6 +2,7 @@ interface VKEnh {
 	setEnglishMusic?: number;
 	showSnackbar?: any;
 	createBanner?: any;
+	createTT?: any;
 }
 
 interface URL {
@@ -197,6 +198,7 @@ declare global {
 	var curNotifier: any;
 	var post_field: any;
 	var shuffle: any;
+	var colorScheme: any;
 
     
 	namespace NodeJS {

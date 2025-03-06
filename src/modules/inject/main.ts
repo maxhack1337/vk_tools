@@ -46,6 +46,7 @@ import banner from "./components/banner/banner";
 import createVkToolsBanners from "./functions/createVkToolsBanners/createVkToolsBanners";
 import posters from "./functions/posters/posters";
 import listenWall from "./functions/oldPosting/listenWall";
+import tooltip from "./components/tooltip/tooltip";
 
 let debugMode = false;
 
@@ -170,6 +171,7 @@ if (!window.vkenh) {
 }
 window.vkenh.showSnackbar = showSnackbar;
 window.vkenh.createBanner = banner;
+window.vkenh.createTT = tooltip;
 window.vkenh.setEnglishMusic = 0;
 
 convert(document);
