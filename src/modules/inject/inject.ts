@@ -3,14 +3,13 @@ const injectScript = (src: string) => {
 		return false;
 	}
 
-	const script = document.createElement('script');
+	const script = document.createElement("script");
 	script.src = src;
 	script.onload = () => {
 		script.remove();
 	};
 
 	(document.body || document.documentElement).appendChild(script);
-
 	return script;
 };
 
