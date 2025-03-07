@@ -2,6 +2,11 @@ import getEndStoryLang from "./getEndStoryLang";
 
 const getOldDialogsStyle = () => {
     return `
+        .newComposerVKTools {
+            display: flex;
+            width: 100%;
+            align-items: flex-end;
+        }
         .vkToolsBack {
             display: flex;
             color: var(--steel_gray_400);
@@ -244,8 +249,14 @@ const getOldDialogsStyle = () => {
         display:none;
     }
     .ConvoMain__composerWrapper .ConvoComposer__button:has(.vkuiIcon--add_circle_outline_24) {
+        margin-bottom: 2px !important;
+        margin-right: 4px !important;
         scale:.96;
         background:url('data:image/svg+xml;charset=utf-8,%3Csvg%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cpath%20d%3D%22m0%200h24v24h-24z%22%2F%3E%3Cpath%20d%3D%22m20.0291094%2015.0279907-5.384726%205.2303888c-2.5877049%202.513536-6.71408829%202.4838066-9.26530792-.0667538-2.6116233-2.6109485-2.61217034-6.8446794-.00122186-9.4563027.00760974-.0076117.01523784-.015205.02288425-.0227799l8.06657363-7.99110563c1.7601202-1.7436532%204.6004898-1.73030402%206.344143.02981623.0091252.00921136.0182104.01846224.0272554.02775238%201.7500823%201.79751906%201.7306631%204.66777042-.0435807%206.44144506l-8.1308667%208.12825806c-.8479169.8476448-2.20023168.9147308-3.12787932.1551687l-.1337127-.1094846c-.8947528-.7326277-1.02618115-2.0518803-.29355343-2.9466331.03855837-.047091.0791516-.0924786.12166404-.1360332l5.46733261-5.60136864%22%20stroke%3D%22%23828a99%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke-width%3D%221.8%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E') no-repeat 8px;
+    }
+
+    .ConvoComposer__button {
+        margin: 0 0 4px 4px !important;
     }
     
     .ConvoMain__composerWrapper .ConvoComposer__button:has(.vkuiIcon--add_circle_outline_24)  svg {
@@ -313,27 +324,7 @@ const getOldDialogsStyle = () => {
         border-radius: 6px;
         box-shadow: none;
         border: 1px solid var(--vkui--color_field_border_alpha);
-        width: 88%;
-        margin-left: 0px;
-    }
-    .DropdownReforged:has(.ConvoComposer__buttonIcon--submit),
-    .DropdownReforged:has(.ConvoComposer__buttonIcon--postponed),
-    .DropdownReforged:has(.ConvoComposer__buttonIcon--mic),
-    .DropdownReforged:has(.ConvoComposer__buttonIcon--delete),
-    .DropdownReforged:has(.ConvoComposer__buttonIcon--edit),
-    .DropdownReforged:has(.ConvoComposer__buttonIcon--loading),
-    .DropdownReforged:has(.ConvoComposer__buttonIcon--limit)
-    {
-        position:absolute;
-        right: -42px;
-        margin: 0;
-        bottom: -3px;
-    }
-    
-    .DropdownReforged:has(.ConvoComposer__button .vkuiIcon--add_circle_outline_24) {
-        position:absolute;
-        left: -42px;
-        bottom: -4px;
+        margin-top: 4px;
     }
     .ConvoComposer__inputPlaceholder {
         padding: 6px 0;

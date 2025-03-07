@@ -6,6 +6,20 @@ import getSwitchInterface from "./getSwitchInterface";
 const oldMessenger = () => {
 	if (getLocalValue("oldMessengerDes") === true) {
 		createStyle("oldDialogs", getOldDialogsStyle());
+
+		document.arrive('.ConvoMain__composerContent', { existing: true }, (e) => {
+			let compApp = e.closest('.ConvoMain__composer');
+
+			let newComposerDiv = document.createElement('div');
+			newComposerDiv.classList.add('newComposerVKTools');
+			compApp?.prepend(newComposerDiv);
+
+			let picker = e.querySelector('.DropdownReforged:has(.ConvoComposer__button .vkuiIcon--add_circle_outline_24)') as HTMLElement;
+			let onMessageButton = e.querySelector('.DropdownReforged:has(.ConvoComposer__buttonIcon--submit)') as HTMLElement;
+
+			newComposerDiv.append(picker,e,onMessageButton)
+		})
+
 		document.arrive(".ConvoMessageInfoWithoutBubbles", { existing: true }, function (e) {
 			let time = e as HTMLDivElement;
 			let messageAuthorLink = time
