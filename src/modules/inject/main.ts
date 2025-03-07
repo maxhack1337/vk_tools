@@ -50,6 +50,7 @@ import tooltip from "./components/tooltip/tooltip";
 import showForwardBox from "./showForwardBox";
 import oldAttaches from "./functions/oldMessenger/oldAttaches/oldAttaches";
 import searchHashes from "./searchHashes";
+import extractPeerId from "./functions/oldMessenger/oldAttaches/extractPeerId";
 
 let debugMode = false;
 
@@ -178,6 +179,8 @@ window.vkenh.createBanner = banner;
 window.vkenh.createTT = tooltip;
 window.vkenh.setEnglishMusic = 0;
 window.showForwardBox = showForwardBox;
+window.vkenh.messagesHistory = []
+window.vkenh.messagesDiff = {}
 
 convert(document);
 document.arrive(".ComposerInput__input", { existing: true }, function (e) {
@@ -266,7 +269,7 @@ deferredCallback(
 		MECommonContext.then((e) => {
 			let j = e.browserEnv.api.fetch;
 
-			e.browserEnv.api.fetch = function (method: string, params: any, ...args: any[]) {
+			e.browserEnv.api.fetch = async function (method: string, params: any, ...args: any[]) {
 				if (method === "messages.send") {
 					params.message = replaceEmojisWithImages(params.message);
 				}
@@ -281,7 +284,30 @@ deferredCallback(
 				if (method === "messages.setActivity" && getLocalValue("nepisalkaValue")) {
 					return new Promise(() => {});
 				}
-				return j.apply(this, [method, params, ...args]);
+				let response = await j.apply(this, [method, params, ...args]);
+				if (method === "messages.getHistory" && getLocalValue("oldMessengerAttaches")) {
+					let i = Object.keys(window.vkenh.messagesHistory).length || 0;
+					window.vkenh.messagesHistory[i] = {
+							'peer_id': 	response.items[0].peer_id,
+							'messages': response.items
+						}
+				}
+
+
+				if (method === "messages.getDiffContent" && getLocalValue("oldMessengerAttaches")) {
+					let cmidsToID:any = [];
+					let i = 0;
+					response.items.forEach((item: any) => {
+						cmidsToID[i] = {
+							'peer_id': item.peer_id,
+							'messages': item.messages
+						}
+						i++;
+					});
+					window.vkenh.messagesDiff = cmidsToID;
+				}
+			
+				return Promise.resolve(response);
 			};
 		});
 	},

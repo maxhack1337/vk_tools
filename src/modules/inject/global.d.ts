@@ -4,6 +4,8 @@ interface VKEnh {
 	createBanner?: any;
 	createTT?: any;
 	profileHashes?: any;
+	messagesHistory?: any;
+	messagesDiff?: any;
 }
 
 interface URL {

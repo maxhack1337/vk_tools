@@ -8,21 +8,45 @@ const onAddMessage = async (message: HTMLElement) => {
             let fwd = message.querySelector('.ForwardedMessagesList') as HTMLElement;
             let story = message.querySelector('.AttachStory') as HTMLElement;
             if (gift || attaches || fwd || story) {
-                let memoizedPeer;
+                let memoizedPeer: number;
                 try {
                     memoizedPeer = getPeerProps(document.querySelector('.ConvoHeader')!).peer.id;
                 } catch (e) {
-                    memoizedPeer = extractPeerId(window.location.href);
+                    memoizedPeer = extractPeerId(window.location.href) || 1;
                 }
-                let getMessageByCmid = await vkApi.api('messages.getById', { cmids: message.getAttribute('data-itemkey'), peer_id: memoizedPeer });
-                let msgId = getMessageByCmid.items[0].id;
+                let diff = window.vkenh.messagesDiff;
+                let history = window.vkenh.messagesHistory;
 
+                let findCurrMessagesFromPeerDiff = diff.length > 0 ? diff.find((item: any) => item.peer_id === memoizedPeer).messages : null;
+                let findCurrMessagesFromPeerHistory = history.length > 0 ? history.filter((item:any) => item.peer_id === memoizedPeer) : null;
+
+                if (findCurrMessagesFromPeerHistory) {
+                    let combinedMessages = findCurrMessagesFromPeerHistory.reduce((acc:any, curr:any) => {
+                        return acc.concat(curr.messages);
+                    }, []);
+
+                    findCurrMessagesFromPeerHistory = combinedMessages;
+                }
+
+                let cmidsToIdsObj:any = {}
+                if (findCurrMessagesFromPeerDiff) {
+                    findCurrMessagesFromPeerDiff.forEach((message: any) => {
+                        cmidsToIdsObj[message.conversation_message_id] = message.id;
+                    });
+                }
+                if (findCurrMessagesFromPeerHistory) {
+                    findCurrMessagesFromPeerHistory.forEach((message: any) => {
+                        cmidsToIdsObj[message.conversation_message_id] = message.id;
+                    });
+                }
+
+                let cmidCur = message.getAttribute('data-itemkey') || '';
                 let outerDiv = document.createElement('div');
                 outerDiv.className = 'vkToolsBrowseAllImages';
                 ajax.post("al_im.php", {
                     act: 'a_get_media',
                     al: 1,
-                    id: msgId,
+                    id: cmidsToIdsObj[cmidCur],
                     im_v: 3
                 },
                     {
