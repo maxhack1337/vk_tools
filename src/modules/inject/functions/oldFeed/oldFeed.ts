@@ -429,6 +429,26 @@ const oldFeed = () => {
                         }
                     });
                 }
+
+                if ((e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]') || e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]')) && dataRepostAttachments.item.attachments) {
+                    let allLinks = e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]');
+                    if (!allLinks) {
+                        allLinks = e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]');
+                    }
+                    dataRepostAttachments.item.attachments.forEach(async function(linkFull: any) {
+                        if (linkFull.link && linkFull.style === "full") {
+                            let linkCurrent = linkFull.link;
+                            let primaryAttachLink = document.createElement('div');
+                            primaryAttachLink.classList.add('vkuiDiv', 'vkuiRootComponent');
+                            if (linkCurrent.photo) {
+                                primaryAttachLink.style.padding = "0px 20px";
+                                primaryAttachLink.append(linkPrimatyAttachmentWithImage(linkCurrent));
+                            }
+                            allLinks?.closest('[class^="PostContentContainer__contentContainer"]')?.appendChild(primaryAttachLink);
+                            allLinks?.closest('[class^="vkitSnippetAttachment__root"]')?.remove();
+                        }
+                    });
+                }
                 //Статьи
                 if (e.querySelector('[class^="vkitSnippetAttachment__root"]:not(:has(.vkuiIcon--delete_outline_56))') && dataAttachments.item.attachments) {
                     let articleSetClosest = e.querySelector('.vkuiDiv [class^="vkitSnippetAttachment__root"]');
