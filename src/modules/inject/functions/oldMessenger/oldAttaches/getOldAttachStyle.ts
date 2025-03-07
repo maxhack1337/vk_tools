@@ -2,15 +2,53 @@ const getOldAttachStyle = () => {
     return `
         
 .VKCOMMessenger__integrationRoot {
+    .im-mess--inline-fwd * {
+        box-sizing: initial !important;
+    }
+
+    .im-vktools-custom * {
+        box-sizing: initial !important;   
+    }
+
+    .GiftSnippetContent__message {
+        display: flex;
+        justify-content: center;
+    }
+    .GiftSnippetContent__buttonBar {
+        display: flex;
+        flex-direction: column;
+    }
+    .im_msg_media_poll {
+        width: 387px !important;
+    }
+    .media_voting_footer {
+        box-sizing: initial !important;
+    }
+    .article_snippet {
+        width: 387px !important;
+    }
+    .page_gif_actions > div[class^="page_gif"] {
+        box-sizing: initial !important;
+    }
+    .im-mess-stack.im-mess-stack_fwd .im-mess-stack--mess li:last-of-type {
+        margin-bottom: 4px;
+    }
+
+    .audio-msg-track--wave path {
+        stroke-linejoin: round;
+        stroke-linecap: round;
+        stroke-width: 2px;
+        fill: none;
+        stroke: var(--vkui--color_icon_accent);
+    }
+    .Attachments:has(>.im_msg_media_audio_message), .Attachments:has(>.post_media_audio) {
+        margin-bottom: 0px;
+    }
+
     .media_desc:has(>a[onclick^="return showWiki({w: 'wall"]) {
         padding-top: 0px!important;
     }
-    .media_desc.im-mess--inline-fwd {
-        padding-top: 8px;
-    }
-    .media_desc:not(.im-mess--inline-fwd) {
-        padding-top: 14px; 
-    }
+
     .Attachments {
         margin-bottom: 12px;
     }
@@ -109,10 +147,6 @@ const getOldAttachStyle = () => {
     .im_msg_audiomsg:has(.audio-msg-track--transcript_on) .im_msg_audiomsg--transcript {
         display:block !important;
     }
-    .audio-msg-track {
-        display: flex;
-        height: 36px;
-    }
 
     .audio-msg-track--transcriptToggle {
         margin: 2px 6px 2px -14px;
@@ -176,10 +210,10 @@ const getOldAttachStyle = () => {
         display: block;
         overflow: hidden;
         position: relative;
-        margin: 0 5px 5px 0;
+        /*margin: 0 5px 5px 0;*/
     }
 
-    .im_msg_media_wall:has(>.post) {
+    .im_msg_media_wall:has(>.post), .im_msg_media_wall_reply:has(>.post) {
         border-left: 2px solid var(--vkui--vkontakte_color_im_forward_line_alpha);
     }
 
@@ -224,13 +258,33 @@ const getOldAttachStyle = () => {
         max-width: 100%;
     }
 
-
     .PostCopyQuote--redesignV3 .CopyPost__author,
     .PostCopyQuote--redesignV3 .CopyPost__authorLink {
         color: var(--vkui--color_text_link) !important;
         font-size: 13px !important;
         font-weight: 500 !important;
         line-height: 16px !important;
+    }
+    
+    .im_srv_lnk_light._fc_call_link {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+        background: var(--vkui--vkontakte_color_snippet_background);
+        border: 1px solid var(--vkui--vkontakte_color_snippet_border_alpha);
+        border-radius: 4px;
+        color: var(--vkui--color_text_primary);
+        font-size: 12.5px;
+        line-height: 16px;
+        font-weight: 500;
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+    .im_srv_lnk_light._fc_call_link:before {
+        background: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='phone_24__Page-2' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='phone_24__phone_24'%3E%3Cpath id='phone_24__Bounds' d='M0 0h24v24H0z'%3E%3C/path%3E%3Cpath d='M14.61 14.76a3.64 3.64 0 0 1 4.9-.29l1.03.86a2.8 2.8 0 0 1 .26 3.96 3.32 3.32 0 0 1-2.2 1.14c-3.27.44-6.7-1.14-10.3-4.73-3.6-3.6-5.17-7.04-4.73-10.3a3.25 3.25 0 0 1 1.14-2.2 2.8 2.8 0 0 1 3.95.26l.87 1.03a3.63 3.63 0 0 1-.29 4.9l-.73.73c-.2.2-.26.5-.17.75.27.73.95 1.65 2.05 2.74a8.6 8.6 0 0 0 2.74 2.05c.26.1.55.03.75-.17l.73-.73Z' id='phone_24__2x' fill='%23447bba'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E") no-repeat;
+        content: '';
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
     }
 }
 
