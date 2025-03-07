@@ -2,11 +2,6 @@ import getEndStoryLang from "./getEndStoryLang";
 
 const getOldDialogsStyle = () => {
     return `
-        .newComposerVKTools {
-            display: flex;
-            width: 100%;
-            align-items: flex-end;
-        }
         .vkToolsBack {
             display: flex;
             color: var(--steel_gray_400);
@@ -82,6 +77,19 @@ const getOldDialogsStyle = () => {
     .VKCOMMessenger__reforgedRoot {
         border-radius:0px!important;
         box-shadow:0 1px 0 0 var(--vkui--color_separator_primary), 0 0 0 1px var(--vkui--color_separator_primary)!important;
+        .DropdownReforged:has(.ConvoComposer__buttonIcon--submit){
+            position:absolute;
+            right:-45px;
+        }
+        .DropdownReforged:has(.ConvoComposer__button .vkuiIcon--add_circle_outline_24){
+            position:absolute;
+            left:-50px;
+        }
+        .ConvoMain__composerContent{
+            display:block;
+            margin:0 auto;
+            width:480px;
+        }
         .ConvoListItem:not(.ConvoListItem--selected)::after {
             content: '';
             border-bottom: 1px solid var(--vkui--color_separator_primary);
