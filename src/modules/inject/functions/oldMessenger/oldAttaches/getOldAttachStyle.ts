@@ -2,6 +2,10 @@ const getOldAttachStyle = () => {
     return `
         
 .VKCOMMessenger__integrationRoot {
+    .Attachments:not(.im-vktools-custom) {
+        display: none;
+    }
+
     .im-mess--inline-fwd * {
         box-sizing: initial !important;
     }
