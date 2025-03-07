@@ -2,6 +2,15 @@ const getOldAttachStyle = () => {
     return `
         
 .VKCOMMessenger__integrationRoot {
+    .wall_audio_rows {
+        margin: 5px -10px 0 0;
+    }
+    .audio_row {
+        max-width: 384px;
+    }
+    .audio_row .audio_player__place {
+        box-sizing: border-box!important;
+    }
     .Attachments:not(.im-vktools-custom) {
         display: none;
     }
