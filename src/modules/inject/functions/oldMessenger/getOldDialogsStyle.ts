@@ -160,7 +160,7 @@ const getOldDialogsStyle = () => {
         background-color:var(--vkui--color_background_secondary);
     }
     .ConvoHistory__messageBlock--withoutBubbles {
-        padding: 0 22px;
+        padding: 0 22px !important;
     }
     .ConvoHistory__messageWrapper--withoutBubbles .vkuiIcon--check_outline_16,.ConvoHistory__messageWrapper--withoutBubbles .vkuiIcon--check_double_outline_16 {
         display:none;
