@@ -1,5 +1,9 @@
 const getOldAttachStyle = () => {
     return `
+
+    .body_im #system_msg {
+        display:none !important;
+    }
         
 .VKCOMMessenger__integrationRoot {
     .wall_audio_rows {

@@ -16,16 +16,26 @@ const onAddMessage = async (message: HTMLElement) => {
                 }
                 let diff = window.vkenh.messagesDiff;
                 let history = window.vkenh.messagesHistory;
-
+                let sentMessages = window.vkenh.messagesSent;
+                    
                 let findCurrMessagesFromPeerDiff = diff.length > 0 ? diff.find((item: any) => item.peer_id === memoizedPeer).messages : null;
                 let findCurrMessagesFromPeerHistory = history.length > 0 ? history.filter((item:any) => item.peer_id === memoizedPeer) : null;
-
+                let findCurrMessagesFromPeerSent = sentMessages.length > 0 ? sentMessages.filter((item: any) => item.peer_id === memoizedPeer) : null;
+                
                 if (findCurrMessagesFromPeerHistory) {
                     let combinedMessages = findCurrMessagesFromPeerHistory.reduce((acc:any, curr:any) => {
                         return acc.concat(curr.messages);
                     }, []);
 
                     findCurrMessagesFromPeerHistory = combinedMessages;
+                }
+
+                if (findCurrMessagesFromPeerSent) {
+                    let combinedMessages = findCurrMessagesFromPeerSent.reduce((acc:any, curr:any) => {
+                        return acc.concat(curr.messages);
+                    }, []);
+
+                    findCurrMessagesFromPeerSent = combinedMessages;
                 }
 
                 let cmidsToIdsObj:any = {}
@@ -39,14 +49,26 @@ const onAddMessage = async (message: HTMLElement) => {
                         cmidsToIdsObj[message.conversation_message_id] = message.id;
                     });
                 }
+                if (findCurrMessagesFromPeerSent) {
+                    findCurrMessagesFromPeerSent.forEach((message: any) => {
+                        cmidsToIdsObj[message.cmid] = message.message_id;
+                    });
+                }
 
                 let cmidCur = message.getAttribute('data-itemkey') || '';
                 let outerDiv = document.createElement('div');
                 outerDiv.className = 'vkToolsBrowseAllImages';
+                let cmidToAjax = 0;
+                if (cmidsToIdsObj[cmidCur]) {
+                    cmidToAjax = cmidsToIdsObj[cmidCur];
+                } else {
+                    let vkApiAwaitMsgId = await vkApi.api('messages.getById', { cmids: message.getAttribute('data-itemkey'), peer_id: memoizedPeer });
+                    cmidToAjax = vkApiAwaitMsgId.items[0].id;
+                }
                 ajax.post("al_im.php", {
                     act: 'a_get_media',
                     al: 1,
-                    id: cmidsToIdsObj[cmidCur],
+                    id: cmidToAjax,
                     im_v: 3
                 },
                     {

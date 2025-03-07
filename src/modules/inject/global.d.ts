@@ -6,6 +6,7 @@ interface VKEnh {
 	profileHashes?: any;
 	messagesHistory?: any;
 	messagesDiff?: any;
+	messagesSent?: any;
 }
 
 interface URL {

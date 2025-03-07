@@ -179,8 +179,9 @@ window.vkenh.createBanner = banner;
 window.vkenh.createTT = tooltip;
 window.vkenh.setEnglishMusic = 0;
 window.showForwardBox = showForwardBox;
-window.vkenh.messagesHistory = []
-window.vkenh.messagesDiff = {}
+window.vkenh.messagesHistory = [];
+window.vkenh.messagesDiff = {};
+window.vkenh.messagesSent = [];
 
 convert(document);
 document.arrive(".ComposerInput__input", { existing: true }, function (e) {
@@ -306,7 +307,13 @@ deferredCallback(
 					});
 					window.vkenh.messagesDiff = cmidsToID;
 				}
-			
+				if (method === "messages.send" && getLocalValue("oldMessengerAttaches")) {
+					let i = Object.keys(window.vkenh.messagesSent).length || 0;
+					window.vkenh.messagesSent[i] = {
+							'peer_id': 	params.peer_id,
+							'messages': response
+					}
+				}
 				return Promise.resolve(response);
 			};
 		});
