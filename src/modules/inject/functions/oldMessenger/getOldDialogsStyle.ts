@@ -2,6 +2,9 @@ import getEndStoryLang from "./getEndStoryLang";
 
 const getOldDialogsStyle = () => {
     return `
+        .vkToolsActionMenu {
+            top: 36px !important;
+        }
         .vkToolsBack {
             display: flex;
             color: var(--steel_gray_400);

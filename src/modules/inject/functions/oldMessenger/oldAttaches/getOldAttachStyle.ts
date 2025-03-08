@@ -1,30 +1,86 @@
 const getOldAttachStyle = () => {
     return `
-
     .body_im #system_msg {
         display:none !important;
     }
         
 .VKCOMMessenger__integrationRoot {
+    .page_media_thumbed_link {
+        display: block;
+        margin: 15px 0 5px;
+        padding: 0;
+        background-color: var(--vkui--vkontakte_color_snippet_background);
+        border: 1px solid var(--vkui--vkontakte_color_snippet_border_alpha);
+        border-radius: 2px;
+    }
+    
+    .share b, .poll b, .media_desc b {
+        background: url(/images/icons/mono_iconset.png?4) no-repeat left -236px;
+        width: 15px;
+        height: 11px;
+        margin-top: 4px;
+    }
+    .page_media_map {
+        width: 100%;
+    }
     .wall_audio_rows {
         margin: 5px -10px 0 0;
     }
-    .audio_row {
+    .audio_row, .audio_pl_snippet2 {
         max-width: 384px;
     }
-    .audio_row .audio_player__place {
-        box-sizing: border-box!important;
+    .MusicAuthorSnippet,.media_link.media_link--sized.media_link--photo, .MiniAppsSnippet {
+        width: 387px;
+    }
+
+    .media_link.media_link--sized.media_link--photo {
+        border: 1px solid var(--vkui--vkontakte_color_snippet_border_alpha);
+        .ads_ad_adaptive_button_content svg {
+            display: none;
+        }
+        
+        .ads_ad_adaptive_button_content_text {
+            margin: 8px;
+            padding: 7px 16px 8px;
+            font-size: 12.5px;
+            display: inline-block;
+            cursor: pointer;
+            white-space: nowrap;
+            outline: 0;
+            font-family: var(--palette-vk-font, -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Geneva, "Noto Sans Armenian", "Noto Sans Bengali", "Noto Sans Cherokee", "Noto Sans Devanagari", "Noto Sans Ethiopic", "Noto Sans Georgian", "Noto Sans Hebrew", "Noto Sans Kannada", "Noto Sans Khmer", "Noto Sans Lao", "Noto Sans Osmanya", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Thai", arial, Tahoma, verdana, sans-serif);
+            vertical-align: top;
+            line-height: 15px;
+            text-align: center;
+            text-decoration: none;
+            background: 0 0;
+            background-color: var(--vkui--color_background_accent_themed);
+            color: var(--vkui--color_text_contrast_themed);
+            border: 0;
+            border-radius: var(--vkui--size_border_radius--regular);
+            box-sizing: border-box;
+        }
     }
     .Attachments:not(.im-vktools-custom) {
         display: none;
+    }
+
+    .im_msg_media_artist *, .im_msg_media_podcast *, .im_msg_media_curator * {
+        box-sizing: border-box !important;
     }
 
     .im-mess--inline-fwd * {
         box-sizing: initial !important;
     }
 
-    .im-vktools-custom * {
+    .im-vktools-custom:not(:has(.im_msg_media_artist)):not(:has(.im_msg_media_podcast)):not(:has(.im_msg_media_curator)):not(:has(.audio_pl_snippet2)) * {
         box-sizing: initial !important;   
+    }
+
+    .audio_row .audio_player__place {
+        box-sizing: border-box!important;
+    }
+    .audio_pl_snippet2 *, .MusicAuthorSnippet * {
+        box-sizing: border-box!important;
     }
 
     .GiftSnippetContent__message {
@@ -100,6 +156,7 @@ const getOldAttachStyle = () => {
         margin-left: 7px;
         padding-bottom: 10px;
         padding-top: 8px;
+        max-width: 420px;
     }
 
     .post_image {

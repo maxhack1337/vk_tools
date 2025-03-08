@@ -7,7 +7,8 @@ const onAddMessage = async (message: HTMLElement) => {
             let gift = message.querySelector('.AttachGift') as HTMLElement;
             let fwd = message.querySelector('.ForwardedMessagesList') as HTMLElement;
             let story = message.querySelector('.AttachStory') as HTMLElement;
-            if (gift || attaches || fwd || story) {
+            let vidMsg = message.querySelector('.ConvoMessageWithoutBubble__videoMessage') as HTMLElement;
+            if (gift || attaches || fwd || story || vidMsg) {
                 let memoizedPeer: number;
                 try {
                     memoizedPeer = getPeerProps(document.querySelector('.ConvoHeader')!).peer.id;
@@ -18,7 +19,7 @@ const onAddMessage = async (message: HTMLElement) => {
                 let history = window.vkenh.messagesHistory;
                 let sentMessages = window.vkenh.messagesSent;
                     
-                let findCurrMessagesFromPeerDiff = diff.length > 0 ? diff.find((item: any) => item.peer_id === memoizedPeer).messages : null;
+                let findCurrMessagesFromPeerDiff = diff.length > 0 ? diff.find((item: any) => item.peer_id === memoizedPeer)?.messages : null;
                 let findCurrMessagesFromPeerHistory = history.length > 0 ? history.filter((item:any) => item.peer_id === memoizedPeer) : null;
                 let findCurrMessagesFromPeerSent = sentMessages.length > 0 ? sentMessages.filter((item: any) => item.peer_id === memoizedPeer) : null;
                 
@@ -76,7 +77,7 @@ const onAddMessage = async (message: HTMLElement) => {
                             try {
                                 outerDiv.innerHTML = response[1];
                                 if (attaches && fwd) {
-                                    attaches.classList.add('im-mess--text','im-vktools-custom');
+                                    attaches.classList.add('im-mess--text', 'im-vktools-custom');
                                     if (fwd.parentElement) {
                                         fwd.parentElement.style.display = 'none';
                                     }
@@ -87,11 +88,11 @@ const onAddMessage = async (message: HTMLElement) => {
                                     attaches.innerHTML = outerDiv.innerHTML;
                                 }
                                 else if (attaches) {
-                                    attaches.classList.add('im-mess--text','im-vktools-custom');
+                                    attaches.classList.add('im-mess--text', 'im-vktools-custom');
                                     addPreventDefaultListener(attaches);
                                     attaches.innerHTML = outerDiv.innerHTML;
                                 }
-                                else if (fwd) {                                    
+                                else if (fwd) {
                                     if (fwd.parentElement) {
                                         fwd.parentElement.classList.add('im-mess--text', 'im-vktools-custom');
                                         addPreventDefaultListener(fwd.parentElement);
@@ -110,6 +111,10 @@ const onAddMessage = async (message: HTMLElement) => {
                                 else if (story) {
                                     story.classList.add('im-vktools-custom');
                                     story.innerHTML = outerDiv.innerHTML;
+                                }
+                                else if (vidMsg) {
+                                    vidMsg.classList.add('im-vktools-custom');
+                                    vidMsg.innerHTML = outerDiv.innerHTML;
                                 }
                             } catch (error) {
                                 console.error("[VK Tools] Error parsing JSON or accessing payload:", error);

@@ -20,7 +20,7 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
 </svg>
 `;
   let ActionEnhancerMenu = document.createElement("div");
-  ActionEnhancerMenu.classList.add("ActionsMenu","ConvoMainActionsMenu");
+  ActionEnhancerMenu.classList.add("ActionsMenu","ConvoMainActionsMenu","vkToolsActionMenu");
   ActionEnhancerMenu.innerHTML = `<button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkEnUp">
   <i class="ActionsMenuAction__icon">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
