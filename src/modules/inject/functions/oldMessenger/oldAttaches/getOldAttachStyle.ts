@@ -1,5 +1,5 @@
 const getOldAttachStyle = () => {
-    return `
+	return `
     .body_im #system_msg {
         display:none !important;
     }
@@ -73,10 +73,10 @@ const getOldAttachStyle = () => {
     }
 
     .im-vktools-custom:not(:has(.im_msg_media_artist)):not(:has(.im_msg_media_podcast)):not(:has(.im_msg_media_curator)):not(:has(.audio_pl_snippet2)) * {
-        box-sizing: initial !important;   
+        box-sizing: initial;   
     }
 
-    .audio_row .audio_player__place {
+    .audio_row * {
         box-sizing: border-box!important;
     }
     .audio_pl_snippet2 *, .MusicAuthorSnippet * {
@@ -363,6 +363,6 @@ const getOldAttachStyle = () => {
 }
 
     `;
-}
+};
 
 export default getOldAttachStyle;
