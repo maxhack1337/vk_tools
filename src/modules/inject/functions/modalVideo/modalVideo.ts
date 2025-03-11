@@ -44,6 +44,23 @@ const modalVideo = () => {
 	window.showVideo('${videoId}','0',{autoplay: 1, queue: 0, listId: '', playlistId: '${pListId}'}, this);`)
         });
 
+        document.arrive(`[class^="vkitVideoCardThumb__thumb"][href^="/playlist"]`, { existing: true }, async function (e) {
+            let videoId;
+            let pListId;
+            try {
+                let hrefSplitted = e.getAttribute('href')?.split('/') 
+                pListId = hrefSplitted?.at(2);
+                videoId = hrefSplitted?.at(3)?.substr(5);
+            }
+            catch (error) {
+		
+            }
+            e.setAttribute('onclick', `
+	event.preventDefault();
+	event.stopPropagation();
+	window.showVideo('${videoId}','0',{autoplay: 1, queue: 0, listId: '', playlistId: '${pListId}'}, this);`)
+        });
+
         document.arrive(`[class^="vkitVideoCardLayout__card"]:has([class^="vkitVideoCardThumb__thumb"][href^="/video"])`, { existing: true }, async function (e) {
             let videoLink;
             try {
