@@ -64,6 +64,12 @@ const oldFeed = () => {
                         if (postData.editInfo != null) {
                             xDataPost += `<br><span style="height:6px; display:block;"></span><b style="font-weight:500">${getLang?.('wall_post_author_data_editor_title')}</b><br><div style="display:flex"><a class="vkuiLink vkitLink__link--WXYoI vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__resetLinkStyle vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" href="${postData.editInfo.url}">${postData.editInfo.username}</a><div style="color: var(--vkui--color_text_secondary);">​ ​${postData.editInfo.time}</div></div>`;
                         }
+                        if (postData.date === 0 && postData.postRaw === "") {
+                            postData.postRaw = e.closest('.Post--redesignV3')?.hasAttribute('data-post-id') ? e.closest('.Post--redesignV3')?.getAttribute('data-post-id') : "";
+                            let postDateGetter = await vkApi.api('wall.getById', { posts: postData.postRaw });
+                            postData.date = postDateGetter.items?.at(0)?.date || 0;
+
+                        }
                         postDate.setAttribute('onmouseover', `showHint(this, { 
 				text: '${xDataPost}',
 				shift: [5, 7],
