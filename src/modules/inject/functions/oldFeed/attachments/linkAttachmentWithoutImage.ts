@@ -15,6 +15,10 @@ const linkAttachmentWithoutImage = (linkCurrent: any) => {
     let mailLinkSubtitle = document.createElement('span');
     mailLinkSubtitle.classList.add('mail_link__subtitle');
     mailLinkSubtitle.textContent = linkCurrent.url;
+    mailLinkSubtitle.style.display = 'block';
+    mailLinkSubtitle.style.width = '100%';
+    mailLinkSubtitle.style.overflow = 'hidden';
+    mailLinkSubtitle.style.textOverflow = 'ellipsis';
 
     mailLink.append(mailLinkTitle, mailLinkSubtitle);
     mediaDescLink.append(mailLink);
