@@ -254,6 +254,11 @@ body.classicProfile {
     .vkEnhFriendsOnline {
         border-top: 1px solid var(--vkui--color_separator_primary);
         border-radius: 0px !important;
+        padding-left: 17px !important;
+    }
+
+    .ProfileSubscriptions__item {
+        padding-left: 8px !important;
     }
 
     .ProfileVideosEnhancer>.vkuiDiv {

@@ -5,6 +5,7 @@ import {
 from "../../../escapeHtml";
 import getId from "../../middleName/getId";
 import getInterestingPagesLang from "./getInterestingPagesLang";
+import getPhotoAlbumLang from "./getPhotoAlbumLang";
 import getUserDataWithoutOnline from "./getUserDataWithoutOnline";
 import splitDuration from "./splitDuration";
 const profileGroup = () => {
@@ -41,9 +42,8 @@ const profileGroup = () => {
     <a href="/albums${userIDHereWeGoAgain}" data-allow-link-onclick-web="1" style="padding: 0 8px;" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
       <div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
         <div class="vkuiHeader__main">
-          <div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1"><span class="vkuiHeader__content-in"><div class="Header-module__content--F5x_X"><div class="TextClamp-module__singleLine--mRCrF">${getLang?.(
-            "profile_user_content_albums"
-          )}</div></div></span><span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${
+          <div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1"><span class="vkuiHeader__content-in"><div class="Header-module__content--F5x_X"><div class="TextClamp-module__singleLine--mRCrF">
+          ${getPhotoAlbumLang(vk.lang)}</div></div></span><span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${
           albumsGetter.count
         }</span></div>
         </div>
