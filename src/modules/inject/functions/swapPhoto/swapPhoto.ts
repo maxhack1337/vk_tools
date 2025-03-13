@@ -9,7 +9,7 @@ document.arrive("#pv_delete", { existing: true }, async function (e) {
   updateButton.style.marginRight = "8px";
   updateButton.style.marginTop = "-8px";
   updateButton.innerHTML = `<div class="vkEnhancerUpdateButton">
-	<a style="background-color:rgba(255, 255, 255, 0.04);color:white" class="Button-module__root--enpNU vkuiButton vkuiButton--size-m vkuiButton--mode-vkEnhancer vkuiButton--appearance-accent vkuiButton--align-center vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible">
+	<a style="text-decoration: none;border-radius: 8px;padding: 8px;display: flex;background-color:rgba(255, 255, 255, 0.04);color:white" class="Button-module__root--enpNU vkuiButton vkuiButton--size-m vkuiButton--mode-vkEnhancer vkuiButton--appearance-accent vkuiButton--align-center vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible">
 	<span class="vkuiButton__in"><span class="vkuiButton__content">${getLang?.(
     "global_notify_refresh"
   )}</span></span></a></div>
