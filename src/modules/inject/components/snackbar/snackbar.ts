@@ -108,7 +108,7 @@ const showSnackbar = async ({ text, subtitle, action, after, link, timeout, alig
         }
         if (onClick) {
             const actionEl = baloonWrapEl.querySelector('.notifier_snackbar_action');
-            actionEl?.setAttribute('click',onClick)
+            actionEl?.setAttribute('onclick',`event.preventDefault(); event.stopPropagation(); ${onClick}`)
         }
     },
         avatar_custom_content: icon && snackbarTypeIconMap[icon] ? snackbarTypeIconMap[icon] : '' 

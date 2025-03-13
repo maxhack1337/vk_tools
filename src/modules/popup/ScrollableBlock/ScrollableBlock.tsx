@@ -112,7 +112,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
         <CheckBox type={"checkBox"} label={getLang("reloadFunctionsButton")} isNew={false} isFire={false} id={"reloadFunctionsButton"} shouldReload={false} />,
         <EmojiHotBarBlock label={getLang("emojiHotbar")} placeholder={getLang("enterEmojiCodes")} buttonLabel={getLang("updateHotbar")} description={getLang("emojiHotbarDescription")} option={"emojiHotbar"} />,
         <CheckBox type={"checkBox"} label={getLang("newMessengerDesign")} isNew={false} isFire={false} id={"newMessengerDesign"} shouldReload={true} description={getLang("newMessengerDesignDescription")} />,
-        <CheckBox type={"checkBox"} label={getLang("oldMessengerAttaches")} isNew={true} isFire={true} id={"oldMessengerAttaches"} shouldReload={true} />,
+        <CheckBox type={"checkBox"} label={getLang("oldMessengerAttaches")} isNew={true} isFire={true} id={"oldMessengerAttaches"} shouldReload={true} description={getLang("oldMessenderAttachesDescription")} />,
         <CheckBox type={"checkBox"} label={getLang("oldMessengerDesign")} isNew={false} isFire={false} id={"oldMessengerDesign"} shouldReload={true} description={getLang("oldMessengerDesignDescription")} />,
       ];
       break;

@@ -1,10 +1,31 @@
+import showSnackbar from "../../components/snackbar/snackbar";
+import deferredCallback from "../../defferedCallback";
 import getLocalValue from "../../getLocalValue";
 import createStyle from "../classicalProfile/scripts/createStyle";
+import getEnableLinesLang from "./getEnableLinesLang";
 import getOldDialogsStyle from "./getOldDialogsStyle";
 import getSwitchInterface from "./getSwitchInterface";
+import { getUnsupportedLangOldM } from "./getUnsupportedLang";
 
 const oldMessenger = () => {
 	if (getLocalValue("oldMessengerDes") === true) {
+		deferredCallback(async () => {
+            vkApi.api('messages.getConfig', {}).then((e: any) => {
+                if (e.config.bubble_theme === true) {
+                    showSnackbar({
+                        text: getUnsupportedLangOldM(vk.lang),
+                        timeout: 10000,
+                        icon: 'warning',
+                        action: {
+                            label: getEnableLinesLang(vk.lang),
+                            href: ''
+                        },
+                        onClick: `vkApi.api('messages.setConfig',{config:'{"bubble_theme":0}'}); window.location.reload();`
+                    });
+                }
+            });
+        },
+        {variable:'curNotifier'})
 		createStyle("oldDialogs", getOldDialogsStyle());
 
 		document.arrive(".ConvoMessageInfoWithoutBubbles", { existing: true }, function (e) {

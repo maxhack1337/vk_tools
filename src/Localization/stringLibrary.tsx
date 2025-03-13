@@ -80,6 +80,7 @@ const strings = {
   oldMessengerDesign: ["Старый дизайн мессенджера", "Old messenger design", "Старий дизайн месенджера"],
   oldMessengerDesignDescription: ["Максимально приближённый к старому дизайн мессенджера", "The messenger design is as close to the old one as possible", "Максимально наближений до старого дизайну месенджера"],
   oldMessengerAttaches: ["Старый дизайн вложений", "Old attachments design", "Старий дизайн вкладень"],
+  oldMessenderAttachesDescription: ['Работает только с внешним видом сообщений "Строки"', 'Works only with the "Lines" message appearance', 'Працює тільки із зовнішнім виглядом повідомлень "Рядки"'],
   messagesDefaultTheme: ["Сохранение внешнего вида сообщений", "Preserving the appearance of messages", "Збереження зовнішнього вигляду повідомлень"],
   messagesDefaultThemeDescription: ['Внимание!<br>Не активируйте эту функцию, если вы используете вид сообщений "блоки"', 'Attention!<br>Do not activate this feature if you are using the "blocks" message view', 'Увага!<br>Не активуйте цю функцію, якщо ви використовуєте вигляд повідомлень "блоки"'],
   reloadFunctionsButton: ["Стандартный размер стикеров", "Standard size of stickers", "Стандартний розмір стікерів"],
