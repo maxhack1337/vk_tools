@@ -27,6 +27,10 @@ const downloadAlbum = () => {
     overflow: hidden;
 }
 
+.vkEnhancerDownloadAlbumButton:hover {
+    opacity: .95;
+}
+
 .pBarVkEnhAlbum::-webkit-progress-bar {
     background-color: var(--track-background);
 }
@@ -59,12 +63,12 @@ const downloadAlbum = () => {
       { existing: true },
       function (e) {
         let buttonAlbumSettings = document.querySelector(
-          '[data-testid="headerlayout-aside"] .vkuiButtonGroup'
+          '[data-testid="headerlayout-aside"]'
         );
         let updateButton = document.createElement("div");
         updateButton.style.marginRight = "8px";
         updateButton.innerHTML = `<div class="vkEnhancerDownloadAlbumButton">
-	<a style="background-color:var(--vkui--color_background_accent_themed);color:var(--vkui--color_text_contrast_themed)" class="Button-module__root--enpNU vkuiButton vkuiButton--size-m vkuiButton--appearance-accent vkuiButton--align-center vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible">
+	<a style="background-color:var(--vkui--color_background_accent_themed);color:var(--vkui--color_text_contrast_themed);padding:6px;border-radius: 8px;text-decoration: none;" class="Button-module__root--enpNU vkuiButton vkuiButton--size-m vkuiButton--appearance-accent vkuiButton--align-center vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible">
 	<span class="vkuiButton__in"><span class="vkuiButton__content">${getLang?.(
     "photos_album_menu_download"
   )}</span></span></a></div>`;

@@ -141,7 +141,7 @@ const parseAlbum = async() => {
                 progressBar.querySelector(".vkToolsSnackbar__in")?.addEventListener("animationend", () => {
                   progressBar.remove();
                 });
-                return Promise.reject('Скачивание отменено');
+                return Promise.reject('[VK Tools] Скачивание отменено');
               }
           } catch (error) {
             console.log("Failed ", maxSizeUrl);
