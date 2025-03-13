@@ -25,11 +25,11 @@ const oldGroupsPage = () => {
                     display: block!important;
                 }
 
-                [class^="vkuiRichCell__host"] {
+                [class*="vkuiRichCell__host"] {
                     border-bottom: 1px solid var(--vkui--color_separator_primary_alpha);
                 }
 
-                [class^="vkuiRichCell__host"] > [class^="vkuiRichCell__contentAfter"] {
+                [class*="vkuiRichCell__host"] > [class^="vkuiRichCell__contentAfter"] {
                     margin-top: -42px;
                 }
 
