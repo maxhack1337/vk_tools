@@ -55,14 +55,14 @@ const oldFeed = () => {
                         postDate.classList.add("PostHeaderSubtitle", "PostHeaderSubtitle--layoutDefault", "vk_enhancer_post_subhead");
                         let xDataPost = '';
                         if (postData.author != null) {
-                            xDataPost += `<b style="font-weight:500">${getLang?.('wall_post_author_data_author_title')}</b><br><a class="vkuiLink vkitLink__link--WXYoI vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__resetLinkStyle vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" href="${postData.author.url}">${postData.author.username}</a>`;
+                            xDataPost += `<b style="font-weight:500">${getLang?.('wall_post_author_data_author_title')}</b><br><a class="vkuiLink vkitLink__link--WXYoI vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__resetLinkStyle vkuiClickable__host vkui-focus-visible vkuiRootComponent" href="${postData.author.url}">${postData.author.username}</a>`;
                         }
                         if (postData.publisher != null) {
                             let sex = postData.publisher.sex = postData.publisher.sex === 1 ? 2 : 1;
-                            xDataPost += `<br><span style="height:6px; display:block;"></span><b style="font-weight:500">${getLang?.('wall_post_author_data_published_by_title',sex)}</b><br><a class="vkuiLink vkitLink__link--WXYoI vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__resetLinkStyle vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" href="${postData.publisher.url}">${postData.publisher.username}</a>`;
+                            xDataPost += `<br><span style="height:6px; display:block;"></span><b style="font-weight:500">${getLang?.('wall_post_author_data_published_by_title',sex)}</b><br><a class="vkuiLink vkitLink__link--WXYoI vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__resetLinkStyle vkuiClickable__host vkui-focus-visible vkuiRootComponent" href="${postData.publisher.url}">${postData.publisher.username}</a>`;
                         }
                         if (postData.editInfo != null) {
-                            xDataPost += `<br><span style="height:6px; display:block;"></span><b style="font-weight:500">${getLang?.('wall_post_author_data_editor_title')}</b><br><div style="display:flex"><a class="vkuiLink vkitLink__link--WXYoI vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__resetLinkStyle vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" href="${postData.editInfo.url}">${postData.editInfo.username}</a><div style="color: var(--vkui--color_text_secondary);">​ ​${postData.editInfo.time}</div></div>`;
+                            xDataPost += `<br><span style="height:6px; display:block;"></span><b style="font-weight:500">${getLang?.('wall_post_author_data_editor_title')}</b><br><div style="display:flex"><a class="vkuiLink vkitLink__link--WXYoI vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__resetLinkStyle vkuiClickable__host vkui-focus-visible vkuiRootComponent" href="${postData.editInfo.url}">${postData.editInfo.username}</a><div style="color: var(--vkui--color_text_secondary);">​ ​${postData.editInfo.time}</div></div>`;
                         }
                         if (postData.date === 0 && postData.postRaw === "") {
                             postData.postRaw = e.closest('.Post--redesignV3')?.hasAttribute('data-post-id') ? e.closest('.Post--redesignV3')?.getAttribute('data-post-id') : "";

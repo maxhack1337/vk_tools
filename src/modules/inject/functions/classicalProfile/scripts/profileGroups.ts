@@ -250,15 +250,19 @@ const profileGroup = () => {
       </div>
     </a>
     <div class="vkuiSpacing" style="height: 4px; padding: 2px 0px;"></div>`;
-          subHead?.addEventListener('click', (e: MouseEvent) => {
-            e.preventDefault();
-            e.stopPropagation();
-            showBox("al_fans.php", {
+          const clonedSubHead = subHead?.cloneNode(true) as HTMLElement;
+          if (clonedSubHead) {
+            subHead?.parentNode?.replaceChild(clonedSubHead, subHead);
+            clonedSubHead?.addEventListener('click', (e: MouseEvent) => {
+              e.preventDefault();
+              e.stopPropagation();
+              showBox("al_fans.php", {
                 act: "box",
                 tab: "idols",
                 oid: userIDHereWeGoAgain
+              });
             });
-          });
+          }
 					e.classList.remove('vkuiGroup__modeCard');
 				});
 				///КОНЕЦ ДОБАВЛЕНИЯ БЛОКА ПОДПИСОК///
