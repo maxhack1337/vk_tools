@@ -1,5 +1,27 @@
 const innerStyleGet = () => {
-    return `.feed_wall--no-islands:has(.Post--redesignV3) {
+	return `
+	    [class^="vkitChipAttachment__root"]+[class^="vkitSpacing__root"] {
+        	display: none;
+    	}
+		.vkitSecondaryAttachment__root .vkuiInternalImage[style*="url("] .vkuiImageBase__children{
+			display: none;
+		}
+		.vkitSecondaryAttachment__root .vkuiInternalImage:not(:has(.vkuiImageBase__children > div)) .vkuiImageBase__fallback {
+			z-index: 2;
+		}
+		.vkitSecondaryAttachment__root .vkuiImageBase__children:not(:has(>div)) {
+   			z-index: 1;
+    		background: var(--vkui--color_background_secondary);
+		}
+		.vkitSecondaryAttachment__root .vkuiInternalImage {
+			border-radius: 8px;
+			align-items: center;
+    		display: flex;
+			justify-content: center;
+			color: var(--vkui--color_icon_secondary);
+		}
+	
+		.feed_wall--no-islands:has(.Post--redesignV3) {
 			background-color: transparent;
 			box-shadow: 0 0 0 0 transparent;
 		}
@@ -29,11 +51,11 @@ const innerStyleGet = () => {
 			padding-top: 6px;
 		}
 
-		[class*='PostContentContainer__contentContainer'] > .vkuiDiv:has([class*='PostText__root']) {
+		[class*='PostContentContainer__contentContainer'] > .vkuiDiv__host:has([class*='PostText__root']) {
     		display: contents !important;
 		}
 
-		[class*='PostContentContainer__contentContainer'] > .vkuiDiv:has([class*='PostText__root']) > .vkuiDiv:has([class*='PostText__root']) {
+		[class*='PostContentContainer__contentContainer'] > .vkuiDiv__host:has([class*='PostText__root']) > .vkuiDiv__host:has([class*='PostText__root']) {
     		order: -1 !important;
 		}
 
@@ -41,11 +63,11 @@ const innerStyleGet = () => {
 			padding: 0 6px !important;
 		}
 		
-		[class*='PostContentContainer__contentContainer'] > .vkuiDiv:has([class*='PostText__root']) > .vkuiDiv[style*='padding: 0px 12px'] {
+		[class*='PostContentContainer__contentContainer'] > .vkuiDiv__host:has([class*='PostText__root']) > .vkuiDiv__host[style*='padding: 0px 12px'] {
     		padding: 0px 20px !important;
 		}
 
-		[class*='PostContentContainer__contentContainer'] > .vkuiDiv:has([class*='PostText__root']) > .vkuiDiv > [class*='PostText__root'] {
+		[class*='PostContentContainer__contentContainer'] > .vkuiDiv__host:has([class*='PostText__root']) > .vkuiDiv__host > [class*='PostText__root'] {
     		font-size: 13px;
     		line-height: 1.462;
 		}
@@ -181,10 +203,10 @@ const innerStyleGet = () => {
 		.feed_wall--no-islands .PostCopyQuote--redesignV3 .copy_post_header {
 			padding: 0 20px;
 		}
-		.Post--redesignV3 [class^="PostContentContainer__contentContainer"] .vkuiDiv:has([class^="vkitPostText__root"]) [class*="vkitSpacing__root"] {
+		.Post--redesignV3 [class^="PostContentContainer__contentContainer"] .vkuiDiv__host:has([class^="vkitPostText__root"]) [class*="vkitSpacing__root"] {
 			--spacing-gap-size: 16px!important;
 		}
-		.Post--redesignV3 .vkuiDiv > [style="--spacing-gap-size: 12px;"] {
+		.Post--redesignV3 .vkuiDiv__host > [style="--spacing-gap-size: 12px;"] {
        		padding:0px;
         	height: 8px;
     	}
@@ -280,7 +302,7 @@ const innerStyleGet = () => {
 			border-radius: 8px;
 			display: none;
 		}
-		.PostCopyQuote--redesignV3 .vkuiDiv > .vkuiLink[class*="vkitLink__link"].vkuiTappable.vkuiTappable--hasPointer-none.vkuiClickable__resetLinkStyle[href^="http"] > .vkuiSimpleCell, .Post--redesignV3 .vkuiDiv > .vkuiLink[class*="vkitLink__link"].vkuiTappable.vkuiTappable--hasPointer-none.vkuiClickable__resetLinkStyle[href^="http"] > .vkuiSimpleCell {
+		.PostCopyQuote--redesignV3 .vkuiDiv__host > .vkuiLink[class*="vkitLink__link"].vkuiTappable.vkuiTappable--hasPointer-none.vkuiClickable__resetLinkStyle[href^="http"] > .vkuiSimpleCell, .Post--redesignV3 .vkuiDiv__host > .vkuiLink[class*="vkitLink__link"].vkuiTappable.vkuiTappable--hasPointer-none.vkuiClickable__resetLinkStyle[href^="http"] > .vkuiSimpleCell {
 			margin: 8px 0px;
 			border-radius: 8px;
 		}
@@ -307,7 +329,7 @@ const innerStyleGet = () => {
 		.Post--redesignV3 .PostDateBlock__root {
 			display:none;
 		}
-		.Post--redesignV3 .vkuiDiv:has(>[class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/app"]) {
+		.Post--redesignV3 .vkuiDiv__host:has(>[class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/app"]) {
 			display:none;
 		}
 
@@ -353,6 +375,8 @@ const innerStyleGet = () => {
 			display: -webkit-box;
 		}
 		.vkitSecondaryAttachment__titleText {
+			font-weight: 500;
+			font-size: 14px;
 			color: var(--vkui--color_text_primary);
 			min-width: 0;
 		}

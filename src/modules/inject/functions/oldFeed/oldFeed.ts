@@ -150,7 +150,7 @@ const oldFeed = () => {
                     }
                 }
                 //Видео название и просмотры в посте
-                if (e.querySelector('.vkuiDiv > [class^="vkitPrimaryAttachment__root"] [class^="vkitInteractiveWrapper__root"][href^="/video"]:not(.vkEnhancerVideoDescAlready)')) {
+                if (e.querySelector('.vkuiDiv__host > [class^="vkitPrimaryAttachment__root"] [class^="vkitInteractiveWrapper__root"][href^="/video"]:not(.vkEnhancerVideoDescAlready)')) {
                     try {
                         let v = e.querySelector('[class^="vkitPrimaryAttachment__root"] [class^="vkitInteractiveWrapper__root"][href^="/video"]');
                         v?.classList.add('vkEnhancerVideoDescAlready');
@@ -416,16 +416,16 @@ const oldFeed = () => {
                     });
                 }
                 //Примари-ссылка
-                if ((e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]') || e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]')) && dataAttachments.item.attachments) {
-                    let allLinks = e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]');
+                if ((e.querySelector('.vkuiDiv__host > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]') || e.querySelector('.vkuiDiv__host > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]')) && dataAttachments.item.attachments) {
+                    let allLinks = e.querySelector('.vkuiDiv__host > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]');
                     if (!allLinks) {
-                        allLinks = e.querySelector('.vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]');
+                        allLinks = e.querySelector('.vkuiDiv__host > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]');
                     }
                     dataAttachments.item.attachments.forEach(async function(linkFull: any) {
                         if (linkFull.link && linkFull.style === "full") {
                             let linkCurrent = linkFull.link;
                             let primaryAttachLink = document.createElement('div');
-                            primaryAttachLink.classList.add('vkuiDiv', 'vkuiRootComponent');
+                            primaryAttachLink.classList.add('vkuiDiv__host', 'vkuiRootComponent');
                             if (linkCurrent.photo) {
                                 primaryAttachLink.style.padding = "0px 20px";
                                 primaryAttachLink.append(linkPrimatyAttachmentWithImage(linkCurrent));
@@ -436,16 +436,16 @@ const oldFeed = () => {
                     });
                 }
 
-                if ((e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]') || e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]')) && dataRepostAttachments.item.attachments) {
-                    let allLinks = e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]');
+                if ((e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv__host > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]') || e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv__host > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]')) && dataRepostAttachments.item.attachments) {
+                    let allLinks = e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv__host > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="https://"]');
                     if (!allLinks) {
-                        allLinks = e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]');
+                        allLinks = e.querySelector('.PostCopyQuote--redesignV3 .vkuiDiv__host > [class^="vkitSnippetAttachment__root"] > a[class^="vkitInteractiveWrapper__root"][href^="/away"]');
                     }
                     dataRepostAttachments.item.attachments.forEach(async function(linkFull: any) {
                         if (linkFull.link && linkFull.style === "full") {
                             let linkCurrent = linkFull.link;
                             let primaryAttachLink = document.createElement('div');
-                            primaryAttachLink.classList.add('vkuiDiv', 'vkuiRootComponent');
+                            primaryAttachLink.classList.add('vkuiDiv__host', 'vkuiRootComponent');
                             if (linkCurrent.photo) {
                                 primaryAttachLink.style.padding = "0px 20px";
                                 primaryAttachLink.append(linkPrimatyAttachmentWithImage(linkCurrent));
@@ -457,7 +457,7 @@ const oldFeed = () => {
                 }
                 //Статьи
                 if (e.querySelector('[class^="vkitSnippetAttachment__root"]:not(:has(.vkuiIcon--delete_outline_56))') && dataAttachments.item.attachments) {
-                    let articleSetClosest = e.querySelector('.vkuiDiv [class^="vkitSnippetAttachment__root"]');
+                    let articleSetClosest = e.querySelector('.vkuiDiv__host [class^="vkitSnippetAttachment__root"]');
                     let getArticle = articleSetClosest?.parentElement;
                     let swapArticle = articleSetClosest?.firstChild;
                     let f = getArticleInfo(getArticle!);

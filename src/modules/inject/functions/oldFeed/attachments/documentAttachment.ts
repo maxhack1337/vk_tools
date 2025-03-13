@@ -1,4 +1,3 @@
-import { escapeHtml } from "../../../escapeHtml";
 import getDocSize from "./getDocSize";
 
 const documentAttachment = (documentCurrent:any) => {
@@ -18,7 +17,7 @@ return `
       </div>
       <div class="vkitSecondaryAttachment__content">
         <div class="vkitSecondaryAttachment__title vkuiFlex vkuiFlex--wrap vkuiFlex--align-center vkuiRootComponent" data-testid="secondaryattachment-title">
-          <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__titleText vkuiHeadline--sizeY-compact vkuiHeadline--level-1 vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiRootComponent" style="--vkui_internal--textclamp-lines: 1;">`+escapeHtml(documentCurrent.title)+`</div>
+          <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__titleText vkuiHeadline--sizeY-compact vkuiHeadline--level-1 vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiRootComponent" style="--vkui_internal--textclamp-lines: 1;">`+documentCurrent.title+`</div>
         </div>
         <div class="vkitTextClamp__root vkitTextClamp__rootSingleLine vkitSecondaryAttachment__description vkuiFootnote vkuiTypography vkuiTypography--normalize vkuiRootComponent" data-testid="secondaryattachment-description" style="--vkui_internal--textclamp-lines: 1;">`+getDocSize(documentCurrent.size)+`</div>
         <div class="vkitSecondaryAttachment__progressBarContent">
