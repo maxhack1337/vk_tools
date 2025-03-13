@@ -46,9 +46,11 @@ const appearFriends = () => {
               "vkuiGroup--padding-m",
               "vkuiInternalGroupCard",
               "ProfileFriends",
-              "vkEnhancerProfileFriends"
+              "vkEnhancerProfileFriends",
+              "vkuiGroup__modeCard"
             );
             aHrefSectionFrens = document.createElement("a");
+            aHrefSectionFrens.classList.add('decoration');
             if (vk.id !== objectId1) {
               aHrefSectionFrens.href = `/friends?id=${objectId1}&section=online`;
               aHrefSectionFrens.style.marginLeft = "auto";
@@ -104,23 +106,22 @@ const appearFriends = () => {
             randomFriends.forEach((friend: { domain: any; photo_100: any; online: number; first_name: any; online_mobile: number; }) => {
               const friendItem = document.createElement("div");
               friendItem.classList.add(
-                "vkuiHorizontalCell",
-                "vkuiHorizontalCell--size-s",
-                "ProfileFriends__item",
-                "HorizontalCell-module__root--XStwI",
-                "HorizontalCell-module__rootSizeS--JwyO0"
+                "vkuiHorizontalCell__host",
+                "vkuiHorizontalCell__sizeS",
+                "vkuiHorizontalCell__sized",
+                "vkuiHorizontalCell__noPadding"
               );
               friendItem.innerHTML = `
             <a href="/${
               friend.domain
             }" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
                 <div class="vkuiHorizontalCell__image">
-                    <div class="vkuiImageBase vkuiImageBase--loaded vkuiAvatar" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${
+                    <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${
                       friend.photo_100
                     }">${friend.online === 1 ? "" : ""}</div>
                 </div>
-                <div class="vkuiHorizontalCell__content">
-                    <span class="vkuiTypography vkuiTypography--normalize vkuiCaption--level-1"><div class="TextClamp-module__singleLine--mRCrF">${
+                <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">
+                    <span class="vkuiCaption__sizeYCompact vkuiCaption__level1 vkuiTypography__host vkuiTypography__normalize vkuiRootComponent__host"><div class="TextClamp-module__singleLine--mRCrF">${
                       escapeHtml(friend.first_name)
                     }</div></span>
                 </div>
@@ -167,13 +168,16 @@ const appearFriends = () => {
                 const onlineFriendsHeader = document.createElement("a");
                 onlineFriendsHeader.href = `/friends?id=${vk.id}&section=online`;
                 onlineFriendsHeader.classList.add(
-                  "Header-module__tappable--mabke",
-                  "ProfileGroupHeader",
-                  "vkuiTappable",
-                  "vkuiInternalTappable",
-                  "vkuiTappable--hasActive",
-                  "vkui-focus-visible",
-                  "vkEnhFriendsOnline"
+                "vkuiHeader__host",
+                "vkuiHeader__sizeM",
+                "vkuiHeader__pi",
+                "vkuiRootComponent__host",
+                "ProfileGroupHeader",
+                "vkuiTappable",
+                "vkuiInternalTappable",
+                "vkuiTappable--hasActive",
+                "vkui-focus-visible",
+                "vkEnhFriendsOnline"
                 );
                 onlineFriendsHeader.innerHTML =
                   `
@@ -207,19 +211,18 @@ const appearFriends = () => {
                   .forEach((onlineFriend: { domain: any; photo_100: any; first_name: any; online: number; online_mobile: number; }) => {
                     const friendItem = document.createElement("div");
                     friendItem.classList.add(
-                      "vkuiHorizontalCell",
-                      "vkuiHorizontalCell--size-s",
-                      "ProfileFriends__item",
-                      "HorizontalCell-module__root--XStwI",
-                      "HorizontalCell-module__rootSizeS--JwyO0"
+                      "vkuiHorizontalCell__host",
+                      "vkuiHorizontalCell__sizeS",
+                      "vkuiHorizontalCell__sized",
+                      "vkuiHorizontalCell__noPadding"
                     );
                     friendItem.innerHTML = `
                 <a href="/${onlineFriend.domain}" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
                     <div class="vkuiHorizontalCell__image">
-                        <div class="vkuiImageBase vkuiImageBase--loaded vkuiAvatar" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${onlineFriend.photo_100}"></div>
+                        <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${onlineFriend.photo_100}"></div>
                     </div>
-                    <div class="vkuiHorizontalCell__content">
-                        <span class="vkuiTypography vkuiTypography--normalize vkuiCaption--level-1"><div class="TextClamp-module__singleLine--mRCrF">${escapeHtml(onlineFriend.first_name)}</div></span>
+                    <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">
+                        <span class="vkuiCaption__sizeYCompact vkuiCaption__level1 vkuiTypography__host vkuiTypography__normalize vkuiRootComponent__host"><div class="TextClamp-module__singleLine--mRCrF">${escapeHtml(onlineFriend.first_name)}</div></span>
                     </div>
                 </a>
             `;
@@ -278,7 +281,10 @@ const appearFriends = () => {
               commonFriendsHeader.role = "button";
               commonFriendsHeader.dataset.allowLinkOnclickWeb = "1";
               commonFriendsHeader.classList.add(
-                "Header-module__tappable--mabke",
+                "vkuiHeader__host",
+                "vkuiHeader__sizeM",
+                "vkuiHeader__pi",
+                "vkuiRootComponent__host",
                 "ProfileGroupHeader",
                 "vkuiTappable",
                 "vkuiInternalTappable",
@@ -316,19 +322,21 @@ const appearFriends = () => {
               commonFriends.slice(0, 3).forEach((commonFriend: { domain: any; photo_100: any; first_name: any; online: number; online_mobile: number; }) => {
                 const friendItem = document.createElement("div");
                 friendItem.classList.add(
-                  "vkuiHorizontalCell",
-                  "vkuiHorizontalCell--size-s",
+                  "vkuiHorizontalCell__host",
+                  "vkuiHorizontalCell__sizeS",
+                  "vkuiHorizontalCell__sized",
+                  "vkuiHorizontalCell__noPadding",
                   "ProfileFriends__item",
                   "HorizontalCell-module__root--XStwI",
                   "HorizontalCell-module__rootSizeS--JwyO0"
                 );
                 friendItem.innerHTML = `
-            <a href="/${commonFriend.domain}" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
+            <a href="/${commonFriend.domain}" class="vkuiHorizontalCell__body vkuiInternalTappable vkuiTappable__host vkuiTappable__hasPointerNone vkuiClickable__host vkuiClickable__realClickable vkuistyles__-focus-visible vkuiRootComponent__host vkEnhancerFriend">
                 <div class="vkuiHorizontalCell__image">
-                    <div class="vkuiImageBase vkuiImageBase--loaded vkuiAvatar" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${commonFriend.photo_100}"><div aria-hidden="true" class="vkuiImageBase__border"></div></div>
+                    <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${commonFriend.photo_100}"><div aria-hidden="true" class="vkuiImageBase__border"></div></div>
                 </div>
-                <div class="vkuiHorizontalCell__content">
-                    <span class="vkuiTypography vkuiTypography--normalize vkuiCaption--level-1"><div class="TextClamp-module__singleLine--mRCrF">${escapeHtml(commonFriend.first_name)}</div></span>
+                <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">
+                    <span class="vkuiCaption__sizeYCompact vkuiCaption__level1 vkuiTypography__host vkuiTypography__normalize vkuiRootComponent__host"><div class="TextClamp-module__singleLine--mRCrF">${escapeHtml(commonFriend.first_name)}</div></span>
                 </div>
             </a>
         `;

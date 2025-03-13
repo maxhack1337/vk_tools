@@ -7,6 +7,7 @@ interface VKEnh {
 	messagesHistory?: any;
 	messagesDiff?: any;
 	messagesSent?: any;
+	videoBlock?: any;
 }
 
 interface URL {

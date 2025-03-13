@@ -1,49 +1,44 @@
 /* eslint-disable no-useless-escape */
-import { escapeHtml } from "../../../escapeHtml";
+import {
+	escapeHtml
+}
+from "../../../escapeHtml";
 import getId from "../../middleName/getId";
+import getInterestingPagesLang from "./getInterestingPagesLang";
 import getUserDataWithoutOnline from "./getUserDataWithoutOnline";
 import splitDuration from "./splitDuration";
-
 const profileGroup = () => {
-      document.arrive(".ProfileGroup", { existing: true }, async function (e) {
-        let scrollSticky = document.querySelector(".ScrollStickyWrapper > div");
-        ///ДЛЯ ФОТОАЛЬБОМОВ///
-        let userIDHereWeGoAgain = await getId();
-        let profileCheckIsClosed = await getUserDataWithoutOnline(
-          userIDHereWeGoAgain
-        );
-        let albumsGetter;
-        if (
-          !profileCheckIsClosed.is_closed ||
-          profileCheckIsClosed.can_access_closed
-        ) {
-          try {
-            albumsGetter = await vkApi.api("photos.getAlbums", {
-              owner_id: userIDHereWeGoAgain,
-              need_covers: true,
-            });
-          } catch (error) {
-            albumsGetter = { count: 0 };
-          }
-        } else {
-          albumsGetter = { count: 0 };
-        }
-        let newAlbumElement = document.createElement("section");
-        newAlbumElement.classList.add(
-    "vkuiInternalGroup",
-    "vkuiGroup",
-    "vkuiGroup--mode-card",
-    "vkuiInternalGroup--mode-card",
-    "vkuiGroup--padding-m",
-    "Group-module__group--lRMIn",
-    "Group-module__groupPaddingM",
-    "Group-module__groupModeCard",
-    "vkuiInternalGroupCard",
-    "ProfileGroupEnhancer",
-    "ProfileAlbumsEnhancer"
-          );
-          newAlbumElement.innerHTML = ` <div class="vkuiGroup__header">
-    <a href="/albums${userIDHereWeGoAgain}" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
+	document.arrive(".ProfileGroup", {
+		existing: true
+	}, async function(e) {
+		let scrollSticky = document.querySelector(".ScrollStickyWrapper > div");
+		let pageBlock = document.createElement('div');
+		pageBlock.classList.add('page_block', 'page_block_vktools');
+		pageBlock.style.marginTop = "0";
+		///ДЛЯ ФОТОАЛЬБОМОВ///
+		let userIDHereWeGoAgain = await getId();
+		let profileCheckIsClosed = await getUserDataWithoutOnline(userIDHereWeGoAgain);
+		let albumsGetter;
+		if (!profileCheckIsClosed.is_closed || profileCheckIsClosed.can_access_closed) {
+			try {
+				albumsGetter = await vkApi.api("photos.getAlbums", {
+					owner_id: userIDHereWeGoAgain,
+					need_covers: true,
+				});
+			} catch (error) {
+				albumsGetter = {
+					count: 0
+				};
+			}
+		} else {
+			albumsGetter = {
+				count: 0
+			};
+		}
+		let newAlbumElement = document.createElement("section");
+		newAlbumElement.classList.add("vkuiInternalGroup", "vkuiGroup", "vkuiInternalGroup--mode-card", "vkuiGroup--padding-m", "Group-module__group--lRMIn", "Group-module__groupPaddingM", "Group-module__groupModeCard", "vkuiInternalGroupCard", "ProfileGroupEnhancer", "ProfileAlbumsEnhancer");
+		newAlbumElement.innerHTML = ` <div class="vkuiGroup__header">
+    <a href="/albums${userIDHereWeGoAgain}" data-allow-link-onclick-web="1" style="padding: 0 8px;" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
       <div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
         <div class="vkuiHeader__main">
           <div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1"><span class="vkuiHeader__content-in"><div class="Header-module__content--F5x_X"><div class="TextClamp-module__singleLine--mRCrF">${getLang?.(
@@ -71,31 +66,26 @@ const profileGroup = () => {
     </div>
   </div>
   <div class="vkuiSpacing" style="height: 12px; padding: 6px 0px;"></div>`;
-        if (
-          albumsGetter.count > 0 &&
-          !document.querySelector(".ProfileAlbumsEnhancer")
-        ) {
-          scrollSticky?.appendChild(newAlbumElement);
-
-          let appendHereAlbum = document.querySelector(
-            ".OwnerAlbumsList__items"
-          );
-          albumsGetter.items.slice(0, 2).forEach(async (item: { owner_id: any; thumb_id: number; id: any; size: any; title: any; }) => {
-            let thumb = await vkApi.api("photos.get", {
-              owner_id: item.owner_id,
-              photo_ids: item.thumb_id,
-              album_id: item.id,
-            });
-            let thumbSrc;
-            try {
-              thumbSrc =
-                thumb.items[0].sizes[thumb.items[0].sizes.length - 1].url;
-            } catch (error) {
-              thumbSrc = "https://vk.com/images/camera_big.png";
-            }
-            let albumElement = document.createElement("div");
-            if (item.thumb_id !== 0) {
-              albumElement.innerHTML = `<a href="/album${item.owner_id}_${item.id}" data-href="album${item.owner_id}_${item.id}?rev=1" onclick="return showPhoto('${item.owner_id}_${item.thumb_id}', 'album${item.owner_id}_${item.id}/rev', {&quot;temp&quot;:{&quot;x&quot;:&quot;${thumbSrc}&quot;,&quot;y&quot;:&quot;${thumbSrc}&quot;,&quot;z&quot;:&quot;${thumbSrc}&quot;,&quot;w&quot;:&quot;${thumbSrc}&quot;,&quot;x_&quot;:[&quot;${thumbSrc}&quot;,431,604],&quot;y_&quot;:[&quot;${thumbSrc}&quot;,576,807],&quot;z_&quot;:[&quot;${thumbSrc}&quot;,771,1080],&quot;w_&quot;:[&quot;${thumbSrc}&quot;,1542,2160],&quot;base&quot;:&quot;&quot;},&quot;jumpTo&quot;:{&quot;z&quot;:&quot;albums${item.owner_id}&quot;}}, event); return nav.go(this, event)" class="img_link  photos_album_w_description vkenh">
+		if (albumsGetter.count > 0 && !document.querySelector(".ProfileAlbumsEnhancer")) {
+			pageBlock.appendChild(newAlbumElement);
+			let appendHereAlbum = pageBlock.querySelector(".OwnerAlbumsList__items");
+			albumsGetter.items.slice(0, 2).forEach(async(item: {
+				owner_id: any;thumb_id: number;id: any;size: any;title: any;
+			}) => {
+				let thumb = await vkApi.api("photos.get", {
+					owner_id: item.owner_id,
+					photo_ids: item.thumb_id,
+					album_id: item.id,
+				});
+				let thumbSrc;
+				try {
+					thumbSrc = thumb.items[0].sizes[thumb.items[0].sizes.length - 1].url;
+				} catch (error) {
+					thumbSrc = "https://vk.com/images/camera_big.png";
+				}
+				let albumElement = document.createElement("div");
+				if (item.thumb_id !== 0) {
+					albumElement.innerHTML = `<a href="/album${item.owner_id}_${item.id}" data-href="album${item.owner_id}_${item.id}?rev=1" onclick="return showPhoto('${item.owner_id}_${item.thumb_id}', 'album${item.owner_id}_${item.id}/rev', {&quot;temp&quot;:{&quot;x&quot;:&quot;${thumbSrc}&quot;,&quot;y&quot;:&quot;${thumbSrc}&quot;,&quot;z&quot;:&quot;${thumbSrc}&quot;,&quot;w&quot;:&quot;${thumbSrc}&quot;,&quot;x_&quot;:[&quot;${thumbSrc}&quot;,431,604],&quot;y_&quot;:[&quot;${thumbSrc}&quot;,576,807],&quot;z_&quot;:[&quot;${thumbSrc}&quot;,771,1080],&quot;w_&quot;:[&quot;${thumbSrc}&quot;,1542,2160],&quot;base&quot;:&quot;&quot;},&quot;jumpTo&quot;:{&quot;z&quot;:&quot;albums${item.owner_id}&quot;}}, event); return nav.go(this, event)" class="img_link  photos_album_w_description vkenh">
     <div class="photos_album_thumb_wrap vkenh">
       <div class="photos_album_thumb crisp_image vkenh" style="background-image: url(${thumbSrc})">
         
@@ -109,8 +99,8 @@ const profileGroup = () => {
       </div>
     </div>
   </a>`;
-            } else {
-              albumElement.innerHTML = `<a href="/album${item.owner_id}_${item.id}" data-href="album${item.owner_id}_${item.id}?rev=1" class="img_link  photos_album_w_description vkenh">
+				} else {
+					albumElement.innerHTML = `<a href="/album${item.owner_id}_${item.id}" data-href="album${item.owner_id}_${item.id}?rev=1" class="img_link  photos_album_w_description vkenh">
     <div class="photos_album_thumb_wrap vkenh">
       <div class="photos_album_thumb crisp_image vkenh" style="background-image: url(${thumbSrc}); background-size: 60px 48px; background-position: center;">
         
@@ -124,74 +114,26 @@ const profileGroup = () => {
       </div>
     </div>
   </a>`;
-            }
-            appendHereAlbum?.appendChild(albumElement);
-          });
-        }
-        ///ДЛЯ ВИДЕО///
-          try {
-              let videos = document.querySelector(".ProfileVideos")?.innerHTML;
-              if (videos) {
-                  let popec = document.querySelector(".ProfileVideos");
-                  popec?.remove();
-                  let newElem = document.createElement("section");
-                  newElem.classList.add(
-                      "vkuiInternalGroup",
-                      "vkuiGroup",
-                      "vkuiGroup--mode-card",
-                      "vkuiInternalGroup--mode-card",
-                      "vkuiGroup--padding-m",
-                      "Group-module__group--lRMIn",
-                      "Group-module__groupPaddingM",
-                      "Group-module__groupModeCard",
-                      "vkuiInternalGroupCard",
-                      "ProfileGroupEnhancer",
-                      "ProfileVideosEnhancer"
-                  );
-                  newElem.innerHTML = videos;
-                  scrollSticky?.appendChild(newElem); //ДОБАВЛЕНИЕ БЛОКА ВИДЕО
-                  let allVideos = document.querySelectorAll(".OwnerVideosListItem");
-                  allVideos.forEach((videoItem) => {
-                      let href = videoItem.querySelector("a")?.getAttribute("href");
-                      let videoId = href?.split("/")?.pop()?.replace("video", "");
-
-                      videoItem.setAttribute(
-                          "onclick",
-                          `event.preventDefault(); event.stopPropagation(); window.showVideo('${videoId}','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);`
-                      );
-                  });
-              }
-          } catch (error) {}
-        let audioResponse;
-        try {
-          audioResponse = await vkApi.api("audio.get", {
-            owner_id: userIDHereWeGoAgain,
-          });
-          if (
-            audioResponse.count > 0 &&
-            !document.querySelector(".vkEnAudioRow")
-          ) {
-            let newAudioElement = document.createElement("section");
-            newAudioElement.classList.add(
-    "vkuiInternalGroup",
-    "vkuiGroup",
-    "vkuiGroup--mode-card",
-    "vkuiInternalGroup--mode-card",
-    "vkuiGroup--padding-m",
-    "Group-module__group--lRMIn",
-    "Group-module__groupPaddingM",
-    "Group-module__groupModeCard",
-    "vkuiInternalGroupCard",
-    "ProfileGroupEnhancer",
-    "ProfileAlbumsEnhancer"
-            );
-            
-              newAudioElement.innerHTML = ` <div class="vkuiGroup__header">
-				<a href="/audios${userIDHereWeGoAgain}?section=all" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
+				}
+				appendHereAlbum?.appendChild(albumElement);
+			});
+    }
+				
+		///ДЛЯ АУДИО///
+		let audioResponse;
+		try {
+			audioResponse = await vkApi.api("audio.get", {
+				owner_id: userIDHereWeGoAgain,
+			});
+			if (audioResponse.count > 0 && !document.querySelector(".vkEnAudioRow")) {
+				let newAudioElement = document.createElement("section");
+				newAudioElement.classList.add("vkuiInternalGroup", "vkuiGroup", "vkuiInternalGroup--mode-card", "vkuiGroup--padding-m", "Group-module__group--lRMIn", "Group-module__groupPaddingM", "Group-module__groupModeCard", "vkuiInternalGroupCard", "ProfileGroupEnhancer", "ProfileAudiosEnhancer");
+				newAudioElement.innerHTML = ` <div class="vkuiGroup__header">
+				<a href="/audios${userIDHereWeGoAgain}?section=all"  style="padding: 0 8px;" data-allow-link-onclick-web="1" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
 					<div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
 						<div class="vkuiHeader__main">
 						<div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1"><span class="vkuiHeader__content-in"><div class="Header-module__content--F5x_X"><div class="TextClamp-module__singleLine--mRCrF">${getLang?.(
-              "profile_user_content_audio"
+              "vkapps_scope_audio"
             )}</div></div></span><span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${
               audioResponse.count
             }</span></div>
@@ -215,19 +157,23 @@ const profileGroup = () => {
 					</div>
 				</div>
 				<div class="vkuiSpacing" style="height: 12px; padding: 6px 0px;"></div>`;
-            scrollSticky?.appendChild(newAudioElement);
-            let appendHereAudio = document.querySelector(
-              ".OwnerAudiosList__items"
-            );
-            audioResponse.items.slice(0, 6).forEach(async (audioItem: { title: { replaceAll: (arg0: string, arg1: string) => any; }; artist: { replaceAll: (arg0: string, arg1: string) => any; }; owner_id: any; id: any; ads: { duration: any; puid22: any; account_age_type: any; }; access_key: any; duration: any; }) => {
-              
-              let audioElement = document.createElement("div");
-			        let titleAud = audioItem.title;
-              let artistAud = audioItem.artist;
-              let escaped = escapeHtml(artistAud);
-              const audioData = `[${audioItem.id},${audioItem.owner_id},"","${escapeHtml(titleAud)}","${escapeHtml(artistAud)}",157,0,0,"",0,34,"module:${audioItem.owner_id}","[]","62efa83eaf32d46ab7//e3727249bcd60c36ee///bca050eaeb2ae61a22/","",{"duration": ${audioItem.ads.duration},"content_id": "${audioItem.owner_id}_${audioItem.id}","puid22": ${audioItem.ads.puid22},"account_age_type": ${audioItem.ads.account_age_type},"_SITEID": 276,"vk_id": ${vk.id},"ver": 251116},"","","",false,"9c91d4359kPPl-j5wiDD-N-q4xNYySV8d1i8YjJXvg6StjuAn436s3dh-U5Vim743w",0,0,true,"${audioItem.access_key}",false,"",false]`;              
-              
-              audioElement.innerHTML = `<div tabindex="0" class="audio_row audio_row_with_cover _audio_row _audio_row_${
+				pageBlock.append(newAudioElement);
+				let appendHereAudio = pageBlock.querySelector(".OwnerAudiosList__items");
+				audioResponse.items.slice(0, 6).forEach(async(audioItem: {
+					title: {
+						replaceAll: (arg0: string, arg1: string) => any;
+					};artist: {
+						replaceAll: (arg0: string, arg1: string) => any;
+					};owner_id: any;id: any;ads: {
+						duration: any;puid22: any;account_age_type: any;
+					};access_key: any;duration: any;
+				}) => {
+					let audioElement = document.createElement("div");
+					let titleAud = audioItem.title;
+					let artistAud = audioItem.artist;
+					let escaped = escapeHtml(artistAud);
+					const audioData = `[${audioItem.id},${audioItem.owner_id},"","${escapeHtml(titleAud)}","${escapeHtml(artistAud)}",157,0,0,"",0,34,"module:${audioItem.owner_id}","[]","62efa83eaf32d46ab7//e3727249bcd60c36ee///bca050eaeb2ae61a22/","",{"duration": ${audioItem.ads.duration},"content_id": "${audioItem.owner_id}_${audioItem.id}","puid22": ${audioItem.ads.puid22},"account_age_type": ${audioItem.ads.account_age_type},"_SITEID": 276,"vk_id": ${vk.id},"ver": 251116},"","","",false,"9c91d4359kPPl-j5wiDD-N-q4xNYySV8d1i8YjJXvg6StjuAn436s3dh-U5Vim743w",0,0,true,"${audioItem.access_key}",false,"",false]`;
+					audioElement.innerHTML = `<div tabindex="0" class="audio_row audio_row_with_cover _audio_row _audio_row_${
                 audioItem.owner_id
               }_${
                 audioItem.id
@@ -275,12 +221,76 @@ const profileGroup = () => {
     <div class="audio_player__place _audio_player__place"></div>
   </div>
 </div>`;
-              audioElement.querySelector('.audio_row_with_cover')?.setAttribute('data-audio', audioData);
-              appendHereAudio?.appendChild(audioElement);
+					audioElement.querySelector('.audio_row_with_cover')?.setAttribute('data-audio', audioData);
+					appendHereAudio?.appendChild(audioElement);
+				});
+			}
+    } catch (error) { }
+    if (!document.querySelector('.page_block_vktools')) scrollSticky?.append(pageBlock);
+    ///ДОБАВЛЕНИЕ БЛОКА ПОДПИСОК///
+				document.arrive('.ProfileSubscriptions', {
+					existing: true
+				}, (e) => {
+					document.querySelector('.page_block_vktools')?.prepend(e);
+					let count = e.querySelector('.vkuiHeader__indicator')?.textContent || '0';
+          e.classList.add('ProfileSubsEnhancer');
+          let subHead = e.querySelector('.vkuiGroup__header') as HTMLElement;
+					subHead!.innerHTML = `
+    <a data-allow-link-onclick-web="1"  style="padding: 0 8px;" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
+      <div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
+        <div class="vkuiHeader__main">
+          <div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1">
+          <span class="vkuiHeader__content-in">
+          <div class="Header-module__content--F5x_X">
+          <div class="TextClamp-module__singleLine--mRCrF">
+          ${getInterestingPagesLang(vk.lang)}
+          </div></div></span>
+          <span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${count}</span></div>
+        </div>
+      </div>
+    </a>
+    <div class="vkuiSpacing" style="height: 4px; padding: 2px 0px;"></div>`;
+          subHead?.addEventListener('click', (e: MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showBox("al_fans.php", {
+                act: "box",
+                tab: "idols",
+                oid: userIDHereWeGoAgain
             });
-          }
-        } catch (error) {}
-      });
+          });
+					e.classList.remove('vkuiGroup__modeCard');
+				});
+				///КОНЕЦ ДОБАВЛЕНИЯ БЛОКА ПОДПИСОК///
+				///ДОБАВЛЕНИЕ БЛОКА ВИДЕО///
+				document.arrive('.ProfileVideos', {
+					existing: true
+        }, (e) => {
+          let hasAudios = document.querySelector('.ProfileAudiosEnhancer');
+					hasAudios ? document.querySelector('.page_block_vktools')?.insertBefore(e, hasAudios) : document.querySelector('.page_block_vktools')?.append(e);
+					e.classList.add('ProfileVideosEnhancer');
+					let vLang = getLang?.('videofile_num') || 'видеозаписи';
+					vLang = vLang[0].toUpperCase() + vLang.slice(1);
+					let count = e.querySelector('.vkuiHeader__indicator')?.textContent || '0';
+					let href = e.querySelector('.vkuiGroup__header > a')?.getAttribute('href') || '';
+					e.querySelector('.vkuiGroup__header') !.innerHTML = `
+    <a href=${href} data-allow-link-onclick-web="1"  style="padding: 0 8px;" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
+      <div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
+        <div class="vkuiHeader__main">
+          <div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1">
+          <span class="vkuiHeader__content-in">
+          <div class="Header-module__content--F5x_X">
+          <div class="TextClamp-module__singleLine--mRCrF">
+          ${vLang}
+          </div></div></span>
+          <span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${count}</span></div>
+        </div>
+      </div>
+    </a>
+    <div class="vkuiSpacing" style="height: 4px; padding: 2px 0px;"></div>`;
+					e.classList.remove('vkuiGroup__modeCard');
+				});
+				///КОНЕЦ ДОБАВЛЕНИЯ БЛОКА ВИДЕО///
+	});
 }
-
 export default profileGroup;

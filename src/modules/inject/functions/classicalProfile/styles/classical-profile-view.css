@@ -60,383 +60,440 @@ body.classicProfile:has(#profile_redesigned) .achievement_cell {
 }
 
 body.classicProfile {
-#profile_story:after {
-	filter: blur(5px);
-	content: '.';
-}
+    #profile_story:after {
+        filter: blur(5px);
+        content: '.';
+    }
 
-.ProfileModalInfoLink {
-    max-width: 335px;
-    word-wrap: break-word;
-    display: inline-block;
-}
+    .vkuiGroup__modeCard[style="display: none;"]+.vkuiGroup__separatorSibling {
+        display: none;
+    }
 
-.profileJobLink {
-    max-width: 280px!important;
-}
+    .ProfileModalInfoLink {
+        max-width: 335px;
+        word-wrap: break-word;
+        display: inline-block;
+    }
 
-[class^="vkitGroup__group"][class*="vkitRecommendationBlock__blockWrap"] {
-    display:none;
-}
+    .profileJobLink {
+        max-width: 280px !important;
+    }
 
-[data-testid="profile-avatar"] .vkuiImageBase__img {
-	border-radius:0px!important;
-}
+    [class^="vkitGroup__group"][class*="vkitRecommendationBlock__blockWrap"] {
+        display: none;
+    }
 
-.people_row:has(.achievement_cell) {
-	padding: 4px 12px 4px 2px!important;
-    column-gap: 0px!important;
-}
-div:has(.ProfileIndicatorBadgeBadgeTT__text) {
-	display:none;
-}
-#profile_redesigned {
-	font-family: var(--palette-vk-font,-apple-system,BlinkMacSystemFont,'Roboto','Helvetica Neue',Geneva,"Noto Sans Armenian","Noto Sans Bengali","Noto Sans Cherokee","Noto Sans Devanagari","Noto Sans Ethiopic","Noto Sans Georgian","Noto Sans Hebrew","Noto Sans Kannada","Noto Sans Khmer","Noto Sans Lao","Noto Sans Osmanya","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Thai",arial,Tahoma,verdana,sans-serif)!important;
-}
+    [data-testid="profile-avatar"] .vkuiImageBase__img {
+        border-radius: 0px !important;
+    }
+
+    .people_row:has(.achievement_cell) {
+        padding: 4px 12px 4px 2px !important;
+        column-gap: 0px !important;
+    }
+
+    div:has(.ProfileIndicatorBadgeBadgeTT__text) {
+        display: none;
+    }
+
+    #profile_redesigned {
+        font-family: var(--palette-vk-font, -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Geneva, "Noto Sans Armenian", "Noto Sans Bengali", "Noto Sans Cherokee", "Noto Sans Devanagari", "Noto Sans Ethiopic", "Noto Sans Georgian", "Noto Sans Hebrew", "Noto Sans Kannada", "Noto Sans Khmer", "Noto Sans Lao", "Noto Sans Osmanya", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Thai", arial, Tahoma, verdana, sans-serif) !important;
+    }
 
 
-.EoMSGvQz {
-    min-height: 123px;
-    z-index: 2;
-    background: none 0% 0% / auto scroll padding-box border-box rgba(0, 0, 0, 0.1);
-    left: 0px;
-    position: absolute;
-    top: 0px;
-    width: 100%;
-}
+    .EoMSGvQz {
+        min-height: 123px;
+        z-index: 2;
+        background: none 0% 0% / auto scroll padding-box border-box rgba(0, 0, 0, 0.1);
+        left: 0px;
+        position: absolute;
+        top: 0px;
+        width: 100%;
+    }
 
-.WezUccGf {
-    min-height: 123px;
-    z-index: 3;
-    display: block;
-    left: 0px;
-    position: absolute;
-    top: 0px;
-    width: 100%;
-}
-.JDEMGFbn {
-    background: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjMyIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNy4zMDkwOTA5MSAwaDE3LjM4MTgxODE5YzQuMDM2Njk5NCAwIDcuMzA5MDkwOSAzLjI3MjM5MTQ2IDcuMzA5MDkwOSA3LjMwOTA5MDkxdjE3LjM4MTgxODE5YzAgNC4wMzY2OTk0LTMuMjcyMzkxNSA3LjMwOTA5MDktNy4zMDkwOTA5IDcuMzA5MDkwOWgtMTcuMzgxODE4MTljLTQuMDM2Njk5NDUgMC03LjMwOTA5MDkxLTMuMjcyMzkxNS03LjMwOTA5MDkxLTcuMzA5MDkwOXYtMTcuMzgxODE4MTljMC00LjAzNjY5OTQ1IDMuMjcyMzkxNDYtNy4zMDkwOTA5MSA3LjMwOTA5MDkxLTcuMzA5MDkwOTF6bS0uMzA5MDkwOTEgMTZjMCA0Ljk2OCA0LjAzMiA5IDkgOXM5LTQuMDMyIDktOS00LjAzMi05LTktOS05IDQuMDMyLTkgOXptMyAwYzAtMy4zMTQwNjI1IDIuNjg1OTM3NS02IDYtNnM2IDIuNjg1OTM3NSA2IDYtMi42ODU5Mzc1IDYtNiA2LTYtMi42ODU5Mzc1LTYtNnoiIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==) center bottom / auto no-repeat scroll padding-box border-box rgba(0, 0, 0, 0);
-    display: block;
-    height: 32px;
-    margin: 0px auto;
-    padding-top: 34px;
-    width: 32px;
-}
+    .WezUccGf {
+        min-height: 123px;
+        z-index: 3;
+        display: block;
+        left: 0px;
+        position: absolute;
+        top: 0px;
+        width: 100%;
+    }
 
-.gZFGalLh {
-    color: rgb(255, 255, 255);
-    font-weight: 500;
-    -webkit-font-smoothing: subpixel-antialiased;
-    display: block;
-    margin-top: 14px;
-    text-transform: uppercase;
-}
+    .JDEMGFbn {
+        background: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjMyIiB2aWV3Qm94PSIwIDAgMzIgMzIiIHdpZHRoPSIzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNy4zMDkwOTA5MSAwaDE3LjM4MTgxODE5YzQuMDM2Njk5NCAwIDcuMzA5MDkwOSAzLjI3MjM5MTQ2IDcuMzA5MDkwOSA3LjMwOTA5MDkxdjE3LjM4MTgxODE5YzAgNC4wMzY2OTk0LTMuMjcyMzkxNSA3LjMwOTA5MDktNy4zMDkwOTA5IDcuMzA5MDkwOWgtMTcuMzgxODE4MTljLTQuMDM2Njk5NDUgMC03LjMwOTA5MDkxLTMuMjcyMzkxNS03LjMwOTA5MDkxLTcuMzA5MDkwOXYtMTcuMzgxODE4MTljMC00LjAzNjY5OTQ1IDMuMjcyMzkxNDYtNy4zMDkwOTA5MSA3LjMwOTA5MDkxLTcuMzA5MDkwOTF6bS0uMzA5MDkwOTEgMTZjMCA0Ljk2OCA0LjAzMiA5IDkgOXM5LTQuMDMyIDktOS00LjAzMi05LTktOS05IDQuMDMyLTkgOXptMyAwYzAtMy4zMTQwNjI1IDIuNjg1OTM3NS02IDYtNnM2IDIuNjg1OTM3NSA2IDYtMi42ODU5Mzc1IDYtNiA2LTYtMi42ODU5Mzc1LTYtNnoiIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==) center bottom / auto no-repeat scroll padding-box border-box rgba(0, 0, 0, 0);
+        display: block;
+        height: 32px;
+        margin: 0px auto;
+        padding-top: 34px;
+        width: 32px;
+    }
 
-.fhwwGZRs {
-    z-index: 1;
-    background: none 0% 0% / auto scroll padding-box border-box rgba(0, 0, 0, 0.4);
-    filter: blur(8px);
-    height: 150px;
-    left: -13px;
-    position: absolute;
-    top: -13px;
-    width: 150px;
-}
+    .gZFGalLh {
+        color: rgb(255, 255, 255);
+        font-weight: 500;
+        -webkit-font-smoothing: subpixel-antialiased;
+        display: block;
+        margin-top: 14px;
+        text-transform: uppercase;
+    }
 
-#profile_redesigned [class*="Group-module__groupModeCard"]:has(div[class^="UsersBlock-module__usersBlockItemsWrap"])
-{
-	display:none!important;
-}
+    .fhwwGZRs {
+        z-index: 1;
+        background: none 0% 0% / auto scroll padding-box border-box rgba(0, 0, 0, 0.4);
+        filter: blur(8px);
+        height: 150px;
+        left: -13px;
+        position: absolute;
+        top: -13px;
+        width: 150px;
+    }
 
-.ProfileInfo__additionalInfo {
-	position: absolute;
-    top: 12px;
-    right: 28px;
-}
+    #profile_redesigned [class*="Group-module__groupModeCard"]:has(div[class^="UsersBlock-module__usersBlockItemsWrap"]) {
+        display: none !important;
+    }
 
-.vkEnhancerLoadPhotoModule {
-	background: var(--vkui--color_background_content);
-	border-radius: var(--vkui--size_border_radius_paper--regular);
-	border: 1px solid var(--vkui--color_separator_primary);
-	margin-bottom:16px;
-}
+    .ProfileAlbumsEnhancer,
+    .ProfileAudiosEnhancer {
+        padding: 8px !important;
+    }
 
-.ProfileInfo__fillInformationLink {
-	display:none;
-}
-.vkEnhancerFriend:hover {
-	background-color:var(--vkui--color_transparent--hover);
-}
-section:has(>[class^="ClosedProfileBlock__container"]) {
-	width: 536px;
-    float: right;
-}
-.FriendsSuggestionsBlock {
-	display:none;
-}
-/*.vkEnAudioRow {
+    .page_block_vktools .vkuiGroup__header *{
+        text-decoration: none!important;
+    }
+
+    .ProfileAlbumsEnhancer,
+    .ProfileVideosEnhancer,
+    .ProfileSubsEnhancer {
+        border-bottom: 1px solid var(--vkui--color_separator_primary);
+    }
+
+    .ProfileInfo__additionalInfo {
+        position: absolute;
+        top: 12px;
+        right: 28px;
+    }
+
+    .vkEnhancerLoadPhotoModule {
+        background: var(--vkui--color_background_content);
+        border-radius: var(--vkui--size_border_radius_paper--regular);
+        border: 1px solid var(--vkui--color_separator_primary);
+        margin-bottom: 16px;
+    }
+
+    .ProfileInfo__fillInformationLink {
+        display: none;
+    }
+
+    .vkEnhancerFriend:hover {
+        background-color: var(--vkui--color_transparent--hover);
+    }
+
+    section:has(>[class^="ClosedProfileBlock__container"]) {
+        width: 536px;
+        float: right;
+    }
+
+    .FriendsSuggestionsBlock {
+        display: none;
+    }
+
+    /*.vkEnAudioRow {
 	position: fixed;
     width: 214px;
     height: 40px!important;
 }*/
-.ProfileGroupHeader .vkuiTypography--weight-2.vkuiTypography--weight-2.vkuiTypography--weight-2 {
-	font-weight:400!important;
-	font-size:13px!important;
-	margin-top:6px!important;
-	margin-bottom:6px;
-}
+    .ProfileGroupHeader .vkuiTypography--weight-2.vkuiTypography--weight-2.vkuiTypography--weight-2 {
+        font-weight: 400 !important;
+        font-size: 13px !important;
+        margin-top: 6px !important;
+        margin-bottom: 6px;
+    }
 
-#profile_redesigned > div > div > div:has(>div.ProfileHeader a[href="/edit"]) > div.vkuiPopoutRoot.vkuiSplitLayout > div > .Profile__column
-{
-    margin-top:calc(var(--vkenhancer-info-height) - 280px);
-}
+    #profile_redesigned:has(div.ProfileHeader a[href="/edit"]) .Profile__column {
+        margin-top: calc(var(--vkenhancer-info-height) - 280px);
+    }
 
-#profile_redesigned > div > div > div > div.vkuiPopoutRoot.vkuiSplitLayout > div > .Profile__column
-{
-    margin-top:calc(var(--vkenhancer-info-height) - 320px);
-}
+    #profile_redesigned .Profile__column {
+        margin-top: calc(var(--vkenhancer-info-height) - 320px);
+    }
 
-/*Левая колонка*/
-#react_rootprofile .vkuiSplitLayout__inner, .ProfileSkeleton__layout
-{
-    flex-direction:row-reverse;
-}
-.PrimaryCells {
-	display: flex;
-    padding: 0 8px 8px;
-    flex-wrap: wrap;
-    --max-cell-width: 80px;
-}
-#react_rootprofile .ScrollStickyWrapper, .ProfileSkeleton__column + .ProfileSkeleton__column
-{
-    margin-right:15px;
-    margin-left:0px;
-    width:230px!important;
-}
+    /*Левая колонка*/
+    #react_rootprofile .vkuiSplitLayout__inner,
+    .ProfileSkeleton__layout {
+        flex-direction: row-reverse;
+    }
 
-div[class*="RichAvatar-module__rootNft"][style="width: 150px; height: 150px;"] > img {
-    border-radius: 0% !important;
-}
+    .PrimaryCells {
+        display: flex;
+        padding: 0 8px 8px;
+        flex-wrap: wrap;
+        --max-cell-width: 80px;
+    }
 
-.page_current_info:empty {
-	padding-bottom:16px!important;
-}
-#react_rootprofile .ScrollStickyWrapper > div
-{
-    width:230px!important;
-}
-.vkEnhFriendsOnline {
-	border-top:1px solid var(--vkui--color_separator_primary);
-	border-radius:0px!important;
-}
-.ProfileVideosEnhancer {
-	margin-bottom:16px;
-}
-.ProfileVideosEnhancer > .vkuiDiv {
-	display:none;
-}
-.vkEnhancerMutualFriends {
-	border-bottom:1px solid var(--vkui--color_separator_primary);
-	border-radius:0px!important;
-	padding:2px 6px 6px!important;
-}
-.vkEnhancerProfileFriends:has(>.vkEnhancerMutualFriends) .vkEnhancerFriendsPadding {
-	padding:0px 0 0 17px!important;
-}
-.PrimaryCells
-{
-    --max-cell-width: 67.333px!important;
-    max-height:168px!important;
-    overflow: hidden;
-}
-.ProfileGroupHorizontalCells .vkuiHorizontalCell .vkuiHorizontalCell__content
-{
-	white-space: nowrap;
-    max-width: 67.333px!important;
-}
-.ProfileGroupHorizontalCells .vkuiHorizontalCell .vkuiHorizontalCell__content div {
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-#profile_photos_module {
-	border:0!important;
-}
-.page_photos_module {
-	padding:8px 12px 12px!important;
-}
-#profile_redesigned .module_header .header_top {
-	line-height: 32px;
-	font-size:13px;
-	padding:0 12px;
-}
-.ProfileAlbumsEnhancer {
-	margin-bottom:14px;
-}
-.photos_album_thumb.crisp_image.vkenh {
-	width: 198px;
-    height: 138px;
-    position: relative;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center 35%;
-    background-color: var(--vkui--color_image_placeholder);
-	border-radius:8px;
-}
-.photos_album_title_wrap.vkenh {
-	color: var(--white);
-    box-sizing: border-box;
-    position: absolute;
-    bottom: 0;
-    width: 198px;
-    padding: 35px 12px 9px;
-    background: url(https://vk.com/images/album_top_shadow.png);
-	border-radius: 0 0 8px 8px;
-}
-.ge_photos_album.vkenh {
-	font-weight: 700;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-size: 12.5px;
-    line-height: 1.2em;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-.photos_album_counter.vkenh {
-	font-size: var(--vkui--font_text--font_size--compact);
-    opacity: .9;
-    padding: 0 0 0 5px;
-    line-height: 14px;
-}
-.photos_album_thumb_wrap.vkenh {
-	padding:6px 8px;
-}
-.vkAlbumTypography {
-	margin-bottom:0px!important;
-}
-.ProfileGroupHorizontalCells .vkuiHorizontalCell.vkuiHorizontalCell--size-s {
-	max-width: var(--max-cell-width)!important;
-}
-.ProfileGroupHorizontalCells .vkuiHorizontalCell.vkuiHorizontalCell--size-s > a {
-    --vkui_internal--side_cell_width: calc(var(--max-cell-width, 67.333px) + var(--vkui_internal--side_cell_gap, 0px))!important;
-    max-width: var(--max-cell-width, 67.333px)!important;
-}
-.ProfileGroupHeader .vkuiHeader--mode-primary .vkuiHeader__indicator {
-	padding-bottom:0px;
-}
-.ProfileGroupHeader .vkuiHeader {
-	padding-top:0px;
-}
-.ProfileGroup > div.ProfileGroupHorizontalCells > div > a > div.vkuiHorizontalCell__image > div {
-    width: 52px!important;
-    height: 52px!important;
-}
-.ProfileGroup.ProfileSubscriptions > div.ProfileSubscriptions__items > a > div.vkuiSimpleCell__before > div {
-    width: 40px!important;
-    height: 40px!important;
-}
-.ProfileVideos .OwnerVideosList__items {
-    padding-left: 4px!important;
-}
-.OwnerVideosList__items, .ProfileVideoBlockSkeleton__items {
-    display: block!important;
-}
+    #react_rootprofile .ScrollStickyWrapper,
+    .ProfileSkeleton__column+.ProfileSkeleton__column {
+        margin-right: 15px;
+        margin-left: 0px;
+        width: 230px !important;
+    }
 
-.OwnerVideosListItem:nth-of-type(9), .OwnerVideosListItem:nth-of-type(8), .OwnerVideosListItem:nth-of-type(7), .OwnerVideosListItem:nth-of-type(6), .OwnerVideosListItem:nth-of-type(5), .OwnerVideosListItem:nth-of-type(4), .OwnerVideosListItem:nth-of-type(3) {
-    display: none !important;
-}
-.OwnerVideosListItem {
-    width: 200px!important;
-    margin-left: 8px;
-	padding-bottom:8px;
-}
+    div[class*="RichAvatar-module__rootNft"][style="width: 150px; height: 150px;"]>img {
+        border-radius: 0% !important;
+    }
 
-#react_rootprofile .ScrollStickyWrapper .vkuiSpacing {
-    display:none;
-}
+    .page_current_info:empty {
+        padding-bottom: 16px !important;
+    }
 
-/*Правая колонка*/
-.Profile__column {
-    margin-right: 112px;
-}
+    #react_rootprofile .ScrollStickyWrapper>div {
+        width: 230px !important;
+    }
 
-/*верхний блок*/
-.ProfileHeaderButton:has(> button > span > span > svg.vkuiIcon--phone_outline_20), .OwnerPageCover {
-    display:none;
-}
+    .vkEnhFriendsOnline {
+        border-top: 1px solid var(--vkui--color_separator_primary);
+        border-radius: 0px !important;
+    }
 
-.ProfileHeader:not(:has(>.ProfileHeader__in a[href="/edit"])){
-    height: 320px;
-    width: 230px;
-    margin: 0px 0 0;
-}
-#photos_choose_upload_area_vkEnhancer {
-	background: var(--vkui--color_background_secondary);
-    padding: 8.5px 10px;
-    text-align: center;
-    color: var(--vkui--color_text_link);
-    display: contents!important;
-    float: left;
-    width: 100%;
-    box-sizing: border-box;
-}
-#photos_choose_upload_area_vkEnhancer:hover {
-	background: var(--vkui--color_background_secondary_alpha);
-    text-decoration: none;
-}
-#photos_choose_upload_area_labelvkEnhancer {
-	background:none!important;
-    padding: 5px 5px 5px 15px;
-    display: inline-block;
-}
-.photos_choose_upload_area_uploadvkEnhancer {
-	padding:22px;
-	display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.photos_choose_upload_area_dropvkEnhancer {
-	display:none;
-}
-.ProfileHeader:has(>.ProfileHeader__in a[href="/edit"]){
-    height: 276px;
-    width: 230px;
-    margin: 0px 0 0;
-}
+    .ProfileVideosEnhancer>.vkuiDiv {
+        display: none;
+    }
 
-.ProfileHeader a[href="/edit"]{
-    width: 230px;
-}
+    .vkEnhancerMutualFriends {
+        border-bottom: 1px solid var(--vkui--color_separator_primary);
+        border-radius: 0px !important;
+        padding: 2px 6px 6px !important;
+    }
 
-.ProfileHeader__in {
-    height: 65px;
-    margin: 1px 0 0;
-}
+    .vkEnhancerProfileFriends:has(>.vkEnhancerMutualFriends) .vkEnhancerFriendsPadding {
+        padding: 0px 0 0 17px !important;
+    }
 
-.ProfileInfo {
-    left: 246px;
-    position: absolute;
-    background-color: var(--vkui--color_background_content);
-    padding-bottom:16px;
-    width: 550px;
-    top: 0px;
-    border: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
-    border-radius: var(--vkui--size_border_radius_paper--regular);
-}
+    .PrimaryCells {
+        --max-cell-width: 67.333px !important;
+        max-height: 168px !important;
+        overflow: hidden;
+    }
 
-#owner_page_name {
-    margin-left: 25px;
-    margin-top: 15px;
-}
+    .ProfileGroupHorizontalCells .vkuiHorizontalCell__host .vkuiHorizontalCell__content {
+        white-space: nowrap;
+        max-width: 67.333px !important;
+    }
 
-div.ProfileHeaderActions__moreButtonContainer > div > button {
-    left:0px!important;
-    top:0px!important;
-    width: 5px!important;
-    min-width: 45px;
-    background-color: var(--vkui--color_background_secondary_alpha);
-}
-/*
+    .ProfileGroupHorizontalCells .vkuiHorizontalCell__host .vkuiHorizontalCell__content div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #profile_photos_module {
+        border: 0 !important;
+    }
+
+    .page_photos_module {
+        padding: 8px 12px 12px !important;
+    }
+
+    #profile_redesigned .module_header .header_top {
+        line-height: 32px;
+        font-size: 13px;
+        padding: 0 12px;
+    }
+
+    .photos_album_thumb.crisp_image.vkenh {
+        width: 198px;
+        height: 138px;
+        position: relative;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center 35%;
+        background-color: var(--vkui--color_image_placeholder);
+        border-radius: 8px;
+    }
+
+    .photos_album_title_wrap.vkenh {
+        color: var(--white);
+        box-sizing: border-box;
+        position: absolute;
+        bottom: 0;
+        width: 198px;
+        padding: 35px 12px 9px;
+        background: url(https://vk.com/images/album_top_shadow.png);
+        border-radius: 0 0 8px 8px;
+    }
+
+    .ge_photos_album.vkenh {
+        font-weight: 700;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-size: 12.5px;
+        line-height: 1.2em;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .photos_album_counter.vkenh {
+        font-size: var(--vkui--font_text--font_size--compact);
+        opacity: .9;
+        padding: 0 0 0 5px;
+        line-height: 14px;
+    }
+
+    .photos_album_thumb_wrap.vkenh {
+        padding: 6px 8px;
+    }
+
+    .vkAlbumTypography {
+        margin-bottom: 0px !important;
+    }
+
+    .ProfileGroupHorizontalCells .vkuiHorizontalCell__host.vkuiHorizontalCell__sizeS {
+        max-width: var(--max-cell-width) !important;
+    }
+
+    .ProfileGroupHorizontalCells .vkuiHorizontalCell__host.vkuiHorizontalCell__sizeS>a {
+        --vkui_internal--side_cell_width: calc(var(--max-cell-width, 67.333px) + var(--vkui_internal--side_cell_gap, 0px)) !important;
+        max-width: var(--max-cell-width, 67.333px) !important;
+    }
+
+    .ProfileGroupHeader .vkuiHeader--mode-primary .vkuiHeader__indicator {
+        padding-bottom: 0px;
+    }
+
+    .ProfileGroupHeader .vkuiHeader {
+        padding-top: 0px;
+    }
+
+    .ProfileGroup > .ProfileGroupHorizontalCells .vkuiHorizontalCell__image > div {
+        width: 52px !important;
+        height: 52px !important;
+    }
+
+    .ProfileGroup.ProfileSubscriptions>div.ProfileSubscriptions__items>a>div.vkuiSimpleCell__before>div {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .ProfileVideos .OwnerVideosList__items {
+        padding-left: 4px !important;
+    }
+
+    .OwnerVideosList__items,
+    .ProfileVideoBlockSkeleton__items {
+        display: block !important;
+    }
+
+    .OwnerVideosListItem:nth-of-type(9),
+    .OwnerVideosListItem:nth-of-type(8),
+    .OwnerVideosListItem:nth-of-type(7),
+    .OwnerVideosListItem:nth-of-type(6),
+    .OwnerVideosListItem:nth-of-type(5),
+    .OwnerVideosListItem:nth-of-type(4),
+    .OwnerVideosListItem:nth-of-type(3) {
+        display: none !important;
+    }
+
+    .OwnerVideosListItem {
+        width: 200px !important;
+        margin-left: 8px;
+        padding-bottom: 8px;
+    }
+
+    #react_rootprofile .ScrollStickyWrapper .vkuiSpacing {
+        display: none;
+    }
+
+    /*Правая колонка*/
+    .Profile__column {
+        margin-right: 112px;
+    }
+
+    /*верхний блок*/
+    .ProfileHeaderButton:has(> button > span > span > svg.vkuiIcon--phone_outline_20),
+    .OwnerPageCover {
+        display: none;
+    }
+
+    .ProfileHeader:not(:has(>.ProfileHeader__in a[href="/edit"])) {
+        height: 320px;
+        width: 230px;
+        margin: 0px 0 0;
+    }
+
+    #photos_choose_upload_area_vkEnhancer {
+        background: var(--vkui--color_background_secondary);
+        padding: 8.5px 10px;
+        text-align: center;
+        color: var(--vkui--color_text_link);
+        display: contents !important;
+        float: left;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #photos_choose_upload_area_vkEnhancer:hover {
+        background: var(--vkui--color_background_secondary_alpha);
+        text-decoration: none;
+    }
+
+    #photos_choose_upload_area_labelvkEnhancer {
+        background: none !important;
+        padding: 5px 5px 5px 15px;
+        display: inline-block;
+    }
+
+    .photos_choose_upload_area_uploadvkEnhancer {
+        padding: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .photos_choose_upload_area_dropvkEnhancer {
+        display: none;
+    }
+
+    .ProfileHeader:has(>.ProfileHeader__in a[href="/edit"]) {
+        height: 276px;
+        width: 230px;
+        margin: 0px 0 0;
+    }
+
+    .ProfileHeader a[href="/edit"] {
+        width: 230px;
+    }
+
+    .ProfileHeader__in {
+        height: 65px;
+        margin: 1px 0 0;
+    }
+
+    .ProfileInfo {
+        left: 246px;
+        position: absolute;
+        background-color: var(--vkui--color_background_content);
+        padding-bottom: 16px;
+        width: 550px;
+        top: 0px;
+        border: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
+        border-radius: var(--vkui--size_border_radius_paper--regular);
+    }
+
+    #owner_page_name {
+        margin-left: 25px;
+        margin-top: 15px;
+    }
+
+    div.ProfileHeaderActions__moreButtonContainer>div>button {
+        left: 0px !important;
+        top: 0px !important;
+        width: 5px !important;
+        min-width: 45px;
+        background-color: var(--vkui--color_background_secondary_alpha);
+    }
+
+    /*
 div.ProfileHeaderActions__moreButtonContainer > div > button:hover{
 	margin-left:-162px;
 	width:206px!important;
@@ -447,544 +504,665 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
 	position: absolute;
     left: 20px;
 }*/
-div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in {
-    margin-right: 0!important;
-    width: 5px;
-    min-width: 45px;
-}
-div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span {
-    padding: 0;
-}
-div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span {
-    display: none;
-}
-div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span.vkuiButton__after {
-    display: none;
-}
-div.ProfileHeaderActions__moreButtonContainer > div > button > span {
-    background: url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%2399A2AD%22%20d%3D%22M5%2014c1.1%200%202-.9%202-2s-.9-2-2-2-2%20.9-2%202%20.9%202%202%202zm7%200c1.1%200%202-.9%202-2s-.9-2-2-2-2%20.9-2%202%20.9%202%202%202zm7%200c1.1%200%202-.9%202-2s-.9-2-2-2-2%20.9-2%202%20.9%202%202%202z%22%2F%3E%3C%2Fsvg%3E) no-repeat;
-    background-position: center;
-    background-size: 60%;
-}
-.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href="/edit"])) {
-    top:270px;
-    left:12px;
-    position:absolute;
-}
-.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton a[href="/edit"]) {
-    top:230px;
-    left:12px;
-    position:absolute;
-}
-.ProfileHeaderButton
-{
-    max-width:156.19px;
-}
-.ProfileHeaderButton > button {
-    min-width:156.19px;
-}
-.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderActions__moreButtonContainer)) > .ProfileHeaderButton {
-	max-width:206px;
-}
-.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderActions__moreButtonContainer)) > .ProfileHeaderButton > button{
-	min-width:206px;
-}
-.ProfileHeaderButton:has(>a>span>span>svg.vkuiIcon--message_outline_20),.ProfileHeaderButton:has(>a[href*="/im"])
-{
-    position:absolute;
-    bottom:42px;
-    margin-left:0px;
-}
-.ProfileHeaderActions__buttons > .ProfileGifts__all
-{
-    padding:0;
-    position:absolute;
-    bottom:42px;
-    margin-left:0px;
-    min-width:206px;
-    font-size: var(--vkui--font_headline2--font_size--compact);
-    font-weight: var(--vkui--font_weight_accent2);
-    font-family: var(--vkui--font_headline2--font_family--regular);
-}
-.ProfileHeaderActions__buttons > .ProfileGifts__all > a {
-    height:32px;
-    background-color:var(--vkui--color_text_accent_themed);
-    color:var(--vkui--color_text_contrast_themed)!important;
-    align-content:center!important;
-    display:flex!important;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.OwnerVideosList .vkuiScrollArrow {
-	display:none;
-}
-.ProfileHeaderActions__buttons > .ProfileGifts__all > a:hover {
-	background-color:var(--vkui--color_background_accent_themed--hover);
-}
-.ProfileHeaderActions__buttons > .ProfileGifts__all > a > span > svg {
-	width:20px;
-	height:20px;
-	padding-right:6px;
-}
-.ProfileHeaderActions__buttons > .ProfileGifts__all > a > span > .vkuiButton__content {
-	padding-right:0px;
-}
-.ProfileHeaderButton>a:has(>span>span>svg.vkuiIcon--message_outline_20) > span:before,.ProfileHeaderButton >a[href*="/im"] >span:before
-{
-    font-size: var(--vkui--font_headline2--font_size--compact);
-    font-weight: var(--vkui--font_weight_accent2);
-    font-family: var(--vkui--font_headline2--font_family--regular);
-}
-.ProfileHeaderButton>a:has(>span>span>svg.vkuiIcon--message_outline_20) > span > .vkuiButton__before,.ProfileHeaderButton >a[href*="/im"] >span > .vkuiButton__content{
-    display:none;
-}
-.ProfileHeaderButton>a:has(>span>span>svg.vkuiIcon--message_outline_20),.ProfileHeaderButton >a[href*="/im"]
-{
-	border-right:1px solid var(--vkui--color_separator_primary2x--active);
-	border-radius:8px 0 0 8px;
-    max-width:440px;
-    width:160px;
-    background-color:var(--vkui--color_text_accent_themed);
-    color:var(--vkui--color_text_contrast_themed);
-}
-.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all,.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a[href*="/im"])>.ProfileGifts__all {
-	display: flex;
-    flex-direction: row-reverse;
-}
-.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all>a,.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a[href*="/im"])>.ProfileGifts__all>a {
-	width:26px!important;
-	max-width:26px;
-}
-.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all>a>span,.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a[href*="/im"])>.ProfileGifts__all>a>span {
-    justify-content: flex-end!important;
-}
-.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all>a>span>svg,.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a[href*="/im"])>.ProfileGifts__all>a>span>svg {
-	padding-right:14px!important;
-}
-.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all>a>span>span,.ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a[href*="/im"])>.ProfileGifts__all>a>span>span {
-	display:none;
-}
-.ProfileHeaderButton:has(>button > span > span > svg.vkuiIcon--user_check_outline_20) {
-    margin-left:0!important;
-}
-.ProfileHeaderButton > button:has(> span > span > svg.vkuiIcon--user_check_outline_20) > span > .vkuiButton__before {
-    display:none;
-}
+    div.ProfileHeaderActions__moreButtonContainer>div>button>span.vkuiButton__in {
+        margin-right: 0 !important;
+        width: 5px;
+        min-width: 45px;
+    }
 
-.ProfileHeaderButton:has(>a>span>span>svg.vkuiIcon--message_outline_20) svg
-{
-    display:none;
-}
-div.OwnerPageAvatar__in > div[data-testid="profile-avatar"] > div.vkuiImageBase__border {
-    display:none;
-}
-div.OwnerPageAvatar__in > div[data-testid="profile-avatar"] {
-    border-radius:0!important;
-}
+    div.ProfileHeaderActions__moreButtonContainer>div>button>span.vkuiButton__in>span {
+        padding: 0;
+    }
+
+    div.ProfileHeaderActions__moreButtonContainer>div>button>span.vkuiButton__in>span {
+        display: none;
+    }
+
+    div.ProfileHeaderActions__moreButtonContainer>div>button>span.vkuiButton__in>span.vkuiButton__after {
+        display: none;
+    }
+
+    div.ProfileHeaderActions__moreButtonContainer>div>button>span {
+        background: url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%2399A2AD%22%20d%3D%22M5%2014c1.1%200%202-.9%202-2s-.9-2-2-2-2%20.9-2%202%20.9%202%202%202zm7%200c1.1%200%202-.9%202-2s-.9-2-2-2-2%20.9-2%202%20.9%202%202%202zm7%200c1.1%200%202-.9%202-2s-.9-2-2-2-2%20.9-2%202%20.9%202%202%202z%22%2F%3E%3C%2Fsvg%3E) no-repeat;
+        background-position: center;
+        background-size: 60%;
+    }
+
+    .ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href="/edit"])) {
+        top: 270px;
+        left: 12px;
+        position: absolute;
+    }
+
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton a[href="/edit"]) {
+        top: 230px;
+        left: 12px;
+        position: absolute;
+    }
+
+    .ProfileHeaderButton {
+        max-width: 156.19px;
+    }
+
+    .ProfileHeaderButton>button {
+        min-width: 156.19px;
+    }
+
+    .ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderActions__moreButtonContainer))>.ProfileHeaderButton {
+        max-width: 206px;
+    }
+
+    .ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderActions__moreButtonContainer))>.ProfileHeaderButton>button {
+        min-width: 206px;
+    }
+
+    .ProfileHeaderButton:has(>a>span>span>svg.vkuiIcon--message_outline_20),
+    .ProfileHeaderButton:has(>a[href*="/im"]) {
+        position: absolute;
+        bottom: 42px;
+        margin-left: 0px;
+    }
+
+    .vkEnhancerProfileFriends *:not(.decoration) {
+        text-decoration: none !important;
+    }
+
+    .ProfileHeaderActions__buttons>.ProfileGifts__all {
+        padding: 0;
+        position: absolute;
+        bottom: 42px;
+        margin-left: 0px;
+        min-width: 206px;
+        font-size: var(--vkui--font_headline2--font_size--compact);
+        font-weight: var(--vkui--font_weight_accent2);
+        font-family: var(--vkui--font_headline2--font_family--regular);
+    }
+
+    .ProfileHeaderActions__buttons>.ProfileGifts__all>a {
+        border-radius: 8px;
+        text-decoration: none!important;
+        height: 32px;
+        background-color: var(--vkui--color_text_accent_themed);
+        color: var(--vkui--color_text_contrast_themed) !important;
+        align-content: center !important;
+        display: flex !important;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .OwnerVideosList .vkuiScrollArrow {
+        display: none;
+    }
+
+    .ProfileHeaderActions__buttons>.ProfileGifts__all>a:hover {
+        background-color: var(--vkui--color_background_accent_themed--hover);
+    }
+
+    .ProfileHeaderActions__buttons>.ProfileGifts__all>a>span>svg {
+        width: 20px;
+        height: 20px;
+        padding-right: 6px;
+    }
+
+    .ProfileHeaderActions__buttons>.ProfileGifts__all>a>span>.vkuiButton__content {
+        padding-right: 0px;
+    }
+
+    .ProfileHeaderButton>a:has(>span>span>svg.vkuiIcon--message_outline_20)>span:before,
+    .ProfileHeaderButton>a[href*="/im"]>span:before {
+        font-size: var(--vkui--font_headline2--font_size--compact);
+        font-weight: var(--vkui--font_weight_accent2);
+        font-family: var(--vkui--font_headline2--font_family--regular);
+    }
+
+    .ProfileHeaderButton>a:has(>span>span>svg.vkuiIcon--message_outline_20)>span>.vkuiButton__before,
+    .ProfileHeaderButton>a[href*="/im"]>span>.vkuiButton__content {
+        display: none;
+    }
+
+    .ProfileHeaderButton>a:has(>span>span>svg.vkuiIcon--message_outline_20),
+    .ProfileHeaderButton>a[href*="/im"] {
+        border-right: 1px solid var(--vkui--color_separator_primary2x--active);
+        border-radius: 8px 0 0 8px;
+        max-width: 440px;
+        width: 160px;
+        background-color: var(--vkui--color_text_accent_themed);
+        color: var(--vkui--color_text_contrast_themed);
+    }
+
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all,
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a[href*="/im"])>.ProfileGifts__all {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all>a,
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a[href*="/im"])>.ProfileGifts__all>a {
+        width: 56px !important;
+        max-width: 56px;
+    }
+
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all>a>span,
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a[href*="/im"])>.ProfileGifts__all>a>span {
+        justify-content: flex-end !important;
+    }
+
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all>a>span>svg,
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a[href*="/im"])>.ProfileGifts__all>a>span>svg {
+        padding-right: 14px !important;
+    }
+
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all>a>span>span,
+    .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a[href*="/im"])>.ProfileGifts__all>a>span>span {
+        display: none;
+    }
+
+    .ProfileHeaderButton:has(>button > span > span > svg.vkuiIcon--user_check_outline_20) {
+        margin-left: 0 !important;
+    }
+
+    .ProfileHeaderButton>button:has(> span > span > svg.vkuiIcon--user_check_outline_20)>span>.vkuiButton__before {
+        display: none;
+    }
+
+    .ProfileHeaderButton:has(>a>span>span>svg.vkuiIcon--message_outline_20) svg {
+        display: none;
+    }
+
+    div.OwnerPageAvatar__in>div[data-testid="profile-avatar"]>div.vkuiImageBase__border {
+        display: none;
+    }
+
+    div.OwnerPageAvatar__in>div[data-testid="profile-avatar"] {
+        border-radius: 0 !important;
+    }
 
 
-.ProfileIndicatorBadge__badgeOnline,.ProfileIndicatorBadge__badgeOnlineMobile {
-        cursor: text!important;
-        position:absolute;
-        top:-167px;
-        right:-578px;
-        color:var(--vkui--color_text_secondary)!important;
-        font-weight:400;
-        font-size:12.5px;
+    .ProfileIndicatorBadge__badgeOnline,
+    .ProfileIndicatorBadge__badgeOnlineMobile {
+        cursor: text !important;
+        position: absolute;
+        top: -167px;
+        right: -578px;
+        color: var(--vkui--color_text_secondary) !important;
+        font-weight: 400;
+        font-size: 12.5px;
         white-space: nowrap;
-        background-color:#fff0!important; 
-}
-.ProfileIndicatorBadge__badgeOnlineMobile {
-    right:-588px;
-}
-.vkEnhancerMobileWas::after {
+        background-color: #fff0 !important;
+    }
+
+    .ProfileIndicatorBadge__badgeOnlineMobile {
+        right: -588px;
+    }
+
+    .vkEnhancerMobileWas::after {
         height: 26px;
         padding-left: 11px;
-        content:' ';
+        content: ' ';
         background: url(https://vk.com/images/icons/mobile.png?2) no-repeat 0 -3px;
         font-size: 13px;
-        font-family:Roboto;
-        color:var(--vkui--color_text_secondary)!important;
-        background-position:left 4px top 2px;
-}
+        font-family: Roboto;
+        color: var(--vkui--color_text_secondary) !important;
+        background-position: left 4px top 2px;
+    }
 
-.ProfileIndicatorBadge__badgeOnline svg {
-    display:none;
-}
-.ProfileIndicatorBadge__badgeOnline::after
- {
+    .ProfileIndicatorBadge__badgeOnline svg {
+        display: none;
+    }
+
+    .ProfileIndicatorBadge__badgeOnline::after {
         height: 26px;
         padding-left: 7px;
         margin-left: -12px;
         font-size: 13px;
-        font-family:Roboto;
-        color:var(--vkui--color_text_secondary)!important;
-        background-position:right 0px top 2px;
- }
-/* .ProfileBase > div > div > .vkuiSplitCol {
+        font-family: Roboto;
+        color: var(--vkui--color_text_secondary) !important;
+        background-position: right 0px top 2px;
+    }
+
+    /* .ProfileBase > div > div > .vkuiSplitCol {
 		top:24px;
 }*/
-.ProfileIndicatorBadge__badgeOnlineMobile::after
- {
+    .ProfileIndicatorBadge__badgeOnlineMobile::after {
         height: 26px;
         padding-left: 21px;
         margin-left: -12px;
-        content:' ';
+        content: ' ';
         background: url(https://vk.com/images/icons/mobile.png?2) no-repeat 0 -3px;
         font-size: 13px;
-        font-family:Roboto;
-        color:var(--vkui--color_text_secondary)!important;
-        background-position:left 4px top 1px;
- }
-.ProfileIndicatorBadge__badgeOnlineMobile svg {
-    display:none;
-}
-div.ProfileIndicatorBadge__badge
-    {
-        z-index:10!important;
+        font-family: Roboto;
+        color: var(--vkui--color_text_secondary) !important;
+        background-position: left 4px top 1px;
     }
 
-.ProfileIndicatorBadgeBadgeTT,.vkuiPopper:has(>.ProfileIndicatorBadgeBadgeTT) > .vkuiPopperArrow {
-    display:none!important;
-}
-.vkEnhancerBadgeStaff {
-    margin-top:4px!important;
-}
-.page_avatar_img {
-	width:206px!important;
-	height:206px;
-	max-width:206px!important;
-}
-.owner_photo_bubble,.owner_photo_bubble_wrap {
-	width:206px!important;
-}
-	.ProfileIndicatorBadge__badgeLastSeenWrapper {
-		background:transparent!important;
-	}
-    .ProfileIndicatorBadge__badgeLastSeen 
-    {
-        cursor: text!important;
-        position:absolute;
-        top:-167px;
-        right:-578px;
-        color:var(--vkui--color_text_secondary)!important;
-        font-weight:400!important;
-        font-size:12.5px!important;
+    .ProfileIndicatorBadge__badgeOnlineMobile svg {
+        display: none;
+    }
+
+    div.ProfileIndicatorBadge__badge {
+        z-index: 10 !important;
+    }
+
+    .ProfileIndicatorBadgeBadgeTT,
+    .vkuiPopper:has(>.ProfileIndicatorBadgeBadgeTT)>.vkuiPopperArrow {
+        display: none !important;
+    }
+
+    .vkEnhancerBadgeStaff {
+        margin-top: 4px !important;
+    }
+
+    .page_avatar_img {
+        width: 206px !important;
+        height: 206px;
+        max-width: 206px !important;
+    }
+
+    .owner_photo_bubble,
+    .owner_photo_bubble_wrap {
+        width: 206px !important;
+    }
+
+    .ProfileIndicatorBadge__badgeLastSeenWrapper {
+        background: transparent !important;
+    }
+
+    .ProfileIndicatorBadge__badgeLastSeen {
+        cursor: text !important;
+        position: absolute;
+        top: -167px;
+        right: -578px;
+        color: var(--vkui--color_text_secondary) !important;
+        font-weight: 400 !important;
+        font-size: 12.5px !important;
         white-space: nowrap;
-        background-color:#fff0!important;
+        background-color: #fff0 !important;
     }
 
 
-.ProfileInfo__status {
-    display:none!important;
-    width: 503px;
-    margin-top: 2px;
-    margin-left: 26px;
-}
-.OwnerPageName {
-    font-size: 19px;
-    line-height: 25px;
-    font-weight: 400!important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-left: 1px;
-    font-family: -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, Noto Sans Armenian, Noto Sans Bengali, Noto Sans Cherokee, Noto Sans Devanagari, Noto Sans Ethiopic, Noto Sans Georgian, Noto Sans Hebrew, Noto Sans Kannada, Noto Sans Khmer, Noto Sans Lao, Noto Sans Osmanya, Noto Sans Tamil, Noto Sans Telugu, Noto Sans Thai, sans-serif;
-    color: var(--vkui--color_text_primary);
-    width: 300px;
-    max-width: 300px;
-}
-[class^="ActionsGroupItem-module__root"] {
-    display:none;
-}
+    .ProfileInfo__status {
+        display: none !important;
+        width: 503px;
+        margin-top: 2px;
+        margin-left: 26px;
+    }
 
-div.ProfileHeader__ava > div {
-    position:relative;
-    width:206px;
-    height:206px;
-    left:-8px;
-    top:90px;
-}
-div.ProfileHeader__ava > div > div[role="button"] {
-    height:206px;    
-}
-.OwnerPageAvatar__underlay {
-    display:none;
-}
-.OwnerPageAvatar__in {
-    height:206px; 
-}
-.OwnerPageAvatar__in > [data-testid="profile-avatar"] {
-    width:206px!important; 
-    height:206px!important; 
-}
-.OwnerPageAvatar__in > [data-testid="profile-avatar"] > [class*="Outline-module__rootAccent"] {
-    display:none;
-}
+    .OwnerPageName {
+        font-size: 19px;
+        line-height: 25px;
+        font-weight: 400 !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 1px;
+        font-family: -apple-system, BlinkMacSystemFont, Roboto, Open Sans, Helvetica Neue, Noto Sans Armenian, Noto Sans Bengali, Noto Sans Cherokee, Noto Sans Devanagari, Noto Sans Ethiopic, Noto Sans Georgian, Noto Sans Hebrew, Noto Sans Kannada, Noto Sans Khmer, Noto Sans Lao, Noto Sans Osmanya, Noto Sans Tamil, Noto Sans Telugu, Noto Sans Thai, sans-serif;
+        color: var(--vkui--color_text_primary);
+        width: 300px;
+        max-width: 300px;
+    }
 
-.ProfileHeader--noCover > div > div.ProfileHeader__ava > div {
-    top:-6px!important;   
-}
-.ProfileInfo__fullInfo {
-    display:none;
-}
-.page_current_info.current_text,[style="width: 100%;"] > #page_current_info,.ProfileInfo__broadcast{
-    margin-left:26px;
-    border-bottom: 1px solid var(--vkui--color_separator_primary);
-    padding-bottom:16px;
-    width:90%;
-}
-.ProfileHeader__in {
-    height:0px!important;
-}
+    [class^="ActionsGroupItem-module__root"] {
+        display: none;
+    }
 
-div.ProfileHeader.ProfileHeader--noCover.ProfileHeader--withSnowballs > div > div.ProfileHeader__ava > img
-{
-    top:-5px!important;
-}
-.profile_info_short {
-    font-size: 13px;
-    padding-top: 10px;
-    padding-left: 26px;
-    width:500px;
-}
-.profile_info {
-    line-height: 150%;
-}
-.profile_info_row {
-    padding-top: 5px;
-}
-.profile_info .label {
-    width: 165px;
-    color: var(--vkui--color_text_secondary);
-}
-.profile_info .labeled {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.profile_info .labeled>a {
-    unicode-bidi: embed;
-}
-.profile_more_info_link {
-    display: block;
-    margin: 10px 0 -5px;
-    border-radius: 4px;
-    height: 34px;
-    line-height: 32px;
-}
-.profile_more_info_link > span {
-    justify-content: center;
-}
-.profile_more_info_link:hover {
-    background-color: var(--vkui--color_transparent--hover);
-    text-decoration: none
-}
-.info_shown .profile_label_more, .profile_label_less {
-    display: none;
-}
-.vkEnhancerSectionProfile {
-    display:flex;
-    padding-top:8px;
-}
-.vkEnhancerSectionInner {
-    margin-left:12px;
-    margin-bottom:8.75px;
-    width:100%;
-    border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);  
-}
-.vkEnhancerSectionInner1 {
-    margin-left:12px;
-    margin-bottom:8.75px;
-    width:100%;
-    border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);  
-}
-.vkEnhancerSectionInner2 {
-    margin-left:12px;
-    margin-bottom:7.75px;
-    width:100%;
-    border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);  
-}
-.vkEnhancerSectionInner3 {
-    margin-left:12px;
-    margin-bottom:7.75px;
-    width:100%;
-    border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);  
-}
-.vkEnhancerSectionInner4 {
-    margin-left:12px;
-    margin-bottom:8.75px;
-    width:100%;
-    border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);  
-}
+    div.ProfileHeader__ava>div {
+        position: relative;
+        width: 206px;
+        height: 206px;
+        left: -8px;
+        top: 90px;
+    }
 
-.vkEnhancerSectionInner5 {
-    margin-left:12px;
-    margin-bottom:8.75px;
-    width:100%;
-    border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);  
-}
+    div.ProfileHeader__ava>div>div[role="button"] {
+        height: 206px;
+    }
 
-.vkEnhancerSectionText {
-	white-space: nowrap;
-}
+    .OwnerPageAvatar__underlay {
+        display: none;
+    }
 
-.vkEnhancerSectionInner6 {
-    margin-left:12px;
-    margin-bottom:8.75px;
-    width:100%;
-    border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);  
-}
-.vkEnhancerAdditionalJob {
-	padding-bottom:20px;
-    display:flex;
-    margin-left:165px;
-	line-height:12px!important;
-}
-.ScrollStickyWrapper>div:has(>.vkEnhancerProfileFriends)>aside {
-    padding-top: 15px;
-}
-.vkEnhancerAdditionalJob > div {
-    color: black; 
-    margin-top:-2px;
-    /*margin-left:2px;*/
-}
-.education_info,.school_info,.job_row,.voin_info {
-    padding-top:12px;
-    padding-bottom:12px;
-}
-.education_row {
-    padding-top:8px;
-    display: flex;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.education_row > div {
-    min-width:165px;
-}
-.yearClassDiv,.specialityLinkA, .voinClassDiv  {
-    margin-left:165px;
-    display:flex;
-    padding-top:8px;
-}
-.job_row > a,.job_row > .label.fl_l {
-    position:relative;
-    top:-8px;
-}
-.vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner2) {
-    padding-bottom:12px;
-    padding-top:12px;
-}
-.vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner) {
-    padding-top:12px;
-    padding-bottom:6px;
-}
-.vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner1) {
-    padding-top:12px;
-    padding-bottom:6px;
-}
+    .OwnerPageAvatar__in {
+        height: 206px;
+    }
 
-.vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner3) {
-    padding-top:6px;
-    padding-bottom:6px;
-}
-.vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner4) {
-    padding-top:2px;
-    padding-bottom:2px;
-}
+    .OwnerPageAvatar__in>[data-testid="profile-avatar"] {
+        width: 206px !important;
+        height: 206px !important;
+    }
 
-.vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner5) {
-    padding-top:2px;
-}
-.interests_info > span, .music_info > span, .movies_info > span, .books_info > span, .games_info > span,.quotes_info > span,.about_info > span {
-    display:flex;
-    flex-wrap: wrap;
-}
-.interests_info, .music_info, .movies_info, .books_info, .games_info, .quotes_info, .about_info
-{
-    padding-top:12px;   
-}
-.life_info {
-     padding-bottom:12px;   
-}
-.life_info > div {
-    padding-top:8px;
-}
-.life_info {
-    display:flex;
-    flex-direction: column;
-}
-.life_info > div > div {
-    max-width:120px;
-}
-.life_info > div > a,.vkEnhancerPoliticalInfo {
-    margin-left:45px;
-}
-.life_info > div {
-    display:flex;
-    align-items:center;
-}
-.inspired_by_info > span {
-    display:flex;
-    flex-wrap: wrap;
-    margin-left:45px;
-}
+    .OwnerPageAvatar__in>[data-testid="profile-avatar"]>[class*="Outline-module__rootAccent"] {
+        display: none;
+    }
 
-.religionRow > a {
-    overflow-wrap: break-word;
-    max-width:322px;
-}
-.vkEnhancerMoreItems > .clear_fix.profile_info_row {
-     padding-bottom:6px;   
-}
-/*каунтеры*/
+    .ProfileHeader--noCover>div>div.ProfileHeader__ava>div {
+        top: -6px !important;
+    }
 
-.page_counter:not([href*="bugs?act="]) {
-    margin-top:18px;
-    text-align: center;
-    padding-left:0px!important;
-    padding-right:0px!important;
-    padding-top:15px!important;
-    padding-bottom:0px!important;
-    border-top: 1px solid var(--vkui--color_separator_primary);
-}
-.page_counter:not([href*="bugs?act="]) {
-    min-height: 69px;
-    width:100%;
-}
-.counts_module:not(:has([href*="bugs?act="])) {
-    display:flex;
-    justify-content: center;
-    max-height: 138px;
-    flex-wrap: wrap;
-}
-.page_counter .counter {
-    padding:15px;
-    text-decoration:none;
-}
+    .ProfileInfo__fullInfo {
+        display: none;
+    }
 
-.page_counter .counter .value {
-    font-size: 19px;
-    color: var(--vkui--color_text_link);
-    line-height: 21px;
-}
+    .page_current_info.current_text,
+    [style="width: 100%;"]>#page_current_info,
+    .ProfileInfo__broadcast {
+        margin-left: 26px;
+        border-bottom: 1px solid var(--vkui--color_separator_primary);
+        padding-bottom: 16px;
+        width: 90%;
+    }
 
-.page_counter .counter .label {
-    margin-top:4px;
-    font-size: 13px;
-    line-height: 15px;
-    color: var(--vkui--color_text_secondary);
-}
-#profile_redesigned > div > div > div > div.ProfileHeader > div.ProfileHeader__in > div.ProfileHeader__wrapper > div > div.ProfileHeader__actions > div > div > div.ProfileHeaderActions__info {
-    left: 12px;
-    position: absolute;
-    top: 300px;
-    width: 63.5%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    min-width: 209px;
-}
-    #profile_redesigned > div > div > div > div.ProfileHeader:has(> div.ProfileHeader__in > div.ProfileHeader__wrapper > div > div.ProfileHeader__actions > div > div > div.ProfileHeaderActions__info)
-    {
-        height:340px;
+    .ProfileHeader__in {
+        height: 0px !important;
+    }
+
+    div.ProfileHeader.ProfileHeader--noCover.ProfileHeader--withSnowballs>div>div.ProfileHeader__ava>img {
+        top: -5px !important;
+    }
+
+    .profile_info_short {
+        font-size: 13px;
+        padding-top: 10px;
+        padding-left: 26px;
+        width: 500px;
+    }
+
+    .profile_info {
+        line-height: 150%;
+    }
+
+    .profile_info_row {
+        padding-top: 5px;
+    }
+
+    .profile_info .label {
+        width: 165px;
+        color: var(--vkui--color_text_secondary);
+    }
+
+    .profile_info .labeled {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .profile_info .labeled>a {
+        unicode-bidi: embed;
+    }
+
+    .profile_more_info_link {
+        display: block;
+        margin: 10px 0 -5px;
+        border-radius: 4px;
+        height: 34px;
+        line-height: 32px;
+    }
+
+    .profile_more_info_link>span {
+        justify-content: center;
+    }
+
+    .profile_more_info_link:hover {
+        background-color: var(--vkui--color_transparent--hover);
+        text-decoration: none
+    }
+
+    .info_shown .profile_label_more,
+    .profile_label_less {
+        display: none;
+    }
+
+    .vkEnhancerSectionProfile {
+        display: flex;
+        padding-top: 8px;
+    }
+
+    .vkEnhancerSectionInner {
+        margin-left: 12px;
+        margin-bottom: 8.75px;
+        width: 100%;
+        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
+    }
+
+    .vkEnhancerSectionInner1 {
+        margin-left: 12px;
+        margin-bottom: 8.75px;
+        width: 100%;
+        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
+    }
+
+    .vkEnhancerSectionInner2 {
+        margin-left: 12px;
+        margin-bottom: 7.75px;
+        width: 100%;
+        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
+    }
+
+    .vkEnhancerSectionInner3 {
+        margin-left: 12px;
+        margin-bottom: 7.75px;
+        width: 100%;
+        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
+    }
+
+    .vkEnhancerSectionInner4 {
+        margin-left: 12px;
+        margin-bottom: 8.75px;
+        width: 100%;
+        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
+    }
+
+    .vkEnhancerSectionInner5 {
+        margin-left: 12px;
+        margin-bottom: 8.75px;
+        width: 100%;
+        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
+    }
+
+    .vkEnhancerSectionText {
+        white-space: nowrap;
+    }
+
+    .vkEnhancerSectionInner6 {
+        margin-left: 12px;
+        margin-bottom: 8.75px;
+        width: 100%;
+        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
+    }
+
+    .vkEnhancerAdditionalJob {
+        padding-bottom: 20px;
+        display: flex;
+        margin-left: 165px;
+        line-height: 12px !important;
+    }
+
+    .ScrollStickyWrapper>div:has(>.vkEnhancerProfileFriends)>aside {
+        padding-top: 15px;
+    }
+
+    .vkEnhancerAdditionalJob>div {
+        color: black;
+        margin-top: -2px;
+        /*margin-left:2px;*/
+    }
+
+    .education_info,
+    .school_info,
+    .job_row,
+    .voin_info {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .education_row {
+        padding-top: 8px;
+        display: flex;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .education_row>div {
+        min-width: 165px;
+    }
+
+    .yearClassDiv,
+    .specialityLinkA,
+    .voinClassDiv {
+        margin-left: 165px;
+        display: flex;
+        padding-top: 8px;
+    }
+
+    .job_row>a,
+    .job_row>.label.fl_l {
+        position: relative;
+        top: -8px;
+    }
+
+    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner2) {
+        padding-bottom: 12px;
+        padding-top: 12px;
+    }
+
+    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner) {
+        padding-top: 12px;
+        padding-bottom: 6px;
+    }
+
+    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner1) {
+        padding-top: 12px;
+        padding-bottom: 6px;
+    }
+
+    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner3) {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner4) {
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+
+    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner5) {
+        padding-top: 2px;
+    }
+
+    .interests_info>span,
+    .music_info>span,
+    .movies_info>span,
+    .books_info>span,
+    .games_info>span,
+    .quotes_info>span,
+    .about_info>span {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .interests_info,
+    .music_info,
+    .movies_info,
+    .books_info,
+    .games_info,
+    .quotes_info,
+    .about_info {
+        padding-top: 12px;
+    }
+
+    .life_info {
+        padding-bottom: 12px;
+    }
+
+    .life_info>div {
+        padding-top: 8px;
+    }
+
+    .life_info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .life_info>div>div {
+        max-width: 120px;
+    }
+
+    .life_info>div>a,
+    .vkEnhancerPoliticalInfo {
+        margin-left: 45px;
+    }
+
+    .life_info>div {
+        display: flex;
+        align-items: center;
+    }
+
+    .inspired_by_info>span {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: 45px;
+    }
+
+    .religionRow>a {
+        overflow-wrap: break-word;
+        max-width: 322px;
+    }
+
+    .vkEnhancerMoreItems>.clear_fix.profile_info_row {
+        padding-bottom: 6px;
+    }
+
+    /*каунтеры*/
+
+    .page_counter:not([href*="bugs?act="]) {
+        margin-top: 18px;
+        text-align: center;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        border-top: 1px solid var(--vkui--color_separator_primary);
+    }
+
+    .page_counter:not([href*="bugs?act="]) {
+        min-height: 69px;
+        width: 100%;
+    }
+
+    .counts_module:not(:has([href*="bugs?act="])) {
+        display: flex;
+        justify-content: center;
+        max-height: 138px;
+        flex-wrap: wrap;
+    }
+
+    .page_counter .counter {
+        padding: 15px;
+        text-decoration: none;
+    }
+
+    .page_counter .counter .value {
+        font-size: 19px;
+        color: var(--vkui--color_text_link);
+        line-height: 21px;
+    }
+
+    .page_counter .counter .label {
+        margin-top: 4px;
+        font-size: 13px;
+        line-height: 15px;
+        color: var(--vkui--color_text_secondary);
+    }
+
+    #profile_redesigned>div>div>div>div.ProfileHeader>div.ProfileHeader__in>div.ProfileHeader__wrapper>div>div.ProfileHeader__actions>div>div>div.ProfileHeaderActions__info {
+        left: 12px;
+        position: absolute;
+        top: 300px;
+        width: 63.5%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        min-width: 209px;
+    }
+
+    #profile_redesigned>div>div>div>div.ProfileHeader:has(> div.ProfileHeader__in > div.ProfileHeader__wrapper > div > div.ProfileHeader__actions > div > div > div.ProfileHeaderActions__info) {
+        height: 340px;
     }
 }
