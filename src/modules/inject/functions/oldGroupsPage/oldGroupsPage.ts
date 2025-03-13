@@ -27,10 +27,16 @@ const oldGroupsPage = () => {
 
                 [class*="vkuiRichCell__host"] {
                     border-bottom: 1px solid var(--vkui--color_separator_primary_alpha);
-                }
-
-                [class*="vkuiRichCell__host"] > [class^="vkuiRichCell__contentAfter"] {
-                    margin-top: -42px;
+                    [class^="vkuiRichCell__contentAfter"] {
+                        margin-top: -42px;
+                    }
+                    [class^="vkuiRichCell__in"] {
+                        margin-top: 8px;
+                    }
+                    .vkuiTypography__accent.vkuiTypography__weight2, [class^="vkitVerifiedLabel__root"] > a[data-testid="link-text"] {
+                        font-size: 13px;
+                        color: var(--vkui--vkontakte_color_text_name);
+                    }
                 }
 
                 body:has([id^="catalog-action"]) {
