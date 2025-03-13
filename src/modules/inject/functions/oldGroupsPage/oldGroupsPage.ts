@@ -25,11 +25,11 @@ const oldGroupsPage = () => {
                     display: block!important;
                 }
 
-                [class^="vkitRichCell__root"] {
+                [class^="vkuiRichCell__host"] {
                     border-bottom: 1px solid var(--vkui--color_separator_primary_alpha);
                 }
 
-                [class^="vkitRichCell__root"] > [class^="vkitRichCell__action"] {
+                [class^="vkuiRichCell__host"] > [class^="vkuiRichCell__contentAfter"] {
                     margin-top: -42px;
                 }
 
@@ -47,7 +47,7 @@ const oldGroupsPage = () => {
                                 margin-top:48px;
                             }
         
-                            [class^="vkitTwoColumnLayoutMain__root"] > .vkuiGroup__separator-sibling {
+                            [class^="vkitTwoColumnLayoutMain__root"] > .vkuiGroup__separatorSibling {
                                 display:none;
                             }
                         }
