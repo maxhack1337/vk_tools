@@ -50,7 +50,7 @@ const oldMessenger = () => {
 		document.arrive(".ConvoHeader__action.ConvoHeader__back", { existing: true }, function (e) {
 			let inner = e as HTMLButtonElement;
 			inner.style.width = "auto";
-			inner.innerHTML = `<div class="im-page--back" style=""> <a class="vkToolsBack"> <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.88 18.12a1.25 1.25 0 0 1-1.76 1.76l-7-7a1.25 1.25 0 0 1 0-1.76l7-7a1.25 1.25 0 0 1 1.76 1.76L9.77 12z" fill="currentColor"></path></svg> Назад </a> </div>`;
+			inner.innerHTML = `<div class="im-page--back" style="display: block;"> <a class="vkToolsBack" style="text-decoration: none;"> <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M15.88 18.12a1.25 1.25 0 0 1-1.76 1.76l-7-7a1.25 1.25 0 0 1 0-1.76l7-7a1.25 1.25 0 0 1 1.76 1.76L9.77 12z" fill="currentColor"></path></svg> Назад </a> </div>`;
 		});
 
 		document.arrive(".BurgerMenu__actionsMenu > div > div > div", { existing: true }, function (e) {

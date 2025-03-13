@@ -71,6 +71,9 @@ const getOldDialogsStyle = () => {
         div#page_layout {
             left: 50px;
         }
+        .ConvoMain__composerContent{
+            width:430px!important;
+        }
     }
 
     .vkui__root:has(.VKCOMMessenger__skeletonWrapper) {
