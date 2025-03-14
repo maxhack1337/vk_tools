@@ -145,25 +145,7 @@ import refreshLocForMini from "./refreshLocForMini";
                       userPhotoAva +
                       `', 'album` +
                       vk.id +
-                      `_0/rev', {&quot;temp&quot;:{&quot;x&quot;:&quot;` +
-                      photo200 +
-                      `&amp;quality=95&amp;sign=0449f67717df7848702286a3d078dbf3&amp;type=album&quot;,&quot;y&quot;:&quot;` +
-                      photo200 +
-                      `;quality=95&amp;sign=850d65bf30f3e8721f1a76410c013d90&amp;type=album&quot;,&quot;z&quot;:&quot;` +
-                      photo200 +
-                      `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,&quot;w&quot;:&quot;` +
-                      photo200 +
-                      `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,&quot;x_&quot;:[&quot;` +
-                      photo200 +
-                      `&amp;quality=95&amp;sign=0449f67717df7848702286a3d078dbf3&amp;type=album&quot;,604,499],&quot;y_&quot;:[&quot;` +
-                      photo200 +
-                      `&amp;quality=95&amp;sign=850d65bf30f3e8721f1a76410c013d90&amp;type=album&quot;,807,667],&quot;z_&quot;:[&quot;` +
-                      photo200 +
-                      `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,1080,893],&quot;w_&quot;:[&quot;` +
-                      photo200 +
-                      `&amp;quality=95&amp;sign=b773a90b10ef745b855e460559bff0d3&amp;type=album&quot;,1080,893],&quot;base&quot;:&quot;&quot;},&quot;jumpTo&quot;:{&quot;z&quot;:&quot;albums` +
-                      vk.id +
-                      `&quot;}}, event)"><img class="page_avatar_img" src="` +
+                      `_0/rev', {}, event)"><img class="page_avatar_img" src="` +
                       photo200 +
                       `"></a> </div> </aside> </div> <div class="owner_photo_bubble_wrap"> <div class="owner_photo_bubble"> <div class="owner_photo_bubble_action owner_photo_bubble_action_update" data-task-click="Page/owner_new_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` +
                       vk.id +

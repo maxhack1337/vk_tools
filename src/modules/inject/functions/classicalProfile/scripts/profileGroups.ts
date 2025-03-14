@@ -85,7 +85,7 @@ const profileGroup = () => {
 				}
 				let albumElement = document.createElement("div");
 				if (item.thumb_id !== 0) {
-					albumElement.innerHTML = `<a href="/album${item.owner_id}_${item.id}" data-href="album${item.owner_id}_${item.id}?rev=1" onclick="return showPhoto('${item.owner_id}_${item.thumb_id}', 'album${item.owner_id}_${item.id}/rev', {&quot;temp&quot;:{&quot;x&quot;:&quot;${thumbSrc}&quot;,&quot;y&quot;:&quot;${thumbSrc}&quot;,&quot;z&quot;:&quot;${thumbSrc}&quot;,&quot;w&quot;:&quot;${thumbSrc}&quot;,&quot;x_&quot;:[&quot;${thumbSrc}&quot;,431,604],&quot;y_&quot;:[&quot;${thumbSrc}&quot;,576,807],&quot;z_&quot;:[&quot;${thumbSrc}&quot;,771,1080],&quot;w_&quot;:[&quot;${thumbSrc}&quot;,1542,2160],&quot;base&quot;:&quot;&quot;},&quot;jumpTo&quot;:{&quot;z&quot;:&quot;albums${item.owner_id}&quot;}}, event); return nav.go(this, event)" class="img_link  photos_album_w_description vkenh">
+					albumElement.innerHTML = `<a href="/album${item.owner_id}_${item.id}" data-href="album${item.owner_id}_${item.id}?rev=1" onclick="return showPhoto('${item.owner_id}_${item.thumb_id}', 'album${item.owner_id}_${item.id}/rev', {}, event); return nav.go(this, event)" class="img_link  photos_album_w_description vkenh">
     <div class="photos_album_thumb_wrap vkenh">
       <div class="photos_album_thumb crisp_image vkenh" style="background-image: url(${thumbSrc})">
         

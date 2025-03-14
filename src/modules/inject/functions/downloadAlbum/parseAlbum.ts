@@ -6,6 +6,7 @@ import getPhoto from "./getPhoto";
 import JSZip from 'jszip';
 import isNotAlbumLang from "./isNotAlbumLang";
 import { escapeHtmlDownloadTrack } from "../../escapeHtml";
+import emptyAlbumLang from "./emptyAlbumLang";
 
 const parseAlbum = async() => {
   const url = window.location.href;
@@ -124,25 +125,25 @@ const parseAlbum = async() => {
             );
             zip.file(filename.toString(), blob);
             counterProgress++;
-              let pBar = progressBar.querySelector(
-                  ".vkToolsSnackbar__content-text"
-                );
-              if(pBar) pBar.innerHTML =
+            let pBar = progressBar.querySelector(
+              ".vkToolsSnackbar__content-text"
+            );
+            if (pBar) pBar.innerHTML =
               getLang?.("box_loading") +
               "<br><br>" +
               `${escapeHtmlDownloadTrack(albumsRes.items[0].title)}${currentZipIndex}.zip ` +
               counterProgress +
               "/" +
               albumsRes.items[0].size;
-              cancelButton.style.display = "flex";
-              if (localStorage.getItem('abortTask') === 'true') {
-                localStorage.setItem('abortTask', 'false');
-                progressBar.querySelector(".vkToolsSnackbar__in")?.classList.add("vkToolsRemovebar");
-                progressBar.querySelector(".vkToolsSnackbar__in")?.addEventListener("animationend", () => {
-                  progressBar.remove();
-                });
-                return Promise.reject('[VK Tools] Скачивание отменено');
-              }
+            cancelButton.style.display = "flex";
+            if (localStorage.getItem('abortTask') === 'true') {
+              localStorage.setItem('abortTask', 'false');
+              progressBar.querySelector(".vkToolsSnackbar__in")?.classList.add("vkToolsRemovebar");
+              progressBar.querySelector(".vkToolsSnackbar__in")?.addEventListener("animationend", () => {
+                progressBar.remove();
+              });
+              return Promise.reject('[VK Tools] Скачивание отменено');
+            }
           } catch (error) {
             console.log("Failed ", maxSizeUrl);
           }
@@ -160,9 +161,15 @@ const parseAlbum = async() => {
       }
       progressBar.querySelector(".vkToolsSnackbar__in")?.classList.add("vkToolsRemovebar");
       progressBar.querySelector(".vkToolsSnackbar__in")?.addEventListener("animationend", () => {
-          progressBar.remove();
-        });
+        progressBar.remove();
+      });
       counterProgress = 0;
+    } else {
+      showSnackbar({
+        text: emptyAlbumLang(vk.lang),
+        timeout: 4000,
+        icon: 'warning'
+      });
     }
   }
 }
