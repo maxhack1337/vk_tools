@@ -5,10 +5,11 @@ import toolTipStyle from "./toolTipStyle";
 type ToolTip = {
     style: string;
     elem: HTMLElement;
-    text: string;
+    text?: string;
+    innerHTML?: string;
 }
 
-const tooltip = ({ style, elem, text}: ToolTip) => {
+const tooltip = ({ style, elem, text, innerHTML}: ToolTip) => {
     createStyle('vkToolsTooltip', toolTipStyle());
     let tooltipBase = document.createElement('div');
     tooltipBase.classList.add('vkToolsTooltipBase');
@@ -38,7 +39,8 @@ const tooltip = ({ style, elem, text}: ToolTip) => {
 
     let tooltipSubhead = document.createElement('span');
     tooltipSubhead.classList.add('vkToolsTooltipSubhead');
-    tooltipSubhead.textContent = text;
+    if (text) tooltipSubhead.textContent = text;
+    if (innerHTML) tooltipSubhead.innerHTML = innerHTML;
 
     tooltipBaseContent.append(tooltipSubhead);
     tooltipBase.append(floatingArrow, tooltipBaseContent);
@@ -50,7 +52,7 @@ const tooltip = ({ style, elem, text}: ToolTip) => {
     let elBox = elem.closest('#box_layer_wrap');
     const scrollTop = elBox ? 0 : 0;
     
-    let top = Math.max(60, elemRect.top + elemRect.height + tooltipRect.height / 2);
+    let top = Math.max(60, elemRect.top + elemRect.height + (tooltipRect.height / 2) / 2);
     let left = elemRect.left + (elemRect.width / 2) - (tooltipRect.width / 2);
 
     if (top + tooltipRect.height > viewportHeight) {
