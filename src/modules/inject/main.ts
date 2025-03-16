@@ -50,7 +50,7 @@ import tooltip from "./components/tooltip/tooltip";
 import showForwardBox from "./showForwardBox";
 import oldAttaches from "./functions/oldMessenger/oldAttaches/oldAttaches";
 import searchHashes from "./searchHashes";
-import extractPeerId from "./functions/oldMessenger/oldAttaches/extractPeerId";
+import { hook } from "./hookFunction";
 
 let debugMode = false;
 
@@ -173,7 +173,7 @@ window.urls = null;
 if (!window.vkenh) {
 	window.vkenh = {};
 }
-window.vkenh.profileHashes = {}
+window.vkenh.profileHashes = {};
 window.vkenh.showSnackbar = showSnackbar;
 window.vkenh.createBanner = banner;
 window.vkenh.createTT = tooltip;
@@ -199,22 +199,53 @@ deferredCallback(
 );
 
 function XHRListener() {
-	const originalSend = XMLHttpRequest.prototype.send;
+	// const originalSend = XMLHttpRequest.prototype.send;
 
-	XMLHttpRequest.prototype.send = async function (data) {
+	// XMLHttpRequest.prototype.send = async function (data) {
+	// 	const dataString = data === null ? "" : String(data);
+	// 	if (/type=typing/.test(dataString) && getLocalValue("nepisalkaValue")) {
+	// 		return this.abort();
+	// 	}
+	// 	if (/type=audiomessage/.test(dataString) && getLocalValue("nepisalkaValue")) {
+	// 		return this.abort();
+	// 	}
+
+	// 	if (/act=a_mark_read/.test(dataString) && getLocalValue("nechitalkaValue")) {
+	// 		return this.abort();
+	// 	}
+	// 	if (/act=a_mard_listened/.test(dataString) && getLocalValue("nechitalkaValue")) {
+	// 		return this.abort();
+	// 	}
+
+	// 	if (/subsection=recent/.test(dataString)) {
+	// 		localStorage.setItem("feedValue", "recent");
+	// 		await feedReorder();
+	// 	}
+
+	// 	if (/subsection=top/.test(dataString)) {
+	// 		localStorage.setItem("feedValue", "top");
+	// 		await feedReorder();
+	// 	}
+
+	// 	if (/loaded_from=navigation/.test(dataString)) {
+	// 		feedReorderRemove();
+	// 		await feedReorder();
+	// 	}
+	// 	return originalSend.call(this, data);
+	// };
+	XMLHttpRequest.prototype.send = hook(XMLHttpRequest.prototype.send, async (pre) => {
+		const [data] = pre.args;
+
 		const dataString = data === null ? "" : String(data);
-		if (/type=typing/.test(dataString) && getLocalValue("nepisalkaValue")) {
-			return this.abort();
-		}
-		if (/type=audiomessage/.test(dataString) && getLocalValue("nepisalkaValue")) {
-			return this.abort();
-		}
 
-		if (/act=a_mark_read/.test(dataString) && getLocalValue("nechitalkaValue")) {
-			return this.abort();
-		}
-		if (/act=a_mard_listened/.test(dataString) && getLocalValue("nechitalkaValue")) {
-			return this.abort();
+		if (
+			(/type=typing/.test(dataString) && getLocalValue("nepisalkaValue")) ||
+			(/type=audiomessage/.test(dataString) && getLocalValue("nepisalkaValue")) ||
+			(/act=a_mark_read/.test(dataString) && getLocalValue("nechitalkaValue")) ||
+			(/act=a_mard_listened/.test(dataString) && getLocalValue("nechitalkaValue"))
+		) {
+			pre.abort(undefined);
+			return;
 		}
 
 		if (/subsection=recent/.test(dataString)) {
@@ -231,8 +262,8 @@ function XHRListener() {
 			feedReorderRemove();
 			await feedReorder();
 		}
-		return originalSend.call(this, data);
-	};
+		return undefined;
+	});
 }
 
 XHRListener();
@@ -289,20 +320,19 @@ deferredCallback(
 				if (method === "messages.getHistory" && getLocalValue("oldMessengerAttaches")) {
 					let i = Object.keys(window.vkenh.messagesHistory).length || 0;
 					window.vkenh.messagesHistory[i] = {
-							'peer_id': 	response.items[0].peer_id,
-							'messages': response.items
-						}
+						peer_id: response.items[0].peer_id,
+						messages: response.items
+					};
 				}
 
-
 				if (method === "messages.getDiffContent" && getLocalValue("oldMessengerAttaches")) {
-					let cmidsToID:any = [];
+					let cmidsToID: any = [];
 					let i = 0;
 					response.items.forEach((item: any) => {
 						cmidsToID[i] = {
-							'peer_id': item.peer_id,
-							'messages': item.messages
-						}
+							peer_id: item.peer_id,
+							messages: item.messages
+						};
 						i++;
 					});
 					window.vkenh.messagesDiff = cmidsToID;
@@ -310,9 +340,9 @@ deferredCallback(
 				if (method === "messages.send" && getLocalValue("oldMessengerAttaches")) {
 					let i = Object.keys(window.vkenh.messagesSent).length || 0;
 					window.vkenh.messagesSent[i] = {
-							'peer_id': 	params.peer_id,
-							'messages': response
-					}
+						peer_id: params.peer_id,
+						messages: response
+					};
 				}
 				return Promise.resolve(response);
 			};
@@ -519,25 +549,41 @@ hotBar();
 //Доп функции в мессенджере и смена отчества
 deferredCallback(
 	() => {
-		let orig_ajax = ajax.post;
-		ajax.post = function (...e: any) {
-			if ("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act) {
-				if (e[1].nickname) {
-					e[1].nick_name = e[1].nickname;
-					delete e[1].nickname;
-				} else if (!e[1].nick_name) {
-					e[1].nick_name = "";
+		// let orig_ajax = ajax.post;
+		// ajax.post = function (...e: any) {
+		// 	if ("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act) {
+		// 		if (e[1].nickname) {
+		// 			e[1].nick_name = e[1].nickname;
+		// 			delete e[1].nickname;
+		// 		} else if (!e[1].nick_name) {
+		// 			e[1].nick_name = "";
+		// 		}
+		// 	}
+		// 	const t = orig_ajax.apply(this, e);
+		// 	return t;
+		// };
+		ajax.post = hook(ajax.post, (pre) => {
+			if ("al_profileEdit.php" === pre.args[0] && "a_save_general" === pre.args[1].act) {
+				if (pre.args[1].nickname) {
+					pre.args[1].nick_name = pre.args[1].nickname;
+					delete pre.args[1].nickname;
+				} else if (!pre.args[1].nick_name) {
+					pre.args[1].nick_name = "";
 				}
+				pre.modifyArgs(pre.args);
+				return (result) => result;
 			}
-			const t = orig_ajax.apply(this, e);
-			return t;
-		};
-		let orig_ajax2 = ajax.frame.finalize;
-		ajax.frame.finalize = function (...e: any) {
-			window.vkenh.profileHashes = searchHashes(e[0]);
-			const t = orig_ajax2.apply(this, e);
-			return t;
-		}
+		});
+		// let orig_ajax2 = ajax.frame.finalize;
+		// ajax.frame.finalize = function (...e: any) {
+		// 	window.vkenh.profileHashes = searchHashes(e[0]);
+		// 	const t = orig_ajax2.apply(this, e);
+		// 	return t;
+		// };
+		ajax.frame.finalize = hook(ajax.frame.finalize, (pre) => {
+			window.vkenh.profileHashes = searchHashes(pre.args[0]);
+			return (result) => result;
+		});
 	},
 	{ variable: "ajax" }
 );
@@ -571,26 +617,26 @@ window.addEventListener("beforeunload", () => {
 });
 //Удалить away.php
 function decodeURL(url: string, win1251: TextDecoder): string | null {
-  let tempurl = url.replace(/(?:%[0-9A-F]{2})+/g, (s) => {
-    const byteArray = new Uint8Array(s.match(/%[0-9A-F]{2}/g)!.map((hex) => parseInt(hex.slice(1), 16)));
-    return win1251.decode(byteArray);
-  });
-  let URLObjParamsWindows1251 = new URL(tempurl).searchParams;
-  let URLObjParamsUTF8 = new URL(url).searchParams;
-  const decoded = URLObjParamsUTF8.get("utf") === "1" ? URLObjParamsUTF8.get("to") : URLObjParamsWindows1251.get("to");
-  return decoded;
+	let tempurl = url.replace(/(?:%[0-9A-F]{2})+/g, (s) => {
+		const byteArray = new Uint8Array(s.match(/%[0-9A-F]{2}/g)!.map((hex) => parseInt(hex.slice(1), 16)));
+		return win1251.decode(byteArray);
+	});
+	let URLObjParamsWindows1251 = new URL(tempurl).searchParams;
+	let URLObjParamsUTF8 = new URL(url).searchParams;
+	const decoded = URLObjParamsUTF8.get("utf") === "1" ? URLObjParamsUTF8.get("to") : URLObjParamsWindows1251.get("to");
+	return decoded;
 }
 if (localStorage.getItem("removeAway") === "true") {
-  const win1251 = new TextDecoder("windows-1251");
-  document.arrive("a[href*='away.php']", { existing: true }, function (link) {
-    const hrefable = link as HTMLAnchorElement;
-    const url = new URL(hrefable.href);
-    const toParam = url.searchParams.get("to");
-    if (toParam) {
-      const decodedUrl = decodeURL(hrefable.href, win1251);
-      hrefable.href = decodedUrl!;
-    }
-  });
+	const win1251 = new TextDecoder("windows-1251");
+	document.arrive("a[href*='away.php']", { existing: true }, function (link) {
+		const hrefable = link as HTMLAnchorElement;
+		const url = new URL(hrefable.href);
+		const toParam = url.searchParams.get("to");
+		if (toParam) {
+			const decodedUrl = decodeURL(hrefable.href, win1251);
+			hrefable.href = decodedUrl!;
+		}
+	});
 }
 
 //Старый дизайн мессенджера
@@ -598,17 +644,19 @@ deferredCallback(() => oldMessenger(), { variable: "vk" });
 //Старый дизайн вложений в мессенджере
 oldAttaches();
 //Стиль для старой иконки нотиса аудио 18+
-createStyle('audioNoticeIcon', innerNoticeStyle())
+createStyle("audioNoticeIcon", innerNoticeStyle());
 //Постеры
 listenWall((_wall) => {
 	posters();
 });
 //Удаляем скелетоны в классик профиле
 if (getLocalValue("isClassicalProfileDesign")) {
-	createStyle('removeSkeletonClassic', `
+	createStyle(
+		"removeSkeletonClassic",
+		`
       #profile_skeleton, .ProfileSkeleton {
 	      display:none!important;
       }
-    `);
+    `
+	);
 }
-
