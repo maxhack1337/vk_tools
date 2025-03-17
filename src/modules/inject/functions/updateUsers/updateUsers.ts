@@ -33,12 +33,9 @@ const updateUsers = () => {
 				appendIcons(["founder", "dev", "designer"]);
 				break;
 			case 539793061:
-				appendIcons(["former", "old"]);
+				appendIcons(["former"]);
 				break;
 			case 86322416:
-				appendIcons(["help", "old"]);
-				break;
-			case 861962176:
 				appendIcons(["help"]);
 				break;
 			default:
