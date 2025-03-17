@@ -18,6 +18,47 @@ import getUserDataSpa from './scripts/spa/getUserDataSpa';
 import './styles/classical-profile-view.css';
 import classicButtons from './styles/classicButtons';
 
+let cachedGroupInfo: any = {};
+
+async function preloadGroupInfo(userData: any) {
+  if (userData.career && userData.career.length > 0) {
+    for (const job of userData.career) {
+      if (job.group_id) {
+        try {
+          const groupData = await vkApi.api("groups.getById", {
+            group_ids: job.group_id,
+          });
+          cachedGroupInfo[job.group_id] = groupData["groups"][0];
+        } catch (error) {
+          console.error("Error fetching group data:", error);
+          cachedGroupInfo[job.group_id] = "Unknown";
+        }
+      }
+    }
+  }
+}
+
+let cachedCityInfo:any = {};
+
+async function preloadCityInfo(userData: any) {
+  if (userData.career && userData.career.length > 0) {
+    for (const job of userData.career) {
+      if (job.city_id) {
+        try {
+          const cityData = await vkApi.api("database.getCitiesById", {
+            city_ids: job.city_id,
+          });
+          cachedCityInfo[job.city_id] = cityData[0].title;
+        } catch (error) {
+          console.error("Error fetching city data:", error);
+          cachedCityInfo[job.city_id] = "Unknown";
+        }
+      }
+    }
+  }
+}
+
+
 const classicalProfile = () => {
   if (!localStorage.getItem("isClassicalProfileDesign") || localStorage.getItem("isClassicalProfileDesign") === 'false') return; 
     document.arrive(
@@ -48,7 +89,9 @@ const classicalProfile = () => {
             if (vk.id !== userData.id) {
               buttonRun();
             }
-            expandMore(userData);
+            preloadGroupInfo(userData);
+            preloadCityInfo(userData);
+            expandMore(cachedCityInfo, cachedGroupInfo, userData);
           } else {
             try {
               let pMoreInfo = document.querySelector(".profile_more_info") as HTMLElement;

@@ -3,13 +3,13 @@ import addRelatives from "./addRelatives";
 import appearVariable from "./appearVariable";
 import nextExpander from "./nextExpander";
 
-   const expandMore = async(userData: { home_town: string; relatives: string | any[]; home_phone: string; mobile_phone: string; skype: string; career: any; universities: any; schools: any; military: string | any[]; personal: { langs_full?: any; alcohol?: any; life_main?: any; people_main?: any; smoking?: any; inspired_by?: any; religion?: any; political?: any; }; activities: string; interests: string; music: string; movies: string; tv: string; books: string; games: string; quotes: string; about: string; }) => {
+   const expandMore = async(cachedCityInfo: any, cachedGroupInfo: any, userData: { home_town: string; relatives: string | any[]; home_phone: string; mobile_phone: string; skype: string; career: any; universities: any; schools: any; military: string | any[]; personal: { langs_full?: any; alcohol?: any; life_main?: any; people_main?: any; smoking?: any; inspired_by?: any; religion?: any; political?: any; }; activities: string; interests: string; music: string; movies: string; tv: string; books: string; games: string; quotes: string; about: string; }) => {
         let profileMoreInfo = document.querySelector(".profile_more_info") as HTMLElement;
         if (!profileMoreInfo) {
           return;
         }
         let profileLessLabel = document.querySelector(".profile_label_less") as HTMLElement;
-        let profileMoreLabel = document.querySelector(".profile_label_more") as HTMLElement;
+     let profileMoreLabel = document.querySelector(".profile_label_more") as HTMLElement;
        profileMoreInfo.addEventListener("click", async function (event) {
           const target = event.target as Element;
           if (!target?.closest(".vkEnhancerMoreItems")) {
@@ -203,10 +203,7 @@ import nextExpander from "./nextExpander";
                   let groupName;
                   try {
                     if (job.group_id) {
-                      let groupData = await vkApi.api("groups.getById", {
-                        group_ids: job.group_id,
-                      });
-                      groupName = groupData["groups"][0].name;
+                      groupName = cachedGroupInfo[job.group_id].name;
                     }
                   } catch (error) {
                     console.error("Error fetching group data:", error);
@@ -254,10 +251,7 @@ import nextExpander from "./nextExpander";
                     additionalS.appendChild(city_nameLink);
                   } else if (job.city_id) {
                     let city_nameID = document.createElement("div");
-                    let cids = await vkApi.api("database.getCitiesById", {
-                      city_ids: job.city_id,
-                    });
-                    let cidThis = cids[0].title;
+                    let cidThis = cachedCityInfo[job.city_id];
                     city_nameID.textContent = cidThis;
                     additionalS.appendChild(city_nameID);
                   }
@@ -327,10 +321,7 @@ import nextExpander from "./nextExpander";
                     groupAvaImg.style.width = "50px";
                     groupAvaImg.style.height = "50px";
                     groupAvaImg.style.borderRadius = "100px";
-                    let groupInfo = await vkApi.api("groups.getById", {
-                      group_ids: job.group_id,
-                    });
-                    groupAvaImg.src = groupInfo.groups[0].photo_50;
+                    groupAvaImg.src = cachedGroupInfo[job.group_id].photo_50;
                     groupAva.appendChild(groupAvaImg);
                     jobRow.appendChild(groupAva);
                   }
