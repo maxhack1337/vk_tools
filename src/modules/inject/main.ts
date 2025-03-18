@@ -182,6 +182,7 @@ window.showForwardBox = showForwardBox;
 window.vkenh.messagesHistory = [];
 window.vkenh.messagesDiff = {};
 window.vkenh.messagesSent = [];
+window.vkenh.curClassicalProfile = {};
 
 convert(document);
 document.arrive(".ComposerInput__input", { existing: true }, function (e) {

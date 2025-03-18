@@ -112,18 +112,15 @@ const appearFriends = () => {
                 "vkuiHorizontalCell__noPadding"
               );
               friendItem.innerHTML = `
-            <a href="/${
-              friend.domain
-            }" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
+            <a href="/${friend.domain
+                }" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
                 <div class="vkuiHorizontalCell__image">
-                    <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${
-                      friend.photo_100
-                    }">${friend.online === 1 ? "" : ""}</div>
+                    <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;"><img class="vkuiImageBase__img" src="${friend.photo_100
+                }">${friend.online === 1 ? "" : ""}</div>
                 </div>
                 <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">
-                    <span class="vkuiCaption__sizeYCompact vkuiCaption__level1 vkuiTypography__host vkuiTypography__normalize vkuiRootComponent__host"><div class="TextClamp-module__singleLine--mRCrF">${
-                      escapeHtml(friend.first_name)
-                    }</div></span>
+                    <span class="vkuiCaption__sizeYCompact vkuiCaption__level1 vkuiTypography__host vkuiTypography__normalize vkuiRootComponent__host"><div class="TextClamp-module__singleLine--mRCrF">${escapeHtml(friend.first_name)
+                }</div></span>
                 </div>
             </a>
         `;
@@ -168,16 +165,16 @@ const appearFriends = () => {
                 const onlineFriendsHeader = document.createElement("a");
                 onlineFriendsHeader.href = `/friends?id=${vk.id}&section=online`;
                 onlineFriendsHeader.classList.add(
-                "vkuiHeader__host",
-                "vkuiHeader__sizeM",
-                "vkuiHeader__pi",
-                "vkuiRootComponent__host",
-                "ProfileGroupHeader",
-                "vkuiTappable",
-                "vkuiInternalTappable",
-                "vkuiTappable--hasActive",
-                "vkui-focus-visible",
-                "vkEnhFriendsOnline"
+                  "vkuiHeader__host",
+                  "vkuiHeader__sizeM",
+                  "vkuiHeader__pi",
+                  "vkuiRootComponent__host",
+                  "ProfileGroupHeader",
+                  "vkuiTappable",
+                  "vkuiInternalTappable",
+                  "vkuiTappable--hasActive",
+                  "vkui-focus-visible",
+                  "vkEnhFriendsOnline"
                 );
                 onlineFriendsHeader.innerHTML =
                   `
@@ -270,7 +267,7 @@ const appearFriends = () => {
               myFriendsResponse = await vkApi.api("friends.get", {
                 user_id: vk.id,
               });
-            } catch (error) {}
+            } catch (error) { }
             let myFriends = myFriendsResponse.items;
             let commonFriends = friends.items.filter((friend: { id: string; }) =>
               myFriends.includes(friend.id)
@@ -377,9 +374,12 @@ const appearFriends = () => {
               jopaContainer.appendChild(commonFriendsContainer);
               friendsSection.prepend(jopaContainer);
             }
+          } else {
+            friendsSection = null;
           }
           imReady = true;
           let readyElement = document.createElement("div");
+          readyElement.id = objectId1;
           readyElement.classList.add("imReadyForShowingFriends");
           document.body.appendChild(readyElement);
         }

@@ -6,7 +6,8 @@ import getUserDataReactSpa from "./spa/getUserDataReactSpa";
 const getUserData = async (objectId: number) => {
         try {
           let response = IS_SPA ? await getUserDataReactSpa() : await getUserDataReact();
-          console.log("[VK Tools] Profile fetched",response);
+          console.log("[VK Tools] Profile fetched", response);
+          window.vkenh.curClassicalProfile = response;
           if (!response.hidden) {
             let wasInSetb = getLang?.("profile_last_seen", "raw");
             let newLangArray = Array.isArray(wasInSetb) ? wasInSetb.map((item) => item.replace(/%s/, "")) : wasInSetb ? [wasInSetb.replace(/%s/, "")] : []; 

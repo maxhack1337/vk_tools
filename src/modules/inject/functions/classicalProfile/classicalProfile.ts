@@ -188,8 +188,8 @@ const classicalProfile = () => {
         document.arrive(
         ".imReadyForShowingFriends",
         { existing: true },
-        async function () {
-          if (friendsSection !== null && imReady) {
+        async function (e) {
+          if (friendsSection !== null && imReady && vkenh.curClassicalProfile?.id?.toString() === e.id) {
             document.querySelector(".ScrollStickyWrapper > div")?.prepend(friendsSection);
             document.querySelector(".vkEnhancerFrenBox")?.appendChild(aHrefSectionFrens);
           }
