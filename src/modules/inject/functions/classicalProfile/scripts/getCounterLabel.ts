@@ -1,3 +1,4 @@
+import getAudioContLang from "./getAudioContLang";
 import getLang1 from "./getLang1";
 import getLangTime from "./getLangTime";
 import getPhotoTagText from "./getPhotoTagText";
@@ -19,12 +20,7 @@ const getCounterLabel = (counterType: string, value: number) => {
           case "audios": {
             return getLangTime(
               value,
-              getLang1("audio_playlist_audios_count", "raw") || [
-    "",
-    "аудиозапись",
-    "аудиозаписи",
-    "аудиозаписей"
-]
+              getAudioContLang(vk.lang)
             );
           }
           case "followers": {
