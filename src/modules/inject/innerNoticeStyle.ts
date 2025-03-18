@@ -4,6 +4,8 @@ const innerNoticeStyle = () => {
     .audio_row__legal_notice_icon svg,
     [class*="vkitAudioPlayerAudioInfo__titleNoticeIcon--"] svg,
     [class*="vkitAudioRow__rootHasHover--"] svg[class*="--error_circle_fill_gray_12"],
+    [class*="vkitSecondaryAttachment__titleIcon--"] svg[class*="--error_circle_fill_gray_12"],
+    [class*="vkitPrimaryAttachmentAudio__titleIcon--"] svg[class*="--error_circle_fill_gray_12"],
     .OwnerContentTabAudiosItem__legalNotice svg {
         width: 11px !important;
         height: 11px !important;
@@ -16,7 +18,9 @@ const innerNoticeStyle = () => {
     .audio_row__legal_notice_icon svg use,
     [class*="vkitAudioPlayerAudioInfo__titleNoticeIcon--"] svg use,
     [class*="vkitAudioRow__rootHasHover--"] svg[class*="--error_circle_fill_gray_12"] use,
-    .OwnerContentTabAudiosItem__legalNotice svg use {
+    .OwnerContentTabAudiosItem__legalNotice svg use,
+    [class*="vkitPrimaryAttachmentAudio__titleIcon--"] svg[class*="--error_circle_fill_gray_12"] use,
+    [class*="vkitSecondaryAttachment__titleIcon--"] svg[class*="--error_circle_fill_gray_12"] use {
         display: none
     }
 
