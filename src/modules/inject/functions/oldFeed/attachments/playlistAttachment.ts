@@ -34,7 +34,7 @@ return `
         <div class="vkitSecondaryAction__iconButton vkitSecondaryAction__iconButtonCircle vkuiTappable vkuiTappable--hasPointer-none vkuiClickable__host vkuiClickable__realClickable vkui-focus-visible vkuiRootComponent" role="button" tabindex="0">
           <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--24 vkuiIcon--w-24 vkuiIcon--h-24 vkuiIcon--play_24" width="24" height="24" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
             <path fill="currentColor" d="M18.5 11.134a1 1 0 0 1 0 1.732l-9 5.196a1 1 0 0 1-1.5-.866V6.804a1 1 0 0 1 1.5-.866z"></path>
-          </svg><span aria-hidden="true" class="vkuiTappable__stateLayer"></span></div>
+          </svg></div>
       </div>
     </div>
   </div>
