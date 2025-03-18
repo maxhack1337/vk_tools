@@ -65,6 +65,14 @@ body.classicProfile {
         content: '.';
     }
 
+    .ProfileGifts .vkuiHeader__content:last-child {
+        font-size: 13px!important;
+        font-weight: 400!important;
+        .vkuiHeader__indicator {
+            font-weight: 400!important;
+        }
+    }
+
     .vkuiGroup__modeCard[style="display: none;"]+.vkuiGroup__separatorSibling {
         display: none;
     }
