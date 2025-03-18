@@ -193,7 +193,7 @@ import nextExpander from "./nextExpander";
                 commonDiv.appendChild(innerText);
                 commonDiv.appendChild(inner);
                 moreItemsLoaded.appendChild(commonDiv);
-                let jobPromises = career.map(async (job: { group_id: string; company: string | null; city_name: string | null; city_id: any; from: any; until: any; position: string; }) => {
+                let jobPromises = career.slice().reverse().map(async (job: { group_id: string; company: string | null; city_name: string | null; city_id: any; from: any; until: any; position: string; }) => {
                   let careerDiv = document.createElement("div");
                   careerDiv.classList.add("label", "fl_l");
                   careerDiv.textContent = `${getLang?.("Work_place")}`;
