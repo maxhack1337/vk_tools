@@ -1,5 +1,4 @@
 import antiDeferredCallback from '../../antiDefferedCallback';
-import { showLoadingOverlay } from '../../components/overlay/LoadingOverlay';
 import getId from '../middleName/getId';
 import addCounters from './scripts/addCounters';
 import addPlaceholder from './scripts/addPlaceholder';

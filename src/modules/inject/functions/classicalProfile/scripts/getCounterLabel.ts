@@ -1,5 +1,4 @@
 import getAudioContLang from "./getAudioContLang";
-import getLang1 from "./getLang1";
 import getLangTime from "./getLangTime";
 import getPhotoTagText from "./getPhotoTagText";
 import getPostLangKey from "./getPostLangKey";

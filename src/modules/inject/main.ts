@@ -52,6 +52,7 @@ import oldAttaches from "./functions/oldMessenger/oldAttaches/oldAttaches";
 import searchHashes from "./searchHashes";
 import { hook } from "./hookFunction";
 import { showLoadingOverlay } from "./components/overlay/LoadingOverlay";
+import checkIsSection from "./functions/feedReorder/checkIsSection";
 
 let debugMode = false;
 
@@ -240,8 +241,12 @@ XHRListener();
 deferredCallback(
 	() => {
 		nav.subscribeOnModuleEvaluated(async () => {
+			checkIsSection();
 			await feedReorder();
 		});
+		nav.onLocationChange((() => {
+			checkIsSection();
+		}))
 	},
 	{ variable: "nav" }
 );
@@ -531,7 +536,7 @@ deferredCallback(
 			}
 		});
 		ajax.frame.finalize = hook(ajax.frame.finalize, (pre) => {
-			window.vkenh.profileHashes = searchHashes(pre.args[0]);
+			if(pre.args[0]) window.vkenh.profileHashes = searchHashes(pre.args[0]);
 			return (result) => result;
 		});
 	},
