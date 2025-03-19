@@ -367,6 +367,11 @@ const getOldDialogsStyle = () => {
     .ConvoHeader__infoContainer {
         flex-flow: row;
     }
+
+    .ConvoHeader__info {
+        text-decoration: none!important;
+    }
+
     .Reply::after {
         background: var(--vkui--vkontakte_im_reply_separator);
         opacity: .16;
