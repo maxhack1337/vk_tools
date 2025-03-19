@@ -9,6 +9,7 @@ interface VKEnh {
 	messagesSent?: any;
 	videoBlock?: any;
 	curClassicalProfile?: any;
+	loadingOverlay?: any;
 }
 
 interface URL {

@@ -1,4 +1,5 @@
 import antiDeferredCallback from '../../antiDefferedCallback';
+import { showLoadingOverlay } from '../../components/overlay/LoadingOverlay';
 import getId from '../middleName/getId';
 import addCounters from './scripts/addCounters';
 import addPlaceholder from './scripts/addPlaceholder';
@@ -126,6 +127,10 @@ const classicalProfile = () => {
         }
   );
 
+  document.leave('.vkuiAppRoot__host', {}, () => {
+    nav.reload();
+  })
+
   document.arrive(`[class^="vkitgetColorClass__colorTextSubhead"]`, { existing: true }, (e) => {
     let cont = e as HTMLElement;
     cont.textContent === getLang?.('profile_dead_page_label') ? cont.style.paddingLeft = "26px" : cont = cont;
@@ -135,7 +140,8 @@ const classicalProfile = () => {
       window.imReady = null;
     document.arrive(".ProfileGroup", { existing: true }, async function () {
     const profileGroups = document.querySelectorAll("section.ProfileGroup");
-    profileGroups.forEach((profileGroup) => {
+      profileGroups.forEach((profileGroup) => {
+        let pGroup = profileGroup as HTMLElement;
         const content = profileGroup.textContent;
 
         const includesLang = (key: string) => {
@@ -148,7 +154,6 @@ const classicalProfile = () => {
             includesLang("profile_common_friends") ||
             includesLang("profile_friends")
         ) {
-            let pGroup = profileGroup as HTMLElement;
             pGroup.style.display = "none";
             let separatorSibling = pGroup.nextSibling as HTMLElement;
             if (separatorSibling?.className === "vkuiGroup__separator-sibling") {
@@ -158,7 +163,7 @@ const classicalProfile = () => {
 
         if (includesLang("profile_closed_profile_banner_closed_btn") ||
         includesLang("profile_narratives")) {
-          profileGroup.remove();
+          pGroup.style.display = "none";
         }
     });
     });

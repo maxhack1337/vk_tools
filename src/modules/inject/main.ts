@@ -51,6 +51,7 @@ import showForwardBox from "./showForwardBox";
 import oldAttaches from "./functions/oldMessenger/oldAttaches/oldAttaches";
 import searchHashes from "./searchHashes";
 import { hook } from "./hookFunction";
+import { showLoadingOverlay } from "./components/overlay/LoadingOverlay";
 
 let debugMode = false;
 
@@ -183,6 +184,7 @@ window.vkenh.messagesHistory = [];
 window.vkenh.messagesDiff = {};
 window.vkenh.messagesSent = [];
 window.vkenh.curClassicalProfile = {};
+window.vkenh.loadingOverlay = showLoadingOverlay;
 
 convert(document);
 document.arrive(".ComposerInput__input", { existing: true }, function (e) {
