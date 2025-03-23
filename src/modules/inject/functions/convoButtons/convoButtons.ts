@@ -1,6 +1,7 @@
 import fromId from "../../../content/fromId";
 import getBeginChat from "./getBeginChat";
 import getPeerProps from "./getPeerProps";
+import getReadChat from "./getReadChat";
 import vkToolsOnlineBox from "./vkToolsOnlineBox";
 
 interface OnlineUser {
@@ -23,7 +24,7 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
   ActionEnhancerMenu.classList.add("ActionsMenu","ConvoMainActionsMenu","vkToolsActionMenu");
   ActionEnhancerMenu.innerHTML = `<button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkEnUp">
   <i class="ActionsMenuAction__icon">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
 <path d="M13 19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19L11 7.41421L6.70711 11.7071C6.31658 12.0976 5.68342 12.0976 5.29289 11.7071C4.90237 11.3166 4.90237 10.6834 5.29289 10.2929L11.2929 4.29289C11.6834 3.90237 12.3166 3.90237 12.7071 4.29289L18.7071 10.2929C19.0976 10.6834 19.0976 11.3166 18.7071 11.7071C18.3166 12.0976 17.6834 12.0976 17.2929 11.7071L13 7.41421L13 19Z" fill="currentColor"/>
 </svg></i>
   <span class="ActionsMenuAction__title">${getBeginChat(vk.lang)}</span>
@@ -31,15 +32,25 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
   
   <button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkEnAttaches">
   <i class="ActionsMenuAction__icon">
-  <svg style = "padding-top: 1px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <svg style = "padding-top: 1px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
  <path style="scale:1.2;" fill="currentColor" fill-rule="evenodd" d="M14.95 3.801a2.72 2.72 0 0 0-3.857 0L5.56 9.35a4.49 4.49 0 0 0 0 6.338 4.46 4.46 0 0 0 6.317 0l.002-.002 2.88-2.86a.75.75 0 0 1 1.057 1.064l-2.877 2.857-.002.002a5.96 5.96 0 0 1-8.439-.001 5.99 5.99 0 0 1 0-8.458l5.534-5.548a4.22 4.22 0 0 1 5.981 0 4.244 4.244 0 0 1 0 5.991l-5.534 5.548a2.486 2.486 0 0 1-3.521 0 2.497 2.497 0 0 1 0-3.525l.002-.002 3.102-3.083a.75.75 0 0 1 1.058 1.064l-3.1 3.08-.001.002a.997.997 0 0 0 0 1.405.986.986 0 0 0 1.398 0l5.534-5.548a2.744 2.744 0 0 0 0-3.873" clip-rule="evenodd"></path></svg></i>
   <span class="ActionsMenuAction__title">${getLang?.(
     "me_convo_action_attach"
   )}</span></button>
+
+    <button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkToolsRead">
+  <i class="ActionsMenuAction__icon">
+ <svg aria-hidden="true" display="block" class="vkuiIcon vkuiIcon--20 vkuiIcon--w-20 vkuiIcon--h-20 vkuiIcon--message_check_outline_20" width="20" height="20" viewBox="0 0 20 20" style="width: 20px; height: 20px; margin-left: 1px;">
+ <g fill="currentColor"><path d="M13.78 7.72a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47 3.47-3.47a.75.75 0 0 1 1.06 0"></path><path fill-rule="evenodd" d="M3.242 18.5a1.203 1.203 0 0 1-1.101-1.767c.644-1.216 1.016-2.14 1.121-2.73A7 7 0 0 1 2 10c0-4.17 3.681-7.5 8.25-7.5S18.5 5.83 18.5 10s-3.681 7.5-8.25 7.5a9 9 0 0 1-2.66-.393c-.996.881-2.456 1.336-4.348 1.393m3.586-2.749a.75.75 0 0 1 .821-.206A7.5 7.5 0 0 0 10.25 16c3.772 0 6.75-2.694 6.75-6s-2.978-6-6.75-6S3.5 6.694 3.5 10c0 1.21.4 2.367 1.14 3.349a.75.75 0 0 1 .15.49c-.04.756-.403 1.785-1.085 3.135 1.483-.116 2.514-.534 3.123-1.222" clip-rule="evenodd"></path></g>
+ </svg>
+  </i>
+  <span class="ActionsMenuAction__title">${getReadChat(vk.lang)}</span></button>
   
+  <div role="separator" aria-orientation="horizontal" class="ActionsMenuAction__separator vkEnOnlineSeparator"></div>
+
     <button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkEnOnline">
   <i class="ActionsMenuAction__icon">
-  <svg width="24" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 9.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0v-4a.75.75 0 0 1 .75-.75z" fill="currentColor"></path><path d="M11 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M3.99 3.99A8.48 8.48 0 0 1 10 1.5c2.35 0 4.47.95 6.01 2.49A8.48 8.48 0 0 1 18.5 10a8.48 8.48 0 0 1-2.49 6.01A8.48 8.48 0 0 1 10 18.5a8.48 8.48 0 0 1-6.01-2.49A8.48 8.48 0 0 1 1.5 10c0-2.35.95-4.47 2.49-6.01zM10 3a6.98 6.98 0 0 0-4.95 2.05A6.98 6.98 0 0 0 3 10c0 1.93.78 3.68 2.05 4.95A6.98 6.98 0 0 0 10 17a6.97 6.97 0 0 0 4.95-2.05A6.97 6.97 0 0 0 17 10a6.98 6.98 0 0 0-2.05-4.95A6.98 6.98 0 0 0 10 3z" fill="currentColor"></path></svg>
+  <svg width="21" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 9.25a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0v-4a.75.75 0 0 1 .75-.75z" fill="currentColor"></path><path d="M11 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M3.99 3.99A8.48 8.48 0 0 1 10 1.5c2.35 0 4.47.95 6.01 2.49A8.48 8.48 0 0 1 18.5 10a8.48 8.48 0 0 1-2.49 6.01A8.48 8.48 0 0 1 10 18.5a8.48 8.48 0 0 1-6.01-2.49A8.48 8.48 0 0 1 1.5 10c0-2.35.95-4.47 2.49-6.01zM10 3a6.98 6.98 0 0 0-4.95 2.05A6.98 6.98 0 0 0 3 10c0 1.93.78 3.68 2.05 4.95A6.98 6.98 0 0 0 10 17a6.97 6.97 0 0 0 4.95-2.05A6.97 6.97 0 0 0 17 10a6.98 6.98 0 0 0-2.05-4.95A6.98 6.98 0 0 0 10 3z" fill="currentColor"></path></svg>
   </i><span class="ActionsMenuAction__title">${getLang?.(
     "mail_im_mention_online"
   )}</span></button>
@@ -94,7 +105,9 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
 		displayElement.style.display = "flex";
         } else {
         let displayElement = ActionEnhancerMenu.querySelector(".vkEnOnline") as HTMLElement;
+        let displayElSeparator = ActionEnhancerMenu.querySelector(".vkEnOnlineSeparator") as HTMLElement;
         displayElement.style.display = "none";
+        displayElSeparator.style.display = "none";
     }
   } catch (error) {}
   ActionEnhancerMenu.querySelector(".vkEnOnline")?.addEventListener(
@@ -185,6 +198,15 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
       }
     }
   );
+
+  ActionEnhancerMenu.querySelector('.vkToolsRead')?.addEventListener('click', () => {
+    vkApi.api('messages.markAsRead', { peer_id: memoizedPeer, mark_conversation_as_read: 1 });
+    if (ActionEnhancerMenu.style.opacity === "1") {
+      ActionEnhancerMenu.style.pointerEvents = "none";
+      ActionEnhancerMenu.style.opacity = "0";
+    }
+  });
+
   try {
     e.prepend(upToButton);
   } catch (error) {}

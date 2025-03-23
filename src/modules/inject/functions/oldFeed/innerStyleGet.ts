@@ -1,5 +1,14 @@
 const innerStyleGet = () => {
 	return `
+	    .replies_short_text_name {
+        	font-weight: 500!important;
+        	-webkit-font-smoothing: subpixel-antialiased;
+        	-moz-osx-font-smoothing: auto;
+        	color: var(--vkui--color_text_primary)!important;
+        	margin-right: 4px!important;
+        	text-overflow: ellipsis;
+        	overflow: hidden;
+    	}
 	    [class^="vkitChipAttachment__root"]+[class^="vkitSpacing__root"] {
         	display: none;
     	}
