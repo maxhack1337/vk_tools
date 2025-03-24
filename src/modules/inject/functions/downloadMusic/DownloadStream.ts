@@ -12,18 +12,25 @@ const DownloadStream = (url: string, name: string, elem: any, imgurl = '') => {
         dur,
         frag_length: number
     let temp_audio = document.createElement('audio')
-    let downloadInProgress = document.createElement('div')
+    let downloadInProgress;
+    if (!document.querySelector('.snackBarStack')) {
+        downloadInProgress = document.createElement('div');
+        downloadInProgress.classList.add('snackBarStack');
+        document.body.appendChild(downloadInProgress);
+    } else downloadInProgress = document.querySelector('.snackBarStack');
+    let snacky: HTMLDivElement;
     if (imgurl === '') {
-        downloadInProgress.append(progressSnack(getLang?.("me_download_waiting") + "...", 'music'));
+        snacky = progressSnack(getLang?.("me_download_waiting") + "...", 'music');
+        downloadInProgress?.append(snacky);
     } else {
-        downloadInProgress.append(progressSnack(getLang?.("me_download_waiting") + "...", 'custom', imgurl));
+        snacky = progressSnack(getLang?.("me_download_waiting") + "...", 'custom', imgurl);
+        downloadInProgress?.append(snacky);
     }
 
-    let progrText = downloadInProgress.querySelector(
+    let progrText = snacky.querySelector(
         '.vkToolsSnackbar__content-text'
     )
 
-    document.body.appendChild(downloadInProgress)
     if (Hls.isSupported()) {
         hls.loadSource(url)
         hls.attachMedia(temp_audio)
@@ -44,13 +51,13 @@ const DownloadStream = (url: string, name: string, elem: any, imgurl = '') => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                 hls.stopLoad(),
                     hls.destroy(),
-                    downloadInProgress
+                    snacky
                         .querySelector('.vkToolsSnackbar__in')
                         ?.classList.add('vkToolsRemovebar'),
-                    downloadInProgress
+                    snacky
                         .querySelector('.vkToolsSnackbar__in')
                         ?.addEventListener('animationend', () => {
-                            downloadInProgress.remove()
+                            snacky.remove()
                         }),
                     downloadBlob(new Blob(blob_data), name + '.mp3')
             }

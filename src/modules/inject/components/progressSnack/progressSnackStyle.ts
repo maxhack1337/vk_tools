@@ -1,6 +1,12 @@
 const progressSnackStyle = () => {
 	return `
-
+	.snackBarStack {
+		z-index: 99999;
+    	bottom: 0px;
+    	position: fixed;
+    	display: flex;
+    	flex-direction: column;
+	}
    .vkToolsSnackbar__content {
 	    display: flex;
     	align-items: end;
@@ -44,7 +50,6 @@ const progressSnackStyle = () => {
 	margin:12px;
 	user-select:none;
 	z-index:var(--vkui--z_index_popout);
-	position:fixed;
 	inset-block-end:0;
 	inset-inline-start:auto;
 	inline-size:100%;

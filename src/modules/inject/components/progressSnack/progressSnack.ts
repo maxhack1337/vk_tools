@@ -20,7 +20,7 @@ const snackbarTypeIconMap: { [key: string]: string } = {
 
 const progressSnack = (text = '', icon: string, imgurl?: string, calcelButton?: boolean) => {
     createStyle('progressSnack', progressSnackStyle());
-
+    
     let snackBar = document.createElement("div");
     snackBar.classList.add("vkToolsSnackbar", "vkToolsSnackbar--ios", "vkToolsSnackbar--desktop", "vkui--vkIOS--light");
 

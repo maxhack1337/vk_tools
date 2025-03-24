@@ -47,11 +47,16 @@ const parseAlbum = async() => {
     if (albumsRes.items[0].size > 0) {
       let albumCount = albumsRes.items[0].size;
       let offset = 0;
-      let progressBar = document.createElement("div");
-      progressBar.append(progressSnack(getLang?.("me_download_waiting") + "...", "album", '', true));
-      let cancelButton = progressBar.querySelector('.vkToolsSnackbar__calcel-button') as HTMLButtonElement;
+      let snackBarStack;
+      if (!document.querySelector('.snackBarStack')) {
+        snackBarStack = document.createElement('div');
+        snackBarStack.classList.add('snackBarStack');
+        document.body.appendChild(snackBarStack);
+      } else snackBarStack = document.querySelector('.snackBarStack');
+      let snacky = progressSnack(getLang?.("me_download_waiting") + "...", "album", '', true);
+      snackBarStack?.append(snacky);
+      let cancelButton = snacky?.querySelector('.vkToolsSnackbar__calcel-button') as HTMLButtonElement;
       cancelButton.style.display = "none";
-      document.body.appendChild(progressBar);
       let counterProgress = 0;
       while (albumCount > 0) {
         let count = Math.min(1000, albumCount);
@@ -121,11 +126,11 @@ const parseAlbum = async() => {
             let [filename, blob] = await getPhoto(
               maxSizeUrl,
               photoItem,
-              progressBar
+              snacky
             );
             zip.file(filename.toString(), blob);
             counterProgress++;
-            let pBar = progressBar.querySelector(
+            let pBar = snacky.querySelector(
               ".vkToolsSnackbar__content-text"
             );
             if (pBar) pBar.innerHTML =
@@ -138,9 +143,9 @@ const parseAlbum = async() => {
             cancelButton.style.display = "flex";
             if (localStorage.getItem('abortTask') === 'true') {
               localStorage.setItem('abortTask', 'false');
-              progressBar.querySelector(".vkToolsSnackbar__in")?.classList.add("vkToolsRemovebar");
-              progressBar.querySelector(".vkToolsSnackbar__in")?.addEventListener("animationend", () => {
-                progressBar.remove();
+              snacky.querySelector(".vkToolsSnackbar__in")?.classList.add("vkToolsRemovebar");
+              snacky.querySelector(".vkToolsSnackbar__in")?.addEventListener("animationend", () => {
+                snacky.remove();
               });
               return Promise.reject('[VK Tools] Скачивание отменено');
             }
@@ -159,9 +164,9 @@ const parseAlbum = async() => {
         albumCount -= count;
         offset += count;
       }
-      progressBar.querySelector(".vkToolsSnackbar__in")?.classList.add("vkToolsRemovebar");
-      progressBar.querySelector(".vkToolsSnackbar__in")?.addEventListener("animationend", () => {
-        progressBar.remove();
+      snacky.querySelector(".vkToolsSnackbar__in")?.classList.add("vkToolsRemovebar");
+      snacky.querySelector(".vkToolsSnackbar__in")?.addEventListener("animationend", () => {
+        snacky.remove();
       });
       counterProgress = 0;
     } else {

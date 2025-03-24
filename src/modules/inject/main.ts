@@ -53,6 +53,7 @@ import searchHashes from "./searchHashes";
 import { hook } from "./hookFunction";
 import { showLoadingOverlay } from "./components/overlay/LoadingOverlay";
 import checkIsSection from "./functions/feedReorder/checkIsSection";
+import renderId from "./functions/renderId/renderId";
 
 let debugMode = false;
 
@@ -198,8 +199,8 @@ deferredCallback(
 		createVkToolsBanners();
 		//Получаем фотку юзера из стореджа
 		await getUserDataLocalStoragePhoto(vk.id);
-
 		window.vkenh.profileHashes = await vkApi.api('account.getProfileDataLegacy', { owner_id: vk.id });
+		renderId();
 	},
 	{ variable: "vkApi" }
 );
