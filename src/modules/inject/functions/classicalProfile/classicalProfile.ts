@@ -96,7 +96,9 @@ const classicalProfile = () => {
             try {
               let pMoreInfo = document.querySelector(".profile_more_info") as HTMLElement;
               pMoreInfo.style.display = "none";
-            } catch (error) { }
+            } catch (e) {
+              console.log('[VK Tools Error] Classic profile error', e)
+            }
             createStyle('classicalProfilesDELETED', '[class^="vkitGroup__group"]:has(>.PlaceholderMessageBlock) {display: none !important;}');
             addPlaceholder();
             if (userData.blacklisted === 1 && !userData.deactivated) {
@@ -214,7 +216,9 @@ const classicalProfile = () => {
           if (
             !document.querySelector("#profile_redesigned .ProfileHeader")?.classList.contains("ProfileHeader--noCover")
           ) document.querySelector("#profile_redesigned .ProfileHeader")?.classList.add("ProfileHeader--noCover");
-        } catch (error) {}
+        } catch (e) {
+          console.log('[VK Tools Error] Classic profile error', e)
+        }
       });
   
   appearFriends();

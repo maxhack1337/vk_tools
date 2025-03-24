@@ -205,37 +205,40 @@ deferredCallback(
 );
 
 function XHRListener() {
-	XMLHttpRequest.prototype.send = hook(XMLHttpRequest.prototype.send, async (pre) => {
-		const [data] = pre.args;
-
-		const dataString = data === null ? "" : String(data);
-
-		if (
-			(/type=typing/.test(dataString) && getLocalValue("nepisalkaValue")) ||
-			(/type=audiomessage/.test(dataString) && getLocalValue("nepisalkaValue")) ||
-			(/act=a_mark_read/.test(dataString) && getLocalValue("nechitalkaValue")) ||
-			(/act=a_mard_listened/.test(dataString) && getLocalValue("nechitalkaValue"))
-		) {
-			pre.abort(undefined);
-			return;
-		}
-
-		if (/subsection=recent/.test(dataString)) {
-			localStorage.setItem("feedValue", "recent");
-			await feedReorder();
-		}
-
-		if (/subsection=top/.test(dataString)) {
-			localStorage.setItem("feedValue", "top");
-			await feedReorder();
-		}
-
-		if (/loaded_from=navigation/.test(dataString)) {
-			feedReorderRemove();
-			await feedReorder();
-		}
-		return undefined;
-	});
+const originalSend = XMLHttpRequest.prototype.send;
+ 
+ 	XMLHttpRequest.prototype.send = async function (data) {
+ 		const dataString = data === null ? "" : String(data);
+ 		if (/type=typing/.test(dataString) && getLocalValue("nepisalkaValue")) {
+ 			return this.abort();
+ 		}
+ 		if (/type=audiomessage/.test(dataString) && getLocalValue("nepisalkaValue")) {
+ 			return this.abort();
+ 		}
+ 
+ 		if (/act=a_mark_read/.test(dataString) && getLocalValue("nechitalkaValue")) {
+ 			return this.abort();
+ 		}
+ 		if (/act=a_mard_listened/.test(dataString) && getLocalValue("nechitalkaValue")) {
+ 			return this.abort();
+ 		}
+ 
+ 		if (/subsection=recent/.test(dataString)) {
+ 			localStorage.setItem("feedValue", "recent");
+ 			await feedReorder();
+ 		}
+ 
+ 		if (/subsection=top/.test(dataString)) {
+ 			localStorage.setItem("feedValue", "top");
+ 			await feedReorder();
+ 		}
+ 
+ 		if (/loaded_from=navigation/.test(dataString)) {
+ 			feedReorderRemove();
+ 			await feedReorder();
+ 		}
+ 		return originalSend.call(this, data);
+ 	};
 }
 
 XHRListener();
@@ -524,22 +527,24 @@ deferredCallback(
 hotBar();
 //Доп функции в мессенджере и смена отчества
 deferredCallback(
-	() => {
-		ajax.post = hook(ajax.post, (pre) => {
-			if ("al_profileEdit.php" === pre.args[0] && "a_save_general" === pre.args[1].act) {
-				if (pre.args[1].nickname) {
-					pre.args[1].nick_name = pre.args[1].nickname;
-					delete pre.args[1].nickname;
-				} else if (!pre.args[1].nick_name) {
-					pre.args[1].nick_name = "";
-				}
-				pre.modifyArgs(pre.args);
-				return (result) => result;
-			}
-		});
-	},
-	{ variable: "ajax" }
+  () => {
+    let orig_ajax = ajax.post;
+    ajax.post = function (...e: any) {
+      if ("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act) {
+        if (e[1].nickname) {
+          e[1].nick_name = e[1].nickname;
+          delete e[1].nickname;
+        } else if (!e[1].nick_name) {
+          e[1].nick_name = "";
+        }
+      }
+      const t = orig_ajax.apply(this, e);
+      return t;
+    };
+  },
+  { variable: "ajax" }
 );
+
 //Тогглы в новом дизайне мессенджера
 newDesign();
 //Реклама
