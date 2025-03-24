@@ -206,6 +206,7 @@ const oldFeed = () => {
 
                     }
                 }
+                console.log(dataAttachments);
                 //Документы
                 if (e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"])') && dataAttachments.item.attachments) {
                     let allDocs = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]');
@@ -257,8 +258,8 @@ const oldFeed = () => {
                     });
                 }
                 //Музыка на фото
-                if (e.querySelector('[class^="vkitMusicTrackOverlayBadge__root"]')) {
-                    let x = e.querySelector('[class^="vkitMusicTrackOverlayBadge__root"]');
+                if (e.querySelector('[class^="vkitMusicOverlayAttachment__root"]')) {
+                    let x = e.querySelector('[class^="vkitMusicOverlayAttachment__root"]');
                     if (dataAttachments && dataAttachments.item && dataAttachments.item.attachments) {
                         dataAttachments.item.attachments.forEach(function(music: any) {
                             if (music.type === "audio" && music.style === "on_media") {
@@ -276,8 +277,8 @@ const oldFeed = () => {
                         });
                     }
                 }
-                if (e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitMusicTrackOverlayBadge__root"]')) {
-                    let x = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitMusicTrackOverlayBadge__root"]');
+                if (e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitMusicOverlayAttachment__root"]')) {
+                    let x = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitMusicOverlayAttachment__root"]');
                     if (dataRepostAttachments && dataRepostAttachments.item && dataRepostAttachments.item.attachments) {
                         dataRepostAttachments.item.attachments.forEach(function(music: any) {
                             if (music.type === "audio" && music.style === "on_media") {
