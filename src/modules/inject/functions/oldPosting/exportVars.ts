@@ -52,7 +52,7 @@ const exportVars = async(wall_oid:number,public_link:string,loc:string,owner:{id
 	replacePostingBlock(submitPostBlock, newPostingBlock, isFeedBlock, isElseProfile, isWallModule, isBeginBlock);
 		deferredCallback(
 			async () => {
-				if (wall_oid !== (ownerId || profileId) && (oid < 0) && wallData.suggesting) {
+				if (wall_oid !== (ownerId || profileId) && (oid < 0)) {
 					let audioPostSuggest = document.querySelector('#submit_post .ms_item_audio');
 					if (audioPostSuggest) {
   						const newElement = audioPostSuggest.cloneNode(true) as HTMLElement;
