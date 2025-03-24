@@ -105,13 +105,22 @@ import refreshLocForMini from "./refreshLocForMini";
           }
           if (vk.id === objectId) {
             let pHeaderAva = document.querySelectorAll(".OwnerPageAvatar")[1];
-            pHeaderAva.remove();
+            if (pHeaderAva) pHeaderAva.remove();
+            else document.querySelectorAll(".OwnerPageAvatar")[0].remove()
             let pHeaderAva1 = document.querySelectorAll(
               ".ProfileHeader__ava"
             )[1] as HTMLElement;
+            if (!pHeaderAva1) {
+              pHeaderAva1 = document.querySelectorAll(
+              ".ProfileHeader__ava"
+            )[0] as HTMLElement;
+            }
             pHeaderAva1.style.position = "relative";
             pHeaderAva1.style.left = "-200px";
             let pHeaderIn = document.querySelectorAll(".ProfileHeader__in")[1];
+            if (!pHeaderIn) {
+              pHeaderIn = document.querySelectorAll(".ProfileHeader__in")[0];
+            }
             let ownerPhotoWrap = document.createElement("div");
             ownerPhotoWrap.classList.add("owner_photo_wrap");
             ownerPhotoWrap.classList.add("actions_with_effects");
@@ -129,7 +138,7 @@ import refreshLocForMini from "./refreshLocForMini";
                 () => {
                   try {
                     photoHashEdit = getPhotoEditHash();
-                    if(!photoHashEdit) photoHashEdit = vkenh.profileHashes ? vkenh.profileHashes.avatarEdit : false
+                    if (!photoHashEdit) photoHashEdit = vkenh.profileHashes ? vkenh.profileHashes.avatar_edit_hash : false
                     ownerPhotoWrap.innerHTML =
                       `<div class="owner_photo_top_bubble_wrap"> <div class="owner_photo_top_bubble"> <div class="ui_thumb_x_button" onclick="showFastBox(getLang('global_warning'), getLang('profile_really_delete_photo'), getLang('global_delete'),()=>{ vkApi.api('users.get',{fields:'photo_id'}).then(e=>{ vkApi.api('photos.delete',{owner_id:` +
                       vk.id +

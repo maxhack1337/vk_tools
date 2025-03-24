@@ -66,7 +66,7 @@ const classicalProfile = () => {
         { existing: true },
       async function () {
         try {
-          document.body.classList.add('classicProfile');
+          document.querySelector('html')!.classList.add('classicProfile');
           classicButtons();
           let objectId1 = await getId();
           let userData = IS_SPA ? await getUserDataSpa(objectId1) : await getUserData(objectId1);

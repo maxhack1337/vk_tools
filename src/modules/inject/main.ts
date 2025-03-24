@@ -198,6 +198,8 @@ deferredCallback(
 		createVkToolsBanners();
 		//Получаем фотку юзера из стореджа
 		await getUserDataLocalStoragePhoto(vk.id);
+
+		window.vkenh.profileHashes = await vkApi.api('account.getProfileDataLegacy', { owner_id: vk.id });
 	},
 	{ variable: "vkApi" }
 );
@@ -534,10 +536,6 @@ deferredCallback(
 				pre.modifyArgs(pre.args);
 				return (result) => result;
 			}
-		});
-		ajax.frame.finalize = hook(ajax.frame.finalize, (pre) => {
-			if(pre.args[0]) window.vkenh.profileHashes = searchHashes(pre.args[0]);
-			return (result) => result;
 		});
 	},
 	{ variable: "ajax" }
