@@ -22,7 +22,8 @@ const keys = [
     "feedOldPosts",
     "oldClubs",
     "oldMessengerDes",
-    "oldMessengerAttaches"
+    "oldMessengerAttaches",
+    "enterProfileGroupID"
 ];
 
 const resetFunctionsOnInstall = () => {

@@ -90,7 +90,8 @@ const functions = [
   "oldClubState",
   "oldMessengerDesignState",
   "compactPhotosState",
-  "oldMessengerAttachesState"
+  "oldMessengerAttachesState",
+  "enterProfileGroupIDState"
 ]
 
 const applySavedStyles = () => {
@@ -141,6 +142,7 @@ const applySavedStyles = () => {
     const oldMessengerDesign = items.oldMessengerDesignState;
     const compactPhotos = items.compactPhotosState;
     const oldMessengerAttaches = items.oldMessengerAttachesState;
+    const enterProfileGroupID = items.enterProfileGroupIDState;
     applyStyles({
       isVideoModal,
       altScroll,
@@ -187,12 +189,13 @@ const applySavedStyles = () => {
       oldClub,
       oldMessengerDesign,
       compactPhotos,
-      oldMessengerAttaches
+      oldMessengerAttaches,
+      enterProfileGroupID
     })
   });
 }
 
-function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; stickerPopupHide: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; feedValue: any; messageTextUp: any; oldClub: any; oldMessengerDesign: any; compactPhotos: any; oldMessengerAttaches: any}) {
+function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName: any; classicProfile: any; accent: any; selectionText: any; selection: any; customBg: any; customFont: any; customLogo: any; wideFeed: any; hotbar: any; oldPostStyle: any; fixLeftMenu: any; garland: any; stickerPopupHide: any; leftMenu: any; refreshFeed: any; oldPosting: any; removePostReacts: any; sliderValue: any; tabletMenu: any; disableAway: any; disableMessageCounter: any; isGraffity: any; oldBadge: any; reloadButton: any; removeMessageReacts: any; tagInteraction: any; removeNFT: any; hideNamesAvatars: any; removeEmojiStatus: any; doNotDisturb: any; disableReconnectIndicator: any; returnCamera: any; hideTextEntry: any; disableReadingMessages: any; showPollResults: any; showPatronymic: any; hideMessageFooter: any; feedValue: any; messageTextUp: any; oldClub: any; oldMessengerDesign: any; compactPhotos: any; oldMessengerAttaches: any; enterProfileGroupID: any; }) {
   if (styles.removeNFT) {
     hideNFT_Avatars();
   }
@@ -477,6 +480,12 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
     customMessage("oldMessengerAttaches", styles.oldMessengerAttaches)
   } else {
     customMessage("oldMessengerAttaches", "false")
+  }
+
+  if (styles.enterProfileGroupID) {
+    customMessage("enterProfileGroupID", styles.enterProfileGroupID)
+  } else {
+    customMessage("enterProfileGroupID", "false")
   }
 
   if (styles.compactPhotos) {

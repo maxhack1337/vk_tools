@@ -59,6 +59,7 @@ const allStates = [
   "oldMessengerDesignState",
   "compactPhotosState",
   "oldMessengerAttachesState",
+  "enterProfileGroupIDState",
 ];
 
 const clearAllStates: { [key: string]: any } = {
@@ -108,6 +109,7 @@ const clearAllStates: { [key: string]: any } = {
   oldMessengerDesignState: false,
   compactPhotosState: false,
   oldMessengerAttachesState: false,
+  enterProfileGroupIDState: false,
 };
 
 const SettingsElement = ({ id, label, canFile }: SettingsElementProps) => {

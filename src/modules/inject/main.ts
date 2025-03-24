@@ -367,6 +367,10 @@ window.addEventListener("message", async (event) => {
 			localStorage.setItem("oldMessengerAttaches", event.data.value.messageValue);
 			break;
 		}
+		case "enterProfileGroupID": {
+			localStorage.setItem("enterProfileGroupID", event.data.value.messageValue);
+			break;
+		}
 		case "refreshFeed": {
 			localStorage.setItem("refreshFeed", event.data.value.messageValue);
 			break;
