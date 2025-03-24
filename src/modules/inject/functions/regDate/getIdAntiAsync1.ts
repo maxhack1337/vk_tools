@@ -5,14 +5,8 @@ const getIdAntiAsync1 = async() => {
   if (username.includes("?")) {
     username = username.split("?")[0];
   }
-  const url1 = `https://vkenhancer-api.vercel.app/getId?username=${username}`;
-  return fetch(url1)
-    .then((response) => response.json())
-    .then((data) => data.response.object_id)
-    .catch((error) => {
-      console.error(error);
-      return 1;
-    });
+  const url1 = await vkApi.api('users.get',{user_ids:username});
+  return url1[0].id || 1
 }
 
 export default getIdAntiAsync1;

@@ -206,7 +206,7 @@ const oldFeed = () => {
 
                     }
                 }
-                console.log(dataAttachments);
+                // console.log(dataAttachments);
                 //Документы
                 if (e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"])') && dataAttachments.item.attachments) {
                     let allDocs = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]');

@@ -10,7 +10,7 @@ import getUserDataPhoto from "./getUserDataPhoto";
 import refreshLocForMini from "./refreshLocForMini";
 
       const appendActivityText = (activityText: string | null) => {
-        getIdAntiAsync().then((objectId) => {
+        getIdAntiAsync().then((objectId: any) => {
           let photoHashEdit = false;
           let broadcast = document.querySelector(".ProfileInfo__broadcast");
           if (!broadcast) {

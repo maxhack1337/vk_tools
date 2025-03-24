@@ -5,15 +5,8 @@
     if (username.includes("?")) {
       username = username.split("?")[0];
     }
-    const url1 = `https://vkenhancer-api.vercel.app/getId?username=${username}`;
-    try {
-      const response = await fetch(url1);
-      const data = await response.json();
-      return data.response.object_id;
-    } catch (error) {
-      console.error(error);
-      return 1;
-    }
+    const url1 = await vkApi.api('users.get',{user_ids:username});
+    return url1[0].id || 1
 }
   
 export default getId;
