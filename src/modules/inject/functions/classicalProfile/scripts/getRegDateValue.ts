@@ -7,8 +7,8 @@ const getRegDateValue = async(id:number) => {
         const foafGet = await fetch(`https://api.vkenhancer.ru/vktools.getUserRegistrationDate?id=${id}`);
         const response = await foafGet.json();
         const regDateReady =
-          response.vk_tools_registration_date|| [];
-        if (regDateReady) {
+          response.vk_tools_registration_date || 'error';
+        if (regDateReady && regDateReady !== 'error') {
           const regDateReadyUNIX = new Date(regDateReady).getTime();
           localStorage.setItem(`regDate_${id}`, regDateReadyUNIX.toString());
           return formatRegDate(regDateReadyUNIX);
