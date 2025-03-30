@@ -31,6 +31,7 @@
  * Возможность просмотра удалённых сообщений
  * Возможность просмотра оригинала отредактированного сообщения
  * Возможность скачивания музыки, видео, альбомов
+ * Отображение битрейта при скачивании аудио
  * Возможность подмены фотографии без потери лайков
  * Возможность удаления граффити
  * Возможность изменения вида левого меню на "планшетоподобное"
@@ -119,7 +120,7 @@
 </p>
 </details>
 <p align="center"><strong>Установить расширение</strong></br></br>
-<a href="https://github.com/maxhack1337/vk_tools/releases/download/v5.8/VK.Tools.zip">
+<a href="https://github.com/maxhack1337/vk_tools/releases/download/v5.8.1/VK.Tools.zip">
   <img src="https://vkenhancer.ru/install.png" width="202" height="54">
 </a></p>
 <div>
