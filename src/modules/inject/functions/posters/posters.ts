@@ -21,6 +21,18 @@ const posters = () => {
             .poster__btns-wrapper, .feed_post_field_wrap {
                 display: block !important;
             }
+
+            .submit_post_box.shown {
+               #page_add_media > .media_selector {
+                    display: flex !important;
+                    .fl_r:has(>.poster__open-btn-wrapper) {
+                        order: -1;
+                        .poster__open-btn-wrapper {
+                            margin-right: 0 !important;
+                        }
+                    }
+               }
+            }
                 
             .poster__input-msg:not(:empty) ~ .poster__placeholder {
                 opacity: 0;
