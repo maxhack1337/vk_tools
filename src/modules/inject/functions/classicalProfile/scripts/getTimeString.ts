@@ -44,41 +44,46 @@ import getMonthNameOnline from "./getMonthNameOnline";
           hourString = hours12345?.[hourssAgo];
           return hourString;
         } else {
-          let lastSeenDate = new Date(onlineInfo.last_seen * 1000);
-          let day = lastSeenDate.getDate();
-          let monthResult = getMonthNameOnline(lastSeenDate.getMonth() + 1) || '';
-          let month = Array.isArray(monthResult) ? monthResult.join(", ") : monthResult;
-          let hour = lastSeenDate.getHours();
-          let minute = lastSeenDate.getMinutes().toString().padStart(2, "0");
+  let lastSeenDate = new Date(onlineInfo.last_seen * 1000);
+  let day = lastSeenDate.getDate();
+  let monthResult = getMonthNameOnline(lastSeenDate.getMonth() + 1) || '';
+  let month = Array.isArray(monthResult) ? monthResult.join(", ") : monthResult;
+  let hour = lastSeenDate.getHours();
+  let minute = lastSeenDate.getMinutes().toString().padStart(2, "0");
 
-          let dateString;
-          if (secondsAgo < 86400) {
-            dateString = longAgo?.[3]
-              .replace("{hour}", hour.toString())
-              .replace("{minute}", minute);
-          } else if (secondsAgo < 172800) {
-            dateString = longAgo?.[2]
-              .replace("{hour}", hour.toString())
-              .replace("{minute}", minute);
-          } else {
-            const longAgoString = longAgo?.[1] || "";
-            dateString = longAgoString
-              .replace("{day}", day.toString())
-              .replace("{month}", month)
-              .replace("{hour}", hour.toString())
-              .replace("{minute}", minute);
-          }
+  let dateString;
+  let today = new Date();
+  today.setHours(0, 0, 0, 0);
+  let yesterday = new Date(today.getTime() - 86400000); 
 
-          if (dateString?.includes("{am_pm}")) {
-            let am_pm = hour >= 12 ? "PM" : "AM";
-            let newHour = hour % 12 || 12; 
-            dateString = dateString
-              .replace(hour.toString(), newHour.toString())
-              .replace("{am_pm}", am_pm);
-          }
+  if (lastSeenDate >= today) {
+    dateString = longAgo?.[3]
+      .replace("{hour}", hour.toString())
+      .replace("{minute}", minute);
+  } else if (lastSeenDate >= yesterday) {
+    dateString = longAgo?.[2]
+      .replace("{hour}", hour.toString())
+      .replace("{minute}", minute);
+  } else {
+    const longAgoString = longAgo?.[1] || "";
+    dateString = longAgoString
+      .replace("{day}", day.toString())
+      .replace("{month}", month)
+      .replace("{hour}", hour.toString())
+      .replace("{minute}", minute);
+  }
 
-          return dateString;
-        }
+  if (dateString?.includes("{am_pm}")) {
+    let am_pm = hour >= 12 ? "PM" : "AM";
+    let newHour = hour % 12 || 12; 
+    dateString = dateString
+      .replace(hour.toString(), newHour.toString())
+      .replace("{am_pm}", am_pm);
+  }
+
+  return dateString;
+}
+
 }
       
 export default getTimeString;
