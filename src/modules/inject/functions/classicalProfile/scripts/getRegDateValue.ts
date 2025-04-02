@@ -5,13 +5,13 @@ const getRegDateValue: any = async (id: number, captcha: any) => {
 	if (regDateAlready) return formatRegDate(regDateAlready);
 
 	try {
-		const foafGet = await fetch(`https://cutely-untouched-passerine.cloudpub.ru/vktools.getUserRegDate?id=${id}`);
+		const foafGet = await fetch(`https://vktools.dinacostudio.ru/vktools.getUserRegDate?id=${id}`);
 		const response = await foafGet.json();
 		let regDateReady = response.vk_tools_registration_date;
 
 		if (captcha?.captcha_sid) {
 			const regDate = await fetch(
-				`https://cutely-untouched-passerine.cloudpub.ru/vktools.getUserRegDate?id=${id}&captcha_sid=${captcha.captcha_sid}&captcha_key=${captcha.captcha_key}`
+				`https://vktools.dinacostudio.ru/vktools.getUserRegDate?id=${id}&captcha_sid=${captcha.captcha_sid}&captcha_key=${captcha.captcha_key}&restoreSessionId=${captcha.restoreSessionId}`
 			);
 			const response2 = await regDate.json();
 			regDateReady = response2.vk_tools_registration_date;
@@ -25,8 +25,8 @@ const getRegDateValue: any = async (id: number, captcha: any) => {
 		if (regDateReady) {
 			console.log(regDateReady);
 		} else {
-			const { captcha_sid, captcha_img } = response;
-			return { captcha_sid, captcha_img };
+			const { captcha_sid, captcha_img, restoreSessionId } = response;
+			return { captcha_sid, captcha_img, restoreSessionId };
 		}
 
 		if (regDateReady && regDateReady !== "error") {

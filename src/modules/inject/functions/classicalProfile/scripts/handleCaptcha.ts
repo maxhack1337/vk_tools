@@ -15,7 +15,7 @@ const handleCaptcha = (captcha: any) => {
 				captchaBox && captchaBox.hide();
 			},
 			onHide: () => {
-				reject();
+				reject('[VK Tools] Окно с капчей закрыто');
 			}
 		};
 		captchaBox = showCaptchaBox(captcha.captcha_sid, false, null, captchaObject, isRefreshEnabled);

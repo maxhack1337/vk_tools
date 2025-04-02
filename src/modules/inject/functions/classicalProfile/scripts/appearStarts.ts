@@ -1,5 +1,6 @@
 import { escapeHtml, escapeUrl } from "../../../escapeHtml";
 import createProfileInfoRow from "./createProfileInfoRow";
+import createRegDateInfoRow from "./createRegDateInfoRow";
 import formatBirthday from "./formatBirthday";
 import formatRegister from "./formatRegister";
 import getLangTime from "./getLangTime";
@@ -95,24 +96,28 @@ const appearStarts = async (userData: {
 		let regDateValue1 = await getRegDateValue(userData.id);
 		let registrationRow, regDateDate;
 		if (regDateValue1?.captcha_sid) {
-			let captchaRequired = document.createElement("div");
-			captchaRequired.innerText = "Не удалось определить дату регистрации. Попробовать ещё раз";
-			captchaRequired.classList.add("captcha_vktools");
-			captchaRequired.addEventListener("click", async () => {
-				const captcha = await handleCaptcha({
-					captcha_img: regDateValue1.captcha_img,
-					captcha_sid: regDateValue1.captcha_sid
-				});
-				regDateValue1 = await getRegDateValue(userData.id, captcha);
-				regDateDate = formatRegister(regDateValue1?.[0] || "");
-				regDateDate += " " + regDateValue1?.[1];
-				registrationRow = createProfileInfoRow(regDateText, regDateDate);
-				let captcha_div = document.querySelector(".captcha_vktools") as HTMLDivElement;
-				if (captcha_div) {
-					captcha_div.outerHTML = registrationRow?.outerHTML!!;
+			let regDInfoRow = createRegDateInfoRow();
+			let captchaRequired = regDInfoRow.querySelector('.captcha_vktools');
+			captchaRequired?.addEventListener("click", async () => {
+				while (regDateValue1.captcha_img) {
+    				let captcha = await handleCaptcha({
+        				captcha_img: regDateValue1.captcha_img,
+        				captcha_sid: regDateValue1.captcha_sid
+    				}) as any;
+    				captcha.restoreSessionId = regDateValue1.restoreSessionId;
+    				regDateValue1 = await getRegDateValue(userData.id, captcha);
+				}
+				if(!regDateValue1.captcha_img) {
+					regDateDate = formatRegister(regDateValue1?.[0] || "");
+					regDateDate += " " + regDateValue1?.[1];
+					registrationRow = createProfileInfoRow(regDateText, regDateDate);
+					let captcha_div = document.querySelector(".captcha_vktools")?.parentElement as HTMLAnchorElement;
+					if (captcha_div) {
+						captcha_div.outerHTML = registrationRow?.outerHTML!!;
+					}
 				}
 			});
-			registrationRow = captchaRequired;
+			registrationRow = regDInfoRow;
 		} else {
 			regDateDate = formatRegister(regDateValue1?.[0] || "");
 			regDateDate += " " + regDateValue1?.[1];
