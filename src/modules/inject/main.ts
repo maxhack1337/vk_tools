@@ -55,7 +55,7 @@ import { showLoadingOverlay } from "./components/overlay/LoadingOverlay";
 import checkIsSection from "./functions/feedReorder/checkIsSection";
 import renderId from "./functions/renderId/renderId";
 
-let debugMode = false;
+let debugMode = true;
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -199,47 +199,47 @@ deferredCallback(
 		createVkToolsBanners();
 		//Получаем фотку юзера из стореджа
 		await getUserDataLocalStoragePhoto(vk.id);
-		window.vkenh.profileHashes = await vkApi.api('account.getProfileDataLegacy', { owner_id: vk.id });
+		window.vkenh.profileHashes = await vkApi.api("account.getProfileDataLegacy", { owner_id: vk.id });
 		renderId();
 	},
 	{ variable: "vkApi" }
 );
 
 function XHRListener() {
-const originalSend = XMLHttpRequest.prototype.send;
- 
- 	XMLHttpRequest.prototype.send = async function (data) {
- 		const dataString = data === null ? "" : String(data);
- 		if (/type=typing/.test(dataString) && getLocalValue("nepisalkaValue")) {
- 			return this.abort();
- 		}
- 		if (/type=audiomessage/.test(dataString) && getLocalValue("nepisalkaValue")) {
- 			return this.abort();
- 		}
- 
- 		if (/act=a_mark_read/.test(dataString) && getLocalValue("nechitalkaValue")) {
- 			return this.abort();
- 		}
- 		if (/act=a_mard_listened/.test(dataString) && getLocalValue("nechitalkaValue")) {
- 			return this.abort();
- 		}
- 
- 		if (/subsection=recent/.test(dataString)) {
- 			localStorage.setItem("feedValue", "recent");
- 			await feedReorder();
- 		}
- 
- 		if (/subsection=top/.test(dataString)) {
- 			localStorage.setItem("feedValue", "top");
- 			await feedReorder();
- 		}
- 
- 		if (/loaded_from=navigation/.test(dataString)) {
- 			feedReorderRemove();
- 			await feedReorder();
- 		}
- 		return originalSend.call(this, data);
- 	};
+	const originalSend = XMLHttpRequest.prototype.send;
+
+	XMLHttpRequest.prototype.send = async function (data) {
+		const dataString = data === null ? "" : String(data);
+		if (/type=typing/.test(dataString) && getLocalValue("nepisalkaValue")) {
+			return this.abort();
+		}
+		if (/type=audiomessage/.test(dataString) && getLocalValue("nepisalkaValue")) {
+			return this.abort();
+		}
+
+		if (/act=a_mark_read/.test(dataString) && getLocalValue("nechitalkaValue")) {
+			return this.abort();
+		}
+		if (/act=a_mard_listened/.test(dataString) && getLocalValue("nechitalkaValue")) {
+			return this.abort();
+		}
+
+		if (/subsection=recent/.test(dataString)) {
+			localStorage.setItem("feedValue", "recent");
+			await feedReorder();
+		}
+
+		if (/subsection=top/.test(dataString)) {
+			localStorage.setItem("feedValue", "top");
+			await feedReorder();
+		}
+
+		if (/loaded_from=navigation/.test(dataString)) {
+			feedReorderRemove();
+			await feedReorder();
+		}
+		return originalSend.call(this, data);
+	};
 }
 
 XHRListener();
@@ -250,9 +250,9 @@ deferredCallback(
 			checkIsSection();
 			await feedReorder();
 		});
-		nav.onLocationChange((() => {
+		nav.onLocationChange(() => {
 			checkIsSection();
-		}))
+		});
 	},
 	{ variable: "nav" }
 );
@@ -532,22 +532,22 @@ deferredCallback(
 hotBar();
 //Доп функции в мессенджере и смена отчества
 deferredCallback(
-  () => {
-    let orig_ajax = ajax.post;
-    ajax.post = function (...e: any) {
-      if ("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act) {
-        if (e[1].nickname) {
-          e[1].nick_name = e[1].nickname;
-          delete e[1].nickname;
-        } else if (!e[1].nick_name) {
-          e[1].nick_name = "";
-        }
-      }
-      const t = orig_ajax.apply(this, e);
-      return t;
-    };
-  },
-  { variable: "ajax" }
+	() => {
+		let orig_ajax = ajax.post;
+		ajax.post = function (...e: any) {
+			if ("al_profileEdit.php" === e[0] && "a_save_general" === e[1].act) {
+				if (e[1].nickname) {
+					e[1].nick_name = e[1].nickname;
+					delete e[1].nickname;
+				} else if (!e[1].nick_name) {
+					e[1].nick_name = "";
+				}
+			}
+			const t = orig_ajax.apply(this, e);
+			return t;
+		};
+	},
+	{ variable: "ajax" }
 );
 
 //Тогглы в новом дизайне мессенджера

@@ -13,11 +13,11 @@ interface VKEnh {
 }
 
 interface URL {
-    urls: any;
+	urls: any;
 }
 
 interface Page {
-    audioStatusUpdate: any;
+	audioStatusUpdate: any;
 }
 
 interface navGoLoc {
@@ -27,14 +27,14 @@ interface navGoLoc {
 }
 
 interface Ajax {
-    post: (url: string, data: Record<string, any>, options?: any) => Promise<any>;
-    promisifiedPost: (url:string, data: Record<string, any>, options?: any) => Promise<any>;
+	post: (url: string, data: Record<string, any>, options?: any) => Promise<any>;
+	promisifiedPost: (url: string, data: Record<string, any>, options?: any) => Promise<any>;
 }
 
 interface AjaxPostArgs {
-    url: string;
-    data: Record<string, any>; 
-    options?: any;
+	url: string;
+	data: Record<string, any>;
+	options?: any;
 }
 
 interface navGoLocProps extends navGoLoc {
@@ -43,26 +43,26 @@ interface navGoLocProps extends navGoLoc {
 }
 
 interface Calls {
-    isIncomingModalHidden?: boolean;
+	isIncomingModalHidden?: boolean;
 }
 
 interface BrowserEnv {
-  api: {
-    fetch: (method: string, params: any, ...args: any[]) => Promise<any>;
-  };
+	api: {
+		fetch: (method: string, params: any, ...args: any[]) => Promise<any>;
+	};
 }
 
 interface FeatureFlags {
-    [key: string]: boolean | number;
+	[key: string]: boolean | number;
 }
 
 interface Store {
-    featureFlags: FeatureFlags;
+	featureFlags: FeatureFlags;
 }
 
 interface MECommonContextType {
-    browserEnv: BrowserEnv;
-    store: Store;
+	browserEnv: BrowserEnv;
+	store: Store;
 	engine: any;
 	channelWSEngine: any;
 }
@@ -79,23 +79,20 @@ export interface Nav {
 	go(loc: navGoLoc | string, ev?: string | null | Event, opts?: Record<string, any>): void;
 	change: (loc: navGoLoc, ev?: string | null, opts?: Record<string, any>) => void;
 	onLocationChange: (handler: (locStr: string) => unknown) => () => void;
-    addNavigationStartListener: (handler: (locStr: string) => unknown) => () => void;
-    reload: () => void;
+	addNavigationStartListener: (handler: (locStr: string) => unknown) => () => void;
+	reload: () => void;
 }
 
 export interface VK {
 	id: number;
-    pe: Record<string, any>;
-    lang: number;
-    ip_h: string;
-    statusExportHash: string;
+	pe: Record<string, any>;
+	lang: number;
+	ip_h: string;
+	statusExportHash: string;
 }
 
 export interface VKAPI {
-	api: (
-        method: string,
-        payload: any
-	) => Promise<>;
+	api: (method: string, payload: any) => Promise<>;
 }
 
 export interface Feed {
@@ -147,59 +144,59 @@ export interface Notifier {
 }
 
 declare global {
-    var browser: typeof globalThis.chrome;
-    var noAdsAtAll: boolean;
-    var vkenh: VKEnh;
+	var browser: typeof globalThis.chrome;
+	var noAdsAtAll: boolean;
+	var vkenh: VKEnh;
 	var Feed: Feed;
 	var nav: Nav;
-    var cur: any;
-    var urls: URL | null;
+	var cur: any;
+	var urls: URL | null;
 	var ge: (id: string) => HTMLElement;
 	var data: (elem: HTMLElement, prop: string, value: string) => void;
 	var addEvent: (elem: HTMLElement, event: string, handler: EventListenerOrEventListenerObject) => void;
 	var removeEvent: (elem: HTMLElement, event: string) => void;
 	var Video: Record<string, any>;
 	var vk: any;
-    var vkApi: VKAPI;
+	var vkApi: VKAPI;
 	var Wall: Wall;
 	var templates: Record<string, string>;
 	var stManager: stManager;
 	var jsc: (module: string) => string;
 	var Notifier: Notifier;
-    var HotBarAppearVAL: string[];
+	var HotBarAppearVAL: string[];
 	var getLang: null | ((key: string, type?: string | number) => string | string[]);
 	var langDate: (timestamp: number, text: string, mode?: string | number, months?: string | string[]) => string;
-    var langNumeric: (n: number, s: string | string[]) => string;
-    var webkitSpeechRecognition: typeof SpeechRecognition;
-    var showPhoto: null | ((id: string, oid: number | string, pid: any) => void);
-    var langConfig: any;
-    var MessageBox: any;
-    var Calls: Calls;
-    var MECommonContext: Promise<MECommonContextType>;
-    var page: Page;
-    var ap: any;
-    var ajax: any;
-    var parseCyr: any;
-    var addLangKeys: any;
-    var friendsSection: string | null | HTMLElement;
-    var aHrefSectionFrens: any;
-    var showWiki: any;
-    var imReady: any;
-    var mvcur: any;
-    var each: any;
-    var showFastBox: any;
+	var langNumeric: (n: number, s: string | string[]) => string;
+	var webkitSpeechRecognition: typeof SpeechRecognition;
+	var showPhoto: null | ((id: string, oid: number | string, pid: any) => void);
+	var langConfig: any;
+	var MessageBox: any;
+	var Calls: Calls;
+	var MECommonContext: Promise<MECommonContextType>;
+	var page: Page;
+	var ap: any;
+	var ajax: any;
+	var parseCyr: any;
+	var addLangKeys: any;
+	var friendsSection: string | null | HTMLElement;
+	var aHrefSectionFrens: any;
+	var showWiki: any;
+	var imReady: any;
+	var mvcur: any;
+	var each: any;
+	var showFastBox: any;
 	var Stories: any;
 	var wbopen: any;
 	var AudioPage: any;
 	var getEventListeners: any;
 	var showTabbedBox: any;
 	var IMLang: any;
-  	var MotionKit:any
+	var MotionKit: any;
 	var _message_boxes: Array;
 	var boxQueue: any;
 	var __bq: any;
 	var curBox: any;
-	var _message_box_guid: Number; 
+	var _message_box_guid: Number;
 	var boxLayerBG: any;
 	var showTooltip: any;
 	var curNotifier: any;
@@ -208,11 +205,11 @@ declare global {
 	var colorScheme: any;
 	var showForwardBox: any;
 	var showBox: any;
+	var showCaptchaBox: any;
 
-    
 	namespace NodeJS {
 		interface ProcessEnv {
-			NODE_ENV: 'development' | 'production';
+			NODE_ENV: "development" | "production";
 		}
 	}
 }
