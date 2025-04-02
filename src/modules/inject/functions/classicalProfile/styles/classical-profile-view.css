@@ -177,6 +177,11 @@ html.classicProfile body {
         border-bottom: 1px solid var(--vkui--color_separator_primary);
     }
 
+    aside > .ProfileSubsEnhancer,
+    aside > .ProfileVideosEnhancer{
+        background-color: var(--vkui--color_background_content) !important;
+    }
+
     .ProfileInfo__additionalInfo {
         position: absolute;
         top: 12px;
