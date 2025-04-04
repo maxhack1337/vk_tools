@@ -26,8 +26,7 @@ const parseUrl = async (el: any, mode: string) => {
         return await getBitrate(url, mode);
         
     } catch (error) {
-        console.error('Ошибка в parseUrl:', error);
-        throw error;
+        el.style.display = "none";
     }
 };
 

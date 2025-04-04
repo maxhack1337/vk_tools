@@ -180,7 +180,6 @@ window.vkenh.profileHashes = {};
 window.vkenh.showSnackbar = showSnackbar;
 window.vkenh.createBanner = banner;
 window.vkenh.createTT = tooltip;
-window.vkenh.setEnglishMusic = 0;
 window.showForwardBox = showForwardBox;
 window.vkenh.messagesHistory = [];
 window.vkenh.messagesDiff = {};

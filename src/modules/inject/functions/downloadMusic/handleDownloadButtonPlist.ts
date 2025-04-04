@@ -3,6 +3,8 @@ import DownloadStream from './DownloadStream'
 import getDownloadName1Plist from './getDownloadName1Plist'
 import getDownloadNamePlist from './getDownloadNamePlist'
 import getValidIDPlist from './getValidIDPlist'
+import showSnackbar from '../../components/snackbar/snackbar'
+import getDownloadErrorLang from './getDownloadErrorLang'
 
 const handleDownloadButtonPlist = (e: Event) => {
     e.preventDefault()
@@ -15,10 +17,6 @@ const handleDownloadButtonPlist = (e: Event) => {
 
     let Cyr = Orig
     let Cyr1 = Orig2
-    if (window.vkenh.setEnglishMusic === 1) {
-        Cyr = parseCyr(Orig) ? parseCyr(Orig) : Orig
-        Cyr1 = parseCyr(Orig2) ? parseCyr(Orig2) : Orig2
-    }
     fetch('https://vk.com/al_audio.php?act=reload_audios', {
         headers: {
             'content-type': 'application/x-www-form-urlencoded',
@@ -31,9 +29,17 @@ const handleDownloadButtonPlist = (e: Event) => {
     })
         .then(e => e.json())
         .then(e => {
-            let imgurl = e.payload[1][0][0][14];
-            let url = processUrl(e.payload[1][0][0][2]).toString()
-            console.log(DownloadStream(url, Cyr1 + ' - ' + Cyr, bar, imgurl))
+            try {
+                let imgurl = e.payload[1][0][0][14];
+                let url = processUrl(e.payload[1][0][0][2]).toString()
+                console.log(DownloadStream(url, Cyr1 + ' - ' + Cyr, bar, imgurl))
+            } catch (e) {
+                showSnackbar({
+                    text: getDownloadErrorLang(vk.lang),
+                    timeout: 4000,
+                    icon: 'error'
+                });
+            }
         })
 }
 export default handleDownloadButtonPlist

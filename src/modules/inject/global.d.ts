@@ -1,5 +1,4 @@
 interface VKEnh {
-	setEnglishMusic?: number;
 	showSnackbar?: any;
 	createBanner?: any;
 	createTT?: any;
@@ -206,6 +205,7 @@ declare global {
 	var showForwardBox: any;
 	var showBox: any;
 	var showCaptchaBox: any;
+	var AudioUtils: any;
 
 	namespace NodeJS {
 		interface ProcessEnv {
