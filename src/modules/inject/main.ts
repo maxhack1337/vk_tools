@@ -49,8 +49,6 @@ import listenWall from "./functions/oldPosting/listenWall";
 import tooltip from "./components/tooltip/tooltip";
 import showForwardBox from "./showForwardBox";
 import oldAttaches from "./functions/oldMessenger/oldAttaches/oldAttaches";
-import searchHashes from "./searchHashes";
-import { hook } from "./hookFunction";
 import { showLoadingOverlay } from "./components/overlay/LoadingOverlay";
 import checkIsSection from "./functions/feedReorder/checkIsSection";
 import renderId from "./functions/renderId/renderId";

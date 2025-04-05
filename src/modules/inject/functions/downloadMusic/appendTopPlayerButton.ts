@@ -1,9 +1,15 @@
 import tooltip from '../../components/tooltip/tooltip'
 import create from '../../create'
+import createStyle from '../classicalProfile/scripts/createStyle'
 import getTopPlayerCr from './getTopPlayerCr'
 
 const appendPostPrimaryButton = (el: HTMLElement) => {
 
+    createStyle('noButtonWhenNoPlayer', `
+        .HeaderNav__item:not(:has(>.top_audio_player_enabled)) > .download {
+            display: none!important;
+        }
+    `);
     const button = create(
         'button',
         {},
