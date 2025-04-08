@@ -53,6 +53,7 @@ import { showLoadingOverlay } from "./components/overlay/LoadingOverlay";
 import checkIsSection from "./functions/feedReorder/checkIsSection";
 import renderId from "./functions/renderId/renderId";
 import DOMContentLoaded from "./functions/listeners/DOMContentLoaded";
+import { sleep } from "../sleep";
 
 let debugMode = true;
 
@@ -258,12 +259,22 @@ deferredCallback(
 deferredCallback(
 	() => {
 		let currentVKID = localStorage.getItem("currentVKID");
+		const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
+		const clearToken = () => {
+			customMessage("tokenRemove");
+			localStorage.setItem("currentVKID", vk.id.toString());
+		};
 		let currID = currentVKID ? parseInt(currentVKID) : 0;
 		if (vk.id !== currID && vk.id && vk.id !== 0) {
-			window.addEventListener("load", () => {
-				customMessage("tokenRemove");
-				localStorage.setItem("currentVKID", vk.id.toString());
-			});
+			showLoadingOverlay(5000);
+
+			if (isFirefox) {
+				sleep(2000).then((e) => {
+					clearToken();
+				});
+			} else {
+				window.addEventListener("load", clearToken);
+			}
 		}
 		let styleElement = fromId("CheckValidationPhone");
 		if (!styleElement) {
