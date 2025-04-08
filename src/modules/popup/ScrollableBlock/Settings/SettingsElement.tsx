@@ -111,6 +111,7 @@ const clearAllStates: { [key: string]: any } = {
   oldMessengerAttachesState: false,
   enterProfileGroupIDState: false,
 };
+const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
 
 const SettingsElement = ({ id, label, canFile }: SettingsElementProps) => {
   const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,14 +127,16 @@ const SettingsElement = ({ id, label, canFile }: SettingsElementProps) => {
             item123[item] = result[item];
             await chrome.storage.local.set(item123);
           }
-          window.location.reload();
+          if (!isFirefox) window.location.reload();
+          chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            const activeTabId = tabs[0].id;
+            if (activeTabId !== undefined) {
+              chrome.tabs.reload(activeTabId);
+            }
+          });
         });
 
         reader.readAsText(loadSettingsInput.files[0]);
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-          const activeTabId = tabs[0].id;
-          chrome.tabs.reload(activeTabId!);
-        });
       }
     }
   };
