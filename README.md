@@ -58,7 +58,7 @@
 ```
 
 <details>
-<summary><h2>Как установить?</h2></summary>
+<summary><h2>Как установить? (Chromium)</h2></summary>
 
 ```
 Для установки пролистайте в самый низ страницы и нажмите на кнопку "Установить"
@@ -120,7 +120,7 @@
 </p>
 </details>
 <p align="center"><strong>Установить расширение</strong></br></br>
-<a href="https://github.com/maxhack1337/vk_tools/releases/download/v5.8.2/VK.Tools.zip">
+<a href="https://github.com/maxhack1337/vk_tools/releases/download/v6.0/VK.Tools.zip">
   <img src="https://vkenhancer.ru/install.png" width="202" height="54">
 </a></p>
 <div>
