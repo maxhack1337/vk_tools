@@ -6,11 +6,13 @@ import fromId from "./fromId";
 import HotBarAppear from "./HotBarAppear";
 import customMessage from "./postMessage";
 import injectScript from "../inject/inject";
+import { sleep } from "../sleep";
 console.log("VK Tools content script is running!");
 
 injectScript(chrome.runtime.getURL("src/main.js"));
 
-function CheckToken() {
+async function CheckToken() {
+  await sleep(1000);
 	if (
 		window.location.href.indexOf("https://oauth.vk.com/blank.html") === -1 &&
 		window.location.href.indexOf("https://oauth.vk.com/authorize") === -1 &&
@@ -393,13 +395,13 @@ function applyStyles(styles: {
 
 	if (styles.isGraffity) {
 		canLoadGraffity();
-		chrome.storage.local.get(["vkenAccessToken"], function (result) {
+		chrome.storage.local.get(["vkenAccessToken"], async function (result) {
 			try {
 				vkenAccessToken1 = result.vkenAccessToken;
 				if (vkenAccessToken1 && vkenAccessToken1 !== "") {
 					customMessage("vkEnhancerAccessToken", vkenAccessToken1);
 				} else {
-					CheckToken();
+					await CheckToken();
 				}
 			} catch (e) {
 				console.error(e);

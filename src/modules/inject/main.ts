@@ -52,6 +52,7 @@ import oldAttaches from "./functions/oldMessenger/oldAttaches/oldAttaches";
 import { showLoadingOverlay } from "./components/overlay/LoadingOverlay";
 import checkIsSection from "./functions/feedReorder/checkIsSection";
 import renderId from "./functions/renderId/renderId";
+import DOMContentLoaded from "./functions/listeners/DOMContentLoaded";
 
 let debugMode = true;
 
@@ -259,8 +260,10 @@ deferredCallback(
 		let currentVKID = localStorage.getItem("currentVKID");
 		let currID = currentVKID ? parseInt(currentVKID) : 0;
 		if (vk.id !== currID && vk.id && vk.id !== 0) {
-			customMessage("tokenRemove");
-			localStorage.setItem("currentVKID", vk.id.toString());
+			DOMContentLoaded(() => {
+				customMessage("tokenRemove");
+				localStorage.setItem("currentVKID", vk.id.toString());
+			});
 		}
 		let styleElement = fromId("CheckValidationPhone");
 		if (!styleElement) {
