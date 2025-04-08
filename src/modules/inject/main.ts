@@ -52,7 +52,6 @@ import oldAttaches from "./functions/oldMessenger/oldAttaches/oldAttaches";
 import { showLoadingOverlay } from "./components/overlay/LoadingOverlay";
 import checkIsSection from "./functions/feedReorder/checkIsSection";
 import renderId from "./functions/renderId/renderId";
-import DOMContentLoaded from "./functions/listeners/DOMContentLoaded";
 import { sleep } from "../sleep";
 
 let debugMode = true;

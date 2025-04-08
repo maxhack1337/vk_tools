@@ -53,6 +53,15 @@ body.light-theme {
         .custom-slider::-webkit-slider-thumb {
             box-shadow: 0px 0px 5px #ccc;
         }
+        @supports (-moz-appearance: none) {
+            .custom-slider::-moz-range-thumb {
+                box-shadow: 0px 0px 5px #ccc;
+            }
+        }
+
+        .custom-slider {
+            box-shadow: 0px 0px 5px #ccc;
+        }
     
         .vkToolsModalHeader {
             color: black !important;

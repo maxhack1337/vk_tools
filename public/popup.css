@@ -852,6 +852,19 @@
     cursor: pointer;
 }
 
+.custom-slider::-moz-range-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    position: relative;
+    z-index: 1;
+    transition: box-shadow 0.5s;
+    cursor: pointer;
+    border: none;
+}
+
 .vkToolsColorBlock {
     display: flex;
     flex-direction: column;
