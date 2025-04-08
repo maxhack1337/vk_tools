@@ -11,13 +11,15 @@ console.log("VK Tools content script is running!");
 injectScript(chrome.runtime.getURL('src/main.js'));
 
 function CheckToken() {
-  if (window.location.href.indexOf('https://oauth.vk.com/blank.html') === -1) {
+  if (window.location.href.indexOf('https://oauth.vk.com/blank.html') === -1 && window.location.href.indexOf('https://oauth.vk.com/authorize') === -1 && window.location.href.indexOf('https://oauth.vk.com/oauth/authorize') === -1) {
     window.location.href = 'https://oauth.vk.com/authorize?client_id=6121396&scope=196608&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1';
+    return;
   }
 
   const closeButton = document.querySelector('.button_indent') as HTMLButtonElement;;
   if (closeButton) {
     closeButton.click();
+    return;
   }
   const accessToken = new URLSearchParams(window.location.hash.slice(1)).get('access_token');
   if (accessToken) {
@@ -27,6 +29,7 @@ function CheckToken() {
       value: accessToken
     });
     window.location.href = "https://vk.com/feed";
+    return;
   } else {
     console.log("Токен не найден в URL");
   }
@@ -348,7 +351,7 @@ function applyStyles(styles: { isVideoModal: any; altScroll: any; avatarNearName
       catch (e) { console.error(e) }
     });
     window.addEventListener("message", async (event) => {
-      switch (event.data.action) {
+      switch (event.data.action?.messageAction) {
         case "tokenRemove": {
           chrome.runtime.sendMessage({
             type: 'vken_access_token_remove'

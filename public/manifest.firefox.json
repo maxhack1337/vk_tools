@@ -20,15 +20,14 @@
     "*://vk.com/*",
     "*://vk.ru/*",
     "*://oauth.vk.com/*",
-	"*://vkvideo.ru/*",
-	"*://*.vk.com/*"
+    "*://vkvideo.ru/*",
+    "*://*.vk.com/*"
   ],
   "permissions": [
     "browsingData",
     "unlimitedStorage",
     "storage",
     "activeTab",
-	  "commands",
     "declarativeNetRequest"
   ],
   "declarative_net_request": {
@@ -50,26 +49,26 @@
     }
   },
   "background": {
-  "scripts": ["browser-polyfill.min.js", "src/sw.js"]
-},
-"browser_specific_settings": {
-  "gecko": {
-    "id": "vk-tools@example.com",
-    "strict_min_version": "109.0"
-  }
-},
+    "scripts": ["browser-polyfill.min.js", "src/sw.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "vk-tools@example.com",
+      "strict_min_version": "109.0"
+    }
+  },
   "content_scripts": [
     {
       "matches": [
         "*://vk.com/*","*://vk.ru/*","*://oauth.vk.com/*","*://vkvideo.ru/*","*://*.vk.com/*"
       ],
       "js": [
-	    "src/content_script.js"
+        "src/content_script.js"
       ],
       "run_at": "document_start"
     }
   ],
-    "web_accessible_resources": [
+  "web_accessible_resources": [
     {
       "resources": [
         "src/main.js"
