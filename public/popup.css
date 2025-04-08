@@ -270,6 +270,24 @@
     height: 100%;
 }
 
+.vkToolsLeftMenuBlock:not(.ButtonInstallpreload) {
+    padding: 0 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: -4px
+}
+
+.vkToolsLeftMenuItem:not(.ButtonInstallpreload) {
+    padding-bottom: 8px;
+    flex-basis: 33%;
+    box-sizing: border-box;
+}
+
+label#leftmenusave {
+    margin-left: 16px;
+}
+
 .vkToolsRoot {
     background-color: var(--vkui--color_background_content);
     display: flex;
@@ -584,9 +602,8 @@
 }
 
 .newSpan img {
-    width: 14px;
-    height: 14px;
     padding-right: 8px;
+    padding-top: 3px;
 }
 
 .simplebar-content {
@@ -808,7 +825,7 @@
     line-height: 16px;
     color: var(--vkui--color_text_subhead);
     margin-left: 24px;
-    width: 96%;
+    width: 95%;
     margin-bottom: 20px;
 }
 
@@ -891,6 +908,20 @@ input[type="color"] {
     cursor: pointer !important;
 }
 
+input[type="color"]::-webkit-color-swatch {
+    border-radius:8px;
+    border: none;
+    outline: 4px solid #d3d3d33d;
+}
+
+@supports (-moz-appearance: none) {
+    input[type="color"]::-moz-color-swatch {
+        border-radius: 8px;
+        border: none;
+        outline: 4px solid #d3d3d33d;
+    }
+}
+
 .vkToolsLowText--in {
     font-size: 13px;
     line-height: 16px;
@@ -969,7 +1000,6 @@ input[type="color"] {
     }
 
     #leftmenusave {
-        width: auto;
         margin-left: 0px;
     }
 }

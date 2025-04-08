@@ -8,7 +8,7 @@ const createSVG = () => {
     svg.style.height = "20px";
     svg.classList.add("vkEnhancerBadgeStaff");
     svg.style.marginLeft = "8px";
-    svg.style.marginTop = "6px";
+    svg.style.marginTop = "4px";
 
     const paths = [
         { d: "M0 33.12C0 17.507 0 9.70062 4.85031 4.85031C9.70062 0 17.507 0 33.12 0H35.88C51.4929 0 59.2993 0 64.1498 4.85031C69 9.70062 69 17.507 69 33.12V35.88C69 51.4929 69 59.2993 64.1498 64.1498C59.2993 69 51.4929 69 35.88 69H33.12C17.507 69 9.70062 69 4.85031 64.1498C0 59.2993 0 51.4929 0 35.88V33.12Z", fill: "#2961F4" },

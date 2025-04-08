@@ -37,6 +37,9 @@ const oldGroupsPage = () => {
                 }
 
                 body:has([id^="catalog-action"]) {
+                    .vkuiRootComponent__host:has(>.vkuiPopover__host .vkuiIcon--search_20) {
+                        display: none;
+                    }
                     .vkui__root:has(.vkuiInternalSearch) {
                             div[role="combobox"] {
                                 height: 0px;

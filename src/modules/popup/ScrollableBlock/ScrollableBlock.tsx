@@ -126,7 +126,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
         <CheckBox type={"checkBox"} label={getLang("hideNamesAvatars")} isNew={false} isFire={false} id={"hideNamesAvatars"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("showPollResults")} isNew={false} isFire={false} id={"showPollResults"} shouldReload={true} description={getLang("defaultPollHidden")} />,
         <CheckBox type={"checkBox"} label={getLang("doNotDisturb")} isNew={false} isFire={false} id={"doNotDisturb"} shouldReload={true} description={getLang("doNotDisturbDescription")} />,
-        <CheckBox type={"checkBox"} label={getLang("enterProfileGroupID")} isNew={true} isFire={false} id={"enterProfileGroupID"} shouldReload={true} />,
+        <CheckBox type={"checkBox"} label={getLang("enterProfileGroupID")} isNew={false} isFire={false} id={"enterProfileGroupID"} shouldReload={true} />,
         <HeaderPseudo label={getLang("pseudoTab3")} />,
         <SettingsElement id={"saveSettingsToFile"} label={getLang("saveSettingsToFile")} canFile={false} />,
         <SettingsElement id={"loadSettingsFromFile"} label={getLang("loadSettingsFromFile")} canFile={true} />,

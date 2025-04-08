@@ -61,12 +61,12 @@ const appearFriends = () => {
                 "profile_friendsonln"
               )}`.toLowerCase();
             } else {
-              aHrefSectionFrens.href = `/feed?section=updates`;
+              aHrefSectionFrens.href = `/friends?act=find`;
               aHrefSectionFrens.style.marginLeft = "auto";
               aHrefSectionFrens.style.marginRight = "23px";
               aHrefSectionFrens.style.color =
                 "var(--vkui--color_text_secondary)";
-              aHrefSectionFrens.textContent = `${getLang?.("updates")}`.toLowerCase();
+              aHrefSectionFrens.textContent = `${getLang?.('global_search')}`.toLowerCase();
             }
             friendsSection.innerHTML =
               `

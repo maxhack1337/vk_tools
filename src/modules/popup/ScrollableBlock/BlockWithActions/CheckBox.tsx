@@ -79,7 +79,7 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }:
             )}
             {isFire && (
               <span className="newSpan">
-                <img className="newFire" src="assets/new.png" />
+                <img className="newFire" src="assets/fire_circle_fill_red_20.svg" />
               </span>
             )}
             <span className="vkToolsCheckBox__PrimaryTextSpan">{label}</span>
