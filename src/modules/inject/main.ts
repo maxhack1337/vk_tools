@@ -260,7 +260,7 @@ deferredCallback(
 		let currentVKID = localStorage.getItem("currentVKID");
 		let currID = currentVKID ? parseInt(currentVKID) : 0;
 		if (vk.id !== currID && vk.id && vk.id !== 0) {
-			DOMContentLoaded(() => {
+			window.addEventListener("load", () => {
 				customMessage("tokenRemove");
 				localStorage.setItem("currentVKID", vk.id.toString());
 			});
