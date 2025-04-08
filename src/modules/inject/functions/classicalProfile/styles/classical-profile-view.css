@@ -997,7 +997,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
     }
 
     .vkEnhancerAdditionalJob>div {
-        color: black;
+        color: var(--vkui--color_text_primary);
         margin-top: -2px;
         /*margin-left:2px;*/
     }

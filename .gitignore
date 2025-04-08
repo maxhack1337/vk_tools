@@ -10,6 +10,9 @@
 
 # production
 /build
+/build_chrome
+/build_ff
+/VK Tools*.zip
 
 # misc
 .DS_Store

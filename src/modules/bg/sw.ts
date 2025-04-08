@@ -35,6 +35,17 @@ chrome.runtime.onInstalled.addListener(function(details) {
         chrome.action.setBadgeText({ text: '!' });
         chrome.action.setBadgeBackgroundColor({ color: '#FF0000' });
         chrome.storage.local.set({ popupOpened: false });
+        const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+        if (isFirefox) {
+            chrome.tabs.query({}, function(tabs) {
+                tabs.forEach(tab => {
+                    const url = tab.url || "";
+                    if (url.includes("vk.com") || url.includes("vkvideo.ru") || url.includes("vk.ru")) {
+                        if(tab.id) chrome.tabs.reload(tab.id);
+                    }
+                });
+            });
+        }
     }
 });
 

@@ -13,7 +13,6 @@ import ColorPickers from "./BlockWithActions/ColorPickers/ColorPickers";
 import LeftMenuItems from "./LeftMenuItems/LeftMenuItems";
 import SecondaryHeaderPseudo from "./SecondaryHeaderPseudo/SecondaryHeaderPseudo";
 import EmojiHotBarBlock from "./BlockWithActions/EmojiHotBarBlock";
-import DiscoverIdBlock from "./BlockWithActions/DiscoverIdBlock";
 import SettingsElement from "./Settings/SettingsElement";
 import HeaderPseudoTransparent from "./HeaderPseudo/HeaderPseudoTransparent";
 import CardWithLink from "./CardWithLink";
@@ -37,9 +36,11 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
     fetchUpdateUrl(); // Вызываем функцию для получения ссылки
   }, []); // Пустой массив зависимостей означает, что эффект сработает только один раз при монтировании
 
+  const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
+
   let currentTab = [
     <HeaderPseudo label={getLang("appearance")} />,
-    <CheckBox type={"checkBox"} label={getLang("alternativeScrollbar")} isNew={false} isFire={false} id={"alternativeScrollbar"} shouldReload={false} />,
+    !isFirefox && <CheckBox type={"checkBox"} label={getLang("alternativeScrollbar")} isNew={false} isFire={false} id={"alternativeScrollbar"} shouldReload={false} />,
     <CheckBox type={"checkBox"} label={getLang("fixLeftMenu")} isNew={false} isFire={false} id={"fixLeftMenu"} shouldReload={false} />,
     <CheckBox type={"checkBox"} label={getLang("tabletMenu")} isNew={false} isFire={false} id={"tabletMenu"} shouldReload={false} />,
     <CheckBox type={"checkBox"} label={getLang("stickerPopupHide")} isNew={false} isFire={false} id={"stickerPopupHide"} shouldReload={false} />,
@@ -59,7 +60,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
       currentTab = [];
       currentTab = [
         <HeaderPseudo label={getLang("appearance")} />,
-        <CheckBox type={"checkBox"} label={getLang("alternativeScrollbar")} isNew={false} isFire={false} id={"alternativeScrollbar"} shouldReload={false} />,
+        !isFirefox && <CheckBox type={"checkBox"} label={getLang("alternativeScrollbar")} isNew={false} isFire={false} id={"alternativeScrollbar"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("fixLeftMenu")} isNew={false} isFire={false} id={"fixLeftMenu"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("tabletMenu")} isNew={false} isFire={false} id={"tabletMenu"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("stickerPopupHide")} isNew={false} isFire={false} id={"stickerPopupHide"} shouldReload={false} />,

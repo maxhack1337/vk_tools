@@ -2,6 +2,7 @@ const strings = {
   clearCacheDescription: ["Вы уверены, что хотите очистить кеш?", "Are you sure you want to clear cache?", "Ви впевнені, що хочете очистити кеш?"],
   globalYes: ["Да", "Yes", "Так"],
   globalNo: ["Нет", "No", "Ні"],
+  globalCancel: ["Отмена", "Cancel", "Скасування"],
   clearCache: ["Очистить кеш", "Clear cache", "Очистити кеш"],
   changeTheme: ["Сменить тему", "Change theme color", "Змінити тему"],
   openExtension: ["Открыть расширение в новом окне", "Open extension in new window", "Відкрити розширення в новому вікні"],
@@ -147,6 +148,7 @@ const strings = {
   oldPosting: ["Старый редактор постов", "Old post publisher", "Старий редактор постів"],
   oldPostingDescription: ["Старый редактор постов, удалённый ВК в начале декабря 2024", "Old post publisher, removed by VK in early December 2024", "Старий редактор постів, видалений ВК на початку грудня 2024 року"],
   messageTextUp: ["Отображать текст перед вложениями", "Show text before attachments", "Відображати текст перед вкладеннями"],
+  onlyFireFox: ["Добавление файлов/изменение цвета акцента доступно только в полноэкранном режиме расширения", "Adding files/changing accent color is only available in fullscreen extension mode", "Додавання файлів/зміна кольору акценту доступне лише у повноекранному режимі розширення"],
 };
 
 export default strings;

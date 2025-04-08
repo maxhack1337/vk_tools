@@ -971,6 +971,10 @@ input[type="color"] {
             animation: modal-fade-in 0.3s ease;
         }
 
+        .vkToolsFireFoxModal {
+            height: 134px!important;
+        }
+
         @keyframes modal-fade-in {
             from {
                 transform: scale(0.9);
@@ -1014,6 +1018,10 @@ input[type="color"] {
             font-family: -apple-system, system-ui, "Helvetica Neue", Roboto, sans-serif;
             font-size: 16px;
             font-weight: 400;
+        }
+
+        .vkToolsFireFoxModalHeader {
+            font-size: 15px!important;
         }
     
         .vkToolsModalButton {
@@ -1074,6 +1082,7 @@ input[type="color"] {
         }
 
         .vkToolsFuncDescription {
+            font-size: 75%;
             margin-left: 12px;
             margin-bottom: 8px;
             display: block;

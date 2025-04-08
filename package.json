@@ -13,10 +13,12 @@
     "simplebar-react": "^3.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && webpack --mode production",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build:chrome": "node prepare-manifest.js chrome && cross-env BUILD_DIR=build_chrome TARGET=chrome npm run build:base",
+    "build:ff": "node prepare-manifest.js ff && cross-env BUILD_DIR=build_ff TARGET=ff npm run build:base",
+    "build:zips": "node zip-build.js",
+    "clean:manifest": "node cleanup-manifest.js",
+    "build": "npm run build:chrome && npm run build:ff && npm run build:zips && npm run clean:manifest",
+    "build:base": "react-scripts build && webpack --mode production && node move-build.js"
   },
   "eslintConfig": {
     "extends": [
@@ -42,7 +44,10 @@
     "@types/chrome": "^0.0.293",
     "@types/react": "^19.0.3",
     "@types/react-dom": "^19.0.2",
+    "copyfiles": "^2.4.1",
+    "cross-env": "^7.0.3",
     "css-loader": "^7.1.2",
+    "fs-extra": "^11.3.0",
     "hls.js": "^1.5.20",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.2",
