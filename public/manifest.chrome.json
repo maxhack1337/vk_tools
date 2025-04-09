@@ -15,13 +15,14 @@
     "36": "assets/icon36.png",
     "48": "assets/icon48.png"
   },
+  "minimum_chrome_version": "112",
   "description": "Расширение, делающее времяпрепровождение в VK удобнее и приятнее!",
   "host_permissions": [
     "*://vk.com/*",
     "*://vk.ru/*",
     "*://oauth.vk.com/*",
-	"*://vkvideo.ru/*",
-	"*://*.vk.com/*"
+	  "*://vkvideo.ru/*",
+	  "*://*.vk.com/*"
   ],
   "permissions": [
     "browsingData",
