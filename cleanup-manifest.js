@@ -19,7 +19,7 @@ const manifestPath = path.join(__dirname, "public", "manifest.json");
 if (fs.existsSync(manifestPath)) {
   fs.unlinkSync(manifestPath);
   console.log("🧹 Removed public/manifest.json after build");
-  console.log("🕒 Build time:" + timeConverter(Date.now()));
+  console.log("🕒 Build time: " + timeConverter(Date.now()));
 } else {
   console.log("ℹ️ No public/manifest.json to remove");
 }
