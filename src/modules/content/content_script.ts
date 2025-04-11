@@ -104,7 +104,8 @@ const functions = [
 	"oldMessengerDesignState",
 	"compactPhotosState",
 	"oldMessengerAttachesState",
-	"enterProfileGroupIDState"
+  "enterProfileGroupIDState",
+  "oldLoaderState"
 ];
 
 const applySavedStyles = () => {
@@ -155,7 +156,8 @@ const applySavedStyles = () => {
 		const oldMessengerDesign = items.oldMessengerDesignState;
 		const compactPhotos = items.compactPhotosState;
 		const oldMessengerAttaches = items.oldMessengerAttachesState;
-		const enterProfileGroupID = items.enterProfileGroupIDState;
+    const enterProfileGroupID = items.enterProfileGroupIDState;
+    const oldLoader = items.oldLoaderState;
 		applyStyles({
 			isVideoModal,
 			altScroll,
@@ -203,7 +205,8 @@ const applySavedStyles = () => {
 			oldMessengerDesign,
 			compactPhotos,
 			oldMessengerAttaches,
-			enterProfileGroupID
+      enterProfileGroupID,
+      oldLoader
 		});
 	});
 };
@@ -255,7 +258,8 @@ function applyStyles(styles: {
 	oldMessengerDesign: any;
 	compactPhotos: any;
 	oldMessengerAttaches: any;
-	enterProfileGroupID: any;
+  enterProfileGroupID: any;
+  oldLoader: any;
 }) {
 	if (styles.removeNFT) {
 		hideNFT_Avatars();
@@ -292,7 +296,13 @@ function applyStyles(styles: {
 		customMessage("videoModalEnabled");
 	} else {
 		customMessage("videoModalDisabled");
-	}
+  }
+  
+  if (styles.oldLoader) {
+    customMessage('oldLoader', styles.oldLoader)
+  } else {
+    customMessage('oldLoader', 'false')
+  }
 
 	if (styles.hideNamesAvatars) {
 		addBlur();

@@ -60,6 +60,7 @@ const allStates = [
   "compactPhotosState",
   "oldMessengerAttachesState",
   "enterProfileGroupIDState",
+  "oldLoaderState",
 ];
 
 const clearAllStates: { [key: string]: any } = {
@@ -110,6 +111,7 @@ const clearAllStates: { [key: string]: any } = {
   compactPhotosState: false,
   oldMessengerAttachesState: false,
   enterProfileGroupIDState: false,
+  oldLoaderState: false,
 };
 const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
 

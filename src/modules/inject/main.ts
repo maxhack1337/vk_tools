@@ -53,6 +53,7 @@ import { showLoadingOverlay } from "./components/overlay/LoadingOverlay";
 import checkIsSection from "./functions/feedReorder/checkIsSection";
 import renderId from "./functions/renderId/renderId";
 import { sleep } from "../sleep";
+import oldBoxLoader from "./functions/oldBoxLoader/oldBoxLoader";
 
 let debugMode = true;
 
@@ -349,6 +350,10 @@ window.addEventListener("message", async (event) => {
 		messageAct = "";
 	}
 	switch (messageAct) {
+		case "oldLoader": {
+			localStorage.setItem("oldLoader", event.data.value.messageValue);
+			break;
+		}
 		case "oldClubEnabled": {
 			localStorage.setItem("oldClubs", "true");
 			break;
@@ -633,3 +638,5 @@ if (getLocalValue("isClassicalProfileDesign")) {
     `
 	);
 }
+//Старый лоадер
+oldBoxLoader();

@@ -88,6 +88,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
         <CheckBox type={"checkBox"} label={getLang("removePostReactions")} isNew={false} isFire={false} id={"removePostReactions"} shouldReload={true} />,
         <CheckBox type={"checkBox"} label={getLang("avatarNameNear")} isNew={false} isFire={false} id={"avatarNameNear"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("newMediaViewer")} isNew={false} isFire={false} id={"newMediaViewer"} shouldReload={true} />,
+        <CheckBox type={"checkBox"} label={getLang("oldLoader")} isNew={false} isFire={false} id={"oldLoader"} shouldReload={true} />,
         <CheckBox type={"checkBox"} label={getLang("oldClub")} isNew={false} isFire={false} id={"oldClub"} shouldReload={true} description={getLang("oldClubDescription")} />,
         <CheckBox type={"checkBox"} label={getLang("compactPhotos")} isNew={false} isFire={false} id={"compactPhotos"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("feedOldTheme")} isNew={false} isFire={true} id={"feedOldTheme"} shouldReload={true} description={getLang("feedOldThemeDescription")} />,

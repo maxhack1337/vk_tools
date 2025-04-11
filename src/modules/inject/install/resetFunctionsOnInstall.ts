@@ -23,7 +23,8 @@ const keys = [
     "oldClubs",
     "oldMessengerDes",
     "oldMessengerAttaches",
-    "enterProfileGroupID"
+    "enterProfileGroupID",
+    "oldLoader"
 ];
 
 const resetFunctionsOnInstall = () => {
