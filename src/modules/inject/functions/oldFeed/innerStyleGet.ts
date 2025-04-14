@@ -338,7 +338,7 @@ const innerStyleGet = () => {
 		.Post--redesignV3 .PostDateBlock__root {
 			display:none;
 		}
-		.Post--redesignV3 .vkuiDiv__host:has(>[class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/"]) {
+		.Post--redesignV3 .vkuiDiv__host:has(>[class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/"]:not(.videoplayer_action_button)) {
 			display:none;
 		}
 
