@@ -3,7 +3,7 @@ import audioAttachment from "../attachments/audioAttachment";
 import getPostAttaches from "../getPostAttaches";
 
 const postMusic = () => {
-let selectorsMusic = [`.postponed.Post--redesignV3 [class^="vkitMusicOverlayAttachment__root"]`,`.suggest.Post--redesignV3 [class^="vkitMusicOverlayAttachment__root"]`]
+let selectorsMusic = [`.postponed.Post--redesignV3 [class^="OnMediaAttachmentOverlay__attachment"]`,`.suggest.Post--redesignV3 [class^="OnMediaAttachmentOverlay__attachment"]`,`.postponed.Post--redesignV3 [class^="vkitMusicOverlayAttachment__root"]`,`.suggest.Post--redesignV3 [class^="vkitMusicOverlayAttachment__root"]`]
 document.arrive(selectorsMusic.join(', '), { existing: true }, async function (docus) {
 		let closestCheck = docus.closest('.vkEnhancerPostponedPost');
 		if(!closestCheck) {

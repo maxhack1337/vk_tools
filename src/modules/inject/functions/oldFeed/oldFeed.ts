@@ -266,8 +266,9 @@ const oldFeed = () => {
                     });
                 }
                 //Музыка на фото
-                if (e.querySelector('[class^="vkitMusicOverlayAttachment__root"]')) {
+                if (e.querySelector('[class^="vkitMusicOverlayAttachment__root"]') || e.querySelector('[class^="OnMediaAttachmentOverlay__attachment"]')) {
                     let x = e.querySelector('[class^="vkitMusicOverlayAttachment__root"]');
+                    if (!x) x = e.querySelector('[class^="OnMediaAttachmentOverlay__attachment"]');
                     if (dataAttachments && dataAttachments.item && dataAttachments.item.attachments) {
                         dataAttachments.item.attachments.forEach(function(music: any) {
                             if (music.type === "audio" && music.style === "on_media") {
