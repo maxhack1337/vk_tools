@@ -27,7 +27,15 @@ const oldFeed = () => {
     if (localStorage.getItem("feedOldPosts") === "true") {
         oldStoryBlock();
         postponedSuggestedPosts();
-        const postSelectors = [`[class^='PostDateBlock__root'] > .vkui__root`,`._post.postponed ._post_content`];
+        const postSelectors = [`[class^='PostDateBlock__root'] > .vkui__root`, `._post.postponed ._post_content`];
+        document.arrive('[data-task-click="PostBottomAction/comment"][onclick=""]', { existing: true }, (e) => {
+            let postRawForComments = e.closest('.replies_list')?.id;
+            if (postRawForComments) {
+                postRawForComments = postRawForComments.substr(7);
+                e.setAttribute('data-task-click', '');
+                e.setAttribute('onclick', `return wall.showNextReplies(this, '${postRawForComments}', event);`);
+            }
+        })
         document.arrive(postSelectors.join(', '), {
             existing: true
         }, async function (s) {
