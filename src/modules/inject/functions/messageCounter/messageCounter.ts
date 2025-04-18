@@ -47,8 +47,11 @@ const messageCounter = () => {
   </a>
 </div>
   </div>`;
+            
+            const N = Math.floor(idMess / 15000000);
+            const relativeId = idMess - 15000000 * N;
 
-            if (idMess < 10000000) {
+            if (relativeId < 10000000) {
                 if (countermsg) {
                     const convoListFilter = countermsg.querySelector(".ConvoListFilter");
                     if (convoListFilter) {
@@ -59,7 +62,7 @@ const messageCounter = () => {
                         });
                     }
                 }
-            } else if (idMess < 14000000) {
+            } else if (relativeId < 14000000) {
                 if (countermsg) {
                     const convoListFilter = countermsg.querySelector(".ConvoListFilter");
                     if (convoListFilter) {
@@ -70,7 +73,7 @@ const messageCounter = () => {
                         });
                     }
                 }
-            } else if (idMess < 15000000) {
+            } else if (relativeId < 15000000) {
                 if (countermsg) {
                     const convoListFilter = countermsg.querySelector(".ConvoListFilter");
                     if (convoListFilter) {
