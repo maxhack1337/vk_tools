@@ -714,6 +714,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
     }
 
     .vkEnhancerMobileWas::after {
+        cursor: pointer;
         height: 26px;
         padding-left: 11px;
         content: ' ';
@@ -741,7 +742,8 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
     /* .ProfileBase > div > div > .vkuiSplitCol {
 		top:24px;
 }*/
-    .ProfileIndicatorBadge__badgeOnlineMobile::after {
+    .ProfileIndicatorBadge__badgeOnlineMobile .mobwas::after {
+        cursor: pointer;
         height: 26px;
         padding-left: 21px;
         margin-left: -12px;
@@ -753,7 +755,15 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         background-position: left 4px top 1px;
     }
 
-    .ProfileIndicatorBadge__badgeOnlineMobile svg {
+    .ProfileIndicatorBadge__badgeOnlineMobile .mott_text {
+        white-space: initial !important;
+    }
+
+    .ProfileIndicatorBadge__badgeLastSeen .mott_text {
+        white-space: initial !important;
+    }
+
+    .ProfileIndicatorBadge__badgeOnlineMobile svg.vkuiIcon--online_mobile_12 {
         display: none;
     }
 

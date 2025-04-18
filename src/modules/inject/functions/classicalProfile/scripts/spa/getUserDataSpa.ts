@@ -25,6 +25,8 @@ const getUserDataSpa = async (objectId: number) => {
               if (response.online_info.is_mobile) {
                 let mobileDiv = document.createElement("div");
                 mobileDiv.className = "vkEnhancerMobileWas";
+                mobileDiv.setAttribute('onclick', 'mobilePromo();');
+                mobileDiv.setAttribute('onmouseover','mobileOnlineTip(this, {mid: cur.oid, right: 1, was: 1})');
                 onlineBadgeByl?.appendChild(mobileDiv);
               }
             } catch (error) {}
@@ -38,7 +40,14 @@ const getUserDataSpa = async (objectId: number) => {
               let onlineBadgeMob = document.querySelector(
                 ".ProfileIndicatorBadge__badgeOnlineMobile"
               );
-              if(onlineBadgeMob) onlineBadgeMob.textContent = "Onlineᅠ​";
+              if (onlineBadgeMob) {
+                let appMobBadge = document.createElement('div');
+                appMobBadge.classList.add('mobwas');
+                appMobBadge.setAttribute('onclick', 'mobilePromo();');
+                appMobBadge.setAttribute('onmouseover','mobileOnlineTip(this, {mid: cur.oid, right: 1, was: 1})');
+                onlineBadgeMob.textContent = "Onlineᅠ​";
+                onlineBadgeMob.append(appMobBadge);
+              }
             } catch (error) {}
           }
           if (!response.hidden) {
