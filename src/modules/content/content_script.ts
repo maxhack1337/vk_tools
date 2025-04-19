@@ -261,11 +261,11 @@ function applyStyles(styles: {
   enterProfileGroupID: any;
   oldLoader: any;
 }) {
-	if (styles.removeNFT) {
-		hideNFT_Avatars();
-	} else {
-		backNFT_Avatars();
-	}
+	//if (styles.removeNFT) {
+		//hideNFT_Avatars();
+	//} else {
+		//backNFT_Avatars();
+	//}
 
 	addOpacity(styles.sliderValue);
 
@@ -598,22 +598,22 @@ function checkId() {
 }
 
 //Убрать NFT-Аватарки
-function hideNFT_Avatars() {
-	let styleElement = fromId("nftavatars");
-	if (!styleElement) {
-		styleElement = create("style", {}, { id: "nftavatars" });
-		document.head.appendChild(styleElement);
-	}
-	styleElement.innerHTML =
-		'[class^="vkitOutline__rootNft"] {display:none} .AvatarRich--nft .AvatarRich__img, .AvatarRich--nft .AvatarRich__background, .AvatarRich--nft .AvatarRich__children{clip-path:none; border-radius:100%;}.AvatarRich__outline--nft path {display:none}.AvatarRich__outline--nft{    border-radius: 100%;    outline: var(--avatar-rich-stroke-width) solid var(--vkui--color_icon_accent);    outline-offset: calc(var(--avatar-rich-stroke-width) * -1);} .OwnerPageAvatar--nft .OwnerPageAvatar__underlay:not(.OwnerPageAvatar__underlay--outlined) { top: calc(var(--stroke-width, 4px) * -1) !important; bottom: calc(var(--stroke-width, 4px) * -1) !important; left: calc(var(--stroke-width, 4px) * -1) !important; right: calc(var(--stroke-width, 4px) * -1) !important; } .OwnerPageAvatar--nft .OwnerPageAvatar__underlay, .AvatarRich--nft .AvatarRich__img, div[class*="RichAvatar-module__rootNft"] > img { clip-path: none !important; -webkit-clip-path: none !important; border-radius: 50% !important; } .OwnerPageAvatar--nft .vkuiAvatar svg, .AvatarRich__heptagonUnderlay,div[class*="RichAvatar-module__rootNft"] > svg { display: none !important; } svg[data-testid="richavatar-nft-heptagon"] { display:none; } [class*="vkitRichAvatar__rootNft"]>img { clip-path:none; border-radius:100%; }';
-}
+// function hideNFT_Avatars() {
+// 	let styleElement = fromId("nftavatars");
+// 	if (!styleElement) {
+// 		styleElement = create("style", {}, { id: "nftavatars" });
+// 		document.head.appendChild(styleElement);
+// 	}
+// 	styleElement.innerHTML =
+// 		'[class^="vkitOutline__rootNft"] {display:none} .AvatarRich--nft .AvatarRich__img, .AvatarRich--nft .AvatarRich__background, .AvatarRich--nft .AvatarRich__children{clip-path:none; border-radius:100%;}.AvatarRich__outline--nft path {display:none}.AvatarRich__outline--nft{    border-radius: 100%;    outline: var(--avatar-rich-stroke-width) solid var(--vkui--color_icon_accent);    outline-offset: calc(var(--avatar-rich-stroke-width) * -1);} .OwnerPageAvatar--nft .OwnerPageAvatar__underlay:not(.OwnerPageAvatar__underlay--outlined) { top: calc(var(--stroke-width, 4px) * -1) !important; bottom: calc(var(--stroke-width, 4px) * -1) !important; left: calc(var(--stroke-width, 4px) * -1) !important; right: calc(var(--stroke-width, 4px) * -1) !important; } .OwnerPageAvatar--nft .OwnerPageAvatar__underlay, .AvatarRich--nft .AvatarRich__img, div[class*="RichAvatar-module__rootNft"] > img { clip-path: none !important; -webkit-clip-path: none !important; border-radius: 50% !important; } .OwnerPageAvatar--nft .vkuiAvatar svg, .AvatarRich__heptagonUnderlay,div[class*="RichAvatar-module__rootNft"] > svg { display: none !important; } svg[data-testid="richavatar-nft-heptagon"] { display:none; } [class*="vkitRichAvatar__rootNft"]>img { clip-path:none; border-radius:100%; }';
+// }
 
-function backNFT_Avatars() {
-	const customStyle = fromId("nftavatars");
-	if (customStyle) {
-		customStyle.remove();
-	}
-}
+// function backNFT_Avatars() {
+// 	const customStyle = fromId("nftavatars");
+// 	if (customStyle) {
+// 		customStyle.remove();
+// 	}
+// }
 
 //Реакции сообщений
 function removeMessageReactions() {
