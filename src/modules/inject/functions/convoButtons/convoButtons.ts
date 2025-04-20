@@ -1,5 +1,7 @@
 import fromId from "../../../content/fromId";
+import initDownloadAttachesBox from "../downloadAttachments/initDownloadAttachesBox";
 import getBeginChat from "./getBeginChat";
+import getDownloadAttachments from "./getDownloadAttachments";
 import getPeerProps from "./getPeerProps";
 import getReadChat from "./getReadChat";
 import vkToolsOnlineBox from "./vkToolsOnlineBox";
@@ -22,12 +24,23 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
 `;
   let ActionEnhancerMenu = document.createElement("div");
   ActionEnhancerMenu.classList.add("ActionsMenu","ConvoMainActionsMenu","vkToolsActionMenu");
-  ActionEnhancerMenu.innerHTML = `<button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkEnUp">
+  ActionEnhancerMenu.innerHTML = `
+  <button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkEnUp">
   <i class="ActionsMenuAction__icon">
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
 <path d="M13 19C13 19.5523 12.5523 20 12 20C11.4477 20 11 19.5523 11 19L11 7.41421L6.70711 11.7071C6.31658 12.0976 5.68342 12.0976 5.29289 11.7071C4.90237 11.3166 4.90237 10.6834 5.29289 10.2929L11.2929 4.29289C11.6834 3.90237 12.3166 3.90237 12.7071 4.29289L18.7071 10.2929C19.0976 10.6834 19.0976 11.3166 18.7071 11.7071C18.3166 12.0976 17.6834 12.0976 17.2929 11.7071L13 7.41421L13 19Z" fill="currentColor"/>
 </svg></i>
   <span class="ActionsMenuAction__title">${getBeginChat(vk.lang)}</span>
+  </button>
+  
+  
+  <button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkToolsDownloadAttachmentsInitBox">
+  <i class="ActionsMenuAction__icon">
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+<path d="M10.9375 2.1875C10.9375 1.66973 10.5178 1.25 10 1.25C9.48223 1.25 9.0625 1.66973 9.0625 2.1875V10.5492L6.28791 7.77459C5.9218 7.40847 5.3282 7.40847 4.96209 7.77459C4.59597 8.1407 4.59597 8.7343 4.96209 9.10041L9.33709 13.4754C9.5129 13.6512 9.75136 13.75 10 13.75C10.2486 13.75 10.4871 13.6512 10.6629 13.4754L15.0379 9.10041C15.404 8.7343 15.404 8.1407 15.0379 7.77459C14.6718 7.40847 14.0782 7.40847 13.7121 7.77459L10.9375 10.5492V2.1875Z" fill="currentColor"/>
+<path d="M3.4375 15.625C2.91973 15.625 2.5 16.0447 2.5 16.5625C2.5 17.0803 2.91973 17.5 3.4375 17.5H16.5625C17.0803 17.5 17.5 17.0803 17.5 16.5625C17.5 16.0447 17.0803 15.625 16.5625 15.625H3.4375Z" fill="currentColor"/>
+  </svg></i>
+  <span class="ActionsMenuAction__title">${getDownloadAttachments(vk.lang)}</span>
   </button>
   
   <button class="ActionsMenuAction ActionsMenuAction--secondary ActionsMenuAction--size-regular vkEnAttaches">
@@ -109,7 +122,7 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
         displayElement.style.display = "none";
         displayElSeparator.style.display = "none";
     }
-  } catch (error) {}
+  } catch (error) { }
   ActionEnhancerMenu.querySelector(".vkEnOnline")?.addEventListener(
     "click",
     async function () {
@@ -162,6 +175,9 @@ document.arrive(".ConvoHeader__controls", { existing: true }, async function (
     }
   );
   let memoizedPeer = getPeerProps(e.parentElement!).peer.id;
+  ActionEnhancerMenu.querySelector('.vkToolsDownloadAttachmentsInitBox')?.addEventListener('click', () => {
+    initDownloadAttachesBox(memoizedPeer);
+  });
   ActionEnhancerMenu.querySelector(".vkEnAttaches")?.addEventListener(
     "click",
     function () {

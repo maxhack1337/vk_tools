@@ -9,6 +9,8 @@ interface VKEnh {
 	videoBlock?: any;
 	curClassicalProfile?: any;
 	loadingOverlay?: any;
+	downloadAllPhotos?: any;
+	downloadAttaches?: any;
 }
 
 interface URL {

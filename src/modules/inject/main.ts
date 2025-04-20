@@ -54,6 +54,8 @@ import checkIsSection from "./functions/feedReorder/checkIsSection";
 import renderId from "./functions/renderId/renderId";
 import { sleep } from "../sleep";
 import oldBoxLoader from "./functions/oldBoxLoader/oldBoxLoader";
+import { downloadAllPhotosArchive } from "./functions/downloadAttachments/photo";
+import downloadAttaches from "./functions/downloadAttachments/downloadAttaches";
 
 let debugMode = true;
 
@@ -186,6 +188,8 @@ window.vkenh.messagesDiff = {};
 window.vkenh.messagesSent = [];
 window.vkenh.curClassicalProfile = {};
 window.vkenh.loadingOverlay = showLoadingOverlay;
+window.vkenh.downloadAttaches = downloadAttaches;
+window.vkenh.downloadAllPhotos = downloadAllPhotosArchive;
 
 convert(document);
 document.arrive(".ComposerInput__input", { existing: true }, function (e) {
