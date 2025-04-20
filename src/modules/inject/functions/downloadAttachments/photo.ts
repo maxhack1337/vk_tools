@@ -1,5 +1,5 @@
 import JSZip from "jszip";
-import {getGeneratingArchiveText, getDownloadProgressText, getPreparingText } from "./localizationPhoto";
+import { getGeneratingArchiveText, getDownloadProgressText, getPreparingText } from "./localizationPhoto";
 import fetchPhotoBlob from "./fetchPhotoBlob";
 import triggerDownload from "./triggerDownload";
 
@@ -68,11 +68,11 @@ export async function downloadAllPhotosArchive(peer_id: number) {
           zip.file(filename, blob);
           photoCount++;
 
-          progressText.textContent = `Скачано фото: ${photoCount} из ~${totalPhotos}`;
-          progressBar.value = photoCount;
+          progressText.textContent = `[VK Tools] Скачано фото: ${photoCount} из ~${totalPhotos}`;
+          progressBar.value = photoCount; 
         } catch (e) {
           if (isCancelled) throw e;
-          console.warn(`Не удалось скачать фото по URL: ${url}`, e);
+          console.warn(`[VK Tools] Не удалось скачать фото по URL: ${url}`, e);
         }
       }
 
@@ -98,7 +98,7 @@ export async function downloadAllPhotosArchive(peer_id: number) {
 
     const zipFilename = `vk_photos_${peer_id}.zip`;
     triggerDownload(zipBlob, zipFilename);
-    console.log(`[VK Tools] ${getLang?.('global_archive_ready') || 'Архив готов'}: vk_photos_${peer_id}.zip`);
+    console.log(`[VK Tools] Архив готов: vk_photos_${peer_id}.zip`);
     box.hide();
 
   } catch (error: any) {
