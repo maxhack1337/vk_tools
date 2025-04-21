@@ -10,8 +10,7 @@ const sendAudioMessage = async(fileNameOutput: string | Blob) => {
       let file = await uploadFile(uploadUrl, fileNameOutput);
 
       const data = JSON.parse(file);
-      console.info("[VKENH] File uploaded");
-      console.log(data["file"]);
+      console.info("[VK Tools] File uploaded:", data["file"]);
       let doc = await vkApi.api("docs.save", { file: data["file"] });
       doc = doc.audio_message;
 

@@ -1,7 +1,6 @@
 import fromId from "../../../content/fromId";
-import getAudioDescriptionText from "./getAudioDescriptionText";
+import handleUpload from "./handleUpload";
 import VKEnhancerGraffitiBox from "./VKEnhancerGraffitiBox";
-import VKEnhancerMessageBox from "./VKEnhancerMessageBox";
 
 const graffityVoice = () => {
 document.arrive(
@@ -47,26 +46,25 @@ document.arrive(
     }
     setElement1 = document.querySelector(".GraffitiMenuPopper");
     setElement = document.querySelector(".AudioMenuPopper");
-      var eventListenerSet = false;
-      let gett = getLang?.("calls_translation_planned_preview_download");
-      let isArr = Array.isArray(gett) ? gett[0] : gett || 'Загрузить';
-      let gett2 = getLang?.("global_cancel");
-      let isArr2 = Array.isArray(gett2) ? gett2[0] : gett2 || 'Отмена';
+    let appendHere = document.querySelector('.ConvoHeader');
+    if (!appendHere?.querySelector('#audioFileInput')) {
+      let inputWrap = document.createElement("a");
+      inputWrap.innerHTML = '<input style="display:none;" type="file" id="audioFileInput" accept="audio/mp3,audio/ogg,audio/wav">';
+      appendHere?.appendChild(inputWrap);
+      const audioFileInput = document.getElementById("audioFileInput") as HTMLInputElement;
+      audioFileInput?.addEventListener("change", function () {
+        const length = audioFileInput.files?.length || 0;
+        if (length > 0) {
+          handleUpload();
+          audioFileInput.value = "";
+        }
+      });
+    }
+    var eventListenerSet = false;
     if (!eventListenerSet) {
       setElement?.addEventListener("click", function () {
-        var contAudio = getAudioDescriptionText(vk.lang);
-        VKEnhancerMessageBox(
-          getLang?.("global_warning"),
-          contAudio,
-          isArr,
-          isArr2,
-          "yes",
-          "no",
-        function () {
-            const audioFileInput = document.getElementById("audioFileInput") as HTMLInputElement;
-            audioFileInput.click();
-          }
-        );
+        const audioFileInput = document.getElementById("audioFileInput") as HTMLInputElement;
+        audioFileInput.click();
       });
       eventListenerSet = true;
     }
