@@ -1,7 +1,7 @@
 const getIdAntiAsync1 = async() => {
   const url = window.location.href;
-  var parts = url.split("/");
-  var username = parts[parts.length - 1];
+  let parts = url.split("/");
+  let username = parts[parts.length - 1];
   if (username.includes("?")) {
     username = username.split("?")[0];
   }

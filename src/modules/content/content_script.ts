@@ -564,9 +564,7 @@ function applyStyles(styles: {
 
 document.addEventListener("DOMContentLoaded", applySavedStyles);
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-	if (message.type === "checkId") {
-		checkId();
-	} else if (message.type === "resetFunctions") {
+	if (message.type === "resetFunctions") {
 		customMessage("resetFunctions", "true");
 	} else if (message.type === "checkIfLoaded") {
 		sendResponse({ loaded: true });
@@ -574,28 +572,6 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		applySavedStyles();
 	}
 });
-
-function checkId() {
-	const url = window.location.href;
-	var parts = url.split("/");
-	var username = parts[parts.length - 1];
-	if (username.includes("?")) {
-		username = username.split("?")[0];
-	}
-	var objectId;
-	const url1 = `https://vkenhancer-api.vercel.app/getId?username=${username}`;
-	fetch(url1)
-		.then((response) => response.json())
-		.then((data) => {
-			objectId = data.response.object_id;
-			chrome.runtime.sendMessage({
-				greeting: objectId
-			});
-		})
-		.catch((error) => {
-			console.error("Ошибка:", error);
-		});
-}
 
 //Убрать NFT-Аватарки
 // function hideNFT_Avatars() {

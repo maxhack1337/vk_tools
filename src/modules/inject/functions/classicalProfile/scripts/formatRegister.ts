@@ -2,12 +2,12 @@ import getMonthNameOnline from "./getMonthNameOnline";
 
         const formatRegister = (bdate: string) => {
           if (!bdate) return null;
-          var parts = bdate.split(".");
-          var day = parts[0];
-          var month = getMonthNameOnline(Number(parts[1]));
-          var year = parts[2];
-          var formattedDate = `${day} ${month}`;
-          var yearLink = year;
+          let parts = bdate.split(".");
+          let day = parts[0];
+          let month = getMonthNameOnline(Number(parts[1]));
+          let year = parts[2];
+          let formattedDate = `${day} ${month}`;
+          let yearLink = year;
           if (year) {
             formattedDate += ` ${yearLink}`;
           }

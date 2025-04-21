@@ -1,5 +1,6 @@
 import { downloadAllAudioMessagesArchive } from "./audio_messages";
 import { downloadAllPhotosArchive } from "./photo";
+import { downloadAllVideosArchive } from "./video";
 
 const downloadAttaches = (type: string, peer_id: number) => {
     switch (type) {
@@ -8,6 +9,9 @@ const downloadAttaches = (type: string, peer_id: number) => {
             break;
         case "audio_message":
             downloadAllAudioMessagesArchive(peer_id);
+            break;
+        case "video":
+            downloadAllVideosArchive(peer_id);
             break;
     }
 }

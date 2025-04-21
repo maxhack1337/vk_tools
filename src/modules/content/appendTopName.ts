@@ -7,12 +7,12 @@ const appendTopName = () => {
       if (name) {
         namealt = name.alt;
       }
-      var s = document.querySelector("a#top_profile_link");
-      var q = document.createElement("div");
-      q.classList.add("top_profile_name");
-      q.textContent = namealt;
-        if (namealt !== null && s !== null && parentlnk !== null) {
-        s.insertBefore(q, s.firstChild);
+      let topProfile = document.querySelector("a#top_profile_link");
+      let topProfileName = document.createElement("div");
+      topProfileName.classList.add("top_profile_name");
+      topProfileName.textContent = namealt;
+        if (namealt !== null && topProfile !== null && parentlnk !== null) {
+        topProfile.insertBefore(topProfileName, topProfile.firstChild);
       }
     } catch (e) { }
     const styleElement = document.createElement("style");

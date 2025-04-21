@@ -15,7 +15,7 @@ const sendAudioMessage = async(fileNameOutput: string | Blob) => {
       let doc = await vkApi.api("docs.save", { file: data["file"] });
       doc = doc.audio_message;
 
-      var peerId = new URL(window.location.href).pathname.split("/").at(-1);
+      let peerId = new URL(window.location.href).pathname.split("/").at(-1);
       await vkApi.api("messages.send", {
         peer_id: peerId,
         attachment: `doc${doc.owner_id}_${doc.id}_${doc.access_key}`,

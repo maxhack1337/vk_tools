@@ -714,6 +714,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
     }
 
     .vkEnhancerMobileWas::after {
+        display: block;
         cursor: pointer;
         height: 26px;
         padding-left: 11px;
@@ -743,6 +744,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
 		top:24px;
 }*/
     .ProfileIndicatorBadge__badgeOnlineMobile .mobwas::after {
+        display: block;
         cursor: pointer;
         height: 26px;
         padding-left: 21px;

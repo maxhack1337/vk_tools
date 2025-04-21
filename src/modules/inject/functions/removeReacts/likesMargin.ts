@@ -17,8 +17,8 @@ const likesMargin = () => {
             ".post--withPostBottomAction:not(.post--withActionStatusBar)",
             { existing: true },
             function (e) {
-                var postId = e.getAttribute("id");
-                var postButton = e.querySelector(
+                let postId = e.getAttribute("id");
+                let postButton = e.querySelector(
                     ".PostBottomAction.PostBottomAction--withBg.PostButtonReactions.PostButtonReactions--post"
                 );
                 if (postButton) {

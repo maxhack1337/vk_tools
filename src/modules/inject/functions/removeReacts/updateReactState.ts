@@ -9,7 +9,7 @@ const updateReactState = () => {
 		".PostBottomActionLikeBtns--withTransparentButtons .like_btns>.PostBottomActionContainer:first-child > .PostButtonReactions--post",
 		{ existing: true },
 			function (e: Element) {
-				var postId;
+				let postId;
 				try {
 					postId = e?.closest('.Post--redesign.Post--redesignV3[id^="post"]')?.getAttribute("id");
 				}

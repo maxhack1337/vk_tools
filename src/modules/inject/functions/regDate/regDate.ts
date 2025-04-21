@@ -73,9 +73,9 @@ const regDate = () => {
   async function (e) {
     let respsp = IS_SPA ? await getUserDataReactSpa() : await getUserDataReact();;
     let birthday = respsp.bdate;
-    var ageAndZodiac = "";
+    let ageAndZodiac = "";
 
-    var parts = birthday.split(".");
+    let parts = birthday.split(".");
     if (parts.length === 3) {
       let bDayFull = birthday;
       let ptsOfAfe = bDayFull.split(".");

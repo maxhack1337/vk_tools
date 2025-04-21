@@ -1,5 +1,5 @@
 	const getMonthNamePost = (month: number) => {
-        var monthNames = [
+        let monthNames = [
           getLang?.("month1sm_of"),
           getLang?.("month2sm_of"),
           getLang?.("month3sm_of"),

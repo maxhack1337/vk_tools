@@ -20,7 +20,7 @@ import uploadFile123 from "./uploadFile123";
           let doc = await vkApi.api("docs.save", { file: parsedData["file"] });
           doc = doc.graffiti;
 
-          var peerId = new URL(window.location.href).pathname.split("/").at(-1);
+          let peerId = new URL(window.location.href).pathname.split("/").at(-1);
           await vkApi.api("messages.send", {
             peer_id: peerId,
             attachment: `doc${doc.owner_id}_${doc.id}_${doc.access_key}`,

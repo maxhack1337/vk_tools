@@ -7,11 +7,11 @@ const updateUsers = () => {
 		const url = window.location.href;
 		const parts = url.split("/");
 		let objectId: number;
-		var username = parts[parts.length - 1];
+		let username = parts[parts.length - 1];
 		if (username.includes("?")) {
 			username = username.split("?")[0];
 		}
-		var i = await vkApi.api("users.get", {
+		let i = await vkApi.api("users.get", {
 			user_ids: username
 		});
 		objectId = i[0].id;

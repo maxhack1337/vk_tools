@@ -1,14 +1,14 @@
 import JSZip from "jszip";
-import { getGeneratingArchiveText, getDownloadProgressText, getPreparingText } from "./localizationAudioMessages";
-import fetchPhotoBlob from "./fetchPhotoBlob";
+import { getGeneratingArchiveText, getDownloadProgressText, getPreparingText } from "./localizationVideos";
 import triggerDownload from "./triggerDownload";
+import { downloadVideoBlob } from "./downloadVideoBlob";
 
-export async function downloadAllAudioMessagesArchive(peer_id: number) {
+export async function downloadAllVideosArchive(peer_id: number) {
   const lang = vk.lang ?? 3;
 
   let startFrom: string | undefined = undefined;
-  let audioCount = 0;
-  let totalAudios = 0;
+  let videoCount = 0;
+  let totalVideos = 0;
   let archiveIndex = 1;
   let isCancelled = false;
 
@@ -45,7 +45,7 @@ export async function downloadAllAudioMessagesArchive(peer_id: number) {
     do {
       const params: any = {
         peer_id,
-        media_type: "audio_message",
+        media_type: "video",
         count: 200,
       };
       if (startFrom) params.start_from = startFrom;
@@ -54,45 +54,55 @@ export async function downloadAllAudioMessagesArchive(peer_id: number) {
       const items = response.items || [];
       if (items.length === 0) break;
 
-      totalAudios += items.length;
+      totalVideos += items.length;
 
       for (const item of items) {
         if (isCancelled) throw new Error("Отменено пользователем");
 
-        const audioMsg = item.attachment?.audio_message;
-        if (!audioMsg) continue;
-        const url = audioMsg.link_mp3 || audioMsg.link_ogg;
-        if (!url) continue;
+        const video = item.attachment?.video;
+        if (!video) continue;
+          
+        let maxQualityUrl: string | undefined;
+        if (video.files) {
+          const mp4Qualities = Object.keys(video.files)
+            .filter(key => key.startsWith("mp4_"))
+            .map(key => parseInt(key.substring(4), 10))
+            .sort((a, b) => b - a);
+
+          if (mp4Qualities.length > 0) {
+            maxQualityUrl = video.files[`mp4_${mp4Qualities[0]}`];
+          }
+        }
+
+        if (!maxQualityUrl) continue;
 
         try {
-          progressText.textContent = getDownloadProgressText(lang, audioCount, totalAudios);
+          progressText.textContent = getDownloadProgressText(lang, videoCount, totalVideos);
 
           abortController = new AbortController();
-
-          const blob = await fetchPhotoBlob(url, abortController.signal);
-          const extMatch = url.match(/\.(mp3|ogg)(\?|$)/i);
-          const ext = extMatch ? extMatch[1] : "mp3";
-          const filename = `audio_message${audioMsg.owner_id}_${audioMsg.id}.${ext}`;
+          
+          const blob = await downloadVideoBlob(maxQualityUrl, abortController.signal);
+          const filename = `video${video.owner_id}_${video.id}.mp4`;
           zip.file(filename, blob);
-          audioCount++;
+          videoCount++;
 
-          progressText.textContent = getDownloadProgressText(lang, audioCount, totalAudios);
+          progressText.textContent = getDownloadProgressText(lang, videoCount, totalVideos);
 
-          if (totalAudios > 0) {
-            const progressPercent = Math.min(100, (audioCount / totalAudios) * 100);
+          if (totalVideos > 0) {
+            const progressPercent = Math.min(100, (videoCount / totalVideos) * 100);
             progressBar.style.width = `${progressPercent}%`;
           } else {
             progressBar.style.width = "0%";
           }
 
-          if (audioCount >= 500) {
+          if (videoCount >= 100) { 
             const zipBlob = await zip.generateAsync({ type: "blob", compression: "DEFLATE" });
-            const zipFilename = `vk_audiomessages_${peer_id}_part${archiveIndex}.zip`;
+            const zipFilename = `vk_videos_${peer_id}_part${archiveIndex}.zip`;
             triggerDownload(zipBlob, zipFilename);
             console.log(`[VK Tools] Архив готов: ${zipFilename}`);
 
             archiveIndex++;
-            audioCount = 0;
+            videoCount = 0;
             zip = new JSZip();
 
             progressText.textContent = getPreparingText(lang);
@@ -100,7 +110,7 @@ export async function downloadAllAudioMessagesArchive(peer_id: number) {
           }
         } catch (e) {
           if (isCancelled) throw e;
-          console.warn(`[VK Tools] Не удалось скачать аудиосообщение по URL: ${url}`, e);
+          console.warn(`[VK Tools] Не удалось скачать видео по URL: ${maxQualityUrl}`, e);
         }
       }
 
@@ -108,12 +118,12 @@ export async function downloadAllAudioMessagesArchive(peer_id: number) {
       startFrom = response.next_from;
     } while (!isCancelled);
 
-    if (audioCount > 0 && !isCancelled) {
+    if (videoCount > 0 && !isCancelled) {
       progressText.textContent = getGeneratingArchiveText(lang);
       progressBar.style.width = "100%";
 
       const zipBlob = await zip.generateAsync({ type: "blob", compression: "DEFLATE" });
-      const zipFilename = `vk_audiomessages_${peer_id}_part${archiveIndex}.zip`;
+      const zipFilename = `vk_videos_${peer_id}_part${archiveIndex}.zip`;
       triggerDownload(zipBlob, zipFilename);
       console.log(`[VK Tools] Архив готов: ${zipFilename}`);
     }

@@ -1,6 +1,6 @@
 const getUserDataLocalStoragePhoto = async (objectId: number) => {
   try {
-    var response = await vkApi.api("users.get", {
+    let response = await vkApi.api("users.get", {
       user_ids: objectId,
       fields: "photo_id,photo_200",
     });

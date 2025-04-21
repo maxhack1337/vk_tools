@@ -1,6 +1,6 @@
 const spamButton = () => {
     document.arrive(".BurgerMenu__actionsMenu", { existing: true }, function (e) {
-        var burgerim = document.querySelector(
+        let burgerim = document.querySelector(
             ".BurgerMenu__actionsMenu > div > div > div"
         );
 

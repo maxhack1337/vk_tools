@@ -69,7 +69,7 @@ export async function downloadAllPhotosArchive(peer_id: number) {
           abortController = new AbortController();
 
           const blob = await fetchPhotoBlob(url, abortController.signal);
-          const filename = `${photo.owner_id}_${photo.id}.jpg`;
+          const filename = `photo${photo.owner_id}_${photo.id}.jpg`;
           zip.file(filename, blob);
           photoCount++;
 

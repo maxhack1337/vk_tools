@@ -1,7 +1,7 @@
 import getZodiacSigns from "./getZodiacSigns";
 
 const getZodiacIndex = (den: number, month: number) => {
-  var value = "";
+  let value = "";
   den = Number(den);
   month = Number(month);
   switch (month) {

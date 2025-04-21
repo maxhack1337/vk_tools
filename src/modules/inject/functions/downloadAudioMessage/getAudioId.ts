@@ -18,10 +18,10 @@ const getAudioId = (elem:ExtendedHTMLElement) => {
       2 === n)
     )
       break;
-  var o = t.fiber.return.memoizedProps.voice.ownerId;
-  var a = t.fiber.return.memoizedProps.voice.id;
-  var i = [o, a].join("_");
-  return `audio_message${i}.mp3`;
+  let ownerId = t.fiber.return.memoizedProps.voice.ownerId;
+  let audioId = t.fiber.return.memoizedProps.voice.id;
+  let audioRaw = [ownerId, audioId].join("_");
+  return `audio_message${audioRaw}.mp3`;
 }
 
 export default getAudioId;
