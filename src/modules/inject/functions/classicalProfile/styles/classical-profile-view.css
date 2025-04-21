@@ -566,6 +566,14 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         min-width: 156.19px;
     }
 
+    .ProfileHeaderButton>button span.vkuiButton__content {
+        font-size: 13.5px !important;
+    }
+
+    .ProfileHeaderButton>a[href="/edit"] span.vkuiButton__content {
+        font-size: 13.5px !important;
+    }
+
     .ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderActions__moreButtonContainer))>.ProfileHeaderButton {
         max-width: 206px;
     }
@@ -591,7 +599,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         bottom: 42px;
         margin-left: 0px;
         min-width: 206px;
-        font-size: var(--vkui--font_headline2--font_size--compact);
+        font-size: 13.5px;
         font-weight: var(--vkui--font_weight_accent2);
         font-family: var(--vkui--font_headline2--font_family--regular);
     }
@@ -628,7 +636,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
 
     .ProfileHeaderButton>a:has(>span>span>svg.vkuiIcon--message_outline_20)>span:before,
     .ProfileHeaderButton>a[href*="/im"]>span:before {
-        font-size: var(--vkui--font_headline2--font_size--compact);
+        font-size: 13.5px;
         font-weight: var(--vkui--font_weight_accent2);
         font-family: var(--vkui--font_headline2--font_family--regular);
     }
