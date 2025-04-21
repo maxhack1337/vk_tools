@@ -1,14 +1,14 @@
 import JSZip from "jszip";
-import { getGeneratingArchiveText, getDownloadProgressText, getPreparingText } from "./localizationPhoto";
+import { getGeneratingArchiveText, getDownloadProgressText, getPreparingText } from "./localizationAudioMessages";
 import fetchPhotoBlob from "./fetchPhotoBlob";
 import triggerDownload from "./triggerDownload";
 
-export async function downloadAllPhotosArchive(peer_id: number) {
+export async function downloadAllAudioMessagesArchive(peer_id: number) {
   const lang = vk.lang ?? 3;
 
   let startFrom: string | undefined = undefined;
-  let photoCount = 0;
-  let totalPhotos = 0;
+  let audioCount = 0;
+  let totalAudios = 0;
   let archiveIndex = 1;
   let isCancelled = false;
 
@@ -45,7 +45,7 @@ export async function downloadAllPhotosArchive(peer_id: number) {
     do {
       const params: any = {
         peer_id,
-        media_type: "photo",
+        media_type: "audio_message",
         count: 200,
       };
       if (startFrom) params.start_from = startFrom;
@@ -54,42 +54,45 @@ export async function downloadAllPhotosArchive(peer_id: number) {
       const items = response.items || [];
       if (items.length === 0) break;
 
-      totalPhotos += items.length;
+      totalAudios += items.length;
 
       for (const item of items) {
         if (isCancelled) throw new Error("Отменено пользователем");
 
-        const photo = item.attachment?.photo;
-        if (!photo || !photo.orig_photo?.url) continue;
+        const audioMsg = item.attachment?.audio_message;
+        if (!audioMsg) continue;
+        const url = audioMsg.link_mp3 || audioMsg.link_ogg;
+        if (!url) continue;
 
-        const url = photo.orig_photo.url;
         try {
-          progressText.textContent = getDownloadProgressText(lang, photoCount, totalPhotos);
+          progressText.textContent = getDownloadProgressText(lang, audioCount, totalAudios);
 
           abortController = new AbortController();
 
           const blob = await fetchPhotoBlob(url, abortController.signal);
-          const filename = `${photo.owner_id}_${photo.id}.jpg`;
+          const extMatch = url.match(/\.(mp3|ogg)(\?|$)/i);
+          const ext = extMatch ? extMatch[1] : "mp3";
+          const filename = `${audioMsg.owner_id}_${audioMsg.id}.${ext}`;
           zip.file(filename, blob);
-          photoCount++;
+          audioCount++;
 
-          progressText.textContent = getDownloadProgressText(lang, photoCount, totalPhotos);
+          progressText.textContent = getDownloadProgressText(lang, audioCount, totalAudios);
 
-          if (totalPhotos > 0) {
-            const progressPercent = Math.min(100, (photoCount / totalPhotos) * 100);
+          if (totalAudios > 0) {
+            const progressPercent = Math.min(100, (audioCount / totalAudios) * 100);
             progressBar.style.width = `${progressPercent}%`;
           } else {
             progressBar.style.width = "0%";
           }
 
-          if (photoCount >= 1000) {
+          if (audioCount >= 500) {
             const zipBlob = await zip.generateAsync({ type: "blob", compression: "DEFLATE" });
-            const zipFilename = `vk_photos_${peer_id}_part${archiveIndex}.zip`;
+            const zipFilename = `vk_audiomessages_${peer_id}_part${archiveIndex}.zip`;
             triggerDownload(zipBlob, zipFilename);
             console.log(`[VK Tools] Архив готов: ${zipFilename}`);
 
             archiveIndex++;
-            photoCount = 0;
+            audioCount = 0;
             zip = new JSZip();
 
             progressText.textContent = getPreparingText(lang);
@@ -97,7 +100,7 @@ export async function downloadAllPhotosArchive(peer_id: number) {
           }
         } catch (e) {
           if (isCancelled) throw e;
-          console.warn(`[VK Tools] Не удалось скачать фото по URL: ${url}`, e);
+          console.warn(`[VK Tools] Не удалось скачать аудиосообщение по URL: ${url}`, e);
         }
       }
 
@@ -105,12 +108,12 @@ export async function downloadAllPhotosArchive(peer_id: number) {
       startFrom = response.next_from;
     } while (!isCancelled);
 
-    if (photoCount > 0 && !isCancelled) {
+    if (audioCount > 0 && !isCancelled) {
       progressText.textContent = getGeneratingArchiveText(lang);
       progressBar.style.width = "100%";
 
       const zipBlob = await zip.generateAsync({ type: "blob", compression: "DEFLATE" });
-      const zipFilename = `vk_photos_${peer_id}_part${archiveIndex}.zip`;
+      const zipFilename = `vk_audiomessages_${peer_id}_part${archiveIndex}.zip`;
       triggerDownload(zipBlob, zipFilename);
       console.log(`[VK Tools] Архив готов: ${zipFilename}`);
     }

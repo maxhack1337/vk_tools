@@ -1,5 +1,6 @@
 import getDownloadAttachments from "../convoButtons/getDownloadAttachments";
 import getSelectAttachmentType from "./getSelectAttachmentType";
+import { getAudioMessagesText } from "./localizationAudioMessages";
 
 const initDownloadAttachesBox = (peer_id: number) => {
     if (!peer_id) return;
@@ -11,6 +12,7 @@ const initDownloadAttachesBox = (peer_id: number) => {
       <div class="ImageStatusPopup__description">${getSelectAttachmentType(vk.lang)}</div>
       <select id="selectAttachmentType" style="width: 100%;padding: 8px;margin-bottom: 12px;border-radius: 8px;border: 1px solid var(--vkui--color_background_accent_themed);">
         <option value="photo">${getLang?.('vkconnect_sak_scope_photos')}</option>
+        <option value="audio_message">${getAudioMessagesText(vk.lang)}</option>
         <option value="video">${getLang?.('search_cat_video')}</option>
       </select>
       <div class="ImageStatusPopup__buttons">
