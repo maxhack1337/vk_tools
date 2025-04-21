@@ -47,23 +47,23 @@ export const getPreparingText = (lang: number): string => {
 export const getGeneratingArchiveText = (lang: number): string => {
   switch (lang) {
     case 0:
-      return "Генерация архива с документами...";
+      return "Генерация архива...";
     case 1:
     case 454:
-      return "Генерація архіву з документами...";
+      return "Генерація архіву...";
     case 114:
     case 2:
-      return "Генерацыя архіва з дакументамі...";
+      return "Генерацыя архіва...";
     case 777:
-      return "Генерация архива с документами...";
+      return "Генерация архива...";
     case 97:
-      return "Құжаттары бар мұрағат жасалуда...";
+      return "Архив жасалуда...";
     case 100:
-      return "Генерация архива с документами...";
+      return "Генерация архива...";
     case 3:
-      return "Generating archive with documents...";
+      return "Generating archive...";
     default:
-      return "Generating archive with documents...";
+      return "Generating archive...";
   }
 };
 

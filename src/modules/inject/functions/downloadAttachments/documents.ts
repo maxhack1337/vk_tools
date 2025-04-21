@@ -2,6 +2,8 @@ import JSZip from "jszip";
 import { getGeneratingArchiveText, getDownloadProgressText, getPreparingText } from "./localizationDocs";
 import triggerDownload from "./triggerDownload";
 import fetchPhotoBlob from "./fetchPhotoBlob";
+import mimeTypes from "./mime.json";
+import getExtensionFromMimeType from "./getExtensionFromMimeType";
 
 export async function downloadAllDocsArchive(peer_id: number) {
   const lang = vk.lang ?? 3;
@@ -70,7 +72,9 @@ export async function downloadAllDocsArchive(peer_id: number) {
           abortController = new AbortController();
 
           const blob = await fetchPhotoBlob(url, abortController.signal);
-          const filename = `doc${doc.owner_id}_${doc.id}.${blob.type.split("/")[1]}`;
+          const mimeType = blob.type;
+          const extension = getExtensionFromMimeType(mimeType, mimeTypes);
+          const filename = extension ? `doc${doc.owner_id}_${doc.id}.${extension}` : `doc${doc.owner_id}_${doc.id}`;
           zip.file(filename, blob);
           docCount++;
 
