@@ -11,6 +11,9 @@ const initDownloadAttachesBox = (peer_id: number) => {
   let text = document.querySelector(".ConvoHeader .ConvoTitle__author")?.textContent || "undefined";
   if (!src) {
     fallback = document.querySelector(".ConvoHeader__avatar .BasicAvatar__noImg")?.cloneNode(true) as HTMLDivElement;
+    if (!fallback) {
+      fallback = document.querySelector(".ConvoHeader__avatar .AvatarFavorites")?.cloneNode(true) as HTMLDivElement;
+    }
     fallback.style.width = "32px";
     fallback.style.height = "32px";
     fallback.style.margin = "0px 8px 0 0";
