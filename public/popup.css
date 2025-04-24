@@ -357,7 +357,7 @@ label#leftmenusave {
     color: var(--vkui--color_text_primary);
     padding: 0px 12px;
     margin: 0 12px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .ripple {
@@ -375,15 +375,11 @@ label#leftmenusave {
     }
 }
 
-.vkToolsCheckBoxWithDescription {
-    padding: 12px;
-}
-
 .vkToolsCheckBox__Label {
     max-width: 100%;
     flex-grow: 1;
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .vkToolsCheckBox__PrimaryText, .vkToolsCheckBox__SecondaryText {
@@ -459,37 +455,110 @@ label#leftmenusave {
 }
 
 .vkToolsCheckBox__Check--label-input:checked + .vkToolsCheckBox__Check--label-span::before {
-    transform: translateX(calc(var(--vkui--size_switch_width--compact) - var(--vkui--size_switch_height--compact)));
-    background: var(--vkui--color_icon_accent);
+    transform: translateX(calc(var(--vkui--size_switch_width--compact) - 20px)) scale(1.5);
+    background: #fff;
 }
 
 .vkToolsCheckBox__Check--label-input:checked + .vkToolsCheckBox__Check--label-span::after {
-    opacity: .48;
     background: var(--vkui--color_icon_accent);
+    outline: none;
+}
+
+.vkToolsTooltipIcon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    cursor: help;
+    position: relative;
+}
+
+.vkToolsTooltipWrapper {
+    position: relative;
+    margin-left: 4px;
+    margin-top: 6px;
+}
+
+.vkToolsFloatingArrow__host {
+    transform: rotate(180deg);
+    position: absolute;
+    top: -16px;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 2;
+    color: #323232;
+    transition: visibility 0.3s, opacity 0.3s ease;
+}
+
+.vkToolsCheckBox__RippleWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.vkToolsBlockHeaderWrapper {
+    margin-left: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.vkToolsTooltipText {
+    font-size: 12px;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.30),
+        0px 4px 16px 0px rgba(0, 0, 0, 0.30);
+    visibility: hidden;
+    background-color:#323232;
+    text-align: left;
+    border-radius: 4px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 160%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 200px;
+    max-width: 400px;
+    white-space: break-spaces;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s ease;
+}
+
+.vkToolsTooltipIcon:hover~.vkToolsTooltipText,
+.vkToolsTooltipIcon:hover~.vkToolsFloatingArrow__host {
+    visibility: visible;
+    opacity: 1;
 }
 
 .vkToolsCheckBox__Check--label-span::before {
-    margin-top: calc((var(--vkui--size_switch_height--compact) - var(--vkui--size_switch_pin--compact)) / 2);
-    margin-left: -18px;
-    width: var(--vkui--size_switch_pin--compact);
-    height: var(--vkui--size_switch_pin--compact);
-    transition: transform .1s ease;
+    z-index: 1;
+    margin-top: 4px;
+    margin-left: -12px;
+    transition: transform .3s cubic-bezier(.175, .885, .32, 1.275);
     position: absolute;
     content: "";
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     box-sizing: border-box;
-    background: var(--vkui--color_icon_contrast_secondary);
+    background: var(--vkui--color_icon_contrast);
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, .12), 0 2px 2px 0 rgba(0, 0, 0, .24);
 }
 
 .vkToolsCheckBox__Check--label-span::after {
-    border-radius: calc(var(--vkui--size_switch_width--compact) / 2);
-    width: var(--vkui--size_switch_width--compact);
-    height: var(--vkui--size_switch_height--compact);
-    transition: background-color .1s ease;
-    content: "";
+    outline: 2px solid var(--vkui--color_field_border_alpha);
+    background-color: var(--vkui--color_background);
+    border-radius: 16px;
+    height: 20px;
+    transition: background-color 67ms linear;
+    width: 32px;
     display: block;
-    background: var(--vkui--color_icon_tertiary_alpha);
+    position: relative;
+    content: "";
 }
 
 .vkToolsCheckBox__Check--label-spanHidden {
@@ -920,6 +989,9 @@ input[type="color"]::-webkit-color-swatch {
         border: none;
         outline: 4px solid #d3d3d33d;
     }
+    .vkToolsFloatingArrow__host {
+        top: -18px!important;
+    }
 }
 
 .vkToolsLowText--in {
@@ -1125,7 +1197,7 @@ input[type="color"]::-webkit-color-swatch {
         }
 
         .vkToolsFuncDescription {
-            font-size: 75%;
+            font-size: 12px;
             margin-left: 12px;
             margin-bottom: 8px;
             display: block;

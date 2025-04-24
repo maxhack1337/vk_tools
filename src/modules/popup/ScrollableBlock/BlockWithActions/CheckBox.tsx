@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
+import ToolTip from "./Tooltip";
 
 interface CheckBoxProps {
   id: string;
@@ -9,9 +10,10 @@ interface CheckBoxProps {
   isNew?: boolean;
   isFire?: boolean;
   shouldReload?: boolean;
+  shouldAlert?: boolean;
 }
 
-const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }: CheckBoxProps) => {
+const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload, shouldAlert }: CheckBoxProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const [rippleStyle, setRippleStyle] = useState<{ display: string; top: string; left: string; width: string; height: string }>({ display: "none", top: "0", left: "0", width: "0", height: "0" });
 
@@ -83,11 +85,7 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }:
               </span>
             )}
             <span className="vkToolsCheckBox__PrimaryTextSpan">{label}</span>
-          </div>
-        )}
-        {description && (
-          <div className="vkToolsCheckBox__SecondaryText">
-            <span className="vkToolsCheckBox__SecondaryTextSpan">{description}</span>
+            {description && <ToolTip text={description} alertIcon={shouldAlert} />}
           </div>
         )}
       </div>
@@ -98,7 +96,9 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload }:
           <span aria-hidden="true" className="vkToolsCheckBox__Check--label-spanHidden"></span>
         </label>
       </div>
-      <span className="ripple" style={{ ...rippleStyle }}></span>
+      <div className="vkToolsCheckBox__RippleWrapper">
+        <span className="ripple" style={{ ...rippleStyle }}></span>
+      </div>
     </label>
   );
 };

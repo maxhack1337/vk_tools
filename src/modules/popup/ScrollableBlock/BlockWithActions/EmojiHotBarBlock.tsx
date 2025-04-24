@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
+import ToolTip from "./Tooltip";
 
 interface EmojiHotBarBlockProps {
   label: string;
@@ -57,8 +58,10 @@ const EmojiHotBarBlock: React.FC<EmojiHotBarBlockProps> = ({ label, placeholder,
 
   return (
     <div className="vkToolsBlockLabel">
-      <h5 className="vkToolsBlockLabelText">{label}</h5>
-      <span className="vkToolsFuncDescription">{description}</span>
+      <div className="vkToolsBlockHeaderWrapper" style={{ color: "var(--vkui--color_text_primary)" }}>
+        <span className="vkToolsCheckBox__PrimaryTextSpan">{label}</span>
+        {description && <ToolTip text={description} />}
+      </div>
       <span className="vkToolsInput">
         <input id={`${option}__tb__`} placeholder={placeholder} type="text" className="vkToolsInput__placeholder" value={textInputValue} onChange={handleTextChange} />
         <div className="vkToolsInput__after">

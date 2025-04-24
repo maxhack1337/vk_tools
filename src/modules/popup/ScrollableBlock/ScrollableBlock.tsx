@@ -113,7 +113,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
         <CheckBox type={"checkBox"} label={getLang("messageTextUp")} isNew={false} isFire={false} id={"messageTextUp"} shouldReload={false} />,
         <CheckBox type={"checkBox"} label={getLang("reloadFunctionsButton")} isNew={false} isFire={false} id={"reloadFunctionsButton"} shouldReload={false} />,
         <EmojiHotBarBlock label={getLang("emojiHotbar")} placeholder={getLang("enterEmojiCodes")} buttonLabel={getLang("updateHotbar")} description={getLang("emojiHotbarDescription")} option={"emojiHotbar"} />,
-        <CheckBox type={"checkBox"} label={getLang("newMessengerDesign")} isNew={false} isFire={false} id={"newMessengerDesign"} shouldReload={true} description={getLang("newMessengerDesignDescription")} />,
+        <CheckBox type={"checkBox"} label={getLang("newMessengerDesign")} isNew={false} isFire={false} id={"newMessengerDesign"} shouldReload={true} description={getLang("newMessengerDesignDescription")} shouldAlert={true} />,
         <CheckBox type={"checkBox"} label={getLang("oldMessengerAttaches")} isNew={false} isFire={true} id={"oldMessengerAttaches"} shouldReload={true} description={getLang("oldMessenderAttachesDescription")} />,
         <CheckBox type={"checkBox"} label={getLang("oldMessengerDesign")} isNew={false} isFire={false} id={"oldMessengerDesign"} shouldReload={true} description={getLang("oldMessengerDesignDescription")} />,
       ];
@@ -128,7 +128,7 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
         <CheckBox type={"checkBox"} label={getLang("showPollResults")} isNew={false} isFire={false} id={"showPollResults"} shouldReload={true} description={getLang("defaultPollHidden")} />,
         <CheckBox type={"checkBox"} label={getLang("doNotDisturb")} isNew={false} isFire={false} id={"doNotDisturb"} shouldReload={true} description={getLang("doNotDisturbDescription")} />,
         <CheckBox type={"checkBox"} label={getLang("enterProfileGroupID")} isNew={false} isFire={false} id={"enterProfileGroupID"} shouldReload={true} />,
-        <HeaderPseudo label={getLang("pseudoTab3")} />,
+        <HeaderPseudo label={getLang("pseudoTab3")} marginTop={true} />,
         <SettingsElement id={"saveSettingsToFile"} label={getLang("saveSettingsToFile")} canFile={false} />,
         <SettingsElement id={"loadSettingsFromFile"} label={getLang("loadSettingsFromFile")} canFile={true} />,
         <SettingsElement id={"resetSettings"} label={getLang("resetSettings")} canFile={false} />,
