@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useImperativeHandle, forwardRef } from "react";
 import CheckBox from "./BlockWithActions/CheckBox";
 import HeaderPseudo from "./HeaderPseudo/HeaderPseudo";
 import LanguageSelector from "./Language/LanguageSelector";
@@ -21,22 +21,63 @@ import SliderFeedBlock from "./BlockWithActions/SliderFeedBlock";
 import getUpdateUrl from "./getUpdateUrl";
 interface ScrollableBlockProps {
   id: string;
+  initialScroll: number;
 }
 
-const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
+const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps, ref) => {
   const { getLang } = useLocalization();
   const [updateUrl, setUpdateUrl] = useState<string | null>(null);
+  const simpleBarRef = useRef<any>(null);
 
   useEffect(() => {
     const fetchUpdateUrl = async () => {
       const url = await getUpdateUrl();
-      setUpdateUrl(url); // Устанавливаем полученную ссылку в состояние
+      setUpdateUrl(url);
     };
 
-    fetchUpdateUrl(); // Вызываем функцию для получения ссылки
-  }, []); // Пустой массив зависимостей означает, что эффект сработает только один раз при монтировании
+    fetchUpdateUrl();
+  }, []);
+
+  useImperativeHandle(ref, () => ({
+    getScrollPosition: () => {
+      return simpleBarRef.current?.getScrollElement()?.scrollTop || 0;
+    },
+  }));
+
+  useEffect(() => {
+    const scrollEl = simpleBarRef.current?.getScrollElement();
+    if (scrollEl) {
+      scrollEl.addEventListener("scroll", handleScroll);
+      return () => {
+        scrollEl.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, []);
+
+  useEffect(() => {
+    chrome.storage.local.get([`scrollPos_${id}`], (result) => {
+      const savedScroll = result[`scrollPos_${id}`] ?? 0;
+      setTimeout(() => {
+        if (simpleBarRef.current) {
+          const el = simpleBarRef.current.getScrollElement();
+          el.scrollTop = savedScroll;
+        }
+      }, 0);
+    });
+  }, [id]);
 
   const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
+
+  const handleScroll = () => {
+    if (simpleBarRef.current) {
+      const scrollEl = simpleBarRef.current.getScrollElement();
+      chrome.storage.local.get(["defaultTab"], function (result) {
+        chrome.storage.local.set({
+          [`scrollPos_${result.defaultTab}`]: scrollEl.scrollTop,
+        });
+      });
+    }
+  };
 
   let currentTab = [
     <HeaderPseudo label={getLang("appearance")} />,
@@ -154,9 +195,11 @@ const ScrollableBlock = ({ id }: ScrollableBlockProps) => {
 
   return (
     <div className="vkToolsScrollable">
-      <SimpleBar style={{ maxHeight: 486 }}>{currentTab}</SimpleBar>
+      <SimpleBar style={{ maxHeight: 486 }} ref={simpleBarRef} onScroll={handleScroll}>
+        {currentTab}
+      </SimpleBar>
     </div>
   );
-};
+});
 
 export default ScrollableBlock;
