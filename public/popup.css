@@ -254,6 +254,20 @@
     --vkui--color_search_field_background--hover: #4a4a4a;
     --vkui--color_search_field_background--active: #515151;
     --vkui--color_icon_contrast_secondary: #f2f3f5;
+    --vktools--color_bg: #141414;
+    --page-block-shadow: 0 0 0 1px #363738;
+}
+
+.simplebar-content {
+    background: var(--vktools--color_bg);
+}
+
+.vkToolsBlockWithPadding {
+    background: var(--vkui--color_background_content);
+    border-radius: 12px;
+    box-shadow: var(--page-block-shadow);
+    margin: 8px;
+    padding: 8px;
 }
 
 * {
@@ -270,22 +284,36 @@
     height: 100%;
 }
 
+.vkToolsPseudoHeaderWrapper {
+    display: flex;
+}
+
+.vkToolsTooltipWrapper.toRight {
+    .vkToolsTooltipText {
+        bottom: -50%;
+        left: 100%;
+        transform: translateX(5%);
+        min-width: 300px;
+    }
+
+    .vkToolsFloatingArrow__host {
+        transform: rotate(-90deg);
+        top: 0px;
+        left: 18px;
+    }
+}
+
 .vkToolsLeftMenuBlock:not(.ButtonInstallpreload) {
-    padding: 0 12px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-left: -4px
+    padding: 8px 12px;
 }
 
 .vkToolsLeftMenuItem:not(.ButtonInstallpreload) {
-    padding-bottom: 8px;
+    padding: 2px 8px 0px 2px;
     flex-basis: 33%;
     box-sizing: border-box;
-}
-
-label#leftmenusave {
-    margin-left: 16px;
 }
 
 .vkToolsRoot {
@@ -356,7 +384,6 @@ label#leftmenusave {
     white-space: normal;
     color: var(--vkui--color_text_primary);
     padding: 0px 12px;
-    margin: 0 12px;
     overflow: visible;
 }
 
@@ -455,7 +482,7 @@ label#leftmenusave {
 }
 
 .vkToolsCheckBox__Check--label-input:checked + .vkToolsCheckBox__Check--label-span::before {
-    transform: translateX(calc(var(--vkui--size_switch_width--compact) - 20px)) scale(1.5);
+    transform: translateX(calc(var(--vkui--size_switch_width--compact) - 20px)) scale(1.375);
     background: #fff;
 }
 
@@ -502,12 +529,12 @@ label#leftmenusave {
 }
 
 .vkToolsBlockHeaderWrapper {
-    margin-left: 12px;
     display: flex;
     align-items: center;
 }
 
 .vkToolsTooltipText {
+    color: var(--vkui--color_text_primary);
     font-size: 12px;
     box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.30),
         0px 4px 16px 0px rgba(0, 0, 0, 0.30);
@@ -637,7 +664,7 @@ label#leftmenusave {
         "Helvetica Neue",
         Roboto,
         sans-serif;
-    padding-bottom: 12px;
+    flex-basis: 33%;
 }
 
 #langName {
@@ -704,8 +731,6 @@ label#leftmenusave {
     line-height: 26px;
     font-weight: 500;
     -webkit-font-smoothing: subpixel-antialiased;
-    margin-left: 10px;
-    margin-right: 8px;
     border-radius: 8px;
     border: 1px solid var(--vkui--color_separator_primary);
     background: var(--vkui--color_background_secondary);
@@ -719,6 +744,15 @@ label#leftmenusave {
     text-align: center;
     justify-content: center;
     color: #fff;
+}
+
+.vkToolsFooterBlock {
+    display: flex;
+    align-items: center;
+}
+
+.vkToolsFooterBlock > .vkToolsPseudoHeaderWrapper {
+    flex-basis: 33%;
 }
 
 .vkToolsSecondaryHeaderPseudoLittle {
@@ -739,7 +773,7 @@ label#leftmenusave {
     white-space: nowrap;
     text-overflow: ellipsis;
     color: var(--vkui--color_text_subhead);
-    padding: 0px 12px 6px;
+    padding: 0px 0px 6px;
     text-align: start;
     font-weight: 400;
     font-family: -apple-system,
@@ -753,7 +787,6 @@ label#leftmenusave {
 }
 
 .vkToolsInput {
-    margin-left: 12px;
     color: var(--vkui--color_text_primary);
     word-wrap: break-word;
     position: relative;
@@ -775,7 +808,7 @@ label#leftmenusave {
     height: 36px;
     font-size: 15px;
     line-height: 20px;
-    width:98%;
+    width:100%;
     border-radius: inherit;
     z-index: 1;
     margin: 0;
@@ -882,7 +915,6 @@ label#leftmenusave {
 .vkToolsBlockFooter {
     display: flex;
     justify-content: flex-start;
-    padding: 0 12px;
 }
 
 .vkToolsBlockFooter .ButtonInstallpreload:not(:has(svg)) {
@@ -893,8 +925,7 @@ label#leftmenusave {
     font-size: 13px;
     line-height: 16px;
     color: var(--vkui--color_text_subhead);
-    margin-left: 24px;
-    width: 95%;
+    padding: 0 12px;
     margin-bottom: 20px;
 }
 
@@ -916,13 +947,12 @@ label#leftmenusave {
 .custom-slider {
     -webkit-appearance: none;
     appearance: none;
-    width: 96%;
+    width: 100%;
     border: none;
     height: 3px;
     border-radius: 3px;
     outline: none;
     position: relative;
-    margin-left: -18px;
 }
 
 .custom-slider::-webkit-slider-thumb {
@@ -965,7 +995,7 @@ label#leftmenusave {
 .vkToolsAccentsBlock {
     display: flex;
     justify-content: space-between;
-    padding: 0 24px 18px;
+    padding: 12px;
 }
 
 input[type="color"] {
@@ -989,7 +1019,7 @@ input[type="color"]::-webkit-color-swatch {
         border: none;
         outline: 4px solid #d3d3d33d;
     }
-    .vkToolsFloatingArrow__host {
+    .vkToolsTooltipWrapper:not(.toRight) .vkToolsFloatingArrow__host {
         top: -18px!important;
     }
 }
@@ -1014,16 +1044,10 @@ input[type="color"]::-webkit-color-swatch {
 
 .flstart {
     text-align: left;
-    padding-left: 14px;
-}
-
-.vkToolsLeftMenuBlock {
-    padding: 0 12px;
 }
 
 #leftmenusave {
-    width: 96%;
-    margin-left: 3px;
+    width: 100%;
 }
 
 .vkToolsLeftMenuItem {
@@ -1251,19 +1275,26 @@ input[type="color"]::-webkit-color-swatch {
         }
 
         .vkToolsPseudoHeaderTransparent {
-            font-size: 18px;
+            font-size: 13px;
             line-height: 26px;
-            font-weight: 500;
+            font-weight: 600;
             -webkit-font-smoothing: subpixel-antialiased;
             color: var(--vkui--color_text_subhead);
-            text-align: center;
+            text-align: left;
             margin-bottom: 0px;
             margin-top: 0px;
+            text-transform: uppercase;
+            padding-left: 12px;
+            font-family: -apple-system,
+                system-ui,
+                "Helvetica Neue",
+                Roboto,
+                sans-serif;
         }
 
         .vkToolsCardLink {
             display: block;
-            margin: 20px;
+            margin: 20px 12px;
             background: var(--vkui--color_background_secondary);
             border-radius: 20px;
             position: relative;
@@ -1307,13 +1338,17 @@ input[type="color"]::-webkit-color-swatch {
         }
 
         .vkToolsActualVersion {
+            margin: 0;
             padding: 8px;
             display: flex;
             justify-content: center;
+            flex-basis: 33%;
         }
 
         .vkToolsActualVersion__title {
-            font-size: 18px;
+            text-transform: uppercase;
+            font-size: 13px;
+            margin: 0;
         }
 
         .vkToolsVersionDescription {

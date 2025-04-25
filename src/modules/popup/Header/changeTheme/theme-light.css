@@ -4,7 +4,10 @@
     --vkui--color_text_primary: black !important;
     --vkui--color_background_content: #fff !important;
     --vkui--color_transparent--hover: rgba(0, 16, 61, 0.04) !important;
-    --vkenhancer--chosen_tab: #0077FF !important
+    --vkenhancer--chosen_tab: #0077FF !important;
+    --vktools--color_bg: #ebedf0! important;
+    --page-block-shadow: 0 0 0 1px #dce1e6!important;
+    --vkui--color_track_background: #d3d9de!important;
 }
 
 body.light-theme {
@@ -67,9 +70,6 @@ body.light-theme {
         .vkToolsFloatingArrow__host {
             color: #fff !important;
         }
-        .custom-slider {
-            box-shadow: 0px 0px 5px #ccc;
-        }
     
         .vkToolsModalHeader {
             color: black !important;
@@ -95,7 +95,7 @@ body.light-theme {
         }
     
         .simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
-            background-color: #e5e5e7;
+            background-color: #c4c4c4;
         }
     
         #themechange>button {

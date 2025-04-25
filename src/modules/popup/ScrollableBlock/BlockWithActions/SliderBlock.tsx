@@ -48,7 +48,7 @@ const SliderBlock = ({ label, rangeMin, rangeMax, id }: SliderBlockProps) => {
     const sliderElement = document.getElementById("slider") as HTMLInputElement;
     if (sliderElement) {
       const percentage = value;
-      const colorBefore = `linear-gradient(to right, #397dcc ${percentage}%, #ffffff ${percentage}%)`;
+      const colorBefore = `linear-gradient(to right, #397dcc ${percentage}%, var(--vkui--color_track_background) ${percentage}%)`;
       sliderElement.style.background = colorBefore;
     }
   };
@@ -88,7 +88,7 @@ const SliderBlock = ({ label, rangeMin, rangeMax, id }: SliderBlockProps) => {
         onChange={handleInputChange}
         className="custom-slider"
         style={{
-          background: `linear-gradient(to right, #397dcc ${value}%, #ffffff ${value}%)`,
+          background: `linear-gradient(to right, #397dcc ${value}%, var(--vkui--color_track_background) ${value}%)`,
         }}
       />
     </div>

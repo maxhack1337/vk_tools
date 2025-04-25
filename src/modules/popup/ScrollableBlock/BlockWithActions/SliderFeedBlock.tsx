@@ -47,7 +47,7 @@ const SliderFeedBlock = ({ label, rangeMinFeed, rangeMaxFeed, id }: SliderFeedBl
     const sliderElement = document.getElementById("slider-feed") as HTMLInputElement;
     if (sliderElement) {
       const percentage = ((value - rangeMinFeed) / (rangeMaxFeed - rangeMinFeed)) * 100;
-      const colorBefore = `linear-gradient(to right, #397dcc ${percentage}%, #ffffff ${percentage}%)`;
+      const colorBefore = `linear-gradient(to right, #397dcc ${percentage}%, var(--vkui--color_track_background) ${percentage}%)`;
       sliderElement.style.background = colorBefore;
     }
   };
@@ -87,7 +87,7 @@ const SliderFeedBlock = ({ label, rangeMinFeed, rangeMaxFeed, id }: SliderFeedBl
         onChange={handleInputChange}
         className="custom-slider"
         style={{
-          background: `linear-gradient(to right, #397dcc ${((valueFeed - rangeMinFeed) / (rangeMaxFeed - rangeMinFeed)) * 100}%, #ffffff ${((valueFeed - rangeMinFeed) / (rangeMaxFeed - rangeMinFeed)) * 100}%)`,
+          background: `linear-gradient(to right, #397dcc ${((valueFeed - rangeMinFeed) / (rangeMaxFeed - rangeMinFeed)) * 100}%, var(--vkui--color_track_background) ${((valueFeed - rangeMinFeed) / (rangeMaxFeed - rangeMinFeed)) * 100}%)`,
         }}
       />
     </div>

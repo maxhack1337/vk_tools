@@ -71,6 +71,7 @@ const strings = {
   newMessengerDesign: ["Загрузка граффити", "Graffiti loader", "Завантаження графіті"],
   oldMessagesBadge: ["Старый дизайн исходящих непрочитанных сообщений", "Old design of outgoing unread messages", "Старий дизайн вихідних непрочитаних повідомлень"],
   oldMessagesBadgeDescription: [`Работает только с внешним видом "Строки"`, `Works only with the "Row" appearance.`, `Працює тільки із зовнішнім виглядом "Рядки"`],
+  activity: ["Активность в чатах", "Chat activity", "Активність у чатах"],
   afterReboot: ["Данные функции будут применены только после перезагрузки страницы", "These features will only be applied after the page is reloaded", "Ці функції будуть застосовані лише після перезавантаження сторінки"],
   someAfterReboot: ["Некоторые функции будут применены только после перезагрузки страницы", "Some features will only be applied after the page is reloaded", "Деякі функції будуть застосовані лише після перезавантаження сторінки"],
   newMessengerDesignDescription: [
@@ -144,6 +145,7 @@ const strings = {
   appmng: ["Управление", "Managed apps", "Керування"],
   faq: ["Помощь", "Help", "Допомога"],
   save: ["Сохранить", "Save", "Зберегти"],
+  feedAndPosts: ["Лента, стена и посты", "Feed, wall and posts", "Стрічка, стіна та пости"],
   feedOldTheme: ["Старый дизайн ленты и постов", "Old feed and posts design", "Старий дизайн стрічки та постів"],
   feedOldThemeDescription: ["Максимально приближённый к старому дизайн ленты и постов", "The design of the feed and posts is as close to the old as possible", "Максимально наближений до старого дизайн стрічки та постів"],
   oldPosting: ["Старый редактор постов", "Old post publisher", "Старий редактор постів"],
