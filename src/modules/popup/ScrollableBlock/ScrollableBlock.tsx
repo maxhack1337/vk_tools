@@ -90,13 +90,14 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
       <SliderBlock label={getLang("blockTransparency")} rangeMin={0} rangeMax={100} id={"SliderBlock"} />
     </div>,
     <div className="vkToolsBlockWithPadding">
-      <HeaderPseudoTransparent label={getLang("pseudoTab1")} />
+      <HeaderPseudoTransparent label={getLang("pseudoTab1")} textForTT={getLang("accentDesc")} />
       <ColorPickers />
     </div>,
     <div className="vkToolsBlockWithPadding">
       <HeaderPseudoTransparent label={getLang("leftMenuSettingsHeader")} />
       <LeftMenuItems />
     </div>,
+    <LanguageSelector displayNone={true} />,
   ];
   switch (id) {
     case "tab1":
@@ -115,13 +116,14 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <SliderBlock label={getLang("blockTransparency")} rangeMin={0} rangeMax={100} id={"SliderBlock"} />
         </div>,
         <div className="vkToolsBlockWithPadding">
-          <HeaderPseudoTransparent label={getLang("pseudoTab1")} />
+          <HeaderPseudoTransparent label={getLang("pseudoTab1")} textForTT={getLang("accentDesc")} />
           <ColorPickers />
         </div>,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("leftMenuSettingsHeader")} />
           <LeftMenuItems />
         </div>,
+        <LanguageSelector displayNone={true} />,
       ];
       break;
     case "tab2":
@@ -140,15 +142,16 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <CheckBox type={"checkBox"} label={getLang("showPatronymic")} isNew={false} isFire={false} id={"showPatronymic"} shouldReload={true} />
           <CheckBox type={"checkBox"} label={getLang("removeEmojiStatus")} isNew={false} isFire={false} id={"removeEmojiStatus"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("avatarNameNear")} isNew={false} isFire={false} id={"avatarNameNear"} shouldReload={false} />
-          <CheckBox type={"checkBox"} label={getLang("classicProfileInterface")} isNew={false} isFire={true} id={"classicProfileInterface"} shouldReload={true} description={getLang("classicProfileInterfaceDescription")} />
+          <CheckBox type={"checkBox"} label={getLang("classicProfileInterface")} isNew={false} isFire={true} id={"classicProfileInterface"} shouldReload={true} description={getLang("classicProfileInterfaceDescription")} shouldWarn={true} />
         </div>,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("feedAndPosts")} textForTT={getLang("afterReboot")} />
           <CheckBox type={"checkBox"} label={getLang("removePostReactions")} isNew={false} isFire={false} id={"removePostReactions"} shouldReload={true} />
           <CheckBox type={"checkBox"} label={getLang("newMediaViewer")} isNew={false} isFire={false} id={"newMediaViewer"} shouldReload={true} />
-          <CheckBox type={"checkBox"} label={getLang("feedOldTheme")} isNew={false} isFire={true} id={"feedOldTheme"} shouldReload={true} description={getLang("feedOldThemeDescription")} />
+          <CheckBox type={"checkBox"} label={getLang("feedOldTheme")} isNew={false} isFire={true} id={"feedOldTheme"} shouldReload={true} description={getLang("feedOldThemeDescription")} shouldWarn={true} />
           <CheckBox type={"checkBox"} label={getLang("oldPosting")} isNew={false} isFire={true} id={"oldPosting"} shouldReload={true} description={getLang("oldPostingDescription")} />
         </div>,
+        <LanguageSelector displayNone={true} />,
       ];
       break;
     case "tab3":
@@ -174,9 +177,10 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <CheckBox type={"checkBox"} label={getLang("messageTextUp")} isNew={false} isFire={false} id={"messageTextUp"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("reloadFunctionsButton")} isNew={false} isFire={false} id={"reloadFunctionsButton"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("oldMessagesBadge")} isNew={false} isFire={false} id={"oldMessagesBadge"} shouldReload={false} description={getLang("oldMessagesBadgeDescription")} />
-          <CheckBox type={"checkBox"} label={getLang("oldMessengerAttaches")} isNew={false} isFire={true} id={"oldMessengerAttaches"} shouldReload={true} description={getLang("oldMessenderAttachesDescription")} />
+          <CheckBox type={"checkBox"} label={getLang("oldMessengerAttaches")} isNew={false} isFire={true} id={"oldMessengerAttaches"} shouldReload={true} description={getLang("oldMessenderAttachesDescription")} shouldWarn={true} />
           <CheckBox type={"checkBox"} label={getLang("oldMessengerDesign")} isNew={false} isFire={false} id={"oldMessengerDesign"} shouldReload={true} description={getLang("oldMessengerDesignDescription")} />
         </div>,
+        <LanguageSelector displayNone={true} />,
       ];
       break;
     case "tab4":
@@ -196,6 +200,7 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <SettingsElement id={"loadSettingsFromFile"} label={getLang("loadSettingsFromFile")} canFile={true} />
           <SettingsElement id={"resetSettings"} label={getLang("resetSettings")} canFile={false} />
         </div>,
+        <LanguageSelector displayNone={true} />,
       ];
       break;
 

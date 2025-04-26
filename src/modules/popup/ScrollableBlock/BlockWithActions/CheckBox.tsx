@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 import ToolTip from "./Tooltip";
+import { useLocalization } from "../../../../Localization/LocalizationContext";
 
 interface CheckBoxProps {
   id: string;
@@ -11,11 +12,13 @@ interface CheckBoxProps {
   isFire?: boolean;
   shouldReload?: boolean;
   shouldAlert?: boolean;
+  shouldWarn?: boolean;
 }
 
-const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload, shouldAlert }: CheckBoxProps) => {
+const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload, shouldAlert, shouldWarn }: CheckBoxProps) => {
   const [isChecked, setIsChecked] = useState(false);
   const [rippleStyle, setRippleStyle] = useState<{ display: string; top: string; left: string; width: string; height: string }>({ display: "none", top: "0", left: "0", width: "0", height: "0" });
+  const { getLang } = useLocalization();
 
   useEffect(() => {
     chrome.storage.local.get([`${id}State`], (result) => {
@@ -86,6 +89,7 @@ const CheckBox = ({ id, type, description, label, isNew, isFire, shouldReload, s
             )}
             <span className="vkToolsCheckBox__PrimaryTextSpan">{label}</span>
             {description && <ToolTip text={description} alertIcon={shouldAlert} />}
+            {shouldWarn && <ToolTip text={getLang("shouldSlowDown")} warnIcon={true} />}
           </div>
         )}
       </div>

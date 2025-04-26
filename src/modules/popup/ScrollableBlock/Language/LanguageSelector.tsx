@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useLocalization } from "../../../../Localization/LocalizationContext";
 
-const LanguageSelector = () => {
+interface LanguageSelectorProps {
+  displayNone?: boolean;
+}
+
+const LanguageSelector = ({ displayNone }: LanguageSelectorProps) => {
   const { currentLanguage, setLanguage } = useLocalization();
   const { getLang: t } = useLocalization();
 
@@ -21,13 +25,15 @@ const LanguageSelector = () => {
   };
 
   return (
-    <div id="selectLanguage" style={{ textAlign: "center" }}>
+    <div id="selectLanguage" style={{ textAlign: "center", display: displayNone ? "none" : "flex" }}>
       <div id="langName">{t("lang")}</div>
-      <select id="languageSelect" value={currentLanguage} onChange={handleLanguageChange}>
-        <option value="ru">Русский</option>
-        <option value="en">English</option>
-        <option value="ua">Українська</option>
-      </select>
+      <div className="selectLanguageSelect">
+        <select id="languageSelect" value={currentLanguage} onChange={handleLanguageChange}>
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+          <option value="ua">Українська</option>
+        </select>
+      </div>
     </div>
   );
 };

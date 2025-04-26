@@ -152,6 +152,8 @@ const strings = {
   oldPostingDescription: ["Старый редактор постов, удалённый ВК в начале декабря 2024", "Old post publisher, removed by VK in early December 2024", "Старий редактор постів, видалений ВК на початку грудня 2024 року"],
   messageTextUp: ["Отображать текст перед вложениями", "Show text before attachments", "Відображати текст перед вкладеннями"],
   onlyFireFox: ["Добавление файлов/изменение цвета акцента доступно только в полноэкранном режиме расширения", "Adding files/changing accent color is only available in fullscreen extension mode", "Додавання файлів/зміна кольору акценту доступне лише у повноекранному режимі розширення"],
+  accentDesc: ['Изменение основных цветов сайта. Для сброса цвета акцента нажмите на "Крестик"', 'Changing the main colors of the site. To reset the accent color, click on the "Cross"', 'Зміна основних кольорів сайту. Для скидання кольору акценту натисніть на "Хрестик"'],
+  shouldSlowDown: ["Может замедлять работу сайта", "May slow down the site", "Може уповільнювати роботу сайту"],
 };
 
 export default strings;

@@ -668,27 +668,59 @@
 }
 
 #langName {
-    font-size: 14px;
-    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 400;
     margin-right: 8px;
     margin-bottom: 1px;
     color: var(--vkui--color_text_primary);
 }
 
+.selectLanguageSelect {
+    position: relative;
+}
+
+.selectLanguageSelect:before {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    content: ' ';
+    width: 12px;
+    height: 8px;
+    margin-top: -3px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M2.15557 2.2952C2.40812 1.96688 2.879 1.90546 3.20732 2.15801L6.00004 4.30625L8.79275 2.15801C9.12107 1.90546 9.59196 1.96688 9.84451 2.2952C10.0971 2.62351 10.0356 3.0944 9.70732 3.34695L6.45732 5.84695C6.18773 6.05432 5.81234 6.05432 5.54275 5.84695L2.29275 3.34695C1.96444 3.0944 1.90302 2.62351 2.15557 2.2952Z' fill='%2399A2AD'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+#languageSelect:hover {
+    background-color: var(--vkui--color_transparent--hover);
+}
+
 #languageSelect {
-    padding: 2px;
+    transition: background-color 0.1s;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-family: -apple-system, system-ui, "Helvetica Neue", Roboto, sans-serif;
+    padding: 2px 12px;
     font-size: 13px;
-    border: 1px solid var(--vkui--color_separator_primary);
+    border: none;
     border-radius: 8px;
-    background-color: var(--vkui--color_background_secondary);
+    background-color: transparent;
     outline: none;
-    font-weight: 600;
+    font-weight: 400;
     color: var(--vkui--color_text_primary);
 }
 
 #languageSelect option {
     padding: 10px;
     color: var(--vkui--color_text_primary);
+    background: var(--vkui--color_background_content);
+}
+
+#languageSelect option:hover {
+    background-color: var(--vkui--color_transparent--hover);
 }
 
 .newFunctionSpan img {
@@ -1338,8 +1370,9 @@ input[type="color"]::-webkit-color-swatch {
         }
 
         .vkToolsActualVersion {
+            border-radius: 8px;
             margin: 0;
-            padding: 8px;
+            padding: 4px;
             display: flex;
             justify-content: center;
             flex-basis: 33%;

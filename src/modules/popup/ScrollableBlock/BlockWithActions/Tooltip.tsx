@@ -3,12 +3,22 @@ import React from "react";
 interface ToolTipProps {
   text: string;
   alertIcon?: boolean;
+  warnIcon?: boolean;
 }
 
-const ToolTip: React.FC<ToolTipProps> = ({ text, alertIcon }) => (
+const ToolTip: React.FC<ToolTipProps> = ({ text, alertIcon, warnIcon }) => (
   <div className="vkToolsTooltipWrapper">
     <span className="vkToolsTooltipIcon">
-      {!alertIcon ? (
+      {warnIcon ? (
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M8.39327 3.2337C8.22185 2.92495 7.77783 2.92495 7.60641 3.2337L2.55522 12.3316C2.3887 12.6315 2.60559 13 2.94865 13H13.0511C13.3941 13 13.611 12.6315 13.4445 12.3316L8.39327 3.2337ZM6.29498 2.50559C7.03781 1.16765 8.96186 1.16765 9.7047 2.50558L14.7559 11.6034C15.4776 12.9032 14.5377 14.5 13.0511 14.5H2.94865C1.46204 14.5 0.522177 12.9032 1.24379 11.6034L6.29498 2.50559ZM7.99988 5.49999C8.4141 5.49999 8.74988 5.83578 8.74988 6.24999V8.74999C8.74988 9.16421 8.4141 9.49999 7.99988 9.49999C7.58567 9.49999 7.24988 9.16421 7.24988 8.74999V6.24999C7.24988 5.83578 7.58567 5.49999 7.99988 5.49999ZM7.99988 12C8.4141 12 8.74988 11.6642 8.74988 11.25C8.74988 10.8358 8.4141 10.5 7.99988 10.5C7.58567 10.5 7.24988 10.8358 7.24988 11.25C7.24988 11.6642 7.58567 12 7.99988 12Z"
+            fill="var(--vkui--color_text_secondary)"
+          />
+        </svg>
+      ) : !alertIcon ? (
         <svg aria-hidden="true" display="block" className="vkuiIcon vkuiIcon--16 vkuiIcon--w-16 vkuiIcon--h-16 vkuiIcon--help_outline_16" width="16" height="16" viewBox="0 0 16 16" style={{ width: "16px", height: "16px" }}>
           <path
             fill="var(--vkui--color_text_secondary)"
@@ -17,12 +27,12 @@ const ToolTip: React.FC<ToolTipProps> = ({ text, alertIcon }) => (
       ) : (
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M8 2.5C4.96243 2.5 2.5 4.96243 2.5 8C2.5 11.0376 4.96243 13.5 8 13.5C11.0376 13.5 13.5 11.0376 13.5 8C13.5 4.96243 11.0376 2.5 8 2.5ZM1 8C1 4.13401 4.13401 0.999999 8 0.999999C11.866 1 15 4.13401 15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8Z"
             fill="var(--vkui--color_text_secondary)"
           />
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4C8.41421 4 8.75 4.33579 8.75 4.75L8.75 8.25C8.75 8.66421 8.41421 9 8 9C7.58579 9 7.25 8.66421 7.25 8.25L7.25 4.75C7.25 4.33579 7.58579 4 8 4Z" fill="var(--vkui--color_text_secondary)" />
+          <path fillRule="evenodd" clipRule="evenodd" d="M8 4C8.41421 4 8.75 4.33579 8.75 4.75L8.75 8.25C8.75 8.66421 8.41421 9 8 9C7.58579 9 7.25 8.66421 7.25 8.25L7.25 4.75C7.25 4.33579 7.58579 4 8 4Z" fill="var(--vkui--color_text_secondary)" />
           <path d="M8.89998 11.1C8.89998 11.5971 8.49703 12 7.99998 12C7.50292 12 7.09998 11.5971 7.09998 11.1C7.09998 10.6029 7.50292 10.2 7.99998 10.2C8.49703 10.2 8.89998 10.6029 8.89998 11.1Z" fill="var(--vkui--color_text_secondary)" />
         </svg>
       )}
