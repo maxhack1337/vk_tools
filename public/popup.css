@@ -293,7 +293,7 @@
         bottom: -50%;
         left: 100%;
         transform: translateX(5%);
-        min-width: 300px;
+        min-width: 280px;
     }
 
     .vkToolsFloatingArrow__host {
@@ -717,6 +717,26 @@
     padding: 10px;
     color: var(--vkui--color_text_primary);
     background: var(--vkui--color_background_content);
+}
+
+[id*="__file__"] {
+    width: 30px;
+
+    .vkToolsButtonText__in {
+        margin-left: -7px !important;
+    }
+}
+
+[id*="__link__"] {
+    width: 100%;
+}
+
+[id*="__not-file__"] {
+    width: 100%;
+}
+
+#emojiHotbar__not-file__ {
+    margin-right: 0px;
 }
 
 #languageSelect option:hover {
