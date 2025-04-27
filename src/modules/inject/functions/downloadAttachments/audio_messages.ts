@@ -22,7 +22,7 @@ export async function downloadAllAudioMessagesArchive(peer_id: number) {
         <div class="ui_progress_bar" style="width: 0%;"></div>
       </div>
       <button id="cancelDownloadBtn" style="margin-top: 12px; padding: 6px 12px; cursor: pointer; border-radius: 6px; border: none; background-color: var(--vkui--color_background_accent_themed); color: var(--vkui--color_text_contrast_themed); font-weight: 600;">
-        ${getLang?.('global_cancel')}
+        ${getLang?.("global_cancel")}
       </button>
     </div>
   `);
@@ -65,7 +65,7 @@ export async function downloadAllAudioMessagesArchive(peer_id: number) {
         if (!url) continue;
 
         try {
-          progressText.textContent = getDownloadProgressText(lang, audioCount, totalAudios);
+          progressText.textContent = getDownloadProgressText(lang, audioCount + (archiveIndex - 1) * 500, totalAudios);
 
           abortController = new AbortController();
 
@@ -76,10 +76,10 @@ export async function downloadAllAudioMessagesArchive(peer_id: number) {
           zip.file(filename, blob);
           audioCount++;
 
-          progressText.textContent = getDownloadProgressText(lang, audioCount, totalAudios);
+          progressText.textContent = getDownloadProgressText(lang, audioCount + (archiveIndex - 1) * 500, totalAudios);
 
           if (totalAudios > 0) {
-            const progressPercent = Math.min(100, (audioCount / totalAudios) * 100);
+            const progressPercent = Math.min(100, ((audioCount + (archiveIndex - 1) * 500) / totalAudios) * 100);
             progressBar.style.width = `${progressPercent}%`;
           } else {
             progressBar.style.width = "0%";
@@ -119,7 +119,6 @@ export async function downloadAllAudioMessagesArchive(peer_id: number) {
     }
 
     box.hide();
-
   } catch (error: any) {
     if (error.message === "Отменено пользователем") return;
     console.error(error);

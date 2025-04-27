@@ -22,7 +22,7 @@ export async function downloadAllPhotosArchive(peer_id: number) {
         <div class="ui_progress_bar" style="width: 0%;"></div>
       </div>
       <button id="cancelDownloadBtn" style="margin-top: 12px; padding: 6px 12px; cursor: pointer; border-radius: 6px; border: none; background-color: var(--vkui--color_background_accent_themed); color: var(--vkui--color_text_contrast_themed); font-weight: 600;">
-        ${getLang?.('global_cancel')}
+        ${getLang?.("global_cancel")}
       </button>
     </div>
   `);
@@ -64,7 +64,7 @@ export async function downloadAllPhotosArchive(peer_id: number) {
 
         const url = photo.orig_photo.url;
         try {
-          progressText.textContent = getDownloadProgressText(lang, photoCount, totalPhotos);
+          progressText.textContent = getDownloadProgressText(lang, photoCount + (archiveIndex - 1) * 1000, totalPhotos);
 
           abortController = new AbortController();
 
@@ -73,10 +73,10 @@ export async function downloadAllPhotosArchive(peer_id: number) {
           zip.file(filename, blob);
           photoCount++;
 
-          progressText.textContent = getDownloadProgressText(lang, photoCount, totalPhotos);
+          progressText.textContent = getDownloadProgressText(lang, photoCount + (archiveIndex - 1) * 1000, totalPhotos);
 
           if (totalPhotos > 0) {
-            const progressPercent = Math.min(100, (photoCount / totalPhotos) * 100);
+            const progressPercent = Math.min(100, ((photoCount + (archiveIndex - 1) * 1000) / totalPhotos) * 100);
             progressBar.style.width = `${progressPercent}%`;
           } else {
             progressBar.style.width = "0%";
@@ -116,7 +116,6 @@ export async function downloadAllPhotosArchive(peer_id: number) {
     }
 
     box.hide();
-
   } catch (error: any) {
     if (error.message === "Отменено пользователем") return;
     console.error(error);

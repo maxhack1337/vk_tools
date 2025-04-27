@@ -67,7 +67,7 @@ export async function downloadAllDocsArchive(peer_id: number) {
         if (!url) continue;
 
         try {
-          progressText.textContent = getDownloadProgressText(lang, docCount, totalDocs);
+          progressText.textContent = getDownloadProgressText(lang, docCount + (archiveIndex - 1) * 500, totalDocs);
 
           abortController = new AbortController();
 
@@ -78,10 +78,10 @@ export async function downloadAllDocsArchive(peer_id: number) {
           zip.file(filename, blob);
           docCount++;
 
-          progressText.textContent = getDownloadProgressText(lang, docCount, totalDocs);
+          progressText.textContent = getDownloadProgressText(lang, docCount + (archiveIndex - 1) * 500, totalDocs);
 
           if (totalDocs > 0) {
-            const progressPercent = Math.min(100, (docCount / totalDocs) * 100);
+            const progressPercent = Math.min(100, ((docCount + (archiveIndex - 1) * 500) / totalDocs) * 100);
             progressBar.style.width = `${progressPercent}%`;
           } else {
             progressBar.style.width = "0%";

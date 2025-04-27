@@ -22,7 +22,7 @@ export async function downloadAllVideosArchive(peer_id: number) {
         <div class="ui_progress_bar" style="width: 0%;"></div>
       </div>
       <button id="cancelDownloadBtn" style="margin-top: 12px; padding: 6px 12px; cursor: pointer; border-radius: 6px; border: none; background-color: var(--vkui--color_background_accent_themed); color: var(--vkui--color_text_contrast_themed); font-weight: 600;">
-        ${getLang?.('global_cancel')}
+        ${getLang?.("global_cancel")}
       </button>
     </div>
   `);
@@ -61,12 +61,12 @@ export async function downloadAllVideosArchive(peer_id: number) {
 
         const video = item.attachment?.video;
         if (!video) continue;
-          
+
         let maxQualityUrl: string | undefined;
         if (video.files) {
           const mp4Qualities = Object.keys(video.files)
-            .filter(key => key.startsWith("mp4_"))
-            .map(key => parseInt(key.substring(4), 10))
+            .filter((key) => key.startsWith("mp4_"))
+            .map((key) => parseInt(key.substring(4), 10))
             .sort((a, b) => b - a);
 
           if (mp4Qualities.length > 0) {
@@ -77,25 +77,25 @@ export async function downloadAllVideosArchive(peer_id: number) {
         if (!maxQualityUrl) continue;
 
         try {
-          progressText.textContent = getDownloadProgressText(lang, videoCount, totalVideos);
+          progressText.textContent = getDownloadProgressText(lang, videoCount + (archiveIndex - 1) * 100, totalVideos);
 
           abortController = new AbortController();
-          
+
           const blob = await downloadVideoBlob(maxQualityUrl, abortController.signal);
           const filename = `video${video.owner_id}_${video.id}.mp4`;
           zip.file(filename, blob);
           videoCount++;
 
-          progressText.textContent = getDownloadProgressText(lang, videoCount, totalVideos);
+          progressText.textContent = getDownloadProgressText(lang, videoCount + (archiveIndex - 1) * 100, totalVideos);
 
           if (totalVideos > 0) {
-            const progressPercent = Math.min(100, (videoCount / totalVideos) * 100);
+            const progressPercent = Math.min(100, ((videoCount + (archiveIndex - 1) * 100) / totalVideos) * 100);
             progressBar.style.width = `${progressPercent}%`;
           } else {
             progressBar.style.width = "0%";
           }
 
-          if (videoCount >= 100) { 
+          if (videoCount >= 100) {
             const zipBlob = await zip.generateAsync({ type: "blob", compression: "DEFLATE" });
             const zipFilename = `vk_videos_${peer_id}_part${archiveIndex}.zip`;
             triggerDownload(zipBlob, zipFilename);
@@ -129,7 +129,6 @@ export async function downloadAllVideosArchive(peer_id: number) {
     }
 
     box.hide();
-
   } catch (error: any) {
     if (error.message === "Отменено пользователем") return;
     console.error(error);
