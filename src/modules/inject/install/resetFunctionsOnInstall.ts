@@ -1,40 +1,41 @@
 import installBoxTitle from "./installBoxTitle";
 
 const keys = [
-    "currentVKID",
-    "refreshFeed",
-    "nechitalkaValue",
-    "nepisalkaValue",
-    "pollResultsValue",
-    "removePostReactions",
-    "videoModal",
-    "removeAway",
-    "isClassicalProfileDesign",
-    "isMiddleName",
-    "isOldHover",
-    "isDefaultTheme",
-    "isOldBadge",
-    "old_post_design",
-    "customLeftMenuLabels",
-    "vk_enhancer_access_token",
-    "secretFunctions",
-    "isMessageTextUp",
-    "feedOldPosts",
-    "oldClubs",
-    "oldMessengerDes",
-    "oldMessengerAttaches",
-    "enterProfileGroupID",
-    "oldLoader"
+  "currentVKID",
+  "refreshFeed",
+  "nechitalkaValue",
+  "nepisalkaValue",
+  "pollResultsValue",
+  "removePostReactions",
+  "videoModal",
+  "removeAway",
+  "isClassicalProfileDesign",
+  "isMiddleName",
+  "isOldHover",
+  "isDefaultTheme",
+  "isOldBadge",
+  "old_post_design",
+  "customLeftMenuLabels",
+  "vk_enhancer_access_token",
+  "secretFunctions",
+  "isMessageTextUp",
+  "feedOldPosts",
+  "oldClubs",
+  "oldMessengerDes",
+  "oldMessengerAttaches",
+  "enterProfileGroupID",
+  "oldLoader",
+  "playlistsClassicalV",
 ];
 
 const resetFunctionsOnInstall = () => {
-    console.log('[VK Tools] Extension installed. Clearing localStorage...');
-    
-    keys.forEach(key => {
-        localStorage.removeItem(key);
-    });
+  console.log("[VK Tools] Extension installed. Clearing localStorage...");
 
-    let style = `  .questions {
+  keys.forEach((key) => {
+    localStorage.removeItem(key);
+  });
+
+  let style = `  .questions {
 	color:var(--vkui--color_text_primary);
     font-weight: 400;
     font-size:13px;
@@ -56,15 +57,15 @@ const resetFunctionsOnInstall = () => {
     font-family: var(--vkui--font_text--font_family--regular);
     }
 
-`
-let x = new showFastBox();
-    x.setOptions({
-        title: !1,
-        bodyStyle: style,
-        hideButtons: !0
-    })
+`;
+  let x = new showFastBox();
+  x.setOptions({
+    title: !1,
+    bodyStyle: style,
+    hideButtons: !0,
+  });
 
-    x.content(`  <div class="container">
+  x.content(`  <div class="container">
     <div class="content">
       <h1 class="ui_rmenu_label-text">${installBoxTitle(vk.lang)[0]}</h1>
       <h2 class="ui_rmenu_label-text">${installBoxTitle(vk.lang)[1]}</h2>
@@ -80,7 +81,7 @@ let x = new showFastBox();
 	</div>
 	  <a>
   </h2>
-	</div><div class="box_x_button box_x_tabs" onclick="curBox().hide()" aria-label="Закрыть" tabindex="0" role="button"><svg style="color:#fff" fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M4.72 4.72c.3-.3.77-.3 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06z" fill="currentColor" fill-rule="evenodd"></path></svg></div>`)
+	</div><div class="box_x_button box_x_tabs" onclick="curBox().hide()" aria-label="Закрыть" tabindex="0" role="button"><svg style="color:#fff" fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M4.72 4.72c.3-.3.77-.3 1.06 0L10 8.94l4.22-4.22a.75.75 0 1 1 1.06 1.06L11.06 10l4.22 4.22a.75.75 0 1 1-1.06 1.06L10 11.06l-4.22 4.22a.75.75 0 0 1-1.06-1.06L8.94 10 4.72 5.78a.75.75 0 0 1 0-1.06z" fill="currentColor" fill-rule="evenodd"></path></svg></div>`);
 };
 
 export default resetFunctionsOnInstall;

@@ -61,6 +61,7 @@ const allStates = [
   "oldMessengerAttachesState",
   "enterProfileGroupIDState",
   "oldLoaderState",
+  "classicVideoPlaylistsState",
 ];
 
 const clearAllStates: { [key: string]: any } = {
@@ -112,6 +113,7 @@ const clearAllStates: { [key: string]: any } = {
   oldMessengerAttachesState: false,
   enterProfileGroupIDState: false,
   oldLoaderState: false,
+  classicVideoPlaylistsState: false,
 };
 const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
 

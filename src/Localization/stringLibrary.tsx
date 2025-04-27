@@ -154,6 +154,7 @@ const strings = {
   onlyFireFox: ["Добавление файлов/изменение цвета акцента доступно только в полноэкранном режиме расширения", "Adding files/changing accent color is only available in fullscreen extension mode", "Додавання файлів/зміна кольору акценту доступне лише у повноекранному режимі розширення"],
   accentDesc: ['Изменение основных цветов сайта. Для сброса цвета акцента нажмите на "Крестик"', 'Changing the main colors of the site. To reset the accent color, click on the "Cross"', 'Зміна основних кольорів сайту. Для скидання кольору акценту натисніть на "Хрестик"'],
   shouldSlowDown: ["Может замедлять работу сайта", "May slow down the site", "Може уповільнювати роботу сайту"],
+  classicVideoPlaylists: ["Классический интерфейс видео-плейлистов", "Classic Video Playlist Interface", "Класичний інтерфейс відео-плейлістів"],
 };
 
 export default strings;

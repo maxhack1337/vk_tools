@@ -101,6 +101,7 @@ const functions = [
   "oldMessengerAttachesState",
   "enterProfileGroupIDState",
   "oldLoaderState",
+  "classicVideoPlaylistsState",
 ];
 
 const applySavedStyles = () => {
@@ -153,6 +154,7 @@ const applySavedStyles = () => {
     const oldMessengerAttaches = items.oldMessengerAttachesState;
     const enterProfileGroupID = items.enterProfileGroupIDState;
     const oldLoader = items.oldLoaderState;
+    const classicVideoPlaylists = items.classicVideoPlaylistsState;
     applyStyles({
       isVideoModal,
       altScroll,
@@ -202,6 +204,7 @@ const applySavedStyles = () => {
       oldMessengerAttaches,
       enterProfileGroupID,
       oldLoader,
+      classicVideoPlaylists,
     });
   });
 };
@@ -255,6 +258,7 @@ function applyStyles(styles: {
   oldMessengerAttaches: any;
   enterProfileGroupID: any;
   oldLoader: any;
+  classicVideoPlaylists: any;
 }) {
   //if (styles.removeNFT) {
   //hideNFT_Avatars();
@@ -299,6 +303,11 @@ function applyStyles(styles: {
     customMessage("oldLoader", "false");
   }
 
+  if (styles.classicVideoPlaylists) {
+    customMessage("classicVideoPlaylistsIn", styles.classicVideoPlaylists);
+  } else {
+    customMessage("classicVideoPlaylistsIn", "false");
+  }
   if (styles.hideNamesAvatars) {
     addBlur();
   } else {
