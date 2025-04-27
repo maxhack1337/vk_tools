@@ -1,7 +1,7 @@
 import getEndStoryLang from "./getEndStoryLang";
 
 const getOldDialogsStyle = () => {
-    return `
+  return `
         .vkToolsActionMenu {
             top: 36px !important;
         }
@@ -162,6 +162,9 @@ const getOldDialogsStyle = () => {
         color: var(--blue_420) !important;
         line-height: 30px;
     }
+    .ConvoHistory__messageBlockSelected--withoutBubbles .ConvoMessageWithoutBubble {
+		border-radius: 0px!important;
+	}
     .ConvoListItem__outStatusIcon:has(.vkuiIcon--check_double_outline_16) {
         display:none;
     }
@@ -464,6 +467,6 @@ const getOldDialogsStyle = () => {
         border-radius: 0px!important;
     }
     `;
-}
+};
 
 export default getOldDialogsStyle;
