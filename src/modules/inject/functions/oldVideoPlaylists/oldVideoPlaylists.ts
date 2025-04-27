@@ -75,7 +75,7 @@ ${
         let closestLayoutCard = draggable ? "[class*='vkitDraggableVideoCard__card']" : '[class^="vkitVideoCardLayout__card"]';
         let videoCardInfo = allVideosInPlist.closest(closestLayoutCard)?.querySelector('[class^="vkitVideoCardInfoLayout__container"]');
 
-        if (!videoCardInfo?.querySelector(".VideoCard__avatar")) {
+        if (!videoCardInfo?.querySelector(".AvatarRich")) {
           let videoCardAvatar = document.createElement("div");
           videoCardAvatar.classList.add("VideoCard__avatar");
 
