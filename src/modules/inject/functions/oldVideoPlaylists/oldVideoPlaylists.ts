@@ -19,7 +19,7 @@ const oldVideoPlaylists = () => {
         let appendBlockHere = parentEl?.querySelector(":scope > div:not(.vkuiGroup__header)");
 
         let blockElement = document.createElement("div");
-        blockElement.classList.add("VideoInfoPanel", "VideoInfoPanel--playlist", "VideoInfoPanel--withTopDelimiter");
+        blockElement.classList.add("VideoInfoPanel", "VideoInfoPanel--playlist", "VideoInfoPanel--withTopDelimiter", "VkToolsVideoInfoPanel");
         blockElement.id = "video_info_panel";
         blockElement.style.paddingLeft = "8px";
         blockElement.style.paddingRight = "8px";
@@ -65,7 +65,18 @@ ${
         actions.append(morePlistButton || "");
         contentEl.append(contInfo, actions);
         blockElement.append(iconElement, contentEl);
-        if (appendBlockHere) parentEl?.insertBefore(blockElement, appendBlockHere);
+
+        let videoCount = plistProps.playlist.count || 0;
+        let videoHeaderBlock = document.createElement("div");
+        videoHeaderBlock.classList.add("VideoSubheader", "VkToolsVideoSubheader");
+        videoHeaderBlock.innerHTML = `
+        <div class="VideoSubheader__title">
+        <div class="VideoSubheader__titleText js-video-subtitle">${getLang?.("me_fc_add_video")}</div>
+        <div class="VideoSubheader__titleCounter js-video-subtitle-counter">${videoCount}</div>
+        </div>
+        `;
+        if (appendBlockHere && !document.querySelector(".VkToolsVideoInfoPanel")) parentEl?.insertBefore(blockElement, appendBlockHere);
+        if (appendBlockHere && videoCount > 0 && !document.querySelector(".VkToolsVideoSubheader")) parentEl?.insertBefore(videoHeaderBlock, appendBlockHere);
       });
       document.arrive('[data-testid="video_card_title"]', { existing: true }, async (s) => {
         let draggable = false;

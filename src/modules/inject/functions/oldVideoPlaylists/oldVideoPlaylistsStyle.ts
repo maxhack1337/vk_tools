@@ -57,6 +57,13 @@ const oldVideoPlaylistsStyle = () => {
         width: 32px;
         height: 32px;
     }
+    .VkToolsVideoInfoPanel {
+        border-bottom: 1px solid var(--vkui--color_separator_secondary)
+    }
+
+    .VkToolsVideoSubheader {
+        margin-left: 8px;
+    }
     `;
 };
 
