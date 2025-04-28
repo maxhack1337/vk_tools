@@ -13,6 +13,8 @@ const oldVideoPlaylists = () => {
         let morePlistButton = f;
         let plistProps = await parsePlist(e as HTMLElement);
 
+        let editButton = e.querySelector('[data-testid="edit_playlist_button"]');
+
         let parentEl = document.querySelector(".vkuiGroup__header")?.parentElement;
         let appendBlockHere = parentEl?.querySelector(":scope > div:not(.vkuiGroup__header)");
 
@@ -25,7 +27,7 @@ const oldVideoPlaylists = () => {
         let iconElement = document.createElement("div");
         iconElement.classList.add("VideoInfoPanel__cover");
 
-        let privacy = plistProps.playlist.privacy?.category === "only_me" ? true : false;
+        let privacy = plistProps.playlist.privacy && plistProps.playlist.privacy.category !== "all";
         let title = plistProps.playlist.title || "";
         let raw = plistProps.playlist.owner_id + "_" + plistProps.playlist.id;
         let subCount = plistProps.playlist.followers_count === 0 ? getLang?.("mobile_video_playlist_no_subscribers").toString().toLowerCase() : getLang?.("video_showcase_N_subscribers", plistProps.playlist.followers_count).toString().toLowerCase();
@@ -40,7 +42,12 @@ ${
 }
 `;
         } else {
-          iconElement.innerHTML = `<div class="VideoInfoPanel__coverIcon"><svg fill="none" height="28" viewBox="0 0 28 28" width="28" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path d="M13 18a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0-6a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm9-6a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm3 12.13a1 1 0 0 1 0 1.74l-6.49 4c-.67.38-1.51-.1-1.51-.87v-8c0-.77.84-1.25 1.51-.86z"></path></g></svg></div> <div class="VideoInfoPanel__privateIcon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 12 12"><path d="M6 .5a3 3 0 0 1 3 3V5h.75c.41 0 .75.34.75.76v4.48a.76.76 0 0 1-.75.76h-7.5a.76.76 0 0 1-.75-.76V5.76c0-.42.34-.76.75-.76H3V3.5a3 3 0 0 1 2.82-3H6ZM6 2h-.14A1.5 1.5 0 0 0 4.5 3.5V5h3V3.5C7.5 2.67 6.83 2 6 2Z"></path></svg></div>`;
+          iconElement.innerHTML = `<div class="VideoInfoPanel__coverIcon"><svg fill="none" height="28" viewBox="0 0 28 28" width="28" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path d="M13 18a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0-6a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm9-6a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm3 12.13a1 1 0 0 1 0 1.74l-6.49 4c-.67.38-1.51-.1-1.51-.87v-8c0-.77.84-1.25 1.51-.86z"></path></g></svg></div>
+          ${
+            privacy
+              ? '<div class= "VideoInfoPanel__privateIcon"><svg xmlns="http://www.w3.org/2000/svg" width = "12" height = "12" fill = "currentColor" viewBox = "0 0 12 12"><path d="M6 .5a3 3 0 0 1 3 3V5h.75c.41 0 .75.34.75.76v4.48a.76.76 0 0 1-.75.76h-7.5a.76.76 0 0 1-.75-.76V5.76c0-.42.34-.76.75-.76H3V3.5a3 3 0 0 1 2.82-3H6ZM6 2h-.14A1.5 1.5 0 0 0 4.5 3.5V5h3V3.5C7.5 2.67 6.83 2 6 2Z"></path></svg></div>'
+              : ""
+          }`;
         }
 
         let contentEl = document.createElement("div");
@@ -54,6 +61,7 @@ ${
 
         let actions = document.createElement("div");
         actions.classList.add("VideoInfoPanel__actions", "VkToolsButton__actions-plist");
+        if (editButton) actions.append(editButton);
         actions.append(morePlistButton || "");
         contentEl.append(contInfo, actions);
         blockElement.append(iconElement, contentEl);
