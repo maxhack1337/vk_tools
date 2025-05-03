@@ -2,21 +2,21 @@ import createEmojiSmileWrap from "./createEmojiSmileWrap";
 import postingFooterBlock from "./postingFooterBlock";
 import postingWarningTooMuchSymbols from "./postingWarningTooMuchSymbols";
 
-const postingWrap = (isSuggested:boolean, onlyOfficial:boolean) => {
-	const postingWrapElement = document.createElement('div');
-	postingWrapElement.classList.add('post_field_wrap','_emoji_field_wrap');
+const postingWrap = (fromOid: any, isUser: boolean, isMyWall: boolean, isSuggested: boolean, onlyOfficial: boolean) => {
+  const postingWrapElement = document.createElement("div");
+  postingWrapElement.classList.add("post_field_wrap", "_emoji_field_wrap");
 
-	const emojiAddButton = createEmojiSmileWrap();
+  const emojiAddButton = createEmojiSmileWrap();
 
-	postingWrapElement.appendChild(emojiAddButton);
+  postingWrapElement.appendChild(emojiAddButton);
 
-	const postFooter = postingFooterBlock(isSuggested, onlyOfficial);
+  const postFooter = postingFooterBlock(fromOid, isUser, isMyWall, isSuggested, onlyOfficial);
 
-	postingWrapElement.appendChild(postFooter);
+  postingWrapElement.appendChild(postFooter);
 
-	postingWrapElement.appendChild(postingWarningTooMuchSymbols());
+  postingWrapElement.appendChild(postingWarningTooMuchSymbols());
 
-	return postingWrapElement;
-}
+  return postingWrapElement;
+};
 
 export default postingWrap;

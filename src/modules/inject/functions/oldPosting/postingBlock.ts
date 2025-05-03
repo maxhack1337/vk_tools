@@ -7,47 +7,37 @@ import postingMediaPreview from "./postingMediaPreview";
 import postingSubmitBlock from "./postingSubmitBlock";
 import postingWrap from "./postingWrap";
 
-const postingBlock = ({
-	oid,
-	fromOid,
-	ownerName,
-	ownerPhoto,
-	ownerHref,
-	isSuggested,
-	onlyOfficial,
-	isMyWall
-}:any) => {
-	
-	const isUser = oid ? (oid > 0) : true;
-	const pageBlock = document.createElement('div');
-	pageBlock.classList.add('page_block');
-	pageBlock.id = 'page_block_submit_post';
+const postingBlock = ({ oid, fromOid, ownerName, ownerPhoto, ownerHref, isSuggested, onlyOfficial, isMyWall }: any) => {
+  const isUser = oid ? oid > 0 : true;
+  const pageBlock = document.createElement("div");
+  pageBlock.classList.add("page_block");
+  pageBlock.id = "page_block_submit_post";
 
-	if (!isUser) {
-		pageBlock.setAttribute('data-tooltip-id', 'business_groups_web:make_post');
-	}
+  if (!isUser) {
+    pageBlock.setAttribute("data-tooltip-id", "business_groups_web:make_post");
+  }
 
-	const postingBlockMainRoot = postingBlockDataRoot({
-		oid,
-		fromOid,
-		ownerName,
-		ownerPhoto,
-		ownerHref,
-	});
+  const postingBlockMainRoot = postingBlockDataRoot({
+    oid,
+    fromOid,
+    ownerName,
+    ownerPhoto,
+    ownerHref,
+  });
 
-	postingBlockMainRoot.append(
-		postingBlockErrorOnPosting(),
-		postingBlockAvatar({ ownerHref, ownerPhoto }),
-		postingWrap(isSuggested, onlyOfficial),
-		postingMediaPreview(),
-		postingMediaInfo(),
-		postingActionButtons(isUser, isMyWall),
-		postingSubmitBlock(!isUser, isSuggested, onlyOfficial)
-	);
+  postingBlockMainRoot.append(
+    postingBlockErrorOnPosting(),
+    postingBlockAvatar({ ownerHref, ownerPhoto }),
+    postingWrap(fromOid, isUser, isMyWall, isSuggested, onlyOfficial),
+    postingMediaPreview(),
+    postingMediaInfo(),
+    postingActionButtons(isUser, isMyWall),
+    postingSubmitBlock(!isUser, isSuggested, onlyOfficial)
+  );
 
-	pageBlock.appendChild(postingBlockMainRoot);
+  pageBlock.appendChild(postingBlockMainRoot);
 
-	return pageBlock;
-}
+  return pageBlock;
+};
 
 export default postingBlock;

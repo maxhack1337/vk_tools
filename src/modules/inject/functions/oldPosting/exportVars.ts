@@ -51,6 +51,7 @@ const exportVars = async (
       carouselGridKeys(vk.lang)[0] || "Карусель"
     }\' data-value=\'carousel\'>\n  \n  <div class="FancyElementTT__itemLabel">${carouselGridKeys(vk.lang)[0] || "Карусель"}</div>\n</div>\n    </div>\n  </div>\n</div>`;
   }
+  const hasGroupAudioAccess = wallData?.hasGroupAudioAccess || false;
   const oid = wall_oid || ownerId || profileId;
   const isMyWall = vk.id === wall_oid?.valueOf();
   const submitPostBlock = postingBlock({
@@ -66,9 +67,7 @@ const exportVars = async (
   replacePostingBlock(submitPostBlock, newPostingBlock, isFeedBlock, isElseProfile, isWallModule, isBeginBlock);
   deferredCallback(
     async () => {
-      if (wall_oid !== (ownerId || profileId) && oid < 0) {
-        cur.audioAttachOriginalOwnerId = wall_oid;
-        cur.audioAttachSwitchOwnerId = vk.id;
+      if (wall_oid !== (ownerId || profileId) && oid < 0 && !hasGroupAudioAccess) {
         let audioPostSuggest = document.querySelector("#submit_post .ms_item_audio");
         if (audioPostSuggest) {
           const newElement = audioPostSuggest.cloneNode(true) as HTMLElement;
