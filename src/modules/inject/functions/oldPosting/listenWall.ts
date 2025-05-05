@@ -27,8 +27,7 @@ const initHook = () => {
 
       return true;
     },
-    configurable: false,
-    enumerable: true,
+    configurable: true,
   });
 };
 
