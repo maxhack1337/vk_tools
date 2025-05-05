@@ -1,4 +1,4 @@
-import searchFiber from "./searchFiber";
+import searchFiber from "../../search/searchFiber";
 
 const parsePlist = async (video: HTMLElement) => {
   try {

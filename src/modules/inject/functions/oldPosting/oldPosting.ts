@@ -2,9 +2,8 @@
 import showSnackbar from "../../components/snackbar/snackbar";
 import deferredCallback from "../../defferedCallback";
 import appendRefreshButton from "./appendRefreshButton";
+import deferredCallbackNested from "./deferredCallbackNested";
 import exportVars from "./exportVars";
-import listenVK from "./listenVK";
-import listenWall from "./listenWall";
 import refreshButtonTextLang from "./refreshButtonTextLang";
 import styleForEditPost from "./styleForEditPost";
 
@@ -43,18 +42,19 @@ const oldPosting = () => {
     deferredCallback(
       async (_wall: any) => {
         if (localStorage.getItem("old_post_design") === "false") return;
-        window.vk?.pe && (delete window.vk.pe.posting_web_react_form, delete window.vk.pe.posting_hide_copyright_button_web, delete window.vk.pe.global_variable_wrapper);
-        console.info("[VK Tools] Toggles removed");
+        window.vk?.pe && delete window.vk.pe.posting_web_react_form;
         styleForEditPost();
       },
       { variable: "vk" }
     );
 
-    listenVK(() => {
-      window.vk?.pe && (delete window.vk.pe.posting_web_react_form, delete window.vk.pe.posting_hide_copyright_button_web, delete window.vk.pe.global_variable_wrapper);
-      styleForEditPost();
-      console.info("[VK Tools] Navigation event intercepted. Toggles removed");
-    });
+    deferredCallbackNested(
+      () => {
+        window.vk?.pe && delete window.vk.pe.posting_web_react_form;
+        styleForEditPost();
+      },
+      { variablePath: "vk.pe" }
+    );
 
     deferredCallback(
       async (_wall: any) => {
@@ -65,16 +65,30 @@ const oldPosting = () => {
       { variable: "stManager" }
     );
 
-    listenWall((_wall) => {
-      if (_wall.isAlreadyOld) return;
-      _wall.isAlreadyOld = true;
-      let origInit = _wall.init;
-      let origWall = _wall;
-      _wall.init = async (...n: any) => {
-        await exportVars(n[0].wall_oid, n[0].public_link, n[0].loc, n[0].owner, n[0].wall_tpl, n[0]);
-        origInit.apply(origWall, n);
-      };
-    });
+    deferredCallbackNested(
+      (_wall) => {
+        if (_wall.isAlreadyOld) return;
+        _wall.isAlreadyOld = true;
+        let origInit = _wall.init;
+        let origWall = _wall;
+        _wall.init = async (...n: any) => {
+          await exportVars(n[0].wall_oid, n[0].public_link, n[0].loc, n[0].owner, n[0].wall_tpl, n[0]);
+          origInit.apply(origWall, n);
+        };
+      },
+      { variablePath: "Wall" }
+    );
+
+    // document.arrive('[data-testid="post_context_menu_item_edit"]', { existing: true }, (editButton) => {
+    //   let currentPostEdit = document.querySelector(".PostContextMenuReact__root:has([aria-expanded='true'])");
+    //   getPostProps(currentPostEdit).then((postRaw) => {
+    //     (editButton as HTMLElement).addEventListener("click", (ev: MouseEvent) => {
+    //       ev.preventDefault();
+    //       ev.stopPropagation();
+    //       Wall.editPost(this, postRaw);
+    //     });
+    //   });
+    // });
   }
 };
 

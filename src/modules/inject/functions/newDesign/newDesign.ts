@@ -1,6 +1,6 @@
 import createStyle from "../classicalProfile/scripts/createStyle";
 import waitMECommon from "../listeners/waitMECommon";
-import listenVK from "../oldPosting/listenVK";
+import deferredCallbackNested from "../oldPosting/deferredCallbackNested";
 
 const newDesignFunctions = [
   "vkm_chat_big_stickers",
@@ -21,11 +21,13 @@ const newDesignFunctions = [
   "vkm_stickers_animation_setting",
   "vkm_show_inviter",
   "vkm_video_chat",
-  "vkm_up_drafted_convos_in_list"
+  "vkm_up_drafted_convos_in_list",
 ];
 
 const newDesign = () => {
-  createStyle('ActionHover', `
+  createStyle(
+    "ActionHover",
+    `
     .VKCOMMessenger__reforgedModalRoot .ActionsMenuAction:not(:disabled):hover {
         background-color: var(--vkui--color_transparent--hover)!important;
     }
@@ -33,20 +35,24 @@ const newDesign = () => {
         background-color: var(--vkui--color_background_content);
     }
 }  
-  `);
-  localStorage.setItem("isNewDesign", 'true');
-  listenVK(() => {
-    if (!window.vk?.pe) return;
-    newDesignFunctions.forEach((flag) => {
-      window.vk.pe[flag] = 1;
-    });
-    window.vk.pe.vkm_hide_forward_author = 1;
-    window.vk.pe.vkm_theme_styles_settings = 1;
-    window.vk.pe.vkm_reactions || (window.vk.pe.vkm_reactions = 20);
-  });
+  `
+  );
+  localStorage.setItem("isNewDesign", "true");
+  deferredCallbackNested(
+    (_vk) => {
+      if (!window.vk?.pe) return;
+      newDesignFunctions.forEach((flag) => {
+        window.vk.pe[flag] = 1;
+      });
+      window.vk.pe.vkm_hide_forward_author = 1;
+      window.vk.pe.vkm_theme_styles_settings = 1;
+      window.vk.pe.vkm_reactions || (window.vk.pe.vkm_reactions = 20);
+    },
+    { variablePath: "vk.pe" }
+  );
 
-    waitMECommon().then(() => {
-         window.MECommonContext &&
+  waitMECommon().then(() => {
+    window.MECommonContext &&
       window.MECommonContext.then((e) => {
         if (e.store.featureFlags) {
           newDesignFunctions.forEach((flag) => {
@@ -60,8 +66,7 @@ const newDesign = () => {
       }).catch((error) => {
         console.error("Error while setting feature flags:", error);
       });
-   })
-
-}
+  });
+};
 
 export default newDesign;

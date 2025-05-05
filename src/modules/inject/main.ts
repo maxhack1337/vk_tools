@@ -45,7 +45,6 @@ import innerNoticeStyle from "./innerNoticeStyle";
 import banner from "./components/banner/banner";
 import createVkToolsBanners from "./functions/createVkToolsBanners/createVkToolsBanners";
 import posters from "./functions/posters/posters";
-import listenWall from "./functions/oldPosting/listenWall";
 import tooltip from "./components/tooltip/tooltip";
 import showForwardBox from "./showForwardBox";
 import oldAttaches from "./functions/oldMessenger/oldAttaches/oldAttaches";
@@ -57,8 +56,8 @@ import oldBoxLoader from "./functions/oldBoxLoader/oldBoxLoader";
 import { downloadAllPhotosArchive } from "./functions/downloadAttachments/photo";
 import downloadAttaches from "./functions/downloadAttachments/downloadAttaches";
 import oldVideoPlaylists from "./functions/oldVideoPlaylists/oldVideoPlaylists";
-
-let debugMode = true;
+import deferredCallbackNested from "./functions/oldPosting/deferredCallbackNested";
+import { DEBUG_MODE } from "./constants";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -92,7 +91,7 @@ const adsSelector = [
 window.MotionKit = {};
 Object.freeze(window.MotionKit);
 
-if (debugMode) {
+if (DEBUG_MODE) {
   const protectedConsole = new Proxy(console, {
     set(target, property, value, receiver) {
       return true;
@@ -628,9 +627,12 @@ oldAttaches();
 //Стиль для старой иконки нотиса аудио 18+
 createStyle("audioNoticeIcon", innerNoticeStyle());
 //Постеры
-listenWall((_wall) => {
-  posters();
-});
+deferredCallbackNested(
+  (_wall) => {
+    posters();
+  },
+  { variablePath: "Wall" }
+);
 //Удаляем скелетоны в классик профиле
 if (getLocalValue("isClassicalProfileDesign")) {
   createStyle(
