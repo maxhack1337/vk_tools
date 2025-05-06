@@ -4,6 +4,8 @@ import deferredCallback from "../../defferedCallback";
 import appendRefreshButton from "./appendRefreshButton";
 import deferredCallbackNested from "./deferredCallbackNested";
 import exportVars from "./exportVars";
+import getNearestPost from "./getNearestPost";
+import getPostIdFromPost from "./getPostIdFromPost";
 import refreshButtonTextLang from "./refreshButtonTextLang";
 import styleForEditPost from "./styleForEditPost";
 
@@ -42,7 +44,6 @@ const oldPosting = () => {
     deferredCallback(
       async (_wall: any) => {
         if (localStorage.getItem("old_post_design") === "false") return;
-        window.vk?.pe && delete window.vk.pe.posting_web_react_form;
         styleForEditPost();
       },
       { variable: "vk" }
@@ -50,7 +51,6 @@ const oldPosting = () => {
 
     deferredCallbackNested(
       () => {
-        window.vk?.pe && delete window.vk.pe.posting_web_react_form;
         styleForEditPost();
       },
       { variablePath: "vk.pe" }
@@ -79,16 +79,20 @@ const oldPosting = () => {
       { variablePath: "Wall" }
     );
 
-    // document.arrive('[data-testid="post_context_menu_item_edit"]', { existing: true }, (editButton) => {
-    //   let currentPostEdit = document.querySelector(".PostContextMenuReact__root:has([aria-expanded='true'])");
-    //   getPostProps(currentPostEdit).then((postRaw) => {
-    //     (editButton as HTMLElement).addEventListener("click", (ev: MouseEvent) => {
-    //       ev.preventDefault();
-    //       ev.stopPropagation();
-    //       Wall.editPost(this, postRaw);
-    //     });
-    //   });
-    // });
+    document.arrive('[data-testid="post_context_menu_item_edit"]', { existing: true }, (editButton) => {
+      let currentPostEdit = document.querySelector(".PostContextMenuReact__root:has([aria-expanded='true'])");
+      if (currentPostEdit) {
+        let nearestPost = getNearestPost(currentPostEdit as HTMLElement);
+        if (nearestPost) {
+          let postRaw = getPostIdFromPost(nearestPost as HTMLElement);
+          (editButton as HTMLElement).addEventListener("click", (ev: MouseEvent) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            Wall.editPost(this, postRaw);
+          });
+        }
+      }
+    });
   }
 };
 
