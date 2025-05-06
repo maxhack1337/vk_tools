@@ -1,11 +1,11 @@
 const innerNoticeStyle = () => {
-    return `
+  return `
     .AudioLegalNoticeIcon__root svg,
     .audio_row__legal_notice_icon svg,
-    [class*="vkitAudioPlayerAudioInfo__titleNoticeIcon--"] svg,
-    [class*="vkitAudioRow__rootHasHover--"] svg[class*="--error_circle_fill_gray_12"],
-    [class*="vkitSecondaryAttachment__titleIcon--"] svg[class*="--error_circle_fill_gray_12"],
-    [class*="vkitPrimaryAttachmentAudio__titleIcon--"] svg[class*="--error_circle_fill_gray_12"],
+    [class*="AudioPlayerAudioInfo__titleNoticeIcon--"] svg,
+    [class*="AudioRow__root"] svg[class*="--error_circle_fill_gray_12"],
+    [class*="SecondaryAttachment__titleIcon--"] svg[class*="--error_circle_fill_gray_12"],
+    [class*="PrimaryAttachmentAudio__titleIcon--"] svg[class*="--error_circle_fill_gray_12"],
     .OwnerContentTabAudiosItem__legalNotice svg {
         width: 11px !important;
         height: 11px !important;
@@ -16,11 +16,11 @@ const innerNoticeStyle = () => {
 
     .AudioLegalNoticeIcon__root svg use,
     .audio_row__legal_notice_icon svg use,
-    [class*="vkitAudioPlayerAudioInfo__titleNoticeIcon--"] svg use,
-    [class*="vkitAudioRow__rootHasHover--"] svg[class*="--error_circle_fill_gray_12"] use,
+    [class*="AudioPlayerAudioInfo__titleNoticeIcon--"] svg use,
+    [class*="AudioRow__root"] svg[class*="--error_circle_fill_gray_12"] use,
     .OwnerContentTabAudiosItem__legalNotice svg use,
-    [class*="vkitPrimaryAttachmentAudio__titleIcon--"] svg[class*="--error_circle_fill_gray_12"] use,
-    [class*="vkitSecondaryAttachment__titleIcon--"] svg[class*="--error_circle_fill_gray_12"] use {
+    [class*="PrimaryAttachmentAudio__titleIcon--"] svg[class*="--error_circle_fill_gray_12"] use,
+    [class*="SecondaryAttachment__titleIcon--"] svg[class*="--error_circle_fill_gray_12"] use {
         display: none
     }
 
@@ -40,6 +40,6 @@ const innerNoticeStyle = () => {
         white-space: nowrap;
     }
     `;
-}
+};
 
 export default innerNoticeStyle;
