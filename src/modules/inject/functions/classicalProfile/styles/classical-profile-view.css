@@ -1,3 +1,13 @@
+        @keyframes skeleton-iso-vktools {
+            0% {
+                transform: translateX(-50%);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
+        }
+
 html.classicProfile body[scheme=vkcom_light] .ProfileHeaderButton>button:has(> span > span > svg.vkuiIcon--user_check_outline_20)>span:before {
     font-size: var(--vkui--font_headline2--font_size--compact);
     font-weight: var(--vkui--font_weight_accent2);
@@ -592,6 +602,147 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
     .vkEnhancerProfileFriends *:not(.decoration) {
         text-decoration: none !important;
     }
+
+
+.ProfileGifts__all.vkToolsSkeleton__giftButton,
+.vkToolsPhotoModuleSkeleton .header_label,
+.vkToolsPhotoModuleSkeleton .header_count,
+.vkToolsPhotoModuleSkeleton .showmap,
+.vkToolsPhotoModuleSkeleton .page_square_photo {
+    position: relative;
+    overflow: hidden;
+}
+
+.vkToolsProfileShortSkeleton {
+    .counts_module {
+        margin-top: 18px;
+        text-align: center;
+        padding-top: 15px !important;
+        border-top: 1px solid var(--vkui--color_separator_primary);
+        width: 100%;
+    }
+
+    .counter {
+        padding: 15px;
+        text-decoration: none;
+    }
+
+    .label {
+        width: auto !important;
+        margin-top: 4px;
+        font-size: 13px;
+        line-height: 15px;
+    }
+
+    .label.first {
+        margin-right: 40px;
+    }
+
+    .label.second {
+        margin-right: 58px;
+    }
+
+    .label.third {
+        margin-right: 84px;
+    }
+
+    .num.padd {
+        margin-left: 8px;
+    }
+
+    .label,
+    .value,
+    .profile_label_more,
+    .num {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .num::after,
+    .profile_label_more::after,
+    .label::after,
+    .value::after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-image: linear-gradient(to right,
+                var(--vkui--color_skeleton_from) 0,
+                var(--vkui--color_skeleton_to) 150px,
+                var(--vkui--color_skeleton_from) 225px);
+        background-size: 300px 100%;
+        background-attachment: fixed;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 1;
+        border-radius: 8px;
+    }
+}
+
+.vkToolsPhotoModuleSkeleton {
+#page_photos_module {
+        display: flex;
+    }
+        .header_top {
+            font-size: 13px;
+            padding: 8px 12px 0 12px;
+        }
+        .header_label {
+            margin-right: 6px;
+        }
+         .header_label::after,
+         .header_count::after,
+         .showmap::after,
+         .page_square_photo::after {
+                content: " ";
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background-image: linear-gradient(to right,
+                        var(--vkui--color_skeleton_from) 0,
+                        var(--vkui--color_skeleton_to) 150px,
+                        var(--vkui--color_skeleton_from) 225px);
+                background-size: 300px 100%;
+                background-attachment: fixed;
+                pointer-events: none;
+                z-index: 0;
+                opacity: 1;
+                border-radius: 8px;
+            }
+}
+
+.ProfileGifts__all.vkToolsSkeleton__giftButton::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(to right,
+            var(--vkui--color_skeleton_from) 0,
+            var(--vkui--color_skeleton_to) 150px,
+            var(--vkui--color_skeleton_from) 225px);
+    background-size: 300px 100%;
+    background-attachment: fixed;
+    animation-name: skeleton-iso-vktools;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    pointer-events: none;
+    z-index: 0;
+    opacity: .1;
+    border-radius:8px;
+}
+
+
 
     .ProfileHeaderActions__buttons>.ProfileGifts__all {
         padding: 0;
