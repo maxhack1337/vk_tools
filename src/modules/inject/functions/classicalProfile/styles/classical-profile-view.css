@@ -218,7 +218,7 @@ html.classicProfile body {
         float: right;
     }
 
-    .FriendsSuggestionsBlock {
+    .FriendsSuggestionsBlock, .FriendsSuggestionsBlockSkeleton {
         display: none;
     }
 
@@ -286,6 +286,10 @@ html.classicProfile body {
 
     .ProfileVideosEnhancer>.vkuiDiv {
         display: none;
+    }
+
+    .vkEnhancerMutualFriends .ProfileGroupHorizontalCells{
+        padding: 0 4px;
     }
 
     .vkEnhancerMutualFriends {
@@ -602,6 +606,58 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
     .vkEnhancerProfileFriends *:not(.decoration) {
         text-decoration: none !important;
     }
+    
+        .vkToolsFriendsSkeleton {
+            user-select: none;
+            pointer-events: none !important;
+            cursor: default !important;
+    
+            .vkuiHorizontalCell__image {
+                padding: 0 !important;
+                margin-bottom: 4px;
+                margin-left: 8px;
+                margin-right: 8px;
+                margin-top: 4px;
+            }
+    
+            .vkuiHorizontalCell__content {
+                padding: 0 !important;
+                margin: 2px 4px 8px;
+            }
+    
+            .vkuiHeader__content-in,
+            .vkuiHorizontalCell__image,
+            .vkuiHorizontalCell__content,
+            .vkuiHeader__indicator,
+            .decoration {
+                position: relative;
+                overflow: hidden;
+            }
+    
+            .vkuiHeader__content-in::after,
+            .vkuiHorizontalCell__image::after,
+            .vkuiHorizontalCell__content::after,
+            .vkuiHeader__indicator::after,
+            .decoration::after {
+                content: " ";
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background-image: linear-gradient(to right,
+                        var(--vkui--color_skeleton_from) 0,
+                        var(--vkui--color_skeleton_to) 150px,
+                        var(--vkui--color_skeleton_from) 225px);
+                background-size: 300px 100%;
+                background-attachment: fixed;
+                pointer-events: none;
+                z-index: 0;
+                opacity: 1;
+                border-radius: 8px;
+            }
+        }
 
 
 .ProfileGifts__all.vkToolsSkeleton__giftButton,
@@ -613,7 +669,16 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
     overflow: hidden;
 }
 
+.vkToolsPhotoModuleSkeleton {
+    user-select: none;
+    pointer-events: none !important;
+    cursor: default !important;
+}
+
 .vkToolsProfileShortSkeleton {
+    user-select: none;
+    pointer-events: none !important;
+    cursor: default !important;
     .counts_module {
         margin-top: 18px;
         text-align: center;

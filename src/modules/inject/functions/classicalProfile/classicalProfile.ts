@@ -128,7 +128,9 @@ const classicalProfile = () => {
 
   document.arrive(`[class^="vkitgetColorClass__colorTextSubhead"]`, { existing: true }, (e) => {
     let cont = e as HTMLElement;
-    cont.textContent === getLang?.("profile_dead_page_label") ? (cont.style.paddingLeft = "26px") : (cont = cont);
+    if (cont.textContent === getLang?.("profile_dead_page_label")) {
+      cont.style.paddingLeft = "26px";
+    }
   });
   window.friendsSection = null;
   window.aHrefSectionFrens = null;
@@ -183,6 +185,8 @@ const classicalProfile = () => {
       document.querySelector(".ScrollStickyWrapper > div")?.prepend(friendsSection);
       document.querySelector(".vkEnhancerFrenBox")?.appendChild(aHrefSectionFrens);
     }
+    let friendsSkeleton = document.querySelector(".vkToolsFriendsSkeleton");
+    if (friendsSkeleton) friendsSkeleton.remove();
     let i = document.querySelectorAll(".vkuiInternalGroupCard:not(.ProfileGroup)");
     let includes = getLang?.("profile_unknown_error");
     i.forEach((elem) => {
