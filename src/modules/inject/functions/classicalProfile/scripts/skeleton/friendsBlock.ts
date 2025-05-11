@@ -24,8 +24,6 @@ const friendsBlock = () => {
       <div class="vkuiHorizontalCell__body vkuiInternalTappable vkuiTappable__host vkuiTappable__hasPointerNone vkuiClickable__host vkuiClickable__realClickable vkuistyles__-focus-visible vkuiRootComponent__host vkEnhancerFriend">
         <div class="vkuiHorizontalCell__image">
           <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;">
-            <img class="vkuiImageBase__img">
-            <div aria-hidden="true" class="vkuiImageBase__border"></div>
           </div>
         </div>
         <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">
@@ -60,7 +58,6 @@ const friendsBlock = () => {
       <div class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
         <div class="vkuiHorizontalCell__image">
           <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;">
-            <img class="vkuiImageBase__img">
           </div>
         </div>
         <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">
@@ -74,7 +71,6 @@ const friendsBlock = () => {
       <div class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
         <div class="vkuiHorizontalCell__image">
           <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;">
-            <img class="vkuiImageBase__img">
           </div>
         </div>
         <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">
@@ -88,7 +84,6 @@ const friendsBlock = () => {
       <div class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
         <div class="vkuiHorizontalCell__image">
           <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;">
-            <img class="vkuiImageBase__img">
           </div>
         </div>
         <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">
@@ -102,7 +97,6 @@ const friendsBlock = () => {
       <div class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
         <div class="vkuiHorizontalCell__image">
           <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;">
-            <img class="vkuiImageBase__img">
           </div>
         </div>
         <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">
@@ -116,7 +110,6 @@ const friendsBlock = () => {
       <div class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
         <div class="vkuiHorizontalCell__image">
           <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;">
-            <img class="vkuiImageBase__img">
           </div>
         </div>
         <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">
@@ -130,7 +123,6 @@ const friendsBlock = () => {
       <div class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
         <div class="vkuiHorizontalCell__image">
           <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;">
-            <img class="vkuiImageBase__img">
           </div>
         </div>
         <div class="vkuiHorizontalCell__content vkuiHorizontalCell__textAlignCenter">

@@ -626,7 +626,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
             }
     
             .vkuiHeader__content-in,
-            .vkuiHorizontalCell__image,
+            .vkuiAvatar__host,
             .vkuiHorizontalCell__content,
             .vkuiHeader__indicator,
             .decoration {
@@ -635,7 +635,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
             }
     
             .vkuiHeader__content-in::after,
-            .vkuiHorizontalCell__image::after,
+            .vkuiAvatar__host::after,
             .vkuiHorizontalCell__content::after,
             .vkuiHeader__indicator::after,
             .decoration::after {
@@ -646,10 +646,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
                 left: 0;
                 height: 100%;
                 width: 100%;
-                background-image: linear-gradient(to right,
-                        var(--vkui--color_skeleton_from) 0,
-                        var(--vkui--color_skeleton_to) 150px,
-                        var(--vkui--color_skeleton_from) 225px);
+                background-color: var(--vkui--color_background_secondary);
                 background-size: 300px 100%;
                 background-attachment: fixed;
                 pointer-events: none;
@@ -691,24 +688,27 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         padding: 15px;
         text-decoration: none;
     }
+    .counter .label {
+        margin-top: 4px;
+    }
+
+    .profile_info_row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .width {
+        display: flex;
+        flex-direction: row;
+        width: 165px;
+        min-width: 165px;
+    }
 
     .label {
         width: auto !important;
-        margin-top: 4px;
+        margin-top: 1.5px;
         font-size: 13px;
         line-height: 15px;
-    }
-
-    .label.first {
-        margin-right: 40px;
-    }
-
-    .label.second {
-        margin-right: 58px;
-    }
-
-    .label.third {
-        margin-right: 84px;
     }
 
     .num.padd {
@@ -734,10 +734,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         left: 0;
         height: 100%;
         width: 100%;
-        background-image: linear-gradient(to right,
-                var(--vkui--color_skeleton_from) 0,
-                var(--vkui--color_skeleton_to) 150px,
-                var(--vkui--color_skeleton_from) 225px);
+        background-color: var(--vkui--color_background_secondary);
         background-size: 300px 100%;
         background-attachment: fixed;
         pointer-events: none;
@@ -769,10 +766,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
                 left: 0;
                 height: 100%;
                 width: 100%;
-                background-image: linear-gradient(to right,
-                        var(--vkui--color_skeleton_from) 0,
-                        var(--vkui--color_skeleton_to) 150px,
-                        var(--vkui--color_skeleton_from) 225px);
+                background-color: var(--vkui--color_background_secondary);
                 background-size: 300px 100%;
                 background-attachment: fixed;
                 pointer-events: none;

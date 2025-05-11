@@ -35,9 +35,9 @@ const replaceTabsWithPhotosModule = async () => {
         <div class="header_right_link fl_r"></div>
         <a class="module_header">
             <div class="header_top clear_fix">
-                <span class="header_label fl_l">Фотографии чтотытутзабыл</span>
+                <span class="header_label fl_l">Фотографии чтотытутзабыл--</span>
                 <span class="header_count fl_l">99</span>
-            <a class="fl_r showmap">показать на карте</a></div>
+            <a class="fl_r showmap">показать на карт--</a></div>
         </a>
         <div id="page_photos_module" class="page_photos_module">
         <a class="page_square_photo crisp_image"><span class="blind_label"></span></a>

@@ -5,15 +5,15 @@ const profileShort = () => {
   profileShortSc.id = "profile_short";
   profileShortSc.innerHTML = `
     <div class="clear_fix profile_info_row">
-    <div class="label first fl_l">------------------------------------</div>
-    <div class="labeled"><a class="num">27 марта </a><a class="num padd">2001 г.</a></div>
+    <div class="width"><div class="label fl_l">------------------------------------</div></div>
+    <div class="labeled"><a class="num">-8 апре--- </a><a class="num padd">-001 г--</a></div>
   </div>
   <div class="clear_fix profile_info_row">
-    <div class="label second fl_l">-------------------------------</div>
-    <div class="labeled"><a class="num">11 октября 2012 (09:47)</a></div>
+    <div class="width"><div class="label fl_l">-------------------------------</div></div>
+    <div class="labeled"><a class="num">-1 октября 2018 (02:13-</a></div>
   </div>
   <div class="clear_fix profile_info_row">
-    <div class="label third fl_l">------------------------</div>
+    <div class="width"><div class="label fl_l">------------------------</div></div>
     <div class="labeled"><a class="num">---------------</a></div>
   </div>
   <div class="profile_more_info"><a class="profile_more_info_link"><span class="profile_label_more" style="display: flex;">Показать подробную информацию</span><span class="profile_label_less">Скрыть подробную информацию</span></a></div>

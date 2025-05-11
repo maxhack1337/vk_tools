@@ -65,8 +65,8 @@ const classicalProfile = () => {
   document.arrive("#profile_redesigned", { existing: true }, async function () {
     try {
       document.querySelector("html")!.classList.add("classicProfile");
-      if (cur.oid !== vk.id) giftButton();
       classicButtons();
+      if (cur.oid !== vk.id) giftButton();
       profileShort();
       let objectId1 = await getId();
       let userData = IS_SPA ? await getUserDataSpa(objectId1) : await getUserData(objectId1);
@@ -99,11 +99,14 @@ const classicalProfile = () => {
         if (userData.blacklisted === 1 && !userData.deactivated) {
           createStyle(
             "classicalProfilesBlackListed",
-            `.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
+            `.vkToolsSkeleton__giftButton {display:none;} .ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
           );
         }
         if (userData.deactivated) {
-          createStyle("classicalProfilesDeactivated", `.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){display:none!important}`);
+          createStyle(
+            "classicalProfilesDeactivated",
+            `.vkToolsSkeleton__giftButton {display:none;} .ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
+          );
         }
         if (userData.is_service) {
           createStyle("classicalProfilesService", `.page_current_info.current_text{border-bottom:none!important;}.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}`);

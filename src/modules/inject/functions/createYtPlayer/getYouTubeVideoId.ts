@@ -8,7 +8,7 @@ const getYouTubeVideoId = (url: string) => {
     if (urlObj.hostname.includes("youtube.com")) {
       const v = urlObj.searchParams.get("v");
       if (v) return v;
-      const pathMatch = urlObj.pathname.match(/\/(embed|v|shorts)\/([^?&/]+)/);
+      const pathMatch = urlObj.pathname.match(/\/(embed|v|shorts|live)\/([^?&/]+)/);
       if (pathMatch && pathMatch[2]) return pathMatch[2];
     }
     return null;
