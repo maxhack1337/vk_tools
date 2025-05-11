@@ -168,6 +168,7 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <CheckBox type={"checkBox"} label={getLang("disableMessageCounter")} isNew={false} isFire={false} id={"disableMessageCounter"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("hideMessageFooter")} isNew={false} isFire={false} id={"hideMessageFooter"} shouldReload={false} />
           <EmojiHotBarBlock label={getLang("emojiHotbar")} placeholder={getLang("enterEmojiCodes")} buttonLabel={getLang("updateHotbar")} description={getLang("emojiHotbarDescription")} option={"emojiHotbar"} />
+          <CheckBox type={"checkBox"} label={getLang("createYtPlayer")} isNew={false} isFire={true} id={"createYtPlayer"} shouldReload={true} description={getLang("createYtPlayerDescription")} />
           <CheckBox type={"checkBox"} label={getLang("newMessengerDesign")} isNew={false} isFire={false} id={"newMessengerDesign"} shouldReload={true} description={getLang("newMessengerDesignDescription")} shouldAlert={true} />
         </div>,
         <div className="vkToolsBlockWithPadding">

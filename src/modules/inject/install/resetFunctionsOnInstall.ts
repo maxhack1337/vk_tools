@@ -26,6 +26,7 @@ const keys = [
   "enterProfileGroupID",
   "oldLoader",
   "playlistsClassicalV",
+  "createYtPlayer",
 ];
 
 const resetFunctionsOnInstall = () => {

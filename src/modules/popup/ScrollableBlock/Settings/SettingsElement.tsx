@@ -62,6 +62,7 @@ const allStates = [
   "enterProfileGroupIDState",
   "oldLoaderState",
   "classicVideoPlaylistsState",
+  "createYtPlayerState",
 ];
 
 const clearAllStates: { [key: string]: any } = {
@@ -114,6 +115,7 @@ const clearAllStates: { [key: string]: any } = {
   enterProfileGroupIDState: false,
   oldLoaderState: false,
   classicVideoPlaylistsState: false,
+  createYtPlayerState: false,
 };
 const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
 

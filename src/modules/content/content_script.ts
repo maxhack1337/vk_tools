@@ -102,6 +102,7 @@ const functions = [
   "enterProfileGroupIDState",
   "oldLoaderState",
   "classicVideoPlaylistsState",
+  "createYtPlayerState",
 ];
 
 const applySavedStyles = () => {
@@ -155,6 +156,7 @@ const applySavedStyles = () => {
     const enterProfileGroupID = items.enterProfileGroupIDState;
     const oldLoader = items.oldLoaderState;
     const classicVideoPlaylists = items.classicVideoPlaylistsState;
+    const createYtPlayer = items.createYtPlayerState;
     applyStyles({
       isVideoModal,
       altScroll,
@@ -205,6 +207,7 @@ const applySavedStyles = () => {
       enterProfileGroupID,
       oldLoader,
       classicVideoPlaylists,
+      createYtPlayer,
     });
   });
 };
@@ -259,6 +262,7 @@ function applyStyles(styles: {
   enterProfileGroupID: any;
   oldLoader: any;
   classicVideoPlaylists: any;
+  createYtPlayer: any;
 }) {
   //if (styles.removeNFT) {
   //hideNFT_Avatars();
@@ -301,6 +305,12 @@ function applyStyles(styles: {
     customMessage("oldLoader", styles.oldLoader);
   } else {
     customMessage("oldLoader", "false");
+  }
+
+  if (styles.createYtPlayer) {
+    customMessage("createYtPlayer", styles.createYtPlayer);
+  } else {
+    customMessage("createYtPlayer", "false");
   }
 
   if (styles.classicVideoPlaylists) {

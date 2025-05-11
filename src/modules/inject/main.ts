@@ -58,6 +58,7 @@ import downloadAttaches from "./functions/downloadAttachments/downloadAttaches";
 import oldVideoPlaylists from "./functions/oldVideoPlaylists/oldVideoPlaylists";
 import deferredCallbackNested from "./functions/oldPosting/deferredCallbackNested";
 import { DEBUG_MODE } from "./constants";
+import createYtPlayer from "./functions/createYtPlayer/createYtPlayer";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -349,6 +350,11 @@ window.addEventListener("message", async (event) => {
     messageAct = "";
   }
   switch (messageAct) {
+    case "createYtPlayer": {
+      localStorage.setItem("createYtPlayer", event.data.value.messageValue);
+      break;
+    }
+
     case "classicVideoPlaylistsIn": {
       localStorage.setItem("playlistsClassicalV", event.data.value.messageValue);
       break;
@@ -648,3 +654,5 @@ if (getLocalValue("isClassicalProfileDesign")) {
 oldBoxLoader();
 //Старые видео плейлисты
 oldVideoPlaylists();
+//Ютуб плеер в сообщениях
+createYtPlayer();

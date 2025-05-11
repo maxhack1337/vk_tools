@@ -65,9 +65,9 @@ const classicalProfile = () => {
   document.arrive("#profile_redesigned", { existing: true }, async function () {
     try {
       document.querySelector("html")!.classList.add("classicProfile");
+      if (cur.oid !== vk.id) giftButton();
       classicButtons();
       profileShort();
-      if (cur.oid !== vk.id) giftButton();
       let objectId1 = await getId();
       let userData = IS_SPA ? await getUserDataSpa(objectId1) : await getUserData(objectId1);
       let activityText = userData.activity;

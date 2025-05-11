@@ -33,6 +33,8 @@ const strings = {
   tabletMenu: ["Левое меню, как на планшетах", "Tablet-style left menu", "Ліве меню, як на планшетах"],
   disableReconnectIndicator: ["Отключить индикатор реконнекта в мессенджере", "Disable reconnect indicator", "Вимкнути індикатор перепідключення в месенджері"],
   newMediaViewer: ["Кнопка обновления стены", "Wall refresh button", "Кнопка оновлення стіни"],
+  createYtPlayer: ["Создавать YouTube-плеер в сообщениях", "Create YouTube player in messages", "Створювати YouTube-плеєр у повідомленнях"],
+  createYtPlayerDescription: ["Заменяет YouTube-ссылки в сообщениях на встроенный видеоплеер", "Replaces YouTube links in messages with an embed player", "Замінює YouTube-посилання у повідомленнях на вбудований відеоплеєр"],
   standardTagInteraction: ["Стандартное взаимодействие с тегом", "Standard tag interaction", "Стандартна взаємодія з тегом"],
   emojiHotbar: ["Эмодзи-хотбар", "Emoji hotbar", "Емодзі-хотбар"],
   emojiHotbarDescription: [
