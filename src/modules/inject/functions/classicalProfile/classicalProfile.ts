@@ -79,6 +79,7 @@ const classicalProfile = () => {
         removeStyle("classicalProfilesDeactivated");
         removeStyle("classicalProfilesService");
         removeStyle("classicalProfilesHidden");
+        removeStyle("classicalProfilesDeactDeleted");
         addCounters(userData, userData.counters);
         appearVariable();
         if (vk.id !== userData.id) {
@@ -102,7 +103,10 @@ const classicalProfile = () => {
             `.vkToolsSkeleton__giftButton {display:none;} .ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
           );
         }
-        if (userData.deactivated) {
+        if (userData.deactivated && userData.deactivated === "deleted") {
+          createStyle("classicalProfilesDeactDeleted", `.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){display:none!important}`);
+        }
+        if (userData.deactivated && userData.deactivated !== "deleted") {
           createStyle(
             "classicalProfilesDeactivated",
             `.vkToolsSkeleton__giftButton {display:none;} .ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
