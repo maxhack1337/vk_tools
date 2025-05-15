@@ -129,10 +129,6 @@ const classicalProfile = () => {
     e.textContent = `${getLang?.("global_edit")}`;
   });
 
-  document.leave(".vkuiAppRoot__host", {}, () => {
-    nav.reload();
-  });
-
   document.arrive(`[class^="vkitgetColorClass__colorTextSubhead"]`, { existing: true }, (e) => {
     let cont = e as HTMLElement;
     if (cont.textContent === getLang?.("profile_dead_page_label")) {

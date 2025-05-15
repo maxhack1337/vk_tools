@@ -1,5 +1,5 @@
 const innerStyleGet = () => {
-	return `
+  return `
 	    .replies_short_text_name {
         	font-weight: 500!important;
         	-webkit-font-smoothing: subpixel-antialiased;
@@ -290,6 +290,10 @@ const innerStyleGet = () => {
 			margin: 8px 20px;
 			border-radius: 8px;
 		}
+		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_donut_levels"], .Post--redesignV3 [data-testid="feed_action_button_donut_levels"] {
+			margin: 8px 20px;
+			border-radius: 8px;
+		}
 		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_donut_support"], .Post--redesignV3 [data-testid="feed_action_button_donut_support"] {
 			margin: 8px 20px;
 			border-radius: 8px;
@@ -469,6 +473,6 @@ const innerStyleGet = () => {
 			color: var(--vkui--color_icon_secondary);
 			border-radius: 50%;
 		}`;
-}
+};
 
 export default innerStyleGet;
