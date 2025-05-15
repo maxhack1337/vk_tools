@@ -115,6 +115,12 @@ const strings = {
   hideMessageFooter: ["Скрыть переключатель непрочитанных сообщений", "Hide unread messages switcher", "Приховати перемикач непрочитаних повідомлень"],
   doWideFeed: ["Ширина ленты", "Feed width", "Ширина стрічки"],
   oldLoader: ["Старый дизайн лоадера", "Old loader design", "Старий дизайн лоадера"],
+  postInWkLayer: ["Открывать посты в модальном окне", "Open posts in a modal window", "Відкривати пости у модальному вікні"],
+  postInWkLayerDescription: [
+    "У некоторых пользователей посты и комментарии открываются только в новой вкладке. Данная функция исправит это",
+    "For some users, posts and comments only open in a new tab. This feature will fix that",
+    "У деяких користувачів пости та коментарі відкриваються тільки в новій вкладці. Ця функція виправить це",
+  ],
   errorUpdating: [
     "Не обновляется расширение? Нажмите Alt+Shift+R в любом месте браузера и расширение перезагрузится, при этом, обновившись до новейшей версии",
     "Extension not updating? Press Alt+Shift+R anywhere in the browser and the extension will reload, updating to the latest version",

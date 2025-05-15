@@ -103,6 +103,7 @@ const functions = [
   "oldLoaderState",
   "classicVideoPlaylistsState",
   "createYtPlayerState",
+  "postInWkLayerState",
 ];
 
 const applySavedStyles = () => {
@@ -157,6 +158,7 @@ const applySavedStyles = () => {
     const oldLoader = items.oldLoaderState;
     const classicVideoPlaylists = items.classicVideoPlaylistsState;
     const createYtPlayer = items.createYtPlayerState;
+    const postInWkLayer = items.postInWkLayerState;
     applyStyles({
       isVideoModal,
       altScroll,
@@ -208,6 +210,7 @@ const applySavedStyles = () => {
       oldLoader,
       classicVideoPlaylists,
       createYtPlayer,
+      postInWkLayer,
     });
   });
 };
@@ -263,6 +266,7 @@ function applyStyles(styles: {
   oldLoader: any;
   classicVideoPlaylists: any;
   createYtPlayer: any;
+  postInWkLayer: any;
 }) {
   //if (styles.removeNFT) {
   //hideNFT_Avatars();
@@ -449,6 +453,12 @@ function applyStyles(styles: {
     customMessage("refreshFeed", styles.refreshFeed);
   } else {
     customMessage("refreshFeed", "false");
+  }
+
+  if (styles.postInWkLayer) {
+    customMessage("postInWkLayer", styles.postInWkLayer);
+  } else {
+    customMessage("postInWkLayer", "false");
   }
 
   if (styles.hideTextEntry) {

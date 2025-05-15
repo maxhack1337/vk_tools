@@ -98,7 +98,7 @@ const oldFeed = () => {
                 postData.postRaw +
                 `" onclick="return showWiki({w: 'wall` +
                 postData.postRaw +
-                `'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
+                `'}, false, event, {trackCode: 'vkTools', source: 'date_link'});">
 					<time class="PostHeaderSubtitle__item">` +
                 getFormattedPostDate(postData.date) +
                 `</time>
@@ -171,7 +171,7 @@ const oldFeed = () => {
                 dataSet?.getAttribute("data-item-owner-id") +
                 "_" +
                 dataSet?.getAttribute("data-item-id") +
-                `'}, false, event, {trackCode: 'vkEnhancer', source: 'date_link'});">
+                `'}, false, event, {trackCode: 'vkTools', source: 'date_link'});">
 					` +
                 getLang?.("me_fc_open_wall_post") +
                 `

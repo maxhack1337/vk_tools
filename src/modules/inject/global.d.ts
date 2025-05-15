@@ -126,6 +126,7 @@ export interface Wall {
   openPosterEditor: any;
   closeFancyTooltipsInPost: any;
   editPost: any;
+  postFull: any;
 }
 
 export interface stManager {
@@ -204,6 +205,8 @@ declare global {
   var AudioUtils: any;
   var __declaredGlobals: any;
   var __usedGlobals: any;
+  var wkcur: any;
+  var cancelEvent: any;
 
   namespace NodeJS {
     interface ProcessEnv {

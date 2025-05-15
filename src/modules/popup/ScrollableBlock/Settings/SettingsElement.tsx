@@ -63,6 +63,7 @@ const allStates = [
   "oldLoaderState",
   "classicVideoPlaylistsState",
   "createYtPlayerState",
+  "postInWkLayerState",
 ];
 
 const clearAllStates: { [key: string]: any } = {
@@ -116,6 +117,7 @@ const clearAllStates: { [key: string]: any } = {
   oldLoaderState: false,
   classicVideoPlaylistsState: false,
   createYtPlayerState: false,
+  postInWkLayerState: false,
 };
 const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
 

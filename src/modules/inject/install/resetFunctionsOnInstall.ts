@@ -27,6 +27,7 @@ const keys = [
   "oldLoader",
   "playlistsClassicalV",
   "createYtPlayer",
+  "postInWkLayer",
 ];
 
 const resetFunctionsOnInstall = () => {

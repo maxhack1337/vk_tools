@@ -151,6 +151,7 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("feedAndPosts")} textForTT={getLang("afterReboot")} />
           <CheckBox type={"checkBox"} label={getLang("removePostReactions")} isNew={false} isFire={false} id={"removePostReactions"} shouldReload={true} />
+          <CheckBox type={"checkBox"} label={getLang("postInWkLayer")} isNew={false} isFire={true} id={"postInWkLayer"} shouldReload={true} description={getLang("postInWkLayerDescription")} />
           <CheckBox type={"checkBox"} label={getLang("newMediaViewer")} isNew={false} isFire={false} id={"newMediaViewer"} shouldReload={true} />
           <CheckBox type={"checkBox"} label={getLang("feedOldTheme")} isNew={false} isFire={true} id={"feedOldTheme"} shouldReload={true} description={getLang("feedOldThemeDescription")} shouldWarn={true} />
           <CheckBox type={"checkBox"} label={getLang("oldPosting")} isNew={false} isFire={true} id={"oldPosting"} shouldReload={true} description={getLang("oldPostingDescription")} />

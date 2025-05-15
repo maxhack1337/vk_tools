@@ -60,6 +60,7 @@ import deferredCallbackNested from "./functions/oldPosting/deferredCallbackNeste
 import { DEBUG_MODE } from "./constants";
 import createYtPlayer from "./functions/createYtPlayer/createYtPlayer";
 import ignoreReactErrorOnRemoveChild from "./functions/classicalProfile/scripts/spa/ignoreReactErrorOnRemoveChild";
+import feedPostLayerEnable from "./functions/openPostInWkLayer/feedPostLayerEnable";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -353,6 +354,10 @@ window.addEventListener("message", async (event) => {
     messageAct = "";
   }
   switch (messageAct) {
+    case "postInWkLayer": {
+      localStorage.setItem("postInWkLayer", event.data.value.messageValue);
+      break;
+    }
     case "createYtPlayer": {
       localStorage.setItem("createYtPlayer", event.data.value.messageValue);
       break;
@@ -661,3 +666,5 @@ oldVideoPlaylists();
 createYtPlayer();
 //Обработка ошибок в removeChild
 ignoreReactErrorOnRemoveChild();
+//Возвращаем открытие поста в модалке
+feedPostLayerEnable();
