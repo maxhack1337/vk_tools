@@ -89,6 +89,8 @@ const adsSelector = [
 }
 `);*/
 
+createStyle("antiMarketBusinessBanner", `#react_rootEcommMarketBusinessBanner {display: none;}`);
+
 window.MotionKit = {};
 Object.freeze(window.MotionKit);
 
