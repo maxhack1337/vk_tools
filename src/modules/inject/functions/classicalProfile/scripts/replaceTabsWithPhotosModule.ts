@@ -19,7 +19,7 @@ const replaceTabsWithPhotosModule = async () => {
     console.error("Элемент section не найден");
     return;
   }
-
+  section.classList.add("vkToolsNoSeparator");
   let tabs = section.querySelector(".OwnerContentTabs");
 
   if (!tabs) {
@@ -27,7 +27,7 @@ const replaceTabsWithPhotosModule = async () => {
     return;
   }
 
-  tabs.remove();
+  (tabs as HTMLElement).style.display = "none";
 
   let photoModuleSkeletonSkeleton = document.createElement("div");
   photoModuleSkeletonSkeleton.classList.add("vkToolsPhotoModuleSkeleton");
@@ -197,7 +197,7 @@ const replaceTabsWithPhotosModule = async () => {
     if (pModuleSkeleton) pModuleSkeleton?.remove();
     section.appendChild(photosModule);
   } else if (countAddedPhotos === 0) {
-    section.remove();
+    (section as HTMLElement).style.display = "none";
   }
 };
 

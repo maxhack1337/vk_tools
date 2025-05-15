@@ -168,7 +168,7 @@ const classicalProfile = () => {
     let includes = getLang?.("profile_unknown_error");
     i.forEach((elem) => {
       if (elem?.textContent?.includes(Array.isArray(includes) ? includes[0] : includes || "Произошла неизвестная ошибка. Попробуйте перезагрузить страницу.")) {
-        elem.remove();
+        (elem as HTMLElement).style.display = "none";
       }
     });
   });
@@ -194,7 +194,7 @@ const classicalProfile = () => {
     let includes = getLang?.("profile_unknown_error");
     i.forEach((elem) => {
       if (elem?.textContent?.includes(Array.isArray(includes) ? includes[0] : includes || "Произошла неизвестная ошибка. Попробуйте перезагрузить страницу.")) {
-        elem.remove();
+        (elem as HTMLElement).style.display = "none";
       }
     });
   });

@@ -59,6 +59,7 @@ import oldVideoPlaylists from "./functions/oldVideoPlaylists/oldVideoPlaylists";
 import deferredCallbackNested from "./functions/oldPosting/deferredCallbackNested";
 import { DEBUG_MODE } from "./constants";
 import createYtPlayer from "./functions/createYtPlayer/createYtPlayer";
+import ignoreReactErrorOnRemoveChild from "./functions/classicalProfile/scripts/spa/ignoreReactErrorOnRemoveChild";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -658,3 +659,5 @@ oldBoxLoader();
 oldVideoPlaylists();
 //Ютуб плеер в сообщениях
 createYtPlayer();
+//Обработка ошибок в removeChild
+ignoreReactErrorOnRemoveChild();

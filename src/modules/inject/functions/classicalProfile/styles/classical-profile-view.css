@@ -87,6 +87,12 @@ html.classicProfile body {
         display: none;
     }
 
+
+
+    .vkuiGroup__separatorSibling:has(+ .vkToolsNoSeparator) {
+        display: none;
+    }
+
     .ProfileModalInfoLink {
         max-width: 335px;
         word-wrap: break-word;
@@ -409,6 +415,14 @@ html.classicProfile body {
 
     .ProfileVideos .OwnerVideosList__items {
         padding-left: 4px !important;
+    }
+
+    .ProfileVideos:not(.ProfileVideosEnhancer) {
+        display: none;
+    }
+
+    .ProfileVideosEnhancer + .ProfileVideosEnhancer {
+        display: none;
     }
 
     .OwnerVideosList__items,
