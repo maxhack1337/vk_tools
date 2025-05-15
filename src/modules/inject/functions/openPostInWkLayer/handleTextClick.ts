@@ -7,8 +7,6 @@ const handleTextClick = (target: any, rootElement: HTMLElement) => {
   const postRaw = getPostIdFromPost(target);
   if (!target || window.getSelection()?.toString()) return;
   if (target.tagName === "A") return;
-  const parentLink = target.closest("a");
-  if (parentLink && rootElement?.contains(parentLink)) return;
   if (window.wkcur?.shown) return;
   showWiki(
     {

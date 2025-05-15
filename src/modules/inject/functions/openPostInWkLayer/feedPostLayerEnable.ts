@@ -3,6 +3,7 @@ import handleDateClick from "./handleDateClick";
 import handlePostBottomClick from "./handlePostBottomClick";
 import handleReplyClick from "./handleReplyClick";
 import handleTextClick from "./handleTextClick";
+import isLinkInComment from "./isLinkInComment";
 
 const feedPostLayerEnable = () => {
   if (getLocalValue("postInWkLayer")) {
@@ -13,6 +14,8 @@ const feedPostLayerEnable = () => {
         const rootElement = target.closest("[data-post-id]") as HTMLElement;
         if (!rootElement) return;
         const isExpanded = !rootElement?.querySelector('[class^="vkitShowMoreText__after"]');
+        const parentLink = target.closest("a");
+        if (parentLink && rootElement?.contains(parentLink)) return;
         if (isExpanded) {
           e.preventDefault();
           e.stopPropagation();
@@ -40,6 +43,13 @@ const feedPostLayerEnable = () => {
 
     document.arrive('[data-task-click="FeedReplies/showCommentInLayer"]', { existing: true }, (reply) => {
       reply.addEventListener("click", (e) => {
+        const target = e.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        if (isLinkInComment(target)) {
+          return;
+        }
         e.preventDefault();
         e.stopPropagation();
         handleReplyClick(e as MouseEvent);

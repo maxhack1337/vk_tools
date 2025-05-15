@@ -1,5 +1,4 @@
 import getNearestPost from "../oldPosting/getNearestPost";
-import isLinkInComment from "./isLinkInComment";
 import openCommentsInWkLayer from "./openCommentsInWkLayer";
 
 const handleReplyClick = (e: MouseEvent) => {
@@ -8,9 +7,6 @@ const handleReplyClick = (e: MouseEvent) => {
   }
   const target = e.target;
   if (!(target instanceof HTMLElement)) {
-    return;
-  }
-  if (isLinkInComment(target)) {
     return;
   }
   const postEl = getNearestPost(target);
