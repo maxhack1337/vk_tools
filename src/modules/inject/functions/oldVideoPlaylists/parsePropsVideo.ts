@@ -6,7 +6,7 @@ const parsePropsVideo = async (video: HTMLElement) => {
     if (videoFiber) {
       return videoFiber.fiber.return.memoizedProps;
     } else {
-      throw new Error("Invalid structure of rootProfile");
+      throw new Error("Invalid structure of video");
     }
   } catch (error) {
     console.error(error);

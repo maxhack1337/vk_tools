@@ -35,6 +35,6 @@ const toggleLayout = (element: Element) => {
       element.setSelectionRange(start || 0, start || 0 + convertedText.length);
     }
   }
-}
+};
 
 export default toggleLayout;
