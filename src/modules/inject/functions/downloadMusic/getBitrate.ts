@@ -40,7 +40,7 @@ const getBitrate = async (url: any, mode: string) => {
 
         const calculateBitrate = (dataSize: any, duration: any) => {
           const bitrate = Math.min(32 * Math.round(dataSize / 4096 / duration), 320);
-          const resultString = mode === 'normal' ? getBitrateSizeLang(vk.lang, bitrate, dataSize) : getBitrateSizeDivLang(vk.lang, bitrate, dataSize);
+          const resultString = mode === "normal" ? getBitrateSizeLang(vk.lang, bitrate, dataSize) : getBitrateSizeDivLang(vk.lang, bitrate, dataSize);
           resolvePromise(resultString);
         };
 
@@ -68,7 +68,7 @@ const getBitrate = async (url: any, mode: string) => {
 
     return await promise;
   } catch (error) {
-    console.error("[VK Tools] Error parsing track:", error);
+    console.error("[VK Tools Error] Error parsing track:", error);
     throw error;
   }
 };

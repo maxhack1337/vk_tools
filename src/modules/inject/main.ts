@@ -29,7 +29,6 @@ import downloadVideo from "./functions/downloadVideo/downloadVideo";
 import downloadAlbum from "./functions/downloadAlbum/downloadAlbum";
 import swapPhoto from "./functions/swapPhoto/swapPhoto";
 import downloadAudioMessage from "./functions/downloadAudioMessage/downloadAudioMessage";
-import graffityVoice from "./functions/graffityVoice/graffityVoice";
 import resetFunctionsOnInstall from "./install/resetFunctionsOnInstall";
 import oldFeed from "./functions/oldFeed/oldFeed";
 import downloadMusic from "./functions/downloadMusic/downloadMusic";
@@ -61,6 +60,7 @@ import { DEBUG_MODE } from "./constants";
 import createYtPlayer from "./functions/createYtPlayer/createYtPlayer";
 import ignoreReactErrorOnRemoveChild from "./functions/classicalProfile/scripts/spa/ignoreReactErrorOnRemoveChild";
 import feedPostLayerEnable from "./functions/openPostInWkLayer/feedPostLayerEnable";
+import initMenuActions from "./functions/graffityVoice/initMenuActions";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -550,7 +550,7 @@ deferredCallback(
     //Скачивание гс
     downloadAudioMessage();
     //Кнопки гс и граффити в мессенджере
-    graffityVoice();
+    initMenuActions();
     //Старый дизайн ленты и постов
     oldFeed();
     //Скачивание музыки

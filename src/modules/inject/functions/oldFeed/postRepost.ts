@@ -29,7 +29,7 @@ const postRepost = async (e: Element, postData: { postRaw: any } | undefined) =>
           postType = postInner.post_type;
           isCase = postType;
         } catch (error) {
-          console.error("[VKENH Error] Не удалось получить данные о репосте - не найдена дата репоста. Вероятнее всего, вы находитесь в режиме инкогнито");
+          console.error("[VK Tools Error] Не удалось получить данные о репосте - не найдена дата репоста. Вероятнее всего, вы находитесь в режиме инкогнито");
           repostData = { items: [{ date: 1 }] };
         }
       }
