@@ -1,7 +1,7 @@
 import DOMContentLoaded from "../../listeners/DOMContentLoaded";
 import listener from "../../oldPosting/listener";
-import { DEBUG_MODE } from "../../../constants";
 import waitNav from "./waitNav";
+import debugConsole from "../../../debugConsole";
 
 type CallbackFunc = (node: HTMLElement) => void;
 
@@ -13,7 +13,7 @@ const idleCallback = async () => await new Promise<IdleDeadline>((resolve) => re
 const reqAnimFrame = async () => await new Promise<DOMHighResTimeStamp>((resolve) => requestAnimationFrame(resolve));
 
 const onCallback = async (el: HTMLElement) => {
-  if (DEBUG_MODE) console.log(`[VK Tools] Added element with cmid ${el.getAttribute("data-itemkey")}`);
+  debugConsole(`[VK Tools] Added element with cmid ${el.getAttribute("data-itemkey")}`);
   for (const callback of interaction.listeners) {
     await idleCallback();
     callback(el);

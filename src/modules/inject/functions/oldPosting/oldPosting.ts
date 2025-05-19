@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import showSnackbar from "../../components/snackbar/snackbar";
+import debugConsole from "../../debugConsole";
 import deferredCallback from "../../defferedCallback";
+import subscribeNavLocationChange from "../listeners/subscribeNavLocationChange";
 import appendRefreshButton from "./appendRefreshButton";
+import onAttachArticleToPost from "./onAttachArticleToPost";
 import deferredCallbackNested from "./deferredCallbackNested";
 import exportVars from "./exportVars";
 import getNearestPost from "./getNearestPost";
@@ -65,6 +68,17 @@ const oldPosting = () => {
       { variable: "stManager" }
     );
 
+    deferredCallback(
+      () => {
+        subscribeNavLocationChange(() => {
+          if (localStorage.getItem("old_post_design") === "false") return;
+          debugConsole("[VK Tools] Navigation event intercepted");
+          styleForEditPost();
+        });
+      },
+      { variable: "nav" }
+    );
+
     deferredCallbackNested(
       (_wall) => {
         if (_wall.isAlreadyOld) return;
@@ -92,6 +106,15 @@ const oldPosting = () => {
           });
         }
       }
+    });
+
+    document.arrive('[onclick="cur.onAttachArticleToPost()"]', { existing: true }, (articleToPostButton) => {
+      articleToPostButton.removeAttribute("onclick");
+      articleToPostButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onAttachArticleToPost();
+      });
     });
   }
 };

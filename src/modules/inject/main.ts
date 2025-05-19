@@ -195,6 +195,7 @@ window.vkenh.curClassicalProfile = {};
 window.vkenh.loadingOverlay = showLoadingOverlay;
 window.vkenh.downloadAttaches = downloadAttaches;
 window.vkenh.downloadAllPhotos = downloadAllPhotosArchive;
+window.vkenh.currentArticle = {};
 
 convert(document);
 document.arrive(".ComposerInput__input", { existing: true }, function (e) {
@@ -575,7 +576,16 @@ deferredCallback(
           e[1].nick_name = "";
         }
       }
-      const t = orig_ajax.apply(this, e);
+      if ("al_articles.php" === e[0] && "save" === e[1].act) {
+        const origOnDone = e[2].onDone;
+        e[2].onDone = (e: any, t: any, s: any, res: any) => {
+          window.vkenh.currentArticle = res;
+          if (typeof origOnDone === "function") {
+            origOnDone(e, t, s, res);
+          }
+        };
+      }
+      let t = orig_ajax.apply(this, e);
       return t;
     };
   },

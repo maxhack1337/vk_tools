@@ -11,6 +11,7 @@ interface VKEnh {
   loadingOverlay?: any;
   downloadAllPhotos?: any;
   downloadAttaches?: any;
+  currentArticle?: any;
 }
 
 interface URL {
@@ -207,6 +208,9 @@ declare global {
   var __usedGlobals: any;
   var wkcur: any;
   var cancelEvent: any;
+  var Composer: any;
+  var SAKIntegration: any;
+  var ArticleLayer: any;
 
   namespace NodeJS {
     interface ProcessEnv {

@@ -1,5 +1,8 @@
 const innerStyleGet = () => {
   return `
+  		.PostHeader--redesignV3 .PostHeaderSubtitle {
+			font-size: 12.5px;
+		}
 	    .replies_short_text_name {
         	font-weight: 500!important;
         	-webkit-font-smoothing: subpixel-antialiased;

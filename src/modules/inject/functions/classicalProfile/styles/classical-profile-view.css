@@ -228,6 +228,10 @@ html.classicProfile body {
         display: none;
     }
 
+    .RecommendationBlockSkeleton {
+        display: none;
+    }
+
     /*.vkEnAudioRow {
 	position: fixed;
     width: 214px;
