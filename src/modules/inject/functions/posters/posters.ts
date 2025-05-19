@@ -19,6 +19,10 @@ const posters = () => {
     );
     if (!e.querySelector(".poster__placeholder")) e.append(ph);
   });
+
+  let caretPositionSelectors = [".poster__marker_start", ".poster__marker_end"];
+  document.arrive(caretPositionSelectors.join(","), { existing: true }, (e) => e.remove());
+
   document.arrive("#page_add_media > .media_selector", { existing: true }, async function (e) {
     createStyle(
       "poster",
@@ -30,40 +34,38 @@ const posters = () => {
             .submit_post_box.shown {
                #page_add_media > .media_selector {
                     display: flex !important;
-                    .fl_r:has(>.poster__open-btn-wrapper) {
-                        order: -1;
-                        .poster__open-btn-wrapper {
-                            margin-right: 0 !important;
-                        }
-                    }
                }
+            }
+
+            #submit_post_box:not(.shown):has(.poster__open-btn-wrapper) {
+              .page_add_media {
+                right: 43px!important;
+              }
+              .poster__open-btn-wrapper {
+                padding-left: 8px !important;
+              }
             }
                 
             .poster__input-msg:not(:empty) ~ .poster__placeholder {
                 opacity: 0;
+            }
+                
+            .poster__settings-btn-wrapper .PostOption {
+              margin-top: 0px!important;
             }`
     );
     await posterLogic();
-
-    let posters = document.createElement("a");
-    posters.classList.add("fl_r");
 
     let posterOpenBtnWrapper = document.createElement("div");
     posterOpenBtnWrapper.classList.add("poster__open-btn-wrapper", "poster");
     posterOpenBtnWrapper.id = "page_poster_btn";
     posterOpenBtnWrapper.style.cssText += `
-        display: block;
-        bottom: -2px;
-        padding-left: 6px;
-        width: 20px;
-        right: 6px;
-        margin-top: 0px;
-        position: relative;
+      display: inline-block;
     `;
 
     let posterBtnLayout = document.createElement("div");
     posterBtnLayout.classList.add("poster__open-btn-layout");
-    posterBtnLayout.style.marginLeft = "3px";
+    posterBtnLayout.style.marginLeft = "0px";
 
     let posterOpenBtn = document.createElement("div");
     posterOpenBtn.classList.add("poster__open-btn", "poster");
@@ -76,8 +78,9 @@ const posters = () => {
 
     posterBtnLayout.append(posterOpenBtn);
     posterOpenBtnWrapper.append(posterBtnLayout);
-    posters.append(posterOpenBtnWrapper);
-    if (!e.querySelector(".poster__open-btn-wrapper")) e.appendChild(posters);
+    let subPost = e.closest("#submit_post");
+    let pAddMedia = e.closest("#page_add_media");
+    if (!e.querySelector(".poster__open-btn-wrapper") && subPost) subPost.insertBefore(posterOpenBtnWrapper, pAddMedia);
   });
 };
 
