@@ -449,6 +449,18 @@ function applyStyles(styles: {
     stopLoadGraffity();
   }
 
+  if (!window.hasMessageListener) {
+    window.addEventListener("message", async (event) => {
+      switch (event.data.action?.messageAction) {
+        case "colorSchemeUpdated": {
+          applySavedStyles();
+          break;
+        }
+      }
+    });
+    window.hasMessageListener = true;
+  }
+
   if (styles.refreshFeed) {
     customMessage("refreshFeed", styles.refreshFeed);
   } else {

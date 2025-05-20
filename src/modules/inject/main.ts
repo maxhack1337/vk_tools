@@ -203,6 +203,15 @@ document.arrive(".ComposerInput__input", { existing: true }, function (e) {
 });
 
 deferredCallback(
+  () => {
+    colorScheme.subscribe(() => {
+      customMessage("colorSchemeUpdated");
+    });
+  },
+  { variable: "colorScheme" }
+);
+
+deferredCallback(
   async (_vk: any) => {
     //Баннеры в сообществе VK Tools
     createVkToolsBanners();

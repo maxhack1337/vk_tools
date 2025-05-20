@@ -211,6 +211,7 @@ declare global {
   var Composer: any;
   var SAKIntegration: any;
   var ArticleLayer: any;
+  var hasMessageListener: any;
 
   namespace NodeJS {
     interface ProcessEnv {
