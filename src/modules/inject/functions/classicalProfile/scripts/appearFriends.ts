@@ -79,7 +79,7 @@ const appearFriends = () => {
       const randomFriends = friends.items.sort(() => 0.5 - Math.random()).slice(0, 6);
       randomFriends.forEach((friend: { domain: any; photo_100: any; online: number; first_name: any; online_mobile: number }) => {
         const friendItem = document.createElement("div");
-        friendItem.classList.add("vkuiHorizontalCell__host", "vkuiHorizontalCell__sizeS", "vkuiHorizontalCell__sized", "vkuiHorizontalCell__noPadding");
+        friendItem.classList.add("vkuiHorizontalCell__host", "vkuiHorizontalCell__sizeS", "vkuiHorizontalCell__sized", "vkuiHorizontalCell__noPadding", "ProfileFriends__item");
         friendItem.innerHTML = `
             <a href="/${friend.domain}" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
                 <div class="vkuiHorizontalCell__image">
@@ -149,7 +149,7 @@ const appearFriends = () => {
             .slice(0, 3)
             .forEach((onlineFriend: { domain: any; photo_100: any; first_name: any; online: number; online_mobile: number }) => {
               const friendItem = document.createElement("div");
-              friendItem.classList.add("vkuiHorizontalCell__host", "vkuiHorizontalCell__sizeS", "vkuiHorizontalCell__sized", "vkuiHorizontalCell__noPadding");
+              friendItem.classList.add("vkuiHorizontalCell__host", "vkuiHorizontalCell__sizeS", "vkuiHorizontalCell__sized", "vkuiHorizontalCell__noPadding", "ProfileFriends__item");
               friendItem.innerHTML = `
                 <a href="/${onlineFriend.domain}" class="vkuiHorizontalCell__body vkuiTappable vkuiInternalTappable vkuiTappable--hasHover vkuiTappable--hasActive vkui-focus-visible vkEnhancerFriend">
                     <div class="vkuiHorizontalCell__image">
@@ -227,7 +227,7 @@ const appearFriends = () => {
 
         commonFriends.slice(0, 3).forEach((commonFriend: { domain: any; photo_100: any; first_name: any; online: number; online_mobile: number }) => {
           const friendItem = document.createElement("div");
-          friendItem.classList.add("vkuiHorizontalCell__host", "vkuiHorizontalCell__sizeS", "vkuiHorizontalCell__sized", "vkuiHorizontalCell__noPadding", "ProfileFriends__item", "HorizontalCell-module__root--XStwI", "HorizontalCell-module__rootSizeS--JwyO0");
+          friendItem.classList.add("vkuiHorizontalCell__host", "vkuiHorizontalCell__sizeS", "vkuiHorizontalCell__sized", "vkuiHorizontalCell__noPadding", "ProfileFriends__item");
           friendItem.innerHTML = `
             <a href="/${commonFriend.domain}" class="vkuiHorizontalCell__body vkuiInternalTappable vkuiTappable__host vkuiTappable__hasPointerNone vkuiClickable__host vkuiClickable__realClickable vkuistyles__-focus-visible vkuiRootComponent__host vkEnhancerFriend">
                 <div class="vkuiHorizontalCell__image">

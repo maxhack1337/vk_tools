@@ -20,7 +20,7 @@ const friendsBlock = () => {
     </div>
   </div>
   <div class="ProfileGroupHorizontalCells">
-    <div class="vkuiHorizontalCell__host vkuiHorizontalCell__sizeS vkuiHorizontalCell__sized vkuiHorizontalCell__noPadding ProfileFriends__item HorizontalCell-module__root--XStwI HorizontalCell-module__rootSizeS--JwyO0">
+    <div class="vkuiHorizontalCell__host vkuiHorizontalCell__sizeS vkuiHorizontalCell__sized vkuiHorizontalCell__noPadding">
       <div class="vkuiHorizontalCell__body vkuiInternalTappable vkuiTappable__host vkuiTappable__hasPointerNone vkuiClickable__host vkuiClickable__realClickable vkuistyles__-focus-visible vkuiRootComponent__host vkEnhancerFriend">
         <div class="vkuiHorizontalCell__image">
           <div class="vkuiAvatar__host vkuiInternalRichAvatar vkuiImageBase__host vkuiImageBase__loaded vkuiClickable__host vkuiRootComponent__host" style="width: 52px; height: 52px;">
