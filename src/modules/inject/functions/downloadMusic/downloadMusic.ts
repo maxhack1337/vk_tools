@@ -68,7 +68,12 @@ const downloadMusic = () => {
 
   document.arrive(".top_audio_player", { fireOnAttributesModification: true }, (e) => {
     let el = e as HTMLElement;
-    if (el.classList.contains("top_audio_player_enabled")) appendTopPlayerButton(el);
+    if (el.classList.contains("top_audio_player_enabled")) appendTopPlayerButton(el, true);
+  });
+
+  /*top audio player react*/
+  document.arrive("#web_spa_top_audio_player", { existing: true }, (topPlayer) => {
+    appendTopPlayerButton(topPlayer as HTMLElement, false);
   });
 };
 
