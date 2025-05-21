@@ -1,12 +1,4 @@
-const createMenuActionButton = ({
-  iconSvgElement,
-  title,
-  buttonClass,
-}: {
-  iconSvgElement: string; // SVG пути <path>...<path>
-  title: string;
-  buttonClass: string;
-}): HTMLAnchorElement => {
+const createMenuActionButton = ({ iconSvgElement, title, buttonClass, viewBox, width, height }: { iconSvgElement: string; title: string; buttonClass: string; viewBox: string; width: string; height: string }): HTMLAnchorElement => {
   const anchor = document.createElement("a");
   anchor.style.textDecoration = "none";
 
@@ -17,11 +9,11 @@ const createMenuActionButton = ({
   svgElement.setAttribute("aria-hidden", "true");
   svgElement.setAttribute("display", "block");
   svgElement.classList.add("vkuiIcon", "vkuiIcon--20", "vkuiIcon--w-20", "vkuiIcon--h-20", "vkuiIcon--money_transfer_outline_20");
-  svgElement.setAttribute("viewBox", "0 0 20 20");
-  svgElement.setAttribute("width", "20");
-  svgElement.setAttribute("height", "20");
-  svgElement.style.width = "20px";
-  svgElement.style.height = "20px";
+  svgElement.setAttribute("viewBox", viewBox);
+  svgElement.setAttribute("width", width);
+  svgElement.setAttribute("height", height);
+  svgElement.style.width = `${width}px`;
+  svgElement.style.height = `${height}px`;
 
   svgElement.innerHTML = iconSvgElement;
 
