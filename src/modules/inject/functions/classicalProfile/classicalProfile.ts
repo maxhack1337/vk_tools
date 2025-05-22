@@ -13,7 +13,7 @@ import expandMore from "./scripts/expandMore";
 import getUserData from "./scripts/getUserData";
 import profileGroup from "./scripts/profileGroups";
 import removeStyle from "./scripts/removeStyle";
-import replaceTabsWithPhotosModule from "./scripts/replaceTabsWithPhotosModule";
+import replaceTabsWithPhotosModule from "./scripts/photoModule/replaceTabsWithPhotosModule";
 import giftButton from "./scripts/skeleton/giftButton";
 import profileShort from "./scripts/skeleton/profileShort";
 import getUserDataSpa from "./scripts/spa/getUserDataSpa";

@@ -502,6 +502,13 @@ html.classicProfile body {
 
     .photos_choose_upload_area_dropvkEnhancer {
         display: none;
+        padding: 11px;
+        margin: 11px;
+        border-radius: 8px;
+    }
+
+    .photos_choose_upload_area_dropvkEnhancer.drag-over {
+        background: var(--vkui--color_transparent--hover);
     }
 
     .ProfileHeader:has(>.ProfileHeader__in a[href="/edit"]) {

@@ -1,29 +1,30 @@
-import fromId from "../../../../content/fromId";
-import { escapeHtml } from "../../../escapeHtml";
-import getId from "../../middleName/getId";
-import { IS_SPA } from "./constants";
-import getLangTime from "./getLangTime";
-import getMyPhotoText from "./getMyPhotoText";
-import getPhotoMapText from "./getPhotoMapText";
-import getStoryText from "./getStoryText";
-import getUserDataPhoto from "./getUserDataPhoto";
-import getUserDataReact from "./getUserDataReact";
-import getUserStoriesReact from "./getUserStoriesReact";
-import getUserDataReactSpa from "./spa/getUserDataReactSpa";
-import getUserStoriesReactSpa from "./spa/getUserStoriesReactSpa";
+import fromId from "../../../../../content/fromId";
+import { escapeHtml } from "../../../../escapeHtml";
+import getId from "../../../middleName/getId";
+import { IS_SPA } from "../constants";
+import getLangTime from "../getLangTime";
+import getMyPhotoText from "../getMyPhotoText";
+import getPhotoMapText from "../getPhotoMapText";
+import getStoryText from "../getStoryText";
+import getUserDataPhoto from "../getUserDataPhoto";
+import getUserDataReact from "../getUserDataReact";
+import getUserStoriesReact from "../getUserStoriesReact";
+import photosLoadModule from "./photosLoadModule";
+import getUserDataReactSpa from "../spa/getUserDataReactSpa";
+import getUserStoriesReactSpa from "../spa/getUserStoriesReactSpa";
 
 const replaceTabsWithPhotosModule = async () => {
   let section = document.querySelector("section.vkuiInternalGroup:has(>.OwnerContentTabs)");
 
   if (!section) {
-    console.error("Элемент section не найден");
+    console.error("[VK Tools Error] PhotoModule: Элемент section не найден");
     return;
   }
   section.classList.add("vkToolsNoSeparator");
   let tabs = section.querySelector(".OwnerContentTabs");
 
   if (!tabs) {
-    console.error("Элемент OwnerContentTabs не найден");
+    console.error("[VK Tools Error] PhotoModule: Элемент OwnerContentTabs не найден");
     return;
   }
 
@@ -50,7 +51,7 @@ const replaceTabsWithPhotosModule = async () => {
 
   let photosModule = document.createElement("div");
   let ownerId = await getId();
-  photosModule.classList.add("module", "clear", "photos_module");
+  photosModule.classList.add("module", "clear", "photos_module", "vkToolsPhotoModule");
   photosModule.id = "profile_photos_module";
   let photodata = await vkApi.api("photos.getAll", {
     owner_id: ownerId,
@@ -85,7 +86,7 @@ const replaceTabsWithPhotosModule = async () => {
   d.textContent = getPhotoMapText(vk.lang);
   photosModule?.querySelector(".header_top")?.appendChild(d);
   if (!photodata || !photodata.items) {
-    console.error("Данные фотографий не найдены");
+    console.error("[VK Tools Error] PhotoModule: Данные фотографий не найдены");
     return;
   }
 
@@ -103,7 +104,7 @@ const replaceTabsWithPhotosModule = async () => {
     photoElement.onclick = (event) => {
       event.preventDefault();
       event.stopPropagation();
-      if (showPhoto) showPhoto(photoId, `photos(${oid})`, {});
+      if (showPhoto) showPhoto(photoId, `photo_feed${oid}`, {});
     };
 
     photoElement.style.backgroundImage = `url(${photoLink})`;
@@ -169,26 +170,9 @@ const replaceTabsWithPhotosModule = async () => {
     pagePhotosModule?.prepend(storyElement);
   }
   ///КОНЕЦ ИСТОРИЙ В КЛАССИК ПРОФИЛЕ///
-  let photosLoadModule = document.createElement("section");
-  photosLoadModule.classList.add("vkEnhancerLoadPhotoModule");
-  photosLoadModule.innerHTML = `
-	 <a id="photos_choose_upload_area_vkEnhancer" class="photos_choose_upload_area" title="${getLang?.("market_drop_to_upload")}" style="display: block;" onclick="cur.meUploadPhoto ? cur.meUploadPhoto() : document.querySelector('.ProfileTabsPhotoUploadInput').click();">
-    <div class="photos_choose_upload_area_uploadvkEnhancer">
-	  <svg fill="none" height="32" viewBox="0 0 56 56" width="32" xmlns="http://www.w3.org/2000/svg"><clipPath id="camera_outline_56__a"><path d="M0 0h56v56H0z"></path></clipPath><g clip-path="url(#camera_outline_56__a)" clip-rule="evenodd" fill="currentColor" fill-rule="evenodd"><path d="M19.08 6.66A4.74 4.74 0 0 1 22 5.5h12c1.21 0 2.21.6 2.92 1.16a12.69 12.69 0 0 1 2.27 2.44l.98 1.23c.13.16.48.42 1.09.63.57.21 1.22.32 1.74.32h1c2.45 0 4.5 1.27 5.87 3.14A11.86 11.86 0 0 1 52 21.44h-3c0-2.12-.6-3.97-1.54-5.24A4.27 4.27 0 0 0 44 14.28h-1c-.89 0-1.87-.18-2.75-.49-.85-.3-1.8-.8-2.42-1.59l-1.02-1.27-.33-.42a50.36 50.36 0 0 0-.12-.15c-.4-.49-.84-.98-1.31-1.36-.49-.38-.83-.5-1.05-.5H22c-.22 0-.56.12-1.05.5a9.84 9.84 0 0 0-1.33 1.39l-.1.12-.33.42-1.02 1.27a5.42 5.42 0 0 1-2.42 1.6c-.88.3-1.86.48-2.75.48h-1c-1.32 0-2.53.67-3.46 1.92A8.88 8.88 0 0 0 7 21.44H4c0-2.67.76-5.16 2.13-7.02A7.26 7.26 0 0 1 12 11.28h1c.52 0 1.17-.11 1.74-.32.61-.21.96-.47 1.09-.63l.98-1.23.53-.67c.41-.49 1.02-1.2 1.74-1.77zM17 46.5V45h21c4.72 0 6.88-1.09 8.5-2.82.66-.7 1.24-1.7 1.73-2.8.35-.78.56-1.84.66-2.9.1-1.05.11-1.99.11-2.48V21.44h3V34c0 .5 0 1.56-.12 2.76a12.73 12.73 0 0 1-3.18 7.45C46.34 46.74 43.28 48 38 48H17zm-9.72-2.3a11.69 11.69 0 0 1-2.3-3.63c-.38-.9-.6-2.35-.75-3.53A30.5 30.5 0 0 1 4 34V21.44h3V34c0 .42.07 1.5.2 2.68.15 1.22.35 2.28.55 2.75.43 1.04 1.02 2 1.72 2.72l.05.05.04.05a7.25 7.25 0 0 0 3.2 2.01c1.38.5 2.9.74 4.24.74v3c-1.67 0-3.54-.3-5.25-.91a10.25 10.25 0 0 1-4.47-2.89z"></path><path d="M18 28a10 10 0 1 1 20 0 10 10 0 0 1-20 0zm10-7a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"></path></g></svg>
-      <span id="photos_choose_upload_area_labelvkEnhancer" class="photos_choose_upload_area_label">
-        ${getLang?.("stories_create_add_photo")}
-      </span>
-    </div>
-    <div class="photos_choose_upload_area_dropvkEnhancer">
-      <div class="photos_choose_upload_area_drop_label">
-        <svg fill="none" height="56" viewBox="0 0 56 56" width="56" xmlns="http://www.w3.org/2000/svg"><clipPath id="camera_outline_56__a"><path d="M0 0h56v56H0z"></path></clipPath><g clip-path="url(#camera_outline_56__a)" clip-rule="evenodd" fill="currentColor" fill-rule="evenodd"><path d="M19.08 6.66A4.74 4.74 0 0 1 22 5.5h12c1.21 0 2.21.6 2.92 1.16a12.69 12.69 0 0 1 2.27 2.44l.98 1.23c.13.16.48.42 1.09.63.57.21 1.22.32 1.74.32h1c2.45 0 4.5 1.27 5.87 3.14A11.86 11.86 0 0 1 52 21.44h-3c0-2.12-.6-3.97-1.54-5.24A4.27 4.27 0 0 0 44 14.28h-1c-.89 0-1.87-.18-2.75-.49-.85-.3-1.8-.8-2.42-1.59l-1.02-1.27-.33-.42a50.36 50.36 0 0 0-.12-.15c-.4-.49-.84-.98-1.31-1.36-.49-.38-.83-.5-1.05-.5H22c-.22 0-.56.12-1.05.5a9.84 9.84 0 0 0-1.33 1.39l-.1.12-.33.42-1.02 1.27a5.42 5.42 0 0 1-2.42 1.6c-.88.3-1.86.48-2.75.48h-1c-1.32 0-2.53.67-3.46 1.92A8.88 8.88 0 0 0 7 21.44H4c0-2.67.76-5.16 2.13-7.02A7.26 7.26 0 0 1 12 11.28h1c.52 0 1.17-.11 1.74-.32.61-.21.96-.47 1.09-.63l.98-1.23.53-.67c.41-.49 1.02-1.2 1.74-1.77zM17 46.5V45h21c4.72 0 6.88-1.09 8.5-2.82.66-.7 1.24-1.7 1.73-2.8.35-.78.56-1.84.66-2.9.1-1.05.11-1.99.11-2.48V21.44h3V34c0 .5 0 1.56-.12 2.76a12.73 12.73 0 0 1-3.18 7.45C46.34 46.74 43.28 48 38 48H17zm-9.72-2.3a11.69 11.69 0 0 1-2.3-3.63c-.38-.9-.6-2.35-.75-3.53A30.5 30.5 0 0 1 4 34V21.44h3V34c0 .42.07 1.5.2 2.68.15 1.22.35 2.28.55 2.75.43 1.04 1.02 2 1.72 2.72l.05.05.04.05a7.25 7.25 0 0 0 3.2 2.01c1.38.5 2.9.74 4.24.74v3c-1.67 0-3.54-.3-5.25-.91a10.25 10.25 0 0 1-4.47-2.89z"></path><path d="M18 28a10 10 0 1 1 20 0 10 10 0 0 1-20 0zm10-7a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"></path></g></svg>
-        <div class="photos_choose_upload_area_drop_label_tex">${getLang?.("market_drop_to_upload")}</div>
-      </div>
-    </div>
-  </a>`;
-  let inserBeforeThis = document.querySelector(".WallLegacy");
-  if (ownerId === vk.id) {
-    section.parentElement?.insertBefore(photosLoadModule, inserBeforeThis);
+  if (ownerId === vk.id && !document.querySelector(".vkEnhancerLoadPhotoModule")) {
+    let inserBeforeThis = document.querySelector(".WallLegacy");
+    section.parentElement?.insertBefore(photosLoadModule(), inserBeforeThis);
     let moduleQuery = photosModule.querySelector(".header_label");
     if (moduleQuery) moduleQuery.textContent = getMyPhotoText(vk.lang);
   }

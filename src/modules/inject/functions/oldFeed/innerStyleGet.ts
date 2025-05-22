@@ -1,5 +1,16 @@
 const innerStyleGet = () => {
   return `
+  
+		.media_link__label {
+			display: flex!important;
+			box-sizing: border-box!important;
+			overflow: hidden!important;
+			padding: 10px 15px 11px 15px!important;
+			border: 1px solid var(--vkui--vkontakte_color_snippet_border_alpha)!important;
+			background-color: var(--vkui--vkontakte_color_snippet_background)!important;
+			border-top: 0!important;
+			border-radius: 0 0 2px 2px!important;
+		}
   		.PostHeader--redesignV3 .PostHeaderSubtitle {
 			font-size: 12.5px;
 		}
