@@ -150,7 +150,7 @@ const photosLoadModule = () => {
     divDrop.classList.remove("drag-over");
   });
 
-  document.body.addEventListener(
+  divDrop.addEventListener(
     "drop",
     async (e) => {
       e.preventDefault();
