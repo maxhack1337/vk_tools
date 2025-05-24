@@ -1,5 +1,6 @@
 import dropToUploadLang from "../dropToUploadLang";
 import { allowedTypes } from "./allowedTypes";
+import isDragAndDropAvailable from "./isDragAndDropAvailable";
 import photoUploadError from "./photoUploadError";
 import photoUploadSuccess from "./photoUploadSuccess";
 import replaceTabsWithPhotosModule from "./replaceTabsWithPhotosModule";
@@ -119,6 +120,8 @@ const photosLoadModule = () => {
   let dragAndDropMode = false;
 
   const enableDragAndDrop = () => {
+    if (!isDragAndDropAvailable()) return;
+    if (!divDrop || !divUpload) return;
     dragAndDropMode = true;
     divDrop.style.display = "block";
     divUpload.style.display = "none";
@@ -223,6 +226,7 @@ const photosLoadModule = () => {
   document.addEventListener("dragleave", (e) => {
     if (e.relatedTarget === null) {
       dragAndDropMode = false;
+      if (!divDrop || !divUpload) return;
       divDrop.style.display = "none";
       divUpload.style.display = "flex";
       divDrop.classList.remove("drag-over");

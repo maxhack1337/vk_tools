@@ -141,7 +141,7 @@ export interface Notifier {
 }
 
 declare global {
-  var browser: typeof globalThis.chrome;
+  var browser: any;
   var noAdsAtAll: boolean;
   var vkenh: VKEnh;
   var Feed: Feed;
@@ -212,6 +212,7 @@ declare global {
   var SAKIntegration: any;
   var ArticleLayer: any;
   var hasMessageListener: any;
+  var floatval: any;
 
   namespace NodeJS {
     interface ProcessEnv {
