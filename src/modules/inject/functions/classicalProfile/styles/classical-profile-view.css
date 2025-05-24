@@ -493,6 +493,12 @@ html.classicProfile body {
         display: inline-block;
     }
 
+    .vkToolsOnlineFriendBadge {
+        transform: none !important;
+        bottom: 2% !important;
+        right: 2% !important;
+    }
+
     .photos_choose_upload_area_uploadvkEnhancer {
         padding: 22px;
         display: flex;
@@ -889,6 +895,11 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         width: 160px;
         background-color: var(--vkui--color_text_accent_themed);
         color: var(--vkui--color_text_contrast_themed);
+    }
+
+    .ProfileHeaderButton>a:has(>span>span>svg.vkuiIcon--message_outline_20):hover,
+    .ProfileHeaderButton>a[href*="/im"]:hover {
+        background-color: var(--vkui--color_background_accent_themed--hover)!important;
     }
 
     .ProfileHeaderActions__buttons:has(>.ProfileHeaderButton>a>span>span>svg.vkuiIcon--message_outline_20)>.ProfileGifts__all,

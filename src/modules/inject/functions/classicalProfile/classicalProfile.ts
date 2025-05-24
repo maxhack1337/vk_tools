@@ -1,8 +1,7 @@
-import antiDeferredCallback from "../../antiDefferedCallback";
 import getId from "../middleName/getId";
 import addCounters from "./scripts/addCounters";
 import addPlaceholder from "./scripts/addPlaceholder";
-import appearFriends from "./scripts/appearFriends";
+import appearFriends from "./scripts/friends/appearFriends";
 import appearStarts from "./scripts/appearStarts";
 import appearVariable from "./scripts/appearVariable";
 import appendActivityText from "./scripts/appendActivityText";
@@ -19,6 +18,7 @@ import profileShort from "./scripts/skeleton/profileShort";
 import getUserDataSpa from "./scripts/spa/getUserDataSpa";
 import "./styles/classical-profile-view.css";
 import classicButtons from "./styles/classicButtons";
+import friendsBlock from "./scripts/skeleton/friendsBlock";
 
 let cachedGroupInfo: any = {};
 
@@ -67,11 +67,14 @@ const classicalProfile = () => {
       document.querySelector("html")!.classList.add("classicProfile");
       classicButtons();
       if (cur.oid !== vk.id) giftButton();
+      let scrollStickyDiv = document.querySelector(".ScrollStickyWrapper > div");
+      scrollStickyDiv?.prepend(friendsBlock());
       profileShort();
       let objectId1 = await getId();
       let userData = IS_SPA ? await getUserDataSpa(objectId1) : await getUserData(objectId1);
       let activityText = userData.activity;
       appendActivityText(activityText);
+      await appearFriends(userData);
       await appearStarts(userData);
       if (userData?.blacklisted !== 1 && !userData.deactivated && !userData.is_service && !userData.hidden) {
         removeStyle("classicalProfilesDELETED");
@@ -91,7 +94,7 @@ const classicalProfile = () => {
       } else {
         try {
           let pMoreInfo = document.querySelector(".profile_more_info") as HTMLElement;
-          pMoreInfo.style.display = "none";
+          if (pMoreInfo) pMoreInfo.style.display = "none";
         } catch (e) {
           console.log("[VK Tools Error] Classic profile error", e);
         }
@@ -173,16 +176,6 @@ const classicalProfile = () => {
     });
   });
 
-  document.arrive("#react_rootprofile > .vkuiAppRoot", { existing: true }, () => {
-    antiDeferredCallback(
-      () => {
-        console.info("[VK Tools] State changed. Reloading");
-        nav.reload();
-      },
-      { element: "#react_rootprofile > .vkuiAppRoot" }
-    );
-  });
-
   document.arrive(".imReadyForShowingFriends", { existing: true }, async function (e) {
     if (friendsSection !== null && imReady && vkenh.curClassicalProfile?.id?.toString() === e.id) {
       document.querySelector(".ScrollStickyWrapper > div")?.prepend(friendsSection);
@@ -206,8 +199,6 @@ const classicalProfile = () => {
       console.log("[VK Tools Error] Classic profile error", e);
     }
   });
-
-  appearFriends();
 
   document.arrive(".label.fl_l", { existing: true }, async function () {
     appearVariable();
