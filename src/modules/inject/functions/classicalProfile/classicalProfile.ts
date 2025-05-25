@@ -1,4 +1,3 @@
-import getId from "../middleName/getId";
 import addCounters from "./scripts/addCounters";
 import addPlaceholder from "./scripts/addPlaceholder";
 import appearFriends from "./scripts/friends/appearFriends";
@@ -6,10 +5,8 @@ import appearStarts from "./scripts/appearStarts";
 import appearVariable from "./scripts/appearVariable";
 import appendActivityText from "./scripts/appendActivityText";
 import buttonRun from "./scripts/buttonRun";
-import { IS_SPA } from "./scripts/constants";
 import createStyle from "./scripts/createStyle";
 import expandMore from "./scripts/expandMore";
-import getUserData from "./scripts/getUserData";
 import profileGroup from "./scripts/profileGroups";
 import removeStyle from "./scripts/removeStyle";
 import replaceTabsWithPhotosModule from "./scripts/photoModule/replaceTabsWithPhotosModule";
@@ -86,8 +83,7 @@ const classicalProfile = () => {
       let scrollStickyDiv = document.querySelector(".ScrollStickyWrapper > div");
       scrollStickyDiv?.prepend(friendsBlock());
       profileShort();
-      let objectId1 = await getId();
-      let userData = IS_SPA ? await getUserDataSpa(objectId1) : await getUserData(objectId1);
+      let userData = await getUserDataSpa();
       let activityText = userData.activity;
       appendActivityText(activityText);
       await appearFriends(userData);
@@ -102,7 +98,7 @@ const classicalProfile = () => {
         addCounters(userData, userData.counters);
         appearVariable();
         if (vk.id !== userData.id) {
-          buttonRun();
+          buttonRun(userData.id);
         }
         preloadGroupInfo(userData);
         preloadCityInfo(userData);

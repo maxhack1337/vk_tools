@@ -1,9 +1,8 @@
 import { escapeHtml } from "../../../../escapeHtml";
-import getId from "../../../middleName/getId";
 
 const appearFriends = async (userdata: any) => {
   imReady = false;
-  let objectId1 = await getId();
+  let objectId1 = userdata.id || 0;
   let friends;
   let frenCount = { count: 0 };
   if ((!userdata.is_closed || userdata.can_access_closed) && userdata.blacklisted !== 1 && !userdata.deactivated) {
@@ -116,7 +115,10 @@ const appearFriends = async (userdata: any) => {
         count: 3,
         order: "random",
       });
-      const countOnline = onlineFriends.total_count || 0;
+      const countOnlineFetch = await vkApi.api("friends.getOnline", {
+        user_id: vk.id,
+      });
+      const countOnline = countOnlineFetch.length || 0;
       if (countOnline > 0) {
         const onlineFriendsHeader = document.createElement("a");
         onlineFriendsHeader.href = `/friends?id=${vk.id}&section=online`;

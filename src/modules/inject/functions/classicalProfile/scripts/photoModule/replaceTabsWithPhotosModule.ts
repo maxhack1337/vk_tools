@@ -1,14 +1,11 @@
 import fromId from "../../../../../content/fromId";
 import { escapeHtml } from "../../../../escapeHtml";
 import getId from "../../../middleName/getId";
-import { IS_SPA } from "../constants";
 import getLangTime from "../getLangTime";
 import getMyPhotoText from "../getMyPhotoText";
 import getPhotoMapText from "../getPhotoMapText";
 import getStoryText from "../getStoryText";
 import getUserDataPhoto from "../getUserDataPhoto";
-import getUserDataReact from "../getUserDataReact";
-import getUserStoriesReact from "../getUserStoriesReact";
 import photosLoadModule from "./photosLoadModule";
 import getUserDataReactSpa from "../spa/getUserDataReactSpa";
 import getUserStoriesReactSpa from "../spa/getUserStoriesReactSpa";
@@ -115,8 +112,8 @@ const replaceTabsWithPhotosModule = async () => {
   });
   ///ИСТОРИИ В КЛАССИК ПРОФИЛЕ///
 
-  let ownerStory = IS_SPA ? await getUserDataReactSpa() : await getUserDataReact();
-  let stories = IS_SPA ? await getUserStoriesReactSpa() : await getUserStoriesReact();
+  let ownerStory = await getUserDataReactSpa();
+  let stories = await getUserStoriesReactSpa();
   if (stories.count > 0) {
     let storyElement = document.createElement("a");
     storyElement.setAttribute("onclick", `showStory('/owner_feed${ownerStory.id}', {source: 'post_avatar'});`);

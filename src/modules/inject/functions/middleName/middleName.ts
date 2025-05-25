@@ -1,11 +1,9 @@
 import fromId from "../../../content/fromId";
 import deferredCallback from "../../defferedCallback";
 import getLocalValue from "../../getLocalValue";
-import { IS_SPA } from "../classicalProfile/scripts/constants";
 import getUserMiddleNameSpa from "../classicalProfile/scripts/spa/getUserMiddleNameSpa";
 import getId from "./getId";
 import getMiddleLang from "./getMiddleLang";
-import getUserMiddleName from "./getUserMiddleName";
 
 const middleName = () => {
   if (getLocalValue("isMiddleName")) {
@@ -54,7 +52,7 @@ const middleName = () => {
       }
       styleElement.id = "vken_expand_username";
       let objectId = await getId();
-      let userDataMiddle = IS_SPA ? await getUserMiddleNameSpa(objectId) : await getUserMiddleName(objectId);
+      let userDataMiddle = await getUserMiddleNameSpa(objectId);
       if (typeof userDataMiddle === "string" && userDataMiddle && userDataMiddle !== "") {
         let ownerNameElement = document.querySelector(".OwnerPageName");
         let ownerName = ownerNameElement?.firstChild?.textContent?.trim();

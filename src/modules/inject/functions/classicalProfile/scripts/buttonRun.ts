@@ -1,16 +1,10 @@
-import { IS_SPA } from "./constants";
-import getUserDataReact from "./getUserDataReact";
-import getUserDataReactSpa from "./spa/getUserDataReactSpa";
-
-const buttonRun = () => {
+const buttonRun = (objectId: Number) => {
   let count = 0;
   let interval = setInterval(async function () {
     if (count >= 1) {
       clearInterval(interval);
       return;
     }
-    let response = IS_SPA ? await getUserDataReactSpa() : await getUserDataReact();
-    let objectId = response.id;
 
     let newElement = document.createElement("div");
     newElement.className = "ProfileGifts__all";
