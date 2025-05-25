@@ -60,6 +60,22 @@ async function preloadCityInfo(userData: any) {
   }
 }
 
+let cachedRelativesInfo: any = {};
+
+async function preloadRelatives(userData: any) {
+  if (userData.relatives && userData.relatives.length > 0) {
+    userData.relatives.forEach(async (relative: { id: string | number }) => {
+      if (relative.id) {
+        const relativeData = await vkApi.api("users.get", { user_ids: relative.id });
+        if (relativeData[0]) {
+          const name = `${relativeData[0].first_name} ${relativeData[0].last_name}`;
+          cachedRelativesInfo[relative.id] = name;
+        }
+      }
+    });
+  }
+}
+
 const classicalProfile = () => {
   if (!localStorage.getItem("isClassicalProfileDesign") || localStorage.getItem("isClassicalProfileDesign") === "false") return;
   document.arrive("#profile_redesigned", { existing: true }, async function () {
@@ -90,7 +106,8 @@ const classicalProfile = () => {
         }
         preloadGroupInfo(userData);
         preloadCityInfo(userData);
-        expandMore(cachedCityInfo, cachedGroupInfo, userData);
+        preloadRelatives(userData);
+        expandMore(cachedRelativesInfo, cachedCityInfo, cachedGroupInfo, userData);
       } else {
         try {
           let pMoreInfo = document.querySelector(".profile_more_info") as HTMLElement;
