@@ -5,7 +5,7 @@ const appearFriends = async (userdata: any) => {
   imReady = false;
   let objectId1 = await getId();
   let friends;
-  let frenCount = 0;
+  let frenCount = { count: 0 };
   if ((!userdata.is_closed || userdata.can_access_closed) && userdata.blacklisted !== 1 && !userdata.deactivated) {
     try {
       friends = await vkApi.api("friends.get", {
@@ -14,11 +14,14 @@ const appearFriends = async (userdata: any) => {
         count: 6,
         order: "random",
       });
-      frenCount = friends.count || 0;
+      frenCount = await vkApi.api("friends.get", {
+        user_id: userdata.id,
+        count: 1,
+      });
     } catch (error) {}
   }
   let frensBlock = document.querySelector(".ProfileFriends") as HTMLElement;
-  if ((frenCount > 0 && frensBlock?.style.display === "none") || (frenCount > 0 && !frensBlock)) {
+  if ((frenCount.count > 0 && frensBlock?.style.display === "none") || (frenCount.count > 0 && !frensBlock)) {
     friendsSection = document.createElement("section");
     friendsSection.classList.add("vkuiInternalGroup", "vkuiGroup", "vkuiGroup--mode-card", "vkuiInternalGroup--mode-card", "vkuiGroup--padding-m", "vkuiInternalGroupCard", "ProfileFriends", "vkEnhancerProfileFriends", "vkuiGroup__modeCard");
     aHrefSectionFrens = document.createElement("a");
@@ -49,7 +52,7 @@ const appearFriends = async (userdata: any) => {
       `</div>
                             </div>
                         </span>
-                        <span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${frenCount}</span>
+                        <span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${frenCount.count}</span>
                     </div>
                 </div>
                 <span class="vkuiTypography vkuiHeader__aside vkuiParagraph"></span>
