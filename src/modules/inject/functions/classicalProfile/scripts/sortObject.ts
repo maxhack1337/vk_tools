@@ -1,17 +1,17 @@
 const sortObject = (obj: { [key: string]: any }, order: string[]) => {
-    let sorted: { [key: string]: any } = {}; // Указываем тип для sorted
-    order.forEach((key) => {
-        if (obj.hasOwnProperty(key)) {
-            sorted[key] = obj[key];
-            delete obj[key];
-        }
-    });
-    for (let key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            sorted[key] = obj[key];
-        }
+  let sorted: { [key: string]: any } = {};
+  order.forEach((key) => {
+    if (obj.hasOwnProperty(key)) {
+      sorted[key] = obj[key];
+      delete obj[key];
     }
-    return sorted;
-}
+  });
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      sorted[key] = obj[key];
+    }
+  }
+  return sorted;
+};
 
 export default sortObject;

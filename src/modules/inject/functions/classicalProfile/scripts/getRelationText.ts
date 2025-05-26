@@ -1,5 +1,5 @@
 import formatRelationName from "./formatRelationName";
-import getUserDataWithoutOnline from "./getUserDataWithoutOnline";
+import getUserDataFields from "./getUserDataFields";
 import langReplacePrep from "./langReplacePrep";
 
 const getRelationText = async (
@@ -39,7 +39,7 @@ const getRelationText = async (
   var relationPartner = userData.relation_partner;
   var sex = userData.sex;
   if (relationPartner) {
-    var partnerData = relationPartner.id ? await getUserDataWithoutOnline(relationPartner.id) : null;
+    var partnerData = relationPartner.id ? await getUserDataFields(relationPartner.id) : null;
     var formatted_name = formatRelationName(relation, sex, partnerData);
   }
   switch (relation) {
@@ -61,7 +61,7 @@ const getRelationText = async (
         relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Есть друг";
       }
       if (relationPartner) {
-        let relationTextP = langReplacePrep(getLang?.("profile_meet_with_partner") || "", formatted_name || "");
+        let relationTextP = langReplacePrep(getLang?.("profile_meet_with_partner").toString() || "", formatted_name || "");
 
         relationText = Array.isArray(relationTextP)
           ? relationTextP[0].replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)

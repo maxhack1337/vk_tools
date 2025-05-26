@@ -1,6 +1,6 @@
+import createStyle from "../../createStyle";
 import { escapeHtml } from "../../escapeHtml";
 import getLocalValue from "../../getLocalValue";
-import createStyle from "../classicalProfile/scripts/createStyle";
 import oldVideoPlaylistsStyle from "./oldVideoPlaylistsStyle";
 import parsePlist from "./parsePlist";
 import parseVidPlist from "./parseVidPlist";

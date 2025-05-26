@@ -1,4 +1,4 @@
-import createStyle from "../classicalProfile/scripts/createStyle";
+import createStyle from "../../createStyle";
 import getImSendHash from "./getImSendHash";
 import graffityBoxStyle from "./graffityBoxStyle";
 import handleUpload from "./handleUpload";

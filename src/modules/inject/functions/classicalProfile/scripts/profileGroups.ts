@@ -3,7 +3,7 @@ import { escapeHtml } from "../../../escapeHtml";
 import getId from "../../middleName/getId";
 import getInterestingPagesLang from "./getInterestingPagesLang";
 import getPhotoAlbumLang from "./getPhotoAlbumLang";
-import getUserDataWithoutOnline from "./getUserDataWithoutOnline";
+import getUserDataFields from "./getUserDataFields";
 import splitDuration from "./splitDuration";
 const profileGroup = () => {
   document.arrive(
@@ -18,7 +18,7 @@ const profileGroup = () => {
       pageBlock.style.marginTop = "0";
       ///ДЛЯ ФОТОАЛЬБОМОВ///
       let userIDHereWeGoAgain = await getId();
-      let profileCheckIsClosed = await getUserDataWithoutOnline(userIDHereWeGoAgain);
+      let profileCheckIsClosed = await getUserDataFields(userIDHereWeGoAgain);
       let albumsGetter;
       if (!profileCheckIsClosed.is_closed || profileCheckIsClosed.can_access_closed) {
         try {

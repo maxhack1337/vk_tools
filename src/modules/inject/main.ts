@@ -39,7 +39,6 @@ import oldPosting from "./functions/oldPosting/oldPosting";
 import oldMessenger from "./functions/oldMessenger/oldMessenger";
 import replaceEmojisWithImages from "./functions/newDesign/replaceEmojisWithImages";
 import showSnackbar from "./components/snackbar/snackbar";
-import createStyle from "./functions/classicalProfile/scripts/createStyle";
 import innerNoticeStyle from "./innerNoticeStyle";
 import banner from "./components/banner/banner";
 import createVkToolsBanners from "./functions/createVkToolsBanners/createVkToolsBanners";
@@ -61,6 +60,7 @@ import createYtPlayer from "./functions/createYtPlayer/createYtPlayer";
 import ignoreReactErrorOnRemoveChild from "./functions/classicalProfile/scripts/spa/ignoreReactErrorOnRemoveChild";
 import feedPostLayerEnable from "./functions/openPostInWkLayer/feedPostLayerEnable";
 import initMenuActions from "./functions/graffityVoice/initMenuActions";
+import createStyle from "./createStyle";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов

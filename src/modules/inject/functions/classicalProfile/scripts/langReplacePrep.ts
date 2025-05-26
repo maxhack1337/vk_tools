@@ -1,39 +1,46 @@
-        const langReplacePrep = (e: string | string[], t: string) => {
-          if (!t) return e;
-          const n = window.langConfig.prep;
-          if (n.length) {
-            const r = n
-              .map((t: [any, any, any]) => {
-                const [n, r, o] = t,
-                  [i, a] = n.split(","),
-                  [s, l] = o.split(","),
-                  c = Array.isArray(e) ? new RegExp(i).test(e[0]) : new RegExp(i).test(e),
-                  u = Array.isArray(e) ? new RegExp(a).test(e[0]) : new RegExp(a).test(e);
-                return c ? [i, r, s] : !!u && [a, r, l];
-              })
-              .filter((e: any) => !!e);
-            if (2 === r.length) {
-              const [n, o] = r,
-                [i, a, s] = o;
-              if (
-                !a.split(",").find((e: string) => {
-                  const n = e.replace("*", "");
-                  return n && new RegExp(`^${n}`).test(t);
-                })
-              ) {
-                const [r, o, i] = n;
-                if (
-                  o.split(",").find((e: string) => {
-                    const n = e.replace("*", "");
-                    return n && new RegExp(`^${n}`).test(t);
-                  })
-                )
-                  return Array.isArray(e) ? e[0].replace(r, i) : e.replace(r, i);
-              }
-              return Array.isArray(e) ? e[0].replace(i, s) : e.replace(i, s);
-            }
-          }
-          return e;
-}
-        
+const langReplacePrep = (langWithToken: string, valueToCompare: string) => {
+  if (!valueToCompare) {
+    return langWithToken;
+  }
+  const prep = window.langConfig.prep;
+  if (prep.length) {
+    const matchedPrepsByToken = prep
+      .map((item: [any, any, any]) => {
+        const [token, firstLetters, replacePrep] = item;
+        const [lowerCaseToken, upperCaseToken] = token.split(",");
+        const [lowerReplacePrep, upperReplacePrep] = replacePrep.split(",");
+        const isLowerCaseTokenExist = new RegExp(lowerCaseToken).test(langWithToken);
+        const isUpperCaseTokenExist = new RegExp(upperCaseToken).test(langWithToken);
+        if (isLowerCaseTokenExist) {
+          return [lowerCaseToken, firstLetters, lowerReplacePrep];
+        }
+        if (isUpperCaseTokenExist) {
+          return [upperCaseToken, firstLetters, upperReplacePrep];
+        }
+        return false;
+      })
+      .filter((val: any) => !!val);
+    if (matchedPrepsByToken.length === 2) {
+      const [specialPrep, defaultPrep] = matchedPrepsByToken;
+      const [defaultToken, defaultFirstLetters, defaultPretext] = defaultPrep;
+      const isDefaultLettersExistInValue = defaultFirstLetters.split(",").find((firstLetters: string) => {
+        const modifiedFirstLetters = firstLetters.replace("*", "");
+        return modifiedFirstLetters && new RegExp(`^${modifiedFirstLetters}`).test(valueToCompare);
+      });
+      if (!isDefaultLettersExistInValue) {
+        const [specialToken, specialFirstLetters, specialPretext] = specialPrep;
+        const isSpecialLettersExistInValue = specialFirstLetters.split(",").find((firstLetters: string) => {
+          const modifiedFirstLetters = firstLetters.replace("*", "");
+          return modifiedFirstLetters && new RegExp(`^${modifiedFirstLetters}`).test(valueToCompare);
+        });
+        if (isSpecialLettersExistInValue) {
+          return langWithToken.replace(specialToken, specialPretext);
+        }
+      }
+      return langWithToken.replace(defaultToken, defaultPretext);
+    }
+  }
+  return langWithToken;
+};
+
 export default langReplacePrep;

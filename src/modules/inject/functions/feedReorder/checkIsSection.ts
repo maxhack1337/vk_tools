@@ -1,5 +1,5 @@
-import createStyle from "../classicalProfile/scripts/createStyle";
-import removeStyle from "../classicalProfile/scripts/removeStyle";
+import createStyle from "../../createStyle";
+import removeStyle from "../../removeStyle";
 
 const checkIsSection = () => {
   requestAnimationFrame(() => {

@@ -1,4 +1,3 @@
-import createStyle from "../classicalProfile/scripts/createStyle";
 import articleAttachment from "./attachments/articleAttachment";
 import audioAttachment from "./attachments/audioAttachment";
 import documentAttachment from "./attachments/documentAttachment";
@@ -23,6 +22,7 @@ import linkPrimatyAttachmentWithImage from "./attachments/linkPrimatyAttachmentW
 import miniAppAttachmentSecondary from "./attachments/miniAppAttachmentSecondary";
 import linkAttachmentWithoutTitle from "./attachments/linkAttachmentWithoutTitle";
 import { escapeHtml } from "../../escapeHtml";
+import createStyle from "../../createStyle";
 const oldFeed = () => {
   if (localStorage.getItem("feedOldPosts") === "true") {
     oldStoryBlock();

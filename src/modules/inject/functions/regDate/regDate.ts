@@ -7,13 +7,13 @@ import handleCaptcha from "../classicalProfile/scripts/handleCaptcha";
 import getUserDataReactSpa from "../classicalProfile/scripts/spa/getUserDataReactSpa";
 import createProfileInfoRow3 from "./createProfileInfoRow3";
 import createRegDateInfoRow2 from "./createRegDateInfoRow2";
-import getIdAntiAsync1 from "./getIdAntiAsync1";
+import getUserIdUsingApi from "./getUserIdUsingApi";
 
 const regDate = () => {
   document.arrive(`[class^="ProfileFullInfoModal__content"]>section:nth-child(1)`, { existing: true }, async function (e) {
     try {
       let regDateText1 = getRegDateLabel(vk.lang);
-      let uiddd = await getIdAntiAsync1();
+      let uiddd = await getUserIdUsingApi();
       let regDateValue1 = await getRegDateValue(uiddd);
       let regDateDate1, registrationRow1;
       if (regDateValue1?.captcha_sid) {
@@ -50,7 +50,7 @@ const regDate = () => {
         console.error("[VK Tools Error]: There is no registration date for user " + uiddd);
       }
     } catch (error) {
-      console.error("[VK Tools Error]: There is no registration date for user " + (await getIdAntiAsync1()) + error);
+      console.error("[VK Tools Error]: There is no registration date for user " + (await getUserIdUsingApi()) + error);
     }
   });
 

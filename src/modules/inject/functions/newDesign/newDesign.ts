@@ -1,4 +1,4 @@
-import createStyle from "../classicalProfile/scripts/createStyle";
+import createStyle from "../../createStyle";
 import waitMECommon from "../listeners/waitMECommon";
 import deferredCallbackNested from "../oldPosting/deferredCallbackNested";
 

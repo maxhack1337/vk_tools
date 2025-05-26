@@ -1,6 +1,6 @@
 import tooltip from "../../components/tooltip/tooltip";
 import create from "../../create";
-import createStyle from "../classicalProfile/scripts/createStyle";
+import createStyle from "../../createStyle";
 import getTopPlayerCr from "./getTopPlayerCr";
 
 const appendTopPlayerButton = (topPlayer: HTMLElement, isLegacy: boolean) => {

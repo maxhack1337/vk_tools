@@ -1,4 +1,4 @@
-import createStyle from "../../functions/classicalProfile/scripts/createStyle";
+import createStyle from "../../createStyle";
 import { getIcon24Cancel } from "../icons/getIcon24Cancel";
 import { getIconGraffityArrow } from "../icons/getIconGraffityArrow";
 import { getIconGraffityKitten } from "../icons/getIconGraffityKitten";
@@ -7,130 +7,127 @@ import { getIconGraffityShake } from "../icons/getIconGraffityShake";
 import bannerStyle from "./bannerStyle";
 
 export interface Banner {
-    id: string;
-    text: string;
-    canClose: boolean;
-    buttonText?: string;
-    buttonHref?: string;
-    buttonOnclick?: string;
-    icon: string;
-    color: string;
-    customTopMargin?: string;
-    customLeftMargin?: string;
-    buttonDirection?: string;
-    mirror?: boolean
+  id: string;
+  text: string;
+  canClose: boolean;
+  buttonText?: string;
+  buttonHref?: string;
+  buttonOnclick?: string;
+  icon: string;
+  color: string;
+  customTopMargin?: string;
+  customLeftMargin?: string;
+  buttonDirection?: string;
+  mirror?: boolean;
 }
 
 const bannerTypeIconMap: { [key: string]: string } = {
-    arrow1: getIconGraffityArrow().icon1,
-    arrow2: getIconGraffityArrow().icon2,
-    kitten: getIconGraffityKitten().icon,
-    shake: getIconGraffityShake().icon,
-    message: getIconGraffityMessage().icon
+  arrow1: getIconGraffityArrow().icon1,
+  arrow2: getIconGraffityArrow().icon2,
+  kitten: getIconGraffityKitten().icon,
+  shake: getIconGraffityShake().icon,
+  message: getIconGraffityMessage().icon,
 };
 
-const banner = ({ id, text = '', canClose = true, buttonText, buttonHref, buttonOnclick, icon, color, customTopMargin = '0px', customLeftMargin = '16px', buttonDirection = 'flex-start', mirror = false}: Banner) => {
-    
-    createStyle('bannerComponent', bannerStyle());
+const banner = ({ id, text = "", canClose = true, buttonText, buttonHref, buttonOnclick, icon, color, customTopMargin = "0px", customLeftMargin = "16px", buttonDirection = "flex-start", mirror = false }: Banner) => {
+  createStyle("bannerComponent", bannerStyle());
 
-    let mainBanner = document.createElement('div');
-    mainBanner.id = id;
+  let mainBanner = document.createElement("div");
+  mainBanner.id = id;
 
-    let vkUiRoot = document.createElement('div');
-    vkUiRoot.classList.add('vkui__root');
+  let vkUiRoot = document.createElement("div");
+  vkUiRoot.classList.add("vkui__root");
 
-    let pageBlock = document.createElement('div');
-    pageBlock.classList.add('page_block');
+  let pageBlock = document.createElement("div");
+  pageBlock.classList.add("page_block");
 
-    let root = document.createElement('div');
-    root.classList.add('vkToolsBannerRoot');
+  let root = document.createElement("div");
+  root.classList.add("vkToolsBannerRoot");
 
-    let onboardingBannerRoot = document.createElement('div');
-    onboardingBannerRoot.classList.add('vkToolsOnboardingBannerRoot');
+  let onboardingBannerRoot = document.createElement("div");
+  onboardingBannerRoot.classList.add("vkToolsOnboardingBannerRoot");
 
-    let onboardingBannerRootStretched = document.createElement('section');
-    onboardingBannerRootStretched.classList.add('vkToolsOnboardingBannerRoot__stretched');
+  let onboardingBannerRootStretched = document.createElement("section");
+  onboardingBannerRootStretched.classList.add("vkToolsOnboardingBannerRoot__stretched");
 
-    let onboardingBannerIn = document.createElement('div');
-    onboardingBannerIn.classList.add('vkToolsOnboardingBannerIn');
+  let onboardingBannerIn = document.createElement("div");
+  onboardingBannerIn.classList.add("vkToolsOnboardingBannerIn");
 
+  let onboardingBannerContent = document.createElement("div");
+  onboardingBannerContent.classList.add("vkToolsOnboardingBannerContent");
 
+  let onboardingBannerText = document.createElement("div");
+  onboardingBannerText.classList.add("vkToolsOnboardingBannerContent__text");
 
-    let onboardingBannerContent = document.createElement('div');
-    onboardingBannerContent.classList.add('vkToolsOnboardingBannerContent');
+  let onboardingBannerTextIn = document.createElement("span");
+  onboardingBannerTextIn.classList.add("vkToolsOnboardingBannerContent__textIn");
+  onboardingBannerTextIn.textContent = text;
 
-    let onboardingBannerText = document.createElement('div');
-    onboardingBannerText.classList.add('vkToolsOnboardingBannerContent__text');
+  onboardingBannerText.append(onboardingBannerTextIn);
 
-    let onboardingBannerTextIn = document.createElement('span');
-    onboardingBannerTextIn.classList.add('vkToolsOnboardingBannerContent__textIn');
-    onboardingBannerTextIn.textContent = text;
+  let onboardingBannerActions = document.createElement("div");
+  onboardingBannerActions.classList.add("vkToolsOnboardingBannerActions");
+  onboardingBannerActions.style.justifyContent = buttonDirection;
 
-    onboardingBannerText.append(onboardingBannerTextIn);
+  let onboardingBannerActionsWrap = document.createElement("div");
+  onboardingBannerActionsWrap.classList.add("vkToolsOnboardingBannerActionsWrap");
 
-    let onboardingBannerActions = document.createElement('div');
-    onboardingBannerActions.classList.add('vkToolsOnboardingBannerActions');
-    onboardingBannerActions.style.justifyContent = buttonDirection;
+  onboardingBannerActionsWrap.innerHTML = bannerTypeIconMap[icon];
+  let svg = onboardingBannerActionsWrap.querySelector("svg");
+  svg!.style.marginTop = customTopMargin;
+  svg!.style.marginLeft = customLeftMargin;
+  svg!.style.color = color;
+  if (mirror) svg!.style.transform = "scaleX(-1)";
 
-    let onboardingBannerActionsWrap = document.createElement('div');
-    onboardingBannerActionsWrap.classList.add('vkToolsOnboardingBannerActionsWrap');
+  if (buttonText) {
+    let onboardingBannerActionsButton = document.createElement("button");
+    onboardingBannerActionsButton.classList.add("vkToolsOnboardingBannerActionsButton");
 
-    onboardingBannerActionsWrap.innerHTML = bannerTypeIconMap[icon];
-    let svg = onboardingBannerActionsWrap.querySelector('svg');
-    svg!.style.marginTop = customTopMargin;
-    svg!.style.marginLeft = customLeftMargin;
-    svg!.style.color = color;
-    if (mirror) svg!.style.transform = "scaleX(-1)";
-        
-    if (buttonText) {
-        let onboardingBannerActionsButton = document.createElement('button');
-        onboardingBannerActionsButton.classList.add('vkToolsOnboardingBannerActionsButton');
-
-        let onboardingBannerActionsButtonIn = document.createElement('span');
-        onboardingBannerActionsButtonIn.classList.add('vkToolsOnboardingBannerActionsButton__in');
-        onboardingBannerActionsButtonIn.textContent = buttonText;
-        if (buttonHref) {
-            onboardingBannerActionsButton.addEventListener('click', () => {
-                window.open(buttonHref);
-            })
-        } else if (buttonOnclick) {
-            onboardingBannerActionsButton.setAttribute('onclick', buttonOnclick);
-        }
-
-        onboardingBannerActionsButton.append(onboardingBannerActionsButtonIn);
-        onboardingBannerActionsWrap.prepend(onboardingBannerActionsButton);
+    let onboardingBannerActionsButtonIn = document.createElement("span");
+    onboardingBannerActionsButtonIn.classList.add("vkToolsOnboardingBannerActionsButton__in");
+    onboardingBannerActionsButtonIn.textContent = buttonText;
+    if (buttonHref) {
+      onboardingBannerActionsButton.addEventListener("click", () => {
+        window.open(buttonHref);
+      });
+    } else if (buttonOnclick) {
+      onboardingBannerActionsButton.setAttribute("onclick", buttonOnclick);
     }
 
-    onboardingBannerActions.append(onboardingBannerActionsWrap);
-    onboardingBannerContent.append(onboardingBannerText, onboardingBannerActions);
+    onboardingBannerActionsButton.append(onboardingBannerActionsButtonIn);
+    onboardingBannerActionsWrap.prepend(onboardingBannerActionsButton);
+  }
 
-    onboardingBannerIn.append(onboardingBannerContent);
-    
-    if (canClose) {
-        let onboardingBannerAside = document.createElement('aside');
-        onboardingBannerAside.classList.add('vkToolsOnboardingBannerAside');
+  onboardingBannerActions.append(onboardingBannerActionsWrap);
+  onboardingBannerContent.append(onboardingBannerText, onboardingBannerActions);
 
-        let onboardingBannerAsideButton = document.createElement('button');
-        onboardingBannerAsideButton.classList.add('vkToolsOnboardingBannerAsideButton');
-        onboardingBannerAsideButton.innerHTML = getIcon24Cancel().icon;
+  onboardingBannerIn.append(onboardingBannerContent);
 
-        onboardingBannerAsideButton.addEventListener('click', () => {
-            mainBanner.remove();
-            localStorage.setItem(id,'closed');
-        });
+  if (canClose) {
+    let onboardingBannerAside = document.createElement("aside");
+    onboardingBannerAside.classList.add("vkToolsOnboardingBannerAside");
 
-        onboardingBannerAside.append(onboardingBannerAsideButton);
-        onboardingBannerIn.append(onboardingBannerAside);
-    }
+    let onboardingBannerAsideButton = document.createElement("button");
+    onboardingBannerAsideButton.classList.add("vkToolsOnboardingBannerAsideButton");
+    onboardingBannerAsideButton.innerHTML = getIcon24Cancel().icon;
 
-    onboardingBannerRootStretched.append(onboardingBannerIn);
-    onboardingBannerRoot.append(onboardingBannerRootStretched);
-    root.append(onboardingBannerRoot);
-    pageBlock.append(root);
-    vkUiRoot.append(pageBlock);
-    mainBanner.append(vkUiRoot);
+    onboardingBannerAsideButton.addEventListener("click", () => {
+      mainBanner.remove();
+      localStorage.setItem(id, "closed");
+    });
 
-    return mainBanner;
-}
+    onboardingBannerAside.append(onboardingBannerAsideButton);
+    onboardingBannerIn.append(onboardingBannerAside);
+  }
+
+  onboardingBannerRootStretched.append(onboardingBannerIn);
+  onboardingBannerRoot.append(onboardingBannerRootStretched);
+  root.append(onboardingBannerRoot);
+  pageBlock.append(root);
+  vkUiRoot.append(pageBlock);
+  mainBanner.append(vkUiRoot);
+
+  return mainBanner;
+};
 
 export default banner;

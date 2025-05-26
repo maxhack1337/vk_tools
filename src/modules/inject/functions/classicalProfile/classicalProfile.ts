@@ -5,10 +5,9 @@ import appearStarts from "./scripts/appearStarts";
 import appearVariable from "./scripts/appearVariable";
 import appendActivityText from "./scripts/appendActivityText";
 import buttonRun from "./scripts/buttonRun";
-import createStyle from "./scripts/createStyle";
 import expandMore from "./scripts/expandMore";
 import profileGroup from "./scripts/profileGroups";
-import removeStyle from "./scripts/removeStyle";
+import removeStyle from "../../removeStyle";
 import replaceTabsWithPhotosModule from "./scripts/photoModule/replaceTabsWithPhotosModule";
 import giftButton from "./scripts/skeleton/giftButton";
 import profileShort from "./scripts/skeleton/profileShort";
@@ -16,6 +15,7 @@ import getUserDataSpa from "./scripts/spa/getUserDataSpa";
 import "./styles/classical-profile-view.css";
 import classicButtons from "./styles/classicButtons";
 import friendsBlock from "./scripts/skeleton/friendsBlock";
+import createStyle from "../../createStyle";
 
 let cachedGroupInfo: any = {};
 
@@ -85,7 +85,7 @@ const classicalProfile = () => {
       profileShort();
       let userData = await getUserDataSpa();
       let activityText = userData.activity;
-      appendActivityText(activityText);
+      appendActivityText(activityText, userData);
       await appearFriends(userData);
       await appearStarts(userData);
       if (userData?.blacklisted !== 1 && !userData.deactivated && !userData.is_service && !userData.hidden) {

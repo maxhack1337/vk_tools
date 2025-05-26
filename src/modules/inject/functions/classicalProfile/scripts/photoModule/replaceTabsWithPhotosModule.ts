@@ -5,7 +5,6 @@ import getLangTime from "../getLangTime";
 import getMyPhotoText from "../getMyPhotoText";
 import getPhotoMapText from "../getPhotoMapText";
 import getStoryText from "../getStoryText";
-import getUserDataPhoto from "../getUserDataPhoto";
 import photosLoadModule from "./photosLoadModule";
 import getUserDataReactSpa from "../spa/getUserDataReactSpa";
 import getUserStoriesReactSpa from "../spa/getUserStoriesReactSpa";
@@ -55,7 +54,7 @@ const replaceTabsWithPhotosModule = async () => {
     count: 4,
     skip_hidden: true,
   });
-  let userDataPi = await getUserDataPhoto(ownerId);
+  let userDataPi = await getUserDataReactSpa();
   let userNamePi = userDataPi.first_name_gen;
   photosModule.innerHTML = `
         <div class="header_right_link fl_r"></div>
@@ -112,11 +111,10 @@ const replaceTabsWithPhotosModule = async () => {
   });
   ///ИСТОРИИ В КЛАССИК ПРОФИЛЕ///
 
-  let ownerStory = await getUserDataReactSpa();
   let stories = await getUserStoriesReactSpa();
   if (stories.count > 0) {
     let storyElement = document.createElement("a");
-    storyElement.setAttribute("onclick", `showStory('/owner_feed${ownerStory.id}', {source: 'post_avatar'});`);
+    storyElement.setAttribute("onclick", `showStory('/owner_feed${userDataPi.id}', {source: 'post_avatar'});`);
     storyElement.id = "profile_story";
     storyElement.classList.add("yPVSkNQu");
     storyElement.style.backgroundPosition = "50% 50%";

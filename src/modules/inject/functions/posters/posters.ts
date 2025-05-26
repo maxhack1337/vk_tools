@@ -1,4 +1,4 @@
-import createStyle from "../classicalProfile/scripts/createStyle";
+import createStyle from "../../createStyle";
 import deferredCallbackNested from "../oldPosting/deferredCallbackNested";
 import posterLogic from "./posterLogic";
 
