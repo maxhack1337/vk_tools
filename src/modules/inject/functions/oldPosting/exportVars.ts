@@ -13,8 +13,7 @@ const exportVars = async (
   wallData: any
 ) => {
   if (localStorage.getItem("old_post_design") === "false") return;
-  console.info("[VKENH] Wall data fetched");
-  console.log({ wall_oid, public_link, loc, owner, wall_tpl, wallData });
+  console.info("[VK Tools] Wall data fetched", { wall_oid, public_link, loc, owner, wall_tpl, wallData });
   let newPostingBlock = document.querySelector("#page_block_submit_post.new_posting");
   let isFeedBlock = document.querySelector("#main_feed");
   let isWallModule = cur.module === "wall";

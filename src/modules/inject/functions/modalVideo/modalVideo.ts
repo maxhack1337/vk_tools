@@ -29,6 +29,20 @@ const modalVideo = () => {
       );
     });
 
+    document.arrive(`[class^="vkitVideoCardLayout__videoContainer"]:has([class^="vkitVideoCardThumb__thumb"][href^="/video"])`, { existing: true }, async function (e) {
+      let videoLink;
+      try {
+        videoLink = e?.querySelector('[class^="vkitVideoCardThumb__thumb"][href^="/video"]')?.getAttribute("href")?.substring(6);
+      } catch (error) {}
+      e.setAttribute(
+        "onclick",
+        `
+	event.preventDefault();
+	event.stopPropagation();
+	window.showVideo('${videoLink}','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);`
+      );
+    });
+
     document.arrive(`[class^="VideoCard__thumbLink"][href^="/playlist"][data-playlist-id]`, { existing: true }, async function (e) {
       let videoId;
       let pListId;

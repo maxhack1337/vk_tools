@@ -91,7 +91,6 @@ const replaceTabsWithPhotosModule = async () => {
   photodata.items.forEach((item: { sizes: string | any[]; owner_id: any; id: any }) => {
     let photoLink = item.sizes[item.sizes.length - 1].url;
     let photoId = `${item.owner_id}_${item.id}`;
-    let oid = Number(item.owner_id);
 
     let photoElement = document.createElement("a");
     photoElement.classList.add("page_square_photo", "crisp_image");
@@ -100,7 +99,7 @@ const replaceTabsWithPhotosModule = async () => {
     photoElement.onclick = (event) => {
       event.preventDefault();
       event.stopPropagation();
-      if (showPhoto) showPhoto(photoId, `photo_feed${oid}`, {});
+      if (showPhoto) showPhoto(photoId, ``, {});
     };
 
     photoElement.style.backgroundImage = `url(${photoLink})`;
