@@ -187,7 +187,7 @@ const innerStyleGet = () => {
 		.PostHeader--redesignV3 .PostHeader--hasSubtitle {
 			justify-content: center;
 		}
-		.Post--redesignV3 [class^="vkitShowMoreText__after"] > button {
+		.Post--redesignV3 [class^="vkitShowMoreText__after"] > button, .Post--redesignV3 [class^="vkitShowMoreText__after"] > div[class^="vkitLink__link"] {
 			display: inline-block;
 			color: var(--vkui--color_text_link);
 			font-weight: 500!important;
