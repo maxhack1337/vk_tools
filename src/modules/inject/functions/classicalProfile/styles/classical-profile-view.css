@@ -1336,9 +1336,27 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
     .books_info>span,
     .games_info>span,
     .quotes_info>span,
-    .about_info>span {
+    .about_info>span,
+    .groups_info>span {
         display: flex;
         flex-wrap: wrap;
+    }
+
+    .groupsLabelHref {
+        color: var(--vkui--color_text_secondary)!important;
+    }
+
+    #profile_groups_link {
+        padding: 7px 0 8px 165px;
+        border-radius: 8px;
+        margin-top: 7px;
+        display: block;
+        line-height: 1.154;
+    }
+
+    #profile_groups_link:hover {
+        background-color: var(--vkui--color_transparent--hover);
+        text-decoration: none
     }
 
     .interests_info,
@@ -1347,7 +1365,8 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
     .books_info,
     .games_info,
     .quotes_info,
-    .about_info {
+    .about_info,
+    .groups_info {
         padding-top: 12px;
     }
 

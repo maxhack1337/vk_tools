@@ -4,6 +4,7 @@ import appearVariable from "./appearVariable";
 import nextExpander from "./nextExpander";
 
 const expandMore = async (
+  preloadedGroups: any,
   cachedRelativesInfo: any,
   cachedCityInfo: any,
   cachedGroupInfo: any,
@@ -305,7 +306,7 @@ const expandMore = async (
               commonDiv.appendChild(inner);
               moreItemsLoaded.appendChild(commonDiv);
             }
-            nextExpander(userData, moreItemsLoaded, inner);
+            nextExpander(userData, moreItemsLoaded, inner, preloadedGroups);
           });
         } else {
           let commonDiv;
@@ -323,7 +324,7 @@ const expandMore = async (
             commonDiv.appendChild(inner);
             moreItemsLoaded.appendChild(commonDiv);
           }
-          nextExpander(userData, moreItemsLoaded, inner);
+          nextExpander(userData, moreItemsLoaded, inner, preloadedGroups);
         }
 
         profileMoreInfo?.appendChild(moreItemsLoaded);

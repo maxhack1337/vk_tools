@@ -11,43 +11,46 @@ import getRelationText from "./getRelationText";
 import getZodiacIndex from "./getZodiacIndex";
 import handleCaptcha from "./handleCaptcha";
 
-const appearStarts = async (userData: {
-  bdate: any;
-  id: number;
-  relation: any;
-  city: { id: any; title: any };
-  occupation: any;
-  site: any;
-  home_town: string;
-  personal: {
-    langs_full?: any;
-    alcohol?: any;
-    life_main?: any;
-    people_main?: any;
-    smoking?: any;
-    inspired_by?: any;
-    religion?: any;
-  };
-  relatives: string | any[];
-  home_phone: string;
-  mobile_phone: string;
-  skype: string;
-  career: string | any[];
-  universities: string | any[];
-  schools: string | any[];
-  military: string | any[];
-  activities: string;
-  interests: string;
-  music: string;
-  movies: string;
-  tv: string;
-  books: string;
-  games: string;
-  quotes: string;
-  about: string;
-  relation_partner: any;
-  sex: any;
-}) => {
+const appearStarts = async (
+  preloadedGroups: any,
+  userData: {
+    bdate: any;
+    id: number;
+    relation: any;
+    city: { id: any; title: any };
+    occupation: any;
+    site: any;
+    home_town: string;
+    personal: {
+      langs_full?: any;
+      alcohol?: any;
+      life_main?: any;
+      people_main?: any;
+      smoking?: any;
+      inspired_by?: any;
+      religion?: any;
+    };
+    relatives: string | any[];
+    home_phone: string;
+    mobile_phone: string;
+    skype: string;
+    career: string | any[];
+    universities: string | any[];
+    schools: string | any[];
+    military: string | any[];
+    activities: string;
+    interests: string;
+    music: string;
+    movies: string;
+    tv: string;
+    books: string;
+    games: string;
+    quotes: string;
+    about: string;
+    relation_partner: any;
+    sex: any;
+  }
+) => {
   let pageCurrentInfo = document.querySelector(".ProfileInfo");
 
   let profileShort = document.createElement("div");
@@ -227,7 +230,8 @@ const appearStarts = async (userData: {
     (userData.books && userData.books !== "") ||
     (userData.games && userData.games !== "") ||
     (userData.quotes && userData.quotes !== "") ||
-    (userData.about && userData.about !== "")
+    (userData.about && userData.about !== "") ||
+    (preloadedGroups && Object.entries(preloadedGroups || {})?.length > 0)
   ) {
     profileShort.appendChild(profileMoreInfo);
   }

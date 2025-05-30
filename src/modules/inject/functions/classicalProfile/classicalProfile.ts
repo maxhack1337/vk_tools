@@ -16,6 +16,7 @@ import "./styles/classical-profile-view.css";
 import classicButtons from "./styles/classicButtons";
 import friendsBlock from "./scripts/skeleton/friendsBlock";
 import createStyle from "../../createStyle";
+import fetchGroups from "./scripts/groups/fetchGroups";
 
 let cachedGroupInfo: any = {};
 
@@ -79,6 +80,7 @@ const classicalProfile = () => {
     try {
       document.querySelector("html")!.classList.add("classicProfile");
       classicButtons();
+      stManager.add("module.css");
       if (cur.oid !== vk.id) giftButton();
       let scrollStickyDiv = document.querySelector(".ScrollStickyWrapper > div");
       scrollStickyDiv?.prepend(friendsBlock());
@@ -87,7 +89,8 @@ const classicalProfile = () => {
       let activityText = userData.activity;
       appendActivityText(activityText, userData);
       await appearFriends(userData);
-      await appearStarts(userData);
+      let preloadedGroups = await fetchGroups();
+      await appearStarts(preloadedGroups, userData);
       if (userData?.blacklisted !== 1 && !userData.deactivated && !userData.is_service && !userData.hidden) {
         removeStyle("classicalProfilesDELETED");
         removeStyle("classicalProfilesBlackListed");
@@ -103,7 +106,7 @@ const classicalProfile = () => {
         preloadGroupInfo(userData);
         preloadCityInfo(userData);
         preloadRelatives(userData);
-        expandMore(cachedRelativesInfo, cachedCityInfo, cachedGroupInfo, userData);
+        expandMore(preloadedGroups, cachedRelativesInfo, cachedCityInfo, cachedGroupInfo, userData);
       } else {
         try {
           let pMoreInfo = document.querySelector(".profile_more_info") as HTMLElement;
