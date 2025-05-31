@@ -29,6 +29,10 @@ const appearFriends = async (userdata: any) => {
       aHrefSectionFrens.href = `/friends?id=${objectId1}&section=online`;
       aHrefSectionFrens.style.marginLeft = "auto";
       aHrefSectionFrens.style.marginRight = "23px";
+      aHrefSectionFrens.style.maxWidth = "100px";
+      aHrefSectionFrens.style.whiteSpace = "nowrap";
+      aHrefSectionFrens.style.textOverflow = "ellipsis";
+      aHrefSectionFrens.style.overflow = "hidden";
       aHrefSectionFrens.style.color = "var(--vkui--color_text_secondary)";
       aHrefSectionFrens.textContent = `${getLang?.("profile_friendsonln")}`.toLowerCase();
     } else {

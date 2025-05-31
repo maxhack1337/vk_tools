@@ -1193,64 +1193,6 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         display: none;
     }
 
-    .vkEnhancerSectionProfile {
-        display: flex;
-        padding-top: 8px;
-    }
-
-    .vkEnhancerSectionInner {
-        margin-left: 12px;
-        margin-bottom: 8.75px;
-        width: 100%;
-        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
-    }
-
-    .vkEnhancerSectionInner1 {
-        margin-left: 12px;
-        margin-bottom: 8.75px;
-        width: 100%;
-        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
-    }
-
-    .vkEnhancerSectionInner2 {
-        margin-left: 12px;
-        margin-bottom: 7.75px;
-        width: 100%;
-        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
-    }
-
-    .vkEnhancerSectionInner3 {
-        margin-left: 12px;
-        margin-bottom: 7.75px;
-        width: 100%;
-        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
-    }
-
-    .vkEnhancerSectionInner4 {
-        margin-left: 12px;
-        margin-bottom: 8.75px;
-        width: 100%;
-        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
-    }
-
-    .vkEnhancerSectionInner5 {
-        margin-left: 12px;
-        margin-bottom: 8.75px;
-        width: 100%;
-        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
-    }
-
-    .vkEnhancerSectionText {
-        white-space: nowrap;
-    }
-
-    .vkEnhancerSectionInner6 {
-        margin-left: 12px;
-        margin-bottom: 8.75px;
-        width: 100%;
-        border-bottom: var(--thin-border, .5px) solid var(--vkui--color_separator_primary);
-    }
-
     .vkEnhancerAdditionalJob {
         padding-bottom: 20px;
         display: flex;
@@ -1268,12 +1210,94 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         /*margin-left:2px;*/
     }
 
+    .profile_info_header_wrap {
+        border-top: none;
+        border-bottom: none;
+        margin: 14.25px 0 4px;
+        position: relative;    
+        display: flex;
+        align-items: center;
+    }
+    
+    .profile_info_header {
+        font-size: 13px;
+        padding-right: 7px;
+        background-color: var(--vkui--color_background_content);
+        padding-bottom: 4px;
+        margin: 0;
+        white-space: nowrap;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
+    }
+
+    .profile_info_edit {
+        padding-left: 7px;
+        background-color: var(--vkui--color_background_content);
+        text-transform: none;
+        color: var(--vkui--color_text_secondary);
+        opacity: 0;
+        transition: opacity 0.1s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+        margin-left: auto;
+    }
+        
+    #profile_redesigned:not(:has(.ProfileHeaderButton a[href="/edit"])) .profile_info_edit {
+        display: none;
+    }
+    
+    .profile_info_header_wrap:hover .profile_info_edit {
+        opacity: 1;
+    }
+    
+    .profile_info_separator_line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 10px;
+        height: 1px;
+        background-color: var(--vkui--color_separator_primary);
+        z-index: 1;
+    }
+
     .education_info,
     .school_info,
     .job_row,
     .voin_info {
         padding-top: 12px;
         padding-bottom: 12px;
+    }
+
+    .profile_info_header_wrap:has([href="https://vk.com/edit?act=interests"]) {
+        margin-bottom: -8px !important;
+    }
+    
+    .profile_info_header_wrap:has([href="https://vk.com/edit?act=military"]) {
+        margin-bottom: -8px !important;
+    }
+    
+    .profile_info_header_wrap:has([href="https://vk.com/edit?act=personal"]) {
+        margin-bottom: -4px !important;
+    }
+    
+    .profile_info_header_wrap:has([href="https://vk.com/edit?act=education"]) {
+        margin-bottom: -16px !important;
+    }
+    
+    .profile_info_header_wrap:has([href="https://vk.com/edit?act=career"]) {
+        margin-bottom: -4px !important;
+    }
+    
+    .profile_info_header_wrap:has([href="https://vk.com/edit?act=contacts"]) {
+        margin-bottom: 0px !important;
+    }
+    
+    .profile_info_header_wrap:has([href="https://vk.com/edit"]) {
+        margin-bottom: 0px !important;
     }
 
     .education_row {
@@ -1299,35 +1323,6 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
     .job_row>.label.fl_l {
         position: relative;
         top: -8px;
-    }
-
-    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner2) {
-        padding-bottom: 12px;
-        padding-top: 12px;
-    }
-
-    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner) {
-        padding-top: 12px;
-        padding-bottom: 6px;
-    }
-
-    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner1) {
-        padding-top: 12px;
-        padding-bottom: 6px;
-    }
-
-    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner3) {
-        padding-top: 6px;
-        padding-bottom: 6px;
-    }
-
-    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner4) {
-        padding-top: 2px;
-        padding-bottom: 2px;
-    }
-
-    .vkEnhancerSectionProfile:has(>.vkEnhancerSectionInner5) {
-        padding-top: 2px;
     }
 
     .interests_info>span,

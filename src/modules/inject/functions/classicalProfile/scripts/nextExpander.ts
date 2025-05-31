@@ -1,5 +1,6 @@
 import { escapeHtml, escapeUrl } from "../../../escapeHtml";
 import appearVariable from "./appearVariable";
+import createProfileInfoHeader from "./createProfileInfoHeader";
 import renderGroups from "./groups/renderGroups";
 import groupsLang from "./groupsLang";
 
@@ -20,7 +21,6 @@ const nextExpander = async (
     about: string;
   },
   moreItemsLoaded: any,
-  educationInner: any,
   preloadedGroups: any
 ) => {
   let education = userData.universities;
@@ -273,15 +273,7 @@ const nextExpander = async (
   }
 
   if (userData.military && userData.military.length > 0) {
-    let commonDiv = document.createElement("div");
-    commonDiv.classList.add("vkEnhancerSectionProfile");
-    let innerText = document.createElement("div");
-    innerText.textContent = `${getLang?.("profile_military")}`;
-    innerText.classList.add("vkEnhancerSectionText");
-    let inner = document.createElement("div");
-    inner.classList.add("vkEnhancerSectionInner6");
-    commonDiv.appendChild(innerText);
-    commonDiv.appendChild(inner);
+    let commonDiv = createProfileInfoHeader(getLang?.("profile_military").toString() || "Военная служба", "https://vk.com/edit?act=military");
     moreItemsLoaded.appendChild(commonDiv);
     let military: any = userData.military;
     if (military) {
@@ -347,15 +339,7 @@ const nextExpander = async (
       (userData.personal.religion && userData.personal.religion !== "")) &&
     Object.keys(userData.personal).length > 0
   ) {
-    let commonDiv = document.createElement("div");
-    commonDiv.classList.add("vkEnhancerSectionProfile");
-    let innerText = document.createElement("div");
-    innerText.textContent = `${getLang?.("profile_beliefs")}`;
-    innerText.classList.add("vkEnhancerSectionText");
-    let inner = document.createElement("div");
-    inner.classList.add("vkEnhancerSectionInner5");
-    commonDiv.appendChild(innerText);
-    commonDiv.appendChild(inner);
+    let commonDiv = createProfileInfoHeader(getLang?.("profile_beliefs").toString() || "Жизненная позиция", "https://vk.com/edit?act=personal");
     moreItemsLoaded.appendChild(commonDiv);
 
     let lifePos = document.createElement("div");
@@ -532,15 +516,7 @@ const nextExpander = async (
     (userData.about && userData.about !== "") ||
     (preloadedGroups && Object.entries(preloadedGroups || {})?.length > 0)
   ) {
-    let commonDiv = document.createElement("div");
-    commonDiv.classList.add("vkEnhancerSectionProfile");
-    let innerText = document.createElement("div");
-    innerText.textContent = `${getLang?.("profile_interests")}`;
-    innerText.classList.add("vkEnhancerSectionText");
-    let inner = document.createElement("div");
-    inner.classList.add("vkEnhancerSectionInner4");
-    commonDiv.appendChild(innerText);
-    commonDiv.appendChild(inner);
+    let commonDiv = createProfileInfoHeader(getLang?.("profile_private").toString() || "Личная информация", "https://vk.com/edit?act=interests");
     moreItemsLoaded.appendChild(commonDiv);
 
     let activities = userData.activities;

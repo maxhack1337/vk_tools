@@ -1,6 +1,9 @@
 import { escapeHtml } from "../../../escapeHtml";
 import addRelatives from "./addRelatives";
 import appearVariable from "./appearVariable";
+import careerInfoLang from "./careerInfoLang";
+import createProfileInfoHeader from "./createProfileInfoHeader";
+import mainInfoLang from "./mainInfoLang";
 import nextExpander from "./nextExpander";
 
 const expandMore = async (
@@ -44,16 +47,7 @@ const expandMore = async (
         moreItemsLoaded.classList.add("vkEnhancerMoreItems");
 
         if ((userData.home_town && userData.home_town !== "") || (userData.personal && userData.personal.langs_full) || (userData.relatives && userData.relatives.length > 0)) {
-          let commonDiv = document.createElement("div");
-          commonDiv.classList.add("vkEnhancerSectionProfile");
-          let innerText = document.createElement("div");
-          let isArrayDiv = getLang?.("profile_private");
-          innerText.textContent = Array.isArray(isArrayDiv) ? isArrayDiv[0] : isArrayDiv || "Личная информация";
-          innerText.classList.add("vkEnhancerSectionText");
-          let inner = document.createElement("div");
-          inner.classList.add("vkEnhancerSectionInner");
-          commonDiv.appendChild(innerText);
-          commonDiv.appendChild(inner);
+          let commonDiv = createProfileInfoHeader(mainInfoLang(vk.lang), "https://vk.com/edit");
           moreItemsLoaded.appendChild(commonDiv);
 
           let hometown = userData.home_town;
@@ -103,16 +97,7 @@ const expandMore = async (
         }
 
         if ((userData.home_phone && userData.home_phone !== "") || (userData.mobile_phone && userData.mobile_phone !== "") || (userData.skype && userData.skype !== "")) {
-          let commonDiv = document.createElement("div");
-          commonDiv.classList.add("vkEnhancerSectionProfile");
-          let innerText = document.createElement("div");
-          let isArrContact = getLang?.("profile_contact");
-          innerText.textContent = Array.isArray(isArrContact) ? isArrContact[0] : isArrContact || "Контактная информация";
-          innerText.classList.add("vkEnhancerSectionText");
-          let inner = document.createElement("div");
-          inner.classList.add("vkEnhancerSectionInner1");
-          commonDiv.appendChild(innerText);
-          commonDiv.appendChild(inner);
+          let commonDiv = createProfileInfoHeader(getLang?.("profile_contact").toString() || "Контактная информация", "https://vk.com/edit?act=contacts");
           moreItemsLoaded.appendChild(commonDiv);
 
           let mobile_phone = userData.mobile_phone;
@@ -165,16 +150,7 @@ const expandMore = async (
         let career = userData.career;
 
         if (career && career.length > 0) {
-          let commonDiv = document.createElement("div");
-          commonDiv.classList.add("vkEnhancerSectionProfile");
-          let innerText = document.createElement("div");
-          let isArrWork = getLang?.("Work_place");
-          innerText.textContent = Array.isArray(isArrWork) ? isArrWork[0] : isArrWork || "Место работы";
-          innerText.classList.add("vkEnhancerSectionText");
-          let inner = document.createElement("div");
-          inner.classList.add("vkEnhancerSectionInner2");
-          commonDiv.appendChild(innerText);
-          commonDiv.appendChild(inner);
+          let commonDiv = createProfileInfoHeader(careerInfoLang(vk.lang), "https://vk.com/edit?act=career");
           moreItemsLoaded.appendChild(commonDiv);
           let jobPromises = career
             .slice()
@@ -292,39 +268,19 @@ const expandMore = async (
               moreItemsLoaded.appendChild(jobRow);
             });
             let commonDiv;
-            let innerText;
-            let inner;
             if ((userData.schools && userData.schools.length > 0) || (userData.universities && userData.universities.length > 0)) {
-              commonDiv = document.createElement("div");
-              commonDiv.classList.add("vkEnhancerSectionProfile");
-              innerText = document.createElement("div");
-              innerText.textContent = `${getLang?.("profile_educat")}`;
-              innerText.classList.add("vkEnhancerSectionText");
-              inner = document.createElement("div");
-              inner.classList.add("vkEnhancerSectionInner3");
-              commonDiv.appendChild(innerText);
-              commonDiv.appendChild(inner);
+              commonDiv = createProfileInfoHeader(getLang?.("profile_educat").toString() || "Образование", "https://vk.com/edit?act=education");
               moreItemsLoaded.appendChild(commonDiv);
             }
-            nextExpander(userData, moreItemsLoaded, inner, preloadedGroups);
+            nextExpander(userData, moreItemsLoaded, preloadedGroups);
           });
         } else {
           let commonDiv;
-          let innerText;
-          let inner;
           if ((userData.schools && userData.schools.length > 0) || (userData.universities && userData.universities.length > 0)) {
-            commonDiv = document.createElement("div");
-            commonDiv.classList.add("vkEnhancerSectionProfile");
-            innerText = document.createElement("div");
-            innerText.textContent = `${getLang?.("profile_educat")}`;
-            innerText.classList.add("vkEnhancerSectionText");
-            inner = document.createElement("div");
-            inner.classList.add("vkEnhancerSectionInner3");
-            commonDiv.appendChild(innerText);
-            commonDiv.appendChild(inner);
+            commonDiv = createProfileInfoHeader(getLang?.("profile_educat").toString() || "Образование", "https://vk.com/edit?act=education");
             moreItemsLoaded.appendChild(commonDiv);
           }
-          nextExpander(userData, moreItemsLoaded, inner, preloadedGroups);
+          nextExpander(userData, moreItemsLoaded, preloadedGroups);
         }
 
         profileMoreInfo?.appendChild(moreItemsLoaded);
