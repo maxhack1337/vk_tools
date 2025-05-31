@@ -23,7 +23,7 @@ const renderId = () => {
         existing: true,
       },
       async (e) => {
-        stManager.add("page.css", "module.css");
+        stManager.add(["page.css", "module.css"]);
         if (e.id === "profile_redesigned") {
           if (e.querySelector(".ScrollStickyWrapper > div")) {
             e = e.querySelector(".ScrollStickyWrapper > div") as HTMLElement;

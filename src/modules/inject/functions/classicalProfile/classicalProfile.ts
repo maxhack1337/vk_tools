@@ -80,7 +80,7 @@ const classicalProfile = () => {
     try {
       document.querySelector("html")!.classList.add("classicProfile");
       classicButtons();
-      stManager.add("page.css", "module.css");
+      stManager.add(["page.css", "module.css"]);
       if (cur.oid !== vk.id) giftButton();
       let scrollStickyDiv = document.querySelector(".ScrollStickyWrapper > div");
       scrollStickyDiv?.prepend(friendsBlock());

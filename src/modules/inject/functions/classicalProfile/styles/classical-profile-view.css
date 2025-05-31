@@ -70,6 +70,62 @@ html.classicProfile body:has(#profile_redesigned) .achievement_cell {
 }
 
 html.classicProfile body {
+    .header_right_link {
+        color: var(--vkui--color_text_secondary);
+        height: 32px;
+        line-height: 40px;
+        font-size: 12.5px;
+        margin-right: 15px;
+    }
+
+    .module_header {
+        display: block;
+    }
+
+    .module_header .header_top {
+        height: 32px;
+        overflow: hidden;
+        margin: 0;
+        font-weight: 400;
+        -webkit-font-smoothing: subpixel-antialiased;
+        -moz-osx-font-smoothing: auto;
+        letter-spacing: 0;
+        outline: 0;
+        color: var(--vkui--color_text_primary);
+    }
+
+    .module_header .header_label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    .module_header .header_count {
+        color: var(--vkui--color_text_secondary);
+        padding: 0 6px;
+    }
+
+    .page_photos_module {
+        height: 123px;
+        text-align: center;
+    }
+
+    .page_square_photo:first-child {
+        margin-left: 0;
+    }
+
+    .page_square_photo {
+        position: relative;
+        display: inline-block;
+        width: calc(25% - 4.5px);
+        height: 123px;
+        margin-left: 6px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        -ms-high-contrast-adjust: none;
+    }
+
     #profile_story:after {
         filter: blur(5px);
         content: '.';
@@ -1343,7 +1399,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
 
     #profile_groups_link {
         padding: 7px 0 8px 165px;
-        border-radius: 8px;
+        border-radius: 4px;
         margin-top: 7px;
         display: block;
         line-height: 1.154;
