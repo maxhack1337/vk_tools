@@ -4,6 +4,7 @@ import deferredCallback from "../../../defferedCallback";
 import { escapeHtml } from "../../../escapeHtml";
 import appearVariable from "./appearVariable";
 import changeBroadcastState from "./changeBroadcastState";
+import changeCurrentInfoLang from "./changeCurrentInfoLang";
 import refreshLocForMini from "./refreshLocForMini";
 
 const appendActivityText = (activityText: string | null, userData: any) => {
@@ -52,9 +53,9 @@ const appendActivityText = (activityText: string | null, userData: any) => {
           '`)"="" role="checkbox" aria-checked="true" tabindex="0">Показывать приложение в статусе</div> <button class="flat_button button_small page_status_btn_save" id="currinfo_save" style="">' +
           getLang?.("Save") +
           '</button> </div> </div> <div id="currinfo_wrap" onclick="return Page.infoEdit();" tabindex="0" role="button" style="display: block;"> <span id="current_info" class="current_info"><span class="no_current_info">' +
-          getLang?.("change_current_info") +
+          changeCurrentInfoLang(vk.lang) +
           '</span></span> </div> <div id="currinfo_fake" style="display: none;"><span class="no_current_info">' +
-          getLang?.("change_current_info") +
+          changeCurrentInfoLang(vk.lang) +
           "</span></div></div>";
       }
       let ownerPageName = document.getElementById("owner_page_name");

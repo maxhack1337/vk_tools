@@ -53,7 +53,7 @@ const nextExpander = async (
         let eduRowInner = document.createElement("div");
         if (edu.name) {
           let universityLink = document.createElement("a");
-          universityLink.href = `/search/people?c[name]=0&c[uni_country]=${edu.country}&c[uni_city]=${edu.city}&c[university]=${edu.id}`;
+          universityLink.href = `/search/people?education_city_id=${edu.city}&education_id=${edu.id}&education_type=university`;
           universityLink.textContent = edu.name;
           universityLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
@@ -63,7 +63,7 @@ const nextExpander = async (
           }
 
           let graduationLink = document.createElement("a");
-          graduationLink.href = `/search/people?c[name]=0&c[uni_country]=${edu.country}&c[uni_city]=${edu.city}&c[university]=${edu.id}&c[uni_year]=${edu.graduation}`;
+          graduationLink.href = `/search/people?education_city_id=${edu.city}&education_id=${edu.id}&education_type=university&education_year=${edu.graduation}`;
           graduationLink.textContent = graduationYearText;
           graduationLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
@@ -167,7 +167,7 @@ const nextExpander = async (
         schoolLink.style.maxWidth = "335px";
         schoolLink.style.wordBreak = "break-word";
         schoolLink.style.display = "inline-block";
-        schoolLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}`;
+        schoolLink.href = `/search/people?education_city_id=${school.city}&education_id=${school.id}&education_type=school`;
         schoolLink.textContent = school.name;
         schoolLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
         schoolInfo.appendChild(schoolLink);
@@ -224,7 +224,7 @@ const nextExpander = async (
         // Класс
         if (school.class) {
           let classLink = document.createElement("a");
-          classLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}&c[school_year]=${school.year_graduated}&c[school_class]=${school.class}`;
+          classLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}&c[school_class]=${school.class}`;
           classLink.textContent = `(${school.class})`;
           classLink.classList.add("classLinkA", "vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
           yearFromDiv.appendChild(classLink);

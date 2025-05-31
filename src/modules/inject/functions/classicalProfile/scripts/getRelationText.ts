@@ -46,19 +46,19 @@ const getRelationText = async (
     case 1:
       if (sex === 2) {
         const langValue = getLang?.("profile_m_not_married");
-        relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Не женат";
+        relationText = `<a href="https://vk.com/search/people?status=not_married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Не женат").toLowerCase()}</a>`;
       } else {
         const langValue = getLang?.("profile_fm_not_married");
-        relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Не замужем";
+        relationText = `<a href="https://vk.com/search/people?status=not_married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Не замужем").toLowerCase()}</a>`;
       }
       break;
     case 2:
       if (sex === 2) {
         const langValue = getLang?.("profile_m_has_friend");
-        relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Есть подруга";
+        relationText = `<a href="https://vk.com/search/people?status=meets">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Есть подруга").toLowerCase()}</a>`;
       } else {
         const langValue = getLang?.("profile_fm_has_friend");
-        relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Есть друг";
+        relationText = `<a href="https://vk.com/search/people?status=meets">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Есть друг").toLowerCase()}</a>`;
       }
       if (relationPartner) {
         let relationTextP = langReplacePrep(getLang?.("profile_meet_with_partner").toString() || "", formatted_name || "");
@@ -71,10 +71,10 @@ const getRelationText = async (
     case 3:
       if (sex === 2) {
         const langValue = getLang?.("profile_m_engaged");
-        relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Помолвлен";
+        relationText = `<a href="https://vk.com/search/people?status=engaged">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Помолвлен").toLowerCase()}</a>`;
       } else {
         const langValue = getLang?.("profile_fm_engaged");
-        relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Помолвлена";
+        relationText = `<a href="https://vk.com/search/people?status=engaged">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Помолвлена").toLowerCase()}</a>`;
       }
       if (relationPartner) {
         if (sex === 2) {
@@ -93,18 +93,18 @@ const getRelationText = async (
     case 4:
       if (sex === 2) {
         const langValue = getLang?.("profile_m_married");
-        relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Женат";
+        relationText = `<a href="https://vk.com/search/people?status=married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Женат").toLowerCase()}</a>`;
       } else {
         const langValue = getLang?.("profile_fm_married");
-        relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Замужем";
+        relationText = `<a href="https://vk.com/search/people?status=married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Замужем").toLowerCase()}</a>`;
       }
       if (relationPartner) {
         if (sex === 2) {
           const langValue = getLang?.("profile_married_with_partner", "raw")[1];
-          relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Женат на %s";
+          relationText = (Array.isArray(langValue) ? langValue.join(", ") : langValue || "Женат на %s").toLowerCase();
         } else {
           const langValue = getLang?.("profile_married_with_partner", "raw")[2];
-          relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "Замужем за %s";
+          relationText = (Array.isArray(langValue) ? langValue.join(", ") : langValue || "Замужем за %s").toLowerCase();
         }
         let relationTextP = langReplacePrep(relationText, formatted_name || "");
         relationText = Array.isArray(relationTextP)
@@ -114,7 +114,7 @@ const getRelationText = async (
       break;
     case 5:
       let langValueLet = getLang?.("profile_complicated");
-      relationText = Array.isArray(langValueLet) ? langValueLet.join(", ") : langValueLet || "Всё сложно";
+      relationText = `<a href="https://vk.com/search/people?status=complicated">${(Array.isArray(langValueLet) ? langValueLet.join(", ") : langValueLet || "Всё сложно").toLowerCase()}</a>`;
       if (relationPartner) {
         const rawValue = getLang?.("profile_complic_with_partner", "raw");
         relationText = Array.isArray(rawValue) ? rawValue[0] : rawValue || "";
@@ -126,15 +126,15 @@ const getRelationText = async (
       break;
     case 6:
       let langValue = getLang?.("profile_in_search");
-      relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "В активном поиске";
+      relationText = `<a href="https://vk.com/search/people?status=actively_looking">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "В активном поиске").toLowerCase()}</a>`;
       break;
     case 7:
       if (sex === 2) {
         const langValue = getLang?.("profile_m_in_love");
-        relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "влюблён";
+        relationText = `<a href="https://vk.com/search/people?status=in_love">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "влюблён").toLowerCase()}</a>`;
       } else {
         const langValue = getLang?.("profile_f_in_love");
-        relationText = Array.isArray(langValue) ? langValue.join(", ") : langValue || "влюблена";
+        relationText = `<a href="https://vk.com/search/people?status=in_love">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "влюблена").toLowerCase()}</a>`;
       }
       if (relationPartner) {
         if (sex === 2) {
@@ -152,10 +152,10 @@ const getRelationText = async (
       break;
     case 8:
       let langValueLet2 = getLang?.("profile_civil_married");
-      relationText = Array.isArray(langValueLet2) ? langValueLet2.join(", ") : langValueLet2 || "В гражданском браке";
+      relationText = `<a href="https://vk.com/search/people?status=civil_marriage">${(Array.isArray(langValueLet2) ? langValueLet2.join(", ") : langValueLet2 || "В гражданском браке").toLowerCase()}</a>`;
       if (relationPartner) {
         let civilRaw = getLang?.("profile_civil_married_with", "raw");
-        relationText = Array.isArray(civilRaw) ? civilRaw.join(", ") : civilRaw || "В гражданском браке с %s";
+        relationText = (Array.isArray(civilRaw) ? civilRaw.join(", ") : civilRaw || "В гражданском браке с %s").toLowerCase();
         let relationTextP = langReplacePrep(relationText, formatted_name || "");
 
         relationText = Array.isArray(relationTextP)

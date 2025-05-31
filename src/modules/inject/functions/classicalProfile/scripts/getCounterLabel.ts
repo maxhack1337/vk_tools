@@ -6,16 +6,19 @@ import getPostLangKey from "./getPostLangKey";
 const getCounterLabel = (counterType: string, value: number) => {
   switch (counterType) {
     case "photos": {
-      return getLangTime(value, getLang?.("profile_user_content_albums_photos_count", "raw") || ["", "фото", "фото", "фото"]);
+      let photosArr = getLang?.("profile_user_content_albums_photos_count", "raw");
+      return getLangTime(value, Array.isArray(photosArr) ? photosArr.map((item) => item.replace(/%s/g, "")) : photosArr || ["", "фото", "фото", "фото"]);
     }
     case "audios": {
       return getLangTime(value, getAudioContLang(vk.lang));
     }
     case "followers": {
-      return getLangTime(value, getLang?.("profile_count_fans", "raw") || ["", "подписчик", "подписчика", "подписчиков"]);
+      let subsArr = getLang?.("profile_count_fans", "raw");
+      return getLangTime(value, Array.isArray(subsArr) ? subsArr.map((item) => item.replace(/%s/g, "")) : subsArr || ["", "подписчик", "подписчика", "подписчиков"]);
     }
     case "friends": {
-      return getLangTime(value, getLang?.("profile_count_friends_new", "raw") || ["", "друг", "друга", "друзей"]);
+      let friendsArr = getLang?.("profile_count_friends_new", "raw");
+      return getLangTime(value, Array.isArray(friendsArr) ? friendsArr.map((item) => item.replace(/%s/g, "")) : friendsArr || ["", "друг", "друга", "друзей"]);
     }
     case "user_photos": {
       return getLangTime(value, getPhotoTagText(vk.lang));

@@ -182,7 +182,7 @@ const expandMore = async (
                 groupLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible", "profileJobLink");
               } else if (job.company) {
                 groupLink = document.createElement("a");
-                groupLink.href = `https://vk.com/search/people?c[company]=${job.company}&c[name]=0`;
+                groupLink.href = `https://vk.com/search/people?company=${job.company}`;
                 groupLink.textContent = job.company;
                 groupLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible", "profileJobLink");
               }
