@@ -61,6 +61,7 @@ import ignoreReactErrorOnRemoveChild from "./functions/classicalProfile/scripts/
 import feedPostLayerEnable from "./functions/openPostInWkLayer/feedPostLayerEnable";
 import initMenuActions from "./functions/graffityVoice/initMenuActions";
 import createStyle from "./createStyle";
+import toggleShop from "./functions/toggleShop/toggleShop";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -687,3 +688,5 @@ createYtPlayer();
 ignoreReactErrorOnRemoveChild();
 //Возвращаем открытие поста в модалке
 feedPostLayerEnable();
+//ToggleShop
+toggleShop();

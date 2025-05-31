@@ -47,6 +47,12 @@ const newDesign = () => {
       window.vk.pe.vkm_hide_forward_author = 1;
       window.vk.pe.vkm_theme_styles_settings = 1;
       window.vk.pe.vkm_reactions || (window.vk.pe.vkm_reactions = 20);
+      try {
+        let toggleShopStore = JSON.parse(localStorage.getItem("vkToolsCustomToggles") || "{}");
+        Object.entries(toggleShopStore).forEach(([key, value]) => {
+          window.vk.pe[key] = value;
+        });
+      } catch (error) {}
     },
     { variablePath: "vk.pe" }
   );
