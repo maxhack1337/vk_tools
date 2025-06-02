@@ -324,6 +324,17 @@ const innerStyleGet = () => {
 			margin: 8px 20px;
 			border-radius: 8px;
 		}
+
+		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_show_snackbar"], .Post--redesignV3 [data-testid="feed_action_button_show_snackbar"] {
+			margin: 8px 20px;
+			border-radius: 8px;
+		}
+
+		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_online_booking"], .Post--redesignV3 [data-testid="feed_action_button_online_booking"] {
+			margin: 8px 20px;
+			border-radius: 8px;
+		}
+
 		.PostCopyQuote--redesignV3 [data-testid="feed_action_button_open_conversation"], .Post--redesignV3 [data-testid="feed_action_button_open_conversation"] {
 			margin: 8px 20px;
 			border-radius: 8px;
@@ -459,7 +470,7 @@ const innerStyleGet = () => {
 			display:none;
 		}
 		.Post--redesignV3 .vk_enhancer_in_post_audio {
-			margin: 6px 20px 0px!important;
+			margin: 6px 10px 0px!important;
 		}
 		.Post--redesignV3 [class^="vkitMusicOverlayAttachment__attachment"],.Post--redesignV3 [class^="OnMediaAttachmentOverlay__attachment"] {
 			display:none;
