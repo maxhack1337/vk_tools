@@ -7,9 +7,8 @@ interface SettingsElementProps {
   canFile: boolean;
 }
 
-// Определяем интерфейс для ожидаемых значений из chrome.storage.local
 interface SettingsData {
-  [key: string]: any; // Здесь можно уточнить тип данных, если известен
+  [key: string]: any;
 }
 
 const allStates = [
@@ -64,6 +63,7 @@ const allStates = [
   "classicVideoPlaylistsState",
   "createYtPlayerState",
   "postInWkLayerState",
+  "returnComAvaState",
 ];
 
 const clearAllStates: { [key: string]: any } = {
@@ -118,6 +118,7 @@ const clearAllStates: { [key: string]: any } = {
   classicVideoPlaylistsState: false,
   createYtPlayerState: false,
   postInWkLayerState: false,
+  returnComAvaState: false,
 };
 const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
 

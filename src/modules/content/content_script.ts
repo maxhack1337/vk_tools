@@ -104,6 +104,7 @@ const functions = [
   "classicVideoPlaylistsState",
   "createYtPlayerState",
   "postInWkLayerState",
+  "returnComAvaState",
 ];
 
 const applySavedStyles = () => {
@@ -159,6 +160,7 @@ const applySavedStyles = () => {
     const classicVideoPlaylists = items.classicVideoPlaylistsState;
     const createYtPlayer = items.createYtPlayerState;
     const postInWkLayer = items.postInWkLayerState;
+    const returnComAva = items.returnComAvaState;
     applyStyles({
       isVideoModal,
       altScroll,
@@ -211,6 +213,7 @@ const applySavedStyles = () => {
       classicVideoPlaylists,
       createYtPlayer,
       postInWkLayer,
+      returnComAva,
     });
   });
 };
@@ -267,6 +270,7 @@ function applyStyles(styles: {
   classicVideoPlaylists: any;
   createYtPlayer: any;
   postInWkLayer: any;
+  returnComAva: any;
 }) {
   //if (styles.removeNFT) {
   //hideNFT_Avatars();
@@ -397,6 +401,11 @@ function applyStyles(styles: {
     cameraPhotoDel();
   }
 
+  if (styles.returnComAva) {
+    comAvaRet();
+  } else {
+    comAvaDel();
+  }
   if (styles.reloadButton) {
     lessStickerAdd();
   } else {
@@ -894,6 +903,31 @@ function cameraPhotoRet() {
 
 function cameraPhotoDel() {
   const customStyle = fromId("cameraPhotoReturn");
+  if (customStyle) {
+    customStyle.remove();
+  }
+}
+
+//Возвращение челиксов для плейсхолдера авы сообщества
+function comAvaRet() {
+  let styleElement = fromId("communityPlaceholderOld");
+  if (!styleElement) {
+    styleElement = create("style", {}, { id: "communityPlaceholderOld" });
+    document.head.appendChild(styleElement);
+  }
+  styleElement.innerHTML = `
+    [src*="/hV2sUZg3H8_i7YovgNIe3wWzVyeH0obdWHIPLw/lj-AKosjN2o.jpg"] {
+      content:url("https://vk.com/images/community_400.png")
+    }
+      
+    [style*="/hV2sUZg3H8_i7YovgNIe3wWzVyeH0obdWHIPLw/lj-AKosjN2o.jpg"] {
+      background-image: url("https://vk.com/images/community_400.png")!important;
+    }
+    `;
+}
+
+function comAvaDel() {
+  const customStyle = fromId("communityPlaceholderOld");
   if (customStyle) {
     customStyle.remove();
   }

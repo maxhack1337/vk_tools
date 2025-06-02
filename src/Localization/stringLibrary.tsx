@@ -6,6 +6,7 @@ const strings = {
   clearCache: ["Очистить кеш", "Clear cache", "Очистити кеш"],
   changeTheme: ["Сменить тему", "Change theme color", "Змінити тему"],
   openExtension: ["Открыть расширение в новом окне", "Open extension in new window", "Відкрити розширення в новому вікні"],
+  returnComAva: ["Вернуть стандартную аватарку-заглушку сообщества", "Return default community placeholder avatar", "Повернути стандартну аватарку-заглушку спільноти"],
   returnCamera: ['Вернуть "фотоаппарат"', "Return camera profile avatar", 'Повернутися до "фотоапарату"'],
   showPatronymic: ["Изменение и отображение отчества", "Change & Display middle name", "Зміна та відображення по-батькові"],
   removeAvatars: ["Убрать NFT-аватарки", "Remove NFT avatars", "Видалити NFT аватари"],
