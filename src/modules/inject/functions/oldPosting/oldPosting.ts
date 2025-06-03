@@ -19,10 +19,14 @@ const oldPosting = () => {
     window.addEventListener("load", (e) => {
       if (localStorage.getItem("old_post_design") === "false") return;
       if (document.querySelector(".PostingReactBlock__root")) {
-        if (times < 1) {
+        if (typeof cur !== "undefined" && cur.options) {
+          Wall.init(cur.options);
+          return;
+        } else if (times < 1) {
           times++;
           console.info("[VK Tools] Failed to enable old post editor. Attempt to turn on (1/1)");
           nav.reload();
+          if (typeof cur !== "undefined" && cur.options) Wall.init(cur.options);
           showSnackbar({
             text: refreshButtonTextLang(vk.lang)[0],
             subtitle: refreshButtonTextLang(vk.lang)[3],
@@ -30,17 +34,18 @@ const oldPosting = () => {
             icon: "warning",
           });
           return;
+        } else if (times > 1) {
+          console.info("[VK Tools] Failed to enable old post editor. Forcing button");
+          showSnackbar({
+            text: refreshButtonTextLang(vk.lang)[0],
+            subtitle: refreshButtonTextLang(vk.lang)[1],
+            timeout: 4000,
+            icon: "error",
+          });
+          let append = document.querySelector(".PostingReactBlock__root");
+          if (append) append.appendChild(appendRefreshButton());
+          times = 0;
         }
-        console.info("[VK Tools] Failed to enable old post editor. Forcing button");
-        showSnackbar({
-          text: refreshButtonTextLang(vk.lang)[0],
-          subtitle: refreshButtonTextLang(vk.lang)[1],
-          timeout: 4000,
-          icon: "error",
-        });
-        let append = document.querySelector(".PostingReactBlock__root");
-        if (append) append.appendChild(appendRefreshButton());
-        times = 0;
       }
     });
 
