@@ -49,6 +49,11 @@ const oldPosting = () => {
       }
     });
 
+    let postingNewSelReady = [".PostingReactBlock__root > .vkui__root", ".PostingReactBlock__root > [class*=PostingFormBlock__singleButton]"];
+    document.arrive(postingNewSelReady.join(","), { existing: true }, (newPostingButton) => {
+      newPostingButton.appendChild(appendRefreshButton());
+    });
+
     deferredCallback(
       async (_wall: any) => {
         if (localStorage.getItem("old_post_design") === "false") return;

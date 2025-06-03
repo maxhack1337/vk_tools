@@ -13,7 +13,11 @@ const appendRefreshButton = () => {
   div.append(span);
 
   div.addEventListener("click", () => {
-    if (typeof cur !== "undefined" && cur.options) Wall.init(cur.options);
+    if (typeof cur !== "undefined" && cur.options) {
+      Wall.init(cur.options);
+    } else {
+      nav.reload();
+    }
     showSnackbar({
       text: getLang?.("box_loading").toString() || "Загрузка...",
       timeout: 4000,
