@@ -4,7 +4,9 @@ const renderGroups = (limit: number, groupsArray: any, groupsSpan: any) => {
   groupsArray.slice(0, limit).forEach(([name, url]: [string, string], index: number, arr: any[]) => {
     const groupHref = document.createElement("a");
     groupHref.href = url?.toString() || "";
+    groupHref.style.unicodeBidi = "embed";
     groupHref.textContent = name;
+
     groupsSpan.appendChild(groupHref);
 
     if (index < arr.length - 1 && index < limit - 1) {

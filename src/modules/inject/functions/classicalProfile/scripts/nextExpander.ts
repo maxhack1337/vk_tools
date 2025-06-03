@@ -55,7 +55,6 @@ const nextExpander = async (
           let universityLink = document.createElement("a");
           universityLink.href = `/search/people?education_city_id=${edu.city}&education_id=${edu.id}&education_type=university`;
           universityLink.textContent = edu.name;
-          universityLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
           let graduationYearText = "";
           if (edu.graduation && edu.graduation !== 0) {
@@ -65,7 +64,6 @@ const nextExpander = async (
           let graduationLink = document.createElement("a");
           graduationLink.href = `/search/people?education_city_id=${edu.city}&education_id=${edu.id}&education_type=university&education_year=${edu.graduation}`;
           graduationLink.textContent = graduationYearText;
-          graduationLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
           let universityDiv = document.createElement("div");
           universityDiv.classList.add("label", "fl_l");
@@ -85,8 +83,6 @@ const nextExpander = async (
           let facultyLink = document.createElement("a");
           facultyLink.href = `/search/people?c[name]=0&c[uni_country]=${edu.country}&c[uni_city]=${edu.city}&c[university]=${edu.id}&c[faculty]=${edu.faculty}`;
           facultyLink.textContent = edu.faculty_name;
-          facultyLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
-
           let facultyDiv = document.createElement("div");
           facultyDiv.classList.add("label", "fl_l");
           facultyDiv.textContent = `${getLang?.("Faculty")}`;
@@ -99,8 +95,6 @@ const nextExpander = async (
           let chairLink = document.createElement("a");
           chairLink.href = `/search/people?c[name]=0&c[uni_country]=1&c[uni_city]=1&c[university]=2&c[faculty]=23&c[chair]=${edu.chair}`;
           chairLink.textContent = edu.chair_name;
-          chairLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
-
           let chairDiv = document.createElement("div");
           chairDiv.classList.add("label", "fl_l");
           chairDiv.textContent = `${getLang?.("Chair")}`;
@@ -114,8 +108,6 @@ const nextExpander = async (
           let educationFormLink = document.createElement("a");
           educationFormLink.href = `/search/people?c[name]=0&c[uni_country]=1&c[uni_city]=153&c[university]=${edu.university}&c[edu_form]=${edu.education_form_id}`;
           educationFormLink.textContent = edu.education_form;
-          educationFormLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
-
           let educationFormDiv = document.createElement("div");
           educationFormDiv.classList.add("label", "fl_l");
           educationFormDiv.textContent = `${getLang?.("Form")}`;
@@ -128,8 +120,6 @@ const nextExpander = async (
           let statusLink = document.createElement("a");
           statusLink.href = `/search/people?c[name]=0&c[uni_country]=1&c[uni_city]=1&c[university]=2&c[edu_status]=${edu.education_status_id}`;
           statusLink.textContent = edu.education_status;
-          statusLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
-
           let statusDiv = document.createElement("div");
           statusDiv.classList.add("label", "fl_l");
           statusDiv.textContent = `${getLang?.("global_edustatus")}`;
@@ -169,7 +159,6 @@ const nextExpander = async (
         schoolLink.style.display = "inline-block";
         schoolLink.href = `/search/people?education_city_id=${school.city}&education_id=${school.id}&education_type=school`;
         schoolLink.textContent = school.name;
-        schoolLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
         schoolInfo.appendChild(schoolLink);
       }
       // Годы обучения и класс
@@ -197,7 +186,6 @@ const nextExpander = async (
           let classLink = document.createElement("a");
           classLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}&c[school_year]=${school.year_graduated}&c[school_class]=${school.class}`;
           classLink.textContent = `(${school.class})`;
-          classLink.classList.add("classLinkA", "vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
           yearClassDiv.appendChild(classLink);
         }
 
@@ -226,7 +214,6 @@ const nextExpander = async (
           let classLink = document.createElement("a");
           classLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}&c[school_class]=${school.class}`;
           classLink.textContent = `(${school.class})`;
-          classLink.classList.add("classLinkA", "vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
           yearFromDiv.appendChild(classLink);
         }
       } else if (school.year_to) {
@@ -253,7 +240,6 @@ const nextExpander = async (
           let classLink = document.createElement("a");
           classLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}&c[school_year]=${school.year_graduated}&c[school_class]=${school.class}`;
           classLink.textContent = `(${school.class})`;
-          classLink.classList.add("classLinkA", "vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
           yearFromDiv.appendChild(classLink);
         }
       }
@@ -263,7 +249,6 @@ const nextExpander = async (
         let specialityLink = document.createElement("a");
         specialityLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}&c[school_spec]=${school.speciality}`;
         specialityLink.textContent = school.speciality;
-        specialityLink.classList.add("specialityLinkA", "vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
         specialityLink.style.display = "inline-block";
         schoolInfo.appendChild(specialityLink);
       }
@@ -295,7 +280,6 @@ const nextExpander = async (
           voinLink.style.wordBreak = "break-word";
           voinLink.href = `/search/people?c[name]=0&c[mil_country]=${voin.country_id}&c[mil_unit]=${voin.unit_id}`;
           voinLink.textContent = voin.unit;
-          voinLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
           voinInfo.appendChild(voinLink);
         }
 
@@ -379,7 +363,6 @@ const nextExpander = async (
       let religionLink = document.createElement("a");
       religionLink.href = `/search/people?c[name]=0&c[religion]=${encodeURIComponent(religion)}`;
       religionLink.textContent = religion;
-      religionLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
       religionDiv.appendChild(religionLink);
       lifePos.appendChild(religionDiv);
@@ -400,7 +383,6 @@ const nextExpander = async (
       let lifeMainLink = document.createElement("a");
       lifeMainLink.href = `/search/people?c[name]=0&c[personal_priority]=${encodeURIComponent(lifeMain)}`;
       lifeMainLink.textContent = `${lifeMainLabels[lifeMain - 1]}`;
-      lifeMainLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
       lifeMainDiv.appendChild(lifeMainLink);
       lifePos.appendChild(lifeMainDiv);
@@ -421,7 +403,6 @@ const nextExpander = async (
       let peopleMainLink = document.createElement("a");
       peopleMainLink.href = `/search/people?c[name]=0&c[people_priority]=${encodeURIComponent(peopleMain)}`;
       peopleMainLink.textContent = `${peopleMainLabels[peopleMain - 1]}`;
-      peopleMainLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
       peopleMainDiv.appendChild(peopleMainLink);
       lifePos.appendChild(peopleMainDiv);
@@ -442,7 +423,6 @@ const nextExpander = async (
       let smokingLink = document.createElement("a");
       smokingLink.href = `/search/people?c[name]=0&c[smoking]=${encodeURIComponent(smoking)}`;
       smokingLink.textContent = `${smokingLabels[smoking - 1]}`;
-      smokingLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
       smokingDiv.appendChild(smokingLink);
       lifePos.appendChild(smokingDiv);
@@ -463,7 +443,6 @@ const nextExpander = async (
       let alcoholLink = document.createElement("a");
       alcoholLink.href = `/search/people?c[name]=0&c[alcohol]=${encodeURIComponent(alcohol)}`;
       alcoholLink.textContent = `${alcoholLabels[alcohol - 1]}`;
-      alcoholLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
       alcoholDiv.appendChild(alcoholLink);
       lifePos.appendChild(alcoholDiv);
@@ -487,13 +466,10 @@ const nextExpander = async (
         let inspirationLink = document.createElement("a");
         inspirationLink.href = `/search/people?c[name]=0&c[q]=${encodeURIComponent(inspiration)}`;
         inspirationLink.textContent = `${inspiration}`;
-        inspirationLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
         inspiredBySpan.appendChild(inspirationLink);
 
         if (index !== inspiredByLinks.length - 1) {
-          let commaSpan = document.createElement("span");
-          commaSpan.textContent = ", ​";
-          inspiredBySpan.appendChild(commaSpan);
+          inspiredBySpan.appendChild(document.createTextNode(", ​"));
         }
       });
 
@@ -530,20 +506,17 @@ const nextExpander = async (
       interestsDiv.appendChild(activitiesLabel);
 
       let activitiesSpan = document.createElement("span");
+      activitiesSpan.classList.add("labeled");
 
       let interests = activities.split(", ");
       interests.forEach((interest, index) => {
         let interestLink = document.createElement("a");
-        interestLink.href = `/search/people?c[name]=0&c[hometown]=${encodeURIComponent(interest)}`;
+        interestLink.href = `https://vk.com/search/people?c[name]=0&c[q]=${encodeURIComponent(interest)}`;
         interestLink.textContent = interest;
-        interestLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
-
         activitiesSpan.appendChild(interestLink);
 
         if (index !== interests.length - 1) {
-          let commaSpan = document.createElement("span");
-          commaSpan.textContent = ", ​";
-          activitiesSpan.appendChild(commaSpan);
+          activitiesSpan.appendChild(document.createTextNode(", ​"));
         }
       });
 
@@ -562,20 +535,18 @@ const nextExpander = async (
       interestsDiv.appendChild(interestsLabel);
 
       let interestsSpan = document.createElement("span");
+      interestsSpan.classList.add("labeled");
 
       let interestList = interests.split(", ");
       interestList.forEach((interest, index) => {
         let interestLink = document.createElement("a");
         interestLink.href = `/search/people?c[name]=0&c[q]=${encodeURIComponent(interest)}`;
         interestLink.textContent = interest;
-        interestLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
         interestsSpan.appendChild(interestLink);
 
         if (index !== interestList.length - 1) {
-          let commaSpan = document.createElement("span");
-          commaSpan.textContent = ", ​";
-          interestsSpan.appendChild(commaSpan);
+          interestsSpan.appendChild(document.createTextNode(", ​"));
         }
       });
 
@@ -594,20 +565,18 @@ const nextExpander = async (
       musicDiv.appendChild(musicLabel);
 
       let musicSpan = document.createElement("span");
+      musicSpan.classList.add("labeled");
 
       let musicList = music.split(", ");
       musicList.forEach((genre, index) => {
         let genreLink = document.createElement("a");
-        genreLink.href = `/search/audio?c[name]=0&c[q]=${encodeURIComponent(genre)}`;
+        genreLink.href = `/search/audio?q=${encodeURIComponent(genre)}`;
         genreLink.textContent = genre;
-        genreLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
 
         musicSpan.appendChild(genreLink);
 
         if (index !== musicList.length - 1) {
-          let commaSpan = document.createElement("span");
-          commaSpan.textContent = ", ​";
-          musicSpan.appendChild(commaSpan);
+          musicSpan.appendChild(document.createTextNode(", ​"));
         }
       });
 
@@ -626,20 +595,17 @@ const nextExpander = async (
       moviesDiv.appendChild(moviesLabel);
 
       let moviesSpan = document.createElement("span");
+      moviesSpan.classList.add("labeled");
 
       let movieList = movies.split(", ");
       movieList.forEach((movie, index) => {
         let movieLink = document.createElement("a");
-        movieLink.href = `https://vk.com/search/video?c[name]=0&c[q]=${encodeURIComponent(movie)}`;
+        movieLink.href = `/search/video?q=${encodeURIComponent(movie)}`;
         movieLink.textContent = movie;
-        movieLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
-
         moviesSpan.appendChild(movieLink);
 
         if (index !== movieList.length - 1) {
-          let commaSpan = document.createElement("span");
-          commaSpan.textContent = ", ​";
-          moviesSpan.appendChild(commaSpan);
+          moviesSpan.appendChild(document.createTextNode(", ​"));
         }
       });
 
@@ -658,20 +624,17 @@ const nextExpander = async (
       moviesDiv.appendChild(moviesLabel);
 
       let moviesSpan = document.createElement("span");
+      moviesSpan.classList.add("labeled");
 
       let movieList = tv.split(", ");
       movieList.forEach((movie, index) => {
         let movieLink = document.createElement("a");
-        movieLink.href = `https://vk.com/search/video?c[name]=0&c[q]=${encodeURIComponent(movie)}`;
+        movieLink.href = `/search/video?q=${encodeURIComponent(movie)}`;
         movieLink.textContent = movie;
-        movieLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
-
         moviesSpan.appendChild(movieLink);
 
         if (index !== movieList.length - 1) {
-          let commaSpan = document.createElement("span");
-          commaSpan.textContent = ", ​";
-          moviesSpan.appendChild(commaSpan);
+          moviesSpan.appendChild(document.createTextNode(", ​"));
         }
       });
 
@@ -690,20 +653,17 @@ const nextExpander = async (
       booksDiv.appendChild(booksLabel);
 
       let booksSpan = document.createElement("span");
+      booksSpan.classList.add("labeled");
 
       let bookList = books.split(", ");
       bookList.forEach((book, index) => {
         let bookLink = document.createElement("a");
         bookLink.href = `https://vk.com/search/people?c[name]=0&c[q]=${encodeURIComponent(book)}`;
         bookLink.textContent = book;
-        bookLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
-
         booksSpan.appendChild(bookLink);
 
         if (index !== bookList.length - 1) {
-          let commaSpan = document.createElement("span");
-          commaSpan.textContent = ", ​";
-          booksSpan.appendChild(commaSpan);
+          booksSpan.appendChild(document.createTextNode(", ​"));
         }
       });
 
@@ -722,20 +682,17 @@ const nextExpander = async (
       gamesDiv.appendChild(gamesLabel);
 
       let gamesSpan = document.createElement("span");
+      gamesSpan.classList.add("labeled");
 
       let gameList = games.split(", ");
       gameList.forEach((game, index) => {
         let gameLink = document.createElement("a");
         gameLink.href = `https://vk.com/search/people?c[name]=0&c[q]=${encodeURIComponent(game)}`;
         gameLink.textContent = game;
-        gameLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible");
-
         gamesSpan.appendChild(gameLink);
 
         if (index !== gameList.length - 1) {
-          let commaSpan = document.createElement("span");
-          commaSpan.textContent = ", ​";
-          gamesSpan.appendChild(commaSpan);
+          gamesSpan.appendChild(document.createTextNode(", ​"));
         }
       });
 
@@ -755,10 +712,11 @@ const nextExpander = async (
 
       let quotesText = escapeHtml(quotes).replace(/\n/g, "<br>");
       let quotesSpan = document.createElement("span");
-      quotesSpan.style.display = "inline-block";
-      quotesSpan.style.maxWidth = "335px";
-      quotesSpan.style.width = "335px";
-      quotesSpan.style.wordWrap = "break-word";
+      quotesSpan.classList.add("labeled");
+      // quotesSpan.style.display = "inline-block";
+      // quotesSpan.style.maxWidth = "335px";
+      // quotesSpan.style.width = "335px";
+      // quotesSpan.style.wordWrap = "break-word";
       quotesSpan.innerHTML = quotesText;
 
       quotesDiv.appendChild(quotesSpan);
@@ -776,10 +734,12 @@ const nextExpander = async (
       aboutDiv.appendChild(aboutLabel);
       let aboutText = escapeHtml(about).replace(/\n/g, "<br>");
       let aboutSpan = document.createElement("span");
-      aboutSpan.style.display = "inline-block";
-      aboutSpan.style.maxWidth = "335px";
-      aboutSpan.style.width = "335px";
-      aboutSpan.style.wordWrap = "break-word";
+      aboutSpan.classList.add("labeled");
+
+      // aboutSpan.style.display = "inline-block";
+      // aboutSpan.style.maxWidth = "335px";
+      // aboutSpan.style.width = "335px";
+      // aboutSpan.style.wordWrap = "break-word";
 
       let regex = /(?:https?:\/\/|www\.)\S+/g;
       let match;
