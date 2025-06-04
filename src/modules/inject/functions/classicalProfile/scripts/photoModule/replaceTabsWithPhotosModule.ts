@@ -149,7 +149,10 @@ const replaceTabsWithPhotosModule = async () => {
     }
     styleElement.id = "vks_blur";
     styleElement.innerHTML = `
-  .page_square_photo.crisp_image:nth-child(5) {display:none;}
+  .vkToolsPhotoModule {
+    .page_square_photo.crisp_image:nth-child(5) {display:none!important;}
+  }
+
   #profile_story:after{
     background-image: ${storyStyleImage};
     filter: blur(5px);
