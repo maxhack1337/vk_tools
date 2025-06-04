@@ -104,8 +104,8 @@ const convoButtons = () => {
       onlUsDiv.classList.add("vkenhancerUsersOnline");
       if (countOnl > 1 && onlineUsersOf > 2000000000) {
         onlUsDiv.textContent = "​ - " + countOnl + ` ` + getLang?.("global_user_is_online");
-        e.parentElement?.querySelector(".ConvoHeader__infoContainer > h5")?.appendChild(onlUsDiv);
-        let displayElement = e.parentElement?.querySelector(".ConvoHeader__infoContainer > h5") as HTMLElement;
+        e.parentElement?.querySelector(".ConvoHeader__status")?.appendChild(onlUsDiv);
+        let displayElement = e.parentElement?.querySelector(".ConvoHeader__status") as HTMLElement;
         displayElement.style.display = "flex";
       } else {
         let displayElement = ActionEnhancerMenu.querySelector(".vkEnOnline") as HTMLElement;
