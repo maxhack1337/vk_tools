@@ -112,7 +112,7 @@ const strings = {
   pseudoTab1: ["Кастомизация акцентов", "Accents customization", "Кастомізація акцентів"],
   pseudoTab2: ["Новый мессенджер", "New messenger", "Новий месенджер"],
   pseudoTab3: ["Настройки", "Settings", "Налаштування"],
-  versionNumber: ["Версия 6.4 Release", "v. 6.4 Release", "Версія 6.4 Release"],
+  versionNumber: ["Версия 6.4.1 Release", "v. 6.4.1 Release", "Версія 6.4.1 Release"],
   whatsNew: ["Что нового?", "What's new?", "Що нового?"],
   hideMessageFooter: ["Скрыть переключатель непрочитанных сообщений", "Hide unread messages switcher", "Приховати перемикач непрочитаних повідомлень"],
   doWideFeed: ["Ширина ленты", "Feed width", "Ширина стрічки"],

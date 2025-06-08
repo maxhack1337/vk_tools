@@ -23,6 +23,7 @@
  * Возможность активации классического интерфейса профиля
  * Возвращена старая поддержка(vk.com/support -> Задать вопрос)
  * Возможность убрать гирлянду
+ * Возможность загружать видео в свой профиль с сайта vkvideo.ru
  * Возможность просмотра онлайн-участников беседы
  * Возможность переключения раскладки выделенного текста(CTRL + ])
  * Возможность фиксации левого меню
@@ -120,7 +121,7 @@
 </p>
 </details>
 <p align="center"><strong>Установить расширение</strong></br></br>
-<a href="https://github.com/maxhack1337/vk_tools/releases/download/v6.4/VK.Tools.zip">
+<a href="https://github.com/maxhack1337/vk_tools/releases/download/v6.4.1/VK.Tools.zip">
   <img src="https://vkenhancer.ru/install.png" width="202" height="54">
 </a></p>
 <div>
