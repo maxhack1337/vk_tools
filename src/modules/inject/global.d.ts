@@ -213,6 +213,15 @@ declare global {
   var ArticleLayer: any;
   var hasMessageListener: any;
   var floatval: any;
+  var lastWindowWidth: any;
+  var lastWindowHeight: any;
+  var getSize: any;
+  var sbWidth: any;
+  var WkView: any;
+  var show: any;
+  var hide: any;
+  var setStyle: any;
+  var getXY: any;
 
   namespace NodeJS {
     interface ProcessEnv {

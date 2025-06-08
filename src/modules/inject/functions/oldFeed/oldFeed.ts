@@ -23,10 +23,12 @@ import miniAppAttachmentSecondary from "./attachments/miniAppAttachmentSecondary
 import linkAttachmentWithoutTitle from "./attachments/linkAttachmentWithoutTitle";
 import { escapeHtml } from "../../escapeHtml";
 import createStyle from "../../createStyle";
+import removeHideLogicWkViewArrows from "./removeHideLogicWkViewArrows";
 const oldFeed = () => {
   if (localStorage.getItem("feedOldPosts") === "true") {
     oldStoryBlock();
     postponedSuggestedPosts();
+    removeHideLogicWkViewArrows();
     const postSelectors = [`[class^='PostDateBlock__root'] > .vkui__root`, `._post.postponed ._post_content`];
     document.arrive(
       postSelectors.join(", "),
