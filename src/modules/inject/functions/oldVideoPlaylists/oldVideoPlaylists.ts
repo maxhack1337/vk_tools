@@ -1,17 +1,20 @@
 import createStyle from "../../createStyle";
 import { escapeHtml } from "../../escapeHtml";
 import getLocalValue from "../../getLocalValue";
+import { splitRaw } from "../../helpers";
+import extractPlistRaw from "./extractPlistRaw";
 import oldVideoPlaylistsStyle from "./oldVideoPlaylistsStyle";
-import parsePlist from "./parsePlist";
 import parseVidPlist from "./parseVidPlist";
 
 const oldVideoPlaylists = () => {
   if (getLocalValue("playlistsClassicalV")) {
-    document.arrive("[class^='PlaylistInfo__container']", { existing: true }, (e) => {
+    document.arrive("[class^='PlaylistPage__group']", { existing: true }, (e) => {
       e.arrive('[data-testid="playlist_more_button"]', { existing: true }, async (f) => {
         createStyle("oldPlist", oldVideoPlaylistsStyle());
         let morePlistButton = f;
-        let plistProps = await parsePlist(e as HTMLElement);
+        let raw = extractPlistRaw(window.location.href);
+        let pList = splitRaw(raw);
+        let plistProps = await vkApi.api("video.getAlbumById", { owner_id: pList.oid, album_id: pList.id });
 
         let editButton = e.querySelector('[data-testid="edit_playlist_button"]');
 
@@ -27,13 +30,12 @@ const oldVideoPlaylists = () => {
         let iconElement = document.createElement("div");
         iconElement.classList.add("VideoInfoPanel__cover");
 
-        let privacy = plistProps.playlist.privacy && plistProps.playlist.privacy.category !== "all";
-        let title = plistProps.playlist.title || "";
-        let raw = plistProps.playlist.owner_id + "_" + plistProps.playlist.id;
-        let subCount = plistProps.playlist.followers_count === 0 ? getLang?.("mobile_video_playlist_no_subscribers").toString().toLowerCase() : getLang?.("video_showcase_N_subscribers", plistProps.playlist.followers_count).toString().toLowerCase();
-        if (plistProps.playlist.image && plistProps.playlist.image.length > 1) {
+        let privacy = plistProps.privacy && plistProps.privacy.category !== "all";
+        let title = plistProps.title || "";
+        let subCount = plistProps.followers_count === 0 ? getLang?.("mobile_video_playlist_no_subscribers").toString().toLowerCase() : getLang?.("video_showcase_N_subscribers", plistProps.followers_count).toString().toLowerCase();
+        if (plistProps.image && plistProps.image.length > 1) {
           iconElement.innerHTML = `
-          <img src="${plistProps.playlist.image.at(-1).url}" loading="lazy" class="VideoInfoPanel__coverImage" alt="${escapeHtml(title)}">
+          <img src="${plistProps.image.at(-1).url}" loading="lazy" class="VideoInfoPanel__coverImage" alt="${escapeHtml(title)}">
 <div class="VideoInfoPanel__coverIcon"></div>
 ${
   privacy
@@ -66,7 +68,7 @@ ${
         contentEl.append(contInfo, actions);
         blockElement.append(iconElement, contentEl);
 
-        let videoCount = plistProps.playlist.count || 0;
+        let videoCount = plistProps.count || 0;
         let videoHeaderBlock = document.createElement("div");
         videoHeaderBlock.classList.add("VideoSubheader", "VkToolsVideoSubheader");
         videoHeaderBlock.innerHTML = `

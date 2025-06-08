@@ -44,7 +44,7 @@ const oldVideoPlaylistsStyle = () => {
             margin-top: 8px;
         }
     }
-    [class^="vkitTwoColumnLayoutNarrow__root"]:has([class^='PlaylistInfo__container']) {
+    [class^="vkitTwoColumnLayoutNarrow__root"]:has([class*='VideoPlaylistSideBlockContainer']) {
         display: none;
     }
 

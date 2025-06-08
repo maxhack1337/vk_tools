@@ -52,6 +52,8 @@ interface BrowserEnv {
   api: {
     fetch: (method: string, params: any, ...args: any[]) => Promise<any>;
   };
+
+  lang: any;
 }
 
 interface FeatureFlags {
