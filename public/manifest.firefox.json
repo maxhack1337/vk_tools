@@ -21,7 +21,8 @@
     "*://vk.ru/*",
     "*://oauth.vk.com/*",
     "*://vkvideo.ru/*",
-    "*://*.vk.com/*"
+    "*://*.vk.com/*",
+    "*://*.vkvideo.ru/*"
   ],
   "permissions": [
     "browsingData",
