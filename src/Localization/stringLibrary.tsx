@@ -30,6 +30,7 @@ const strings = {
     "This feature disables incoming calls. The caller will not know that you have turned them off",
     "Ця функція вимикає вхідні дзвінки. Дзвінокер не буде знати, що ви вимкнули дзвінки",
   ],
+  disableStandaloneCheckOnLoadVideo: ["Разрешить загрузку видео в свой профиль на сайте vkvideo.ru", "Allow uploading videos to your profile on the vkvideo.ru website", "Дозволити завантаження відео до свого профілю на сайті vkvideo.ru"],
   alternativeScrollbar: ["Альтернативный скроллбар", "Alternative scrollbar", "Альтернативний скролбар"],
   tabletMenu: ["Левое меню, как на планшетах", "Tablet-style left menu", "Ліве меню, як на планшетах"],
   disableReconnectIndicator: ["Отключить индикатор реконнекта в мессенджере", "Disable reconnect indicator", "Вимкнути індикатор перепідключення в месенджері"],

@@ -63,6 +63,7 @@ import initMenuActions from "./functions/graffityVoice/initMenuActions";
 import createStyle from "./createStyle";
 import toggleShop from "./functions/toggleShop/toggleShop";
 import ignoreReactErrorOnInsertBefore from "./functions/oldVideoPlaylists/ignoreReactErrorOnInsertBefore";
+import notVkVideoStandalone from "./functions/oldVideoUploadModal/notVkVideoStandalone";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -366,6 +367,10 @@ window.addEventListener("message", async (event) => {
     messageAct = "";
   }
   switch (messageAct) {
+    case "disableStandaloneCheckOnLoadVideo": {
+      localStorage.setItem("disableStandaloneCheckOnLoadVideo", event.data.value.messageValue);
+      break;
+    }
     case "postInWkLayer": {
       localStorage.setItem("postInWkLayer", event.data.value.messageValue);
       break;
@@ -693,3 +698,5 @@ ignoreReactErrorOnInsertBefore();
 feedPostLayerEnable();
 //ToggleShop
 toggleShop();
+//Запрещаем ВК узнавать находимся мы на вк видео или нет
+notVkVideoStandalone();

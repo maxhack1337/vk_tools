@@ -105,6 +105,7 @@ const functions = [
   "createYtPlayerState",
   "postInWkLayerState",
   "returnComAvaState",
+  "disableStandaloneCheckOnLoadVideoState",
 ];
 
 const applySavedStyles = () => {
@@ -161,6 +162,7 @@ const applySavedStyles = () => {
     const createYtPlayer = items.createYtPlayerState;
     const postInWkLayer = items.postInWkLayerState;
     const returnComAva = items.returnComAvaState;
+    const disableStandaloneCheckOnLoadVideo = items.disableStandaloneCheckOnLoadVideoState;
     applyStyles({
       isVideoModal,
       altScroll,
@@ -214,6 +216,7 @@ const applySavedStyles = () => {
       createYtPlayer,
       postInWkLayer,
       returnComAva,
+      disableStandaloneCheckOnLoadVideo,
     });
   });
 };
@@ -271,6 +274,7 @@ function applyStyles(styles: {
   createYtPlayer: any;
   postInWkLayer: any;
   returnComAva: any;
+  disableStandaloneCheckOnLoadVideo: any;
 }) {
   //if (styles.removeNFT) {
   //hideNFT_Avatars();
@@ -480,6 +484,12 @@ function applyStyles(styles: {
     customMessage("postInWkLayer", styles.postInWkLayer);
   } else {
     customMessage("postInWkLayer", "false");
+  }
+
+  if (styles.disableStandaloneCheckOnLoadVideo) {
+    customMessage("disableStandaloneCheckOnLoadVideo", styles.disableStandaloneCheckOnLoadVideo);
+  } else {
+    customMessage("disableStandaloneCheckOnLoadVideo", "false");
   }
 
   if (styles.hideTextEntry) {

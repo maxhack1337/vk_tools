@@ -224,6 +224,7 @@ declare global {
   var hide: any;
   var setStyle: any;
   var getXY: any;
+  var Privacy: any;
 
   namespace NodeJS {
     interface ProcessEnv {

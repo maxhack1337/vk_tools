@@ -138,6 +138,7 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <HeaderPseudoTransparent label={getLang("video")} textForTT={getLang("afterReboot")} />
           <CheckBox type={"checkBox"} label={getLang("additionalVKEnhancerFunctions")} isNew={false} isFire={false} id={"additionalVKEnhancerFunctions"} shouldReload={true} />
           <CheckBox type={"checkBox"} label={getLang("classicVideoPlaylists")} isNew={false} isFire={false} id={"classicVideoPlaylists"} shouldReload={true} />
+          <CheckBox type={"checkBox"} label={getLang("disableStandaloneCheckOnLoadVideo")} isNew={false} isFire={false} id={"disableStandaloneCheckOnLoadVideo"} shouldReload={true} />
         </div>,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("profile")} textForTT={getLang("someAfterReboot")} />

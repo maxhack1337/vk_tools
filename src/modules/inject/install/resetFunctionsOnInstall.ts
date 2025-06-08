@@ -28,6 +28,7 @@ const keys = [
   "playlistsClassicalV",
   "createYtPlayer",
   "postInWkLayer",
+  "disableStandaloneCheckOnLoadVideo",
 ];
 
 const resetFunctionsOnInstall = () => {
