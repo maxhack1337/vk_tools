@@ -80,7 +80,7 @@ const posters = () => {
     posterOpenBtnWrapper.append(posterBtnLayout);
     let subPost = e.closest("#submit_post");
     let pAddMedia = e.closest("#page_add_media");
-    if (!e.querySelector(".poster__open-btn-wrapper") && subPost) subPost.insertBefore(posterOpenBtnWrapper, pAddMedia);
+    if (!e.closest("#submit_post")?.querySelector(".poster__open-btn-wrapper") && subPost) subPost.insertBefore(posterOpenBtnWrapper, pAddMedia);
   });
 };
 
