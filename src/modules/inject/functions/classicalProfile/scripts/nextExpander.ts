@@ -250,6 +250,7 @@ const nextExpander = async (
         specialityLink.href = `/search/people?c[name]=0&c[school_country]=${school.country}&c[school_city]=${school.city}&c[school]=${school.id}&c[school_spec]=${school.speciality}`;
         specialityLink.textContent = school.speciality;
         specialityLink.style.display = "inline-block";
+        specialityLink.style.marginLeft = "165px";
         schoolInfo.appendChild(specialityLink);
       }
 
