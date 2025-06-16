@@ -4,6 +4,9 @@ import extractVideoPart from "./extractVideoPart";
 
 const modalVideo = () => {
   if (getLocalValue("videoModal")) {
+    document.arrive('#mv_minimize_action_btn[style="display: none;"]', { existing: true }, (minimizeButton) => {
+      (minimizeButton as HTMLElement).style.display = "block";
+    });
     document.arrive(`body:not(:has(#video_choose_box)) ._video_item`, { existing: true }, async function (e) {
       let videoId = e.hasAttribute("data-id") ? e.getAttribute("data-id") : "";
       e.setAttribute(
