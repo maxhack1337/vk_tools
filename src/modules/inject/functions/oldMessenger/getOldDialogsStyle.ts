@@ -286,7 +286,7 @@ const getOldDialogsStyle = () => {
         display:none;
     }
     
-    .ConvoList__folders {
+    .ConvoList__folders, .ConvoList__tabs {
         display:none;
     }
     :is(.ConvoListItem--selected )::before {
@@ -450,6 +450,9 @@ const getOldDialogsStyle = () => {
             display: none;
         }
         .DropdownReforged:has(.ConvoList__topMenuAction > .vkuiIcon--phone_add_outline_24) {
+            display: none;
+        }
+        div:has( > .ConvoList__topMenuAction > .vkuiIcon--archive_outline_24) {
             display: none;
         }
         .vkEnhancerCounterOfMessages .ConvoListFilter__text, .vkEnhancerCounterOfMessages #vkEnhancerRebootMessageCounter {
