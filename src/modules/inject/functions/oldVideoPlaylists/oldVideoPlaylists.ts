@@ -82,10 +82,10 @@ ${
       });
       document.arrive('[data-testid="video_card_title"]', { existing: true }, async (s) => {
         let draggable = false;
-        let allVideosInPlist = s.closest("[class^='vkitVideoCardLayout__card']")?.querySelector("[class^='vkitVideoCardThumb__thumb'][href^='/playlist'] > [class^='vkitVideoCardPreview__preview']");
+        let allVideosInPlist = s.closest("[class^='vkitVideoCardLayout__card']")?.querySelector("[class^='vkitVideoCardThumb__thumb'][href^='/playlist']:has(> [class^='vkitVideoCardPreviewContainer__preview'])");
 
         if (!allVideosInPlist) {
-          allVideosInPlist = s.closest("[class*='vkitDraggableVideoCard__card']")?.querySelector("[class^='vkitVideoCardThumb__thumb'][href^='/playlist'] > [class^='vkitVideoCardPreview__preview']");
+          allVideosInPlist = s.closest("[class*='vkitDraggableVideoCard__card']")?.querySelector("[class^='vkitVideoCardThumb__thumb'][href^='/playlist']:has(> [class^='vkitVideoCardPreviewContainer__preview'])");
           if (!allVideosInPlist) {
             return;
           } else {
@@ -108,9 +108,11 @@ ${
           avaRichImg.classList.add("AvatarRich__img");
           avaRichImg.src = props.owner.photo_50 ? props.owner.photo_50 : "";
 
-          avatarRich.append(avaRichImg);
-          videoCardAvatar.append(avatarRich);
-          videoCardInfo?.prepend(videoCardAvatar);
+          if (props.owner.photo_50) {
+            avatarRich.append(avaRichImg);
+            videoCardAvatar.append(avatarRich);
+            videoCardInfo?.prepend(videoCardAvatar);
+          }
         }
       });
     });
