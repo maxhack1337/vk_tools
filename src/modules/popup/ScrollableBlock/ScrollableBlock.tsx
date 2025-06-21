@@ -76,6 +76,18 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
     }
   };
 
+  /*
+   * label - название функции
+   * description - описание функции в вопросике
+   * isNew - не используй
+   * isFire - типо крутая функция
+   * id - id для стейта
+   * type - всегда чекбокс. Хз зачем добавил
+   * shouldReload - нужно ли перезагружать стр при включении функции
+   * shouldAlert - иконка алёрта для описания
+   * shouldWarn - нужно ли писать что функция замедляет сайт
+   */
+
   let currentTab = [
     <div className="vkToolsBlockWithPadding">
       <HeaderPseudoTransparent label={getLang("appearance")} />

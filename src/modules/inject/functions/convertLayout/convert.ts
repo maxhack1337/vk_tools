@@ -1,5 +1,10 @@
 import toggleLayout from "./toggleLayout";
 
+/*
+ * Это функция которая превращает транслит в не-транслит
+ * Если поломается - дело в аррайвах, сама функция работает корректно
+ */
+
 const convert = (e: Element | Document) => {
   e.addEventListener("keydown", function (event: KeyboardEvent) {
     if ((event.ctrlKey && event.key === "]") || (event.ctrlKey && event.key === "ъ")) {

@@ -9,6 +9,11 @@ import createProfileInfoRow3 from "./createProfileInfoRow3";
 import createRegDateInfoRow2 from "./createRegDateInfoRow2";
 import getUserIdUsingApi from "./getUserIdUsingApi";
 
+/*
+ * Функция под вопросом
+ * Если сломается API - пиши Мирату. Если сломается метод получения - пишите мне, будем искать новый
+ */
+
 const regDate = () => {
   document.arrive(`[class^="ProfileFullInfoModal__content"]>section:nth-child(1)`, { existing: true }, async function (e) {
     try {

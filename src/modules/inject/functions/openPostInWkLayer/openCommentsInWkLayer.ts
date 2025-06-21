@@ -1,5 +1,11 @@
 import getInlineCommentElement from "./getInlineCommentElement";
 
+/*
+ * Лучше не выключать
+ * Если вдруг захочешь - сначала изучи, отключен ли тоггл
+ * А если отключен - посмотри, не обновилась ли логика
+ */
+
 const openCommentsInWkLayer = (postId: string, target: HTMLElement, options: any) => {
   const postIdMatches = postId.match(/^(-?\d+)_(wall)?(\d+)$/);
   if (!postIdMatches) {

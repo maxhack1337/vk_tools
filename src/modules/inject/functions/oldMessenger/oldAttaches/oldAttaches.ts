@@ -8,6 +8,11 @@ import onAddMessage from "./onAddMessage";
 import onAddState from "./onAddState";
 import createStyle from "../../../createStyle";
 
+/*
+ * Этот модуль использует рудиментарный kphp
+ * После отключения kphp смело удаляй его
+ */
+
 const oldAttaches = () => {
   if (getLocalValue("oldMessengerAttaches") === true) {
     createStyle("oldAttachesMessengerStyle", getOldAttachStyle());

@@ -2,6 +2,10 @@ import getLocalValue from "../../getLocalValue";
 import extractPlaylistPart from "./extractPlaylistPart";
 import extractVideoPart from "./extractVideoPart";
 
+/*
+ * Хз под чем я был когда писал это. По хорошему упорядочить бы тут всё)
+ */
+
 const modalVideo = () => {
   if (getLocalValue("videoModal")) {
     document.arrive('#mv_minimize_action_btn[style="display: none;"]', { existing: true }, (minimizeButton) => {

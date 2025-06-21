@@ -6,6 +6,12 @@ import extractPlistRaw from "./extractPlistRaw";
 import oldVideoPlaylistsStyle from "./oldVideoPlaylistsStyle";
 import parseVidPlist from "./parseVidPlist";
 
+/*
+ * В последний раз тут была проблема с Fiber
+ * Но вроде я сделал нормальную "искалку"
+ * И обрати внимание на селекторы - часто меняют
+ */
+
 const oldVideoPlaylists = () => {
   if (getLocalValue("playlistsClassicalV")) {
     document.arrive("[class^='PlaylistPage__group']", { existing: true }, (e) => {

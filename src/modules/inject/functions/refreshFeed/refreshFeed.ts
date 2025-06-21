@@ -1,3 +1,8 @@
+/*
+ * Способ обновления стены от VK Opt
+ * Не удивляйся если иногда не работает)
+ */
+
 const refreshFeed = () => {
   if (localStorage.getItem("refreshFeed") === "true") {
     const tabsSelectors = ["#wall_tabs.ui_tabs .ui_tabs_right_section"];

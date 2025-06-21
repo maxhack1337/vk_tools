@@ -7,6 +7,10 @@ import getOldDialogsStyle from "./getOldDialogsStyle";
 import getSwitchInterface from "./getSwitchInterface";
 import { getUnsupportedLangOldM } from "./getUnsupportedLang";
 
+/*
+ * Если будет лень этим заниматься - просто удали эту функцию
+ */
+
 const oldMessenger = () => {
   if (getLocalValue("oldMessengerDes") === true) {
     deferredCallback(

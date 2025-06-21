@@ -8,6 +8,11 @@ import vkToolsOnlineBox from "./vkToolsOnlineBox";
 
 interface OnlineUser {}
 
+/*
+ * В этот модуль лучше особо не лезть, тут делал Паша какую-то дичь, я пытался рефакторнуть, но очень много всего
+ * Напиши Паше если что-то сломается, я так и делал всегда)
+ */
+
 const convoButtons = () => {
   document.arrive(".ConvoHeader__controls", { existing: true }, async function (e) {
     let upToButton = document.createElement("button");

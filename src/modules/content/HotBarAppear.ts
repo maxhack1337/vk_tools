@@ -1,6 +1,11 @@
 import create from "./create";
 import fromId from "./fromId";
 
+/*
+ * Это заглушка для хотбара если он не был добавлен через main
+ * Ломается - пиши мне
+ */
+
 const HotBarAppear = (cHotBarValue: string[]) => {
   if (cHotBarValue.includes("ВТриптакте")) {
     let styleElement = fromId("tripndrip");
@@ -22,11 +27,8 @@ const HotBarAppear = (cHotBarValue: string[]) => {
     hotbarb.id = "hotbarnew";
     document.head.appendChild(hotbarb);
   }
-  hotbarb.innerHTML =
-    ".ConvoMain__composer{padding-bottom:8px!important;display:flex;flex-direction: column;align-items: center;}";
-  const chatInputContainer = document.getElementsByClassName(
-    "ConvoMain__composer"
-  );
+  hotbarb.innerHTML = ".ConvoMain__composer{padding-bottom:8px!important;display:flex;flex-direction: column;align-items: center;}";
+  const chatInputContainer = document.getElementsByClassName("ConvoMain__composer");
 
   const existingHotbar = fromId("vkenhancerEmojiHotbarID");
   cHotBarValue = cHotBarValue.filter(function (item) {
@@ -37,7 +39,7 @@ const HotBarAppear = (cHotBarValue: string[]) => {
     const hotbarDiv = document.createElement("div");
     hotbarDiv.className = "vkenhancerEmojiHotbar";
     hotbarDiv.id = "vkenhancerEmojiHotbarID";
-    hotbarDiv.style.marginTop = "6px"; 
+    hotbarDiv.style.marginTop = "6px";
     hotbarDiv.style.marginLeft = "9px";
     hotbarDiv.style.color = "#dee1e6";
     hotbarDiv.style.textAlign = "center";
@@ -57,7 +59,7 @@ const HotBarAppear = (cHotBarValue: string[]) => {
       aElement.style.cursor = "pointer";
       aElement.style.zIndex = "10";
       aElement.style.transition = "0.3s background";
-      aElement.setAttribute("textmoji", emojiUnicode || '');
+      aElement.setAttribute("textmoji", emojiUnicode || "");
       aElement.addEventListener("mouseover", () => {
         aElement.style.background = "var(--vkui--color_transparent--active)";
         aElement.style.borderRadius = "3px";
@@ -68,13 +70,12 @@ const HotBarAppear = (cHotBarValue: string[]) => {
       });
 
       aElement.addEventListener("click", function () {
-        const emojiCodeAdd = emojiCode; 
+        const emojiCodeAdd = emojiCode;
         const textmoji = aElement.getAttribute("textmoji");
         const imgElement = document.createElement("img");
         imgElement.className = "Emoji @" + emojiCodeAdd;
-        imgElement.src =
-          "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
-        imgElement.alt = textmoji || '';
+        imgElement.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+        imgElement.alt = textmoji || "";
         const divElement = document.querySelector(".ComposerInput__input.ConvoComposer__input") as HTMLDivElement | null;
         const divElement1 = document.querySelector(".Composer__input") as HTMLDivElement | null;
         if (divElement) {
@@ -151,7 +152,7 @@ const HotBarAppear = (cHotBarValue: string[]) => {
     );
     rebootHotbar.appendChild(imgElementReboot);
     hotbarDiv.appendChild(rebootHotbar);
-      rebootHotbar.addEventListener("click", function () {
+    rebootHotbar.addEventListener("click", function () {
       let vkToolsHotBar = fromId("vkenhancerEmojiHotbarID");
       vkToolsHotBar?.remove();
       chrome.storage.local.get(["customHotbar"], ({ customHotbar }) => {
@@ -161,8 +162,8 @@ const HotBarAppear = (cHotBarValue: string[]) => {
     });
     try {
       chatInputContainer[0].appendChild(hotbarDiv);
-    } catch (error) { }
+    } catch (error) {}
   }
-}
+};
 
 export default HotBarAppear;

@@ -1,6 +1,11 @@
 import getLocalValue from "../../getLocalValue";
 import subscribeNavLocationChange from "../listeners/subscribeNavLocationChange";
 
+/*
+ * Функция вообще необязательная
+ * Если метод определения стенделона VK Видео изменится и тебе будет лень - можешь удалять
+ */
+
 const notVkVideoStandalone = () => {
   if (getLocalValue("disableStandaloneCheckOnLoadVideo")) {
     const loadVideoButtonsSel = ['[data-testid="video_upload_load_more_videos"]', '[data-testid="add_video_button"]'];

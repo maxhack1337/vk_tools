@@ -11,6 +11,10 @@ console.log("VK Tools content script is running!");
 
 injectScript(chrome.runtime.getURL("src/main.js"));
 
+/*
+ * Пиши мне если сломается. Токен на костылях
+ */
+
 async function CheckToken() {
   await sleep(1000);
   if (window.location.href.indexOf("https://oauth.vk.com/blank.html") === -1 && window.location.href.indexOf("https://oauth.vk.com/authorize") === -1 && window.location.href.indexOf("https://oauth.vk.com/oauth/authorize") === -1) {
@@ -51,6 +55,14 @@ var vkenAccessToken1 = "";
     "*"
   );
 })();
+
+/*
+ * Добавил функцию с переключателем - добавил её в стейты
+ * Далее добавил в хром сторедж локал гет
+ * Добавил в вызов и в сам applyStyles
+ * Если функция не требует инжекта пишешь тут
+ * Если требует - отсылаешь месседж в main
+ */
 
 const functions = [
   "additionalVKEnhancerFunctionsState",
@@ -653,8 +665,15 @@ function removeMessageReactions() {
     styleElement = create("style", {}, { id: "msgReactions" });
     document.head.appendChild(styleElement);
   }
-  styleElement.innerHTML =
-    "[class^='MessageReactionPicker'],.DropdownReforged:has(.ReactionChip), .ConvoListItem__icon:not([aria-label]),.HopNavigationButton:has(.vkuiIcon--stars_20),.ConvoMessageWithoutBubble__reactions,.MessageActionsContent__reactions,.MessageReactionsPanel,.im-mess--reaction,.MessageReactions,MessageReactionsModalButton,.im-mess_reactions:hover .MessageReactionsModalButton,.im-mess .im-mess--reactions,.nim-dialog .nim-dialog--unread-badge_reaction,button.im-navigation.im-navigation--to-reaction._im_to_reaction.im-navigation_shown { display: none!important; }";
+  styleElement.innerHTML = `.ConvoMessageClipReactionsMenu, [class^='MessageReactionPicker'],.DropdownReforged:has(.ReactionChip), .ConvoListItem__icon:not([aria-label]),.HopNavigationButton:has(.vkuiIcon--stars_20),.ConvoMessageWithoutBubble__reactions,.MessageActionsContent__reactions,.MessageReactionsPanel,.im-mess--reaction,.MessageReactions,MessageReactionsModalButton,.im-mess_reactions:hover .MessageReactionsModalButton,.im-mess .im-mess--reactions,.nim-dialog .nim-dialog--unread-badge_reaction,button.im-navigation.im-navigation--to-reaction._im_to_reaction.im-navigation_shown
+    {
+      display: none!important;
+    }
+      
+    .ConvoMessageWithoutBubble--withClipOnly.ConvoMessageWithoutBubble--withClipReactionsTrigger .ConvoMessageWithoutBubble__mediaAttachments {
+      mask-image: none!important;
+      -webkit-mask-image: none!important;
+    }`;
 }
 
 function backMessageReactions() {

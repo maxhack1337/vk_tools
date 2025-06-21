@@ -24,6 +24,11 @@ import linkAttachmentWithoutTitle from "./attachments/linkAttachmentWithoutTitle
 import { escapeHtml } from "../../escapeHtml";
 import createStyle from "../../createStyle";
 import removeHideLogicWkViewArrows from "./removeHideLogicWkViewArrows";
+
+/*
+ * Если что-то кроме селекторов ломается - пиши мне
+ */
+
 const oldFeed = () => {
   if (localStorage.getItem("feedOldPosts") === "true") {
     oldStoryBlock();

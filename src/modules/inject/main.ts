@@ -186,6 +186,10 @@ window.urls = null;
 if (!window.vkenh) {
   window.vkenh = {};
 }
+
+/*
+ * Сюда добавляй только сущности которые реально нужны в Window
+ */
 window.vkenh.profileHashes = {};
 window.vkenh.showSnackbar = showSnackbar;
 window.vkenh.createBanner = banner;
@@ -278,6 +282,10 @@ deferredCallback(
   { variable: "nav" }
 );
 
+/*
+ * Если что-то не работает с токеном - пишешь мне. Тут всё на костылях
+ */
+
 deferredCallback(
   () => {
     let currentVKID = localStorage.getItem("currentVKID");
@@ -359,6 +367,10 @@ deferredCallback(
   { variable: "MECommonContext" }
 );
 
+/*
+ * Это лисенер из контента который записывает в сторедж ключ функции
+ * Если добавляешь новую функцию с ключом - нужно записывать и сюда
+ */
 window.addEventListener("message", async (event) => {
   let messageAct;
   try {
@@ -579,7 +591,7 @@ deferredCallback(
 );
 //Эмодзи-хотбар
 hotBar();
-//Доп функции в мессенджере и смена отчества
+//Смена отчества и запись статьи при сохранении в объект(На kphp. Сломается - удаляй)
 deferredCallback(
   () => {
     let orig_ajax = ajax.post;

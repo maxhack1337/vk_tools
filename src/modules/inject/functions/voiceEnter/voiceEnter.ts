@@ -4,6 +4,11 @@ const voiceEnter = () => {
     return;
   }
 
+  /*
+   * Функция особо не нужна, если что, удаляй
+   * И добавь поддержку других языков
+   */
+
   const recognition = new (window as any).webkitSpeechRecognition();
   recognition.lang = "ru-RU";
   recognition.continuous = false;

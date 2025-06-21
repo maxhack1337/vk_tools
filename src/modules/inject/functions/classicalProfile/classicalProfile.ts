@@ -20,6 +20,11 @@ import fetchGroups from "./scripts/groups/fetchGroups";
 
 let cachedGroupInfo: any = {};
 
+/*
+ * Прелоады существуют для того, чтобы убрать подгрузку инфы при развороте подробной инфы
+ * Если прелоад не нужен - метод не будет вызван
+ */
+
 async function preloadGroupInfo(userData: any) {
   if (userData.career && userData.career.length > 0) {
     for (const job of userData.career) {

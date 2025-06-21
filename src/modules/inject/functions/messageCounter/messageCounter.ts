@@ -3,24 +3,27 @@ import getAllMsgLang from "./getAllMsgLang";
 import getCounterLang from "./getCounterLang";
 import getTextTTNum from "./getTextTTNum";
 
+/*
+ * Максимально тупая логика с узнаванием количества сообщений юзера
+ * Делал Паша - бей его :)
+ * А вообще, переделай, если захочешь. Т.к. если ласт сообщение системное - оно сломается
+ */
+
 const messageCounter = () => {
-    document.arrive(
-        ".ConvoList__scrollbar-content",
-        { existing: true },
-        async function lyagushka(e: Element) {
-            let countermsg = document.createElement("div");
-            countermsg.classList.add("ConvoList__topFiltersWrap");
-            countermsg.classList.add("vkEnhancerCounterOfMessages");
-            let lastMessage = await vkApi.api("messages.search", { q: "#", count: 1 });
-            let idMess = 0;
-            try {
-                idMess = lastMessage.items[0].id;
-            } catch (error) {
-                idMess = 0;
-            }
-            let chats = await vkApi.api('messages.getConversations', {});
-            let chatsCount = chats.count;
-            countermsg.innerHTML = `<div role="button" tabindex="0" class="ConvoListFilter">
+  document.arrive(".ConvoList__scrollbar-content", { existing: true }, async function lyagushka(e: Element) {
+    let countermsg = document.createElement("div");
+    countermsg.classList.add("ConvoList__topFiltersWrap");
+    countermsg.classList.add("vkEnhancerCounterOfMessages");
+    let lastMessage = await vkApi.api("messages.search", { q: "#", count: 1 });
+    let idMess = 0;
+    try {
+      idMess = lastMessage.items[0].id;
+    } catch (error) {
+      idMess = 0;
+    }
+    let chats = await vkApi.api("messages.getConversations", {});
+    let chatsCount = chats.count;
+    countermsg.innerHTML = `<div role="button" tabindex="0" class="ConvoListFilter">
   <div class="ConvoListFilter__icons">
   <i role="img" style="height:20px;" class="vkEnIconWatn ConvoListFilter__icon">
 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -47,59 +50,74 @@ const messageCounter = () => {
   </a>
 </div>
   </div>`;
-            
-            const N = Math.floor(idMess / 15000000);
-            const relativeId = idMess - 15000000 * N;
 
-            if (relativeId < 10000000) {
-                if (countermsg) {
-                    const convoListFilter = countermsg.querySelector(".ConvoListFilter");
-                    if (convoListFilter) {
-                        convoListFilter.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            showFastBox(getLang?.("me_convo_profile_info"), `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[0]}`, getLang?.("global_close"));
-                        });
-                    }
-                }
-            } else if (relativeId < 14000000) {
-                if (countermsg) {
-                    const convoListFilter = countermsg.querySelector(".ConvoListFilter");
-                    if (convoListFilter) {
-                        convoListFilter.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            showFastBox(getLang?.("global_warning"), `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[1]}`, getLang?.("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang?.("box_cancel"));
-                        });
-                    }
-                }
-            } else if (relativeId < 15000000) {
-                if (countermsg) {
-                    const convoListFilter = countermsg.querySelector(".ConvoListFilter");
-                    if (convoListFilter) {
-                        convoListFilter.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            showFastBox(getLang?.("global_warning"), `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[2]}`, getLang?.("me_invite_link_qr_download"), (()=>{window.open('https://vk.com/data_protection?section=rules&scroll_to_archive=1', '_blank'); }), getLang?.("box_cancel"));
-                        });
-                    }
-                }
-            }
-	
-            if (countermsg) {
-                const rebootMessageCounter = countermsg.querySelector("#vkEnhancerRebootMessageCounter");
-                if (rebootMessageCounter) {
-                    rebootMessageCounter.addEventListener("click",  (s) => {
-                    s.preventDefault();
-                    s.stopPropagation();
-                    countermsg.remove();
-                    lyagushka.call(this, e);
-                });
-}
+    const N = Math.floor(idMess / 15000000);
+    const relativeId = idMess - 15000000 * N;
+
+    if (relativeId < 10000000) {
+      if (countermsg) {
+        const convoListFilter = countermsg.querySelector(".ConvoListFilter");
+        if (convoListFilter) {
+          convoListFilter.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showFastBox(getLang?.("me_convo_profile_info"), `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[0]}`, getLang?.("global_close"));
+          });
+        }
       }
+    } else if (relativeId < 14000000) {
+      if (countermsg) {
+        const convoListFilter = countermsg.querySelector(".ConvoListFilter");
+        if (convoListFilter) {
+          convoListFilter.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showFastBox(
+              getLang?.("global_warning"),
+              `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[1]}`,
+              getLang?.("me_invite_link_qr_download"),
+              () => {
+                window.open("https://vk.com/data_protection?section=rules&scroll_to_archive=1", "_blank");
+              },
+              getLang?.("box_cancel")
+            );
+          });
+        }
+      }
+    } else if (relativeId < 15000000) {
+      if (countermsg) {
+        const convoListFilter = countermsg.querySelector(".ConvoListFilter");
+        if (convoListFilter) {
+          convoListFilter.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showFastBox(
+              getLang?.("global_warning"),
+              `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[2]}`,
+              getLang?.("me_invite_link_qr_download"),
+              () => {
+                window.open("https://vk.com/data_protection?section=rules&scroll_to_archive=1", "_blank");
+              },
+              getLang?.("box_cancel")
+            );
+          });
+        }
+      }
+    }
+
+    if (countermsg) {
+      const rebootMessageCounter = countermsg.querySelector("#vkEnhancerRebootMessageCounter");
+      if (rebootMessageCounter) {
+        rebootMessageCounter.addEventListener("click", (s) => {
+          s.preventDefault();
+          s.stopPropagation();
+          countermsg.remove();
+          lyagushka.call(this, e);
+        });
+      }
+    }
     e.prepend(countermsg);
-  }
-);
-}
+  });
+};
 
 export default messageCounter;

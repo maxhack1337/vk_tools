@@ -1,3 +1,7 @@
+/*
+ * ру/англ/укр
+ */
+
 const strings = {
   clearCacheDescription: ["Вы уверены, что хотите очистить кеш?", "Are you sure you want to clear cache?", "Ви впевнені, що хочете очистити кеш?"],
   globalYes: ["Да", "Yes", "Так"],

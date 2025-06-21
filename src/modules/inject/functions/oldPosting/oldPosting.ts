@@ -14,6 +14,12 @@ import styleForEditPost from "./styleForEditPost";
 
 let times = 0;
 
+/*
+ * Это важнейший в расширении модуль наряду с классик профилем и старым дизайном стены
+ * Любой крит фикс тут - сразу делаешь обновление
+ * Что-то не понимаешь - пишешь мне
+ */
+
 const oldPosting = () => {
   if (localStorage.getItem("old_post_design") === "true") {
     window.addEventListener("load", (e) => {

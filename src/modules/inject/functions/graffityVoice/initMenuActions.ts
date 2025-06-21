@@ -7,6 +7,10 @@ import stickerBoxStyle from "./stickerBoxStyle";
 import VKEnhancerGraffitiBox from "./VKEnhancerGraffitiBox";
 import VKToolsStickerBox from "./VKToolsStickerBox";
 
+/*
+ * Если сломается граффити то пиши мне(если проблема не с селекторами)
+ */
+
 function initMenuActions() {
   document.arrive(".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper > div > .DropdownReforged__contentWrapper > .ActionsMenu:not(#member_actions)", { existing: true }, function (e) {
     const newpanel = document.querySelector(".VKCOMMessenger__reforgedModalRoot > .MEConfig > .MEPopper > div > .DropdownReforged__contentWrapper > .ActionsMenu");

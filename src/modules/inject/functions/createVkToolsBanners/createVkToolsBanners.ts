@@ -3,6 +3,10 @@ import getSiteBannerLang from "./getSiteBannerLang";
 
 const VK_TOOLS_GROUP_ID = -221416961;
 
+/*
+ * Сломается с переходом сообществ на SPA, если переход вообще будет
+ */
+
 const createVkToolsBanners = () => {
   document.arrive('.narrow_column.narrow_redesign.group-redesigned-narrow .group_info_row.more a[href*="vkenhancer"]', { existing: true }, (vktools_narrow) => {
     let narrow = vktools_narrow.closest(".narrow_column.narrow_redesign.group-redesigned-narrow");

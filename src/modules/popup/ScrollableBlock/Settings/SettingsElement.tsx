@@ -11,6 +11,10 @@ interface SettingsData {
   [key: string]: any;
 }
 
+/*
+ * Все стейты дублируй сюда и ниже
+ */
+
 const allStates = [
   "alternativeScrollbarState",
   "fixLeftMenuState",

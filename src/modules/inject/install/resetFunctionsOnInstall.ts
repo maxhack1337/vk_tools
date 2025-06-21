@@ -1,5 +1,9 @@
 import installBoxTitle from "./installBoxTitle";
 
+/*
+ * Создал новую функцию с ключом в localStorage(инжект) - добавляй и сюда
+ */
+
 const keys = [
   "currentVKID",
   "refreshFeed",

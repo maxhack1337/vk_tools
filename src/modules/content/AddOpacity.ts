@@ -1,6 +1,11 @@
 import create from "./create";
 import fromId from "./fromId";
 
+/*
+ * Если ломается пиши Паше
+ * Пусть сам чинит своё говно
+ */
+
 const addOpacity = (sliderValueCount: number) => {
   let opacity = sliderValueCount / 100;
   if (!opacity) opacity = 100;
@@ -14,7 +19,6 @@ const addOpacity = (sliderValueCount: number) => {
       ")!important;} .ConvoMain__rightPanelContainer,.MEApp{background-color:rgba(237,238,240," +
       opacity +
       ")!important;} .TopNavBtn .TopNavBtn__notifyCount{border:2px solid rgb(255,255,255)!important;} .UnreadCounter.UnreadCounter--muted{color:rgb(255,255,255)!important}";
-
   } else {
     rule =
       ".vkui--vkBase--dark,[scheme=vkcom_dark]{ --vkui--color_background_content: rgba(34, 34, 34, " +
@@ -24,16 +28,12 @@ const addOpacity = (sliderValueCount: number) => {
       ")!important;} .ConvoMain__rightPanelContainer,.MEApp{background-color:rgba(20,20,20," +
       opacity +
       ")!important; .TopNavBtn .TopNavBtn__notifyCount{border:2px solid rgb(25,25,26)!important;}} .UnreadCounter.UnreadCounter--muted{color:rgb(25,25,26)!important}";
-    }
+  }
   const existingStyle = fromId("custom-opacity-style");
   if (existingStyle) {
     existingStyle.remove();
   }
-  const styleElement = create(
-    "style",
-    {},
-    { id: "custom-opacity-style", innerHTML: rule, type: "text/css" }
-  );
+  const styleElement = create("style", {}, { id: "custom-opacity-style", innerHTML: rule, type: "text/css" });
   document.head.appendChild(styleElement);
 };
 

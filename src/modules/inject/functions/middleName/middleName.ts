@@ -5,6 +5,11 @@ import getUserMiddleNameSpa from "../classicalProfile/scripts/spa/getUserMiddleN
 import getId from "./getId";
 import getMiddleLang from "./getMiddleLang";
 
+/*
+ * Функция сдохнет как только ВК уберут это поле
+ * Поэтому в случае чего не парься и удаляй её
+ */
+
 const middleName = () => {
   if (getLocalValue("isMiddleName")) {
     document.arrive("#pedit_general", { existing: true }, async function (e) {

@@ -1,5 +1,10 @@
 import appendCustomIcon from "./appendCustomIcon";
 import appendIcons from "./appendIcons";
+
+/*
+ * Пиши мне если в VIP надо кого-то добавить
+ */
+
 const updateUsers = () => {
   document.arrive(
     "#owner_page_name",

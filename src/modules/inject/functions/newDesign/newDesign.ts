@@ -24,6 +24,11 @@ const newDesignFunctions = [
   "vkm_up_drafted_convos_in_list",
 ];
 
+/*
+ * Тут тогглы которые ты хочешь включать
+ * Плюс тогглы из toggleShop
+ */
+
 const newDesign = () => {
   createStyle(
     "ActionHover",

@@ -14,7 +14,11 @@ const oldGroupsPage = () => {
     ["ui_rmenu_recommendations", "/groups?act=recommendations", getLang?.("me_recommendations"), false],
     ["ui_rmenu_category0", "/groups/side/trends", getPopularLabel(vk.lang), false],
   ];
-
+  /*
+   * catalog-action это VK UI Tab(все сообщества/управляемые)
+   * Сейчас скрытие саджестера только на странице с моими сообществами, т.к. табы только там, в самом поиске табов нет
+   * Если вдруг захочешь это изменить - найди более френдли способ
+   */
   let innerStyle = `
                 [class^="vkitRightMenu__container"] > div:not(.ui_rmenu_sep), [class^="vkitRightMenu__container"] > [class^="vkitRightMenuItem__container"] {
                     display:none;

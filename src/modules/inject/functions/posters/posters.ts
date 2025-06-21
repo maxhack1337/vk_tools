@@ -2,6 +2,11 @@ import createStyle from "../../createStyle";
 import deferredCallbackNested from "../oldPosting/deferredCallbackNested";
 import posterLogic from "./posterLogic";
 
+/*
+ * Рудиментарная функция которая к тому же поддерживается только со стороны kphp
+ * Удалить как только поддержка будет окончательно прекращена
+ */
+
 const posters = () => {
   document.arrive(".poster__view", { existing: true }, function (e) {
     let ph = document.createElement("div");
