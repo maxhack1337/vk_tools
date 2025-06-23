@@ -3,12 +3,12 @@
 import progressSnack from "../../components/progressSnack/progressSnack";
 import showSnackbar from "../../components/snackbar/snackbar";
 import getPhoto from "./getPhoto";
-import JSZip from 'jszip';
+import JSZip from "jszip";
 import isNotAlbumLang from "./isNotAlbumLang";
 import { escapeHtmlDownloadTrack } from "../../escapeHtml";
 import emptyAlbumLang from "./emptyAlbumLang";
 
-const parseAlbum = async() => {
+const parseAlbum = async () => {
   const url = window.location.href;
   const match = url.match(/album-?(\d+_?\d*)/);
   let albumString = "";
@@ -17,15 +17,15 @@ const parseAlbum = async() => {
     albumString = albumString.replace("album", "");
   } else {
     showSnackbar({
-        text: isNotAlbumLang(vk.lang),
-        timeout: 4000,
-        icon: 'error'
+      text: isNotAlbumLang(vk.lang),
+      timeout: 4000,
+      icon: "error",
     });
   }
   if (albumString !== "") {
     let oidA = albumString.split("_")[0];
     let idA = albumString.split("_")[1];
-    const replaceIt:{ [key: string]: number } = {
+    const replaceIt: { [key: string]: number } = {
       "0": -6,
       "00": -7,
       "000": -15,
@@ -48,14 +48,14 @@ const parseAlbum = async() => {
       let albumCount = albumsRes.items[0].size;
       let offset = 0;
       let snackBarStack;
-      if (!document.querySelector('.snackBarStack')) {
-        snackBarStack = document.createElement('div');
-        snackBarStack.classList.add('snackBarStack');
+      if (!document.querySelector(".snackBarStack")) {
+        snackBarStack = document.createElement("div");
+        snackBarStack.classList.add("snackBarStack");
         document.body.appendChild(snackBarStack);
-      } else snackBarStack = document.querySelector('.snackBarStack');
-      let snacky = progressSnack(getLang?.("me_download_waiting") + "...", "album", '', true);
+      } else snackBarStack = document.querySelector(".snackBarStack");
+      let snacky = progressSnack(getLang?.("me_download_waiting") + "...", "album", "", true);
       snackBarStack?.append(snacky);
-      let cancelButton = snacky?.querySelector('.vkToolsSnackbar__calcel-button') as HTMLButtonElement;
+      let cancelButton = snacky?.querySelector(".vkToolsSnackbar__calcel-button") as HTMLButtonElement;
       cancelButton.style.display = "none";
       let counterProgress = 0;
       while (albumCount > 0) {
@@ -73,35 +73,9 @@ const parseAlbum = async() => {
           currentZipIndex = "";
         }
         let bolshe_kosara = 0;
-        const promises = allPhotos.items.map(async (photoItem: { sizes: any; }) => {
+        const promises = allPhotos.items.map(async (photoItem: { sizes: any }) => {
           let sizes = photoItem.sizes;
-          const availableSizes = [
-            "a",
-            "b",
-            "i",
-            "p",
-            "q",
-            "s",
-            "w",
-            "z",
-            "y",
-            "x",
-            "r",
-            "o",
-            "m",
-            "g",
-            "max",
-            "l",
-            "f",
-            "k",
-            "c",
-            "e",
-            "d",
-            "j",
-            "temp",
-            "h",
-            "n",
-          ];
+          const availableSizes = ["a", "b", "i", "p", "q", "s", "w", "z", "y", "x", "r", "o", "m", "g", "max", "l", "f", "k", "c", "e", "d", "j", "temp", "h", "n", "base"];
           let n = null,
             e = 0;
           let t;
@@ -123,31 +97,19 @@ const parseAlbum = async() => {
             console.log(maxSizer);
           }
           try {
-            let [filename, blob] = await getPhoto(
-              maxSizeUrl,
-              photoItem,
-              snacky
-            );
+            let [filename, blob] = await getPhoto(maxSizeUrl, photoItem, snacky);
             zip.file(filename.toString(), blob);
             counterProgress++;
-            let pBar = snacky.querySelector(
-              ".vkToolsSnackbar__content-text"
-            );
-            if (pBar) pBar.innerHTML =
-              getLang?.("box_loading") +
-              "<br><br>" +
-              `${escapeHtmlDownloadTrack(albumsRes.items[0].title)}${currentZipIndex}.zip ` +
-              counterProgress +
-              "/" +
-              albumsRes.items[0].size;
+            let pBar = snacky.querySelector(".vkToolsSnackbar__content-text");
+            if (pBar) pBar.innerHTML = getLang?.("box_loading") + "<br><br>" + `${escapeHtmlDownloadTrack(albumsRes.items[0].title)}${currentZipIndex}.zip ` + counterProgress + "/" + albumsRes.items[0].size;
             cancelButton.style.display = "flex";
-            if (localStorage.getItem('abortTask') === 'true') {
-              localStorage.setItem('abortTask', 'false');
+            if (localStorage.getItem("abortTask") === "true") {
+              localStorage.setItem("abortTask", "false");
               snacky.querySelector(".vkToolsSnackbar__in")?.classList.add("vkToolsRemovebar");
               snacky.querySelector(".vkToolsSnackbar__in")?.addEventListener("animationend", () => {
                 snacky.remove();
               });
-              return Promise.reject('[VK Tools] Скачивание отменено');
+              return Promise.reject("[VK Tools] Скачивание отменено");
             }
           } catch (error) {
             console.log("Failed ", maxSizeUrl);
@@ -173,10 +135,10 @@ const parseAlbum = async() => {
       showSnackbar({
         text: emptyAlbumLang(vk.lang),
         timeout: 4000,
-        icon: 'warning'
+        icon: "warning",
       });
     }
   }
-}
+};
 
 export default parseAlbum;
