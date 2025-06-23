@@ -1,4 +1,5 @@
 import fromId from "../../../../content/fromId";
+import { appearSimpleLoader, removeSimpleLoader } from "../../../components/simpleLoader/simpleLoader";
 import showSnackbar from "../../../components/snackbar/snackbar";
 import deferredCallback from "../../../defferedCallback";
 import { escapeHtml } from "../../../escapeHtml";
@@ -9,7 +10,6 @@ import refreshLocForMini from "./refreshLocForMini";
 
 const appendActivityText = (activityText: string | null, userData: any) => {
   const objectId = userData.id || 0;
-  let photoHashEdit = false;
   let broadcast = document.querySelector(".ProfileInfo__broadcast");
   if (!broadcast) {
     if (vk.id !== objectId) {
@@ -108,9 +108,8 @@ const appendActivityText = (activityText: string | null, userData: any) => {
     let userPhotoAva = userData?.photo_id;
     let photo200 = userData?.photo_200;
     deferredCallback(
-      () => {
+      async () => {
         try {
-          photoHashEdit = vkenh.profileHashes ? vkenh.profileHashes.avatar_edit_hash : false;
           ownerPhotoWrap.innerHTML =
             `<div class="owner_photo_top_bubble_wrap"> <div class="owner_photo_top_bubble"> <div class="ui_thumb_x_button" onclick="showFastBox(getLang('global_warning'), getLang('profile_really_delete_photo'), getLang('global_delete'),()=>{ vkApi.api('users.get',{fields:'photo_id'}).then(e=>{ vkApi.api('photos.delete',{owner_id:` +
             vk.id +
@@ -132,11 +131,7 @@ const appendActivityText = (activityText: string | null, userData: any) => {
             vk.id +
             `}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` +
             getLang?.("profile_update_photo") +
-            `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" data-task-click="Page/owner_edit_photo" data-options="{&quot;useNewForm&quot;:true,&quot;ownerId&quot;:` +
-            vk.id +
-            `,&quot;hash&quot;:&quot;` +
-            photoHashEdit +
-            `&quot;}" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` +
+            `</span> </div> <div class="owner_photo_edit_vktools owner_photo_bubble_action owner_photo_bubble_action_crop" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` +
             getLang?.("profile_edit_small_copy") +
             `</span> </div> <div class="owner_photo_bubble_action owner_photo_bubble_action_effects" onclick="Page.ownerPhotoEffects('` +
             userPhotoAva +
@@ -145,6 +140,23 @@ const appendActivityText = (activityText: string | null, userData: any) => {
             `)" tabindex="0" role="button"> <span class="owner_photo_bubble_action_in">` +
             getLang?.("profile_photo_action_effects") +
             `</span> </div> </div> </div>`;
+          ownerPhotoWrap.querySelector(".owner_photo_edit_vktools")?.addEventListener("click", async () => {
+            appearSimpleLoader();
+            try {
+              let avatarEditHash = await vkApi.api("account.getProfileDataLegacy", { owner_id: vk.id });
+              page.ownerAvatarEdit(vk.id, avatarEditHash.avatar_edit_hash);
+            } catch (error) {
+              showSnackbar({
+                text: getLang?.("global_error_occured")?.toString() || "Произошла ошибка",
+                subtitle: refreshLocForMini(vk.lang),
+                timeout: 4000,
+                icon: "error",
+              });
+              window.location.reload();
+            } finally {
+              removeSimpleLoader();
+            }
+          });
         } catch (error) {
           ownerPhotoWrap.innerHTML =
             `<div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"> <a id="profile_photo_link"><img class="page_avatar_img" src="` +
@@ -169,21 +181,6 @@ const appendActivityText = (activityText: string | null, userData: any) => {
           }
           styleElement.id = "vkenNoAva";
           styleElement.innerHTML = `.owner_photo_bubble_wrap:has(>.owner_photo_bubble>.owner_photo_no_ava){margin-top:-35px;height:36px;}`;
-        }
-        if (!photoHashEdit) {
-          console.info("[VK Tools] Failed to parse PhotoEditHash. Location will be rebooted if you try to edit photo");
-          try {
-            let rebootThis = ownerPhotoWrap.querySelector('[data-task-click="Page/owner_edit_photo"]');
-            rebootThis?.addEventListener("click", () => {
-              showSnackbar({
-                text: getLang?.("global_error_occured").toString() || "Произошла ошибка",
-                subtitle: refreshLocForMini(vk.lang),
-                timeout: 4000,
-                icon: "error",
-              });
-              window.location.reload();
-            });
-          } catch (error) {}
         }
       },
       { variable: "MECommonContext" }

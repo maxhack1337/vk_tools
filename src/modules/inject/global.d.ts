@@ -2,7 +2,6 @@ interface VKEnh {
   showSnackbar?: any;
   createBanner?: any;
   createTT?: any;
-  profileHashes?: any;
   messagesHistory?: any;
   messagesDiff?: any;
   messagesSent?: any;
@@ -20,6 +19,7 @@ interface URL {
 
 interface Page {
   audioStatusUpdate: any;
+  ownerAvatarEdit: any;
 }
 
 interface navGoLoc {

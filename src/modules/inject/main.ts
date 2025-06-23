@@ -190,7 +190,6 @@ if (!window.vkenh) {
 /*
  * Сюда добавляй только сущности которые реально нужны в Window
  */
-window.vkenh.profileHashes = {};
 window.vkenh.showSnackbar = showSnackbar;
 window.vkenh.createBanner = banner;
 window.vkenh.createTT = tooltip;
@@ -224,7 +223,6 @@ deferredCallback(
     createVkToolsBanners();
     //Получаем фотку юзера из стореджа
     await getUserDataLocalStoragePhoto(vk.id);
-    window.vkenh.profileHashes = await vkApi.api("account.getProfileDataLegacy", { owner_id: vk.id });
     renderId();
   },
   { variable: "vkApi" }
