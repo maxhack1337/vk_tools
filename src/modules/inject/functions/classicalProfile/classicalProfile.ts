@@ -91,27 +91,31 @@ const classicalProfile = () => {
       scrollStickyDiv?.prepend(friendsBlock());
       profileShort();
       let userData = await getUserDataSpa();
-      let activityText = userData.activity;
-      appendActivityText(activityText, userData);
-      await appearFriends(userData);
+      let videosBlock = document.querySelector(".ProfileVideosEnhancer");
+      if (videosBlock) videosBlock.remove();
+      let profileOwnerData = userData.owner;
+      profileGroup(profileOwnerData);
+      let activityText = profileOwnerData.activity;
+      appendActivityText(activityText, profileOwnerData);
+      await appearFriends(profileOwnerData);
       let preloadedGroups = await fetchGroups();
-      await appearStarts(preloadedGroups, userData);
-      if (userData?.blacklisted !== 1 && !userData.deactivated && !userData.is_service && !userData.hidden) {
+      await appearStarts(preloadedGroups, profileOwnerData);
+      if (profileOwnerData?.blacklisted !== 1 && !profileOwnerData.deactivated && !profileOwnerData.is_service && !profileOwnerData.hidden) {
         removeStyle("classicalProfilesDELETED");
         removeStyle("classicalProfilesBlackListed");
         removeStyle("classicalProfilesDeactivated");
         removeStyle("classicalProfilesService");
         removeStyle("classicalProfilesHidden");
         removeStyle("classicalProfilesDeactDeleted");
-        addCounters(userData, userData.counters);
+        addCounters(profileOwnerData, profileOwnerData.counters);
         appearVariable();
-        if (vk.id !== userData.id) {
-          buttonRun(userData.id);
+        if (vk.id !== profileOwnerData.id) {
+          buttonRun(profileOwnerData.id);
         }
-        preloadGroupInfo(userData);
-        preloadCityInfo(userData);
-        preloadRelatives(userData);
-        expandMore(preloadedGroups, cachedRelativesInfo, cachedCityInfo, cachedGroupInfo, userData);
+        preloadGroupInfo(profileOwnerData);
+        preloadCityInfo(profileOwnerData);
+        preloadRelatives(profileOwnerData);
+        expandMore(preloadedGroups, cachedRelativesInfo, cachedCityInfo, cachedGroupInfo, profileOwnerData);
       } else {
         try {
           let pMoreInfo = document.querySelector(".profile_more_info") as HTMLElement;
@@ -121,25 +125,25 @@ const classicalProfile = () => {
         }
         createStyle("classicalProfilesDELETED", '[class^="vkitGroup__group"]:has(>.PlaceholderMessageBlock) {display: none !important;}');
         addPlaceholder();
-        if (userData.blacklisted === 1 && !userData.deactivated) {
+        if (profileOwnerData.blacklisted === 1 && !profileOwnerData.deactivated) {
           createStyle(
             "classicalProfilesBlackListed",
             `.vkToolsSkeleton__giftButton {display:none;} .ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
           );
         }
-        if (userData.deactivated && userData.deactivated === "deleted") {
+        if (profileOwnerData.deactivated && profileOwnerData.deactivated === "deleted") {
           createStyle("classicalProfilesDeactDeleted", `.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){display:none!important}`);
         }
-        if (userData.deactivated && userData.deactivated !== "deleted") {
+        if (profileOwnerData.deactivated && profileOwnerData.deactivated !== "deleted") {
           createStyle(
             "classicalProfilesDeactivated",
             `.vkToolsSkeleton__giftButton {display:none;} .ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
           );
         }
-        if (userData.is_service) {
+        if (profileOwnerData.is_service) {
           createStyle("classicalProfilesService", `.page_current_info.current_text{border-bottom:none!important;}.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}`);
         }
-        if (userData.hidden) {
+        if (profileOwnerData.hidden) {
           createStyle("classicalProfilesHidden", `.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}`);
         }
         appearVariable();
@@ -198,7 +202,7 @@ const classicalProfile = () => {
   });
 
   document.arrive(".imReadyForShowingFriends", { existing: true }, async function (e) {
-    if (friendsSection !== null && imReady && vkenh.curClassicalProfile?.id?.toString() === e.id) {
+    if (friendsSection !== null && imReady && vkenh.curClassicalProfile?.owner?.id?.toString() === e.id) {
       document.querySelector(".ScrollStickyWrapper > div")?.prepend(friendsSection);
       document.querySelector(".vkEnhancerFrenBox")?.appendChild(aHrefSectionFrens);
     }
@@ -224,8 +228,6 @@ const classicalProfile = () => {
   document.arrive(".label.fl_l", { existing: true }, async function () {
     appearVariable();
   });
-
-  profileGroup();
 
   document.arrive(".OwnerContentTabs", { existing: true }, async function (e) {
     await replaceTabsWithPhotosModule();

@@ -55,6 +55,7 @@ const replaceTabsWithPhotosModule = async () => {
     skip_hidden: true,
   });
   let userDataPi = await getUserDataReactSpa();
+  userDataPi = userDataPi.owner;
   let userNamePi = userDataPi.first_name_gen;
   photosModule.innerHTML = `
         <div class="header_right_link fl_r"></div>

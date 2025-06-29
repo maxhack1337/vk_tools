@@ -25,15 +25,17 @@ const regDate = () => {
         let regDInfoRow = createRegDateInfoRow2(regDateText1);
         let captchaRequired = regDInfoRow.querySelector(".captcha_vktools");
         captchaRequired?.addEventListener("click", async () => {
-          while (regDateValue1.captcha_img) {
+          while (regDateValue1.redirect_uri) {
             let captcha = (await handleCaptcha({
-              captcha_img: regDateValue1.captcha_img,
+              redirect_uri: regDateValue1.redirect_uri,
               captcha_sid: regDateValue1.captcha_sid,
+              captcha_attempt: regDateValue1.captcha_attempt,
+              captcha_ts: regDateValue1.captcha_ts,
             })) as any;
             captcha.restoreSessionId = regDateValue1.restoreSessionId;
             regDateValue1 = await getRegDateValue(uiddd, captcha);
           }
-          if (!regDateValue1.captcha_img) {
+          if (!regDateValue1.redirect_uri) {
             regDateDate1 = formatRegister(regDateValue1?.[0] || "");
             regDateDate1 += " " + regDateValue1?.[1];
             registrationRow1 = createProfileInfoRow3(regDateText1, regDateDate1 || "");
@@ -61,6 +63,7 @@ const regDate = () => {
 
   document.arrive(`.ProfileModalMiniInfoCell:has(.vkuiIcon--gift_outline_20)`, { existing: true }, async function (e) {
     let respsp = await getUserDataReactSpa();
+    respsp = respsp.owner;
     let birthday = respsp.bdate;
     let ageAndZodiac = "";
 

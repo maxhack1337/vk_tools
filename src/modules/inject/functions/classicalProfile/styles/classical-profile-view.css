@@ -70,6 +70,42 @@ html.classicProfile body:has(#profile_redesigned) .achievement_cell {
 }
 
 html.classicProfile body {
+.VideoPreview__videoImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: 8px;
+    }
+
+    .OwnerVideosListItem {
+        padding-top: 4px;
+    }
+
+    .VideoPreview {
+        width: 198px;
+        height: 120px;
+    }
+
+    .VideoPreview__videoDuration {
+        position: absolute;
+        bottom: 8px;
+        right: 10px;
+        padding: 3px 8px;
+        color: var(--white);
+        font-weight: 500;
+        -webkit-font-smoothing: subpixel-antialiased;
+        -moz-osx-font-smoothing: auto;
+        font-size: 12px;
+        line-height: 14px;
+        border-radius: 4px;
+        background-color: var(--vkui--color_overlay_primary);
+        z-index: 3;
+    }
+
+    .ProfileVideosEnhancer {
+        padding: 8px;
+    }
     .header_right_link {
         color: var(--vkui--color_text_secondary);
         height: 32px;

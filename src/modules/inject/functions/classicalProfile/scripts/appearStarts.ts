@@ -96,15 +96,17 @@ const appearStarts = async (
       let regDInfoRow = createRegDateInfoRow();
       let captchaRequired = regDInfoRow.querySelector(".captcha_vktools");
       captchaRequired?.addEventListener("click", async () => {
-        while (regDateValue1.captcha_img) {
+        while (regDateValue1.redirect_uri) {
           let captcha = (await handleCaptcha({
-            captcha_img: regDateValue1.captcha_img,
+            redirect_uri: regDateValue1.redirect_uri,
             captcha_sid: regDateValue1.captcha_sid,
+            captcha_attempt: regDateValue1.captcha_attempt,
+            captcha_ts: regDateValue1.captcha_ts,
           })) as any;
           captcha.restoreSessionId = regDateValue1.restoreSessionId;
           regDateValue1 = await getRegDateValue(userData.id, captcha);
         }
-        if (!regDateValue1.captcha_img) {
+        if (!regDateValue1.redirect_uri) {
           regDateDate = formatRegister(regDateValue1?.[0] || "");
           regDateDate += " " + regDateValue1?.[1];
           registrationRow = createProfileInfoRow(regDateText, regDateDate);

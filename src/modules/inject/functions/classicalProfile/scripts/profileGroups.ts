@@ -4,8 +4,9 @@ import getId from "../../middleName/getId";
 import getInterestingPagesLang from "./getInterestingPagesLang";
 import getPhotoAlbumLang from "./getPhotoAlbumLang";
 import getUserDataFields from "./getUserDataFields";
+import appendVideoBlock from "./profileVideos/appendVideoBlock";
 import splitDuration from "./splitDuration";
-const profileGroup = () => {
+const profileGroup = (profileOwnerData: any) => {
   document.arrive(
     ".ProfileGroup",
     {
@@ -50,9 +51,9 @@ const profileGroup = () => {
     <div class="vkuiSpacing" style="height: 4px; padding: 2px 0px;"></div>
   </div>
   <div class="vkuiSpacing" style="height: 4px; padding: 2px 0px;"></div>
-  <div class="ProfileVideos__items">
+  <div class="ProfileAlbums__items">
     <div class="Group-module__horizontalContentExpanded--yxlH5 vkuiInternalGroupExpandedContent">
-      <div class="OwnerVideosList">
+      <div class="OwnerAlbumsList">
         <div class="vkuiHorizontalScroll vkuiInternalHorizontalScroll">
           <div class="vkuiHorizontalScroll__in">
             <div class="vkuiHorizontalScroll__in-wrapper">
@@ -139,9 +140,9 @@ const profileGroup = () => {
 					<div class="vkuiSpacing" style="height: 4px; padding: 2px 0px;"></div>
 				</div>
 				<div class="vkuiSpacing" style="height: 4px; padding: 2px 0px;"></div>
-				<div class="ProfileVideos__items">
+				<div class="ProfileAudios__items">
 					<div class="Group-module__horizontalContentExpanded--yxlH5 vkuiInternalGroupExpandedContent">
-					<div class="OwnerVideosList">
+					<div class="OwnerAudiosList">
 						<div class="vkuiHorizontalScroll vkuiInternalHorizontalScroll" style="overflow: visible;">
 						<div class="vkuiHorizontalScroll__in" style="overflow: visible;">
 							<div class="vkuiHorizontalScroll__in-wrapper">
@@ -269,39 +270,9 @@ const profileGroup = () => {
       );
       ///КОНЕЦ ДОБАВЛЕНИЯ БЛОКА ПОДПИСОК///
       ///ДОБАВЛЕНИЕ БЛОКА ВИДЕО///
-      document.arrive(
-        ".ProfileVideos",
-        {
-          existing: true,
-        },
-        (e) => {
-          let hasAudios = document.querySelector(".ProfileAudiosEnhancer");
-          hasAudios ? document.querySelector(".page_block_vktools")?.insertBefore(e, hasAudios) : document.querySelector(".page_block_vktools")?.append(e);
-          e.classList.add("ProfileVideosEnhancer");
-          let vLang = getLang?.("videofile_num") || "видеозаписи";
-          vLang = vLang[0].toUpperCase() + vLang.slice(1);
-          let count = e.querySelector(".vkuiHeader__indicator")?.textContent || "0";
-          let href = e.querySelector(".vkuiGroup__header > a")?.getAttribute("href") || "";
-          e.querySelector(".vkuiGroup__header")!.innerHTML = `
-    <a href=${href} data-allow-link-onclick-web="1"  style="padding: 0 8px;" class="Header-module__tappable--mabke ProfileGroupHeader vkuiTappable vkuiInternalTappable vkuiTappable--hasActive vkui-focus-visible">
-      <div class="vkuiHeader vkuiHeader--mode-primary vkuiHeader--pi Header-module__header--a6Idw Header-module__headerPrimary--mmJ1C" role="heading" aria-level="2">
-        <div class="vkuiHeader__main">
-          <div class="vkAlbumTypography vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__content vkuiHeadline--sizeY-compact vkuiHeadline--level-1">
-          <span class="vkuiHeader__content-in">
-          <div class="Header-module__content--F5x_X">
-          <div class="TextClamp-module__singleLine--mRCrF">
-          ${vLang}
-          </div></div></span>
-          <span class="vkuiTypography vkuiTypography--normalize vkuiTypography--weight-2 vkuiHeader__indicator vkuiFootnote">${count}</span></div>
-        </div>
-      </div>
-    </a>
-    <div class="vkuiSpacing" style="height: 4px; padding: 2px 0px;"></div>`;
-          e.classList.remove("vkuiGroup__modeCard");
-        }
-      );
-      ///КОНЕЦ ДОБАВЛЕНИЯ БЛОКА ВИДЕО///
+      await appendVideoBlock(profileOwnerData);
     }
   );
+  ///КОНЕЦ ДОБАВЛЕНИЯ БЛОКА ВИДЕО///
 };
 export default profileGroup;
