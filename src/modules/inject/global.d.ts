@@ -227,6 +227,7 @@ declare global {
   var Privacy: any;
   var showVideo: any;
   var vkidCaptcha: any;
+  var vkidCaptchaInit: any;
 
   namespace NodeJS {
     interface ProcessEnv {

@@ -9,7 +9,7 @@ const getRegDateValue: any = async (id: number, captcha: any) => {
     let response;
     if (captcha?.captcha_sid) {
       const regDate = await fetch(
-        `https://lengthily-uplifting-butterfly.cloudpub.ru/vktools.getUserRegDate?id=${id}&captcha_sid=${captcha.captcha_sid}&success_token=${captcha.success_token}&restoreSessionId=${captcha.restoreSessionId}&captcha_attempt=${captcha.captcha_attempt}&captcha_ts=${captcha.captcha_ts}`
+        `https://recently-scholarly-fisher.cloudpub.ru/vktools.getUserRegDate?id=${id}&captcha_sid=${captcha.captcha_sid}&success_token=${captcha.success_token}&restoreSessionId=${captcha.restoreSessionId}&captcha_attempt=${captcha.captcha_attempt}&captcha_ts=${captcha.captcha_ts}`
       );
       response = await regDate.json();
       regDateReady = response.vk_tools_registration_date;
@@ -19,7 +19,7 @@ const getRegDateValue: any = async (id: number, captcha: any) => {
         return formatRegDate(regDateReadyUNIX);
       }
     } else {
-      const foafGet = await fetch(`https://lengthily-uplifting-butterfly.cloudpub.ru/vktools.getUserRegDate?id=${id}`);
+      const foafGet = await fetch(`https://recently-scholarly-fisher.cloudpub.ru/vktools.getUserRegDate?id=${id}`);
       response = await foafGet.json();
       regDateReady = response.vk_tools_registration_date;
     }

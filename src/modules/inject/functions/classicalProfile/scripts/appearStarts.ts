@@ -1,3 +1,4 @@
+import { REG_DATE_API_ENABLED } from "../../../constants";
 import { escapeHtml, escapeUrl } from "../../../escapeHtml";
 import createProfileInfoRow from "./createProfileInfoRow";
 import createRegDateInfoRow from "./createRegDateInfoRow";
@@ -89,44 +90,46 @@ const appearStarts = async (
   }
 
   try {
-    let regDateText = getRegDateLabel(vk.lang);
-    let regDateValue1 = await getRegDateValue(userData.id);
-    let registrationRow, regDateDate;
-    if (regDateValue1?.captcha_sid) {
-      let regDInfoRow = createRegDateInfoRow();
-      let captchaRequired = regDInfoRow.querySelector(".captcha_vktools");
-      captchaRequired?.addEventListener("click", async () => {
-        while (regDateValue1.redirect_uri) {
-          let captcha = (await handleCaptcha({
-            redirect_uri: regDateValue1.redirect_uri,
-            captcha_sid: regDateValue1.captcha_sid,
-            captcha_attempt: regDateValue1.captcha_attempt,
-            captcha_ts: regDateValue1.captcha_ts,
-          })) as any;
-          captcha.restoreSessionId = regDateValue1.restoreSessionId;
-          regDateValue1 = await getRegDateValue(userData.id, captcha);
-        }
-        if (!regDateValue1.redirect_uri) {
-          regDateDate = formatRegister(regDateValue1?.[0] || "");
-          regDateDate += " " + regDateValue1?.[1];
-          registrationRow = createProfileInfoRow(regDateText, regDateDate);
-          let captcha_div = document.querySelector(".captcha_vktools")?.parentElement as HTMLAnchorElement;
-          if (captcha_div) {
-            captcha_div.outerHTML = registrationRow?.outerHTML!!;
+    if (REG_DATE_API_ENABLED) {
+      let regDateText = getRegDateLabel(vk.lang);
+      let regDateValue1 = await getRegDateValue(userData.id);
+      let registrationRow, regDateDate;
+      if (regDateValue1?.captcha_sid) {
+        let regDInfoRow = createRegDateInfoRow();
+        let captchaRequired = regDInfoRow.querySelector(".captcha_vktools");
+        captchaRequired?.addEventListener("click", async () => {
+          while (regDateValue1.redirect_uri) {
+            let captcha = (await handleCaptcha({
+              redirect_uri: regDateValue1.redirect_uri,
+              captcha_sid: regDateValue1.captcha_sid,
+              captcha_attempt: regDateValue1.captcha_attempt,
+              captcha_ts: regDateValue1.captcha_ts,
+            })) as any;
+            captcha.restoreSessionId = regDateValue1.restoreSessionId;
+            regDateValue1 = await getRegDateValue(userData.id, captcha);
           }
-        }
-      });
-      registrationRow = regDInfoRow;
-    } else {
-      regDateDate = formatRegister(regDateValue1?.[0] || "");
-      regDateDate += " " + regDateValue1?.[1];
-      registrationRow = createProfileInfoRow(regDateText, regDateDate);
-    }
+          if (!regDateValue1.redirect_uri) {
+            regDateDate = formatRegister(regDateValue1?.[0] || "");
+            regDateDate += " " + regDateValue1?.[1];
+            registrationRow = createProfileInfoRow(regDateText, regDateDate);
+            let captcha_div = document.querySelector(".captcha_vktools")?.parentElement as HTMLAnchorElement;
+            if (captcha_div) {
+              captcha_div.outerHTML = registrationRow?.outerHTML!!;
+            }
+          }
+        });
+        registrationRow = regDInfoRow;
+      } else {
+        regDateDate = formatRegister(regDateValue1?.[0] || "");
+        regDateDate += " " + regDateValue1?.[1];
+        registrationRow = createProfileInfoRow(regDateText, regDateDate);
+      }
 
-    if (registrationRow && !regDateDate?.includes("null")) {
-      profileShort.appendChild(registrationRow);
-    } else {
-      console.error("[VK Tools Error]: There is no registration date for user " + userData.id);
+      if (registrationRow && !regDateDate?.includes("null")) {
+        profileShort.appendChild(registrationRow);
+      } else {
+        console.error("[VK Tools Error]: There is no registration date for user " + userData.id);
+      }
     }
   } catch (error) {
     console.error("[VK Tools Error]: There is no registration date for user " + userData.id);
