@@ -2,6 +2,7 @@ import JSZip from "jszip";
 import { getGeneratingArchiveText, getDownloadProgressText, getPreparingText } from "./localizationVideos";
 import triggerDownload from "./triggerDownload";
 import { downloadVideoBlob } from "./downloadVideoBlob";
+import vkApiWithGroup from "../graffityVoice/vkApiWithGroup";
 
 export async function downloadAllVideosArchive(peer_id: number) {
   const lang = vk.lang ?? 3;
@@ -50,7 +51,7 @@ export async function downloadAllVideosArchive(peer_id: number) {
       };
       if (startFrom) params.start_from = startFrom;
 
-      const response = await vkApi.api("messages.getHistoryAttachments", params);
+      const response = await vkApiWithGroup("messages.getHistoryAttachments", params);
       const items = response.items || [];
       if (items.length === 0) break;
 

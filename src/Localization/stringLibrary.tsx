@@ -169,6 +169,7 @@ const strings = {
   accentDesc: ['Изменение основных цветов сайта. Для сброса цвета акцента нажмите на "Крестик"', 'Changing the main colors of the site. To reset the accent color, click on the "Cross"', 'Зміна основних кольорів сайту. Для скидання кольору акценту натисніть на "Хрестик"'],
   shouldSlowDown: ["Может замедлять работу сайта", "May slow down the site", "Може уповільнювати роботу сайту"],
   classicVideoPlaylists: ["Классический интерфейс видео-плейлистов", "Classic Video Playlist Interface", "Класичний інтерфейс відео-плейлістів"],
+  isNotSupportedWithGim: ["Функция не поддерживается в сообщениях сообщества", "Feature not supported in community messages", "Функція не підтримується у повідомленнях спільноти"],
 };
 
 export default strings;

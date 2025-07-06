@@ -1,8 +1,18 @@
+import createStyle from "../../../createStyle";
+import removeStyle from "../../../removeStyle";
 import getPeerProps from "../../convoButtons/getPeerProps";
 import addPreventDefaultListener from "./addPreventDefaultListener";
 import extractPeerId from "./extractPeerId";
+import getOldAttachStyle from "./getOldAttachStyle";
 
 const onAddMessage = async (message: HTMLElement) => {
+  let isGim = Boolean(document?.querySelector(".ConvoList__headerGroup"));
+  if (isGim) {
+    removeStyle("oldAttachesMessengerStyle");
+    return;
+  } else {
+    createStyle("oldAttachesMessengerStyle", getOldAttachStyle());
+  }
   let attaches = message.querySelector('[class^="ConvoMessageWithoutBubble__"] > .Attachments') as HTMLElement;
   let gift = message.querySelector(".AttachGift") as HTMLElement;
   let fwd = message.querySelector(".ForwardedMessagesList") as HTMLElement;

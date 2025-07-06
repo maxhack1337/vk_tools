@@ -4,6 +4,7 @@ import triggerDownload from "./triggerDownload";
 import fetchPhotoBlob from "./fetchPhotoBlob";
 import mimeTypes from "./mime.json";
 import getExtensionFromMimeType from "./getExtensionFromMimeType";
+import vkApiWithGroup from "../graffityVoice/vkApiWithGroup";
 
 export async function downloadAllDocsArchive(peer_id: number) {
   const lang = vk.lang ?? 3;
@@ -52,7 +53,7 @@ export async function downloadAllDocsArchive(peer_id: number) {
       };
       if (startFrom) params.start_from = startFrom;
 
-      const response = await vkApi.api("messages.getHistoryAttachments", params);
+      const response = await vkApiWithGroup("messages.getHistoryAttachments", params);
       const items = response.items || [];
       if (items.length === 0) break;
 

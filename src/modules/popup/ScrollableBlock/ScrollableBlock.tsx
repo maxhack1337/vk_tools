@@ -23,6 +23,7 @@ interface ScrollableBlockProps {
 
 const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps, ref) => {
   const { getLang } = useLocalization();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [updateUrl, setUpdateUrl] = useState<string | null>(null);
   const simpleBarRef = useRef<any>(null);
 
@@ -184,12 +185,12 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <CheckBox type={"checkBox"} label={getLang("hideMessageFooter")} isNew={false} isFire={false} id={"hideMessageFooter"} shouldReload={false} />
           <EmojiHotBarBlock label={getLang("emojiHotbar")} placeholder={getLang("enterEmojiCodes")} buttonLabel={getLang("updateHotbar")} description={getLang("emojiHotbarDescription")} option={"emojiHotbar"} />
           <CheckBox type={"checkBox"} label={getLang("createYtPlayer")} isNew={false} isFire={true} id={"createYtPlayer"} shouldReload={true} description={getLang("createYtPlayerDescription")} />
-          <CheckBox type={"checkBox"} label={getLang("newMessengerDesign")} isNew={false} isFire={false} id={"newMessengerDesign"} shouldReload={true} description={getLang("newMessengerDesignDescription")} shouldAlert={true} />
+          <CheckBox type={"checkBox"} label={getLang("newMessengerDesign")} isNew={false} isFire={false} id={"newMessengerDesign"} shouldReload={true} description={getLang("newMessengerDesignDescription")} shouldAlert={true} support={getLang("isNotSupportedWithGim")} />
         </div>,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("activity")} textForTT={getLang("afterReboot")} />
-          <CheckBox type={"checkBox"} label={getLang("disableReadingMessages")} isNew={false} isFire={false} id={"disableReadingMessages"} shouldReload={true} />
-          <CheckBox type={"checkBox"} label={getLang("hideTextEntry")} isNew={false} isFire={false} id={"hideTextEntry"} shouldReload={true} />
+          <CheckBox type={"checkBox"} label={getLang("disableReadingMessages")} isNew={false} isFire={false} id={"disableReadingMessages"} shouldReload={true} support={getLang("isNotSupportedWithGim")} />
+          <CheckBox type={"checkBox"} label={getLang("hideTextEntry")} isNew={false} isFire={false} id={"hideTextEntry"} shouldReload={true} support={getLang("isNotSupportedWithGim")} />
         </div>,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("oldDTab")} textForTT={getLang("someAfterReboot")} />
@@ -197,7 +198,7 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <CheckBox type={"checkBox"} label={getLang("messageTextUp")} isNew={false} isFire={false} id={"messageTextUp"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("reloadFunctionsButton")} isNew={false} isFire={false} id={"reloadFunctionsButton"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("oldMessagesBadge")} isNew={false} isFire={false} id={"oldMessagesBadge"} shouldReload={false} description={getLang("oldMessagesBadgeDescription")} />
-          <CheckBox type={"checkBox"} label={getLang("oldMessengerAttaches")} isNew={false} isFire={true} id={"oldMessengerAttaches"} shouldReload={true} description={getLang("oldMessenderAttachesDescription")} shouldWarn={true} />
+          <CheckBox type={"checkBox"} label={getLang("oldMessengerAttaches")} isNew={false} isFire={true} id={"oldMessengerAttaches"} shouldReload={true} description={getLang("oldMessenderAttachesDescription")} shouldWarn={true} support={getLang("isNotSupportedWithGim")} />
           <CheckBox type={"checkBox"} label={getLang("oldMessengerDesign")} isNew={false} isFire={false} id={"oldMessengerDesign"} shouldReload={true} description={getLang("oldMessengerDesignDescription")} />
         </div>,
         <LanguageSelector displayNone={true} />,
@@ -235,9 +236,9 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
         </div>,
         <div className="vkToolsBlockWithPadding vkToolsFooterBlock">
           <HeaderPseudoTransparent label={getLang("versionNumber")} />
-          <a className="vkToolsCardLink vkToolsActualVersion" target="_blank" href={updateUrl || "#"}>
+          {/* <a className="vkToolsCardLink vkToolsActualVersion" target="_blank" href={updateUrl || "#"}>
             <h4 className="vkToolsCardLink__title vkToolsActualVersion__title">{getLang("whatsNew")}</h4>
-          </a>
+          </a> */}
           <LanguageSelector />
         </div>,
       ];

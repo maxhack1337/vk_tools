@@ -10,7 +10,11 @@ import getTextTTNum from "./getTextTTNum";
  */
 
 const messageCounter = () => {
-  document.arrive(".ConvoList__scrollbar-content", { existing: true }, async function lyagushka(e: Element) {
+  document.arrive(".ConvoList__scrollbar-content", { existing: true }, async function addCounter(e: Element) {
+    let isGim = Boolean(document?.querySelector(".ConvoList__headerGroup"));
+    if (isGim) {
+      return;
+    }
     let countermsg = document.createElement("div");
     countermsg.classList.add("ConvoList__topFiltersWrap");
     countermsg.classList.add("vkEnhancerCounterOfMessages");
@@ -112,7 +116,7 @@ const messageCounter = () => {
           s.preventDefault();
           s.stopPropagation();
           countermsg.remove();
-          lyagushka.call(this, e);
+          addCounter.call(this, e);
         });
       }
     }

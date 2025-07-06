@@ -1,5 +1,6 @@
 import fromId from "../../../content/fromId";
 import initDownloadAttachesBox from "../downloadAttachments/initDownloadAttachesBox";
+import vkApiWithGroup from "../graffityVoice/vkApiWithGroup";
 import getBeginChat from "./getBeginChat";
 import getDownloadAttachments from "./getDownloadAttachments";
 import getPeerProps from "./getPeerProps";
@@ -171,7 +172,8 @@ const convoButtons = () => {
     ActionEnhancerMenu.querySelector(".vkToolsDownloadAttachmentsInitBox")?.addEventListener("click", () => {
       initDownloadAttachesBox(memoizedPeer);
     });
-    ActionEnhancerMenu.querySelector(".vkEnAttaches")?.addEventListener("click", function () {
+    ActionEnhancerMenu.querySelector(".vkEnAttaches")?.addEventListener("click", async function () {
+      await stManager.add(["post.css"]);
       window.showWiki({ w: `history${memoizedPeer}_photo` }, null, {});
       if (ActionEnhancerMenu.style.opacity === "1") {
         ActionEnhancerMenu.style.pointerEvents = "none";
@@ -180,7 +182,7 @@ const convoButtons = () => {
     });
     let cmid = 1;
     try {
-      let reoo = await vkApi.api("messages.getHistory", {
+      let reoo = await vkApiWithGroup("messages.getHistory", {
         count: 1,
         peer_id: memoizedPeer,
         rev: 1,
@@ -203,7 +205,7 @@ const convoButtons = () => {
     });
 
     ActionEnhancerMenu.querySelector(".vkToolsRead")?.addEventListener("click", () => {
-      vkApi.api("messages.markAsRead", { peer_id: memoizedPeer, mark_conversation_as_read: 1 });
+      vkApiWithGroup("messages.markAsRead", { peer_id: memoizedPeer, mark_conversation_as_read: 1 });
       if (ActionEnhancerMenu.style.opacity === "1") {
         ActionEnhancerMenu.style.pointerEvents = "none";
         ActionEnhancerMenu.style.opacity = "0";

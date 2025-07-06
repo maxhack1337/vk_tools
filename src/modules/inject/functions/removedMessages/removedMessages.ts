@@ -4,6 +4,7 @@ import create from "../../create";
 import deferredCallback from "../../defferedCallback";
 import getLocalValue from "../../getLocalValue";
 import runMessageUpdate from "../oldMessenger/oldAttaches/runMessageUpdate";
+import getGroupIdFromUrl from "./getGroupIdFromUrl";
 import getMessageProps from "./getMessageProps";
 import getMessagePropsMin from "./getMessagePropsMin";
 const removedMessages = () => {
@@ -14,11 +15,14 @@ const removedMessages = () => {
     },
     async function (e) {
       try {
+        let isGim = Boolean(document?.querySelector(".ConvoList__headerGroup"));
         let currentProps = getMessageProps(e as HTMLElement);
-        let ph = await vkApi.api("messages.getByConversationMessageId", {
+        let params: any = {
           peer_id: currentProps[1],
           conversation_message_ids: currentProps[0],
-        });
+        };
+        if (isGim) params.group_id = getGroupIdFromUrl();
+        let ph = await vkApi.api("messages.getByConversationMessageId", params);
         if (ph.count === 0) {
           e.classList.add("vkEnhancerDeletedMessageMain");
           const appendHere = e.querySelector(".ConvoMessageBottomInfo,.ConvoMessage__info");

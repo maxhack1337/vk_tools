@@ -664,7 +664,7 @@
         "Helvetica Neue",
         Roboto,
         sans-serif;
-    flex-basis: 33%;
+    flex-basis: 50%;
 }
 
 #langName {
@@ -804,7 +804,11 @@
 }
 
 .vkToolsFooterBlock > .vkToolsPseudoHeaderWrapper {
-    flex-basis: 33%;
+    flex-basis: 50%;
+    justify-content: center;
+    .vkToolsPseudoHeaderTransparent {
+        padding-left: 0px!important;
+    }
 }
 
 .vkToolsSecondaryHeaderPseudoLittle {
