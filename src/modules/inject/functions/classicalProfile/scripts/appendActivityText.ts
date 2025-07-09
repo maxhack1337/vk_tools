@@ -93,6 +93,7 @@ const appendActivityText = (activityText: string | null, userData: any) => {
     }
     pHeaderAva1.style.position = "relative";
     pHeaderAva1.style.left = "-200px";
+    pHeaderAva1.style.zIndex = "9";
     let pHeaderIn = document.querySelectorAll(".ProfileHeader__in")[1];
     if (!pHeaderIn) {
       pHeaderIn = document.querySelectorAll(".ProfileHeader__in")[0];
