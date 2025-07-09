@@ -15,6 +15,8 @@ const messageCounter = () => {
     if (isGim) {
       return;
     }
+    let stickyTop = document.createElement("div");
+    stickyTop.classList.add("ConvoList__sticky-top");
     let countermsg = document.createElement("div");
     countermsg.classList.add("ConvoList__topFiltersWrap");
     countermsg.classList.add("vkEnhancerCounterOfMessages");
@@ -120,7 +122,8 @@ const messageCounter = () => {
         });
       }
     }
-    e.prepend(countermsg);
+    stickyTop.append(countermsg);
+    e.prepend(stickyTop);
   });
 };
 
