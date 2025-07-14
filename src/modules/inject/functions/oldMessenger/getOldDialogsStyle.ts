@@ -1,6 +1,4 @@
-import getEndStoryLang from "./getEndStoryLang";
-
-const getOldDialogsStyle = () => {
+const getOldDialogsStyle = (lang: string) => {
   return `
         .vkToolsActionMenu {
             top: 36px !important;
@@ -156,7 +154,7 @@ const getOldDialogsStyle = () => {
         background-size: 6.5%;
     }
     .HopNavigationButton:has(.vkuiIcon--dropdown_20):after {
-        content: "${getEndStoryLang(vk.lang)}";
+        content: "${lang}";
         font-weight: 500;
         text-align: center;
         color: var(--blue_420) !important;
@@ -391,13 +389,13 @@ const getOldDialogsStyle = () => {
     .Reply--clickable:not(.Reply--withoutBubble):hover::after {
         opacity: .4;
     }
-    .MEApp__route:not(:has(> .MEApp__oneColumn)) .ConvoListItem .ConvoTitle__title{
+    .MEApp:not(.MEApp--one-column) .ConvoListItem .ConvoTitle__title{
         max-width: 134px;
     }
     .ConvoHeader__status {
         padding-left:8px;
     }
-    .MEApp__route:not(:has(> .MEApp__oneColumn)) .MEApp__content .ConvoHeader__action.ConvoHeader__back {
+    .MEApp:not(.MEApp--one-column) .MEApp__content .ConvoHeader__action.ConvoHeader__back {
         visibility: hidden;
         width: 8px!important;
     }

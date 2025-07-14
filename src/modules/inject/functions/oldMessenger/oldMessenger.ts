@@ -3,6 +3,7 @@ import createStyle from "../../createStyle";
 import deferredCallback from "../../defferedCallback";
 import getLocalValue from "../../getLocalValue";
 import getEnableLinesLang from "./getEnableLinesLang";
+import getEndStoryLang from "./getEndStoryLang";
 import getOldDialogsStyle from "./getOldDialogsStyle";
 import getSwitchInterface from "./getSwitchInterface";
 import { getUnsupportedLangOldM } from "./getUnsupportedLang";
@@ -32,7 +33,7 @@ const oldMessenger = () => {
       },
       { variable: "curNotifier" }
     );
-    createStyle("oldDialogs", getOldDialogsStyle());
+    createStyle("oldDialogs", getOldDialogsStyle(getEndStoryLang(vk.lang)));
 
     document.arrive(".ConvoMessageInfoWithoutBubbles", { existing: true }, function (e) {
       let time = e as HTMLDivElement;

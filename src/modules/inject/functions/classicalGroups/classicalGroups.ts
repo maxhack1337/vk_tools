@@ -1,9 +1,29 @@
-// TODO: Ждём переработки сообществ на SPA
+import classicalNewInterface from "./classicalNewInterface";
+import getGroupProps from "./getGroupProps";
+import "./classicalGroups.css";
 
 const classicalGroups = () => {
-    document.arrive("#page_group_info_block", { existing: true }, async function (e) {
-
-    });
-}
+  document.arrive("[class*='CommunityHeader__cover'][data-testid='communityheader_cover']:not(:has([data-testid='loading-skeleton']))", { existing: true }, async function (e) {
+    document.querySelector("html")!.classList.add("classicalGroup");
+    let groupDiv = e.closest(".vkui__root");
+    let props = await getGroupProps(groupDiv);
+    console.log("[VK Tools] Club fetched", props);
+    if (props?.cover) {
+      let isCoverEnabled = props.cover.enabled;
+      window.vkenh.curClassicalGroup = (await vkApi.api("groups.getById", { group_ids: props.id, fields: "is_hidden_from_feed, links" }))?.groups[0] || {};
+      switch (isCoverEnabled) {
+        case 0:
+          //classicalOldInterface();
+          classicalNewInterface(props);
+          break;
+        case 1:
+          classicalNewInterface(props);
+          break;
+        default:
+          break;
+      }
+    }
+  });
+};
 
 export default classicalGroups;

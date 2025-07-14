@@ -26,3 +26,7 @@ export const unescapeAttr = (str: string) => {
     .replace(/&gt;/g, ">")
     .replace(/&lt;/g, "<");
 };
+
+export const escapeAttr = (str: string) => {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+};

@@ -64,6 +64,7 @@ import createStyle from "./createStyle";
 import toggleShop from "./functions/toggleShop/toggleShop";
 import ignoreReactErrorOnInsertBefore from "./functions/oldVideoPlaylists/ignoreReactErrorOnInsertBefore";
 import notVkVideoStandalone from "./functions/oldVideoUploadModal/notVkVideoStandalone";
+import classicalGroups from "./functions/classicalGroups/classicalGroups";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -202,6 +203,7 @@ window.vkenh.loadingOverlay = showLoadingOverlay;
 window.vkenh.downloadAttaches = downloadAttaches;
 window.vkenh.downloadAllPhotos = downloadAllPhotosArchive;
 window.vkenh.currentArticle = {};
+window.vkenh.curClassicalGroup = {};
 
 convert(document);
 document.arrive(".ComposerInput__input", { existing: true }, function (e) {
@@ -584,6 +586,8 @@ deferredCallback(
     downloadMusic();
     //Старый дизайн страницы сообществ
     oldGroupsPage();
+    //Классик сообщества
+    classicalGroups();
   },
   { variable: "getLang" }
 );

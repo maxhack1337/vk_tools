@@ -1,6 +1,8 @@
 const innerStyleGet = () => {
   return `
-  
+		.wall_module .Post--redesignV3 .wall_text {
+			padding: 0!important;
+		}
 		.media_link__label {
 			display: flex!important;
 			box-sizing: border-box!important;
@@ -49,7 +51,7 @@ const innerStyleGet = () => {
 			box-shadow: 0 0 0 0 transparent;
 		}
 
-		.wl_post_body_wrap .poster__wrap {
+		.wl_post_body_wrap .poster__wrap, .Post--redesignV3 .poster__wrap {
 			margin: 0 -6px !important;
 		}
 

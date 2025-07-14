@@ -11,6 +11,7 @@ interface VKEnh {
   downloadAllPhotos?: any;
   downloadAttaches?: any;
   currentArticle?: any;
+  curClassicalGroup?: any;
 }
 
 interface URL {
@@ -20,6 +21,9 @@ interface URL {
 interface Page {
   audioStatusUpdate: any;
   ownerAvatarEdit: any;
+  infoEdit: any;
+  showPageMembers: any;
+  editContact: any;
 }
 
 interface navGoLoc {
@@ -228,6 +232,13 @@ declare global {
   var showVideo: any;
   var vkidCaptcha: any;
   var vkidCaptchaInit: any;
+  var showWriteMessageBox: any;
+  var getDateText: any;
+  var replaceEntities: any;
+  var getHostName: any;
+  var Groups: any;
+  var Public: any;
+  var getSmDate: any;
 
   namespace NodeJS {
     interface ProcessEnv {
