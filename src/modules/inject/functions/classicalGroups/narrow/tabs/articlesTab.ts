@@ -36,7 +36,7 @@ const articlesTab = (articlesGetter: ArticlesResponse, id: number, screen_name: 
 
     if (isOwner) {
       const lnk = document.createElement("a");
-      lnk.textContent = getLang?.("me_message_edited_label_short").toString() || ".ред";
+      lnk.textContent = getLang?.("global_photo_attach_edit").toString().toLowerCase() || "ред.";
       lnk.href = `https://vk.com/@${screen_name}`;
       headerRightLink.append(lnk);
     }

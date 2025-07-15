@@ -48,7 +48,7 @@ const audiosTab = (audiosGetter: AudiosResponse, id: number, isOwner: boolean) =
     moduleDiv.appendChild(headerRightLink);
     if (isOwner) {
       const lnk = document.createElement("a");
-      lnk.textContent = getLang?.("me_message_edited_label_short").toString() || ".ред";
+      lnk.textContent = getLang?.("global_photo_attach_edit").toString().toLowerCase() || "ред.";
       lnk.href = audiosGetter.items.length > 0 ? `/audios${audiosGetter.items[0].owner_id}` : "#";
       headerRightLink.append(lnk);
     }

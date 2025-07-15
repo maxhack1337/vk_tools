@@ -31,7 +31,7 @@ const videosTab = (videosGetter: VideosResponse, id: number, isOwner: boolean) =
 
     if (isOwner) {
       const lnk = document.createElement("a");
-      lnk.textContent = getLang?.("me_message_edited_label_short").toString() || ".ред";
+      lnk.textContent = getLang?.("global_photo_attach_edit").toString().toLowerCase() || "ред.";
       lnk.href = videosGetter.items.length > 0 ? `/videos${videosGetter.items[0].owner_id}` : "#";
       headerRightLink.append(lnk);
     }

@@ -1,4 +1,5 @@
 import addBlock from "./addBlock";
+import contactsLang from "./contactsLang";
 
 interface Contact {
   user_id?: number;
@@ -19,7 +20,7 @@ interface UserData {
 
 const contactsTab = async (contacts: Contact[], id: number, isOwner: boolean) => {
   const aside = document.createElement("aside");
-  aside.setAttribute("aria-label", "Контакты");
+  aside.setAttribute("aria-label", contactsLang(vk.lang));
 
   if (contacts.length > 0) {
     const moduleDiv = document.createElement("div");
@@ -32,7 +33,7 @@ const contactsTab = async (contacts: Contact[], id: number, isOwner: boolean) =>
 
     if (isOwner) {
       const lnk = document.createElement("a");
-      lnk.textContent = getLang?.("me_message_edited_label_short").toString() || ".ред";
+      lnk.textContent = getLang?.("global_photo_attach_edit").toString().toLowerCase() || "ред.";
       lnk.setAttribute("onclick", `Page.showContacts(${id})`);
       headerRightLink.append(lnk);
     }
@@ -46,7 +47,7 @@ const contactsTab = async (contacts: Contact[], id: number, isOwner: boolean) =>
 
     const headerLabel = document.createElement("span");
     headerLabel.classList.add("header_label", "fl_l");
-    headerLabel.textContent = "Контакты";
+    headerLabel.textContent = contactsLang(vk.lang);
 
     const headerCount = document.createElement("span");
     headerCount.classList.add("header_count", "fl_l");

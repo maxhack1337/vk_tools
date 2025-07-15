@@ -5,9 +5,10 @@ import contactsTab from "./tabs/contactsTab";
 import docsTab from "./tabs/docsTab";
 import eventsTab from "./tabs/eventsTab";
 import linksTab from "./tabs/linksTab";
+import organiserTab from "./tabs/organiserTab";
 import videosTab from "./tabs/videosTab";
 
-const narrowBlock = async (tabs: any[], isOwner: boolean, id: number, screen_name: string, contacts: any) => {
+const narrowBlock = async (tabs: any[], isOwner: boolean, id: number, screen_name: string, contacts: any, evOrganiser: any) => {
   const tabsOrder = ["links", "photos", "videos", "audios", "files", "articles", "events"];
   const curClassicalGroup = window.vkenh.curClassicalGroup;
   if (!tabs) {
@@ -83,12 +84,20 @@ const narrowBlock = async (tabs: any[], isOwner: boolean, id: number, screen_nam
     if (block) mainBlock.appendChild(block);
   });
 
+  if (evOrganiser && evOrganiser.user_id) {
+    const organiserBlock = await organiserTab(evOrganiser.user_id, id, isOwner);
+    if (organiserBlock) {
+      mainBlock.appendChild(organiserBlock);
+    }
+  }
+
   if ((Array.isArray(contacts) && contacts.length > 0) || isOwner) {
     const contactsBlock = await contactsTab(contacts, -id, isOwner);
     if (contactsBlock) {
       mainBlock.appendChild(contactsBlock);
     }
   }
+
   if (mainBlock.innerHTML === "") {
     return false;
   }

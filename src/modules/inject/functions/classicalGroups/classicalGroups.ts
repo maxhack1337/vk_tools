@@ -1,6 +1,7 @@
 import classicalNewInterface from "./classicalNewInterface";
 import getGroupProps from "./getGroupProps";
 import "./classicalGroups.css";
+import classicalOldInterface from "./classicalOldInterface";
 
 const classicalGroups = () => {
   document.arrive("[class*='CommunityHeader__cover'][data-testid='communityheader_cover']:not(:has([data-testid='loading-skeleton']))", { existing: true }, async function (e) {
@@ -13,8 +14,7 @@ const classicalGroups = () => {
       window.vkenh.curClassicalGroup = (await vkApi.api("groups.getById", { group_ids: props.id, fields: "is_hidden_from_feed, links" }))?.groups[0] || {};
       switch (isCoverEnabled) {
         case 0:
-          //classicalOldInterface();
-          classicalNewInterface(props);
+          classicalOldInterface(props);
           break;
         case 1:
           classicalNewInterface(props);

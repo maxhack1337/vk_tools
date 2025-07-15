@@ -1,6 +1,3 @@
-import { escapeHtml } from "../../escapeHtml";
-import postingEmojiHint from "../oldPosting/postingEmojiHint";
-import addPinnedPostTab from "./infoBlock/addPinnedPostTab";
 import messagesButton from "./buttons/messagesButton";
 import { subscribeButton, unSubButton } from "./buttons/subscribeButton";
 import groupInfoBlock from "./infoBlock/groupInfoBlock";
@@ -8,9 +5,10 @@ import narrowBlock from "./narrow/narrowBlock";
 import friendsSubsBlock from "./narrow/friendsSubsBlock";
 import followersBlock from "./narrow/followersBlock";
 import deferredCallback from "../../defferedCallback";
-import changeCurrentInfoLang from "../classicalProfile/scripts/changeCurrentInfoLang";
+import photoPageBlock from "./photoPageBlock/photoPageBlock";
+import pageTop from "./pageTop/pageTop";
 
-const classicalNewInterface = async (props: any) => {
+const classicalOldInterface = async (props: any) => {
   const isMessagesEnabled = props.can_message;
   const description = props.description;
   const site = props.site;
@@ -27,115 +25,67 @@ const classicalNewInterface = async (props: any) => {
   const evOrganiser = props.event_organizer || {};
   const friends = props.friends || {};
   const root = document.querySelector("#page_body > #spa_root > .vkui__root");
+  const hasPhoto = props.has_photo || 0;
+  const cropPhotoId = props?.crop_photo?.photo?.id || false;
+  const title = props.name || "";
+  const cropPhotoSrc = props?.crop_photo?.photo || false;
+  let hashes = await vkApi.api("groups.getLegacyModalsHashes", { group_id: id });
 
-  //Хэдер сообщества
+  //Хэдер сообщества(тут его скрываем, нужен только для элемента)
   const contentWrapper = root?.querySelector('[class*="CommunityHeader__contentWrapper--"]');
   const buttonGroup = contentWrapper?.querySelector("[class*='ButtonGroup__host']");
   const checkIsVkToolsGroup = document.createElement("tool");
-  checkIsVkToolsGroup.classList.add("vkToolsGroupStyle");
+  checkIsVkToolsGroup.classList.add("vkToolsGroupStyle", "vkToolsOldHideCommHeader");
   checkIsVkToolsGroup.style.display = "none";
   buttonGroup?.append(checkIsVkToolsGroup);
 
-  if (subscribed) {
-    const unSubButtonT = await unSubButton(id, isClosed, memberStatus);
-    buttonGroup?.prepend(unSubButtonT);
-  } else {
-    const subscribeButtonT = subscribeButton(id, isClosed, memberStatus);
-    buttonGroup?.prepend(subscribeButtonT);
-  }
-
-  if (isMessagesEnabled) {
-    const messagesButtonOld = contentWrapper?.querySelector('[href^="/im?sel"]');
-    if (messagesButtonOld) messagesButtonOld.remove();
-    const messagesButtonNew = messagesButton(id);
-    buttonGroup?.prepend(messagesButtonNew);
-  }
-
-  if ((status && status !== "") || level >= 2) {
-    if (!status) status = "";
-    const statusDiv = document.createElement("div");
-    statusDiv.classList.add("page_current_info");
-    statusDiv.id = "page_current_info";
-    statusDiv.style.position = "relative";
-    const statusSpan = document.createElement("span");
-    statusSpan.classList.add("current_text", "vk_tools_current_text");
-    statusSpan.textContent = status;
-
-    const appendStatus = contentWrapper?.querySelector('[class*="CommunityHeader__content--"] [class*="RootComponent__host"][style="flex-basis: 450px;"]');
-    statusDiv.append(statusSpan);
-    if (level >= 2) {
-      changeCurrentInfoLang(vk.lang);
-      let hashes = await vkApi.api("groups.getLegacyModalsHashes", { group_id: id });
-      statusDiv.innerHTML = `      
-  <div id="currinfo_editor" style="margin-top: -82px" class="page_status_editor clear" onclick="cancelEvent(event)">
-    <div class="editor">
-      <div class="page_status_input_wrap _emoji_field_wrap">
-        <div class="emoji_smile_wrap  _emoji_wrap">
-          <div data-testid="emoji-smile" class="emoji_smile _emoji_btn" role="button" title="${postingEmojiHint(vk.lang)}" onmouseenter="return Emoji.show(this, event);" onmouseleave="return Emoji.hide(this, event);" onclick="return cancelEvent(event);">
-            <div class="emoji_smile_icon"></div>
-          </div>
-        </div>
-        <div class="page_status_input" id="currinfo_input" contenteditable="true" role="textbox"></div>
-      </div>
-      <button class="flat_button button_small page_status_btn_save" id="currinfo_save">${getLang?.("Save")}</button>
-    </div>
-  </div>
-  <div id="currinfo_wrap" class="vk_tools_edit_status_wrap" tabindex="0" role="button">
-    <span id="current_info" class="current_info">${status === "" ? `<span class="no_current_info">${changeCurrentInfoLang(vk.lang)}</span>` : `<span class= "my_current_info" > <span class="current_text">${escapeHtml(status)}</span></span>`}
-    </span>
-  </div>
-  <div id="currinfo_fake" class="vk_tools_currinfo_fake" style="display: none">${status === "" ? `<span class="no_current_info">${changeCurrentInfoLang(vk.lang)}</span>` : `<span class= "my_current_info"><span class="current_text">${escapeHtml(status)}</span></span>`}
-  </div>
-`;
-
-      statusDiv.querySelector(".vk_tools_edit_status_wrap")?.addEventListener("click", () => {
-        cur.options.info_hash = hashes.more_info_hash;
-        page.infoEdit();
-      });
-    }
-
-    appendStatus?.append(statusDiv);
-  }
-
-  //Удаление кнопок от ВК чтоб наши кнопки не были дупликатами
-  contentWrapper?.arrive("[class*='Button__root']", { existing: true }, () => {
-    if (!buttonGroup) return;
-
-    const primaryAccentButton = buttonGroup.querySelector(".vkuiButton__modePrimary.vkuiButton__appearanceAccent");
-    if (primaryAccentButton) {
-      primaryAccentButton.remove();
-    }
-  });
-
   //Основной блок
   const mainContainer = document.querySelector("[class*='TwoColumnLayoutMain__root']");
+  const pageTopT = pageTop(title, status, level, hashes);
+  mainContainer?.prepend(pageTopT);
 
   let groupBlockResult: any = null;
-  let groupBlockState: any = {};
 
   function createOrUpdateGroupBlock(addPinnedPost = false) {
     if (groupBlockResult) return;
-    groupBlockResult = groupInfoBlock(id, description, site, tabs, addPinnedPost);
+    groupBlockResult = groupInfoBlock(id, description, site, tabs, addPinnedPost, true);
     if (!groupBlockResult) return;
-    const { mainBlock, activateTab, tabsMap, ulTabs, contentContainer } = groupBlockResult;
-    mainContainer?.prepend(mainBlock);
-    groupBlockState = { activateTab, tabsMap, ulTabs, contentContainer };
+    const { subMainBlock } = groupBlockResult;
+    pageTopT?.append(subMainBlock);
   }
   createOrUpdateGroupBlock(false);
-
-  document.arrive(".groups_page_fixed_post_block", { existing: true }, (pinnedPost) => {
-    if (!groupBlockResult) {
-      createOrUpdateGroupBlock(true);
-    }
-    const data = groupBlockState;
-    if (data) {
-      addPinnedPostTab(pinnedPost as HTMLElement, data.ulTabs, data.contentContainer, data.tabsMap, data.activateTab);
-    }
-  });
   //блок в narrow c табами
   deferredCallback(
     async () => {
       let narrow = document.querySelector("[class*='TwoColumnLayoutNarrow__root'] > div");
+      //Блок с авой и кнопками
+      let photoPageBlockT = await photoPageBlock(cropPhotoSrc, title, id, hasPhoto, cropPhotoId, level >= 2, hashes, isClosed);
+
+      let buttonsBlock = document.createElement("div");
+      buttonsBlock.classList.add("vkToolsNarrowPhotoBlock__buttons");
+      let subButtonGroup = document.createElement("div");
+      subButtonGroup.classList.add("vkToolsNarrowPhotoBlock__buttons_sub");
+      if (subscribed) {
+        const unSubButtonT = await unSubButton(id, isClosed, memberStatus);
+        subButtonGroup?.prepend(unSubButtonT);
+      } else {
+        const subscribeButtonT = subscribeButton(id, isClosed, memberStatus);
+        subButtonGroup?.prepend(subscribeButtonT);
+      }
+
+      if (isMessagesEnabled) {
+        const messagesButtonOld = contentWrapper?.querySelector('[href^="/im?sel"]');
+        if (messagesButtonOld) messagesButtonOld.remove();
+        const messagesButtonNew = messagesButton(id);
+        buttonsBlock?.prepend(messagesButtonNew);
+      }
+      let moreButton = buttonGroup?.querySelector("button.vkuiButton__modeSecondary.vkuiButton__appearanceAccent");
+      if (moreButton) {
+        subButtonGroup.append(moreButton);
+      }
+      buttonsBlock.append(subButtonGroup);
+      photoPageBlockT.append(buttonsBlock);
+      narrow?.prepend(photoPageBlockT);
       await stManager.add(["module.css"]);
       if (document.querySelector(".vkToolsFriendsContainer")) document.querySelector(".vkToolsFriendsContainer")?.remove();
       if (document.querySelector(".vkToolsFollowersBlock")) document.querySelector(".vkToolsFollowersBlock")?.remove();
@@ -225,4 +175,4 @@ const classicalNewInterface = async (props: any) => {
   );
 };
 
-export default classicalNewInterface;
+export default classicalOldInterface;

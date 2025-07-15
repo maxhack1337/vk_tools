@@ -2,7 +2,7 @@ import fillDiscussionsTabContent from "./fillDiscussionsTab";
 import formatDescriptionText from "./formatDescriptionText";
 import noInfoLang from "./noInfoLang";
 
-function groupInfoBlock(id: number, description: string, site: string, tabs: any[], addPinnedPost = false) {
+function groupInfoBlock(id: number, description: string, site: string, tabs: any[], addPinnedPost = false, shouldReturnDubmain = false) {
   if (!tabs) tabs = [];
   const hasDiscussionsTab = tabs.some((tab) => tab.name === "discussions");
 
@@ -111,7 +111,7 @@ function groupInfoBlock(id: number, description: string, site: string, tabs: any
     divDiscussions.classList.add("ui_tab", "ui_tab_vktools");
     divDiscussions.setAttribute("role", "link");
     divDiscussions.dataset.tab = "discussions";
-    divDiscussions.textContent = getLang?.("discussions")?.toString() || "Обсуждения";
+    divDiscussions.textContent = getLang?.("groups_tab_discussions_name")?.toString() || "Обсуждения";
     liDiscussions.appendChild(divDiscussions);
     ulTabs.appendChild(liDiscussions);
 
@@ -148,7 +148,11 @@ function groupInfoBlock(id: number, description: string, site: string, tabs: any
     activateTab("discussions");
   }
 
-  return { mainBlock, activateTab, tabsMap, ulTabs, contentContainer };
+  if (!shouldReturnDubmain) {
+    return { mainBlock, activateTab, tabsMap, ulTabs, contentContainer };
+  } else {
+    return { subMainBlock, activateTab, tabsMap, ulTabs, contentContainer };
+  }
 }
 
 export default groupInfoBlock;

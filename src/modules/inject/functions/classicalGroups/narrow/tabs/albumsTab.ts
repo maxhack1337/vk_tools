@@ -26,7 +26,7 @@ const albumsTab = async (albumsGetter: AlbumsResponse, isOwner: boolean) => {
   headerRightLink.classList.add("header_right_link", "fl_r");
   if (isOwner) {
     const lnk = document.createElement("a");
-    lnk.textContent = getLang?.("me_message_edited_label_short").toString() || ".ред";
+    lnk.textContent = getLang?.("global_photo_attach_edit").toString().toLowerCase() || "ред.";
     lnk.href = `/albums${albumsGetter.items.length > 0 ? albumsGetter.items[0].owner_id : ""}`;
     headerRightLink.append(lnk);
   }

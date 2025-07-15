@@ -1,4 +1,83 @@
+body:not(:has(.vkToolsGroupStyle)) {
+    .vkToolsDropdown {
+        display: none;
+    }
+}
+
+html.classicalGroup body:has(.vkToolsOldHideCommHeader) {
+[class*="CommunityHeader__root"],
+    [class*="CommunityHeader__root"]+.vkuiGroup__separatorSibling {
+        display: none;
+    }
+        .vk_tools_edit_status_wrap .current_text,
+        .vk_tools_currinfo_fake .current_text,
+        .vk_tools_current_text {
+            max-width: 522px!important;
+        }
+        .groups_page_fixed_post_block {
+            margin-top: 0px!important;
+        }
+        .WallLegacy:has(>.groups_page_fixed_post_block) {
+            margin-top: 16px!important;
+        }
+        .vkuiGroup__separatorSibling:has(+.WallLegacy >.groups_page_fixed_post_block) {
+            display: none;
+        }
+}
+
 html.classicalGroup body:has(.vkToolsGroupStyle) {
+    .vkToolsAntiZindex {
+        z-index: 101!important;
+    }
+    .vkToolsPseudoBlock {
+        padding: 15px 20px;
+        border-bottom: 1px solid var(--vkui--color_separator_primary);
+    }
+    .vkToolsNarrowPhotoBlock__buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 8px;
+        .vkToolsButton, .vkToolsButtonSecondary {
+            width: 100%;
+        }
+        .vkToolsNarrowPhotoBlock__buttons_sub {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            .vkuiButton__modeSecondary {
+                left: 0px !important;
+                top: 0px !important;
+                width: 5px !important;
+                min-width: 45px;
+                .vkuiButton__in {
+                    margin-right: 0 !important;
+                    width: 5px;
+                    min-width: 45px;
+                    background: url(data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%2399A2AD%22%20d%3D%22M5%2014c1.1%200%202-.9%202-2s-.9-2-2-2-2%20.9-2%202%20.9%202%202%202zm7%200c1.1%200%202-.9%202-2s-.9-2-2-2-2%20.9-2%202%20.9%202%202%202zm7%200c1.1%200%202-.9%202-2s-.9-2-2-2-2%20.9-2%202%20.9%202%202%202z%22%2F%3E%3C%2Fsvg%3E) no-repeat;
+                    background-position: center;
+                    background-size: 60%;
+                    span {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+    .vkToolsCursorPointer {
+        cursor: pointer!important;
+    }
+    .vkToolsNoAvatarCommunity {
+        display: flex;
+        justify-content: center;
+        padding-top: 0px;
+        width: 200px;
+        height: 200px !important;
+        align-items: flex-end;
+        .loadPhoto {
+            margin-bottom: 40px;
+        }
+    }
     [class*="DropdownActionSheetItem__container"]:has(.vkuiIcon--minus_square_outline_20) {
         display: none;
     }
@@ -139,6 +218,9 @@ html.classicalGroup body:has(.vkToolsGroupStyle) {
         cursor: pointer;
         height: 32px;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
     }
 
     .ui_tab_sel_vktools,
@@ -218,6 +300,9 @@ html.classicalGroup body:has(.vkToolsGroupStyle) {
         cursor: pointer;
         height: 32px;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
     }
 
     .vkToolsButtonSecondary:hover {
@@ -249,7 +334,7 @@ html.classicalGroup body:has(.vkToolsGroupStyle) {
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            padding: 8px 0px 8px 16px;
+            padding: 12px 0px 12px 16px;
             cursor: pointer;
             .vkToolsAddBlockImg {
                 color: var(--vkui--color_icon_accent);

@@ -147,7 +147,7 @@ const unSubButton = async (id: Number, isClosed: boolean, memberStatus: Number) 
   dropdown.appendChild(unsubscribeOption);
   dropdown.appendChild(toggleNewsOption);
 
-  document.body.appendChild(dropdown);
+  document.body?.appendChild(dropdown);
 
   function positionDropdown() {
     const rect = unSubscribeButton.getBoundingClientRect();
