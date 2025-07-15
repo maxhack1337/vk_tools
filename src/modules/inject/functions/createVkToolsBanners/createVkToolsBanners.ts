@@ -8,7 +8,8 @@ const VK_TOOLS_GROUP_ID = -221416961;
  */
 
 const createVkToolsBanners = () => {
-  document.arrive('.narrow_column.narrow_redesign.group-redesigned-narrow .group_info_row.more a[href*="vkenhancer"]', { existing: true }, (vktools_narrow) => {
+  let bannersSelectors = [`.narrow_column.narrow_redesign.group-redesigned-narrow .group_info_row.more a[href*="vkenhancer"]`, `body:has(a.vkuiButton__appearanceAccent[href*="vkenhancer"] .vkuiIcon--link_circle_outline_20) [class*='TwoColumnLayoutNarrow__root'] > div`];
+  document.arrive(bannersSelectors.join(","), { existing: true }, (vktools_narrow) => {
     let narrow = vktools_narrow.closest(".narrow_column.narrow_redesign.group-redesigned-narrow");
     let bannerSite = banner({
       id: "vkToolsMessageToUsBanner",
@@ -21,8 +22,11 @@ const createVkToolsBanners = () => {
       icon: "message",
       color: "var(--vkui--color_icon_accent)",
     });
-
-    narrow?.prepend(bannerSite);
+    if (narrow) {
+      narrow?.prepend(bannerSite);
+    } else {
+      vktools_narrow?.prepend(bannerSite);
+    }
   });
 };
 

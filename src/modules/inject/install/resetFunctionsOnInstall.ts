@@ -33,6 +33,7 @@ const keys = [
   "createYtPlayer",
   "postInWkLayer",
   "disableStandaloneCheckOnLoadVideo",
+  "communitiesOldDesign",
 ];
 
 const resetFunctionsOnInstall = () => {

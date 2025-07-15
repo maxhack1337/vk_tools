@@ -69,6 +69,7 @@ const allStates = [
   "postInWkLayerState",
   "returnComAvaState",
   "disableStandaloneCheckOnLoadVideoState",
+  "classicCommunityInterfaceState",
 ];
 
 const clearAllStates: { [key: string]: any } = {
@@ -125,6 +126,7 @@ const clearAllStates: { [key: string]: any } = {
   postInWkLayerState: false,
   returnComAvaState: false,
   disableStandaloneCheckOnLoadVideoState: false,
+  classicCommunityInterfaceState: false,
 };
 const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
 

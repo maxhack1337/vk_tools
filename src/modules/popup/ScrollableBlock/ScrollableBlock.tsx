@@ -145,7 +145,6 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("oldDTab")} textForTT={getLang("someAfterReboot")} />
           <CheckBox type={"checkBox"} label={getLang("oldLoader")} isNew={false} isFire={false} id={"oldLoader"} shouldReload={true} />
-          <CheckBox type={"checkBox"} label={getLang("oldClub")} isNew={false} isFire={false} id={"oldClub"} shouldReload={true} description={getLang("oldClubDescription")} />
         </div>,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("video")} textForTT={getLang("afterReboot")} />
@@ -161,6 +160,11 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <CheckBox type={"checkBox"} label={getLang("removeEmojiStatus")} isNew={false} isFire={false} id={"removeEmojiStatus"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("avatarNameNear")} isNew={false} isFire={false} id={"avatarNameNear"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("classicProfileInterface")} isNew={false} isFire={true} id={"classicProfileInterface"} shouldReload={true} description={getLang("classicProfileInterfaceDescription")} shouldWarn={true} />
+        </div>,
+        <div className="vkToolsBlockWithPadding">
+          <HeaderPseudoTransparent label={getLang("groups")} textForTT={getLang("someAfterReboot")} />
+          <CheckBox type={"checkBox"} label={getLang("oldClub")} isNew={false} isFire={false} id={"oldClub"} shouldReload={true} description={getLang("oldClubDescription")} />
+          <CheckBox type={"checkBox"} label={getLang("classicCommunityInterface")} isNew={false} isFire={true} id={"classicCommunityInterface"} shouldReload={true} description={getLang("classicCommunityInterfaceDescription")} shouldWarn={true} />
         </div>,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("feedAndPosts")} textForTT={getLang("afterReboot")} />

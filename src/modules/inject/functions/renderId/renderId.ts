@@ -12,11 +12,16 @@ const renderId = () => {
             #profile_redesigned .vkToolsIdBlock:first-child {
                 margin-top: 0px!important;
             }
+
+            body:has([class*='CommunityHeader__root']) [class*='TwoColumnLayoutNarrow__root'] > div .vkToolsIdBlock:first-child {
+              margin-top: 0px!important;
+              margin-bottom: 16px!important;
+            }
         `;
 
     createStyle("vkTIDBlock", style);
 
-    const appendSelectorsForId = ["#profile_redesigned", ".group-redesigned-narrow#narrow_column"];
+    const appendSelectorsForId = ["#profile_redesigned", ".group-redesigned-narrow#narrow_column", "body:has([class*='CommunityHeader__root']) [class*='TwoColumnLayoutNarrow__root'] > div"];
     document.arrive(
       appendSelectorsForId.join(","),
       {

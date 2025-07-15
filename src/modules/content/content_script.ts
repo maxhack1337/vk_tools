@@ -118,6 +118,7 @@ const functions = [
   "postInWkLayerState",
   "returnComAvaState",
   "disableStandaloneCheckOnLoadVideoState",
+  "classicCommunityInterfaceState",
 ];
 
 const applySavedStyles = () => {
@@ -175,6 +176,7 @@ const applySavedStyles = () => {
     const postInWkLayer = items.postInWkLayerState;
     const returnComAva = items.returnComAvaState;
     const disableStandaloneCheckOnLoadVideo = items.disableStandaloneCheckOnLoadVideoState;
+    const classicCommunityInterface = items.classicCommunityInterfaceState;
     applyStyles({
       isVideoModal,
       altScroll,
@@ -229,6 +231,7 @@ const applySavedStyles = () => {
       postInWkLayer,
       returnComAva,
       disableStandaloneCheckOnLoadVideo,
+      classicCommunityInterface,
     });
   });
 };
@@ -287,6 +290,7 @@ function applyStyles(styles: {
   postInWkLayer: any;
   returnComAva: any;
   disableStandaloneCheckOnLoadVideo: any;
+  classicCommunityInterface: any;
 }) {
   //if (styles.removeNFT) {
   //hideNFT_Avatars();
@@ -526,6 +530,12 @@ function applyStyles(styles: {
     customMessage("removeAway", styles.disableAway);
   } else {
     customMessage("removeAway", "false");
+  }
+
+  if (styles.classicCommunityInterface) {
+    customMessage("communitiesOldDesign", styles.classicCommunityInterface);
+  } else {
+    customMessage("communitiesOldDesign", "false");
   }
 
   if (styles.classicProfile) {

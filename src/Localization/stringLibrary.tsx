@@ -63,6 +63,8 @@ const strings = {
   customBackground: ["Свой фон страницы", "Custom background", "Власний фон сторінки"],
   useCustomFont: ["Использовать свой шрифт", "Use custom font", "Використовувати власний шрифт"],
   enterFontName: ["Используется стандартный шрифт", "You are using default font", "Використовується стандартний шрифт"],
+  classicCommunityInterface: ["Классический интерфейс сообществ", "Classic community interface", "Класичний інтерфейс спільнот"],
+  classicCommunityInterfaceDescription: ["Возвращает старый дизайн сообществ, который был изменён ВК 23 ноября 2022", "Returns the old community design, which was changed by VK on November 23, 2022", "Повертає старий дизайн спільноти, який був змінений ВК 23 листопада 2022 року"],
   classicProfileInterface: ["Классический интерфейс профилей", "Classic profile interface", "Класичний інтерфейс профілів"],
   classicProfileInterfaceDescription: ["Возвращает старый дизайн профиля, который был изменён ВК 28 августа 2022 года", "Returns the old profile design, which was changed by VK on August 28, 2022", "Повертає старий дизайн профілю, який був змінений ВК 28 серпня 2022 року"],
   blockTransparency: ["Прозрачность блоков", "Block transparency", "Прозорість блоків"],

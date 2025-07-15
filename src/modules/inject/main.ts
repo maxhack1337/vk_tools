@@ -379,6 +379,10 @@ window.addEventListener("message", async (event) => {
     messageAct = "";
   }
   switch (messageAct) {
+    case "communitiesOldDesign": {
+      localStorage.setItem("communitiesOldDesign", event.data.value.messageValue);
+      break;
+    }
     case "disableStandaloneCheckOnLoadVideo": {
       localStorage.setItem("disableStandaloneCheckOnLoadVideo", event.data.value.messageValue);
       break;

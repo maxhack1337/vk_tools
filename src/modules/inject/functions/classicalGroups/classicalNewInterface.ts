@@ -9,6 +9,7 @@ import friendsSubsBlock from "./narrow/friendsSubsBlock";
 import followersBlock from "./narrow/followersBlock";
 import deferredCallback from "../../defferedCallback";
 import changeCurrentInfoLang from "../classicalProfile/scripts/changeCurrentInfoLang";
+import shareSubscribersLangKeys from "./shareLangKeys";
 
 const classicalNewInterface = async (props: any) => {
   const isMessagesEnabled = props.can_message;
@@ -64,7 +65,7 @@ const classicalNewInterface = async (props: any) => {
     const appendStatus = contentWrapper?.querySelector('[class*="CommunityHeader__content--"] [class*="RootComponent__host"][style="flex-basis: 450px;"]');
     statusDiv.append(statusSpan);
     if (level >= 2) {
-      changeCurrentInfoLang(vk.lang);
+      shareSubscribersLangKeys(vk.lang);
       let hashes = await vkApi.api("groups.getLegacyModalsHashes", { group_id: id });
       statusDiv.innerHTML = `      
   <div id="currinfo_editor" style="margin-top: -82px" class="page_status_editor clear" onclick="cancelEvent(event)">

@@ -1,6 +1,7 @@
 import { escapeHtml } from "../../../escapeHtml";
 import changeCurrentInfoLang from "../../classicalProfile/scripts/changeCurrentInfoLang";
 import postingEmojiHint from "../../oldPosting/postingEmojiHint";
+import shareSubscribersLangKeys from "../shareLangKeys";
 
 const pageTop = (name: string, status: string, level: number, hashes: any) => {
   const container = document.createElement("div");
@@ -23,7 +24,7 @@ const pageTop = (name: string, status: string, level: number, hashes: any) => {
     statusDiv.id = "page_current_info";
     statusDiv.style.position = "relative";
     if (level >= 2) {
-      changeCurrentInfoLang(vk.lang);
+      shareSubscribersLangKeys(vk.lang);
 
       statusDiv.innerHTML = `
   <div id="currinfo_editor" style="margin-top: 32px z-index: 101" class="page_status_editor clear" onclick="cancelEvent(event)">

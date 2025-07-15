@@ -4,6 +4,7 @@ body:not(:has(.vkToolsGroupStyle)) {
     }
 }
 
+
 html.classicalGroup body:has(.vkToolsOldHideCommHeader) {
 [class*="CommunityHeader__root"],
     [class*="CommunityHeader__root"]+.vkuiGroup__separatorSibling {
@@ -26,6 +27,10 @@ html.classicalGroup body:has(.vkToolsOldHideCommHeader) {
 }
 
 html.classicalGroup body:has(.vkToolsGroupStyle) {
+    .vkToolsOnboardingBannerActionsWrap > svg{
+        scale: .7;
+        margin-left: -20px!important;
+    }
     .vkToolsAntiZindex {
         z-index: 101!important;
     }
