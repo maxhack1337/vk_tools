@@ -2,13 +2,14 @@ import createStyle from "../../createStyle";
 import removeStyle from "../../removeStyle";
 import createRightMenuItem from "./createRightMenuItem";
 import getEventsLabel from "./getEventsLabel";
+import getMyCommunitiesLabel from "./getMyCommunitiesLabel";
 import getPopularLabel from "./getPopularLabel";
 import getSubText from "./getSubText";
 import redirectIfNeeded from "./redirectIfNeeded";
 
 const oldGroupsPage = () => {
   const rMenuTabs = [
-    ["ui_rmenu_all", "/groups/my_all_groups", getLang?.("video_catalog_action_label_owner_groups").toString() || "Мои сообщества", false],
+    ["ui_rmenu_all", "/groups/my_all_groups", getMyCommunitiesLabel(vk.lang), false],
     ["ui_rmenu_events", "/groups/my_events", getEventsLabel(vk.lang), true],
     ["ui_rmenu_search", "/search/communities", getLang?.("groups_search_communities").toString() || "Поиск сообществ", false],
     ["ui_rmenu_recommendations", "/groups?act=recommendations", getLang?.("me_recommendations"), false],
