@@ -2,7 +2,7 @@
 
 ### Наслаждайтесь VK по полной!
 
-<a href="https://vkenhancer.ru/"><img style="border-radius:8px;" src="https://vkenhancer.ru/tulz.png"></a>
+<a href=""><img style="border-radius:8px;" src="https://vkenhancer.ru/tulz.png"></a>
 
 ## Функции расширения
 

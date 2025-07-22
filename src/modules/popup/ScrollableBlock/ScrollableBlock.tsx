@@ -235,8 +235,13 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("usefulLinks")} />
           <CardWithLink label={getLang("vkEnhancerGitHub")} description={getLang("vkEnhancerGitHubDescription")} icon={"github"} href={"https://github.com/maxhack1337/vk_tools"} />
-          <CardWithLink label={getLang("vkEnhancerGroup")} description={getLang("vkEnhancerGroupDescription")} icon={"vk"} href={"https://vk.com/vkenhancer"} />
-          <CardWithLink label={getLang("vkEnhancerChat")} description={getLang("vkEnhancerChatDescription")} icon={"chat"} href={"https://vk.me/join/AZQ1d7gWwQOl_caHw_zw472D"} />
+          <CardWithLink label={getLang("vkToolsError")} description={getLang("vkToolsErrorDesc")} icon={"error"} href={"https://github.com/maxhack1337/vk_tools/issues/new"} />
+          {/* <CardWithLink label={getLang("vkEnhancerGroup")} description={getLang("vkEnhancerGroupDescription")} icon={"vk"} href={"https://vk.com/vkenhancer"} />
+          <CardWithLink label={getLang("vkEnhancerChat")} description={getLang("vkEnhancerChatDescription")} icon={"chat"} href={"https://vk.me/join/AZQ1d7gWwQOl_caHw_zw472D"} /> */}
+        </div>,
+        <div className="vkToolsBlockWithPadding">
+          <HeaderPseudoTransparent label={getLang("contacts")} />
+          <CardWithLink label={getLang("contactWithUs")} description={getLang("emailUs")} icon={"email"} href={`mailto:vkenhancer@gmail.com?subject=VK%20Tools%20Error&body=Version%3A%20${getLang("versionNumber")}%0AUserAgent%3A%20${navigator.userAgent.toLowerCase()}`} />
         </div>,
         <div className="vkToolsBlockWithPadding vkToolsFooterBlock">
           <HeaderPseudoTransparent label={getLang("versionNumber")} />

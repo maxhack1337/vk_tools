@@ -3,7 +3,7 @@ import React from "react";
 export default function VKToolsSVG() {
   return (
     // eslint-disable-next-line react/jsx-no-target-blank
-    <a className="vkToolsLogoClickable" href="https://vkenhancer.ru" target="_blank">
+    <a className="vkToolsLogoClickable">
       <svg width="203" height="59" viewBox="0 0 233 69" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M0 33.12C0 17.507 0 9.70062 4.85031 4.85031C9.70062 0 17.507 0 33.12 0H35.88C51.4929 0 59.2993 0 64.1498 4.85031C69 9.70062 69 17.507 69 33.12V35.88C69 51.4929 69 59.2993 64.1498 64.1498C59.2993 69 51.4929 69 35.88 69H33.12C17.507 69 9.70062 69 4.85031 64.1498C0 59.2993 0 51.4929 0 35.88V33.12Z"
