@@ -239,6 +239,8 @@ declare global {
   var Groups: any;
   var Public: any;
   var getSmDate: any;
+  var _vkidCaptchaWidget: any;
+  var _vkidCaptchaCheckError: any;
 
   namespace NodeJS {
     interface ProcessEnv {

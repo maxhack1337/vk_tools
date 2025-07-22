@@ -1,35 +1,58 @@
-import { VK_ID_CAPTCHA_SCRIPT_SRC } from "../../constants";
+import "./vk-captcha-sdk.js";
+
+if (!window.vkidCaptchaInit) {
+  window.vkidCaptchaInit = new Promise((resolve, reject) => {
+    const checkInterval = 50;
+    const maxAttempts = 100;
+    let attempts = 0;
+
+    const checkWidget = () => {
+      attempts++;
+      if (window._vkidCaptchaWidget) {
+        resolve(window._vkidCaptchaWidget);
+      } else if (attempts >= maxAttempts) {
+        reject("Failed to init Captcha SDK Widget");
+      } else {
+        setTimeout(checkWidget, checkInterval);
+      }
+    };
+    checkWidget();
+  });
+}
+
+if (!window.vkidCaptcha) {
+  window.vkidCaptcha = window.vkidCaptchaInit.then(() => {
+    if (window._vkidCaptchaWidget && window._vkidCaptchaCheckError) {
+      return {
+        CaptchaWidget: window._vkidCaptchaWidget,
+        checkCaptchaError: window._vkidCaptchaCheckError,
+      };
+    } else {
+      return Promise.reject("Failed to init Captcha SDK Widget");
+    }
+  });
+}
 
 const loadVkIdCaptchaModule = async () => {
   return new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = VK_ID_CAPTCHA_SCRIPT_SRC;
-
-    script.onload = async () => {
-      try {
-        if (window.vkidCaptchaInit instanceof Promise) {
-          const sdk = await window.vkidCaptchaInit;
-          if (sdk) {
-            resolve(sdk);
-          } else {
-            reject("Captcha SDK is undefined after init");
-          }
-        } else if (window.vkidCaptchaInit) {
-          resolve(window.vkidCaptchaInit);
-        } else {
-          reject("Captcha SDK is undefined");
-        }
-      } catch (error) {
-        reject(error);
+    if (typeof window.vkidCaptchaInit !== "undefined") {
+      if (window.vkidCaptchaInit instanceof Promise) {
+        window.vkidCaptchaInit
+          .then((sdk) => {
+            if (sdk) {
+              resolve(sdk);
+            } else {
+              reject("Captcha SDK is undefined after promise init");
+            }
+          })
+          .catch(reject);
+      } else {
+        resolve(window.vkidCaptchaInit);
       }
-    };
-
-    script.onerror = () => {
-      reject("Failed to load Captcha SDK script");
-    };
-
-    document.body.appendChild(script);
+    } else {
+      console.error("window.vkidCaptchaInit is not defined immediately. This might indicate an issue with SDK initialization or execution order.");
+      reject("Captcha SDK not initialized.");
+    }
   });
 };
 
