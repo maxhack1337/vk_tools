@@ -65,6 +65,7 @@ import toggleShop from "./functions/toggleShop/toggleShop";
 import ignoreReactErrorOnInsertBefore from "./functions/oldVideoPlaylists/ignoreReactErrorOnInsertBefore";
 import notVkVideoStandalone from "./functions/oldVideoUploadModal/notVkVideoStandalone";
 import classicalGroups from "./functions/classicalGroups/classicalGroups";
+import JSZip from "jszip";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -204,6 +205,84 @@ window.vkenh.downloadAttaches = downloadAttaches;
 window.vkenh.downloadAllPhotos = downloadAllPhotosArchive;
 window.vkenh.currentArticle = {};
 window.vkenh.curClassicalGroup = {};
+window.vkenh.downloadOldPhotos = async () => {
+  const maxPhotosPerArchive = 1000;
+  const divs = Array.from(document.querySelectorAll("[id^='photo_row_']"));
+  if (divs.length === 0) {
+    console.log("Фотографий не найдено.");
+    return;
+  }
+
+  function cleanUrl(url: string) {
+    let [base, query] = url.split("?");
+    if (!query) return url;
+    const params = new URLSearchParams(query);
+    params.delete("cs");
+    return base + (params.toString() ? "?" + params.toString() : "");
+  }
+
+  async function fetchImageAsBlob(url: string) {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`Ошибка загрузки ${url}`);
+    return await resp.blob();
+  }
+
+  function chunkArray(array: string | any[], size: number) {
+    const result = [];
+    for (let i = 0; i < array.length; i += size) {
+      result.push(array.slice(i, i + size));
+    }
+    return result;
+  }
+
+  const chunks = chunkArray(divs, maxPhotosPerArchive);
+
+  for (let i = 0; i < chunks.length; i++) {
+    const zip = new JSZip();
+    const chunk = chunks[i];
+    let count = 0;
+
+    console.log(`Обрабатывается часть №${i + 1} из ${chunks.length}`);
+
+    for (const div of chunk) {
+      const style = div.style.backgroundImage;
+      if (!style || style === "none") continue;
+
+      const matches = style.match(/url\(["']?(.*?)["']?\)/);
+      if (!matches) continue;
+
+      const url = matches[1].replace(/&amp;/g, "&");
+      const cleanLink = cleanUrl(url);
+
+      try {
+        const blob = await fetchImageAsBlob(cleanLink);
+        let fileName = div.id.replace("photo_row_", "photo") + ".jpg";
+        zip.file(fileName, blob);
+        count++;
+        console.log(`Добавлено фото ${fileName}`);
+      } catch (e) {
+        console.warn(`Не удалось загрузить фото: ${cleanLink}`, e);
+      }
+    }
+
+    if (count === 0) {
+      console.log(`В части №${i + 1} не найдено фото для загрузки.`);
+      continue;
+    }
+
+    const content = await zip.generateAsync({ type: "blob" });
+    const anchor = document.createElement("a");
+    anchor.href = URL.createObjectURL(content);
+    anchor.download = `photos_archive_part${i + 1}_${Date.now()}.zip`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+
+    console.log(`Часть №${i + 1} с ${count} фото загружена.`);
+  }
+
+  console.log("Все части архивов обработаны.");
+};
 
 convert(document);
 document.arrive(".ComposerInput__input", { existing: true }, function (e) {

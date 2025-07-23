@@ -12,6 +12,7 @@ interface VKEnh {
   downloadAttaches?: any;
   currentArticle?: any;
   curClassicalGroup?: any;
+  downloadOldPhotos?: any;
 }
 
 interface URL {
