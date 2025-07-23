@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import addOpacity from "./AddOpacity";
-import appendTopName from "./appendTopName";
 import create from "./create";
 import fromId from "./fromId";
 import HotBarAppear from "./HotBarAppear";
@@ -314,13 +313,9 @@ function applyStyles(styles: {
   }
 
   if (styles.avatarNearName) {
-    const customStyle = fromId("removeNA");
-    if (customStyle) {
-      customStyle.remove();
-    }
-    appendTopName();
+    customMessage("avatarNearName", styles.avatarNearName);
   } else {
-    removeNameAva();
+    customMessage("avatarNearName", "false");
   }
 
   if (styles.isVideoModal) {
@@ -694,14 +689,14 @@ function backMessageReactions() {
 }
 
 //Убрать имя возле аватарки VK ID
-function removeNameAva() {
-  let styleElement = fromId("removeNA");
-  if (!styleElement) {
-    styleElement = create("style", {}, { id: "removeNA" });
-    document.head.appendChild(styleElement);
-  }
-  styleElement.innerHTML = ".top_profile_name {display:none!important;}";
-}
+// function removeNameAva() {
+//   let styleElement = fromId("removeNA");
+//   if (!styleElement) {
+//     styleElement = create("style", {}, { id: "removeNA" });
+//     document.head.appendChild(styleElement);
+//   }
+//   styleElement.innerHTML = ".top_profile_name {display:none!important;}";
+// }
 
 //Скрыть имена и аватарки
 function addBlur() {

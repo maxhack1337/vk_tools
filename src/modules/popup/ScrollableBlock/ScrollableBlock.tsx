@@ -158,7 +158,7 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <CheckBox type={"checkBox"} label={getLang("returnComAva")} isNew={false} isFire={false} id={"returnComAva"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("showPatronymic")} isNew={false} isFire={false} id={"showPatronymic"} shouldReload={true} />
           <CheckBox type={"checkBox"} label={getLang("removeEmojiStatus")} isNew={false} isFire={false} id={"removeEmojiStatus"} shouldReload={false} />
-          <CheckBox type={"checkBox"} label={getLang("avatarNameNear")} isNew={false} isFire={false} id={"avatarNameNear"} shouldReload={false} />
+          <CheckBox type={"checkBox"} label={getLang("avatarNameNear")} isNew={false} isFire={false} id={"avatarNameNear"} shouldReload={true} />
           <CheckBox type={"checkBox"} label={getLang("classicProfileInterface")} isNew={false} isFire={true} id={"classicProfileInterface"} shouldReload={true} description={getLang("classicProfileInterfaceDescription")} shouldWarn={true} />
         </div>,
         <div className="vkToolsBlockWithPadding">

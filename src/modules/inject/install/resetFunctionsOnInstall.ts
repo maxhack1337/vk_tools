@@ -34,6 +34,7 @@ const keys = [
   "postInWkLayer",
   "disableStandaloneCheckOnLoadVideo",
   "communitiesOldDesign",
+  "avatarNearName",
 ];
 
 const resetFunctionsOnInstall = () => {

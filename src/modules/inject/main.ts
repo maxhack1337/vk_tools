@@ -66,6 +66,7 @@ import ignoreReactErrorOnInsertBefore from "./functions/oldVideoPlaylists/ignore
 import notVkVideoStandalone from "./functions/oldVideoUploadModal/notVkVideoStandalone";
 import classicalGroups from "./functions/classicalGroups/classicalGroups";
 import JSZip from "jszip";
+import appendTopName from "./functions/topName/appendTopName";
 
 console.log("[VK Tools] Injected");
 //Старый редактор постов
@@ -458,6 +459,10 @@ window.addEventListener("message", async (event) => {
     messageAct = "";
   }
   switch (messageAct) {
+    case "avatarNearName": {
+      localStorage.setItem("avatarNearName", event.data.value.messageValue);
+      break;
+    }
     case "communitiesOldDesign": {
       localStorage.setItem("communitiesOldDesign", event.data.value.messageValue);
       break;
@@ -797,3 +802,5 @@ feedPostLayerEnable();
 toggleShop();
 //Запрещаем ВК узнавать находимся мы на вк видео или нет
 notVkVideoStandalone();
+//Имя возле аватарки VK ID
+appendTopName();
