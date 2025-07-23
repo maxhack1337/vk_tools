@@ -16,7 +16,7 @@ const messageCounter = () => {
       return;
     }
     let stickyTop = document.createElement("div");
-    stickyTop.classList.add("ConvoList__sticky-top");
+    stickyTop.classList.add("ConvoList__top");
     let countermsg = document.createElement("div");
     countermsg.classList.add("ConvoList__topFiltersWrap");
     countermsg.classList.add("vkEnhancerCounterOfMessages");
