@@ -1,3 +1,5 @@
+import pinnedPostLang from "./pinnedPostLang";
+
 function addPinnedPostTab(pinnedPost: HTMLElement, ulTabs: HTMLElement, contentContainer: HTMLElement, tabsMap: { [key: string]: { tabLi: HTMLLIElement; tabDiv: HTMLDivElement } }, activateTab: (name: string) => void) {
   if (ulTabs.querySelector(".ui_tab[data-tab='pinned']")) return;
 
@@ -6,7 +8,7 @@ function addPinnedPostTab(pinnedPost: HTMLElement, ulTabs: HTMLElement, contentC
   divPinned.classList.add("ui_tab", "ui_tab_vktools");
   divPinned.setAttribute("role", "link");
   divPinned.dataset.tab = "pinned";
-  divPinned.textContent = "Закреплённый пост";
+  divPinned.textContent = pinnedPostLang(vk.lang);
   liPinned.appendChild(divPinned);
 
   if (ulTabs.firstChild) {

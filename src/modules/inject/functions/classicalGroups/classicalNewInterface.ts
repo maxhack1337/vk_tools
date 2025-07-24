@@ -35,7 +35,7 @@ const classicalNewInterface = async (props: any) => {
   const checkIsVkToolsGroup = document.createElement("tool");
   checkIsVkToolsGroup.classList.add("vkToolsGroupStyle");
   checkIsVkToolsGroup.style.display = "none";
-  buttonGroup?.append(checkIsVkToolsGroup);
+  contentWrapper?.append(checkIsVkToolsGroup);
 
   if (subscribed) {
     const unSubButtonT = await unSubButton(id, isClosed, memberStatus);

@@ -55,6 +55,10 @@ html.classicProfile body:has(#profile_redesigned) {
     header#page_header {
         width: 970px;
     }
+
+    [class^="ProfileSnowballs__snowball"] {
+        display: none;
+    }
 }
 
 html.classicProfile body:has(#profile_redesigned) .ProfileHeader__ageMarkContainer {

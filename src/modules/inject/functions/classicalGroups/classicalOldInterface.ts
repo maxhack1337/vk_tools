@@ -29,6 +29,7 @@ const classicalOldInterface = async (props: any) => {
   const cropPhotoId = props?.crop_photo?.photo?.id || false;
   const title = props.name || "";
   const cropPhotoSrc = props?.crop_photo?.photo || false;
+  const isBanned = props?.ban_info || false;
   let hashes = await vkApi.api("groups.getLegacyModalsHashes", { group_id: id });
 
   //Хэдер сообщества(тут его скрываем, нужен только для элемента)
@@ -37,7 +38,7 @@ const classicalOldInterface = async (props: any) => {
   const checkIsVkToolsGroup = document.createElement("tool");
   checkIsVkToolsGroup.classList.add("vkToolsGroupStyle", "vkToolsOldHideCommHeader");
   checkIsVkToolsGroup.style.display = "none";
-  buttonGroup?.append(checkIsVkToolsGroup);
+  contentWrapper?.append(checkIsVkToolsGroup);
 
   //Основной блок
   const mainContainer = document.querySelector("[class*='TwoColumnLayoutMain__root']");
@@ -59,32 +60,37 @@ const classicalOldInterface = async (props: any) => {
     async () => {
       let narrow = document.querySelector("[class*='TwoColumnLayoutNarrow__root'] > div");
       //Блок с авой и кнопками
-      let photoPageBlockT = await photoPageBlock(cropPhotoSrc, title, id, hasPhoto, cropPhotoId, level >= 2, hashes, isClosed);
+      let isPermanentlyBanned = false;
+      if (isBanned) {
+        isPermanentlyBanned = Boolean(isBanned?.end_date === 0);
+      }
+      let photoPageBlockT = await photoPageBlock(cropPhotoSrc, title, id, hasPhoto, cropPhotoId, level >= 2, hashes, isClosed, isPermanentlyBanned);
+      if (!isPermanentlyBanned) {
+        let buttonsBlock = document.createElement("div");
+        buttonsBlock.classList.add("vkToolsNarrowPhotoBlock__buttons");
+        let subButtonGroup = document.createElement("div");
+        subButtonGroup.classList.add("vkToolsNarrowPhotoBlock__buttons_sub");
+        if (subscribed) {
+          const unSubButtonT = await unSubButton(id, isClosed, memberStatus);
+          subButtonGroup?.prepend(unSubButtonT);
+        } else {
+          const subscribeButtonT = subscribeButton(id, isClosed, memberStatus);
+          subButtonGroup?.prepend(subscribeButtonT);
+        }
 
-      let buttonsBlock = document.createElement("div");
-      buttonsBlock.classList.add("vkToolsNarrowPhotoBlock__buttons");
-      let subButtonGroup = document.createElement("div");
-      subButtonGroup.classList.add("vkToolsNarrowPhotoBlock__buttons_sub");
-      if (subscribed) {
-        const unSubButtonT = await unSubButton(id, isClosed, memberStatus);
-        subButtonGroup?.prepend(unSubButtonT);
-      } else {
-        const subscribeButtonT = subscribeButton(id, isClosed, memberStatus);
-        subButtonGroup?.prepend(subscribeButtonT);
+        if (isMessagesEnabled) {
+          const messagesButtonOld = contentWrapper?.querySelector('[href^="/im?sel"]');
+          if (messagesButtonOld) messagesButtonOld.remove();
+          const messagesButtonNew = messagesButton(id);
+          buttonsBlock?.prepend(messagesButtonNew);
+        }
+        let moreButton = buttonGroup?.querySelector("button.vkuiButton__modeSecondary.vkuiButton__appearanceAccent");
+        if (moreButton) {
+          subButtonGroup.append(moreButton);
+        }
+        buttonsBlock.append(subButtonGroup);
+        photoPageBlockT.append(buttonsBlock);
       }
-
-      if (isMessagesEnabled) {
-        const messagesButtonOld = contentWrapper?.querySelector('[href^="/im?sel"]');
-        if (messagesButtonOld) messagesButtonOld.remove();
-        const messagesButtonNew = messagesButton(id);
-        buttonsBlock?.prepend(messagesButtonNew);
-      }
-      let moreButton = buttonGroup?.querySelector("button.vkuiButton__modeSecondary.vkuiButton__appearanceAccent");
-      if (moreButton) {
-        subButtonGroup.append(moreButton);
-      }
-      buttonsBlock.append(subButtonGroup);
-      photoPageBlockT.append(buttonsBlock);
       narrow?.prepend(photoPageBlockT);
       await stManager.add(["module.css"]);
       if (document.querySelector(".vkToolsFriendsContainer")) document.querySelector(".vkToolsFriendsContainer")?.remove();
