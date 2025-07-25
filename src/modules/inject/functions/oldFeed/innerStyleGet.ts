@@ -1,5 +1,19 @@
 const innerStyleGet = () => {
   return `
+		.wk_close_redesign_v3 .wk_close_inner {
+			background: url(/images/icons/layer_controls.png) no-repeat 0 0!important;
+    		width: 20px!important;
+    		height: 20px!important;
+			border-radius: 0px!important;
+		}
+		.wk_close_redesign_v3 .wk_close_inner svg {
+			display: none!important;
+		}
+		.wk_close.wk_close_redesign_v3 {
+			padding: 4px 20px 100px!important;
+			padding-left: 20px!important;
+			padding-top: 4px!important;
+		}
 		.wall_module .Post--redesignV3 .wall_text {
 			padding: 0!important;
 		}

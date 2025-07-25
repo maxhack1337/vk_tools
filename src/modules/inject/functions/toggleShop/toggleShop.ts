@@ -5,12 +5,12 @@ import toggleInfo from "./toggleInfo";
 import toggleShopStyle from "./toggleShopStyle";
 
 const toggleShop = () => {
-  document.arrive(".redesigned-group-cover", { existing: true }, () => {
+  document.arrive("[class*='CommunityHeader__cover'][data-testid='communityheader_cover']", { existing: true }, () => {
     let loc = window.location.href;
     if (loc.endsWith("vk.com/club230675154") || loc.endsWith("vk.com/toggle_shop")) {
-      document.querySelector("#wrap3 > #content")?.remove();
+      document.querySelector("#spa_root > .vkui__root")?.remove();
       createStyle("toggleShop", toggleShopStyle());
-      let wrap3 = document.querySelector("#wrap3");
+      let spa_root = document.querySelector("#spa_root");
       let body = document.createElement("div");
       body.classList.add("page_block", "toggleShop");
 
@@ -84,7 +84,7 @@ const toggleShop = () => {
         });
       });
 
-      wrap3?.append(body);
+      spa_root?.append(body);
     }
   });
 };
