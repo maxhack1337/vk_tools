@@ -1,4 +1,5 @@
 /* eslint-disable no-lone-blocks */
+import getLocalValue from "../../../../getLocalValue";
 import addContentLang from "./addContentLang";
 
 const addBlock = (type: string, id?: number, screen_name?: string) => {
@@ -88,7 +89,11 @@ const addBlock = (type: string, id?: number, screen_name?: string) => {
 `;
       textContent.textContent = addContentLang(vk.lang)[5];
       vkToolsAddBlock.onclick = () => {
-        window.nav.go(`/groups?w=groups_create_new_event_community_event_tab`);
+        if (!getLocalValue("oldClubs")) {
+          window.nav.go(`/groups?w=groups_create_new_event_community_event_tab`);
+        } else {
+          window.nav.go(`/groups/my_all_groups?w=groups_create_new_event_community_event_tab`);
+        }
       };
       break;
     }
