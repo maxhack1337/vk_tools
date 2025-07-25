@@ -172,7 +172,7 @@ declare global {
   var langDate: (timestamp: number, text: string, mode?: string | number, months?: string | string[]) => string;
   var langNumeric: (n: number, s: string | string[]) => string;
   var webkitSpeechRecognition: typeof SpeechRecognition;
-  var showPhoto: null | ((id: string, oid: number | string, pid: any) => void);
+  var showPhoto: any | ((id: string, oid: number | string, pid: any) => void);
   var langConfig: any;
   var MessageBox: any;
   var Calls: Calls;

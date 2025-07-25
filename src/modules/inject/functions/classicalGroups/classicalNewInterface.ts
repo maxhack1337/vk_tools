@@ -10,6 +10,7 @@ import followersBlock from "./narrow/followersBlock";
 import deferredCallback from "../../defferedCallback";
 import changeCurrentInfoLang from "../classicalProfile/scripts/changeCurrentInfoLang";
 import shareSubscribersLangKeys from "./shareLangKeys";
+import { addAvatarListener } from "./pageTopNew/addAvatarListener";
 
 const classicalNewInterface = async (props: any) => {
   const isMessagesEnabled = props.can_message;
@@ -28,14 +29,28 @@ const classicalNewInterface = async (props: any) => {
   const evOrganiser = props.event_organizer || {};
   const friends = props.friends || {};
   const root = document.querySelector("#page_body > #spa_root > .vkui__root");
+  const isBanned = props?.ban_info || false;
+  const hasPhoto = props.has_photo || 0;
+  const cropPhotoId = props?.crop_photo?.photo?.id || false;
+
+  let isPermanentlyBanned = false;
+  if (isBanned) {
+    isPermanentlyBanned = Boolean(isBanned?.end_date === 0);
+  }
 
   //Хэдер сообщества
   const contentWrapper = root?.querySelector('[class*="CommunityHeader__contentWrapper--"]');
   const buttonGroup = contentWrapper?.querySelector("[class*='ButtonGroup__host']");
+  const avatar = contentWrapper?.querySelector('[class*="CommunityHeader__avatar--"]') as HTMLElement;
   const checkIsVkToolsGroup = document.createElement("tool");
   checkIsVkToolsGroup.classList.add("vkToolsGroupStyle");
   checkIsVkToolsGroup.style.display = "none";
   contentWrapper?.append(checkIsVkToolsGroup);
+
+  if (avatar) {
+    let isOwner = Boolean(level >= 2);
+    addAvatarListener({ avatar, id, isOwner, isPermanentlyBanned, hasPhoto, cropPhotoId });
+  }
 
   if (subscribed) {
     const unSubButtonT = await unSubButton(id, isClosed, memberStatus);

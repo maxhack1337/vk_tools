@@ -64,7 +64,7 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
     const link = document.createElement("a");
     link.id = "profile_photo_link";
     link.href = `https://vk.com/photo-${id}_${cropPhotoId}`;
-    link.setAttribute("onclick", `return showPhoto('-${id}_${cropPhotoId}', 'album${id}_0/rev', {}, event)`);
+    link.setAttribute("onclick", `return showPhoto('-${id}_${cropPhotoId}', 'album${-id}_0/rev', {}, event)`);
     const img = document.createElement("img");
     img.className = "page_avatar_img";
     img.src = ((await getCroppedPreview200(photosrc)) as string) || "";
