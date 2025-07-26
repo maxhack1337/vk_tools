@@ -5,7 +5,7 @@ import shareSubscribersLangKeys from "../shareLangKeys";
 
 const pageTop = (name: string, status: string, level: number, hashes: any) => {
   const container = document.createElement("div");
-  container.classList.add("page_top", "page_block");
+  container.classList.add("page_top", "page_block", "vkToolsPageTopBlock");
   container.style.marginTop = "0";
 
   const pseudoForBorder = document.createElement("div");

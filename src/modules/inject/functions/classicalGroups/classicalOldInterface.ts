@@ -7,6 +7,9 @@ import followersBlock from "./narrow/followersBlock";
 import deferredCallback from "../../defferedCallback";
 import photoPageBlock from "./photoPageBlock/photoPageBlock";
 import pageTop from "./pageTop/pageTop";
+import subsFriendsSkeleton from "./skeleton/subsFriendsSkeleton";
+import subsribersSkeleton from "./skeleton/subsribersSkeleton";
+import narrowSkeleton from "./skeleton/narrowSkeleton";
 
 const classicalOldInterface = async (props: any) => {
   const isMessagesEnabled = props.can_message;
@@ -42,6 +45,8 @@ const classicalOldInterface = async (props: any) => {
 
   //Основной блок
   const mainContainer = document.querySelector("[class*='TwoColumnLayoutMain__root']");
+  if (document.querySelector(".vkToolsPageTopBlock")) document.querySelector(".vkToolsPageTopBlock")?.remove();
+  if (document.querySelector("#page_block_group_main_info")) document.querySelector("#page_block_group_main_info")?.remove();
   const pageTopT = pageTop(title, status, level, hashes);
   mainContainer?.prepend(pageTopT);
 
@@ -60,6 +65,7 @@ const classicalOldInterface = async (props: any) => {
     async () => {
       let narrow = document.querySelector("[class*='TwoColumnLayoutNarrow__root'] > div");
       //Блок с авой и кнопками
+      if (document.querySelector(".vkToolsNarrowPhotoBlock")) document.querySelector(".vkToolsNarrowPhotoBlock")?.remove();
       let isPermanentlyBanned = false;
       if (isBanned) {
         isPermanentlyBanned = Boolean(isBanned?.end_date === 0);
@@ -96,15 +102,32 @@ const classicalOldInterface = async (props: any) => {
       if (document.querySelector(".vkToolsFriendsContainer")) document.querySelector(".vkToolsFriendsContainer")?.remove();
       if (document.querySelector(".vkToolsFollowersBlock")) document.querySelector(".vkToolsFollowersBlock")?.remove();
       if (document.querySelector(".vkToolsNarrowBlock")) document.querySelector(".vkToolsNarrowBlock")?.remove();
+      if (document.querySelector(".vkToolsSeparatorSibling")) document.querySelector(".vkToolsSeparatorSibling")?.remove();
       const isGroup = window.cur.module === "groups" || window.cur.module === "group" || window.cur.module === "public" || window.cur.module === "event";
       if (isGroup) {
+        let fSubsSkeleton = subsFriendsSkeleton();
+        narrow?.append(fSubsSkeleton);
+        let membSkeleton = subsribersSkeleton();
+        narrow?.append(membSkeleton);
+        let narrSkeleton = narrowSkeleton();
+        narrow?.append(narrSkeleton);
+        let fSkelSubs = document.querySelector(".vkToolsFriendsContainerSkeleton");
+        let skelSubs = document.querySelector(".vkToolsFollowersBlock1.vkToolsSkeleton");
+        let skelNarrow = document.querySelector(".vkToolsNarrowSkeleton");
         if (friends?.count > 0) {
           const friendsSubbedBlock = friendsSubsBlock(friends, -id);
           if (friendsSubbedBlock) {
             let frSubId = friendsSubbedBlock.getAttribute("data-group-id");
-            if (frSubId === id.toString() && !document.querySelector(".vkToolsFriendsContainer")) narrow?.append(friendsSubbedBlock);
+            if (frSubId === id.toString() && !document.querySelector(".vkToolsFriendsContainer")) {
+              if (fSkelSubs) {
+                fSkelSubs.replaceWith(friendsSubbedBlock);
+              } else {
+                narrow?.append(friendsSubbedBlock);
+              }
+            }
           }
         }
+        if (fSkelSubs) fSkelSubs.remove();
         if (membersCount > 0) {
           let followersBlockT;
           try {
@@ -130,40 +153,56 @@ const classicalOldInterface = async (props: any) => {
               membersCount
             );
           } catch (error) {
-            const friendsData = await vkApi.api("groups.getMembers", {
-              count: 6,
-              fields: "domain,first_name,photo_100,photo_200",
-              filter: "friends",
-              group_id: id,
-            });
+            try {
+              const friendsData = await vkApi.api("groups.getMembers", {
+                count: 6,
+                fields: "domain,first_name,photo_100,photo_200",
+                filter: "friends",
+                group_id: id,
+              });
 
-            followersBlockT = followersBlock(
-              {
-                friends: friendsData.items,
-                others: [],
-              },
-              id,
-              membersCount
-            );
+              followersBlockT = followersBlock(
+                {
+                  friends: friendsData.items,
+                  others: [],
+                },
+                id,
+                membersCount
+              );
+            } catch (error) {
+              console.error("[VK Tools Error] Failed to get community members");
+            }
           }
 
           if (followersBlockT) {
             let followId = followersBlockT.getAttribute("data-group-id");
-            if (followId === id.toString() && !document.querySelector(".vkToolsFollowersBlock")) narrow?.append(followersBlockT);
+            if (followId === id.toString() && !document.querySelector(".vkToolsFollowersBlock")) {
+              if (skelSubs) {
+                skelSubs.replaceWith(followersBlockT);
+              } else {
+                narrow?.append(followersBlockT);
+              }
+            }
           }
         }
+        if (skelSubs) skelSubs.remove();
         if (!document.querySelector(".vkToolsNarrowBlock")) {
           let narrowBlockT = await narrowBlock(tabs, level >= 2, id, screen_name, contacts, evOrganiser);
           if (narrowBlockT) {
             let narrowId = narrowBlockT.getAttribute("data-group-id");
             if (narrowId === id.toString()) {
-              narrow?.append(narrowBlockT);
+              if (skelNarrow) {
+                skelNarrow.replaceWith(narrowBlockT);
+              } else {
+                narrow?.append(narrowBlockT);
+              }
               let sepaSibling = document.createElement("div");
               sepaSibling.classList.add("vkuiGroup__separatorSibling", "vkToolsSeparatorSibling");
               narrow?.append(sepaSibling);
             }
           }
         }
+        if (skelNarrow) skelNarrow.remove();
         if (narrow) {
           const children = Array.from(narrow.children);
           function isVisible(elem: Element) {

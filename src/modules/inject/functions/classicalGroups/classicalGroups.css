@@ -26,6 +26,171 @@ html.classicalGroup body:has(.vkToolsOldHideCommHeader) {
         }
 }
 
+.vkToolsNarrowSkeleton {
+    user-select: none;
+    pointer-events: none !important;
+    cursor: default !important;
+
+    .page_album_thumb_wrap {
+        width: 200px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .page_album_thumb {
+            max-width: 200px !important;
+        }
+    }
+
+    .header_label,
+    .header_count {
+        position: relative;
+        line-height: 20px;
+        margin-top: 10px;
+    }
+
+    .header_count {
+        margin-left: 8px;
+    }
+
+    .avaSk,
+    .people_name,
+    .people_desc {
+        position: relative;
+    }
+
+    .avaSk::after {
+        border-radius: 100% !important;
+    }
+
+    .header_label::after,
+    .header_count::after,
+    .avaSk::after,
+    .people_name::after,
+    .people_desc::after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: var(--vkui--color_background_secondary);
+        background-size: 300px 100%;
+        background-attachment: fixed;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 1;
+        border-radius: 8px;
+    }
+}
+
+.vkToolsFriendsContainerSkeleton {
+    border-radius: 12px;
+    background: var(--vkui--color_background_content);
+    color: var(--vkui--color_text_primary);
+    box-shadow: inset 0 0 0 var(--vkui--size_border--regular) var(--vkui--color_separator_primary);
+    user-select: none;
+    pointer-events: none !important;
+    cursor: default !important;
+
+    .vkToolsPadding {
+        padding: 8px 16px;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .vkToolsAvatar {
+        width: 24px;
+        height: 24px;
+        position: relative;
+        border-radius: 100%;
+    }
+
+    .vkToolsTextBlock {
+        position: relative;
+    }
+
+    .vkToolsAvatar::after {
+        border-radius: 100% !important;
+    }
+
+    .vkToolsAvatar::after,
+    .vkToolsTextBlock::after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: var(--vkui--color_background_secondary);
+        background-size: 300px 100%;
+        background-attachment: fixed;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 1;
+        border-radius: 8px;
+    }
+}
+
+.vkToolsFollowersBlock1.vkToolsSkeleton {
+    user-select: none;
+    pointer-events: none !important;
+    cursor: default !important;
+
+    .header_label,
+    .header_count {
+        position: relative;
+        line-height: 20px;
+        margin-top: 10px;
+    }
+
+    .header_count {
+        margin-left: 8px;
+    }
+
+    .people_cell_ava {
+        position: relative;
+        padding-bottom: 0px !important;
+        margin-bottom: 7px !important;
+    }
+
+    .people_cell_ava img {
+        display: none;
+    }
+
+    .people_cell_ava::after {
+        border-radius: 100% !important;
+    }
+
+    .people_cell_name a {
+        position: relative;
+    }
+
+    .header_label::after,
+    .header_count::after,
+    .people_cell_ava::after,
+    .people_cell_name a::after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: var(--vkui--color_background_secondary);
+        background-size: 300px 100%;
+        background-attachment: fixed;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 1;
+        border-radius: 8px;
+    }
+}
+
 html.classicalGroup body:has(.vkToolsGroupStyle) {
     .vkToolsOnboardingBannerActionsWrap > svg{
         scale: .7;
@@ -102,13 +267,13 @@ html.classicalGroup body:has(.vkToolsGroupStyle) {
         border-radius: 12px 12px 0 0;
     }
 
-    .groups_page_fixed_post_block {
+    /* .groups_page_fixed_post_block {
         margin-top: -8px;
 
         ._post_content {
             padding-top: 8px;
         }
-    }
+    } */
 
     .ui_tab_sel_vktools_single {
         border-bottom: none !important;

@@ -29,7 +29,7 @@ const narrowBlock = async (tabs: any[], isOwner: boolean, id: number, screen_nam
     // }
     const linksTabObj = {
       main_type: "links",
-      main_type_count: curClassicalGroup.links.length || 0,
+      main_type_count: curClassicalGroup?.links?.length || 0,
       name: "links",
     };
     const hasLinksTab = extendedTabs.some((t) => t.main_type === "links" || t.name === "links");
