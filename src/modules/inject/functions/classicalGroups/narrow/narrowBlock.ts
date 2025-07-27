@@ -84,8 +84,10 @@ const narrowBlock = async (tabs: any[], isOwner: boolean, id: number, screen_nam
     if (block) mainBlock.appendChild(block);
   });
 
-  if (evOrganiser && evOrganiser.user_id) {
-    const organiserBlock = await organiserTab(evOrganiser.user_id, id, isOwner);
+  if (evOrganiser && (evOrganiser?.user_id || evOrganiser?.group_id)) {
+    let orgId = evOrganiser?.user_id || evOrganiser?.group_id;
+    let isGroup = evOrganiser?.user_id ? false : true;
+    const organiserBlock = await organiserTab(orgId, id, isOwner, isGroup, evOrganiser);
     if (organiserBlock) {
       mainBlock.appendChild(organiserBlock);
     }
