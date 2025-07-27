@@ -8,6 +8,7 @@ import handleCaptcha from "../classicalProfile/scripts/handleCaptcha";
 import getUserDataReactSpa from "../classicalProfile/scripts/spa/getUserDataReactSpa";
 import createProfileInfoRow3 from "./createProfileInfoRow3";
 import createRegDateInfoRow2 from "./createRegDateInfoRow2";
+import createRegDateSkeleton from "./createRegDateSkeleton";
 import getUserIdUsingApi from "./getUserIdUsingApi";
 
 /*
@@ -25,6 +26,9 @@ const regDate = () => {
 
         let registrationRow1 = document.createElement("div");
         e.appendChild(registrationRow1);
+
+        const skeleton = createRegDateSkeleton(regDateText1);
+        registrationRow1.appendChild(skeleton);
 
         getUserIdUsingApi().then((uiddd) => {
           getRegDateValue(uiddd).then(function handleRegDateValue(regDateValue1: any) {
@@ -72,6 +76,7 @@ const regDate = () => {
 
             if (!regDateDate1?.includes("null")) {
             } else {
+              registrationRow1.remove();
               console.error("[VK Tools Error]: There is no registration date for user " + uiddd);
             }
           });

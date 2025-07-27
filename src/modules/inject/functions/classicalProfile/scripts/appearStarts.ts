@@ -2,6 +2,7 @@ import { REG_DATE_API_ENABLED } from "../../../constants";
 import { escapeHtml, escapeUrl } from "../../../escapeHtml";
 import createProfileInfoRow from "./createProfileInfoRow";
 import createRegDateInfoRow from "./createRegDateInfoRow";
+import createRegDateSkeletonClassicalRow from "./createRegDateSkeletonClassicalRow";
 import formatBirthday from "./formatBirthday";
 import formatRegister from "./formatRegister";
 import getLangTime from "./getLangTime";
@@ -95,6 +96,9 @@ const appearStarts = async (
       let registrationRow = document.createElement("div");
       profileShort.appendChild(registrationRow);
 
+      const skeleton = createRegDateSkeletonClassicalRow(regDateText);
+      registrationRow.appendChild(skeleton);
+
       getRegDateValue(userData.id).then(function handleRegDateValue(regDateValue1: any) {
         let regDateDate;
 
@@ -139,6 +143,7 @@ const appearStarts = async (
 
         if (!regDateDate?.includes("null")) {
         } else {
+          registrationRow.remove();
           console.error("[VK Tools Error]: There is no registration date for user " + userData.id);
         }
       });
