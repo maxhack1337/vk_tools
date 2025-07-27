@@ -82,7 +82,7 @@ const eventsTab = (eventsGetter: { count: number; items: any[] }, isOwner: boole
       const eventDateDiv = document.createElement("div");
       eventDateDiv.classList.add("group_desc");
 
-      const timestampToFormat = event.start_date < nowTimestamp ? event.start_date : event.finish_date;
+      const timestampToFormat = event.start_date < nowTimestamp ? event.start_date : event.finish_date ? event.finish_date : event.start_date;
 
       const formatDate = (timestamp: number, formatStr: string) => {
         const d = new Date(timestamp * 1000);
@@ -96,8 +96,7 @@ const eventsTab = (eventsGetter: { count: number; items: any[] }, isOwner: boole
       };
 
       eventDateDiv.textContent = formatDate(timestampToFormat, dateFormat);
-
-      descInfo.appendChild(eventDateDiv);
+      if (timestampToFormat) descInfo.appendChild(eventDateDiv);
 
       lineCell.appendChild(descInfo);
 
