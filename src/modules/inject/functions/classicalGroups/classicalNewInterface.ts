@@ -247,7 +247,7 @@ const classicalNewInterface = async (props: any) => {
         }
         if (skelSubs) skelSubs.remove();
         if (!document.querySelector(".vkToolsNarrowBlock")) {
-          let narrowBlockT = await narrowBlock(tabs, level >= 2, id, screen_name, contacts, evOrganiser);
+          let narrowBlockT = await narrowBlock(tabs, level, id, screen_name, contacts, evOrganiser);
           if (narrowBlockT) {
             let narrowId = narrowBlockT.getAttribute("data-group-id");
             if (narrowId === id.toString()) {
