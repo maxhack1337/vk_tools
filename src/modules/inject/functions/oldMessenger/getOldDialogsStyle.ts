@@ -173,6 +173,9 @@ const getOldDialogsStyle = (lang: string) => {
         height:7px!important;
         scale: 1.143;
     }
+    .ConvoListItem__outStatusIcon .vkuiIcon--check_outline_16 path {
+        display: none;
+    }
     .ConvoListItem__outStatusIcon .vkuiIcon--check_outline_16 use {
         display:none;
     }
