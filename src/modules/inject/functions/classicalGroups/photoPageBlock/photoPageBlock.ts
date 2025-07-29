@@ -4,8 +4,8 @@ import updatePhotoLang from "./lang/updatePhotoLang";
 import updateThumbLang from "./lang/updateThumbLang";
 import uploadPhotoLang from "./lang/uploadPhotoLang";
 
-const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPhoto: number, cropPhotoId: number, isOwner: boolean, hashes: any, isClosed: boolean, isPermanentlyBanned: boolean) => {
-  if (isOwner && hasPhoto === 1 && cropPhotoId) {
+const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPhoto: number, cropPhotoId: number, isOwner: boolean, hashes: any, isClosed: boolean, isPermanentlyBanned: boolean, photoSq: string) => {
+  if (isOwner && hasPhoto === 1 && (cropPhotoId || photoSq)) {
     const container = document.createElement("div");
     container.classList.add(isOwner ? "page_block" : "page_block", "page_photo", "vkToolsNarrowPhotoBlock");
     container.style.marginBottom = "16px";
@@ -36,7 +36,7 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
           vkApi
             .api("photos.delete", {
               owner_id: -id,
-              photo_id: cropPhotoId,
+              photo_id: cropPhotoId || 0,
             })
             .then(() => {
               window.curBox().hide(true);
@@ -63,11 +63,15 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
     pageAvatar.className = "page_avatar";
     const link = document.createElement("a");
     link.id = "profile_photo_link";
-    link.href = `https://vk.com/photo-${id}_${cropPhotoId}`;
-    link.setAttribute("onclick", `return showPhoto('-${id}_${cropPhotoId}', 'album${-id}_0/rev', {}, event)`);
+    link.href = `https://vk.com/photo-${id}_${cropPhotoId || 0}`;
+    link.setAttribute("onclick", `return showPhoto('-${id}_${cropPhotoId || 0}', 'album${-id}_0/rev', {}, event)`);
     const img = document.createElement("img");
     img.className = "page_avatar_img";
-    img.src = ((await getCroppedPreview200(photosrc)) as string) || "";
+    if (photosrc) {
+      img.src = ((await getCroppedPreview200(photosrc)) as string) || "";
+    } else {
+      img.src = photoSq;
+    }
     img.alt = title || "";
     link.appendChild(img);
     pageAvatar.appendChild(link);
@@ -113,7 +117,7 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
     return container;
   }
 
-  if (hasPhoto === 0 || !cropPhotoId) {
+  if (hasPhoto === 0) {
     const container = document.createElement("div");
     container.classList.add(isOwner ? "page_block" : "page_block", "page_photo", "vkToolsNarrowPhotoBlock");
     container.style.marginBottom = "16px";
@@ -163,8 +167,8 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
   if (!isClosed) {
     const link = document.createElement("a");
     if (!isPermanentlyBanned) {
-      link.href = `https://vk.com/photo-${id}_${cropPhotoId}`;
-      link.setAttribute("onclick", `return showPhoto('-${id}_${cropPhotoId}', 'album${-id}_0/rev', {}, event)`);
+      link.href = `https://vk.com/photo-${id}_${cropPhotoId || 0}`;
+      link.setAttribute("onclick", `return showPhoto('-${id}_${cropPhotoId || 0}', 'album${-id}_0/rev', {}, event)`);
     } else {
       link.style.cursor = "default";
     }
@@ -172,13 +176,21 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
 
     const img = document.createElement("img");
     img.className = "page_avatar_img";
-    img.src = ((await getCroppedPreview200(photosrc)) as string) || "";
+    if (photosrc) {
+      img.src = ((await getCroppedPreview200(photosrc)) as string) || "";
+    } else {
+      img.src = photoSq;
+    }
     img.alt = title || "";
     link.appendChild(img);
   } else {
     const img = document.createElement("img");
     img.className = "page_avatar_img";
-    img.src = ((await getCroppedPreview200(photosrc)) as string) || "";
+    if (photosrc) {
+      img.src = ((await getCroppedPreview200(photosrc)) as string) || "";
+    } else {
+      img.src = photoSq;
+    }
     img.alt = title || "";
     pageAvatar.appendChild(img);
   }

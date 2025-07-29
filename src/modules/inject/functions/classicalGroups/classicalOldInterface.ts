@@ -33,6 +33,7 @@ const classicalOldInterface = async (props: any) => {
   const title = props.name || "";
   const cropPhotoSrc = props?.crop_photo?.photo || false;
   const isBanned = props?.ban_info || false;
+  const photo = props?.photo_200 || props?.photo_400 || props?.photo_base || props?.photo_100 || props?.photo_50 || "";
   let hashes = await vkApi.api("groups.getLegacyModalsHashes", { group_id: id });
 
   //Хэдер сообщества(тут его скрываем, нужен только для элемента)
@@ -70,7 +71,7 @@ const classicalOldInterface = async (props: any) => {
       if (isBanned) {
         isPermanentlyBanned = Boolean(isBanned?.end_date === 0);
       }
-      let photoPageBlockT = await photoPageBlock(cropPhotoSrc, title, id, hasPhoto, cropPhotoId, level >= 2, hashes, isClosed, isPermanentlyBanned);
+      let photoPageBlockT = await photoPageBlock(cropPhotoSrc, title, id, hasPhoto, cropPhotoId, level >= 2, hashes, isClosed, isPermanentlyBanned, photo);
       if (!isPermanentlyBanned) {
         let buttonsBlock = document.createElement("div");
         buttonsBlock.classList.add("vkToolsNarrowPhotoBlock__buttons");
