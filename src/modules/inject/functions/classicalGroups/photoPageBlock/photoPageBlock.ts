@@ -71,6 +71,8 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
       img.src = ((await getCroppedPreview200(photosrc)) as string) || "";
     } else {
       img.src = photoSq;
+      img.style.width = "200px";
+      img.style.height = "200px;";
     }
     img.alt = title || "";
     link.appendChild(img);
@@ -180,6 +182,8 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
       img.src = ((await getCroppedPreview200(photosrc)) as string) || "";
     } else {
       img.src = photoSq;
+      img.style.width = "200px";
+      img.style.height = "200px;";
     }
     img.alt = title || "";
     link.appendChild(img);
@@ -190,6 +194,8 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
       img.src = ((await getCroppedPreview200(photosrc)) as string) || "";
     } else {
       img.src = photoSq;
+      img.style.width = "200px";
+      img.style.height = "200px;";
     }
     img.alt = title || "";
     pageAvatar.appendChild(img);
