@@ -1,3 +1,4 @@
+import deferredCallbackNested from "../oldPosting/deferredCallbackNested";
 import findClubInfo from "./findClubInfo";
 
 interface ReactProps {
@@ -6,18 +7,30 @@ interface ReactProps {
   props?: any;
 }
 
-const getGroupProps = async (el: any) => {
+const getGroupProps = async (el: any): Promise<any> => {
   try {
     const fiber = _o(el).fiber;
-    if (fiber) {
-      const response = findClubInfo(fiber);
-      return response;
-    } else {
+    if (!fiber) {
       throw new Error("Invalid structure of club");
     }
+
+    return await new Promise((resolve) => {
+      let responded = false;
+
+      deferredCallbackNested(
+        () => {
+          if (responded) return;
+          responded = true;
+
+          const found = findClubInfo(fiber, -cur.oid);
+          resolve(found);
+        },
+        { variablePath: "cur.oid" }
+      );
+    });
   } catch (error) {
     console.error(error);
-    return [];
+    return null;
   }
 };
 

@@ -1,4 +1,4 @@
-function findClubInfo(rootObj: any) {
+function findClubInfo(rootObj: any, id: number) {
   const stack = [rootObj];
   const seen = new Set();
 
@@ -11,7 +11,7 @@ function findClubInfo(rootObj: any) {
 
     if ("can_message" in currentObj && "has_photo" in currentObj && "id" in currentObj && "screen_name" in currentObj) {
       try {
-        return JSON.parse(JSON.stringify(currentObj));
+        if (currentObj.id === id) return JSON.parse(JSON.stringify(currentObj));
       } catch (e) {
         return currentObj;
       }
