@@ -11,6 +11,8 @@ import getNearestPost from "./getNearestPost";
 import getPostIdFromPost from "./getPostIdFromPost";
 import refreshButtonTextLang from "./refreshButtonTextLang";
 import styleForEditPost from "./styleForEditPost";
+import hideAllButLast from "./hideAllButLast";
+import hideAllButMax from "./hideAllButMax";
 
 let times = 0;
 
@@ -104,6 +106,9 @@ const oldPosting = () => {
         _wall.init = async (...n: any) => {
           await exportVars(n[0].wall_oid, n[0].public_link, n[0].loc, n[0].owner, n[0].wall_tpl, n[0]);
           origInit.apply(origWall, n);
+          hideAllButMax("post_postpone_btn");
+          hideAllButLast("donut_visibility_btn");
+          hideAllButLast("post_donut_duration_btn");
         };
       },
       { variablePath: "Wall" }
