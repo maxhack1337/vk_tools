@@ -485,9 +485,6 @@ html.classicalGroup body:has(.vkToolsGroupStyle) {
         justify-content: center;
     }
 
-    .vkuiGroup__separatorSibling:has(+ [class*="Group__group"] [class*="InfoCell__modeMore"] svg[class*="Icon--info_circle_outline_20"]) {
-        display: none;
-    }
 
     [class*="CommunityHeader__cover--"] {
         height: 200px !important;
@@ -631,6 +628,16 @@ html.classicalGroup body:has(.vkToolsGroupStyle) {
 
     /*Блок контакты*/
     [class*="TwoColumnLayoutNarrow__root"] {
+
+        /*Блок инфы о группе*/
+        [class*="Group__group"]:has([class*="MiniInfoCell__host"] svg[class*="Icon--info_circle_outline_20"]) {
+            display: none;
+        }
+            
+        .vkuiGroup__separatorSibling:has(+ [class*="Group__group"] [class*="MiniInfoCell__host"] svg[class*="Icon--info_circle_outline_20"]) {
+            display: none;
+        }
+        
         [data-testid="rightmenu"] {
 
             position: relative;
@@ -701,9 +708,7 @@ html.classicalGroup body:has(.vkToolsGroupStyle) {
         display: none;
     }
 
-    [class*="Group__group"]:has([class*="InfoCell__modeMore"] svg[class*="Icon--info_circle_outline_20"]) {
-        display: none;
-    }
+
 
     /*Шапка сайта*/
     div#page_layout {
