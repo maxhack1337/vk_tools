@@ -155,7 +155,6 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("profile")} textForTT={getLang("someAfterReboot")} />
           <CheckBox type={"checkBox"} label={getLang("returnCamera")} isNew={false} isFire={false} id={"returnCamera"} shouldReload={false} />
-          <CheckBox type={"checkBox"} label={getLang("returnComAva")} isNew={false} isFire={false} id={"returnComAva"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("showPatronymic")} isNew={false} isFire={false} id={"showPatronymic"} shouldReload={true} />
           <CheckBox type={"checkBox"} label={getLang("removeEmojiStatus")} isNew={false} isFire={false} id={"removeEmojiStatus"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("avatarNameNear")} isNew={false} isFire={false} id={"avatarNameNear"} shouldReload={true} />
@@ -163,6 +162,7 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
         </div>,
         <div className="vkToolsBlockWithPadding">
           <HeaderPseudoTransparent label={getLang("groups")} textForTT={getLang("someAfterReboot")} />
+          <CheckBox type={"checkBox"} label={getLang("returnComAva")} isNew={false} isFire={false} id={"returnComAva"} shouldReload={false} />
           <CheckBox type={"checkBox"} label={getLang("oldClub")} isNew={false} isFire={false} id={"oldClub"} shouldReload={true} description={getLang("oldClubDescription")} />
           <CheckBox type={"checkBox"} label={getLang("classicCommunityInterface")} isNew={false} isFire={true} id={"classicCommunityInterface"} shouldReload={true} description={getLang("classicCommunityInterfaceDescription")} shouldWarn={true} />
         </div>,
@@ -170,7 +170,7 @@ const ScrollableBlock = forwardRef(({ id, initialScroll }: ScrollableBlockProps,
           <HeaderPseudoTransparent label={getLang("feedAndPosts")} textForTT={getLang("afterReboot")} />
           <CheckBox type={"checkBox"} label={getLang("removePostReactions")} isNew={false} isFire={false} id={"removePostReactions"} shouldReload={true} />
           <CheckBox type={"checkBox"} label={getLang("compactPhotos")} isNew={false} isFire={false} id={"compactPhotos"} shouldReload={false} />
-          <CheckBox type={"checkBox"} label={getLang("postInWkLayer")} isNew={false} isFire={true} id={"postInWkLayer"} shouldReload={true} description={getLang("postInWkLayerDescription")} />
+          <CheckBox type={"checkBox"} label={getLang("postInWkLayer")} isNew={false} isFire={false} id={"postInWkLayer"} shouldReload={true} description={getLang("postInWkLayerDescription")} />
           <CheckBox type={"checkBox"} label={getLang("newMediaViewer")} isNew={false} isFire={false} id={"newMediaViewer"} shouldReload={true} />
           <CheckBox type={"checkBox"} label={getLang("feedOldTheme")} isNew={false} isFire={true} id={"feedOldTheme"} shouldReload={true} description={getLang("feedOldThemeDescription")} shouldWarn={true} />
           <CheckBox type={"checkBox"} label={getLang("oldPosting")} isNew={false} isFire={true} id={"oldPosting"} shouldReload={true} description={getLang("oldPostingDescription")} />
