@@ -3,6 +3,7 @@ import { appearSimpleLoader, removeSimpleLoader } from "../../../components/simp
 import showSnackbar from "../../../components/snackbar/snackbar";
 import deferredCallback from "../../../defferedCallback";
 import { escapeHtml } from "../../../escapeHtml";
+import parseAll from "../../classicalGroups/textParser/parseAll";
 import appearVariable from "./appearVariable";
 import changeBroadcastState from "./changeBroadcastState";
 import changeCurrentInfoLang from "./changeCurrentInfoLang";
@@ -17,7 +18,7 @@ const appendActivityText = (activityText: string | null, userData: any) => {
       activitySpan.classList.add("page_current_info");
       activitySpan.classList.add("current_text");
       activitySpan.classList.add("vkToolsActivityText");
-      activitySpan.textContent = activityText;
+      activitySpan.innerHTML = parseAll(activityText || "");
 
       let ownerPageName = document.getElementById("owner_page_name");
       if (!document.querySelector(".vkToolsActivityText")) ownerPageName?.insertAdjacentElement("afterend", activitySpan);

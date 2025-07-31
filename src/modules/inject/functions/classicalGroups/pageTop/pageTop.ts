@@ -2,6 +2,7 @@ import { escapeHtml } from "../../../escapeHtml";
 import changeCurrentInfoLang from "../../classicalProfile/scripts/changeCurrentInfoLang";
 import postingEmojiHint from "../../oldPosting/postingEmojiHint";
 import shareSubscribersLangKeys from "../shareLangKeys";
+import parseAll from "../textParser/parseAll";
 
 const pageTop = (name: string, status: string, level: number, hashes: any) => {
   const container = document.createElement("div");
@@ -55,7 +56,7 @@ const pageTop = (name: string, status: string, level: number, hashes: any) => {
     } else {
       const statusSpan = document.createElement("span");
       statusSpan.classList.add("current_text", "vk_tools_current_text");
-      statusSpan.textContent = status;
+      statusSpan.innerHTML = parseAll(status || "");
       statusDiv.appendChild(statusSpan);
     }
 

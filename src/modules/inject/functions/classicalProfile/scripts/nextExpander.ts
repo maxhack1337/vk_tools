@@ -1,4 +1,4 @@
-import { escapeHtml, escapeUrl } from "../../../escapeHtml";
+import parseAll from "../../classicalGroups/textParser/parseAll";
 import appearVariable from "./appearVariable";
 import createProfileInfoHeader from "./createProfileInfoHeader";
 import renderGroups from "./groups/renderGroups";
@@ -711,14 +711,13 @@ const nextExpander = async (
       quotesLabel.classList.add("label", "fl_l");
       quotesDiv.appendChild(quotesLabel);
 
-      let quotesText = escapeHtml(quotes).replace(/\n/g, "<br>");
       let quotesSpan = document.createElement("span");
       quotesSpan.classList.add("labeled");
       // quotesSpan.style.display = "inline-block";
       // quotesSpan.style.maxWidth = "335px";
       // quotesSpan.style.width = "335px";
       // quotesSpan.style.wordWrap = "break-word";
-      quotesSpan.innerHTML = quotesText;
+      quotesSpan.innerHTML = parseAll(quotes).replace(/\n/g, "<br>");
 
       quotesDiv.appendChild(quotesSpan);
       moreItemsLoaded.appendChild(quotesDiv);
@@ -733,7 +732,6 @@ const nextExpander = async (
       aboutLabel.textContent = `${getLang?.("Aboutme")}`;
       aboutLabel.classList.add("label", "fl_l");
       aboutDiv.appendChild(aboutLabel);
-      let aboutText = escapeHtml(about).replace(/\n/g, "<br>");
       let aboutSpan = document.createElement("span");
       aboutSpan.classList.add("labeled");
 
@@ -741,22 +739,8 @@ const nextExpander = async (
       // aboutSpan.style.maxWidth = "335px";
       // aboutSpan.style.width = "335px";
       // aboutSpan.style.wordWrap = "break-word";
-
-      let regex = /(?:https?:\/\/|www\.)\S+/g;
-      let match;
-      let lastIndex = 0;
-      while ((match = regex.exec(aboutText)) !== null) {
-        let link = match[0];
-        let linkText = link.length > 20 ? link.substring(0, 20) + "..." : link;
-        if (!link.startsWith("http://") && !link.startsWith("https://")) {
-          link = "https://" + link;
-        }
-        let beforeText = aboutText.substring(lastIndex, match.index);
-        lastIndex = match.index + link.length;
-        aboutSpan.innerHTML += beforeText;
-        aboutSpan.innerHTML += `<a href="${escapeUrl(link)}">${escapeHtml(linkText)}</a>`;
-      }
-      aboutSpan.innerHTML += aboutText.substring(lastIndex);
+      //let aboutText = escapeHtml(about).replace(/\n/g, "<br>");
+      aboutSpan.innerHTML = parseAll(about).replace(/\n/g, "<br>");
 
       aboutDiv.appendChild(aboutSpan);
       moreItemsLoaded.appendChild(aboutDiv);

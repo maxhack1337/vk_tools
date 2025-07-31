@@ -14,6 +14,7 @@ import { addAvatarListener } from "./pageTopNew/addAvatarListener";
 import subsribersSkeleton from "./skeleton/subsribersSkeleton";
 import subsFriendsSkeleton from "./skeleton/subsFriendsSkeleton";
 import narrowSkeleton from "./skeleton/narrowSkeleton";
+import parseAll from "./textParser/parseAll";
 
 const classicalNewInterface = async (props: any) => {
   const isMessagesEnabled = props.can_message;
@@ -78,7 +79,7 @@ const classicalNewInterface = async (props: any) => {
     statusDiv.style.position = "relative";
     const statusSpan = document.createElement("span");
     statusSpan.classList.add("current_text", "vk_tools_current_text");
-    statusSpan.textContent = status;
+    statusSpan.innerHTML = parseAll(status || "");
 
     const appendStatus = contentWrapper?.querySelector('[class*="CommunityHeader__content--"] [class*="RootComponent__host"][style="flex-basis: 450px;"]');
     statusDiv.append(statusSpan);
