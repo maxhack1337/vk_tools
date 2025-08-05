@@ -86,6 +86,69 @@ html.classicProfile body:has(.owner_photo_bubble_action_crop) {
 }
 
 html.classicProfile body {
+    .OwnerVideosListItem {
+            --owner-videos-item-gap-total: calc((var(--owner-videos-count-on-row, 2) - 1)*var(--owner-videos-list-item-gap, 12px));
+            --owner-videos-item-width-part: calc(var(--owner-videos-item-gap-total)/var(--owner-videos-count-on-row, 2));
+            width: calc(100%/var(--owner-videos-count-on-row, 2) - var(--owner-videos-item-width-part));
+            margin-right: var(--owner-videos-list-item-gap, 12px);
+            flex-shrink: 0
+        }
+    
+        [dir=rtl] .OwnerVideosListItem {
+            margin-right: 0;
+            margin-left: var(--owner-videos-list-item-gap, 12px)
+        }
+    
+        .OwnerVideosListItem:last-child {
+            margin-right: 0
+        }
+    
+        [dir=rtl] .OwnerVideosListItem:last-child {
+            margin-right: 0;
+            margin-left: 0
+        }
+    
+        .OwnerVideosListItem__details {
+            margin-top: 10px
+        }
+    
+        .OwnerVideosListItem__title {
+            font-size: 14px;
+            font-weight: 400;
+            -webkit-font-smoothing: subpixel-antialiased;
+            -moz-osx-font-smoothing: auto;
+            color: var(--vkui--color_text_primary);
+            cursor: pointer;
+            display: block;
+            line-height: 18px;
+            max-height: 36px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap
+        }
+    
+        .OwnerVideosListItem__title:hover {
+            text-decoration: underline !important
+        }
+    
+        .OwnerVideosListItem__views {
+            margin-top: 2px;
+            font-weight: 400;
+            -webkit-font-smoothing: subpixel-antialiased;
+            -moz-osx-font-smoothing: auto;
+            font-size: 13px;
+            line-height: 16px;
+            color: var(--vkui--color_text_secondary)
+        }
+    
+        .OwnerVideosList__items {
+            display: flex
+        }
+    
+        .OwnerVideosList__items::after {
+            content: "";
+            flex: 0 0 var(--owner-videos-list-item-gap, 12px)   }
+            
     .VideoPreview__videoImage {
         width: 100%;
         height: 100%;
