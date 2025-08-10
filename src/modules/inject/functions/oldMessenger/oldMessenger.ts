@@ -52,10 +52,10 @@ const oldMessenger = () => {
       footer?.append(e);
     });
 
-    document.arrive(".ConvoHeader__avatar", { existing: true }, function (e) {
+    document.arrive(".ConvoHeader__controls", { existing: true }, function (e) {
       let header = e.closest(".ConvoHeader");
-      let avatar = e as HTMLDivElement;
-
+      let avatar = header?.querySelector(".ConvoHeader__avatar") as HTMLElement;
+      if (!avatar) return;
       let convoHeaderInfo = document.querySelector(".ConvoHeader__info") as HTMLAnchorElement;
       if (convoHeaderInfo.href)
         avatar.addEventListener("click", (e) => {
