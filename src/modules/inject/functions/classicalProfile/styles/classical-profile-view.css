@@ -86,6 +86,9 @@ html.classicProfile body:has(.owner_photo_bubble_action_crop) {
 }
 
 html.classicProfile body {
+    [class*="Group__group"]:has(> [class*="Group__header"]):has([class*="RecommendationCard__root"]) {
+        display: none;
+    }
     .OwnerVideosListItem {
             --owner-videos-item-gap-total: calc((var(--owner-videos-count-on-row, 2) - 1)*var(--owner-videos-list-item-gap, 12px));
             --owner-videos-item-width-part: calc(var(--owner-videos-item-gap-total)/var(--owner-videos-count-on-row, 2));
@@ -148,7 +151,7 @@ html.classicProfile body {
         .OwnerVideosList__items::after {
             content: "";
             flex: 0 0 var(--owner-videos-list-item-gap, 12px)   }
-            
+
     .VideoPreview__videoImage {
         width: 100%;
         height: 100%;
