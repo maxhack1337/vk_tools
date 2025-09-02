@@ -29,7 +29,7 @@ const friendsSubsBlock = (data: FriendsData, id: number) => {
 
     const profile = data.preview_profiles[0];
     const link = document.createElement("a");
-    link.href = `https://vk.com/id${data.preview[0]}`;
+    link.href = `https://${vk.__domain || "vk.ru"}/id${data.preview[0]}`;
     link.title = profile.first_name;
     link.target = "_blank";
     link.rel = "noopener";

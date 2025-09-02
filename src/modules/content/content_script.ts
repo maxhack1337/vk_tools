@@ -16,8 +16,8 @@ injectScript(chrome.runtime.getURL("src/main.js"));
 
 async function CheckToken() {
   await sleep(1000);
-  if (window.location.href.indexOf("https://oauth.vk.com/blank.html") === -1 && window.location.href.indexOf("https://oauth.vk.com/authorize") === -1 && window.location.href.indexOf("https://oauth.vk.com/oauth/authorize") === -1) {
-    window.location.href = "https://oauth.vk.com/authorize?client_id=6121396&scope=196608&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&revoke=1";
+  if (window.location.href.indexOf("https://oauth.vk.ru/blank.html") === -1 && window.location.href.indexOf("https://oauth.vk.ru/authorize") === -1 && window.location.href.indexOf("https://oauth.vk.ru/oauth/authorize") === -1) {
+    window.location.href = "https://oauth.vk.ru/authorize?client_id=6121396&scope=196608&redirect_uri=https://oauth.vk.ru/blank.html&display=page&response_type=token&revoke=1";
     return;
   }
 
@@ -33,7 +33,7 @@ async function CheckToken() {
       type: "vken_access_token",
       value: accessToken,
     });
-    window.location.href = "https://vk.com/feed";
+    window.location.href = "https://vk.ru/feed";
     return;
   } else {
     console.log("Токен не найден в URL");
@@ -932,7 +932,7 @@ function cameraPhotoRet() {
     document.head.appendChild(styleElement);
   }
   styleElement.innerHTML =
-    '[style*="impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"],[style*="https://pp.userapi.com/60tZWMo4SmwcploUVl9XEt8ufnTTvDUmQ6Bj1g/mmv1pcj63C4.png"],[style*="impf/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"] {background-image: url("https://vk.com/images/camera_a.gif")!important;} [src*="impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"],[src*="/impf/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"],[src^="https://sun6-22.userapi.com/impf/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"],[src^="https://pp.userapi.com/60tZWMo4SmwcploUVl9XEt8ufnTTvDUmQ6Bj1g/mmv1pcj63C4.png"], [src^="https://pp.userapi.com/dfvmQ4fDCgEfMVVLlOKBUsaUdh7QZww8ME4IHg/2G-nzM7_pH4.png"],[src^="https://pp.userapi.com/nKpB1Qq39oLk0_S8_C9PolGFFUpM5n8FnzKC7A/ucP1cjlkpZk.png"], [src*="/impf/HnDXZID-SDmaVYd91lIag6dSg1lsaXuGBxzR6w/7oh8V3B731U.jpg"], [src*="/impf/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"] {content:url("https://vk.com/images/camera_a.gif");}';
+    '[style*="impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"],[style*="https://pp.userapi.com/60tZWMo4SmwcploUVl9XEt8ufnTTvDUmQ6Bj1g/mmv1pcj63C4.png"],[style*="impf/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"] {background-image: url("https://vk.ru/images/camera_a.gif")!important;} [src*="impg/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"],[src*="/impf/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"],[src^="https://sun6-22.userapi.com/impf/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"],[src^="https://pp.userapi.com/60tZWMo4SmwcploUVl9XEt8ufnTTvDUmQ6Bj1g/mmv1pcj63C4.png"], [src^="https://pp.userapi.com/dfvmQ4fDCgEfMVVLlOKBUsaUdh7QZww8ME4IHg/2G-nzM7_pH4.png"],[src^="https://pp.userapi.com/nKpB1Qq39oLk0_S8_C9PolGFFUpM5n8FnzKC7A/ucP1cjlkpZk.png"], [src*="/impf/HnDXZID-SDmaVYd91lIag6dSg1lsaXuGBxzR6w/7oh8V3B731U.jpg"], [src*="/impf/DW4IDqvukChyc-WPXmzIot46En40R00idiUAXw/l5w5aIHioYc.jpg"] {content:url("https://vk.ru/images/camera_a.gif");}';
 }
 
 function cameraPhotoDel() {
@@ -951,11 +951,11 @@ function comAvaRet() {
   }
   styleElement.innerHTML = `
     [src*="/hV2sUZg3H8_i7YovgNIe3wWzVyeH0obdWHIPLw/lj-AKosjN2o.jpg"] {
-      content:url("https://vk.com/images/community_400.png")
+      content:url("https://vk.ru/images/community_400.png")
     }
       
     [style*="/hV2sUZg3H8_i7YovgNIe3wWzVyeH0obdWHIPLw/lj-AKosjN2o.jpg"] {
-      background-image: url("https://vk.com/images/community_400.png")!important;
+      background-image: url("https://vk.ru/images/community_400.png")!important;
     }
     `;
 }

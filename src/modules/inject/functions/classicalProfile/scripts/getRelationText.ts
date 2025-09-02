@@ -46,35 +46,35 @@ const getRelationText = async (
     case 1:
       if (sex === 2) {
         const langValue = getLang?.("profile_m_not_married");
-        relationText = `<a href="https://vk.com/search/people?status=not_married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Не женат").toLowerCase()}</a>`;
+        relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=not_married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Не женат").toLowerCase()}</a>`;
       } else {
         const langValue = getLang?.("profile_fm_not_married");
-        relationText = `<a href="https://vk.com/search/people?status=not_married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Не замужем").toLowerCase()}</a>`;
+        relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=not_married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Не замужем").toLowerCase()}</a>`;
       }
       break;
     case 2:
       if (sex === 2) {
         const langValue = getLang?.("profile_m_has_friend");
-        relationText = `<a href="https://vk.com/search/people?status=meets">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Есть подруга").toLowerCase()}</a>`;
+        relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=meets">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Есть подруга").toLowerCase()}</a>`;
       } else {
         const langValue = getLang?.("profile_fm_has_friend");
-        relationText = `<a href="https://vk.com/search/people?status=meets">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Есть друг").toLowerCase()}</a>`;
+        relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=meets">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Есть друг").toLowerCase()}</a>`;
       }
       if (relationPartner) {
         let relationTextP = langReplacePrep(getLang?.("profile_meet_with_partner").toString() || "", formatted_name || "");
 
         relationText = Array.isArray(relationTextP)
-          ? relationTextP[0].replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)
-          : relationTextP.replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`);
+          ? relationTextP[0].replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)
+          : relationTextP.replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`);
       }
       break;
     case 3:
       if (sex === 2) {
         const langValue = getLang?.("profile_m_engaged");
-        relationText = `<a href="https://vk.com/search/people?status=engaged">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Помолвлен").toLowerCase()}</a>`;
+        relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=engaged">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Помолвлен").toLowerCase()}</a>`;
       } else {
         const langValue = getLang?.("profile_fm_engaged");
-        relationText = `<a href="https://vk.com/search/people?status=engaged">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Помолвлена").toLowerCase()}</a>`;
+        relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=engaged">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Помолвлена").toLowerCase()}</a>`;
       }
       if (relationPartner) {
         if (sex === 2) {
@@ -86,17 +86,17 @@ const getRelationText = async (
         }
         let relationTextP = langReplacePrep(relationText, formatted_name || "");
         relationText = Array.isArray(relationTextP)
-          ? relationTextP[0].replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)"">${formatted_name}</a>`)
-          : relationTextP.replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)"">${formatted_name}</a>`);
+          ? relationTextP[0].replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)"">${formatted_name}</a>`)
+          : relationTextP.replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)"">${formatted_name}</a>`);
       }
       break;
     case 4:
       if (sex === 2) {
         const langValue = getLang?.("profile_m_married");
-        relationText = `<a href="https://vk.com/search/people?status=married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Женат").toLowerCase()}</a>`;
+        relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Женат").toLowerCase()}</a>`;
       } else {
         const langValue = getLang?.("profile_fm_married");
-        relationText = `<a href="https://vk.com/search/people?status=married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Замужем").toLowerCase()}</a>`;
+        relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=married">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "Замужем").toLowerCase()}</a>`;
       }
       if (relationPartner) {
         if (sex === 2) {
@@ -108,33 +108,33 @@ const getRelationText = async (
         }
         let relationTextP = langReplacePrep(relationText, formatted_name || "");
         relationText = Array.isArray(relationTextP)
-          ? relationTextP[0].replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)
-          : relationTextP.replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`);
+          ? relationTextP[0].replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)
+          : relationTextP.replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`);
       }
       break;
     case 5:
       let langValueLet = getLang?.("profile_complicated");
-      relationText = `<a href="https://vk.com/search/people?status=complicated">${(Array.isArray(langValueLet) ? langValueLet.join(", ") : langValueLet || "Всё сложно").toLowerCase()}</a>`;
+      relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=complicated">${(Array.isArray(langValueLet) ? langValueLet.join(", ") : langValueLet || "Всё сложно").toLowerCase()}</a>`;
       if (relationPartner) {
         const rawValue = getLang?.("profile_complic_with_partner", "raw");
         relationText = Array.isArray(rawValue) ? rawValue[0] : rawValue || "";
         let relationTextP = langReplacePrep(relationText, formatted_name || "");
         relationText = Array.isArray(relationTextP)
-          ? relationTextP[0].replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)
-          : relationTextP.replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`);
+          ? relationTextP[0].replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)
+          : relationTextP.replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`);
       }
       break;
     case 6:
       let langValue = getLang?.("profile_in_search");
-      relationText = `<a href="https://vk.com/search/people?status=actively_looking">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "В активном поиске").toLowerCase()}</a>`;
+      relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=actively_looking">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "В активном поиске").toLowerCase()}</a>`;
       break;
     case 7:
       if (sex === 2) {
         const langValue = getLang?.("profile_m_in_love");
-        relationText = `<a href="https://vk.com/search/people?status=in_love">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "влюблён").toLowerCase()}</a>`;
+        relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=in_love">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "влюблён").toLowerCase()}</a>`;
       } else {
         const langValue = getLang?.("profile_f_in_love");
-        relationText = `<a href="https://vk.com/search/people?status=in_love">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "влюблена").toLowerCase()}</a>`;
+        relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=in_love">${(Array.isArray(langValue) ? langValue.join(", ") : langValue || "влюблена").toLowerCase()}</a>`;
       }
       if (relationPartner) {
         if (sex === 2) {
@@ -146,21 +146,21 @@ const getRelationText = async (
         }
         let relationTextP = langReplacePrep(relationText, formatted_name || "");
         relationText = Array.isArray(relationTextP)
-          ? relationTextP[0].replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)
-          : relationTextP.replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`);
+          ? relationTextP[0].replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)
+          : relationTextP.replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`);
       }
       break;
     case 8:
       let langValueLet2 = getLang?.("profile_civil_married");
-      relationText = `<a href="https://vk.com/search/people?status=civil_marriage">${(Array.isArray(langValueLet2) ? langValueLet2.join(", ") : langValueLet2 || "В гражданском браке").toLowerCase()}</a>`;
+      relationText = `<a href="https://${vk.__domain || "vk.ru"}/search/people?status=civil_marriage">${(Array.isArray(langValueLet2) ? langValueLet2.join(", ") : langValueLet2 || "В гражданском браке").toLowerCase()}</a>`;
       if (relationPartner) {
         let civilRaw = getLang?.("profile_civil_married_with", "raw");
         relationText = (Array.isArray(civilRaw) ? civilRaw.join(", ") : civilRaw || "В гражданском браке с %s").toLowerCase();
         let relationTextP = langReplacePrep(relationText, formatted_name || "");
 
         relationText = Array.isArray(relationTextP)
-          ? relationTextP[0].replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)
-          : relationTextP.replace("%s", `<a href="https://vk.com/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`);
+          ? relationTextP[0].replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`)
+          : relationTextP.replace("%s", `<a href="https://${vk.__domain || "vk.ru"}/id${relationPartner.id}" mention_id="id${relationPartner.id}" onmouseover="mentionOver(this)">${formatted_name}</a>`);
       }
       break;
     default:

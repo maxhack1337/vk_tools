@@ -2,7 +2,12 @@ import documentAttachment from "../attachments/documentAttachment";
 import getPostAttaches from "../getPostAttaches";
 
 const postDocs = () => {
-  let selectorsDocs = [`.postponed.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]`, `.suggest.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]`];
+  let selectorsDocs = [
+    `.postponed.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.ru/doc"]`,
+    `.suggest.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.ru/doc"]`,
+    `.postponed.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]`,
+    `.suggest.Post--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]`,
+  ];
   document.arrive(selectorsDocs.join(", "), { existing: true }, async function (docus) {
     let closestCheck = docus.closest(".vkEnhancerPostponedPostDocs");
     if (!closestCheck) {

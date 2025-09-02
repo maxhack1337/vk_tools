@@ -535,7 +535,7 @@ html.classicProfile body {
         bottom: 0;
         width: 198px;
         padding: 35px 12px 9px;
-        background: url(https://vk.com/images/album_top_shadow.png);
+        background: url(https://vk.ru/images/album_top_shadow.png);
         border-radius: 0 0 8px 8px;
     }
 
@@ -1148,7 +1148,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         height: 26px;
         padding-left: 11px;
         content: ' ';
-        background: url(https://vk.com/images/icons/mobile.png?2) no-repeat 0 -3px;
+        background: url(https://vk.ru/images/icons/mobile.png?2) no-repeat 0 -3px;
         font-size: 13px;
         font-family: Roboto;
         color: var(--vkui--color_text_secondary) !important;
@@ -1179,7 +1179,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         padding-left: 21px;
         margin-left: -12px;
         content: ' ';
-        background: url(https://vk.com/images/icons/mobile.png?2) no-repeat 0 -3px;
+        background: url(https://vk.ru/images/icons/mobile.png?2) no-repeat 0 -3px;
         font-size: 13px;
         font-family: Roboto;
         color: var(--vkui--color_text_secondary) !important;
@@ -1447,31 +1447,31 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         padding-bottom: 12px;
     }
 
-    .profile_info_header_wrap:has([href="https://vk.com/edit?act=interests"]) {
+    .profile_info_header_wrap:has([href*="/edit?act=interests"]) {
         margin-bottom: -8px !important;
     }
     
-    .profile_info_header_wrap:has([href="https://vk.com/edit?act=military"]) {
+    .profile_info_header_wrap:has([href*="/edit?act=military"]) {
         margin-bottom: -8px !important;
     }
     
-    .profile_info_header_wrap:has([href="https://vk.com/edit?act=personal"]) {
+    .profile_info_header_wrap:has([href*="/edit?act=personal"]) {
         margin-bottom: -4px !important;
     }
     
-    .profile_info_header_wrap:has([href="https://vk.com/edit?act=education"]) {
+    .profile_info_header_wrap:has([href*="/edit?act=education"]) {
         margin-bottom: -16px !important;
     }
     
-    .profile_info_header_wrap:has([href="https://vk.com/edit?act=career"]) {
+    .profile_info_header_wrap:has([href*="/edit?act=career"]) {
         margin-bottom: -4px !important;
     }
     
-    .profile_info_header_wrap:has([href="https://vk.com/edit?act=contacts"]) {
+    .profile_info_header_wrap:has([href*="/edit?act=contacts"]) {
         margin-bottom: 0px !important;
     }
     
-    .profile_info_header_wrap:has([href="https://vk.com/edit"]) {
+    .profile_info_header_wrap:has([href*="/edit"]) {
         margin-bottom: 0px !important;
     }
 

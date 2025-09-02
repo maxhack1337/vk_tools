@@ -196,7 +196,7 @@ async function VKToolsStickerBox() {
       return;
     }
 
-    const url = `https://vk.com/sticker/1-${encodeURIComponent(id)}-512`;
+    const url = `https://${vk.__domain || "vk.ru"}/sticker/1-${encodeURIComponent(id)}-512`;
 
     try {
       const response = await fetch(url, { method: "GET" });

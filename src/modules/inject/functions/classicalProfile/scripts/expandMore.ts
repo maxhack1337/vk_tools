@@ -47,7 +47,7 @@ const expandMore = async (
         moreItemsLoaded.classList.add("vkEnhancerMoreItems");
 
         if ((userData.home_town && userData.home_town !== "") || (userData.personal && userData.personal.langs_full) || (userData.relatives && userData.relatives.length > 0)) {
-          let commonDiv = createProfileInfoHeader(mainInfoLang(vk.lang), "https://vk.com/edit");
+          let commonDiv = createProfileInfoHeader(mainInfoLang(vk.lang), `https://${vk.__domain || "vk.ru"}/edit`);
           moreItemsLoaded.appendChild(commonDiv);
 
           let hometown = userData.home_town;
@@ -97,7 +97,7 @@ const expandMore = async (
         }
 
         if ((userData.home_phone && userData.home_phone !== "") || (userData.mobile_phone && userData.mobile_phone !== "") || (userData.skype && userData.skype !== "")) {
-          let commonDiv = createProfileInfoHeader(getLang?.("profile_contact").toString() || "Контактная информация", "https://vk.com/edit?act=contacts");
+          let commonDiv = createProfileInfoHeader(getLang?.("profile_contact").toString() || "Контактная информация", `https://${vk.__domain || "vk.ru"}/edit?act=contacts`);
           moreItemsLoaded.appendChild(commonDiv);
 
           let mobile_phone = userData.mobile_phone;
@@ -150,7 +150,7 @@ const expandMore = async (
         let career = userData.career;
 
         if (career && career.length > 0) {
-          let commonDiv = createProfileInfoHeader(careerInfoLang(vk.lang), "https://vk.com/edit?act=career");
+          let commonDiv = createProfileInfoHeader(careerInfoLang(vk.lang), `https://${vk.__domain || "vk.ru"}/edit?act=career`);
           moreItemsLoaded.appendChild(commonDiv);
           let jobPromises = career
             .slice()
@@ -175,14 +175,14 @@ const expandMore = async (
               let groupLink;
               if (job.group_id) {
                 groupLink = document.createElement("a");
-                groupLink.href = `https://vk.com/club${job.group_id}`;
+                groupLink.href = `https://${vk.__domain || "vk.ru"}/club${job.group_id}`;
                 groupLink.setAttribute("mention_id", `club${job.group_id}`);
                 groupLink.setAttribute("onmouseover", "mentionOver(this)");
                 groupLink.textContent = groupName;
                 groupLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible", "profileJobLink");
               } else if (job.company) {
                 groupLink = document.createElement("a");
-                groupLink.href = `https://vk.com/search/people?company=${job.company}`;
+                groupLink.href = `https://${vk.__domain || "vk.ru"}/search/people?company=${job.company}`;
                 groupLink.textContent = job.company;
                 groupLink.classList.add("vkuiLink", "Link-module__link--V7bkY", "ProfileModalInfoLink", "vkuiTappable", "vkuiInternalTappable", "vkuiTappable--hasActive", "vkui-focus-visible", "profileJobLink");
               }
@@ -244,7 +244,7 @@ const expandMore = async (
                 groupAva.setAttribute("mention", "");
                 groupAva.setAttribute("mention_id", "club" + job.group_id);
                 groupAva.setAttribute("onmouseover", "mentionOver(this, {shift: [31, 9, 4]});");
-                groupAva.href = "https://vk.com/club" + job.group_id;
+                groupAva.href = `https://${vk.__domain || "vk.ru"}/club` + job.group_id;
                 let groupAvaImg = document.createElement("img");
                 groupAvaImg.classList.add("profile_career_img");
                 groupAvaImg.style.width = "50px";
@@ -269,7 +269,7 @@ const expandMore = async (
             });
             let commonDiv;
             if ((userData.schools && userData.schools.length > 0) || (userData.universities && userData.universities.length > 0)) {
-              commonDiv = createProfileInfoHeader(getLang?.("profile_educat").toString() || "Образование", "https://vk.com/edit?act=education");
+              commonDiv = createProfileInfoHeader(getLang?.("profile_educat").toString() || "Образование", `https://${vk.__domain || "vk.ru"}/edit?act=education`);
               moreItemsLoaded.appendChild(commonDiv);
             }
             nextExpander(userData, moreItemsLoaded, preloadedGroups);
@@ -277,7 +277,7 @@ const expandMore = async (
         } else {
           let commonDiv;
           if ((userData.schools && userData.schools.length > 0) || (userData.universities && userData.universities.length > 0)) {
-            commonDiv = createProfileInfoHeader(getLang?.("profile_educat").toString() || "Образование", "https://vk.com/edit?act=education");
+            commonDiv = createProfileInfoHeader(getLang?.("profile_educat").toString() || "Образование", `https://${vk.__domain || "vk.ru"}/edit?act=education`);
             moreItemsLoaded.appendChild(commonDiv);
           }
           nextExpander(userData, moreItemsLoaded, preloadedGroups);

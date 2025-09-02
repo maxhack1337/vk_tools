@@ -11,7 +11,7 @@ const backSupport = () => {
       } catch (error) {
         support.innerText = "Задать вопрос";
       }
-      support.href = "https://vk.com/support?act=new&from=pass_faq";
+      support.href = `https://${vk.__domain || "vk.ru"}/support?act=new&from=pass_faq`;
       support.setAttribute("style", "float:right;padding-bottom:0px;padding-left:10px;padding-right:10px;padding-top:16px;text-decoration-line:none;text-decoration-style:solid;text-decoration-thickness:auto;");
       e.appendChild(support);
     }

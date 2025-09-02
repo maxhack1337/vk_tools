@@ -1,5 +1,5 @@
 const runStickerAdder = (id: string, sticker_id: string, hash: string, type: string, second_attach: string) => {
-  fetch("https://vk.com/al_im.php?act=a_send", {
+  fetch(`https://${vk.__domain || "vk.ru"}/al_im.php?act=a_send`, {
     headers: {
       accept: "*/*",
       "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -14,7 +14,7 @@ const runStickerAdder = (id: string, sticker_id: string, hash: string, type: str
       "sec-fetch-site": "same-origin",
       "x-requested-with": "XMLHttpRequest",
     },
-    referrer: "https://vk.com/im?sel=" + id,
+    referrer: `https://${vk.__domain || "vk.ru"}/im?sel=` + id,
     referrerPolicy: "strict-origin-when-cross-origin",
     body:
       "act=a_send&al=1&cancelled_shares[0]=sticker%2C" +

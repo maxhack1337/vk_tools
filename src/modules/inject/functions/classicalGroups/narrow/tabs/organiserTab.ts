@@ -89,7 +89,7 @@ const organiserTab = async (userId: number, id: number, isOwner: boolean, isGrou
   thumbDiv.classList.add("fl_l", "thumb");
 
   const userLink = document.createElement("a");
-  userLink.href = `https://vk.com/${user.screen_name}`;
+  userLink.href = `https://${vk.__domain || "vk.ru"}/${user.screen_name}`;
   userLink.target = "_blank";
   userLink.rel = "noopener";
 
@@ -110,7 +110,7 @@ const organiserTab = async (userId: number, id: number, isOwner: boolean, isGrou
   peopleName.classList.add("people_name");
 
   const nameLink = document.createElement("a");
-  nameLink.href = `https://vk.com/${user.screen_name}`;
+  nameLink.href = `https://${vk.__domain || "vk.ru"}/${user.screen_name}`;
   nameLink.target = "_blank";
   nameLink.rel = "noopener";
   nameLink.textContent = !isGroup ? `${user.first_name} ${user.last_name}` : user.name || "";

@@ -70,7 +70,7 @@ const linksTab = (isOwner: boolean, screen_name: string, id: number) => {
 
       try {
         const url = new URL(urlString);
-        shouldUseVKPlaceholder = url.hostname === "vk.com" || url.hostname.endsWith(".vk.com");
+        shouldUseVKPlaceholder = url.hostname === "vk.com" || url.hostname.endsWith(".vk.com") || url.hostname === "vk.ru" || url.hostname.endsWith(".vk.ru");
       } catch (e) {
         shouldUseVKPlaceholder = false;
       }

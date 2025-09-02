@@ -40,7 +40,7 @@ const followersBlock = (data: FollowersData, id: number, members_count: number) 
   moduleDiv.appendChild(headerRightLink);
 
   const headerLink = document.createElement("a");
-  headerLink.href = `https://vk.com/search/people?group_id=${id}`;
+  headerLink.href = `https://${vk.__domain || "vk.ru"}/search/people?group_id=${id}`;
   headerLink.setAttribute("onclick", `return page.showPageMembers(event, ${-id}, 'members')`);
   headerLink.classList.add("module_header");
 
@@ -73,7 +73,7 @@ const followersBlock = (data: FollowersData, id: number, members_count: number) 
 
       const profileLink = document.createElement("a");
       profileLink.classList.add("people_cell_ava");
-      profileLink.href = `https://vk.com/${member.domain}`;
+      profileLink.href = `https://${vk.__domain || "vk.ru"}/${member.domain}`;
       profileLink.title = `${member.first_name}${member.last_name ? " " + member.last_name : ""}`;
       profileLink.setAttribute("onclick", `return nav.go(this, event, {cl_id: 0})`);
 

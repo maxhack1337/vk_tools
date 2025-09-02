@@ -1,7 +1,7 @@
 const redirectIfNeeded = () => {
   const currentUrl = window.location.href;
-  const baseUrl = "https://vk.com/groups";
-  const startsWithId = currentUrl.startsWith("https://vk.com/groups?id=");
+  const baseUrl = `https://${vk.__domain || "vk.ru"}/groups`;
+  const startsWithId = currentUrl.startsWith(`https://${vk.__domain || "vk.ru"}/groups?id=`);
 
   if (currentUrl.startsWith(baseUrl) && !currentUrl.startsWith(baseUrl + "/") && !startsWithId) {
     if (!currentUrl.includes("act=recommendations")) {

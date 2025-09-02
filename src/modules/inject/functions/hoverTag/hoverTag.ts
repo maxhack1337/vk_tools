@@ -1,6 +1,6 @@
 const hoverTag = () => {
   if (localStorage.getItem("isOldHover") === "true") {
-    const hoverTags = ['a.MessageText__link[href^="/"]', 'a.MessageText__link[href*="vk.com"]'];
+    const hoverTags = ['a.MessageText__link[href^="/"]', 'a.MessageText__link[href*="vk.com"]', 'a.MessageText__link[href*="vk.ru"]'];
     const joinTags = hoverTags.join(", ");
     document.arrive(joinTags, { existing: true }, function (e) {
       let href = e.getAttribute("href");

@@ -121,7 +121,7 @@ const appendActivityText = (activityText: string | null, userData: any) => {
             getLang?.("profile_delete_photo") +
             ` onmouseover="showTitle(this);" tabindex="0" role="button" aria-label=` +
             getLang?.("profile_delete_photo") +
-            `> <div class="ui_thumb_x"></div> </div> </div> </div> <div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"><a id="profile_photo_link" href="https://vk.com/photo` +
+            `> <div class="ui_thumb_x"></div> </div> </div> </div> <div class="page_avatar_wrap" id="page_avatar_wrap"> <aside aria-label="Фотография"> <div id="page_avatar" class="page_avatar"><a id="profile_photo_link" href="https://${vk.__domain || "vk.ru"}/photo` +
             userPhotoAva +
             `" onclick="return showPhoto('` +
             userPhotoAva +

@@ -259,7 +259,7 @@ const nextExpander = async (
   }
 
   if (userData.military && userData.military.length > 0) {
-    let commonDiv = createProfileInfoHeader(getLang?.("profile_military").toString() || "Военная служба", "https://vk.com/edit?act=military");
+    let commonDiv = createProfileInfoHeader(getLang?.("profile_military").toString() || "Военная служба", `https://${vk.__domain || "vk.ru"}/edit?act=military`);
     moreItemsLoaded.appendChild(commonDiv);
     let military: any = userData.military;
     if (military) {
@@ -324,7 +324,7 @@ const nextExpander = async (
       (userData.personal.religion && userData.personal.religion !== "")) &&
     Object.keys(userData.personal).length > 0
   ) {
-    let commonDiv = createProfileInfoHeader(getLang?.("profile_beliefs").toString() || "Жизненная позиция", "https://vk.com/edit?act=personal");
+    let commonDiv = createProfileInfoHeader(getLang?.("profile_beliefs").toString() || "Жизненная позиция", `https://${vk.__domain || "vk.ru"}/edit?act=personal`);
     moreItemsLoaded.appendChild(commonDiv);
 
     let lifePos = document.createElement("div");
@@ -493,7 +493,7 @@ const nextExpander = async (
     (userData.about && userData.about !== "") ||
     (preloadedGroups && Object.entries(preloadedGroups || {})?.length > 0)
   ) {
-    let commonDiv = createProfileInfoHeader(getLang?.("profile_private").toString() || "Личная информация", "https://vk.com/edit?act=interests");
+    let commonDiv = createProfileInfoHeader(getLang?.("profile_private").toString() || "Личная информация", `https://${vk.__domain || "vk.ru"}/edit?act=interests`);
     moreItemsLoaded.appendChild(commonDiv);
 
     let activities = userData.activities;
@@ -512,7 +512,7 @@ const nextExpander = async (
       let interests = activities.split(", ");
       interests.forEach((interest, index) => {
         let interestLink = document.createElement("a");
-        interestLink.href = `https://vk.com/search/people?c[name]=0&c[q]=${encodeURIComponent(interest)}`;
+        interestLink.href = `https://${vk.__domain || "vk.ru"}/search/people?c[name]=0&c[q]=${encodeURIComponent(interest)}`;
         interestLink.textContent = interest;
         activitiesSpan.appendChild(interestLink);
 
@@ -659,7 +659,7 @@ const nextExpander = async (
       let bookList = books.split(", ");
       bookList.forEach((book, index) => {
         let bookLink = document.createElement("a");
-        bookLink.href = `https://vk.com/search/people?c[name]=0&c[q]=${encodeURIComponent(book)}`;
+        bookLink.href = `https://${vk.__domain || "vk.ru"}/search/people?c[name]=0&c[q]=${encodeURIComponent(book)}`;
         bookLink.textContent = book;
         booksSpan.appendChild(bookLink);
 
@@ -688,7 +688,7 @@ const nextExpander = async (
       let gameList = games.split(", ");
       gameList.forEach((game, index) => {
         let gameLink = document.createElement("a");
-        gameLink.href = `https://vk.com/search/people?c[name]=0&c[q]=${encodeURIComponent(game)}`;
+        gameLink.href = `https://${vk.__domain || "vk.ru"}/search/people?c[name]=0&c[q]=${encodeURIComponent(game)}`;
         gameLink.textContent = game;
         gamesSpan.appendChild(gameLink);
 
@@ -758,7 +758,7 @@ const nextExpander = async (
       let groupsLabelHref = document.createElement("a");
       groupsLabelHref.classList.add("groupsLabelHref");
       groupsLabelHref.setAttribute("onclick", "return nav.go(this, event, {noback: false})");
-      groupsLabelHref.href = `https://vk.com/groups?id=${cur.oid}`;
+      groupsLabelHref.href = `https://${vk.__domain || "vk.ru"}/groups?id=${cur.oid}`;
       groupsLabelHref.textContent = `${groupsLang(vk.lang)}`;
 
       groupsLabel.append(groupsLabelHref);
@@ -778,7 +778,7 @@ const nextExpander = async (
         const toggleButton = document.createElement("a");
         toggleButton.classList.add("noselect");
         toggleButton.id = "profile_groups_link";
-        toggleButton.href = `https://vk.com/groups?id=${cur.oid}`;
+        toggleButton.href = `https://${vk.__domain || "vk.ru"}/groups?id=${cur.oid}`;
         toggleButton.textContent = "Показать полный список";
 
         let expanded = false;

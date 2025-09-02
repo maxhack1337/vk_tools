@@ -241,8 +241,8 @@ const oldFeed = () => {
           }
           // console.log(dataAttachments);
           //Документы
-          if (e.querySelector('[class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"])') && dataAttachments.item.attachments) {
-            let allDocs = e.querySelector('[class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]');
+          if (e.querySelector(`[class^="vkitChipAttachment__root"]:has(> a[href^="https://${vk.__domain || "vk.ru"}/doc"])`) && dataAttachments.item.attachments) {
+            let allDocs = e.querySelector(`[class^="vkitChipAttachment__root"] > a[href^="https://${vk.__domain || "vk.ru"}/doc"]`);
             let count = 0;
             dataAttachments.item.attachments.forEach(async function (docu: any) {
               if (docu.doc) {
@@ -266,8 +266,8 @@ const oldFeed = () => {
             });
           }
 
-          if (e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://vk.com/doc"])') && dataRepostAttachments.item.attachments) {
-            let allDocs = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://vk.com/doc"]');
+          if (e.querySelector(`.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"]:has(> a[href^="https://${vk.__domain || "vk.ru"}/doc"])`) && dataRepostAttachments.item.attachments) {
+            let allDocs = e.querySelector(`.PostCopyQuote--redesignV3 [class^="vkitChipAttachment__root"] > a[href^="https://${vk.__domain || "vk.ru"}/doc"]`);
             let count = 0;
             dataRepostAttachments.item.attachments.forEach(async function (docu: any) {
               if (docu.doc) {
@@ -602,7 +602,7 @@ const oldFeed = () => {
 
           //Аттач-миниапп примари
           if (e.querySelector('[class^="vkitPrimaryAttachment__root"] :not(.videoplayer_action_button)') && dataAttachments.item.attachments) {
-            let allDocs = e.querySelector('[class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/"]:not(.videoplayer_action_button)');
+            let allDocs = e.querySelector(`[class^="vkitPrimaryAttachment__root"] [href^="https://${vk.__domain || "vk.ru"}/"]:not(.videoplayer_action_button)`);
             dataAttachments.item.attachments.forEach(async function (miniapp: any) {
               if (miniapp.mini_app) {
                 let primaryAttachMiniApp = document.createElement("div");
@@ -615,8 +615,8 @@ const oldFeed = () => {
             });
           }
 
-          if (e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/"]:not(.videoplayer_action_button)') && dataRepostAttachments.item.attachments) {
-            let allDocs = e.querySelector('.PostCopyQuote--redesignV3 [class^="vkitPrimaryAttachment__root"] [href^="https://vk.com/"]:not(.videoplayer_action_button)');
+          if (e.querySelector(`.PostCopyQuote--redesignV3 [class^="vkitPrimaryAttachment__root"] [href^="https://${vk.__domain || "vk.ru"}/"]:not(.videoplayer_action_button)`) && dataRepostAttachments.item.attachments) {
+            let allDocs = e.querySelector(`.PostCopyQuote--redesignV3 [class^="vkitPrimaryAttachment__root"] [href^="https://${vk.__domain || "vk.ru"}/"]:not(.videoplayer_action_button)`);
             dataRepostAttachments.item.attachments.forEach(async function (miniapp: any) {
               if (miniapp.mini_app) {
                 let primaryAttachMiniApp = document.createElement("div");

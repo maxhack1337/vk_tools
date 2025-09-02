@@ -2,9 +2,9 @@ import { escapeHtml } from "../../../escapeHtml";
 import getLangTime from "../../classicalProfile/scripts/getLangTime";
 import getStoryText from "../../classicalProfile/scripts/getStoryText";
 
-const narrativeAttachment = (narrativeCurrent:any,ownerNarrative:string) => {
-return `
-			<a href="https://vk.com/narrative${narrativeCurrent.owner_id}_${narrativeCurrent.id}" class="NarrativeSnippet  NarrativeSnippet--base" data-narrative-raw-id="${narrativeCurrent.owner_id}_${narrativeCurrent.id}">
+const narrativeAttachment = (narrativeCurrent: any, ownerNarrative: string) => {
+  return `
+			<a href="https://${vk.__domain || "vk.ru"}/narrative${narrativeCurrent.owner_id}_${narrativeCurrent.id}" class="NarrativeSnippet  NarrativeSnippet--base" data-narrative-raw-id="${narrativeCurrent.owner_id}_${narrativeCurrent.id}">
   <div class="NarrativeSnippet__inner">
     <div class="NarrativeSnippet__cover">
       <div class="NarrativeSnippet__image" style=""></div>
@@ -12,10 +12,10 @@ return `
     <div class="NarrativeSnippet__info">
       <div class="NarrativeSnippet__title">${escapeHtml(narrativeCurrent.title)}</div>
       <span class="NarrativeSnippet__author">${escapeHtml(ownerNarrative)}</span>
-      <span class="NarrativeSnippet__description">${getLang?.('global_type_narrative')} · ${narrativeCurrent.story_ids?.length || 0} ${getLangTime(narrativeCurrent.story_ids?.length || 0, getStoryText(vk.lang))}</span>
+      <span class="NarrativeSnippet__description">${getLang?.("global_type_narrative")} · ${narrativeCurrent.story_ids?.length || 0} ${getLangTime(narrativeCurrent.story_ids?.length || 0, getStoryText(vk.lang))}</span>
     </div>
   </div>
-</a>`
-}
+</a>`;
+};
 
 export default narrativeAttachment;

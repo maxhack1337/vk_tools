@@ -58,7 +58,7 @@ const albumsTab = async (albumsGetter: AlbumsResponse, isOwner: boolean) => {
   const albumsToShow = albumsGetter.items.slice(0, 2);
 
   for (const item of albumsToShow) {
-    let thumbSrc = "https://vk.com/images/camera_big.png";
+    let thumbSrc = "https://vk.ru/images/camera_big.png";
 
     try {
       const thumb = await vkApi.api("photos.get", {

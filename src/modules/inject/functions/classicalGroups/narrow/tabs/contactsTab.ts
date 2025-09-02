@@ -91,7 +91,7 @@ const contactsTab = async (contacts: Contact[], id: number, isOwner: boolean) =>
       if (contact.user_id && usersMap.has(contact.user_id)) {
         const user = usersMap.get(contact.user_id)!;
         const userLink = document.createElement("a");
-        userLink.href = `https://vk.com/${user.screen_name}`;
+        userLink.href = `https://${vk.__domain || "vk.ru"}/${user.screen_name}`;
         userLink.target = "_blank";
         userLink.rel = "noopener";
 
@@ -105,7 +105,7 @@ const contactsTab = async (contacts: Contact[], id: number, isOwner: boolean) =>
       } else {
         const img = document.createElement("img");
         img.classList.add("cell_img");
-        img.src = "https://vk.com/images/contact.png";
+        img.src = "https://vk.ru/images/contact.png";
         img.alt = contact.desc || "Контакт";
 
         thumbDiv.appendChild(img);
@@ -123,7 +123,7 @@ const contactsTab = async (contacts: Contact[], id: number, isOwner: boolean) =>
         peopleName.classList.add("people_name");
 
         const nameLink = document.createElement("a");
-        nameLink.href = `https://vk.com/${user.screen_name}`;
+        nameLink.href = `https://${vk.__domain || "vk.ru"}/${user.screen_name}`;
         nameLink.target = "_blank";
         nameLink.rel = "noopener";
         nameLink.textContent = `${user.first_name} ${user.last_name}`;

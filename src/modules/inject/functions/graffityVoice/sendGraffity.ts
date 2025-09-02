@@ -2,7 +2,7 @@ import onClose from "./onClose";
 import uploadFile123 from "./uploadFile123";
 
 const sendGraffity = async (fileNameOutput: string | Blob) => {
-  const url1 = "https://api.vk.com/method/docs.getMessagesUploadServer?v=5.231&client_id=5776857&access_token=" + localStorage.getItem("vk_enhancer_access_token") + "&type=graffiti";
+  const url1 = `https://api.${vk.__domain || "vk.ru"}/method/docs.getMessagesUploadServer?v=5.231&client_id=5776857&access_token=` + localStorage.getItem("vk_enhancer_access_token") + "&type=graffiti";
 
   fetch(url1)
     .then((response) => response.json())

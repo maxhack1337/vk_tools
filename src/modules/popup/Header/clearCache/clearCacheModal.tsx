@@ -22,7 +22,7 @@ export default function ClearCacheModal({ onClose }: ClearCacheModalProps) {
       function () {
         chrome.tabs.query(
           {
-            url: "https://vk.com/*",
+            url: ["https://vk.com/*", "https://vk.ru/*", "https://vkvideo.ru/*"],
           },
           function (tabs) {
             tabs.forEach(function (tab) {

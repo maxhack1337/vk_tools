@@ -55,7 +55,7 @@ const eventsTab = (eventsGetter: { count: number; items: any[] }, isOwner: boole
 
       const link = document.createElement("a");
       link.classList.add("fl_l");
-      link.href = `https://vk.com/${event.screen_name || event.name}`;
+      link.href = `https://${vk.__domain || "vk.ru"}/${event.screen_name || event.name}`;
       link.setAttribute("aria-label", event.name);
 
       const thumb = document.createElement("div");
@@ -73,7 +73,7 @@ const eventsTab = (eventsGetter: { count: number; items: any[] }, isOwner: boole
       groupName.classList.add("group_name");
 
       const nameLink = document.createElement("a");
-      nameLink.href = `https://vk.com/${event.screen_name || event.name}`;
+      nameLink.href = `https://${vk.__domain || "vk.ru"}/${event.screen_name || event.name}`;
       nameLink.textContent = event.name;
 
       groupName.appendChild(nameLink);

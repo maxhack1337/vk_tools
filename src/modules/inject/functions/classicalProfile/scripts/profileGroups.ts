@@ -78,7 +78,7 @@ const profileGroup = (profileOwnerData: any) => {
           try {
             thumbSrc = thumb.items[0].sizes[thumb.items[0].sizes.length - 1].url;
           } catch (error) {
-            thumbSrc = "https://vk.com/images/camera_big.png";
+            thumbSrc = "https://vk.ru/images/camera_big.png";
           }
           let albumElement = document.createElement("div");
           if (item.thumb_id !== 0) {

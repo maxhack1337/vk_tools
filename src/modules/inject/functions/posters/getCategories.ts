@@ -9,7 +9,7 @@ type ImageObject = {
 type QueryType = ImageObject[][];
 
 const authorName = "VK Tools";
-const authorLink = "vk.com/vkenhancer";
+const authorLink = "vk.ru/vkenhancer";
 
 const getCategories = (lang: number) => {
   let categoriesObj: any[] = [];

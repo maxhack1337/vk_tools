@@ -83,7 +83,7 @@ const messageCounter = () => {
               `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[1]}`,
               getLang?.("me_invite_link_qr_download"),
               () => {
-                window.open("https://vk.com/data_protection?section=rules&scroll_to_archive=1", "_blank");
+                window.open("https://vk.ru/data_protection?section=rules&scroll_to_archive=1", "_blank");
               },
               getLang?.("box_cancel")
             );
@@ -102,7 +102,7 @@ const messageCounter = () => {
               `${getAllMsgLang(vk.lang)} ${idMess}<br>${getAllChatsMsg(vk.lang)} ${chatsCount}<br><br>${getTextTTNum(vk.lang)[2]}`,
               getLang?.("me_invite_link_qr_download"),
               () => {
-                window.open("https://vk.com/data_protection?section=rules&scroll_to_archive=1", "_blank");
+                window.open("https://vk.ru/data_protection?section=rules&scroll_to_archive=1", "_blank");
               },
               getLang?.("box_cancel")
             );

@@ -37,13 +37,13 @@ const articlesTab = (articlesGetter: ArticlesResponse, id: number, screen_name: 
     if (isOwner) {
       const lnk = document.createElement("a");
       lnk.textContent = getLang?.("global_photo_attach_edit").toString().toLowerCase() || "ред.";
-      lnk.href = `https://vk.com/@${screen_name}`;
+      lnk.href = `https://${vk.__domain || "vk.ru"}/@${screen_name}`;
       headerRightLink.append(lnk);
     }
 
     const headerLink = document.createElement("a");
     headerLink.classList.add("module_header");
-    headerLink.href = `https://vk.com/@${screen_name}`;
+    headerLink.href = `https://${vk.__domain || "vk.ru"}/@${screen_name}`;
 
     const headerTop = document.createElement("div");
     headerTop.classList.add("header_top", "clear_fix");

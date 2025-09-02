@@ -35,13 +35,13 @@ const docsTab = (docsGetter: DocsResponse, id: number, isOwner: boolean) => {
     if (isOwner) {
       const lnk = document.createElement("a");
       lnk.textContent = getLang?.("global_photo_attach_edit").toString().toLowerCase() || "ред.";
-      lnk.href = `https://vk.com/docs-${id}`;
+      lnk.href = `https://${vk.__domain || "vk.ru"}/docs-${id}`;
       headerRightLink.append(lnk);
     }
 
     const headerLink = document.createElement("a");
     headerLink.classList.add("module_header");
-    headerLink.href = `https://vk.com/docs-${id}`;
+    headerLink.href = `https://${vk.__domain || "vk.ru"}/docs-${id}`;
 
     const headerTop = document.createElement("div");
     headerTop.classList.add("header_top", "clear_fix");

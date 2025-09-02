@@ -158,7 +158,7 @@ const appearStarts = async (
     profileShort.appendChild(relationRow);
   }
 
-  let cityRow = createProfileInfoRow(getLang?.("Town"), userData.city ? `<a href="https://vk.com/search/people?city_id=${userData.city.id}">${userData.city.title}</a>` : null);
+  let cityRow = createProfileInfoRow(getLang?.("Town"), userData.city ? `<a href="https://${vk.__domain || "vk.ru"}/search/people?city_id=${userData.city.id}">${userData.city.title}</a>` : null);
   if (cityRow) {
     profileShort.appendChild(cityRow);
   }
@@ -168,7 +168,7 @@ const appearStarts = async (
   if (occupation && occupation.type === "work") {
     let company = occupation.name;
     let comid = occupation.id;
-    let companyLink = comid ? `https://vk.com/club${comid}` : `https://vk.com/search/people?company=${encodeURIComponent(company)}`;
+    let companyLink = comid ? `https://${vk.__domain || "vk.ru"}/club${comid}` : `https://${vk.__domain || "vk.ru"}/search/people?company=${encodeURIComponent(company)}`;
     let additionalsV = "";
     if (comid) {
       additionalsV = `mention_id="club${comid}" onmouseover="mentionOver(this)"`;
@@ -198,7 +198,7 @@ const appearStarts = async (
       if (match) {
         const id = match[1];
         const name = match[2];
-        site = "https://vk.com/id" + id;
+        site = `https://${vk.__domain || "vk.ru"}/id` + id;
         siteText = name;
       }
     }

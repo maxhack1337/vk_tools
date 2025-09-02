@@ -63,7 +63,7 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
     pageAvatar.className = "page_avatar";
     const link = document.createElement("a");
     link.id = "profile_photo_link";
-    link.href = `https://vk.com/photo-${id}_${cropPhotoId || 0}`;
+    link.href = `https://${vk.__domain || "vk.ru"}/photo-${id}_${cropPhotoId || 0}`;
     link.setAttribute("onclick", `return showPhoto('-${id}_${cropPhotoId || 0}', 'album${-id}_0/rev', {}, event)`);
     const img = document.createElement("img");
     img.className = "page_avatar_img";
@@ -169,7 +169,7 @@ const createPhotoBlock = async (photosrc: any, title: string, id: number, hasPho
   if (!isClosed) {
     const link = document.createElement("a");
     if (!isPermanentlyBanned) {
-      link.href = `https://vk.com/photo-${id}_${cropPhotoId || 0}`;
+      link.href = `https://${vk.__domain || "vk.ru"}/photo-${id}_${cropPhotoId || 0}`;
       link.setAttribute("onclick", `return showPhoto('-${id}_${cropPhotoId || 0}', 'album${-id}_0/rev', {}, event)`);
     } else {
       link.style.cursor = "default";
