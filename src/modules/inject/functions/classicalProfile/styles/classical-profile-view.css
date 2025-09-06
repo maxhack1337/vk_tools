@@ -708,6 +708,7 @@ html.classicProfile body {
     }
 
     .ProfileInfo {
+        z-index: 1;
         left: 246px;
         position: absolute;
         background-color: var(--vkui--color_background_content);
@@ -1591,6 +1592,7 @@ div.ProfileHeaderActions__moreButtonContainer > div > button:hover .vkuiButton__
         padding-top: 15px !important;
         padding-bottom: 0px !important;
         border-top: 1px solid var(--vkui--color_separator_primary);
+        z-index: 2;
     }
 
     .page_counter:not([href*="bugs?act="]) {
