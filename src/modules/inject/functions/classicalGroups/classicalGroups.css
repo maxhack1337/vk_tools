@@ -715,8 +715,8 @@ html.classicalGroup body:has(.vkToolsGroupStyle) {
         left: 50px;
     }
 
-    header#page_header {
-        width: 970px;
+    header#page_header, ul#page_header {
+        width: 970px!important;
     }
 
     /**/

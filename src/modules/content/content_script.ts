@@ -705,8 +705,19 @@ function addBlur() {
     styleElement = create("style", {}, { id: "hider" });
     document.head.appendChild(styleElement);
   }
-  styleElement.innerHTML =
-    ".Reply__author, .ForwardedMessageNew__userName, .NestedForwardedMessageButton__header, .ForeignMessagesHistory__topAuthor, [data-testid='story_card_stories'],[hrefparams='_ref=feed_recommended_friends_right_block'],.PostHeaderTitle__authorName, .PostHeader__avatar,.feedback_header,.feedback_image,.CallsRichCell__Title,.PeerTitle__title,.PeerListItem__name,.vkuiRichCell__before, [class^='vkitUserRichCell__name'], [class^='CallHistoryScreen--friendsListItem'], .audio_friend, .ConvoListItem__message,.ConvoPinnedMessage__authorLink,.ServiceMessage__link,.BasicAvatar__img,.ConvoProfileName__longName,.ConvoProfileInformation__infoCellText,.spanPseudoText1,.bp_thumb,.bp_author,.wall_module .author_highlighted,.deep_active .replies .reply_image,.top_profile_name,#react_rootTopNavProfileMenu,.im-mess-stack--lnk, ._im_ui_peers_list .ui_rmenu_item_label, ._im_page_peer_name, .nim-dialog--name, .im-page-pinned--name, .im-replied--author,.ConvoRecommendList__name,.nim-dialog .nim-dialog--text-preview, .nim-dialog .nim-dialog--preview,.ProfileSubscriptions__item,.ProfileFriends__item,#react_rootLeftMenuRoot > div > nav > ol > li:not(#l_pr):not(#l_nwsf):not(#l_msg):not(#l_ca):not(#l_fr):not(#l_gr):not(#l_ph):not(#l_aud):not(#l_vid):not(#l_svd):not(#l_ap):not(#l_stickers):not(#l_mk):not(#l_vkfest2023):not(#l_mini_apps):not(#l_fav):not(#l_doc):not(#l_apm):not(#l_vkp):not(#l_ads) {    filter: blur(5px) !important;}.nim-peer--photo-w img, .nim-peer img,.ImUserAvatar img,.TopNavBtn__profileImg,.UsersStack__userItemSvg {    filter: blur(10px) grayscale(1) !important;} .MEAvatar,.ConvoTitle__title,.ConvoMessageAuthor,.ConvoListItem__author {filter: blur(5px) grayscale(1)!important}";
+  styleElement.innerHTML = `
+  [class*='TopNavigationWrapper'] > li > a[data-testid='header-profile-menu-button'], .Reply__author, .ForwardedMessageNew__userName, .NestedForwardedMessageButton__header, .ForeignMessagesHistory__topAuthor, [data-testid='story_card_stories'],[hrefparams='_ref=feed_recommended_friends_right_block'],.PostHeaderTitle__authorName, .PostHeader__avatar,.feedback_header,.feedback_image,.CallsRichCell__Title,.PeerTitle__title,.PeerListItem__name,.vkuiRichCell__before, [class^='vkitUserRichCell__name'], [class^='CallHistoryScreen--friendsListItem'], .audio_friend, .ConvoListItem__message,.ConvoPinnedMessage__authorLink,.ServiceMessage__link,.BasicAvatar__img,.ConvoProfileName__longName,.ConvoProfileInformation__infoCellText,.spanPseudoText1,.bp_thumb,.bp_author,.wall_module .author_highlighted,.deep_active .replies .reply_image,.top_profile_name,#react_rootTopNavProfileMenu,.im-mess-stack--lnk, ._im_ui_peers_list .ui_rmenu_item_label, ._im_page_peer_name, .nim-dialog--name, .im-page-pinned--name, .im-replied--author,.ConvoRecommendList__name,.nim-dialog .nim-dialog--text-preview, .nim-dialog .nim-dialog--preview,.ProfileSubscriptions__item,.ProfileFriends__item,#react_rootLeftMenuRoot > div > nav > ol > li:not(#l_pr):not(#l_nwsf):not(#l_msg):not(#l_ca):not(#l_fr):not(#l_gr):not(#l_ph):not(#l_aud):not(#l_vid):not(#l_svd):not(#l_ap):not(#l_stickers):not(#l_mk):not(#l_vkfest2023):not(#l_mini_apps):not(#l_fav):not(#l_doc):not(#l_apm):not(#l_vkp):not(#l_ads) {
+	  filter: blur(5px) grayscale(1) !important;
+  }
+  .nim-peer--photo-w img, .nim-peer img,.ImUserAvatar img,.TopNavBtn__profileImg,.UsersStack__userItemSvg {
+	  filter: blur(10px) grayscale(1) !important;
+  }
+  .MEAvatar,.ConvoTitle__title,.ConvoMessageAuthor,.ConvoListItem__author {
+	  filter: blur(5px) grayscale(1)!important
+  }
+  #layout_sidebar > div > nav > ol > li:not(#l_pr):not(#l_nwsf):not(#l_msg):not(#l_ca):not(#l_fr):not(#l_gr):not(#l_ph):not(#l_aud):not(#l_vid):not(#l_svd):not(#l_ap):not(#l_stickers):not(#l_mk):not(#l_vkfest2023):not(#l_mini_apps):not(#l_fav):not(#l_doc):not(#l_apm):not(#l_vkp):not(#l_ads) {
+    filter: blur(5px) grayscale(1) !important;
+  }`;
 }
 
 function removeBlur() {
@@ -723,12 +734,85 @@ function addCAccent(cAccentValue: string) {
     styleElement = create("style", {}, { id: "CAccentID" });
     document.head.appendChild(styleElement);
   }
-  styleElement.innerHTML =
-    ":root, .vkui--vkBase--light, .vkui--vkBase--dark, .vkui--vkCom--light, .vkui--vkCom--dark, [scheme=vkcom_light], [scheme=vkcom_dark], [scheme=bright_light], [scheme=space_gray], body {    --accent:" +
-    cAccentValue +
-    "!important; --vkui--color_text_link: var(--accent) !important; --vkui--color_text_link: var(--accent) !important; --vkui--color_icon_accent_themed: var(--accent) !important;  --blue_400: var(--accent) !important;    --action_sheet_action_foreground: var(--accent) !important;    --attach_picker_tab_active_background: var(--accent) !important;    --attach_picker_tab_active_text: var(--accent) !important;    --cell_button_foreground: var(--accent) !important;    --control_foreground: var(--accent) !important;    --counter_primary_background: var(--accent) !important;    --header_alternate_tab_active_indicator: var(--accent) !important;    --header_tab_active_indicator: var(--accent) !important;    --header_tint: var(--accent) !important;    --header_tint_alternate: var(--accent) !important;    --im_attach_tint: var(--accent) !important;    --im_reply_sender_text: var(--accent) !important;    --im_reply_separator: var(--accent) !important;    --landing_login_button_background: var(--accent) !important;    --landing_primary_button_background: var(--accent) !important;    --landing_tertiary_button_foreground: var(--accent) !important;    --landing_text_title: var(--accent) !important;    --landing_secondary_button_foreground: var(--accent) !important;    --link_alternate: var(--accent) !important;    --loader_track_value_fill: var(--accent) !important;    --feed_recommended_friend_promo_background: var(--accent) !important;    --tabbar_active_icon: var(--accent) !important;    --tabbar_tablet_active_icon: var(--accent) !important;    --text_link: var(--accent) !important;    --text_name: var(--accent) !important;    --writebar_icon: var(--accent) !important;    --dynamic_blue: var(--accent) !important;    --text_link_hightlighted_background: var(--accent) !important;    --im_text_name: var(--accent) !important;    --button-background-color: var(--accent) !important;    --sky_100: var(--accent) !important;    --sky_200: var(--accent) !important;    --light_blue_700: var(--accent) !important;    --blue_bright: var(--accent) !important;    --vkui--color_icon_accent: var(--accent) !important;    --vkui--color_background_accent_themed: var(--accent) !important;    --vkui--color_background_accent: var(--accent) !important;    --vkui--color_background_accent--hover: var(--accent) !important;    --vkui--color_background_accent--active: var(--accent) !important;    --vkui--color_background_accent_themed--hover: var(--accent) !important;    --vkui--color_background_accent_themed--active: var(--accent) !important;    --vkui--color_background_accent_tint--hover: var(--accent) !important;    --vkui--color_background_accent_tint--active: var(--accent) !important;    --vkui--color_background_accent_alternative: var(--accent) !important;    --vkui--color_background_accent_alternative--hover: var(--accent) !important;    --vkui--color_background_accent_alternative--active: var(--accent) !important;    --vkui--color_text_accent: var(--accent) !important;    --vkui--color_text_accent--hover: var(--accent) !important;    --vkui--color_text_accent--active: var(--accent) !important;    --vkui--color_text_accent_themed: var(--accent) !important;    --vkui--color_text_accent_themed--hover: var(--accent) !important;    --vkui--color_text_accent_themed--active: var(--accent) !important;    --vkui--color_text_link: var(--accent) !important;    --vkui--color_text_link--hover: var(--accent) !important;    --vkui--color_text_link--active: var(--accent) !important;    --vkui--color_text_link_themed: var(--accent) !important;    --vkui--color_text_link_themed--hover: var(--accent) !important;    --vkui--color_text_link_themed--active: var(--accent) !important;    --vkui--color_text_link_visited--hover: var(--accent) !important;    --vkui--color_text_link_visited--active: var(--accent) !important;    --blue_a400: var(--accent) !important;    --blue_400_alpha20: var(--accent),0.2 !important;    --blue_400_alpha48: var(--accent),0.48 !important;    --blue_420: var(--accent) !important;    --blue_550: var(--accent) !important;    --blue_600: var(--accent) !important;    --blue_640: var(--accent) !important;    --blue_800: var(--accent) !important;    #top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > svg > g > g > path:nth-child(2), #top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > span > svg > path:nth-child(1){        fill: " +
-    cAccentValue +
-    " !important;    }}";
+  styleElement.innerHTML = `:root, .vkui--vkBase--light, .vkui--vkBase--dark, .vkui--vkCom--light, .vkui--vkCom--dark, [scheme=vkcom_light], [scheme=vkcom_dark], [scheme=bright_light], [scheme=space_gray], body {
+      --accent:${cAccentValue}!important;
+      --vkui--color_text_link: var(--accent) !important;
+      --vkui--color_icon_accent_themed: var(--accent) !important;
+      --blue_400: var(--accent) !important;
+      --action_sheet_action_foreground: var(--accent) !important;
+      --attach_picker_tab_active_background: var(--accent) !important;
+      --attach_picker_tab_active_text: var(--accent) !important;
+      --cell_button_foreground: var(--accent) !important;
+      --control_foreground: var(--accent) !important;
+      --counter_primary_background: var(--accent) !important;
+      --header_alternate_tab_active_indicator: var(--accent) !important;
+      --header_tab_active_indicator: var(--accent) !important;
+      --header_tint: var(--accent) !important;
+      --header_tint_alternate: var(--accent) !important;
+      --im_attach_tint: var(--accent) !important;
+      --im_reply_sender_text: var(--accent) !important;
+      --im_reply_separator: var(--accent) !important;
+      --landing_login_button_background: var(--accent) !important;
+      --landing_primary_button_background: var(--accent) !important;
+      --landing_tertiary_button_foreground: var(--accent) !important;
+      --landing_text_title: var(--accent) !important;
+      --landing_secondary_button_foreground: var(--accent) !important;
+      --link_alternate: var(--accent) !important;
+      --loader_track_value_fill: var(--accent) !important;
+      --feed_recommended_friend_promo_background: var(--accent) !important;
+      --tabbar_active_icon: var(--accent) !important;
+      --tabbar_tablet_active_icon: var(--accent) !important;
+      --text_link: var(--accent) !important;
+      --text_name: var(--accent) !important;
+      --writebar_icon: var(--accent) !important;
+      --dynamic_blue: var(--accent) !important;
+      --text_link_hightlighted_background: var(--accent) !important;
+      --im_text_name: var(--accent) !important;
+      --button-background-color: var(--accent) !important;
+      --sky_100: var(--accent) !important;
+      --sky_200: var(--accent) !important;
+      --light_blue_700: var(--accent) !important;
+      --blue_bright: var(--accent) !important;
+      --vkui--color_icon_accent: var(--accent) !important;
+      --vkui--color_background_accent_themed: var(--accent) !important;
+      --vkui--color_background_accent: var(--accent) !important;
+      --vkui--color_background_accent--hover: var(--accent) !important;
+      --vkui--color_background_accent--active: var(--accent) !important;
+      --vkui--color_background_accent_themed--hover: var(--accent) !important;
+      --vkui--color_background_accent_themed--active: var(--accent) !important;
+      --vkui--color_background_accent_tint--hover: var(--accent) !important;
+      --vkui--color_background_accent_tint--active: var(--accent) !important;
+      --vkui--color_background_accent_alternative: var(--accent) !important;
+      --vkui--color_background_accent_alternative--hover: var(--accent) !important;
+      --vkui--color_background_accent_alternative--active: var(--accent) !important;
+      --vkui--color_text_accent: var(--accent) !important;
+      --vkui--color_text_accent--hover: var(--accent) !important;
+      --vkui--color_text_accent--active: var(--accent) !important;
+      --vkui--color_text_accent_themed: var(--accent) !important;
+      --vkui--color_text_accent_themed--hover: var(--accent) !important;
+      --vkui--color_text_accent_themed--active: var(--accent) !important;
+      --vkui--color_text_link: var(--accent) !important;
+      --vkui--color_text_link--hover: var(--accent) !important;
+      --vkui--color_text_link--active: var(--accent) !important;
+      --vkui--color_text_link_themed: var(--accent) !important;
+      --vkui--color_text_link_themed--hover: var(--accent) !important;
+      --vkui--color_text_link_themed--active: var(--accent) !important;
+      --vkui--color_text_link_visited--hover: var(--accent) !important;
+      --vkui--color_text_link_visited--active: var(--accent) !important;
+      --blue_a400: var(--accent) !important;
+      --blue_400_alpha20: var(--accent),0.2 !important;
+      --blue_400_alpha48: var(--accent),0.48 !important;
+      --blue_420: var(--accent) !important;
+      --blue_550: var(--accent) !important;
+      --blue_600: var(--accent) !important;
+      --blue_640: var(--accent) !important;
+      --blue_800: var(--accent) !important;
+    }
+      
+    #page_header_wrap a[class*="Logo__root"] svg  > g > g > path:nth-child(2), #top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > svg > g > g > path:nth-child(2), #top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > span > svg > path:nth-child(1)
+    {
+      fill: ${cAccentValue}!important;
+    }`;
   try {
     const svgElement1 = document.querySelector("#top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > svg");
     if (svgElement1 !== null) {
@@ -778,12 +862,15 @@ function addLogo(cLogoValue: string) {
     styleElement = create("style", {}, { id: "logos" });
     document.head.appendChild(styleElement);
   }
-  styleElement.innerHTML =
-    "#top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink {          background:url(" +
-    "'" +
-    cLogoValue +
-    "'" +
-    ") no-repeat;          background-size: contain;          background-position: center;      }      #top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > span > svg,#top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > svg{          display:none;      }";
+  styleElement.innerHTML = `#page_header_wrap a[class*="Logo__root"], #top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink {
+      background:url('${cLogoValue}') no-repeat;
+      background-size: contain;
+      background-position: center;
+    }
+    #page_header_wrap a[class*="Logo__root"] svg, #top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > span > svg, #top_nav > li.HeaderNav__item.HeaderNav__item--logo > a.TopHomeLink > svg
+    {
+      display:none;
+    }`;
 }
 
 function removeLogo() {
@@ -799,10 +886,41 @@ function addBg(cBgValue: string) {
     styleElement = create("style", {}, { id: "custombg" });
     document.head.appendChild(styleElement);
   }
-  styleElement.innerHTML =
-    ".ProfileWrapper__root{background:transparent!important;}:root,.vknBgWrapper,.scroll_fix {          background-image:url(" +
-    cBgValue +
-    ')!important;          background-size: cover;          background-position: center;          background-attachment: fixed;} #side_bar_inner, .side_bar_inner {box-shadow: var(--page-block-shadow) !important;margin-top: calc(var(--header-height) + 16px) !important;position: relative !important;right: calc(var(--page-block-offset, 15px) + 7px) !important;background: var(--vkui--color_background_content) !important;border-radius: var(--vkui--size_border_radius_paper--regular) !important; padding: 4px !important;} [class^="LeftMenuItem-module__item"] {border-radius: 10px !important;}.side_bar_nav_wrap {margin: 0px !important;padding: 0px !important;}';
+  styleElement.innerHTML = `
+    .ProfileWrapper__root {
+      background:transparent!important;
+    }
+    :root,.scroll_fix, #layout_wrapper_root {
+      background-image:url("${cBgValue}")!important;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    #side_bar_inner, .side_bar_inner {
+      box-shadow: var(--page-block-shadow) !important;
+      margin-top: calc(var(--header-height) + 16px) !important;
+      position: relative !important;
+      right: calc(var(--page-block-offset, 15px) + 7px) !important;
+      background: var(--vkui--color_background_content) !important;
+      border-radius: var(--vkui--size_border_radius_paper--regular) !important;
+      padding: 4px !important;
+    }
+    #layout_sidebar:has([data-testid="leftmenu"]) {
+      box-shadow: var(--page-block-shadow) !important;
+      top: 16px!important;
+      position: relative !important;
+      right: calc(var(--page-block-offset, 15px) + 7px) !important;
+      background: var(--vkui--color_background_content) !important;
+      border-radius: var(--vkui--size_border_radius_paper--regular) !important;
+      padding: 4px !important;
+    }
+    [class^="LeftMenuItem-module__item"], [class*="LeftMenuItem__item"]{
+      border-radius: 10px !important;
+    }
+    .side_bar_nav_wrap,#layout_sidebar:has([data-testid="leftmenu"]) [class*="LeftMenu__root"] {
+      margin: 0px !important;
+      padding: 0px !important;
+    }`;
 }
 
 function removeBg() {
@@ -1248,7 +1366,15 @@ function fixLeftMenu() {
     styleElement = create("style", {}, { id: "fixMenuLeft" });
     document.head.appendChild(styleElement);
   }
-  styleElement.innerHTML = `#side_bar:has([data-testid="leftmenu"]){position:sticky!important; top:0px!important;}`;
+  styleElement.innerHTML = `
+    #side_bar:has([data-testid="leftmenu"]) {
+      position:sticky!important;
+      top:0px!important;
+    }
+    #layout_sidebar:has([data-testid="leftmenu"]) {
+      position:sticky!important;
+      top:48px!important;
+    }`;
 }
 
 function unFixLeftMenu() {

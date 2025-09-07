@@ -52,8 +52,8 @@ html.classicProfile body:has(#profile_redesigned) {
         display: none;
     }
 
-    header#page_header {
-        width: 970px;
+    header#page_header, ul#page_header {
+        width: 970px!important;
     }
 
     [class^="ProfileSnowballs__snowball"] {

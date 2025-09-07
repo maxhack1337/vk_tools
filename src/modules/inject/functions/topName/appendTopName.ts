@@ -18,7 +18,8 @@ const appendTopName = () => {
           topProfile.insertBefore(topProfileName, topProfile.firstChild);
         }
       }
-      document.arrive("div#react_rootTopNavProfileMenu>a", { existing: true }, (topNameHref) => {
+      const nameSelectorsReact = ["div#react_rootTopNavProfileMenu>a", "[class*='TopNavigationWrapper'] > li > a[data-testid='header-profile-menu-button']"];
+      document.arrive(nameSelectorsReact.join(","), { existing: true }, (topNameHref) => {
         const name = topNameHref.querySelector("img") as HTMLImageElement;
         let namealt = null;
         if (name) {
@@ -41,10 +42,12 @@ const appendTopName = () => {
       padding-right: 10px!important;
       font-size: 13px;
     }
-    div#react_rootTopNavProfileMenu>a {
+    div#react_rootTopNavProfileMenu>a, [class*='TopNavigationWrapper'] > li > a[data-testid='header-profile-menu-button'] {
       width: auto!important;
-      padding: 0 8px;
-    }`;
+      padding: 0 8px!important;
+    }
+      
+    `;
     document.head.appendChild(styleElement);
   }
 };

@@ -76,7 +76,14 @@ const oldGroupsPage = () => {
       },
       async function (e) {
         let hrefElement = e.querySelector('[href="/groups"]') as HTMLAnchorElement;
-        if (hrefElement) hrefElement.href = "/groups/my_all_groups";
+        if (hrefElement) {
+          hrefElement.href = "/groups/my_all_groups";
+          hrefElement.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            nav.go("/groups/my_all_groups");
+          });
+        }
       }
     );
     document.arrive(

@@ -27,7 +27,10 @@ const classicalOldInterface = async (props: any) => {
   const contacts = props.contacts || [];
   const evOrganiser = props.event_organizer || {};
   const friends = props.friends || {};
-  const root = document.querySelector("#page_body > #spa_root > .vkui__root");
+  let root = document.querySelector("#page_body > #spa_root > .vkui__root");
+  if (!root) {
+    root = document.querySelector("#page_wrap > #spa_root > .vkui__root");
+  }
   const hasPhoto = props.has_photo || 0;
   const cropPhotoId = props?.crop_photo?.photo?.id || false;
   const title = props.name || "";

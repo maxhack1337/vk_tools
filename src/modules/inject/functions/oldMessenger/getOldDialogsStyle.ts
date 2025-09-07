@@ -63,8 +63,8 @@ const getOldDialogsStyle = (lang: string) => {
         .ConvoHeader__status {
             padding-left: 0px;
         }
-        header#page_header {
-            width: 970px;
+        header#page_header, ul#page_header {
+            width: 970px!important;
         }
         div#page_layout {
             left: 50px;
