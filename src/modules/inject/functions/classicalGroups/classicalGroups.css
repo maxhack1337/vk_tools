@@ -708,7 +708,10 @@ html.classicalGroup body:has(.vkToolsGroupStyle) {
         display: none;
     }
 
-
+    /*Кнопка плюсика на аватарке*/
+    [class*="AvatarBadge__host"]:has(svg.vkuiIcon--add_circle_fill_blue_24) {
+        display: none;
+    }
 
     /*Шапка сайта*/
     div#page_layout {

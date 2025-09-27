@@ -86,10 +86,16 @@ html.classicProfile body:has(.owner_photo_bubble_action_crop) {
 }
 
 html.classicProfile body {
-    [class*="Group__group"]:has(> [class*="Group__header"]):has([class*="RecommendationCard__root"]) {
-        display: none;
-    }
-    .OwnerVideosListItem {
+        [class*="Group__group"]:has(> [class*="Group__header"]):has([class*="RecommendationCard__root"]) {
+            display: none;
+        }
+
+        /*Кнопка плюсика на аватарке*/
+        [class*="ProfileIndicatorBadge"]:has(svg.vkuiIcon--add_circle_fill_blue_24) {
+            display: none;
+        }
+
+        .OwnerVideosListItem {
             --owner-videos-item-gap-total: calc((var(--owner-videos-count-on-row, 2) - 1)*var(--owner-videos-list-item-gap, 12px));
             --owner-videos-item-width-part: calc(var(--owner-videos-item-gap-total)/var(--owner-videos-count-on-row, 2));
             width: calc(100%/var(--owner-videos-count-on-row, 2) - var(--owner-videos-item-width-part));

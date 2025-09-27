@@ -22,6 +22,20 @@ const modalVideo = () => {
       );
     });
 
+    document.arrive(`[class*="VideoCardLayout__card"]:has([class*="VideoCardThumb__thumb"][href^="https://vkvideo.ru/video"])`, { existing: true }, async function (e) {
+      let videoLink;
+      try {
+        videoLink = e?.querySelector('[class*="VideoCardThumb__thumb"][href^="https://vkvideo.ru/video"]')?.getAttribute("href")?.substring(24);
+      } catch (error) {}
+      e.setAttribute(
+        "onclick",
+        `
+	event.preventDefault();
+	event.stopPropagation();
+	window.showVideo('${videoLink}','0',{autoplay: 1, queue: 0, listId: '', playlistId: ''}, this);`
+      );
+    });
+
     document.arrive(`[class^="VideoCardList__videoItem"]:has([class^="vkitVideoCardThumb__thumb"][href^="/video"])`, { existing: true }, async function (e) {
       let videoLink;
       try {

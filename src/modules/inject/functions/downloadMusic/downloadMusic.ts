@@ -13,8 +13,8 @@ const downloadMusic = () => {
   document.arrive('[class*="AudioRow__root"] [class*="AudioRow__overlay"]', { existing: true }, async function (e) {
     let x: any = getSuperAudioPropsMin(e.querySelector('[class*="AudioRow__actions"] > div')!);
     let key = x;
-    let access = key.accessKey ? "_" + key.accessKey : "";
-    let subKey = key.ownerId + "_" + key.id + access;
+    let access = key.access_key ? "_" + key.access_key : "";
+    let subKey = key.owner_id + "_" + key.id + access;
     let pListID;
     let getPlistID = ajax.post("al_audio.php?act=reload_audios", {
       audio_ids: subKey,
