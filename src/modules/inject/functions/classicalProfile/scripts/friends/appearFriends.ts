@@ -147,7 +147,7 @@ const appearFriends = async (userdata: any) => {
         friendsContainer?.appendChild(onlineFriendsHeader);
 
         const onlineFriendsContainer = document.createElement("div");
-        onlineFriendsContainer.classList.add("ProfileGroupHorizontalCells");
+        onlineFriendsContainer.classList.add("ProfileGroupHorizontalCells", "vkToolsMutualOnline");
         onlineFriendsContainer.style.paddingLeft = "8px";
         onlineFriendsContainer.style.paddingRight = "8px";
         onlineFriendsContainer.style.paddingBottom = "8px";
@@ -234,7 +234,7 @@ const appearFriends = async (userdata: any) => {
         mutualFriendsContainer.classList.add("vkEnhancerMutualFriends");
         mutualFriendsContainer.appendChild(commonFriendsHeader);
         const commonFriendsContainer = document.createElement("div");
-        commonFriendsContainer.classList.add("ProfileGroupHorizontalCells");
+        commonFriendsContainer.classList.add("ProfileGroupHorizontalCells", "vkToolsMutualOnline");
 
         const commonFriendsIds = commonFriends.common_friends.join();
         const commonFriendsExtended = await vkApi.api("users.get", { user_ids: commonFriendsIds, fields: "photo_100,online,domain" });

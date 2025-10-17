@@ -479,6 +479,10 @@ html.classicProfile body {
         display: none;
     }
 
+    .ProfileGroupHorizontalCells.vkToolsMutualOnline {
+        display: flex;
+    }
+
     .vkEnhancerMutualFriends .ProfileGroupHorizontalCells{
         padding: 0 4px;
     }
