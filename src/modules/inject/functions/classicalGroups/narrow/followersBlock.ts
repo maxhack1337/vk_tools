@@ -1,3 +1,5 @@
+import followersLang from "./followersLang";
+
 interface Member {
   id: number;
   domain: string;
@@ -29,7 +31,7 @@ const followersBlock = (data: FollowersData, id: number, members_count: number) 
   pageBlock.setAttribute("data-group-id", id.toString());
 
   const aside = document.createElement("aside");
-  aside.setAttribute("aria-label", getLang?.("vkui_post_stats_subscribers").toString() || "Подписчики");
+  aside.setAttribute("aria-label", followersLang(vk.lang));
 
   const moduleDiv = document.createElement("div");
   moduleDiv.classList.add("module", "clear", "people_module", "_module");
@@ -49,7 +51,7 @@ const followersBlock = (data: FollowersData, id: number, members_count: number) 
 
   const headerLabel = document.createElement("span");
   headerLabel.classList.add("header_label", "fl_l");
-  headerLabel.textContent = getLang?.("vkui_post_stats_subscribers").toString() || "Подписчики";
+  headerLabel.textContent = followersLang(vk.lang);
 
   const headerCount = document.createElement("span");
   headerCount.classList.add("header_count", "fl_l");
