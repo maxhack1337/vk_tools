@@ -86,7 +86,7 @@ const appendTopPlayerButton = (topPlayer: HTMLElement, isLegacy: boolean) => {
     getTopPlayerCr();
   });
   div.appendChild(button);
-  if (!topPlayer.closest(".HeaderNav__audio")?.querySelector(".vkEnhancerDownloadMusicButton")) topPlayer.closest(".HeaderNav__audio")?.append(div);
+  if (!topPlayer.closest("[class*='TopNavigation__player']")?.querySelector(".vkEnhancerDownloadMusicButton")) topPlayer.closest("[class*='TopNavigation__player']")?.append(div);
   if (isLegacy) {
     createStyle(
       "noButtonWhenNoPlayer",

@@ -72,7 +72,7 @@ const downloadMusic = () => {
   });
 
   /*top audio player react*/
-  document.arrive("#web_spa_top_audio_player", { existing: true }, (topPlayer) => {
+  document.arrive("[class*='TopAudioPlayer__player']", { existing: true }, (topPlayer) => {
     appendTopPlayerButton(topPlayer as HTMLElement, false);
   });
 };
