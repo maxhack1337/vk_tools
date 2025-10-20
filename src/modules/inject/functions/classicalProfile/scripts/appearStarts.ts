@@ -53,7 +53,7 @@ const appearStarts = async (
     sex: any;
   }
 ) => {
-  let pageCurrentInfo = document.querySelector(".ProfileInfo");
+  let pageCurrentInfo = document.querySelector(".ProfileHeader__info > div");
 
   let profileShort = document.createElement("div");
   profileShort.classList.add("profile_info", "profile_info_short");

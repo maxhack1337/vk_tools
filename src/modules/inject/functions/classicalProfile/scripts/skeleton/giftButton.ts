@@ -9,7 +9,7 @@ const giftButton = () => {
                             </span>
                         </a>
                     `;
-  let headerButtons = document.querySelector(".ProfileHeader__wrapper .ProfileHeaderActions__buttons");
+  let headerButtons = document.querySelector(".ProfileHeader__wrapper .ProfileHeaderActions > div > div");
   let theFirstChild = headerButtons?.firstChild;
   headerButtons?.insertBefore(newElement, theFirstChild || document);
 };

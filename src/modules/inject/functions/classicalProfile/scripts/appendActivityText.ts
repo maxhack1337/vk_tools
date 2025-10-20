@@ -22,6 +22,9 @@ const appendActivityText = (activityText: string | null, userData: any) => {
 
       let ownerPageName = document.getElementById("owner_page_name");
       if (!document.querySelector(".vkToolsActivityText")) ownerPageName?.insertAdjacentElement("afterend", activitySpan);
+      //Удаляем старый статус
+      let flexParent = ownerPageName?.parentElement;
+      flexParent?.querySelector(":scope > span:not(.page_current_info)")?.remove();
     } else {
       let ip_h = vk.ip_h;
       let activitySpan = document.createElement("div");
@@ -59,7 +62,11 @@ const appendActivityText = (activityText: string | null, userData: any) => {
           changeCurrentInfoLang(vk.lang) +
           "</span></div></div>";
       }
+      //Удаляем старый статус
       let ownerPageName = document.getElementById("owner_page_name");
+      let flexParent = ownerPageName?.parentElement;
+      flexParent?.querySelector(":scope > span:not(.page_current_info)")?.remove();
+
       ownerPageName?.insertAdjacentElement("afterend", activitySpan);
       let checkBoxChecked;
       document.arrive("#currinfo_audio", { existing: true }, function (e) {
@@ -83,6 +90,11 @@ const appendActivityText = (activityText: string | null, userData: any) => {
         });
       });
     }
+  } else {
+    //Удаляем старый статус
+    let ownerPageName = document.getElementById("owner_page_name");
+    let flexParent = ownerPageName?.parentElement;
+    flexParent?.querySelector(":scope > span:not(.page_current_info)")?.remove();
   }
   if (vk.id === objectId) {
     let pHeaderAva = document.querySelectorAll(".OwnerPageAvatar")[1];

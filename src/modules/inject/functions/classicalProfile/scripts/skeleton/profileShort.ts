@@ -1,5 +1,5 @@
 const profileShort = () => {
-  let pageCurrentInfo = document.querySelector(".ProfileInfo");
+  let pageCurrentInfo = document.querySelector(".ProfileHeader__info > div");
   let profileShortSc = document.createElement("div");
   profileShortSc.classList.add("profile_info", "profile_info_short", "vkToolsProfileShortSkeleton");
   profileShortSc.id = "profile_short";

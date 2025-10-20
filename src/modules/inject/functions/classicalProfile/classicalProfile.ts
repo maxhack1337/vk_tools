@@ -89,7 +89,9 @@ const classicalProfile = () => {
       if (cur.oid !== vk.id) giftButton();
       let scrollStickyDiv = document.querySelector(".ScrollStickyWrapper > div");
       scrollStickyDiv?.prepend(friendsBlock());
-      profileShort();
+      document.arrive("#owner_page_name", { existing: true }, () => {
+        profileShort();
+      });
       let userData = await getUserDataSpa();
       let videosBlock = document.querySelector(".ProfileVideosEnhancer");
       if (videosBlock) videosBlock.remove();
@@ -128,16 +130,16 @@ const classicalProfile = () => {
         if (profileOwnerData.blacklisted === 1 && !profileOwnerData.deactivated) {
           createStyle(
             "classicalProfilesBlackListed",
-            `.vkToolsSkeleton__giftButton {display:none;} .ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
+            `.vkToolsSkeleton__giftButton {display:none;} .ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions > div > div:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
           );
         }
         if (profileOwnerData.deactivated && profileOwnerData.deactivated === "deleted") {
-          createStyle("classicalProfilesDeactDeleted", `.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){display:none!important}`);
+          createStyle("classicalProfilesDeactDeleted", `.ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:234px!important;}.ProfileHeaderActions > div > div:not(:has(>.ProfileHeaderButton a[href='/edit'])){display:none!important}`);
         }
         if (profileOwnerData.deactivated && profileOwnerData.deactivated !== "deleted") {
           createStyle(
             "classicalProfilesDeactivated",
-            `.vkToolsSkeleton__giftButton {display:none;} .ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions__buttons:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
+            `.vkToolsSkeleton__giftButton {display:none;} .ProfileHeader:not(:has(>.ProfileHeader__in a[href='/edit'])){height:280px!important;}.ProfileHeaderActions > div > div:not(:has(>.ProfileHeaderButton a[href='/edit'])){top:230px!important;}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in{width:100%!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span.vkuiButton__in > span{display:block!important}div.ProfileHeaderActions__moreButtonContainer > div > button > span{background:none!important;}.ProfileHeaderActions__moreButtonContainer {margin-left:0px; !important;} div.ProfileHeaderActions__moreButtonContainer > div > button {min-width:206px!important;}`
           );
         }
         if (profileOwnerData.is_service) {
@@ -227,6 +229,17 @@ const classicalProfile = () => {
 
   document.arrive(".label.fl_l", { existing: true }, async function () {
     appearVariable();
+  });
+
+  document.arrive(".ProfileBroadcast", { existing: true }, async function () {
+    appearVariable();
+  });
+
+  document.leave(".ProfileBroadcast", { existing: true }, async function () {
+    appearVariable();
+    let userData = await getUserDataSpa();
+    let activityText = userData.owner.activity;
+    appendActivityText(activityText, userData);
   });
 
   document.arrive(".OwnerContentTabs", { existing: true }, async function (e) {

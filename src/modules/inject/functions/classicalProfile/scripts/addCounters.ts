@@ -106,7 +106,7 @@ const addCounters = (userData: { can_access_closed: any; id: any }, countersData
   pageCounter.appendChild(countsModule);
 
   if (countsModule.children.length > 0) {
-    let countsContainer = document.querySelector(".ProfileInfo");
+    let countsContainer = document.querySelector(".ProfileHeader__info > div");
     countsContainer?.appendChild(pageCounter);
   }
 };
