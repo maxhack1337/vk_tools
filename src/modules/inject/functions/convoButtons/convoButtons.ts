@@ -106,13 +106,13 @@ const convoButtons = () => {
           ita += 1;
         }
       }
-      let onlUsDiv = document.createElement("div");
-      onlUsDiv.classList.add("vkenhancerUsersOnline");
+      // let onlUsDiv = document.createElement("div");
+      // onlUsDiv.classList.add("vkenhancerUsersOnline");
       if (countOnl > 1 && onlineUsersOf > 2000000000) {
-        onlUsDiv.textContent = "​ - " + countOnl + ` ` + getLang?.("global_user_is_online");
-        e.parentElement?.querySelector(".ConvoHeader__status")?.appendChild(onlUsDiv);
-        let displayElement = e.parentElement?.querySelector(".ConvoHeader__status") as HTMLElement;
-        displayElement.style.display = "flex";
+        //   onlUsDiv.textContent = "​ - " + countOnl + ` ` + getLang?.("global_user_is_online");
+        //   e.parentElement?.querySelector(".ConvoHeader__status")?.appendChild(onlUsDiv);
+        //   let displayElement = e.parentElement?.querySelector(".ConvoHeader__status") as HTMLElement;
+        //   displayElement.style.display = "flex";
       } else {
         let displayElement = ActionEnhancerMenu.querySelector(".vkEnOnline") as HTMLElement;
         let displayElSeparator = ActionEnhancerMenu.querySelector(".vkEnOnlineSeparator") as HTMLElement;
